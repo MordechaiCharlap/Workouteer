@@ -1,8 +1,7 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import navReducer from "./slices/navSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import workoutSlice from "./slices/workoutSlice";
 
-// export const store = configureStore( {
-//     reducer: {
-//         nav: navReducer,
-//     }
-// })
+const store = configureStore({
+  reducer: workoutSlice.reducer,
+});
+export default store;

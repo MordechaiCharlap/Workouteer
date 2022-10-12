@@ -1,6 +1,29 @@
-import { View } from "react-native";
+import { FlatList, View } from "react-native";
 import React from "react";
 import NavbarButton from "./NavbarButton";
+
+const data = [
+  {
+    id: "1",
+    screen: "User",
+  },
+  {
+    id: "2",
+    screen: "Calander",
+  },
+  {
+    id: "3",
+    screen: "Home",
+  },
+  {
+    id: "4",
+    screen: "Friends",
+  },
+  {
+    id: "5",
+    screen: "Explore",
+  },
+];
 
 const ButtomNavbar = (props) => {
   return (

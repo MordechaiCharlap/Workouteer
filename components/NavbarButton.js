@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const NavbarButton = (props) => {
   const navigation = useNavigation();
-  if (props.currentScreen != props.screen) {
+  if (props.screen != props.currentScreen) {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate(props.screen)}
@@ -14,7 +14,6 @@ const NavbarButton = (props) => {
       </TouchableOpacity>
     );
   } else {
-    console.log("this button is clicked already");
     return (
       <TouchableOpacity style={styles.currentPageButton}>
         <Text>{props.screen}</Text>
