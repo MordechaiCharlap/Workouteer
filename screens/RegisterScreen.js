@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { Text, SafeAreaView } from "react-native";
+import React from "react";
 
 const RegisterScreen = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>RegisterScreen</Text>
-    </View>
-  )
-}
+    </SafeAreaView>
+  );
+};
 
-export default RegisterScreen
+export default RegisterScreen;

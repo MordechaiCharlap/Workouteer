@@ -3,10 +3,8 @@ import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { PlusCircleIcon } from "react-native-heroicons/solid";
 import ButtomNavbar from "../components/ButtomNavbar";
-
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const currentScreen = "Home";
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
