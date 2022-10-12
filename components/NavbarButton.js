@@ -1,18 +1,29 @@
 import React from "react";
-import { Button, Text } from "react-native";
+import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const NavbarButton = (props) => {
   const navigation = useNavigation();
   if (props.currentScreen != props.title) {
     return (
-      <Button
-        title={props.screen}
+      <TouchableOpacity
         onPress={() => navigation.navigate(props.screen)}
-        className="flex-1"
-      />
+        style={styles.button}
+      >
+        <Text>{props.screen}</Text>
+      </TouchableOpacity>
     );
-  } else return <Button title={props.screen} className="bg-green-500" />;
+  }
 };
+const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    backgroundColor: "#66fcf1",
+    padding: 10,
+    flex: 1,
+    borderColor: "#202832",
+    borderWidth: 2,
+  },
+});
 
 export default NavbarButton;
