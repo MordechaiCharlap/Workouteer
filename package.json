@@ -12,6 +12,7 @@
     "@expo/webpack-config": "^0.17.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
+    "@reduxjs/toolkit": "^1.8.6",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
@@ -20,6 +21,7 @@
     "react-native-heroicons": "^3.2.0",
     "react-native-svg": "12.3.0",
     "react-native-web": "~0.18.7",
+    "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10"
   },
   "devDependencies": {

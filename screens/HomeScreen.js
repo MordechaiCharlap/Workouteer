@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image} from 'react-native'
+import { View, Text, SafeAreaView, Image, Button} from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import {PlusCircleIcon} from 'react-native-heroicons/solid'
@@ -24,14 +24,17 @@ const HomeScreen = () => {
                     <Text className="font-bold text-lg">Find a workout buddy</Text>
                 </View>
             </View>
-            <View className="self-center flex-1">
+            <View className="self-center flex-1 items-center">
                 <View className=" mt-60">
-                    <Text className="font-bold text-center text-xl">
+                    <Text className="font-bold text-center text-4xl">
                         Add a workout
                     </Text>
-                    <PlusCircleIcon size={200} color="#03dac6"/>
-                </View>
+                    <View className="items-center">
+                        <PlusCircleIcon size={200} color="#03dac6"/>
+                    </View>
+                </View>     
             </View>
+            <Button title="User" onPress={() => navigation.navigate("User")}></Button>
         </SafeAreaView>
     )
 }
