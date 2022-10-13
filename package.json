@@ -26,6 +26,7 @@
     "react-native-element-dropdown": "^2.3.0",
     "react-native-heroicons": "^3.2.0",
     "react-native-svg": "^12.3.0",
+    "react-native-system-navigation-bar": "^2.0.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",

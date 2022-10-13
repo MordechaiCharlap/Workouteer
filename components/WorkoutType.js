@@ -58,7 +58,7 @@ const WorkoutType = (props) => {
                 item.id
               )}`}
             >
-              <FontAwesomeIcon icon={item.icon} size={80} />
+              <FontAwesomeIcon icon={item.icon} size={90} />
               <Text>{item.title}</Text>
             </View>
           </TouchableOpacity>
