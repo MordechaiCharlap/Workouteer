@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Button } from "react-native";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
@@ -30,7 +30,7 @@ const workoutTypes = [
   },
 ];
 
-const WorkoutType = () => {
+const WorkoutType = (props) => {
   const [chosenType, setChosenType] = useState(0);
   const getBackgroundColor = (id) => {
     if (chosenType == id) return "bg-indigo-400";
