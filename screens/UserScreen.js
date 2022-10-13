@@ -1,7 +1,7 @@
 import { Image, SafeAreaView, View, Text, ScrollView } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import ButtomNavbar from "../components/ButtomNavbar";
+import BottomNavbar from "../components/ButtomNavbar";
 
 const UserScreen = () => {
   const navigation = useNavigation();
@@ -25,7 +25,7 @@ const UserScreen = () => {
           <Text className="font-bold text-3xl">Chad Chadovich</Text>
         </View>
       </ScrollView>
-      <ButtomNavbar currentScreen="User" />
+      <BottomNavbar currentScreen="User" />
     </SafeAreaView>
   );
 };

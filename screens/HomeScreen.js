@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, Image } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import ButtomNavbar from "../components/ButtomNavbar";
+import BottomNavbar from "../components/ButtomNavbar";
 import AddWorkoutButton from "../components/AddWorkoutButton";
 import SafeViewAndroid from "../components/SafeViewAndroid";
 
@@ -36,7 +36,7 @@ const HomeScreen = () => {
         <AddWorkoutButton />
       </View>
 
-      <ButtomNavbar currentScreen="Home" />
+      <BottomNavbar currentScreen="Home" />
     </SafeAreaView>
   );
 };
