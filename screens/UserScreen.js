@@ -1,7 +1,7 @@
 import { Image, SafeAreaView, View, Text, ScrollView } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import BottomNavbar from "../components/ButtomNavbar";
+import BottomNavbar from "../components/BottomNavbar";
 
 const UserScreen = () => {
   const navigation = useNavigation();

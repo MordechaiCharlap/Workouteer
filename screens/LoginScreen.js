@@ -1,6 +1,6 @@
 import { SafeAreaView, Text } from "react-native";
 import React from "react";
-import BottomNavbar from "../components/ButtomNavbar";
+import BottomNavbar from "../components/BottomNavbar";
 
 const LoginScreen = () => {
   return (
