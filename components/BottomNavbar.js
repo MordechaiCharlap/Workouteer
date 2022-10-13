@@ -14,4 +14,4 @@ const BottomNavbar = (props) => {
   );
 };
 
-export default ButtomNavbar;
+export default BottomNavbar;
