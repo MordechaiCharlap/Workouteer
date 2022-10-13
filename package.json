@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "webpack"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
@@ -27,11 +28,24 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
-    "webpack": "^4.43.0"
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "tailwindcss": "^3.1.8"
+    "babel-plugin-react-native-web": "^0.18.9",
+    "tailwindcss": "^3.1.8",
+    "webpack": "^4.43.0"
   },
-  "private": true
+  "private": true,
+  "description": "Social app for fitness-driven outsiders",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MordechaiCharlap/Workouteer.git"
+  },
+  "author": "Moti Charlap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MordechaiCharlap/Workouteer/issues"
+  },
+  "homepage": "https://github.com/MordechaiCharlap/Workouteer#readme"
 }
