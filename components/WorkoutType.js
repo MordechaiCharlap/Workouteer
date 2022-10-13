@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
@@ -31,8 +31,16 @@ const workoutTypes = [
 ];
 
 const WorkoutType = () => {
+  const [chosenType, setChosenType] = useState(0);
+  const getBackgroundColor = (id) => {
+    if (chosenType == id) return "bg-indigo-400";
+    return "bg-gray-500";
+  };
+  const typeClicked = (id) => {
+    setChosenType(id);
+  };
   return (
-    <View className="items-center w-full bg-green-500">
+    <View className="items-center w-full bg-green-500 ">
       <Text>WorkoutType</Text>
       <FlatList
         className="w-80 p-4"
@@ -40,8 +48,16 @@ const WorkoutType = () => {
         keyExtractor={(item) => item.id}
         horizontal
         renderItem={({ item }) => (
-          <TouchableOpacity>
-            <View className="w-28 h-28 border-2 p-4 border-white items-center m-1">
+          <TouchableOpacity
+            onPress={() => {
+              typeClicked(item.id);
+            }}
+          >
+            <View
+              className={`w-28 h-28 border-2 p-4 border-white items-center m-1 ${getBackgroundColor(
+                item.id
+              )}`}
+            >
               <FontAwesomeIcon icon={item.icon} size="xl" />
               <Text>{item.title}</Text>
             </View>
