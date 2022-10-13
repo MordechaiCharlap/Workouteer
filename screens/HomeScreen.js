@@ -1,8 +1,16 @@
-import { View, Text, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { PlusCircleIcon } from "react-native-heroicons/solid";
 import ButtomNavbar from "../components/ButtomNavbar";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -29,11 +37,12 @@ const HomeScreen = () => {
       <View className="self-center flex-1 items-center">
         <View className=" mt-60">
           <Text className="font-bold text-center text-4xl">Add a workout</Text>
-          <View className="items-center">
+          <TouchableOpacity className="items-center">
             <PlusCircleIcon size={200} color="#03dac6" />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
+      <FontAwesomeIcon icon={faPersonWalking} />
       <ButtomNavbar currentScreen="Home" />
     </SafeAreaView>
   );
