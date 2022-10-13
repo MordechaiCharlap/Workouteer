@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ButtomNavbar from "../components/ButtomNavbar";
 import AddWorkoutButton from "../components/AddWorkoutButton";
