@@ -35,13 +35,13 @@ const WorkoutType = () => {
     <View className="items-center w-full bg-green-500">
       <Text>WorkoutType</Text>
       <FlatList
-        className="w-80"
+        className="w-80 p-4"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
         horizontal
         renderItem={({ item }) => (
           <TouchableOpacity>
-            <View className="w-28 h-28 border-2 p-4 border-white items-center">
+            <View className="w-28 h-28 border-2 p-4 border-white items-center m-1">
               <FontAwesomeIcon icon={item.icon} size="xl" />
               <Text>{item.title}</Text>
             </View>
