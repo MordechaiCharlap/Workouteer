@@ -50,7 +50,10 @@ const NewWorkout = (props) => {
     }
   };
   return (
-    <Animated.View style={{ opacity: props.opacity }} className="bg-slate-400">
+    <Animated.ScrollView
+      style={{ opacity: props.opacity }}
+      className="bg-slate-400"
+    >
       <View className="border-2 p-2 rounded mb-5">
         <WorkoutType typeSelected={typeSelected} />
       </View>
@@ -65,7 +68,7 @@ const NewWorkout = (props) => {
       </View>
 
       <Button title="Next" disabled={isNextDisabled} />
-    </Animated.View>
+    </Animated.ScrollView>
   );
 };
 
