@@ -37,6 +37,7 @@ const WorkoutType = (props) => {
     return "bg-gray-500";
   };
   const typeClicked = (id) => {
+    props.typeSelected(id);
     setChosenType(id);
   };
   return (

@@ -3,7 +3,9 @@ import { React, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 
 const data = [
-  { label: "0:30", value: 30 },
+  { label: "00:00", value: 0 },
+
+  { label: "00:30", value: 30 },
   { label: "1:00", value: 60 },
   { label: "1:30", value: 90 },
   { label: "2:00", value: 120 },
@@ -11,7 +13,7 @@ const data = [
   { label: "3:00", value: 180 },
 ];
 
-const WorkoutMinutes = (props) => {
+const WorkoutStartingTime = (props) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -36,16 +38,17 @@ const WorkoutMinutes = (props) => {
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
+        search
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? "Workout time period" : "..."}
+        placeholder={!isFocus ? "What time do you train?" : "..."}
         searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          props.minutesSelected(item.value);
+          props.startingTimeSelected(item.value);
           setValue(item.value);
           setIsFocus(false);
         }}
@@ -54,7 +57,7 @@ const WorkoutMinutes = (props) => {
   );
 };
 
-export default WorkoutMinutes;
+export default WorkoutStartingTime;
 
 const styles = StyleSheet.create({
   container: {

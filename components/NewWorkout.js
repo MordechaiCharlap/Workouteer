@@ -2,6 +2,7 @@ import { View, Text, Animated, ScrollView, Button } from "react-native";
 import React, { useState } from "react";
 import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
+import WorkoutStartingTime from "./WorkoutStartingTime";
 
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
@@ -29,6 +30,7 @@ const NewWorkout = (props) => {
     checkIfCanAddWorkout();
   };
   const checkIfCanAddWorkout = () => {
+    console.log("check if can add");
     if (
       type != null &&
       startingTime != null &&
@@ -44,6 +46,9 @@ const NewWorkout = (props) => {
       </View>
       <View className="border-2 p-2 rounded mb-5">
         <WorkoutMinutes minutesSelected={minutesSelected} />
+      </View>
+      <View className="border-2 p-2 rounded mb-5">
+        <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
       </View>
 
       <Button title="Next" disabled={isNextDisabled} />
