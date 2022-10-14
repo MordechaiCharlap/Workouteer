@@ -51,7 +51,7 @@ const NewWorkout = (props) => {
   };
   return (
     <Animated.ScrollView
-      style={{ opacity: props.opacity }}
+      style={{ opacity: props.opacity, display: props.display }}
       className="bg-slate-400"
     >
       <View className="border-2 p-2 rounded mb-5">

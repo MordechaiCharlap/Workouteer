@@ -9,7 +9,45 @@ const AddWorkoutButton = () => {
   const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
   const marginTopRef = useRef(new Animated.Value(150)).current;
   const animationMiliSec = 1500;
+  const [buttonSign, setButtonSign] = useState("+");
+  const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
+
+  const workoutButtonClicked = () => {
+    if (buttonSign == "+") addWorkoutIn();
+    else addWorkoutOut();
+  };
+  const addWorkoutOut = () => {
+    console.log("Queue animation");
+    setButtonSign("+");
+    Animated.timing(plusSize, {
+      toValue: 200,
+      duration: animationMiliSec,
+      useNativeDriver: false,
+    }).start();
+    Animated.timing(plusSizeView, {
+      toValue: 250,
+      duration: animationMiliSec,
+      useNativeDriver: false,
+    }).start();
+    Animated.timing(addWorkoutOpacity, {
+      toValue: 0,
+      duration: animationMiliSec,
+      useNativeDriver: false,
+    }).start();
+    Animated.timing(marginTopRef, {
+      toValue: 150,
+      duration: animationMiliSec,
+      useNativeDriver: false,
+    }).start();
+    const timer = setTimeout(() => {
+      setNewWorkoutDisplay("none");
+    }, animationMiliSec);
+
+    return () => clearTimeout(timer);
+  };
+
   const addWorkoutIn = () => {
+    setNewWorkoutDisplay("block");
     console.log("Queue animation");
     Animated.timing(plusSize, {
       toValue: 50,
@@ -31,6 +69,10 @@ const AddWorkoutButton = () => {
       duration: animationMiliSec,
       useNativeDriver: false,
     }).start();
+    const timer = setTimeout(() => {
+      setButtonSign("X");
+    }, animationMiliSec);
+    return () => clearTimeout(timer);
   };
   return (
     <View className="self-center flex-1 items-center w-full bg-gray-800">
@@ -38,7 +80,7 @@ const AddWorkoutButton = () => {
         <Text className="font-bold text-center text-4xl">Add a workout</Text>
         <TouchableOpacity
           className="items-center justify-center"
-          onPress={addWorkoutIn}
+          onPress={workoutButtonClicked}
         >
           <Animated.View
             className="border-2 m-2 justify-center"
@@ -55,11 +97,11 @@ const AddWorkoutButton = () => {
               }}
               className="text-center"
             >
-              +
+              {buttonSign}
             </Animated.Text>
           </Animated.View>
         </TouchableOpacity>
-        <NewWorkout opacity={addWorkoutOpacity} />
+        <NewWorkout display={newWorkoutDisplay} opacity={addWorkoutOpacity} />
       </Animated.View>
     </View>
   );
