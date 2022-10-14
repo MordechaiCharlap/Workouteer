@@ -4,10 +4,9 @@ import { PlusCircleIcon } from "react-native-heroicons/solid";
 import NewWorkout from "./NewWorkout";
 
 const AddWorkoutButton = () => {
-  const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
   const plusSize = useRef(new Animated.Value(300)).current;
+  const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
   const marginTopRef = useRef(new Animated.Value(200)).current;
-  const plusViewOpa = new Animated.Value(1);
   const animationMiliSec = 1500;
   const addWorkoutIn = () => {
     console.log("Queue animation");
@@ -31,12 +30,12 @@ const AddWorkoutButton = () => {
         <TouchableOpacity className="items-center" onPress={addWorkoutIn}>
           <Animated.View
             style={{
-              opacity: plusViewOpa,
               width: plusSize,
               height: plusSize,
             }}
+            className="items-center"
           >
-            <PlusCircleIcon size={plusSize} color="#03dac6" />
+            <PlusCircleIcon size={500} color="#03dac6" />
           </Animated.View>
         </TouchableOpacity>
         <NewWorkout opacity={addWorkoutOpacity} />

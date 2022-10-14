@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
 import WorkoutStartingTime from "./WorkoutStartingTime";
+import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
 
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
+  const [waitingTime, setWaitingTime] = useState(null);
   const [location, setLocation] = useState(null);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
 
@@ -16,13 +18,17 @@ const NewWorkout = (props) => {
     checkIfCanAddWorkout();
   };
 
-  const startingTimeSelected = (id) => {
-    setStartingTime(id);
+  const startingTimeSelected = (time) => {
+    setStartingTime(time);
     checkIfCanAddWorkout();
   };
 
-  const minutesSelected = (id) => {
-    setMinutes(id);
+  const minutesSelected = (minutes) => {
+    setMinutes(minutes);
+    checkIfCanAddWorkout();
+  };
+  const waitingTimeSelected = (minutes) => {
+    setWaitingTime(minutes);
     checkIfCanAddWorkout();
   };
   const locationSelected = (id) => {
@@ -35,9 +41,13 @@ const NewWorkout = (props) => {
       type != null &&
       startingTime != null &&
       minutes != null &&
-      location != null
+      location != null &&
+      waitingTime != null
     )
-      isNextDisabled = false;
+      setIsNextDisabled(false);
+    else {
+      setIsNextDisabled(true);
+    }
   };
   return (
     <Animated.View style={{ opacity: props.opacity }} className="bg-slate-400">
@@ -49,6 +59,9 @@ const NewWorkout = (props) => {
       </View>
       <View className="border-2 p-2 rounded mb-5">
         <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
+      </View>
+      <View className="border-2 p-2 rounded mb-5">
+        <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
       </View>
 
       <Button title="Next" disabled={isNextDisabled} />
