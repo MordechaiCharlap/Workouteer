@@ -13,14 +13,17 @@ const AddWorkoutButton = () => {
     Animated.timing(plusSize, {
       toValue: 50,
       duration: animationMiliSec,
+      useNativeDriver: false,
     }).start();
     Animated.timing(addWorkoutOpacity, {
       toValue: 1,
       duration: animationMiliSec,
+      useNativeDriver: false,
     }).start();
     Animated.timing(marginTopRef, {
       toValue: 20,
       duration: animationMiliSec,
+      useNativeDriver: false,
     }).start();
   };
   return (
@@ -32,10 +35,11 @@ const AddWorkoutButton = () => {
             style={{
               width: plusSize,
               height: plusSize,
+              backgroundColor: "black",
             }}
             className="items-center"
           >
-            <PlusCircleIcon size={500} color="#03dac6" />
+            <PlusCircleIcon size={300} color="#03dac6" />
           </Animated.View>
         </TouchableOpacity>
         <NewWorkout opacity={addWorkoutOpacity} />
