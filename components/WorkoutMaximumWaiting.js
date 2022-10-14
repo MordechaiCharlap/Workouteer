@@ -19,7 +19,7 @@ const WorkoutMaximumWaiting = (props) => {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          hours:minutes
+          Maximum waiting time
         </Text>
       );
     }
@@ -40,7 +40,6 @@ const WorkoutMaximumWaiting = (props) => {
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? "How long are you willing to wait" : "..."}
-        searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}

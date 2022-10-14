@@ -21,7 +21,7 @@ const WorkoutStartingTime = (props) => {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          hours:minutes
+          Planned starting time
         </Text>
       );
     }

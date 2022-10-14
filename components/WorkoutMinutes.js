@@ -19,7 +19,7 @@ const WorkoutMinutes = (props) => {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          hours:minutes
+          Workout length (hours:minutes)
         </Text>
       );
     }
