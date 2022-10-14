@@ -1,6 +1,6 @@
 import React from "react";
 import HomeScreen from "./screens/HomeScreen";
-import UserScreen from "./screens/UserScreen";
+import MyUserScreen from "./screens/MyUserScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ExploreScreen from "./screens/ExploreScreen";
@@ -13,7 +13,7 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="User" component={UserScreen} />
+      <Stack.Screen name="MyUser" component={MyUserScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Explore" component={ExploreScreen} />
