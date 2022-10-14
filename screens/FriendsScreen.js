@@ -1,11 +1,16 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
+import BottomNavbar from "../components/BottomNavbar";
 
 const FriendsScreen = () => {
   return (
-    <View>
+    <SafeAreaView>
+      <View className="flex-1">
+
+      </View>
+      <BottomNavbar/>
       <Text>FriendsScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

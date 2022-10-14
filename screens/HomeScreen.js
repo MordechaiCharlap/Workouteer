@@ -4,12 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import AddWorkoutButton from "../components/AddWorkoutButton";
 import SafeViewAndroid from "../components/SafeViewAndroid";
-import SystemNavigationBar from "react-native-system-navigation-bar";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
-    SystemNavigationBar.navigationHide();
     navigation.setOptions({
       headerShown: false,
     });
