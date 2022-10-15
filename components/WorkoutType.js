@@ -50,7 +50,8 @@ const WorkoutType = (props) => {
       <FlatList
         showsHorizontalScrollIndicator={isWeb}
         initialScrollIndex={0.8}
-        className="w-80 p-4"
+        style={{ padding: 4, width: "95%" }}
+        className="rounded-lg"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
         horizontal
@@ -69,7 +70,11 @@ const WorkoutType = (props) => {
                 icon={item.icon}
                 size={90}
               />
-              <Text style={{ color: getTextColor(item.id) }}>{item.title}</Text>
+              <Text
+                style={{ textAlign: "center", color: getTextColor(item.id) }}
+              >
+                {item.title}
+              </Text>
             </View>
           </TouchableOpacity>
         )}

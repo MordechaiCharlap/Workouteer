@@ -4,6 +4,7 @@ import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
 import WorkoutStartingTime from "./WorkoutStartingTime";
 import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
+import WorkoutDescription from "./WorkoutDescription";
 import * as appStyle from "./AppStyleSheet";
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
@@ -11,6 +12,7 @@ const NewWorkout = (props) => {
   const [minutes, setMinutes] = useState(null);
   const [waitingTime, setWaitingTime] = useState(null);
   const [location, setLocation] = useState(null);
+  const [desc, setDesc] = useState("");
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [nextButtonTextColor, setNextButtonTextColor] = useState("#f7cb99");
   const typeSelected = (id) => {
@@ -31,10 +33,12 @@ const NewWorkout = (props) => {
     setWaitingTime(minutes);
     checkIfCanAddWorkout();
   };
+
   const locationSelected = (id) => {
     setLocation(id);
     checkIfCanAddWorkout();
   };
+  const workoutAdded = () => {};
   const checkIfCanAddWorkout = () => {
     console.log("check if can add");
     if (
@@ -58,19 +62,24 @@ const NewWorkout = (props) => {
         opacity: props.opacity,
         display: props.display,
         backgroundColor: appStyle.appYellow,
+        width: "90%",
+        height: "100%",
       }}
     >
-      <View className="p-2 rounded mb-5">
+      <View className="pt-4 pb-2 rounded mb-5">
         <WorkoutType typeSelected={typeSelected} />
       </View>
-      <View className="p-2 rounded mb-5">
+      <View className="pb-2 rounded mb-5">
         <WorkoutMinutes minutesSelected={minutesSelected} />
       </View>
-      <View className="p-2 rounded mb-5">
+      <View className="pb-2 rounded mb-5">
         <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
       </View>
-      <View className="p-2 rounded mb-5">
+      <View className="pb-2 rounded mb-5">
         <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
+      </View>
+      <View className="pb-2 rounded mb-5">
+        <WorkoutDescription descChanged={setDesc} />
       </View>
       <TouchableOpacity
         style={{
@@ -82,7 +91,8 @@ const NewWorkout = (props) => {
           backgroundColor: appStyle.appOrange,
         }}
         disabled={isNextDisabled}
-        className="rounded-lg"
+        className="rounded-lg shadow"
+        onPress={workoutAdded}
       >
         <Text
           style={{

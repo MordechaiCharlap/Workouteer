@@ -71,6 +71,8 @@ const AddWorkoutButton = () => {
     <View className="self-center flex-1 items-center w-full">
       <Animated.View
         style={{
+          width: "100%",
+          height: "100%",
           marginTop: addButtonMarginTop,
           opacity: addButtonOpacity,
           alignItems: "center",
