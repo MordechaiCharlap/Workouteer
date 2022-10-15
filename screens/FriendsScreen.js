@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   FlatList,
-  ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
@@ -99,13 +99,13 @@ const FriendsScreen = () => {
         data={friendsData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
-            <View className="items-center" style={{ flexBasis: "24%" }}>
+          <TouchableOpacity className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
+            <View className="items-center" style={{ aspectRatio: "1/1" }}>
               <Image
                 source={{
                   uri: item.img,
                 }}
-                className="rounded-full"
+                className="rounded-full border-gray-800"
                 style={style.profileImg}
               />
             </View>
@@ -115,7 +115,7 @@ const FriendsScreen = () => {
             >
               <Text className="text-xl font-semibold">{item.username}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
       <BottomNavbar currentScreen="Friends" />
@@ -124,13 +124,14 @@ const FriendsScreen = () => {
 };
 const style = StyleSheet.create({
   profileImg: {
+    borderWidth: "0.1rem",
     position: "absolute" /* Take your picture out of the flow */,
     top: 0,
     bottom: 0,
     left: 0,
     right: 0 /* Make the picture taking the size of it's parent */,
     // width: "100%" /* This if for the object-fit */,
-    height: "100%" /* This if for the object-fit */,
+    width: "100%" /* This if for the object-fit */,
     aspectRatio: "1/1",
     objectFit:
       "cover" /* Equivalent of the background-size: cover; of a background-image */,
