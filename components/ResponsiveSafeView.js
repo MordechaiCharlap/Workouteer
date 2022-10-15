@@ -16,6 +16,8 @@ if (Platform.OS == "web") {
       flex: 1,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       backgroundColor: appStyle.appAzure,
+      backgroundColor: "white",
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
   });
 export default safeArea.safeAreaStyle;

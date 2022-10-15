@@ -14,7 +14,11 @@ const CalendarScreen = () => {
 
   return (
     <SafeAreaView className="flex-1" style={safeAreaStyle}>
+<<<<<<< HEAD
       <View className="flex-1 ">
+=======
+      <View className="flex-1 bg-green-700">
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
         <Text>CalendarScreen</Text>
       </View>
       <BottomNavbar currentScreen="Calendar" />

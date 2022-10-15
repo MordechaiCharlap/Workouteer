@@ -11,8 +11,11 @@ import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import safeAreaStyle from "../components/ResponsiveSafeView";
+<<<<<<< HEAD
 import * as appStyle from "../components/AppStyleSheet";
 
+=======
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
 const friendsData = [
   {
     id: 123,
@@ -95,6 +98,7 @@ const FriendsScreen = () => {
     });
   }, []);
   return (
+<<<<<<< HEAD
     <SafeAreaView style={safeAreaStyle} className="flex-1 ">
       <FlatList
         className="flex-1 "
@@ -108,12 +112,25 @@ const FriendsScreen = () => {
             }}
             className="shadow rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row"
           >
+=======
+    <SafeAreaView style={safeAreaStyle} className="flex-1 bg-cyan-900">
+      <FlatList
+        className="flex-1 bg-orange-500"
+        data={friendsData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
             <View className="items-center" style={{ aspectRatio: "1/1" }}>
               <Image
                 source={{
                   uri: item.img,
                 }}
+<<<<<<< HEAD
                 className="rounded-full "
+=======
+                className="rounded-full border-gray-800"
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
                 style={style.profileImg}
               />
             </View>
@@ -121,12 +138,16 @@ const FriendsScreen = () => {
               className="justify-center text-center"
               style={{ flexBasis: "76%" }}
             >
+<<<<<<< HEAD
               <Text
                 className="text-xl font-semibold"
                 style={{ color: appStyle.abbDarkBlue }}
               >
                 {item.username}
               </Text>
+=======
+              <Text className="text-xl font-semibold">{item.username}</Text>
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
             </View>
           </TouchableOpacity>
         )}
@@ -137,7 +158,10 @@ const FriendsScreen = () => {
 };
 const style = StyleSheet.create({
   profileImg: {
+<<<<<<< HEAD
     borderColor: appStyle.abbDarkBlue,
+=======
+>>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
     borderWidth: "0.1rem",
     position: "absolute" /* Take your picture out of the flow */,
     top: 0,
