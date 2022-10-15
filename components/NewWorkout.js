@@ -43,11 +43,12 @@ const NewWorkout = (props) => {
       minutes != null &&
       location != null &&
       waitingTime != null
-    )
+    ) {
       setIsNextDisabled(false);
-    else {
       setNextButtonTextColor(appStyle.appDarkBlue);
+    } else {
       setIsNextDisabled(true);
+      setNextButtonTextColor("#f7cb99");
     }
   };
   return (
