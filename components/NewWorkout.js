@@ -4,7 +4,7 @@ import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
 import WorkoutStartingTime from "./WorkoutStartingTime";
 import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
-
+import * as appStyle from "./AppStyleSheet";
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -51,19 +51,23 @@ const NewWorkout = (props) => {
   };
   return (
     <Animated.View
-      style={{ opacity: props.opacity, display: props.display }}
-      className="bg-slate-400"
+      className="rounded-xl"
+      style={{
+        opacity: props.opacity,
+        display: props.display,
+        backgroundColor: appStyle.appYellow,
+      }}
     >
-      <View className="border-2 p-2 rounded mb-5">
+      <View className="p-2 rounded mb-5">
         <WorkoutType typeSelected={typeSelected} />
       </View>
-      <View className="border-2 p-2 rounded mb-5">
+      <View className="p-2 rounded mb-5">
         <WorkoutMinutes minutesSelected={minutesSelected} />
       </View>
-      <View className="border-2 p-2 rounded mb-5">
+      <View className="p-2 rounded mb-5">
         <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
       </View>
-      <View className="border-2 p-2 rounded mb-5">
+      <View className="p-2 rounded mb-5">
         <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
       </View>
 

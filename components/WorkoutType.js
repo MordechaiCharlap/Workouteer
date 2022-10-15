@@ -1,7 +1,7 @@
-import { View, Text, FlatList, TouchableOpacity, Button } from "react-native";
-import React, { useState } from "react";
+import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
+import * as appStyle from "./AppStyleSheet";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
@@ -31,20 +31,24 @@ const workoutTypes = [
 ];
 
 const WorkoutType = (props) => {
+  const isWeb = Platform.OS == "web";
   const [chosenType, setChosenType] = useState(0);
   const getBackgroundColor = (id) => {
-    if (chosenType == id) return "bg-indigo-400";
-    return "bg-gray-500";
+    if (chosenType == id) return appStyle.appDarkBlue;
+    return appStyle.appLightBlue;
+  };
+  const getTextColor = (id) => {
+    if (chosenType == id) return "white";
+    return appStyle.appDarkBlue;
   };
   const typeClicked = (id) => {
     props.typeSelected(id);
     setChosenType(id);
   };
   return (
-    <View className="items-center w-full bg-green-500 ">
-      <Text>WorkoutType</Text>
+    <View className="items-center w-full">
       <FlatList
-        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={isWeb}
         className="w-80 p-4"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
@@ -56,12 +60,15 @@ const WorkoutType = (props) => {
             }}
           >
             <View
-              className={`w-28 h-28 border-2 p-4 border-white items-center m-1 ${getBackgroundColor(
-                item.id
-              )}`}
+              style={{ backgroundColor: getBackgroundColor(item.id) }}
+              className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg`}
             >
-              <FontAwesomeIcon icon={item.icon} size={90} />
-              <Text>{item.title}</Text>
+              <FontAwesomeIcon
+                color={getTextColor(item.id)}
+                icon={item.icon}
+                size={90}
+              />
+              <Text style={{ color: getTextColor(item.id) }}>{item.title}</Text>
             </View>
           </TouchableOpacity>
         )}
