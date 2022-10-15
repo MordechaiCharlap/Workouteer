@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
+import * as appStyle from "./AppStyleSheet";
 
 const data = [
   { label: "0:30", value: 30 },
@@ -18,7 +19,10 @@ const WorkoutMaximumWaiting = (props) => {
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
+        <Text
+          className="rounded"
+          style={[styles.label, isFocus && { color: appStyle.appDarkBlue }]}
+        >
           Maximum waiting time
         </Text>
       );
@@ -30,7 +34,7 @@ const WorkoutMaximumWaiting = (props) => {
     <View style={styles.container}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+        style={[styles.dropdown, isFocus && { borderColor: appStyle.appAzure }]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -57,32 +61,38 @@ export default WorkoutMaximumWaiting;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    padding: 16,
+    paddingHorizontal: 16,
   },
   dropdown: {
     height: 50,
-    borderColor: "gray",
+    borderColor: appStyle.appDarkBlue,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
   },
   icon: {
     marginRight: 5,
+    color: "white",
   },
   label: {
     position: "absolute",
-    backgroundColor: "white",
+    fontWeight: 450,
+    color: appStyle.appDarkBlue,
+    backgroundColor: appStyle.appYellow,
     left: 22,
-    top: 8,
+    top: -10,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
   },
   placeholderStyle: {
+    color: appStyle.appDarkBlue,
+    fontWeight: 600,
     fontSize: 16,
   },
   selectedTextStyle: {
+    fontWeight: 600,
+    color: appStyle.appDarkBlue,
     fontSize: 16,
   },
   iconStyle: {

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     color: appStyle.appDarkBlue,
     backgroundColor: appStyle.appYellow,
     left: 22,
-    top: 8,
+    top: -10,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
