@@ -115,26 +115,44 @@ const FriendsScreen = () => {
     );
   }
 };
-
-const style = StyleSheet.create({
-  profileImg: {
-    position: "absolute" /* Take your picture out of the flow */,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0 /* Make the picture taking the size of it's parent */,
-    // width: "100%" /* This if for the object-fit */,
-    height: "100%" /* This if for the object-fit */,
-    aspectRatio: "1/1",
-    objectFit:
-      "cover" /* Equivalent of the background-size: cover; of a background-image */,
-    objectPosition: "center",
-  },
-  webSafeAreaStyle: {
-    alignSelf: "center",
-    height: "100%",
-    aspectRatio: "8 / 18",
-  },
-});
+var style = StyleSheet.create({});
+if (Platform.OS == "web") {
+  style = StyleSheet.create({
+    profileImg: {
+      position: "absolute" /* Take your picture out of the flow */,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0 /* Make the picture taking the size of it's parent */,
+      // width: "100%" /* This if for the object-fit */,
+      height: "100%" /* This if for the object-fit */,
+      aspectRatio: "1/1",
+      objectFit:
+        "cover" /* Equivalent of the background-size: cover; of a background-image */,
+      objectPosition: "center",
+    },
+    webSafeAreaStyle: {
+      alignSelf: "center",
+      height: "100%",
+      aspectRatio: "8 / 18",
+    },
+  });
+} else {
+  style = StyleSheet.create({
+    profileImg: {
+      position: "absolute" /* Take your picture out of the flow */,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0 /* Make the picture taking the size of it's parent */,
+      // width: "100%" /* This if for the object-fit */,
+      height: "100%" /* This if for the object-fit */,
+      aspectRatio: "1/1",
+      objectFit:
+        "cover" /* Equivalent of the background-size: cover; of a background-image */,
+      objectPosition: "center",
+    },
+  });
+}
 
 export default FriendsScreen;
