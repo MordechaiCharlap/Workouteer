@@ -4,9 +4,9 @@ import NewWorkout from "./NewWorkout";
 
 const AddWorkoutButton = () => {
   const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
-  const addButtonMarginTop = useRef(new Animated.Value(400)).current;
+  const addButtonMarginTop = useRef(new Animated.Value(500)).current;
   const addButtonOpacity = useRef(new Animated.Value(0)).current;
-  const animationMiliSec = 1000;
+  const animationMiliSec = 1500;
   const [isAdd, setAdd] = useState(false);
   const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
   useEffect(() => {
@@ -28,40 +28,42 @@ const AddWorkoutButton = () => {
   };
 
   const addWorkoutIn = () => {
-    setNewWorkoutDisplay("block");
     console.log("Queue animation in");
-    Animated.timing(addWorkoutOpacity, {
-      toValue: 1,
-      duration: animationMiliSec,
-      useNativeDriver: false,
-    }).start();
-    Animated.timing(addButtonMarginTop, {
+
+    Animated.spring(addButtonMarginTop, {
       toValue: 20,
       duration: animationMiliSec,
       useNativeDriver: false,
     }).start();
     const timer = setTimeout(() => {
       setAdd(true);
-    }, animationMiliSec);
+      setNewWorkoutDisplay("block");
+      Animated.spring(addWorkoutOpacity, {
+        toValue: 1,
+        duration: animationMiliSec,
+        useNativeDriver: false,
+      }).start();
+    }, animationMiliSec / 3);
     return () => clearTimeout(timer);
   };
 
   const addWorkoutOut = () => {
     console.log("Queue animation out");
-    Animated.timing(addWorkoutOpacity, {
+    Animated.spring(addWorkoutOpacity, {
       toValue: 0,
-      duration: animationMiliSec,
+      duration: animationMiliSec / 3,
       useNativeDriver: false,
     }).start();
-    Animated.timing(addButtonMarginTop, {
-      toValue: 300,
-      duration: animationMiliSec,
-      useNativeDriver: false,
-    }).start();
+
     const timer = setTimeout(() => {
       setNewWorkoutDisplay("none");
+      Animated.spring(addButtonMarginTop, {
+        toValue: 300,
+        duration: animationMiliSec / 2,
+        useNativeDriver: false,
+      }).start();
       setAdd(false);
-    }, animationMiliSec);
+    }, animationMiliSec / 3);
     return () => clearTimeout(timer);
   };
 

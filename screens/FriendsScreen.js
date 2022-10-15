@@ -97,6 +97,7 @@ const FriendsScreen = () => {
   return (
     <SafeAreaView style={safeAreaStyle} className="flex-1 ">
       <FlatList
+        showsVerticalScrollIndicator={false}
         className="flex-1 "
         data={friendsData}
         keyExtractor={(item) => item.id}

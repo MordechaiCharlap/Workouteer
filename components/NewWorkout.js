@@ -50,7 +50,7 @@ const NewWorkout = (props) => {
     }
   };
   return (
-    <Animated.ScrollView
+    <Animated.View
       style={{ opacity: props.opacity, display: props.display }}
       className="bg-slate-400"
     >
@@ -68,7 +68,7 @@ const NewWorkout = (props) => {
       </View>
 
       <Button title="Next" disabled={isNextDisabled} />
-    </Animated.ScrollView>
+    </Animated.View>
   );
 };
 

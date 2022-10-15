@@ -44,6 +44,7 @@ const WorkoutType = (props) => {
     <View className="items-center w-full bg-green-500 ">
       <Text>WorkoutType</Text>
       <FlatList
+        showsVerticalScrollIndicator={false}
         className="w-80 p-4"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
