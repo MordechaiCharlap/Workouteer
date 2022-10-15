@@ -14,7 +14,7 @@ const CalendarScreen = () => {
 
   return (
     <SafeAreaView className="flex-1" style={safeAreaStyle}>
-      <View className="flex-1">
+      <View className="flex-1 bg-green-700">
         <Text>CalendarScreen</Text>
       </View>
       <BottomNavbar currentScreen="Calendar" />
