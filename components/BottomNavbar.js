@@ -18,7 +18,7 @@ const BottomNavbar = (props) => {
 };
 const style = StyleSheet.create({
   navStyle: {
-    borderTopColor: appStyle.abbDarkBlue,
+    borderTopColor: appStyle.appDarkBlue,
     borderTopWidth: "0.1rem",
   },
 });

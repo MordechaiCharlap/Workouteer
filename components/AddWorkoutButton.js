@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { React, useEffect, useRef, useState } from "react";
 import NewWorkout from "./NewWorkout";
-
+import * as appStyle from "./AppStyleSheet";
 const AddWorkoutButton = () => {
   const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
   const addButtonMarginTop = useRef(new Animated.Value(500)).current;
@@ -18,7 +18,7 @@ const AddWorkoutButton = () => {
     }).start();
     Animated.timing(addButtonOpacity, {
       toValue: 1,
-      duration: 2000,
+      duration: animationMiliSec,
       useNativeDriver: false,
     }).start();
   }, []);
@@ -59,11 +59,11 @@ const AddWorkoutButton = () => {
       setNewWorkoutDisplay("none");
       Animated.spring(addButtonMarginTop, {
         toValue: 300,
-        duration: animationMiliSec / 2,
+        duration: (animationMiliSec * 2) / 3,
         useNativeDriver: false,
       }).start();
       setAdd(false);
-    }, animationMiliSec / 3);
+    }, animationMiliSec / 4);
     return () => clearTimeout(timer);
   };
 
@@ -77,10 +77,13 @@ const AddWorkoutButton = () => {
         }}
       >
         <TouchableOpacity
-          className="items-center justify-center bg-slate-50 p-2 pt-3 pb-3 rounded-lg shadow-lg mb-3"
+          className="items-center justify-center  p-2 pt-3 pb-3 rounded-lg shadow-lg mb-3"
+          style={{ backgroundColor: appStyle.appDarkBlue }}
           onPress={workoutButtonClicked}
         >
-          <Text className="font-bold text-center text-4xl">Add a workout</Text>
+          <Text className="font-bold text-center text-4xl text-white">
+            NEW WORKOUT
+          </Text>
         </TouchableOpacity>
         <NewWorkout display={newWorkoutDisplay} opacity={addWorkoutOpacity} />
       </Animated.View>

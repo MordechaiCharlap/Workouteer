@@ -105,7 +105,7 @@ const FriendsScreen = () => {
           <TouchableOpacity
             style={{
               backgroundColor: appStyle.appLightBlue,
-              borderColor: appStyle.abbDarkBlue,
+              borderColor: appStyle.appDarkBlue,
             }}
             className="shadow rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row"
           >
@@ -124,7 +124,7 @@ const FriendsScreen = () => {
             >
               <Text
                 className="text-xl font-semibold"
-                style={{ color: appStyle.abbDarkBlue }}
+                style={{ color: appStyle.appDarkBlue }}
               >
                 {item.username}
               </Text>
@@ -138,7 +138,7 @@ const FriendsScreen = () => {
 };
 const style = StyleSheet.create({
   profileImg: {
-    borderColor: appStyle.abbDarkBlue,
+    borderColor: appStyle.appDarkBlue,
     borderWidth: "0.1rem",
     position: "absolute" /* Take your picture out of the flow */,
     top: 0,

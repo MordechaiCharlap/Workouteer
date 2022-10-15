@@ -19,7 +19,7 @@ const NavbarButton = (props) => {
         <Text style={styles.selectedButtonText}>{props.screen}</Text>
         <View
           style={{
-            backgroundColor: appStyle.abbDarkBlue,
+            backgroundColor: appStyle.appDarkBlue,
             marginTop: "0.2rem",
             height: "0.1rem",
             width: "100%",
@@ -38,12 +38,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonText: {
-    color: appStyle.abbDarkBlue,
+    color: appStyle.appDarkBlue,
     fontWeight: 400,
   },
   selectedButtonText: {
     fontWeight: 500,
-    color: appStyle.abbDarkBlue,
+    color: appStyle.appDarkBlue,
   },
 });
 
