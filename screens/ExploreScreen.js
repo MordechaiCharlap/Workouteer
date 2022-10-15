@@ -1,10 +1,19 @@
-import { SafeAreaView, Text } from "react-native";
-import React from "react";
-
+import { SafeAreaView, Text, View } from "react-native";
+import { React, useLayoutEffect } from "react";
+import SafeAreaViewStyle from "../components/ResponsiveSafeView";
+import { useNavigation } from "@react-navigation/native";
+import BottomNavbar from "../components/BottomNavbar";
 const ExploreScreen = () => {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
   return (
-    <SafeAreaView>
-      <Text>ExploreScreen</Text>
+    <SafeAreaView style={SafeAreaViewStyle} className="bg-slate-700 flex-1">
+      <View className="flex-1"></View>
+      <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
   );
 };

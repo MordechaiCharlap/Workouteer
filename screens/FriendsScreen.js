@@ -10,7 +10,7 @@ import {
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
-import webStyle from "../responsiveStyle/WebStyle";
+import safeAreaStyle from "../components/ResponsiveSafeView";
 const friendsData = [
   {
     id: 123,
@@ -48,7 +48,7 @@ const FriendsScreen = () => {
   return (
     <SafeAreaView
       className="flex-1 bg-cyan-900 border-2 border-blue-500"
-      style={webStyle.safeAreaStyle}
+      style={safeAreaStyle}
     >
       <View className=" bg-orange-500 flex-1">
         <FlatList

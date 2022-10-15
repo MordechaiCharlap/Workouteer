@@ -3,8 +3,7 @@ import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import AddWorkoutButton from "../components/AddWorkoutButton";
-import SafeViewAndroid from "../components/SafeViewAndroid";
-
+import safeAreaStyle from "../components/ResponsiveSafeView";
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -14,10 +13,7 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={SafeViewAndroid.AndroidSafeArea}
-      className="bg-cyan-900 flex-1"
-    >
+    <SafeAreaView style={safeAreaStyle} className="bg-cyan-900 flex-1">
       <View className="flex-1">
         <View className="flex-row pb-3 items-center mx-4 space-x-2">
           <Image

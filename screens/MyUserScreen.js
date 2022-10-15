@@ -9,6 +9,7 @@ import {
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
+import safeAreaStyle from "../components/ResponsiveSafeView";
 
 const userData = {
   firstName: "Moti",
@@ -29,7 +30,7 @@ const MyUserScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1" style={safeAreaStyle}>
       <ScrollView className="bg-gray-500 w-auto">
         <View className="items-center bg-blue-500">
           <Image
