@@ -5,7 +5,7 @@ import * as appStyle from "./AppStyleSheet";
 const BottomNavbar = (props) => {
   return (
     <View
-      className="flex-row flex-1 flex-grow-0 bg-slate-200 shrink-0"
+      className="flex-row flex-1 flex-grow-0 shrink-0"
       style={style.navStyle}
     >
       <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />
@@ -18,8 +18,11 @@ const BottomNavbar = (props) => {
 };
 const style = StyleSheet.create({
   navStyle: {
+    shadowOffset: { height: -2, width: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowColor: "black",
     borderTopColor: appStyle.appDarkBlue,
-    borderTopWidth: "0.1rem",
   },
 });
 export default BottomNavbar;
