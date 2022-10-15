@@ -31,7 +31,6 @@ const MyUserScreen = () => {
 
   return (
     <SafeAreaView className="flex-1" style={safeAreaStyle}>
-<<<<<<< HEAD
       <View className="items-center flex-1">
         <Image
           source={{
@@ -55,35 +54,6 @@ const MyUserScreen = () => {
           </View>
         </View>
       </View>
-=======
-      <ScrollView className="bg-gray-500 w-auto">
-        <View className="items-center bg-blue-500">
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
-            }}
-            className="h-60 w-60 bg-white rounded-full mt-8 mb-5"
-          />
-          <Text className="font-bold text-3xl">{userData.username}</Text>
-          <View className="flex-row justify-around w-full bg-green-400">
-            <View className="leftView">
-              <Text
-                style={styles.text}
-              >{`Name: ${userData.firstName} ${userData.lastName}`}</Text>
-              <Text style={styles.text}>{`Age: ${userData.age}`}</Text>
-            </View>
-            <View className="rightView">
-              <Text
-                style={styles.text}
-              >{`Workouts: ${userData.workouts}`}</Text>
-              <Text
-                style={styles.text}
-              >{`Friends: ${userData.friendsCount}`}</Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
->>>>>>> 5ebffa71be898c9a7c7bad5e14098063df8e6a58
       <BottomNavbar currentScreen="MyUser" />
     </SafeAreaView>
   );
