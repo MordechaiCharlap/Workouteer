@@ -1,0 +1,54 @@
+{
+  "name": "workouteer-rn",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@expo/webpack-config": "^0.17.0",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-brands-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-native-fontawesome": "^0.3.0",
+    "@react-navigation/native": "^6.0.13",
+    "@react-navigation/native-stack": "^6.9.1",
+    "@reduxjs/toolkit": "^1.8.6",
+    "expo": "~46.0.13",
+    "expo-navigation-bar": "^1.3.0",
+    "expo-status-bar": "~1.4.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-element-dropdown": "^2.3.0",
+    "react-native-heroicons": "^3.2.0",
+    "react-native-svg": "^12.3.0",
+    "react-native-system-navigation-bar": "^2.0.0",
+    "react-native-web": "~0.18.7",
+    "react-redux": "^8.0.4",
+    "tailwindcss-react-native": "^1.7.10",
+    "webpack-cli": "^4.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "babel-plugin-react-native-web": "^0.18.9",
+    "tailwindcss": "^3.1.8",
+    "webpack": "^4.43.0"
+  },
+  "private": true,
+  "description": "Social app for fitness-driven outsiders",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MordechaiCharlap/Workouteer.git"
+  },
+  "author": "Moti Charlap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MordechaiCharlap/Workouteer/issues"
+  },
+  "homepage": "https://github.com/MordechaiCharlap/Workouteer#readme"
+}
