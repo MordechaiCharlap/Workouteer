@@ -83,7 +83,7 @@ const AddWorkoutButton = () => {
           onPress={workoutButtonClicked}
         >
           <Animated.View
-            className="border-2 m-2 justify-center"
+            className="m-2 justify-center"
             style={{
               borderColor: "#66fcf1",
               width: plusSizeView,
