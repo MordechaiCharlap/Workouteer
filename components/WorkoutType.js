@@ -49,6 +49,7 @@ const WorkoutType = (props) => {
     <View className="items-center w-full">
       <FlatList
         showsHorizontalScrollIndicator={isWeb}
+        initialScrollIndex={0.8}
         className="w-80 p-4"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
