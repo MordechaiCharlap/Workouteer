@@ -93,7 +93,7 @@ const FriendsScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView className="flex-1 bg-cyan-900" style={safeAreaStyle}>
+    <SafeAreaView style={safeAreaStyle} className="flex-1 bg-cyan-900">
       <FlatList
         className="flex-1 bg-orange-500"
         data={friendsData}
