@@ -10,6 +10,7 @@ import {
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
+import webStyle from "../responsiveStyle/WebStyle";
 const friendsData = [
   {
     id: 123,
@@ -44,115 +45,52 @@ const FriendsScreen = () => {
       headerShown: false,
     });
   }, []);
-  if (Platform.OS == "web") {
-    return (
-      <SafeAreaView
-        className="flex-1 bg-cyan-900 border-2 border-blue-500"
-        style={style.webSafeAreaStyle}
-      >
-        <View className=" bg-orange-500 flex-1">
-          <FlatList
-            data={friendsData}
-            keyExtractor={(item) => item.id}
-            renderItem={(user) => (
-              <View className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
-                <View
-                  className="bg-white items-center"
-                  style={{ flexBasis: "24%" }}
-                >
-                  <Image
-                    source={{
-                      uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
-                    }}
-                    className="rounded-full"
-                    style={style.profileImg}
-                  />
-                </View>
-                <View
-                  className="bg-pink-600"
-                  style={{ flexBasis: "76%" }}
-                ></View>
+  return (
+    <SafeAreaView
+      className="flex-1 bg-cyan-900 border-2 border-blue-500"
+      style={webStyle.safeAreaStyle}
+    >
+      <View className=" bg-orange-500 flex-1">
+        <FlatList
+          data={friendsData}
+          keyExtractor={(item) => item.id}
+          renderItem={(user) => (
+            <View className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
+              <View
+                className="bg-white items-center"
+                style={{ flexBasis: "24%" }}
+              >
+                <Image
+                  source={{
+                    uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
+                  }}
+                  className="rounded-full"
+                  style={style.profileImg}
+                />
               </View>
-            )}
-          />
+              <View className="bg-pink-600" style={{ flexBasis: "76%" }}></View>
+            </View>
+          )}
+        />
 
-          <BottomNavbar className="w-auto" />
-        </View>
-      </SafeAreaView>
-    );
-  } else {
-    return (
-      <SafeAreaView className="flex-1 bg-cyan-900 border-2 border-blue-500">
-        <View className=" bg-orange-500 flex-1">
-          <FlatList
-            data={friendsData}
-            keyExtractor={(item) => item.id}
-            renderItem={(user) => (
-              <View className="bg-slate-500 border-4 border-stone-400 rounded h-24 mt-4 mr-4 ml-4 mb-1 flex-row">
-                <View
-                  className="bg-white items-center"
-                  style={{ flexBasis: "24%" }}
-                >
-                  <Image
-                    source={{
-                      uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
-                    }}
-                    className="rounded-full"
-                    style={style.profileImg}
-                  />
-                </View>
-                <View
-                  className="bg-pink-600"
-                  style={{ flexBasis: "76%" }}
-                ></View>
-              </View>
-            )}
-          />
-
-          <BottomNavbar className="w-auto" />
-        </View>
-      </SafeAreaView>
-    );
-  }
+        <BottomNavbar className="w-auto" />
+      </View>
+    </SafeAreaView>
+  );
 };
-var style = StyleSheet.create({});
-if (Platform.OS == "web") {
-  style = StyleSheet.create({
-    profileImg: {
-      position: "absolute" /* Take your picture out of the flow */,
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0 /* Make the picture taking the size of it's parent */,
-      // width: "100%" /* This if for the object-fit */,
-      height: "100%" /* This if for the object-fit */,
-      aspectRatio: "1/1",
-      objectFit:
-        "cover" /* Equivalent of the background-size: cover; of a background-image */,
-      objectPosition: "center",
-    },
-    webSafeAreaStyle: {
-      alignSelf: "center",
-      height: "100%",
-      aspectRatio: "8 / 18",
-    },
-  });
-} else {
-  style = StyleSheet.create({
-    profileImg: {
-      position: "absolute" /* Take your picture out of the flow */,
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0 /* Make the picture taking the size of it's parent */,
-      // width: "100%" /* This if for the object-fit */,
-      height: "100%" /* This if for the object-fit */,
-      aspectRatio: "1/1",
-      objectFit:
-        "cover" /* Equivalent of the background-size: cover; of a background-image */,
-      objectPosition: "center",
-    },
-  });
-}
-
+const style = StyleSheet.create({
+  profileImg: {
+    position: "absolute" /* Take your picture out of the flow */,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0 /* Make the picture taking the size of it's parent */,
+    // width: "100%" /* This if for the object-fit */,
+    height: "100%" /* This if for the object-fit */,
+    aspectRatio: "1/1",
+    objectFit:
+      "cover" /* Equivalent of the background-size: cover; of a background-image */,
+    objectPosition: "center",
+  },
+});
 export default FriendsScreen;
