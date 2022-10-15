@@ -58,7 +58,7 @@ const MyUserScreen = () => {
           </View>
         </View>
       </ScrollView>
-      <BottomNavbar currentScreen="User" />
+      <BottomNavbar currentScreen="MyUser" />
     </SafeAreaView>
   );
 };

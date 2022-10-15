@@ -46,10 +46,7 @@ const FriendsScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView
-      className="flex-1 bg-cyan-900 border-2 border-blue-500"
-      style={safeAreaStyle}
-    >
+    <SafeAreaView className="flex-1 bg-cyan-900 border-2" style={safeAreaStyle}>
       <View className=" bg-orange-500 flex-1">
         <FlatList
           data={friendsData}
@@ -73,7 +70,7 @@ const FriendsScreen = () => {
           )}
         />
 
-        <BottomNavbar className="w-auto" />
+        <BottomNavbar currentScreen="Friends" />
       </View>
     </SafeAreaView>
   );
