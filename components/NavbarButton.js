@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import * as appStyle from "../components/AppStyleSheet";
 const NavbarButton = (props) => {
   const navigation = useNavigation();
   if (props.screen != props.currentScreen) {
@@ -10,33 +10,40 @@ const NavbarButton = (props) => {
         onPress={() => navigation.navigate(props.screen)}
         style={styles.button}
       >
-        <Text>{props.screen}</Text>
+        <Text style={styles.buttonText}>{props.screen}</Text>
       </TouchableOpacity>
     );
   } else {
     return (
-      <TouchableOpacity style={styles.currentPageButton}>
-        <Text>{props.screen}</Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.selectedButtonText}>{props.screen}</Text>
+        <View
+          style={{
+            backgroundColor: appStyle.abbDarkBlue,
+            marginTop: "0.2rem",
+            height: "0.1rem",
+            width: "100%",
+            paddingTop: "0.2rem",
+          }}
+        />
       </TouchableOpacity>
     );
   }
 };
 const styles = StyleSheet.create({
-  currentPageButton: {
-    alignItems: "center",
-    backgroundColor: "#46a29f",
-    padding: 10,
-    flex: 1,
-    borderColor: "#202832",
-    borderWidth: 2,
-  },
   button: {
+    backgroundColor: appStyle.appLightBlue,
     alignItems: "center",
-    backgroundColor: "#66fcf1",
-    padding: 10,
+    padding: 15,
     flex: 1,
-    borderColor: "#202832",
-    borderWidth: 2,
+  },
+  buttonText: {
+    color: appStyle.abbDarkBlue,
+    fontWeight: 400,
+  },
+  selectedButtonText: {
+    fontWeight: 500,
+    color: appStyle.abbDarkBlue,
   },
 });
 
