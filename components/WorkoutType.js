@@ -56,7 +56,6 @@ const WorkoutType = (props) => {
         horizontal
         renderItem={({ item }) => (
           <TouchableOpacity
-            className="bg-green-400"
             onPress={() => {
               typeClicked(item.id);
             }}
@@ -68,7 +67,7 @@ const WorkoutType = (props) => {
               <FontAwesomeIcon
                 color={getTextColor(item.id)}
                 icon={item.icon}
-                size={90}
+                size={60}
               />
               <Text
                 style={{ textAlign: "center", color: getTextColor(item.id) }}

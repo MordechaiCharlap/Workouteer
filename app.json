@@ -18,10 +18,6 @@
     "ios": {
       "supportsTablet": true
     },
-    "androidNavigationBar": {
-      "visible": "sticky-immersive",
-      "backgroundColor": "#FFFFFF"
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
