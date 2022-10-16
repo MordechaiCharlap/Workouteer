@@ -6,6 +6,7 @@ import WorkoutStartingTime from "./WorkoutStartingTime";
 import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
 import WorkoutDescription from "./WorkoutDescription";
 import * as appStyle from "./AppStyleSheet";
+import WorkoutLocation from "./WorkoutLocation";
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -83,6 +84,9 @@ const NewWorkout = (props) => {
       <View className="pb-2 rounded mb-5">
         <WorkoutDescription descChanged={setDesc} />
       </View>
+      {/* <View className="pb-2 rounded mb-5">
+        <WorkoutLocation locationSelected={setLocation} />
+      </View> */}
       <TouchableOpacity
         style={{
           width: "fit-content",
