@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { React, useEffect, useRef, useState } from "react";
 import NewWorkout from "./NewWorkout";
 import * as appStyle from "./AppStyleSheet";
-const AddWorkoutButton = () => {
+const AddWorkoutButton = (props) => {
   const useAnimate = false;
   // var newWorkoutOpacity;
   // var addButtonMarginTop;
@@ -11,7 +11,7 @@ const AddWorkoutButton = () => {
 
   const animationMiliSec = 1500;
   const [isAdd, setAdd] = useState(false);
-  const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
+  const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("hidden");
 
   useEffect(() => {
     if (useAnimate) {
@@ -32,6 +32,7 @@ const AddWorkoutButton = () => {
   }, []);
 
   const workoutButtonClicked = () => {
+    //props.hideNavBar();
     if (!isAdd) addWorkoutIn();
     else addWorkoutOut();
   };

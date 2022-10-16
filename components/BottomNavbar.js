@@ -5,7 +5,7 @@ import * as appStyle from "./AppStyleSheet";
 const BottomNavbar = (props) => {
   return (
     <View
-      className="flex-row flex-1 flex-grow-0 shrink-0"
+      className={`flex-row flex-grow-0 shrink-0 h-16 ${props.display}`}
       style={style.navStyle}
     >
       <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />

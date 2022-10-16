@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
-import safeAreaStyle from "../components/ResponsiveSafeView";
+import style from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 
 const CalendarScreen = () => {
@@ -13,7 +13,7 @@ const CalendarScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1" style={safeAreaStyle}>
+    <SafeAreaView className="flex-1" style={style.safeAreaStyle}>
       <View className="flex-1 ">
         <Text>CalendarScreen</Text>
       </View>

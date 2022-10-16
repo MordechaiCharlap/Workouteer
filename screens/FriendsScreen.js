@@ -10,7 +10,7 @@ import {
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/ResponsiveSafeView";
+import safeAreaStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 
 const friendsData = [

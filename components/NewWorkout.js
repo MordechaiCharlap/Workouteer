@@ -12,7 +12,7 @@ import WorkoutStartingTime from "./WorkoutStartingTime";
 import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
 import WorkoutDescription from "./WorkoutDescription";
 import * as appStyle from "./AppStyleSheet";
-import WorkoutLocation from "./WorkoutLocation";
+import style from "./ResponsiveStyling";
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -65,15 +65,18 @@ const NewWorkout = (props) => {
     }
   };
   return (
-    <View className="flex-1">
+    <View
+      className={`flex-1 rounded-xl p-2 ${props.display}`}
+      style={style.newWorkoutScrollView}
+    >
       <ScrollView
-        className={`rounded-xl content-center bottom-0 ${props.display}`}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        className={`rounded-xl content-center  mb-20`}
         style={{
           backgroundColor: appStyle.appGray,
           opacity: props.opacity,
-          width: "90%",
         }}
-        contentContainerStyle={{ flexGrow: 1 }}
       >
         <View className="pt-4 pb-2 rounded mb-5">
           <WorkoutType typeSelected={typeSelected} />
@@ -90,9 +93,6 @@ const NewWorkout = (props) => {
         <View className="pb-2 rounded mb-5">
           <WorkoutDescription descChanged={setDesc} />
         </View>
-        {/* <View className="pb-2 rounded mb-5">
-        <WorkoutLocation locationSelected={setLocation} />
-      </View> */}
         <TouchableOpacity
           style={{
             marginHorizontal: "auto",
@@ -114,6 +114,17 @@ const NewWorkout = (props) => {
             Next
           </Text>
         </TouchableOpacity>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
+        <Text>sfafasf</Text>
       </ScrollView>
     </View>
   );
