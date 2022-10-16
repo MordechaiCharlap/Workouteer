@@ -14,7 +14,8 @@ const NewWorkout = (props) => {
   const [location, setLocation] = useState(null);
   const [desc, setDesc] = useState("");
   const [isNextDisabled, setIsNextDisabled] = useState(true);
-  const [nextButtonTextColor, setNextButtonTextColor] = useState("#f7cb99");
+  const [nextButtonTextColor, setNextButtonTextColor] = useState("white");
+  const [nextButtonColor, setNextButtonColor] = useState("black");
   const typeSelected = (id) => {
     setType(id);
     checkIfCanAddWorkout();
@@ -45,23 +46,24 @@ const NewWorkout = (props) => {
       type != null &&
       startingTime != null &&
       minutes != null &&
-      location != null &&
       waitingTime != null
     ) {
       setIsNextDisabled(false);
       setNextButtonTextColor(appStyle.appDarkBlue);
+      setNextButtonColor("white");
     } else {
       setIsNextDisabled(true);
-      setNextButtonTextColor("#f7cb99");
+      setNextButtonTextColor("white");
+      setNextButtonColor("black");
     }
   };
   return (
     <Animated.View
       className="rounded-xl items-center content-center"
       style={{
+        backgroundColor: "#E5E5E5",
         opacity: props.opacity,
         display: props.display,
-        backgroundColor: appStyle.appYellow,
         width: "90%",
         height: "100%",
       }}
@@ -88,7 +90,7 @@ const NewWorkout = (props) => {
           marginBottom: 15,
           paddingHorizontal: 6,
           paddingVertical: 2,
-          backgroundColor: appStyle.appOrange,
+          backgroundColor: nextButtonColor,
         }}
         disabled={isNextDisabled}
         className="rounded-lg shadow"
