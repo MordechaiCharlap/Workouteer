@@ -60,13 +60,12 @@ const NewWorkout = (props) => {
   };
   return (
     <Animated.View
-      className="rounded-xl items-center content-center"
+      className={`rounded-xl items-center content-center ${props.display}`}
       style={{
-        backgroundColor: "#E5E5E5",
+        backgroundColor: appStyle.appGray,
         opacity: props.opacity,
-        display: props.display,
         width: "90%",
-        height: "100%",
+        height: "auto",
       }}
     >
       <View className="pt-4 pb-2 rounded mb-5">
@@ -89,7 +88,6 @@ const NewWorkout = (props) => {
       </View> */}
       <TouchableOpacity
         style={{
-          width: "fit-content",
           marginHorizontal: "auto",
           marginBottom: 15,
           paddingHorizontal: 6,
@@ -97,7 +95,7 @@ const NewWorkout = (props) => {
           backgroundColor: nextButtonColor,
         }}
         disabled={isNextDisabled}
-        className="rounded-lg shadow"
+        className="rounded-lg shadow w-fit"
         onPress={workoutAdded}
       >
         <Text

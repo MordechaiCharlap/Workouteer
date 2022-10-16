@@ -18,12 +18,10 @@ const NavbarButton = (props) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.selectedButtonText}>{props.screen}</Text>
         <View
+          className="mt-1 pt-1 h-1"
           style={{
             backgroundColor: appStyle.appDarkBlue,
-            marginTop: "0.2rem",
-            height: "0.1rem",
             width: "100%",
-            paddingTop: "0.2rem",
           }}
         />
       </TouchableOpacity>
@@ -39,10 +37,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: appStyle.appDarkBlue,
-    fontWeight: 400,
+    // fontWeight: 400,
   },
   selectedButtonText: {
-    fontWeight: 500,
+    // fontWeight: 500,
     color: appStyle.appDarkBlue,
   },
 });

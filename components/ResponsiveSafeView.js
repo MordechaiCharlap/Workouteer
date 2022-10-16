@@ -14,10 +14,7 @@ if (Platform.OS == "web") {
   safeArea = StyleSheet.create({
     safeAreaStyle: {
       flex: 1,
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       backgroundColor: appStyle.appAzure,
-      backgroundColor: "white",
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
   });
 export default safeArea.safeAreaStyle;

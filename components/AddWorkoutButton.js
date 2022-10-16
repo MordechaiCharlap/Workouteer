@@ -72,7 +72,7 @@ const AddWorkoutButton = () => {
       }).start();
 
       const timer = setTimeout(() => {
-        setNewWorkoutDisplay("none");
+        setNewWorkoutDisplay("hidden");
         Animated.spring(addButtonMarginTop, {
           toValue: 300,
           duration: (animationMiliSec * 2) / 3,
@@ -83,7 +83,7 @@ const AddWorkoutButton = () => {
       return () => clearTimeout(timer);
     } else {
       setAdd(false);
-      setNewWorkoutDisplay("none");
+      setNewWorkoutDisplay("hidden");
       setNewWorkoutOpacity(0);
       setAddButtonMarginTop(300);
     }
@@ -94,7 +94,6 @@ const AddWorkoutButton = () => {
       <Animated.View
         style={{
           width: "100%",
-          height: "100%",
           marginTop: addButtonMarginTop,
           alignItems: "center",
         }}

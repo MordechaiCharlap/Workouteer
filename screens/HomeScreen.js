@@ -15,7 +15,7 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={safeAreaStyle} className=" flex-1">
+    <SafeAreaView style={safeAreaStyle} className="flex-1">
       <UserUpperBanner />
       <AddWorkoutButton />
       <BottomNavbar currentScreen="Home" />

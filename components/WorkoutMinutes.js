@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   label: {
     position: "absolute",
-    fontWeight: 450,
+    // fontWeight: 450,
     color: appStyle.appDarkBlue,
     backgroundColor: appStyle.appYellow,
     left: 22,
@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     color: appStyle.appDarkBlue,
-    fontWeight: 600,
+    // fontWeight: 600,
     fontSize: 16,
   },
   selectedTextStyle: {
-    fontWeight: 600,
+    // fontWeight: 600,
     color: appStyle.appDarkBlue,
     fontSize: 16,
   },

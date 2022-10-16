@@ -27,7 +27,7 @@ export default WorkoutDescription;
 
 const style = StyleSheet.create({
   label: {
-    fontWeight: 500,
+    // fontWeight: 500,
     color: appStyle.appDarkBlue,
   },
 });
