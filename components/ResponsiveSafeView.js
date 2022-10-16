@@ -6,7 +6,7 @@ if (Platform.OS == "web") {
     safeAreaStyle: {
       alignSelf: "center",
       height: "100%",
-      aspectRatio: "412/915",
+      aspectRatio: "9/19",
       backgroundColor: appStyle.appAzure,
     },
   });

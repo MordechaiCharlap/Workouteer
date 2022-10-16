@@ -46,24 +46,24 @@ const WorkoutType = (props) => {
     setChosenType(id);
   };
   return (
-    <View className="items-center w-full">
+    <View className="h-40">
       <FlatList
         showsHorizontalScrollIndicator={isWeb}
+        className="w-auto rounded-lg"
         initialScrollIndex={0.8}
-        style={{ padding: 4, width: "95%" }}
-        className="rounded-lg"
         data={workoutTypes}
         keyExtractor={(item) => item.id}
         horizontal
         renderItem={({ item }) => (
           <TouchableOpacity
+            className="bg-green-400"
             onPress={() => {
               typeClicked(item.id);
             }}
           >
             <View
               style={{ backgroundColor: getBackgroundColor(item.id) }}
-              className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg`}
+              className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
             >
               <FontAwesomeIcon
                 color={getTextColor(item.id)}

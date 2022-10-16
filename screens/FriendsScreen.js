@@ -109,12 +109,12 @@ const FriendsScreen = () => {
             }}
             className="shadow rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row"
           >
-            <View className="items-center" style={{ aspectRatio: "1/1" }}>
+            <View className="items-center aspect-square">
               <Image
                 source={{
                   uri: item.img,
                 }}
-                className="rounded-full "
+                className="rounded-full aspect-square"
                 style={style.profileImg}
               />
             </View>
@@ -139,15 +139,13 @@ const FriendsScreen = () => {
 const style = StyleSheet.create({
   profileImg: {
     borderColor: appStyle.appDarkBlue,
-    borderWidth: "0.1rem",
-    position: "absolute" /* Take your picture out of the flow */,
+    borderWidth: 0.1,
     top: 0,
     bottom: 0,
     left: 0,
     right: 0 /* Make the picture taking the size of it's parent */,
     // width: "100%" /* This if for the object-fit */,
     width: "100%" /* This if for the object-fit */,
-    aspectRatio: "1/1",
     objectFit:
       "cover" /* Equivalent of the background-size: cover; of a background-image */,
     objectPosition: "center",

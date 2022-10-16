@@ -1,4 +1,10 @@
-import { View, Text, Animated, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Animated,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
@@ -59,55 +65,57 @@ const NewWorkout = (props) => {
     }
   };
   return (
-    <Animated.View
-      className={`rounded-xl items-center content-center ${props.display}`}
-      style={{
-        backgroundColor: appStyle.appGray,
-        opacity: props.opacity,
-        width: "90%",
-        height: "auto",
-      }}
-    >
-      <View className="pt-4 pb-2 rounded mb-5">
-        <WorkoutType typeSelected={typeSelected} />
-      </View>
-      <View className="pb-2 rounded mb-5">
-        <WorkoutMinutes minutesSelected={minutesSelected} />
-      </View>
-      <View className="pb-2 rounded mb-5">
-        <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
-      </View>
-      <View className="pb-2 rounded mb-5">
-        <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
-      </View>
-      <View className="pb-2 rounded mb-5">
-        <WorkoutDescription descChanged={setDesc} />
-      </View>
-      {/* <View className="pb-2 rounded mb-5">
+    <View className="flex-1">
+      <ScrollView
+        className={`rounded-xl content-center bottom-0 ${props.display}`}
+        style={{
+          backgroundColor: appStyle.appGray,
+          opacity: props.opacity,
+          width: "90%",
+        }}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View className="pt-4 pb-2 rounded mb-5">
+          <WorkoutType typeSelected={typeSelected} />
+        </View>
+        <View className="pb-2 rounded mb-5">
+          <WorkoutMinutes minutesSelected={minutesSelected} />
+        </View>
+        <View className="pb-2 rounded mb-5">
+          <WorkoutStartingTime startingTimeSelected={startingTimeSelected} />
+        </View>
+        <View className="pb-2 rounded mb-5">
+          <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
+        </View>
+        <View className="pb-2 rounded mb-5">
+          <WorkoutDescription descChanged={setDesc} />
+        </View>
+        {/* <View className="pb-2 rounded mb-5">
         <WorkoutLocation locationSelected={setLocation} />
       </View> */}
-      <TouchableOpacity
-        style={{
-          marginHorizontal: "auto",
-          marginBottom: 15,
-          paddingHorizontal: 6,
-          paddingVertical: 2,
-          backgroundColor: nextButtonColor,
-        }}
-        disabled={isNextDisabled}
-        className="rounded-lg shadow w-fit"
-        onPress={workoutAdded}
-      >
-        <Text
+        <TouchableOpacity
           style={{
-            color: nextButtonTextColor,
+            marginHorizontal: "auto",
+            marginBottom: 15,
+            paddingHorizontal: 6,
+            paddingVertical: 2,
+            backgroundColor: nextButtonColor,
           }}
-          className="text-center text-2xl font-semibold w-fit"
+          disabled={isNextDisabled}
+          className="rounded-lg shadow w-fit"
+          onPress={workoutAdded}
         >
-          Next
-        </Text>
-      </TouchableOpacity>
-    </Animated.View>
+          <Text
+            style={{
+              color: nextButtonTextColor,
+            }}
+            className="text-center text-2xl font-semibold w-fit"
+          >
+            Next
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
 
