@@ -8,6 +8,11 @@ const AddWorkoutButton = () => {
   // var addButtonMarginTop;
   const [newWorkoutOpacity, setNewWorkoutOpacity] = useState(0);
   const [addButtonMarginTop, setAddButtonMarginTop] = useState(300);
+
+  const animationMiliSec = 1500;
+  const [isAdd, setAdd] = useState(false);
+  const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
+
   useEffect(() => {
     if (useAnimate) {
       newWorkoutOpacity = new Animated.Value(1);
@@ -25,9 +30,6 @@ const AddWorkoutButton = () => {
       }).start();
     }
   }, []);
-  const animationMiliSec = 1500;
-  const [isAdd, setAdd] = useState(false);
-  const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
 
   const workoutButtonClicked = () => {
     if (!isAdd) addWorkoutIn();

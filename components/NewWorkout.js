@@ -1,5 +1,5 @@
 import { View, Text, Animated, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WorkoutType from "./WorkoutType";
 import WorkoutMinutes from "./WorkoutMinutes";
 import WorkoutStartingTime from "./WorkoutStartingTime";
@@ -17,42 +17,42 @@ const NewWorkout = (props) => {
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [nextButtonTextColor, setNextButtonTextColor] = useState("white");
   const [nextButtonColor, setNextButtonColor] = useState("black");
+
+  useEffect(() => {
+    checkIfCanAddWorkout();
+  }, [type, startingTime, minutes, waitingTime]);
   const typeSelected = (id) => {
     setType(id);
-    checkIfCanAddWorkout();
   };
 
   const startingTimeSelected = (time) => {
     setStartingTime(time);
-    checkIfCanAddWorkout();
   };
 
   const minutesSelected = (minutes) => {
     setMinutes(minutes);
-    checkIfCanAddWorkout();
   };
   const waitingTimeSelected = (minutes) => {
     setWaitingTime(minutes);
-    checkIfCanAddWorkout();
   };
 
   const locationSelected = (id) => {
     setLocation(id);
-    checkIfCanAddWorkout();
   };
   const workoutAdded = () => {};
   const checkIfCanAddWorkout = () => {
-    console.log("check if can add");
     if (
       type != null &&
       startingTime != null &&
       minutes != null &&
       waitingTime != null
     ) {
+      console.log("can add workout");
       setIsNextDisabled(false);
       setNextButtonTextColor(appStyle.appDarkBlue);
       setNextButtonColor("white");
     } else {
+      console.log("cant add workout");
       setIsNextDisabled(true);
       setNextButtonTextColor("white");
       setNextButtonColor("black");
