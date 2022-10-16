@@ -3,25 +3,32 @@ import { React, useEffect, useRef, useState } from "react";
 import NewWorkout from "./NewWorkout";
 import * as appStyle from "./AppStyleSheet";
 const AddWorkoutButton = () => {
-  const addWorkoutOpacity = useRef(new Animated.Value(0)).current;
-  const addButtonMarginTop = useRef(new Animated.Value(500)).current;
-  const addButtonOpacity = useRef(new Animated.Value(0)).current;
+  const useAnimate = false;
+  // var newWorkoutOpacity;
+  // var addButtonMarginTop;
+  const [newWorkoutOpacity, setNewWorkoutOpacity] = useState(0);
+  const [addButtonMarginTop, setAddButtonMarginTop] = useState(300);
+  useEffect(() => {
+    if (useAnimate) {
+      newWorkoutOpacity = new Animated.Value(1);
+      addButtonMarginTop = new Animated.Value(20);
+
+      Animated.spring(addButtonMarginTop, {
+        toValue: 300,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(newWorkoutOpacity, {
+        toValue: 1,
+        duration: animationMiliSec,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, []);
   const animationMiliSec = 1500;
   const [isAdd, setAdd] = useState(false);
   const [newWorkoutDisplay, setNewWorkoutDisplay] = useState("none");
-  useEffect(() => {
-    console.log("layouteffect");
-    Animated.spring(addButtonMarginTop, {
-      toValue: 300,
-      duration: 2000,
-      useNativeDriver: false,
-    }).start();
-    Animated.timing(addButtonOpacity, {
-      toValue: 1,
-      duration: animationMiliSec,
-      useNativeDriver: false,
-    }).start();
-  }, []);
+
   const workoutButtonClicked = () => {
     if (!isAdd) addWorkoutIn();
     else addWorkoutOut();
@@ -29,42 +36,55 @@ const AddWorkoutButton = () => {
 
   const addWorkoutIn = () => {
     console.log("Queue animation in");
-
-    Animated.spring(addButtonMarginTop, {
-      toValue: 20,
-      duration: animationMiliSec,
-      useNativeDriver: false,
-    }).start();
-    const timer = setTimeout(() => {
+    if (useAnimate) {
+      Animated.spring(addButtonMarginTop, {
+        toValue: 20,
+        duration: animationMiliSec,
+        useNativeDriver: true,
+      }).start();
+      const timer = setTimeout(() => {
+        setAdd(true);
+        setNewWorkoutDisplay("block");
+        Animated.spring(newWorkoutOpacity, {
+          toValue: 1,
+          duration: animationMiliSec,
+          useNativeDriver: true,
+        }).start();
+      }, animationMiliSec / 3);
+      return () => clearTimeout(timer);
+    } else {
       setAdd(true);
       setNewWorkoutDisplay("block");
-      Animated.spring(addWorkoutOpacity, {
-        toValue: 1,
-        duration: animationMiliSec,
-        useNativeDriver: false,
-      }).start();
-    }, animationMiliSec / 3);
-    return () => clearTimeout(timer);
+      setNewWorkoutOpacity(1);
+      setAddButtonMarginTop(20);
+    }
   };
 
   const addWorkoutOut = () => {
     console.log("Queue animation out");
-    Animated.spring(addWorkoutOpacity, {
-      toValue: 0,
-      duration: animationMiliSec / 3,
-      useNativeDriver: false,
-    }).start();
-
-    const timer = setTimeout(() => {
-      setNewWorkoutDisplay("none");
-      Animated.spring(addButtonMarginTop, {
-        toValue: 300,
-        duration: (animationMiliSec * 2) / 3,
-        useNativeDriver: false,
+    if (useAnimate) {
+      Animated.spring(newWorkoutOpacity, {
+        toValue: 0,
+        duration: animationMiliSec / 3,
+        useNativeDriver: true,
       }).start();
+
+      const timer = setTimeout(() => {
+        setNewWorkoutDisplay("none");
+        Animated.spring(addButtonMarginTop, {
+          toValue: 300,
+          duration: (animationMiliSec * 2) / 3,
+          useNativeDriver: true,
+        }).start();
+        setAdd(false);
+      }, animationMiliSec / 4);
+      return () => clearTimeout(timer);
+    } else {
       setAdd(false);
-    }, animationMiliSec / 4);
-    return () => clearTimeout(timer);
+      setNewWorkoutDisplay("none");
+      setNewWorkoutOpacity(0);
+      setAddButtonMarginTop(300);
+    }
   };
 
   return (
@@ -74,7 +94,6 @@ const AddWorkoutButton = () => {
           width: "100%",
           height: "100%",
           marginTop: addButtonMarginTop,
-          opacity: addButtonOpacity,
           alignItems: "center",
         }}
       >
@@ -87,7 +106,7 @@ const AddWorkoutButton = () => {
             NEW WORKOUT
           </Text>
         </TouchableOpacity>
-        <NewWorkout display={newWorkoutDisplay} opacity={addWorkoutOpacity} />
+        <NewWorkout display={newWorkoutDisplay} opacity={newWorkoutOpacity} />
       </Animated.View>
     </View>
   );

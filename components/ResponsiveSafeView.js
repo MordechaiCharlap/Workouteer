@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, StatusBar } from "react-native";
 import * as appStyle from "./AppStyleSheet";
 var safeArea = StyleSheet.create({});
 if (Platform.OS == "web") {
