@@ -21,6 +21,7 @@ if (Platform.OS == "web") {
       height: "100%",
       flex: 1,
       backgroundColor: appStyle.appAzure,
+      paddingTop: StatusBar.currentHeight,
     },
     newWorkoutScrollView: {
       backgroundColor: appStyle.appGray,
