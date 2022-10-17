@@ -34,74 +34,93 @@ const LoginScreen = () => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1 my-16 mx-6">
-        <View
-          className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
-          style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
-        >
-          <View className="mb-3">
-            <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
-              {"Welcome :)"}
-            </Text>
-            <Text style={{ color: appStyle.appGray }}>
-              Register in a few seconds and find a partner for your next workout
-              TODAY!
-            </Text>
-          </View>
-          <View>
-            {/* focus:border-sky-500 focus:border-2 */}
-            <TextInput
-              className="rounded mb-5 px-3 py-1 focus:"
-              style={style.input}
-              placeholder="First Name"
-              placeholderTextColor={"#5f6b8b"}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-5 px-3 py-1 focus:"
-              style={style.input}
-              placeholder="Last Name"
-              placeholderTextColor={"#5f6b8b"}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-5 px-3 py-1 focus:"
-              style={style.input}
-              placeholder="Email"
-              placeholderTextColor={"#5f6b8b"}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-5 px-3 py-1"
-              style={style.input}
-              placeholder="Password"
-              placeholderTextColor={"#5f6b8b"}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-5 px-3 py-1"
-              style={style.input}
-              placeholder="Confirm Password"
-              placeholderTextColor={"#5f6b8b"}
-            ></TextInput>
-            <View className="flex-row items-center">
-              <CheckBox
-                backgroundColor={appStyle.appAzure}
-                valueColor={appStyle.appDarkBlue}
-                value={false}
-              />
-              <Text className="ml-2" style={{ color: appStyle.appAzure }}>
-                {"I agree to the "}
-              </Text>
-              <Text
-                className="font-semibold underline"
-                style={{ color: appStyle.appAzure }}
-              >
-                Terms and Conditions
-              </Text>
+      <View
+        className={`flex-1 my-16 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
+        style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
+      >
+        <View className="mb-8">
+          <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
+            {"Welcome :)"}
+          </Text>
+          <Text style={{ color: appStyle.appGray }}>
+            Register in a few seconds and find a partner for your next workout
+            TODAY!
+          </Text>
+        </View>
+        <View>
+          {/* focus:border-sky-500 focus:border-2 */}
+          <TextInput
+            className="rounded mb-5 px-3 py-1 focus:"
+            style={style.input}
+            placeholder="First Name"
+            placeholderTextColor={"#5f6b8b"}
+          ></TextInput>
+          <TextInput
+            className="rounded mb-5 px-3 py-1 focus:"
+            style={style.input}
+            placeholder="Last Name"
+            placeholderTextColor={"#5f6b8b"}
+          ></TextInput>
+          <TextInput
+            className="rounded mb-5 px-3 py-1 focus:"
+            style={style.input}
+            placeholder="Email"
+            placeholderTextColor={"#5f6b8b"}
+          ></TextInput>
+          <TextInput
+            className="rounded mb-5 px-3 py-1"
+            style={style.input}
+            placeholder="Password"
+            placeholderTextColor={"#5f6b8b"}
+          ></TextInput>
+          <TextInput
+            className="rounded mb-5 px-3 py-1"
+            style={style.input}
+            placeholder="Confirm Password"
+            placeholderTextColor={"#5f6b8b"}
+          ></TextInput>
+          <View className="flex-row items-center mb-5 justify-between">
+            <Text style={{ color: appStyle.appAzure }}>Sex:</Text>
+            <View className="flex-row flex-1 justify-around">
+              <View className="ml-2 flex-row items-center">
+                <CheckBox
+                  backgroundColor={appStyle.appAzure}
+                  valueColor={appStyle.appDarkBlue}
+                  value={false}
+                />
+                <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
+                  Male
+                </Text>
+              </View>
+              <View className="ml-2 flex-row items-center">
+                <CheckBox
+                  backgroundColor={appStyle.appAzure}
+                  valueColor={appStyle.appDarkBlue}
+                  value={false}
+                />
+                <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
+                  Female
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View
-          className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
-          style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
-        >
+          <View className="flex-row items-center mb-5">
+            <CheckBox
+              backgroundColor={appStyle.appAzure}
+              valueColor={appStyle.appDarkBlue}
+              value={false}
+            />
+            <Text className="ml-2" style={{ color: appStyle.appAzure }}>
+              {"I agree to the "}
+            </Text>
+            <Text
+              className="font-semibold underline"
+              style={{ color: appStyle.appAzure }}
+            >
+              Terms and Conditions
+            </Text>
+          </View>
+
           <TouchableOpacity
             onPressIn={registerIn}
             onPressOut={registerOut}
@@ -116,12 +135,11 @@ const LoginScreen = () => {
               className="text-center font-bold text-xl tracking-widest"
               style={{ color: registerColor }}
             >
-              Register
+              Create Account
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-
       <BottomNavbar currentScreen="Register" />
     </SafeAreaView>
   );
