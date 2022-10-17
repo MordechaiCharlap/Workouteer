@@ -1,11 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { React, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const CheckBox = (props) => {
   const [value, setValue] = useState(props.value == null ? false : props.value);
   const changeValue = () => setValue(!value);
   const style = StyleSheet.create({
     valueStyle: {
-      color: props.valueColor == null ? "black" : props.valueColor,
+      color: props.valueColor == null ? "black" : props.props.color,
+      size: props.size == null ? 25 : props.size,
     },
     checkBoxStyle: {
       backgroundColor:
@@ -14,11 +17,21 @@ const CheckBox = (props) => {
       height: props.size == null ? 25 : props.size,
     },
   });
-
+  const getBackgroundColor = () => {
+    if (value == false) {
+      return "white";
+    }
+  };
   const renderValue = () => {
     if (value != null) {
       if (value == true) {
-        return <Text style={style.valueStyle}>V</Text>;
+        return (
+          <FontAwesomeIcon
+            icon={faCheck}
+            color={style.valueStyle.color}
+            size={style.valueStyle.size}
+          />
+        );
       }
     }
   };
