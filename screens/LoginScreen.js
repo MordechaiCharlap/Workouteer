@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { React, useLayoutEffect } from "react";
+import CheckBox from "../components/CheckBox";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -19,6 +20,7 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
+  const testMethod = () => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 my-32 mx-6">
@@ -48,6 +50,7 @@ const LoginScreen = () => {
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
             ></TextInput>
+            <CheckBox backgroundColor="white" value={true} />
           </View>
           <TouchableOpacity
             className="self-center rounded py-2 px-8 w-full"
