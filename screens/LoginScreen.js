@@ -50,7 +50,16 @@ const LoginScreen = () => {
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
             ></TextInput>
-            <CheckBox backgroundColor="white" value={true} />
+            <View className="flex-row">
+              <CheckBox
+                backgroundColor={appStyle.appAzure}
+                valueColor={appStyle.appDarkBlue}
+                value={true}
+              />
+              <Text className="ml-2" style={{ color: appStyle.appAzure }}>
+                Remember me!
+              </Text>
+            </View>
           </View>
           <TouchableOpacity
             className="self-center rounded py-2 px-8 w-full"
@@ -69,10 +78,10 @@ const LoginScreen = () => {
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
           <Text
-            className="text-center tracking-widest font-bold text-xl"
+            className="text-center font-bold text-xl"
             style={{ color: appStyle.appGray }}
           >
-            REGISTER
+            Register
           </Text>
         </TouchableOpacity>
       </View>
