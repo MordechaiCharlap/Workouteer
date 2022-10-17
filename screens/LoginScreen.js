@@ -80,7 +80,7 @@ const LoginScreen = () => {
               <CheckBox
                 backgroundColor={appStyle.appAzure}
                 valueColor={appStyle.appDarkBlue}
-                value={true}
+                value={false}
               />
               <Text className="ml-2" style={{ color: appStyle.appAzure }}>
                 Remember me!
