@@ -30,3 +30,6 @@ if (Platform.OS == "web") {
     },
   });
 export default style;
+
+export const ResponsiveShadow =
+  Platform.OS == "android" ? "shadow-lg" : "shadow-sm";
