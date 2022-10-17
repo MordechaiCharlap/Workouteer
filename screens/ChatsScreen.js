@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
-import stylee from "../components/ResponsiveStyling";
+import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 
 const ChatsScreen = () => {
@@ -12,7 +12,7 @@ const ChatsScreen = () => {
     });
   });
   return (
-    <SafeAreaView className="flex-1" style={style.safeAreaStyle}>
+    <SafeAreaView className="flex-1" style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1"></View>
       <BottomNavbar currentScreen="Chats" />
     </SafeAreaView>

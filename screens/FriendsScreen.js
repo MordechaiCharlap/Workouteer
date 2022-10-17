@@ -10,7 +10,7 @@ import {
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
-import style from "../components/ResponsiveStyling";
+import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 
 const friendsData = [
@@ -95,7 +95,7 @@ const FriendsScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={style.safeAreaStyle} className="flex-1">
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle} className="flex-1">
       <FlatList
         showsVerticalScrollIndicator={false}
         className="flex-1 "
@@ -115,7 +115,7 @@ const FriendsScreen = () => {
                   uri: item.img,
                 }}
                 className="rounded-full aspect-square"
-                style={styles.profileImg}
+                style={style.profileImg}
               />
             </View>
             <View
@@ -136,7 +136,7 @@ const FriendsScreen = () => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   profileImg: {
     borderColor: appStyle.appDarkBlue,
     borderWidth: 0.1,
