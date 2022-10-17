@@ -106,25 +106,12 @@ const NewWorkout = (props) => {
           onPress={workoutAdded}
         >
           <Text
-            style={{
-              color: nextButtonTextColor,
-            }}
+            style={{ color: nextButtonTextColor }}
             className="text-center text-2xl font-semibold w-fit"
           >
             Next
           </Text>
         </TouchableOpacity>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
-        <Text>sfafasf</Text>
       </ScrollView>
     </View>
   );
