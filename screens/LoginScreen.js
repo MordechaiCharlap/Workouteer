@@ -23,11 +23,11 @@ const LoginScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 my-32 mx-6">
         <View
-          className={`mb-5 h-4/5 rounded-t-xl px-8 py-4 ${ResponsiveShadow}`}
+          className={`mb-5 basis-4/5 rounded-t-xl px-4 py-4  justify-between ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
-          <View className="mb-7">
-            <Text style={{ color: appStyle.appGray }} className="text-2xl mb-6">
+          <View className="mb-3">
+            <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
               {"Welcome :)"}
             </Text>
             <Text style={{ color: appStyle.appGray }}>
@@ -49,14 +49,25 @@ const LoginScreen = () => {
               placeholderTextColor={"#5f6b8b"}
             ></TextInput>
           </View>
+          <TouchableOpacity
+            className="self-center rounded py-2 px-8 w-full"
+            style={{ backgroundColor: appStyle.appAzure }}
+          >
+            <Text
+              className="text-center tracking-widest font-bold text-xl"
+              style={{ color: appStyle.appDarkBlue }}
+            >
+              Login
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
-          className={`h-1/5 rounded-b-xl justify-center ${ResponsiveShadow}`}
+          className={`basis-1/5 rounded-b-xl justify-center ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
           <Text
-            style={{ color: appStyle.appGray }}
             className="text-center tracking-widest font-bold text-xl"
+            style={{ color: appStyle.appGray }}
           >
             REGISTER
           </Text>
