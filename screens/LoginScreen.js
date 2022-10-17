@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { React, useLayoutEffect } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +20,33 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
-  const testMethod = () => {};
+  const [registerBackground, setRegisterBackground] = useState(
+    appStyle.appDarkBlue
+  );
+  const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
+
+  const [loginBackground, setLoginBackground] = useState(appStyle.appAzure);
+  const [loginColor, setLoginColor] = useState(appStyle.appDarkBlue);
+  const [loginBorderColor, setLoginBorderColor] = useState("transparent");
+  const registerIn = () => {
+    setRegisterBackground(appStyle.appAzure);
+    setRegisterColor(appStyle.appDarkBlue);
+  };
+  const registerOut = () => {
+    setRegisterBackground(appStyle.appDarkBlue);
+    setRegisterColor(appStyle.appAzure);
+  };
+  const loginIn = () => {
+    setLoginBackground(appStyle.appDarkBlue);
+    setLoginColor(appStyle.appAzure);
+    setLoginBorderColor(appStyle.appAzure);
+  };
+  const loginOut = () => {
+    setLoginBackground(appStyle.appAzure);
+    setLoginColor(appStyle.appDarkBlue);
+    setLoginBorderColor("transparent");
+  };
+
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 my-32 mx-6">
@@ -50,7 +76,7 @@ const LoginScreen = () => {
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
             ></TextInput>
-            <View className="flex-row">
+            <View className="flex-row items-center">
               <CheckBox
                 backgroundColor={appStyle.appAzure}
                 valueColor={appStyle.appDarkBlue}
@@ -62,12 +88,19 @@ const LoginScreen = () => {
             </View>
           </View>
           <TouchableOpacity
-            className={`self-center rounded py-2 px-8 w-full `}
-            style={{ backgroundColor: appStyle.appAzure }}
+            onPressIn={loginIn}
+            onPressOut={loginOut}
+            className={`self-center rounded py-2 px-8 w-full border-2`}
+            style={{
+              backgroundColor: loginBackground,
+              borderColor: loginBorderColor,
+            }}
           >
             <Text
               className="text-center tracking-widest font-bold text-xl"
-              style={{ color: appStyle.appDarkBlue }}
+              style={{
+                color: loginColor,
+              }}
             >
               Login
             </Text>
@@ -78,12 +111,18 @@ const LoginScreen = () => {
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
           <TouchableOpacity
-            className="flex-1 rounded-b-xl justify-center border-2"
-            style={{ borderColor: appStyle.appAzure }}
+            onPressIn={registerIn}
+            onPressOut={registerOut}
+            className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+            style={{
+              borderColor: appStyle.appAzure,
+              backgroundColor: registerBackground,
+              shadowColor: appStyle.appAzure,
+            }}
           >
             <Text
               className="text-center font-bold text-xl tracking-widest"
-              style={{ color: appStyle.appAzure }}
+              style={{ color: registerColor }}
             >
               Register
             </Text>
