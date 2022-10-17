@@ -5,6 +5,7 @@ if (Platform.OS == "web") {
   style = StyleSheet.create({
     safeAreaStyle: {
       height: "100%",
+      flex: 1,
       alignSelf: "center",
       aspectRatio: "9/19",
       backgroundColor: appStyle.appAzure,
