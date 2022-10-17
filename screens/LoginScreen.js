@@ -59,7 +59,7 @@ const LoginScreen = () => {
               {"Welcome :)"}
             </Text>
             <Text style={{ color: appStyle.appGray }}>
-              Sign in to manage your account
+              Sign in and find a partner for your next workout TODAY!
             </Text>
           </View>
           <View>

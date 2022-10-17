@@ -12,7 +12,7 @@ const BottomNavbar = (props) => {
       <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />
       <NavbarButton screen="Calendar" currentScreen={props.currentScreen} />
       <NavbarButton screen="Home" currentScreen={props.currentScreen} />
-      <NavbarButton screen="Friends" currentScreen={props.currentScreen} />
+      <NavbarButton screen="Register" currentScreen={props.currentScreen} />
       <NavbarButton screen="Login" currentScreen={props.currentScreen} />
     </View>
   );
