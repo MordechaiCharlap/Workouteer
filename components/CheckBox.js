@@ -7,7 +7,7 @@ const CheckBox = (props) => {
   const changeValue = () => setValue(!value);
   const style = StyleSheet.create({
     valueStyle: {
-      color: props.valueColor == null ? "black" : props.color,
+      color: props.valueColor == null ? "black" : props.valueColor,
       size: props.size == null ? 25 : props.size,
     },
     checkBoxStyle: {
@@ -17,11 +17,6 @@ const CheckBox = (props) => {
       height: props.size == null ? 25 : props.size,
     },
   });
-  const getBackgroundColor = () => {
-    if (value == false) {
-      return "white";
-    }
-  };
   const renderValue = () => {
     if (value != null) {
       if (value == true) {
