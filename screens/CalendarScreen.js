@@ -13,7 +13,7 @@ const CalendarScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1" style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 ">
         <Text>CalendarScreen</Text>
       </View>

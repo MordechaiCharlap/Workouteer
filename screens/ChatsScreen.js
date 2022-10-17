@@ -12,7 +12,7 @@ const ChatsScreen = () => {
     });
   });
   return (
-    <SafeAreaView className="flex-1" style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1"></View>
       <BottomNavbar currentScreen="Chats" />
     </SafeAreaView>

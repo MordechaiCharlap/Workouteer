@@ -95,7 +95,7 @@ const FriendsScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle} className="flex-1">
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <FlatList
         showsVerticalScrollIndicator={false}
         className="flex-1 "

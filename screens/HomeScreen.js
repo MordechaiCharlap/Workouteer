@@ -21,7 +21,7 @@ const HomeScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={style.safeAreaStyle} className="flex-1">
+    <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
         <UserUpperBanner />
         <AddWorkoutButton hideNavBar={changeNavDisplay} />

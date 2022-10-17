@@ -11,7 +11,7 @@ const ExploreScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle} className="flex-1">
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1"></View>
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>

@@ -30,7 +30,7 @@ const MyUserScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1" style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="items-center flex-1">
         <Image
           source={{
