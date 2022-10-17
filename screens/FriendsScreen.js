@@ -12,6 +12,7 @@ import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
+import { ResponsiveShadow } from "../components/ResponsiveStyling";
 
 const friendsData = [
   {
@@ -107,7 +108,7 @@ const FriendsScreen = () => {
               backgroundColor: appStyle.appLightBlue,
               borderColor: appStyle.appDarkBlue,
             }}
-            className="shadow rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row"
+            className={`rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row ${ResponsiveShadow}`}
           >
             <View className="items-center aspect-square">
               <Image

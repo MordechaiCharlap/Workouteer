@@ -25,7 +25,7 @@ const LoginScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 my-32 mx-6">
         <View
-          className={`mb-5 basis-4/5 rounded-t-xl px-4 py-4  justify-between ${ResponsiveShadow}`}
+          className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
           <View className="mb-3">
@@ -62,7 +62,7 @@ const LoginScreen = () => {
             </View>
           </View>
           <TouchableOpacity
-            className="self-center rounded py-2 px-8 w-full"
+            className={`self-center rounded py-2 px-8 w-full `}
             style={{ backgroundColor: appStyle.appAzure }}
           >
             <Text
@@ -73,17 +73,22 @@ const LoginScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          className={`basis-1/5 rounded-b-xl justify-center ${ResponsiveShadow}`}
+        <View
+          className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
-          <Text
-            className="text-center font-bold text-xl"
-            style={{ color: appStyle.appGray }}
+          <TouchableOpacity
+            className="flex-1 rounded-b-xl justify-center border-2"
+            style={{ borderColor: appStyle.appAzure }}
           >
-            Register
-          </Text>
-        </TouchableOpacity>
+            <Text
+              className="text-center font-bold text-xl tracking-widest"
+              style={{ color: appStyle.appAzure }}
+            >
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <BottomNavbar currentScreen="Login" />
