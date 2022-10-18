@@ -24,6 +24,27 @@ const LoginScreen = () => {
     appStyle.appDarkBlue
   );
   const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
+
+  const [maleCBValue, setMaleCBValue] = useState(false);
+  const [femaleCBValue, setFemaleCBValue] = useState(false);
+  const maleCBPressed = () => {
+    if (maleCBValue == false) {
+      setMaleCBValue(true);
+      setFemaleCBValue(false);
+      console.log("removing V on female");
+    } else {
+      setMaleCBValue(false);
+    }
+  };
+  const femaleCBPressed = () => {
+    if (femaleCBValue == false) {
+      setFemaleCBValue(true);
+      setMaleCBValue(false);
+      console.log("removing V on male");
+    } else {
+      setFemaleCBValue(false);
+    }
+  };
   const registerIn = () => {
     setRegisterBackground(appStyle.appAzure);
     setRegisterColor(appStyle.appDarkBlue);
@@ -86,7 +107,8 @@ const LoginScreen = () => {
                 <CheckBox
                   backgroundColor={appStyle.appAzure}
                   valueColor={appStyle.appDarkBlue}
-                  value={false}
+                  value={maleCBValue}
+                  onPress={maleCBPressed}
                 />
                 <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
                   Male
@@ -96,7 +118,8 @@ const LoginScreen = () => {
                 <CheckBox
                   backgroundColor={appStyle.appAzure}
                   valueColor={appStyle.appDarkBlue}
-                  value={false}
+                  value={femaleCBValue}
+                  onPress={femaleCBPressed}
                 />
                 <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
                   Female

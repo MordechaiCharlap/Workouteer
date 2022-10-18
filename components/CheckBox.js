@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const CheckBox = (props) => {
   const [value, setValue] = useState(props.value == null ? false : props.value);
-  const changeValue = () => setValue(!value);
+  const changeValue = () => {
+    setValue(!value);
+    if (props.onPress != null) props.onPress();
+  };
   const style = StyleSheet.create({
     valueStyle: {
       color: props.valueColor == null ? "black" : props.valueColor,
