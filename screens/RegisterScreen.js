@@ -38,7 +38,7 @@ const LoginScreen = () => {
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         console.log("Account created!");
         const user = userCredential.user;
       })
@@ -49,7 +49,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         console.log("signed in!");
         const user = userCredential.user;
       })
