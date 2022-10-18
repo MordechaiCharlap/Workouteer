@@ -13,13 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { authImport, firestoreImport } from "../firebase-config";
+import { authImport } from "../firebase-config";
+import useUserData from "../hooks/useUserData";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -28,7 +27,6 @@ const LoginScreen = () => {
     });
   }, []);
   const auth = authImport;
-  const firestore = firestoreImport;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +34,6 @@ const LoginScreen = () => {
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-        console.log("Account created!");
         handleLogin();
       })
       .catch((error) => {
@@ -47,10 +44,10 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async () => {
         console.log("signed in!");
-        const user = userCredential.user;
-        navigation.navigate("Home");
+        const userData = await useUserData(email);
+        console.log(userData);
       })
       .catch((error) => {
         console.log(error);
