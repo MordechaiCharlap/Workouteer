@@ -7,33 +7,45 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase-config";
+import { authImport, firestoreImport } from "../firebase-config";
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const auth = authImport;
+  const firestore = firestoreImport;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+    test();
   }, []);
-
+  const test = async () => {
+    const q = query(
+      collection(firestore, "users"),
+      where("username", "==", "Fasteriko")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
