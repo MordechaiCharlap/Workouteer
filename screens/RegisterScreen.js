@@ -38,9 +38,9 @@ const LoginScreen = () => {
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         console.log("Account created!");
-        const user = userCredential.user;
+        handleLogin();
       })
       .catch((error) => {
         console.log(error);
@@ -52,6 +52,7 @@ const LoginScreen = () => {
       .then((userCredential) => {
         console.log("signed in!");
         const user = userCredential.user;
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
@@ -204,7 +205,6 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <BottomNavbar currentScreen="Register" />
     </SafeAreaView>
   );
 };
