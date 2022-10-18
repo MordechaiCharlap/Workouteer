@@ -40,6 +40,7 @@ const LoginScreen = () => {
       .then((userCredential) => {
         console.log("signed in!");
         const user = userCredential.user;
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
@@ -158,8 +159,6 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <BottomNavbar currentScreen="Login" />
     </SafeAreaView>
   );
 };
