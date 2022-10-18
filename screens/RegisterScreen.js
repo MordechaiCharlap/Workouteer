@@ -19,9 +19,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase-config";
-
+import { authImport, firestoreImport } from "../firebase-config";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -29,12 +27,11 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
+  const auth = authImport;
+  const firestore = firestoreImport;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
