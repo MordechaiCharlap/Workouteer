@@ -13,6 +13,14 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../firebase-config";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -20,6 +28,24 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log("signed in!");
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const [registerBackground, setRegisterBackground] = useState(
     appStyle.appDarkBlue
   );
@@ -69,12 +95,14 @@ const LoginScreen = () => {
               style={style.input}
               placeholder="Email"
               placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setEmail(text)}
             ></TextInput>
             <TextInput
               className="rounded mb-5 px-3 py-1"
               style={style.input}
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setPassword(text)}
             ></TextInput>
             <View className="flex-row items-center">
               <CheckBox
@@ -88,6 +116,7 @@ const LoginScreen = () => {
             </View>
           </View>
           <TouchableOpacity
+            onPress={handleLogin}
             onPressIn={loginIn}
             onPressOut={loginOut}
             className={`self-center rounded py-2 px-8 w-full border-2`}

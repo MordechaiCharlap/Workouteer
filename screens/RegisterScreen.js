@@ -13,6 +13,15 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../firebase-config";
+
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -20,6 +29,35 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleCreateAccount = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log("Account created!");
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log("signed in!");
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const [registerBackground, setRegisterBackground] = useState(
     appStyle.appDarkBlue
   );
@@ -145,6 +183,7 @@ const LoginScreen = () => {
           </View>
 
           <TouchableOpacity
+            onPress={handleCreateAccount}
             onPressIn={registerIn}
             onPressOut={registerOut}
             className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
