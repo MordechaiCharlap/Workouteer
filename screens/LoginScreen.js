@@ -7,52 +7,33 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import { authImport, firestoreImport } from "../firebase-config";
+import { authImport } from "../firebase-config";
+import useUserData from "../hooks/useUserData";
 const LoginScreen = () => {
   const navigation = useNavigation();
   const auth = authImport;
-  const firestore = firestoreImport;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-    test();
   }, []);
-  const test = async () => {
-    const q = query(
-      collection(firestore, "users"),
-      where("username", "==", "Fasteriko")
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
-  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async () => {
         console.log("signed in!");
-        const user = userCredential.user;
-        navigation.navigate("Home");
+        const userData = await useUserData(email);
+        console.log(userData);
       })
       .catch((error) => {
         console.log(error);
