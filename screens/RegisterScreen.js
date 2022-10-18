@@ -125,12 +125,14 @@ const LoginScreen = () => {
             style={style.input}
             placeholder="Email"
             placeholderTextColor={"#5f6b8b"}
+            onChangeText={(text) => setEmail(text)}
           ></TextInput>
           <TextInput
             className="rounded mb-5 px-3 py-1"
             style={style.input}
             placeholder="Password"
             placeholderTextColor={"#5f6b8b"}
+            onChangeText={(text) => setPassword(text)}
           ></TextInput>
           <TextInput
             className="rounded mb-5 px-3 py-1"
