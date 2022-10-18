@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
-import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
@@ -44,7 +43,8 @@ const LoginScreen = () => {
         handleLogin();
       })
       .catch((error) => {
-        Alert.alert(error);
+        console.log(error);
+        Alert.alert(error.message);
       });
   };
 
@@ -57,7 +57,7 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         console.log(error);
-        Alert.alert(error);
+        Alert.alert(error.message);
       });
   };
 
