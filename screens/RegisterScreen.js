@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -43,7 +44,7 @@ const LoginScreen = () => {
         handleLogin();
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert(error);
       });
   };
 
@@ -56,6 +57,7 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         console.log(error);
+        Alert.alert(error);
       });
   };
 

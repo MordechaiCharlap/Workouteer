@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -43,7 +44,7 @@ const LoginScreen = () => {
         navigation.navigate("Home");
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert(error);
       });
   };
 
