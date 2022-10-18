@@ -137,6 +137,7 @@ const LoginScreen = () => {
           <TouchableOpacity
             onPressIn={registerIn}
             onPressOut={registerOut}
+            onPress={() => navigation.navigate("Register")}
             className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
             style={{
               borderColor: appStyle.appAzure,
