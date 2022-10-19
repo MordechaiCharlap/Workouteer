@@ -1,16 +1,9 @@
-import {
-  Image,
-  SafeAreaView,
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
-import React, { useLayoutEffect } from "react";
+import { Image, SafeAreaView, View, Text, StyleSheet } from "react-native";
+import { React, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-
+import authContext from "../context/authContext";
 const userData = {
   firstName: "Moti",
   lastName: "Charlap",
@@ -21,14 +14,25 @@ const userData = {
   friendsCount: 23,
 };
 const MyUserScreen = () => {
-  const navigation = useNavigation();
+  const { user } = useContext(authContext);
+  const calculateAge = () => {
+    const birthdate = user.birthdate.toDate();
+    var today = new Date();
+    var age = today.getFullYear() - birthdate.getFullYear();
+    var m = today.getMonth() - birthdate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+      age--;
+    }
+    console.log(age);
+    return age;
+  };
 
+  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="items-center flex-1">
@@ -38,13 +42,13 @@ const MyUserScreen = () => {
           }}
           className="h-60 w-60 bg-white rounded-full mt-8 mb-5"
         />
-        <Text className="font-bold text-3xl">{userData.username}</Text>
+        <Text className="font-bold text-3xl">{user.username}</Text>
         <View className="flex-row justify-around w-full ">
           <View className="leftView">
             <Text
               style={styles.text}
-            >{`Name: ${userData.firstName} ${userData.lastName}`}</Text>
-            <Text style={styles.text}>{`Age: ${userData.age}`}</Text>
+            >{`Name: ${user.firstName} ${user.lastName}`}</Text>
+            <Text style={styles.text}>{`Age: ${calculateAge()}`}</Text>
           </View>
           <View className="rightView">
             <Text style={styles.text}>{`Workouts: ${userData.workouts}`}</Text>
