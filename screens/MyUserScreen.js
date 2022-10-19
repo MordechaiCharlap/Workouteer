@@ -6,12 +6,9 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { TouchableOpacity } from "react-native-web";
 const userData = {
-  firstName: "Moti",
-  lastName: "Charlap",
-  username: "Fasteriko",
   league: "Emerald",
-  age: 24,
   workouts: 53,
   friendsCount: 23,
 };
@@ -37,30 +34,39 @@ const MyUserScreen = () => {
   }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="items-center flex-1">
-        <Image
-          source={{
-            uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
-          }}
-          className="h-60 w-60 bg-white rounded-full mt-8 mb-5"
-        />
-        <Text className="font-bold text-3xl">{user.username}</Text>
-        <View className="flex-row justify-around w-full ">
-          <View className="leftView">
-            <Text
-              style={styles.text}
-            >{`Name: ${user.firstName} ${user.lastName}`}</Text>
-            <Text style={styles.text}>{`Age: ${calculateAge()}`}</Text>
-          </View>
-          <View className="rightView">
-            <Text style={styles.text}>{`Workouts: ${userData.workouts}`}</Text>
-            <Text
-              style={styles.text}
-            >{`Friends: ${userData.friendsCount}`}</Text>
+      <View className="flex-1">
+        <View className="flex-row-reverse p-3">
+          <TouchableOpacity>
+            <FontAwesomeIcon icon={faPencil} size={50} />
+          </TouchableOpacity>
+        </View>
+        <View className="flex-1 items-center">
+          <Image
+            source={{
+              uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
+            }}
+            className="h-60 w-60 bg-white rounded-full mt-8 mb-5"
+          />
+          <Text className="font-bold text-3xl">{user.username}</Text>
+          <View className="flex-row justify-around w-full ">
+            <View className="leftView">
+              <Text
+                style={styles.text}
+              >{`Name: ${user.firstName} ${user.lastName}`}</Text>
+              <Text style={styles.text}>{`Age: ${calculateAge()}`}</Text>
+            </View>
+            <View className="rightView">
+              <Text
+                style={styles.text}
+              >{`Workouts: ${userData.workouts}`}</Text>
+              <Text
+                style={styles.text}
+              >{`Friends: ${userData.friendsCount}`}</Text>
+            </View>
           </View>
         </View>
+        <BottomNavbar currentScreen="MyUser" />
       </View>
-      <BottomNavbar currentScreen="MyUser" />
     </SafeAreaView>
   );
 };
