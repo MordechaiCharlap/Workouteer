@@ -17,8 +17,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { authImport } from "../firebase-config";
+import { authImport, firestoreImport } from "../firebase-config";
 import useUserData from "../hooks/useUserData";
+import useCheckUsername from "../hooks/useCheckUsername";
+import useCheckEmail from "../hooks/userCheckEmail";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -29,17 +31,29 @@ const LoginScreen = () => {
   const auth = authImport;
 
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        handleLogin();
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
+  const handleCreateAccount = async () => {
+    var isUserAvailable = await useCheckUsername(username);
+    var isEmailAvailable = await useCheckEmail(email);
+    if (username.length >= 6) {
+      if (isUserAvailable) {
+        console.log(username);
+        console.log("username is good");
+        if (isEmailAvailable) {
+          console.log(email);
+          console.log("email is good");
+          handleLogin();
+        } else {
+          console.log("email isnt available");
+        }
+      } else {
+        console.log("Username isnt available");
+      }
+    } else {
+      console.log("Username too small (6+ characters)");
+    }
   };
 
   const handleLogin = () => {
@@ -59,27 +73,6 @@ const LoginScreen = () => {
     appStyle.appDarkBlue
   );
   const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
-
-  const [maleCBValue, setMaleCBValue] = useState(false);
-  const [femaleCBValue, setFemaleCBValue] = useState(false);
-  const maleCBPressed = () => {
-    if (maleCBValue == false) {
-      setMaleCBValue(true);
-      setFemaleCBValue(false);
-      console.log("removing V on female");
-    } else {
-      setMaleCBValue(false);
-    }
-  };
-  const femaleCBPressed = () => {
-    if (femaleCBValue == false) {
-      setFemaleCBValue(true);
-      setMaleCBValue(false);
-      console.log("removing V on male");
-    } else {
-      setFemaleCBValue(false);
-    }
-  };
   const registerIn = () => {
     setRegisterBackground(appStyle.appAzure);
     setRegisterColor(appStyle.appDarkBlue);
@@ -104,25 +97,19 @@ const LoginScreen = () => {
           </Text>
         </View>
         <View>
-          {/* focus:border-sky-500 focus:border-2 */}
-          <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
-            style={style.input}
-            placeholder="First Name"
-            placeholderTextColor={"#5f6b8b"}
-          ></TextInput>
-          <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
-            style={style.input}
-            placeholder="Last Name"
-            placeholderTextColor={"#5f6b8b"}
-          ></TextInput>
           <TextInput
             className="rounded mb-5 px-3 py-1 focus:"
             style={style.input}
             placeholder="Email"
             placeholderTextColor={"#5f6b8b"}
             onChangeText={(text) => setEmail(text)}
+          ></TextInput>
+          <TextInput
+            className="rounded mb-5 px-3 py-1 focus:"
+            style={style.input}
+            placeholder="Username (Your app screen name)"
+            placeholderTextColor={"#5f6b8b"}
+            onChangeText={(text) => setUsername(text)}
           ></TextInput>
           <TextInput
             className="rounded mb-5 px-3 py-1"
@@ -140,33 +127,6 @@ const LoginScreen = () => {
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <View className="flex-row items-center mb-5 justify-between">
-            <Text style={{ color: appStyle.appAzure }}>Sex:</Text>
-            <View className="flex-row flex-1 justify-around">
-              <View className="ml-2 flex-row items-center">
-                <CheckBox
-                  backgroundColor={appStyle.appAzure}
-                  valueColor={appStyle.appDarkBlue}
-                  value={maleCBValue}
-                  onPress={maleCBPressed}
-                />
-                <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
-                  Male
-                </Text>
-              </View>
-              <View className="ml-2 flex-row items-center">
-                <CheckBox
-                  backgroundColor={appStyle.appAzure}
-                  valueColor={appStyle.appDarkBlue}
-                  value={femaleCBValue}
-                  onPress={femaleCBPressed}
-                />
-                <Text style={{ color: appStyle.appAzure, marginLeft: 3 }}>
-                  Female
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View className="flex-row items-center mb-5">
             <CheckBox
               backgroundColor={appStyle.appAzure}
               valueColor={appStyle.appDarkBlue}
