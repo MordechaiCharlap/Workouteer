@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState, useContext, useEffect } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -16,7 +16,9 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { authImport } from "../firebase-config";
 import useUserData from "../hooks/useUserData";
+import AuthContext from "../context/authContext";
 const LoginScreen = () => {
+  const { user, setUser } = useContext(AuthContext);
   const navigation = useNavigation();
   const auth = authImport;
   useLayoutEffect(() => {
@@ -32,8 +34,11 @@ const LoginScreen = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async () => {
         console.log("signed in!");
+
         const userData = await useUserData(email);
         console.log(userData);
+        setUser(userData);
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
