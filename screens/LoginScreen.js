@@ -94,6 +94,7 @@ const LoginScreen = () => {
             ></TextInput>
             <TextInput
               className="rounded mb-5 px-3 py-1"
+              secureTextEntry={true}
               style={style.input}
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
