@@ -16,9 +16,9 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { authImport } from "../firebase-config";
 import useUserData from "../hooks/useUserData";
-import AuthContext from "../context/authContext";
+import authContext from "../context/authContext";
 const LoginScreen = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(authContext);
   const navigation = useNavigation();
   const auth = authImport;
   useLayoutEffect(() => {
