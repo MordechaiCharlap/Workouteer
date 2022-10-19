@@ -1,7 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "./AppStyleSheet";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";

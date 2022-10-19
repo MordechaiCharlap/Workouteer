@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 const userData = {
   firstName: "Moti",
   lastName: "Charlap",

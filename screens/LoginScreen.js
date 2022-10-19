@@ -35,7 +35,7 @@ const LoginScreen = () => {
       .then(async () => {
         console.log("signed in!");
 
-        const userData = await useUserData(email);
+        const userData = await useUserData(email.toLowerCase());
         console.log(userData);
         setUser(userData);
         navigation.navigate("Home");
