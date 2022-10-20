@@ -92,7 +92,7 @@ const PersonalDataScreen = () => {
             />
           </View>
 
-          <View className="border-2 border-cyan-400">
+          <View className="mb-10">
             <Text
               className="text-center text-2xl rounded-xl mb-5"
               style={{ backgroundColor: appStyle.appGray }}
