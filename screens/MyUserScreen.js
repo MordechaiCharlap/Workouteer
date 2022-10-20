@@ -13,6 +13,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import * as appStyle from "../components/AppStyleSheet";
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
   const calculateAge = () => {
@@ -36,40 +37,66 @@ const MyUserScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
-        <View className="flex-row-reverse p-3">
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={faPencil} size={50} />
-          </TouchableOpacity>
-        </View>
-        <View className="flex-1 items-center">
+        <View className="p-3">
+          <View className="flex-row-reverse">
+            <TouchableOpacity>
+              <FontAwesomeIcon icon={faPencil} size={25} />
+            </TouchableOpacity>
+          </View>
           <Image
             source={{
               uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
             }}
-            className="h-60 w-60 bg-white rounded-full mt-8 mb-5"
+            className="h-60 w-60 bg-white rounded-full mb-2 self-center"
           />
-          <Text className="font-bold text-3xl">{user.username}</Text>
-          <View className="flex-row justify-around w-full ">
-            <View className="leftView">
-              <Text
-                style={styles.text}
-              >{`Name: ${user.firstName} ${user.lastName}`}</Text>
-              <Text style={styles.text}>{`Age: ${calculateAge()}`}</Text>
+          <Text
+            className="font-bold text-3xl self-center"
+            style={{
+              color: appStyle.appDarkBlue,
+            }}
+          >
+            {user.username}
+          </Text>
+          <Text className="self-center">
+            {user.firstName} {user.lastName}, {calculateAge()}
+          </Text>
+        </View>
+        <View
+          className="rounded-t-3xl flex-1 mx-2"
+          style={{ backgroundColor: appStyle.appGray }}
+        >
+          <View
+            className="flex-row justify-around"
+            style={style.workoutAndFriends}
+          >
+            <View className="items-center">
+              <Text style={style.boldText}>{user.workoutsCount}</Text>
+              <Text style={style.text}>Workouts</Text>
             </View>
-            <View className="rightView">
-              <Text
-                style={styles.text}
-              >{`Workouts: ${user.workoutsCount}`}</Text>
-              <Text style={styles.text}>{`Friends: ${user.friendsCount}`}</Text>
+            <View className="items-center">
+              <Text style={style.boldText}>{user.friendsCount}</Text>
+              <Text style={style.text}>Friends</Text>
             </View>
           </View>
         </View>
-        <BottomNavbar currentScreen="MyUser" />
       </View>
+      <BottomNavbar currentScreen="MyUser" />
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  text: { fontSize: 20 },
+const style = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    color: appStyle.appDarkBlue,
+  },
+  boldText: {
+    fontSize: 20,
+    color: appStyle.appDarkBlue,
+    fontWeight: 500,
+  },
+  workoutAndFriends: {
+    borderBottomColor: appStyle.appAzure,
+    borderBottomWidth: 1,
+  },
 });
 export default MyUserScreen;

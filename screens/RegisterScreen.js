@@ -96,6 +96,7 @@ const LoginScreen = () => {
           usernameLower: username.toLocaleLowerCase(),
           birthdate: date,
           friendsCount: 0,
+          workoutsCount: 0,
           email: email.toLocaleLowerCase(),
         });
         navigation.navigate("Home");
