@@ -39,7 +39,7 @@ const PersonalDataScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
-        className={`flex-1 my-16 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
+        className={`flex-1 mt-6 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
         <View className="mb-8">
@@ -51,26 +51,26 @@ const PersonalDataScreen = () => {
             with the right workout buddies!
           </Text>
         </View>
-        <View>
+        <View className="flex-1">
           <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
+            className="rounded mb-5 px-3 py-1"
             style={style.input}
             placeholder="First Name"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
+            className="rounded mb-5 px-3 py-1"
             style={style.input}
             placeholder="Last Name"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
-          <View className="flex-row items-center justify-between">
-            <Text style={{ color: appStyle.appAzure }}>Sex:</Text>
+          <View className="mb-5">
             <Dropdown
               style={[
                 style.dropdown,
                 isFocus && { borderColor: appStyle.appAzure },
               ]}
+              placeholder="Sex"
               placeholderStyle={style.placeholderStyle}
               selectedTextStyle={style.selectedTextStyle}
               inputSearchStyle={style.inputSearchStyle}
@@ -91,6 +91,51 @@ const PersonalDataScreen = () => {
               }}
             />
           </View>
+
+          <View>
+            <Text
+              className="text-center text-2xl rounded-xl mb-5"
+              style={{ backgroundColor: appStyle.appGray }}
+            >
+              Workout preferences
+            </Text>
+            <Text style={style.text}>Partner's age</Text>
+            <View className="flex-row justify-around items-center mb-5">
+              <Text style={style.text}>From:</Text>
+              <TextInput
+                className="rounded px-3 py-1 w-1/3"
+                style={style.input}
+                placeholder="Minimum age"
+                value={16}
+              ></TextInput>
+              <Text style={style.text}>To - </Text>
+              <TextInput
+                className="rounded x-3 py-1 w-1/3"
+                style={style.input}
+                placeholder="Maximum age"
+                value={100}
+              ></TextInput>
+            </View>
+            <Text style={style.text}>Partner's sex</Text>
+            <View className="flex-row">
+              <View className="mx-3 flex-row">
+                <CheckBox
+                  backgroundColor={appStyle.appAzure}
+                  valueColor={appStyle.appDarkBlue}
+                  value={true}
+                />
+                <Text>Male</Text>
+              </View>
+              <View className="mx-3 flex-row">
+                <CheckBox
+                  backgroundColor={appStyle.appAzure}
+                  valueColor={appStyle.appDarkBlue}
+                  value={true}
+                />
+                <Text>Female</Text>
+              </View>
+            </View>
+          </View>
           <View className="flex-row items-center mb-5">
             <CheckBox
               backgroundColor={appStyle.appAzure}
@@ -107,11 +152,10 @@ const PersonalDataScreen = () => {
               Terms and Conditions
             </Text>
           </View>
-
           <TouchableOpacity
             onPressIn={registerIn}
             onPressOut={registerOut}
-            className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+            className={`rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
             style={{
               borderColor: appStyle.appAzure,
               backgroundColor: registerBackground,
@@ -138,14 +182,15 @@ const style = StyleSheet.create({
     borderColor: "#5f6b8b",
     color: appStyle.appGray,
   },
+  text: { color: appStyle.appGray },
   container: {
     paddingHorizontal: 16,
   },
   dropdown: {
-    height: 50,
+    height: 30,
     borderColor: "#5f6b8b",
     borderWidth: 0.5,
-    borderRadius: 8,
+    borderRadius: 4,
     paddingHorizontal: 8,
   },
   icon: {
