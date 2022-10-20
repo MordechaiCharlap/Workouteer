@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Alert,
+  Platform,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -13,12 +14,10 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 import { authImport, firestoreImport } from "../firebase-config";
-import useUserData from "../hooks/useUserData";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import useCheckUsername from "../hooks/useCheckUsername";
 import useCheckEmail from "../hooks/userCheckEmail";
 const LoginScreen = () => {
@@ -29,11 +28,25 @@ const LoginScreen = () => {
     });
   }, []);
   const auth = authImport;
-
+  const firestore = firestoreImport;
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [show, setShow] = useState(false);
+  const [changedOnce, setChangeOnce] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+    setShow(false);
+    setChangeOnce(true);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
   const handleCreateAccount = async () => {
     var isUserAvailable = await useCheckUsername(username);
     var isEmailAvailable = await useCheckEmail(email);
@@ -55,13 +68,15 @@ const LoginScreen = () => {
       console.log("Username too small (6+ characters)");
     }
   };
-
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(async () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
         console.log("signed in!");
-        const userData = await useUserData(email);
-        console.log(userData);
+        await setDoc(doc(firestore, "users", userCredential.user.uid), {
+          username: username,
+          usernameLower: username.toLocaleLowerCase(),
+          email: email.toLocaleLowerCase(),
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -111,6 +126,28 @@ const LoginScreen = () => {
             placeholderTextColor={"#5f6b8b"}
             onChangeText={(text) => setUsername(text)}
           ></TextInput>
+          <TouchableOpacity
+            className="rounded mb-5 px-3 py-1"
+            style={style.input}
+            onPress={showDatepicker}
+          >
+            {!changedOnce && (
+              <Text style={{ color: "#5f6b8b" }}>
+                birthdate (works only on Android)
+              </Text>
+            )}
+            {changedOnce && (
+              <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
+            )}
+          </TouchableOpacity>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              onChange={onChange}
+            />
+          )}
           <TextInput
             className="rounded mb-5 px-3 py-1"
             secureTextEntry={true}
