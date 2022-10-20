@@ -1,4 +1,11 @@
-import { Image, SafeAreaView, View, Text, StyleSheet } from "react-native";
+import {
+  Image,
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { React, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -6,7 +13,6 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { TouchableOpacity } from "react-native-web";
 const userData = {
   league: "Emerald",
   workouts: 53,
