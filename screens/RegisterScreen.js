@@ -48,35 +48,57 @@ const LoginScreen = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
-    var isUserAvailable = await useCheckUsername(username);
-    var isEmailAvailable = await useCheckEmail(email);
-    if (username.length >= 6) {
-      if (isUserAvailable) {
-        console.log(username);
-        console.log("username is good");
-        if (isEmailAvailable) {
-          console.log(email);
-          console.log("email is good");
-          handleLogin();
+    if (changedOnce) {
+      var age = calculateAge();
+      var isUserAvailable = await useCheckUsername(username);
+      var isEmailAvailable = await useCheckEmail(email);
+      if (age >= 16) {
+        if (username.length >= 6) {
+          if (isUserAvailable) {
+            console.log(username);
+            console.log("username is good");
+            if (isEmailAvailable) {
+              console.log(email);
+              console.log("email is good");
+              handleLogin();
+            } else {
+              console.log("email isnt available");
+            }
+          } else {
+            console.log("Username isnt available");
+          }
         } else {
-          console.log("email isnt available");
+          console.log("Username too small (6+ characters)");
         }
       } else {
-        console.log("Username isnt available");
+        console.log("Need to be >=16");
       }
     } else {
-      console.log("Username too small (6+ characters)");
+      console.log("Choose birthdate");
     }
+  };
+  const calculateAge = () => {
+    var today = new Date();
+    var age = today.getFullYear() - date.getFullYear();
+    var m = today.getMonth() - date.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
+      age--;
+    }
+    return age;
   };
   const handleLogin = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         console.log("signed in!");
+        console.log(userCredential.user.uid);
         await setDoc(doc(firestore, "users", userCredential.user.uid), {
           username: username,
           usernameLower: username.toLocaleLowerCase(),
+          birthdate: date,
+          friendsCount: 0,
           email: email.toLocaleLowerCase(),
         });
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
