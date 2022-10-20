@@ -13,10 +13,6 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
-const userData = {
-  league: "Emerald",
-  workouts: 53,
-};
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
   const calculateAge = () => {
@@ -63,7 +59,7 @@ const MyUserScreen = () => {
             <View className="rightView">
               <Text
                 style={styles.text}
-              >{`Workouts: ${userData.workouts}`}</Text>
+              >{`Workouts: ${user.workoutsCount}`}</Text>
               <Text style={styles.text}>{`Friends: ${user.friendsCount}`}</Text>
             </View>
           </View>
