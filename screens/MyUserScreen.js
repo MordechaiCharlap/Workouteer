@@ -16,7 +16,6 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 const userData = {
   league: "Emerald",
   workouts: 53,
-  friendsCount: 23,
 };
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
@@ -65,9 +64,7 @@ const MyUserScreen = () => {
               <Text
                 style={styles.text}
               >{`Workouts: ${userData.workouts}`}</Text>
-              <Text
-                style={styles.text}
-              >{`Friends: ${userData.friendsCount}`}</Text>
+              <Text style={styles.text}>{`Friends: ${user.friendsCount}`}</Text>
             </View>
           </View>
         </View>
