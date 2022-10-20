@@ -92,47 +92,55 @@ const PersonalDataScreen = () => {
             />
           </View>
 
-          <View>
+          <View className="border-2 border-cyan-400">
             <Text
               className="text-center text-2xl rounded-xl mb-5"
               style={{ backgroundColor: appStyle.appGray }}
             >
               Workout preferences
             </Text>
-            <Text style={style.text}>Partner's age</Text>
-            <View className="flex-row justify-around items-center mb-5">
-              <Text style={style.text}>From:</Text>
-              <TextInput
-                className="rounded px-3 py-1 w-1/3"
-                style={style.input}
-                placeholder="Minimum age"
-                value={16}
-              ></TextInput>
-              <Text style={style.text}>To - </Text>
-              <TextInput
-                className="rounded x-3 py-1 w-1/3"
-                style={style.input}
-                placeholder="Maximum age"
-                value={100}
-              ></TextInput>
-            </View>
-            <Text style={style.text}>Partner's sex</Text>
-            <View className="flex-row">
-              <View className="mx-3 flex-row">
-                <CheckBox
-                  backgroundColor={appStyle.appAzure}
-                  valueColor={appStyle.appDarkBlue}
-                  value={true}
-                />
-                <Text>Male</Text>
+            <Text className="text-center mb-2 font-semibold" style={style.text}>
+              Partner's age
+            </Text>
+            <View className="flex-row justify-around mb-5">
+              <View className="flex-row w-1/2">
+                <Text style={style.text}>From: </Text>
+                <TextInput
+                  className="rounded w-1/2"
+                  style={style.input}
+                  placeholder="Minimum age"
+                  value={16}
+                ></TextInput>
               </View>
-              <View className="mx-3 flex-row">
+              <View className="flex-row w-1/2">
+                <Text style={style.text}>To: </Text>
+                <TextInput
+                  className="rounded w-1/2"
+                  style={style.input}
+                  placeholder="Maximum age"
+                  value={100}
+                ></TextInput>
+              </View>
+            </View>
+            <Text className="text-center mb-2 font-semibold" style={style.text}>
+              Partner's sex
+            </Text>
+            <View className="flex-row justify-around">
+              <View className="flex-row">
                 <CheckBox
                   backgroundColor={appStyle.appAzure}
                   valueColor={appStyle.appDarkBlue}
                   value={true}
                 />
-                <Text>Female</Text>
+                <Text style={style.text}>Male</Text>
+              </View>
+              <View className="flex-row">
+                <CheckBox
+                  backgroundColor={appStyle.appAzure}
+                  valueColor={appStyle.appDarkBlue}
+                  value={true}
+                />
+                <Text style={style.text}>Female</Text>
               </View>
             </View>
           </View>
