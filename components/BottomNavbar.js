@@ -6,7 +6,7 @@ import { ResponsiveShadow } from "./ResponsiveStyling";
 const BottomNavbar = (props) => {
   return (
     <View
-      className={`flex-row flex-grow-0 shrink-0 h-12 ${props.display} ${ResponsiveShadow}`}
+      className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display} ${ResponsiveShadow}`}
       style={style.navStyle}
     >
       <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />
@@ -19,8 +19,7 @@ const BottomNavbar = (props) => {
 };
 const style = StyleSheet.create({
   navStyle: {
-    borderTopColor: appStyle.appDarkBlue,
-    shadowColor: "#000",
+    backgroundColor: appStyle.appLightBlue,
   },
 });
 export default BottomNavbar;

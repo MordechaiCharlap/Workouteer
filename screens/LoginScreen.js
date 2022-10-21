@@ -17,6 +17,9 @@ import * as appStyle from "../components/AppStyleSheet";
 import { authImport } from "../firebase-config";
 import useUserData from "../hooks/useUserData";
 import authContext from "../context/authContext";
+
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 const LoginScreen = () => {
   const { user, setUser } = useContext(authContext);
   const navigation = useNavigation();
@@ -86,6 +89,7 @@ const LoginScreen = () => {
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
           <View className="mb-3">
+            <FontAwesomeIcon icon={faCircleUser} color="white" size={40} />
             <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
               {"Welcome :)"}
             </Text>
