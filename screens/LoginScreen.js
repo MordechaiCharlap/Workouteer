@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { React, useLayoutEffect, useState, useContext, useEffect } from "react";
+import { React, useLayoutEffect, useState, useContext } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -54,7 +54,7 @@ const LoginScreen = () => {
   );
   const [registerColor, setRegisterColor] = useState(appStyle.appLightBlue);
 
-  const [loginBackground, setLoginBackground] = useState(appStyle.appGray);
+  const [loginBackground, setLoginBackground] = useState(appStyle.appLightBlue);
   const [loginColor, setLoginColor] = useState(appStyle.appDarkBlue);
   const [loginBorderColor, setLoginBorderColor] = useState("transparent");
   const registerIn = () => {
@@ -71,7 +71,7 @@ const LoginScreen = () => {
     setLoginBorderColor(appStyle.appLightBlue);
   };
   const loginOut = () => {
-    setLoginBackground(appStyle.appGray);
+    setLoginBackground(appStyle.appLightBlue);
     setLoginColor(appStyle.appDarkBlue);
     setLoginBorderColor("transparent");
   };
@@ -83,16 +83,16 @@ const LoginScreen = () => {
         { backgroundColor: appStyle.appLightBlue },
       ]}
     >
-      <View className="flex-1 my-32 mx-6">
+      <View className="flex-1 my-28 mx-6">
         <View
           className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
-          <View className="mb-3 items-center">
+          <View className="my-3 items-center">
             <FontAwesomeIcon
               icon={faCircleUser}
               color={appStyle.appGray}
-              size={40}
+              size={50}
             />
             <Text style={{ color: appStyle.appGray }} className="text-2xl my-4">
               {"Welcome :)"}
