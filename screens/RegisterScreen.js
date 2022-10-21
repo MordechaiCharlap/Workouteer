@@ -21,6 +21,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import useCheckUsername from "../hooks/useCheckUsername";
 import useCheckEmail from "../hooks/userCheckEmail";
 import useUserData from "../hooks/useUserData";
+import authContext from "../context/authContext";
 const LoginScreen = () => {
   const { setUser } = useContext(authContext);
   const navigation = useNavigation();
