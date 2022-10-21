@@ -52,26 +52,26 @@ const LoginScreen = () => {
   const [registerBackground, setRegisterBackground] = useState(
     appStyle.appDarkBlue
   );
-  const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
+  const [registerColor, setRegisterColor] = useState(appStyle.appLightBlue);
 
-  const [loginBackground, setLoginBackground] = useState(appStyle.appAzure);
+  const [loginBackground, setLoginBackground] = useState(appStyle.appGray);
   const [loginColor, setLoginColor] = useState(appStyle.appDarkBlue);
   const [loginBorderColor, setLoginBorderColor] = useState("transparent");
   const registerIn = () => {
-    setRegisterBackground(appStyle.appAzure);
+    setRegisterBackground(appStyle.appLightBlue);
     setRegisterColor(appStyle.appDarkBlue);
   };
   const registerOut = () => {
     setRegisterBackground(appStyle.appDarkBlue);
-    setRegisterColor(appStyle.appAzure);
+    setRegisterColor(appStyle.appLightBlue);
   };
   const loginIn = () => {
     setLoginBackground(appStyle.appDarkBlue);
-    setLoginColor(appStyle.appAzure);
-    setLoginBorderColor(appStyle.appAzure);
+    setLoginColor(appStyle.appLightBlue);
+    setLoginBorderColor(appStyle.appLightBlue);
   };
   const loginOut = () => {
-    setLoginBackground(appStyle.appAzure);
+    setLoginBackground(appStyle.appGray);
     setLoginColor(appStyle.appDarkBlue);
     setLoginBorderColor("transparent");
   };
@@ -80,7 +80,7 @@ const LoginScreen = () => {
     <SafeAreaView
       style={[
         ResponsiveStyling.safeAreaStyle,
-        { backgroundColor: appStyle.appAzure },
+        { backgroundColor: appStyle.appLightBlue },
       ]}
     >
       <View className="flex-1 my-32 mx-6">
@@ -88,9 +88,13 @@ const LoginScreen = () => {
           className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
         >
-          <View className="mb-3">
-            <FontAwesomeIcon icon={faCircleUser} color="white" size={40} />
-            <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
+          <View className="mb-3 items-center">
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              color={appStyle.appGray}
+              size={40}
+            />
+            <Text style={{ color: appStyle.appGray }} className="text-2xl my-4">
               {"Welcome :)"}
             </Text>
             <Text style={{ color: appStyle.appGray }}>
@@ -115,12 +119,8 @@ const LoginScreen = () => {
               onChangeText={(text) => setPassword(text)}
             ></TextInput>
             <View className="flex-row items-center">
-              <CheckBox
-                backgroundColor={appStyle.appAzure}
-                valueColor={appStyle.appDarkBlue}
-                value={false}
-              />
-              <Text className="ml-2" style={{ color: appStyle.appAzure }}>
+              <CheckBox valueColor={appStyle.appDarkBlue} value={false} />
+              <Text className="ml-2" style={{ color: appStyle.appGray }}>
                 Remember me!
               </Text>
             </View>
@@ -155,9 +155,9 @@ const LoginScreen = () => {
             onPress={() => navigation.navigate("Register")}
             className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
             style={{
-              borderColor: appStyle.appAzure,
+              borderColor: appStyle.appLightBlue,
               backgroundColor: registerBackground,
-              shadowColor: appStyle.appAzure,
+              shadowColor: appStyle.appLightBlue,
             }}
           >
             <Text
@@ -176,8 +176,9 @@ const LoginScreen = () => {
 export default LoginScreen;
 const style = StyleSheet.create({
   input: {
+    backgroundColor: appStyle.appGray,
     borderWidth: 1,
     borderColor: "#5f6b8b",
-    color: appStyle.appGray,
+    color: appStyle.appDarkBlue,
   },
 });
