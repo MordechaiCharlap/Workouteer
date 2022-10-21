@@ -57,6 +57,7 @@ const ChatsScreen = () => {
         </View>
         <View className="flex-1">
           <TouchableOpacity
+            onPress={() => navigation.navigate("Friends")}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
             style={{ backgroundColor: appStyle.appLightBlue }}
           >
