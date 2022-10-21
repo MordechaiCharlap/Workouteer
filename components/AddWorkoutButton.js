@@ -101,7 +101,7 @@ const AddWorkoutButton = (props) => {
       >
         <TouchableOpacity
           className="items-center justify-center  p-2 pt-3 pb-3 rounded-lg shadow-lg mb-3"
-          style={{ backgroundColor: appStyle.appDarkBlue }}
+          style={{ backgroundColor: appStyle.appAzure }}
           onPress={workoutButtonClicked}
         >
           <Text className="font-bold text-center text-4xl text-white">
