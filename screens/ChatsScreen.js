@@ -1,4 +1,10 @@
-import { View, Text, SafeAreaView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -19,7 +25,9 @@ const ChatsScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="pt-5 px-5 flex-1">
         <View className="flex-row justify-between">
-          <FontAwesomeIcon icon={faBars} size={48} color={appStyle.appGray} />
+          <TouchableOpacity>
+            <FontAwesomeIcon icon={faBars} size={48} color={appStyle.appGray} />
+          </TouchableOpacity>
           <Text
             className="text-5xl font-bold"
             style={{ color: appStyle.appGray }}
@@ -32,17 +40,30 @@ const ChatsScreen = () => {
           style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
         >
           <View className="flex-row items-center">
-            <FontAwesomeIcon icon={faMagnifyingGlass} size={24} color="white" />
-            <Text className="text-white text-xl ml-3">Search</Text>
+            <TouchableOpacity>
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                size={24}
+                color="white"
+              />
+            </TouchableOpacity>
+            <TextInput
+              placeholder="Search"
+              className="text-white text-xl ml-3"
+            />
           </View>
         </View>
         <View className="flex-1">
-          <View
+          <TouchableOpacity
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-2 bottom-8"
             style={{ backgroundColor: appStyle.appAzure }}
           >
-            <FontAwesomeIcon icon={faPenToSquare} size={50} />
-          </View>
+            <FontAwesomeIcon
+              icon={faPenToSquare}
+              size={50}
+              color={appStyle.appDarkBlue}
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
