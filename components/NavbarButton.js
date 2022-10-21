@@ -24,6 +24,7 @@ const NavbarButton = (props) => {
       <TouchableOpacity
         className="flex-grow w-1 items-center justify-center"
         onPress={() => navigation.navigate(props.screen)}
+        style={style.button}
       >
         <FontAwesomeIcon
           icon={getIcon()}
@@ -36,7 +37,7 @@ const NavbarButton = (props) => {
     return (
       <TouchableOpacity
         className="flex-grow w-1 items-center justify-center"
-        style={{ backgroundColor: appStyle.appAzure }}
+        style={style.currentButton}
       >
         <FontAwesomeIcon
           icon={getIcon()}
@@ -46,42 +47,11 @@ const NavbarButton = (props) => {
       </TouchableOpacity>
     );
   }
-  //   return (
-  //     <TouchableOpacity
-  //       onPress={() => navigation.navigate(props.screen)}
-  //       style={styles.button}
-  //     >
-  //       <Text style={styles.buttonText}>{props.screen}</Text>
-  //     </TouchableOpacity>
-  //   );
-  // } else {
-  //   return (
-  //     <TouchableOpacity style={styles.button}>
-  //       <Text style={styles.selectedButtonText}>{props.screen}</Text>
-  //       <View
-  //         className="mt-1 pt-1 h-1"
-  //         style={{
-  //           backgroundColor: appStyle.appDarkBlue,
-  //           width: "100%",
-  //         }}
-  //       />
-  //     </TouchableOpacity>
-  //   );
 };
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: appStyle.appLightBlue,
-    alignItems: "center",
-    padding: 15,
-    flex: 1,
-  },
-  buttonText: {
-    color: appStyle.appDarkBlue,
-    // fontWeight: 400,
-  },
-  selectedButtonText: {
-    // fontWeight: 500,
-    color: appStyle.appDarkBlue,
+const style = StyleSheet.create({
+  button: {},
+  currentButton: {
+    backgroundColor: appStyle.appAzure, // invisible color
   },
 });
 

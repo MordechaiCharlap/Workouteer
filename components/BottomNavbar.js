@@ -1,12 +1,16 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import React from "react";
 import NavbarButton from "./NavbarButton";
 import * as appStyle from "./AppStyleSheet";
-import { ResponsiveShadow } from "./ResponsiveStyling";
 const BottomNavbar = (props) => {
+  const navStyle = () => {
+    if (Platform.OS == "android") return style.androidNavStyle;
+    else return style.webNavStyle;
+  };
+
   return (
     <View
-      className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display} ${ResponsiveShadow}`}
+      className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display}`}
       style={style.navStyle}
     >
       <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />
