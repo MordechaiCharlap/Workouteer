@@ -50,14 +50,17 @@ const MyUserScreen = () => {
             className="h-60 w-60 bg-white rounded-full mb-2 self-center"
           />
           <Text
-            className="font-bold text-3xl self-center"
+            className="font-semibold text-5xl self-center"
             style={{
-              color: appStyle.appDarkBlue,
+              color: appStyle.appGray,
             }}
           >
             {user.username}
           </Text>
-          <Text className="self-center">
+          <Text
+            className="self-center font-bold text-2xl tracking-wider"
+            style={{ color: appStyle.appGray }}
+          >
             {user.firstName} {user.lastName}, {calculateAge()}
           </Text>
         </View>
@@ -70,11 +73,15 @@ const MyUserScreen = () => {
             style={style.workoutAndFriends}
           >
             <View className="items-center">
-              <Text style={style.boldText}>{user.workoutsCount}</Text>
+              <Text style={style.text} className="font-bold">
+                {user.workoutsCount}
+              </Text>
               <Text style={style.text}>Workouts</Text>
             </View>
             <View className="items-center">
-              <Text style={style.boldText}>{user.friendsCount}</Text>
+              <Text style={style.text} className="font-bold">
+                {user.friendsCount}
+              </Text>
               <Text style={style.text}>Friends</Text>
             </View>
           </View>
@@ -88,11 +95,6 @@ const style = StyleSheet.create({
   text: {
     fontSize: 20,
     color: appStyle.appDarkBlue,
-  },
-  boldText: {
-    fontSize: 20,
-    color: appStyle.appDarkBlue,
-    fontWeight: 500,
   },
   workoutAndFriends: {
     borderBottomColor: appStyle.appAzure,
