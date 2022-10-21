@@ -83,7 +83,7 @@ const LoginScreen = () => {
         { backgroundColor: appStyle.appLightBlue },
       ]}
     >
-      <View className="flex-1 my-28 mx-6">
+      <View className="flex-1 my-20 mx-6">
         <View
           className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
           style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}

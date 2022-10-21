@@ -57,8 +57,8 @@ const ChatsScreen = () => {
         </View>
         <View className="flex-1">
           <TouchableOpacity
-            className="rounded-full aspect-square w-20 items-center justify-center absolute right-2 bottom-8"
-            style={{ backgroundColor: appStyle.appAzure }}
+            className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
+            style={{ backgroundColor: appStyle.appLightBlue }}
           >
             <FontAwesomeIcon
               icon={faPenToSquare}
