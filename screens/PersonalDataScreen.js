@@ -25,11 +25,12 @@ const PersonalDataScreen = () => {
   }, []);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [firstNameVal, setFirstNameVal] = useState("");
+  const [lastNameVal, setLastNameVal] = useState("");
   const [isAcceptMale, setAcceptMale] = useState(true);
   const [isAcceptFemale, setAcceptFemale] = useState(true);
   const [minAgeAccept, setMinAgeAccept] = useState(16);
   const [maxAgeAccept, setMaxAgeAccept] = useState(100);
-  const auth = authImport;
   const checkIfDataValid = () => {
     return true;
   };
@@ -42,6 +43,8 @@ const PersonalDataScreen = () => {
     if (checkIfDataValid()) {
       if (false) {
         await setDoc(doc(firestore, "users", user.id), {
+          firstName: firstNameVal,
+          lastName: lastNameVal,
           isMale: value,
           acceptMale: isAcceptMale,
           acceptFemale: isAcceptFemale,
@@ -49,6 +52,7 @@ const PersonalDataScreen = () => {
           acceptMaxAge: maxAgeAccept,
         });
       }
+      navigation.navigate("Home");
     }
   };
   return (
@@ -74,12 +78,14 @@ const PersonalDataScreen = () => {
             Personal data
           </Text>
           <TextInput
+            onChangeText={(text) => setFirstNameVal(text)}
             className="rounded mb-5 px-3 py-1"
             style={style.input}
             placeholder="First Name"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <TextInput
+            onChangeText={(text) => setLastNameVal(text)}
             className="rounded mb-5 px-3 py-1"
             style={style.input}
             placeholder="Last Name"
@@ -127,6 +133,7 @@ const PersonalDataScreen = () => {
               <View className="flex-row w-1/2">
                 <Text style={style.text}>From: </Text>
                 <TextInput
+                  onChangeText={(text) => setMinAgeAccept(text)}
                   className="rounded w-1/2"
                   style={style.input}
                   placeholder="Minimum age"
@@ -136,6 +143,7 @@ const PersonalDataScreen = () => {
               <View className="flex-row w-1/2">
                 <Text style={style.text}>To: </Text>
                 <TextInput
+                  onChangeText={(text) => setMaxAgeAccept(text)}
                   className="rounded w-1/2"
                   style={style.input}
                   placeholder="Maximum age"
