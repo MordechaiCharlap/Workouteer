@@ -145,21 +145,21 @@ const LoginScreen = () => {
         </View>
         <View>
           <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
+            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="Email"
             placeholderTextColor={"#5f6b8b"}
             onChangeText={(text) => setEmail(text)}
           ></TextInput>
           <TextInput
-            className="rounded mb-5 px-3 py-1 focus:"
+            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="Username (Your app screen name)"
             placeholderTextColor={"#5f6b8b"}
             onChangeText={(text) => setUsername(text)}
           ></TextInput>
           <TouchableOpacity
-            className="rounded mb-5 px-3 py-1"
+            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             onPress={showDatepicker}
           >
@@ -181,7 +181,7 @@ const LoginScreen = () => {
             />
           )}
           <TextInput
-            className="rounded mb-5 px-3 py-1"
+            className="rounded mb-5 px-3 h-10 justify-center"
             secureTextEntry={true}
             style={style.input}
             placeholder="Password"
@@ -189,13 +189,13 @@ const LoginScreen = () => {
             onChangeText={(text) => setPassword(text)}
           ></TextInput>
           <TextInput
-            className="rounded mb-5 px-3 py-1"
+            className="rounded mb-5 px-3 h-10 justify-center"
             secureTextEntry={true}
             style={style.input}
             placeholder="Confirm Password"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
-          <View className="flex-row items-center mb-5 justify-between">
+          <View className="flex-row items-center mb-5">
             <CheckBox
               backgroundColor={appStyle.appAzure}
               valueColor={appStyle.appDarkBlue}
