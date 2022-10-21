@@ -15,9 +15,9 @@ const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="PersonalData" component={PersonalData} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="PersonalData" component={PersonalData} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="MyUser" component={MyUserScreen} />
       <Stack.Screen name="Explore" component={ExploreScreen} />
