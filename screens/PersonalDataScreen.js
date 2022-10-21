@@ -14,7 +14,6 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
-import { authImport } from "../firebase-config";
 const PersonalDataScreen = () => {
   const { user } = useContext(authContext);
   const navigation = useNavigation();
