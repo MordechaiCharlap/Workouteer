@@ -5,6 +5,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const CheckBox = (props) => {
   const [value, setValue] = useState(props.value == null ? false : props.value);
   const changeValue = () => {
+    if (props.onValueChange != null) props.onValueChange(!value);
     setValue(!value);
     if (props.onPress != null) props.onPress();
   };
