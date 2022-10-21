@@ -44,12 +44,14 @@ const ChatsScreen = () => {
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
                 size={24}
-                color="white"
+                color={appStyle.appDarkBlue}
               />
             </TouchableOpacity>
             <TextInput
+              style={{ color: appStyle.appGray }}
               placeholder="Search"
-              className="text-white text-xl ml-3"
+              placeholderTextColor={appStyle.appDarkBlue}
+              className="text-xl ml-3"
             />
           </View>
         </View>
