@@ -8,7 +8,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState, useContext } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
