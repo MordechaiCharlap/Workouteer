@@ -110,19 +110,6 @@ const LoginScreen = () => {
         Alert.alert(error.message);
       });
   };
-
-  const [registerBackground, setRegisterBackground] = useState(
-    appStyle.appDarkBlue
-  );
-  const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
-  const registerIn = () => {
-    setRegisterBackground(appStyle.appAzure);
-    setRegisterColor(appStyle.appDarkBlue);
-  };
-  const registerOut = () => {
-    setRegisterBackground(appStyle.appDarkBlue);
-    setRegisterColor(appStyle.appAzure);
-  };
   return (
     <SafeAreaView
       style={[
@@ -131,7 +118,7 @@ const LoginScreen = () => {
       ]}
     >
       <View
-        className={`flex-1 my-16 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
+        className={`flex-1 my-16 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
         <View className="mb-8">
@@ -143,93 +130,93 @@ const LoginScreen = () => {
             TODAY!
           </Text>
         </View>
-        <View>
-          <TextInput
-            className="rounded mb-5 px-3 h-10 justify-center"
-            style={style.input}
-            placeholder="Email"
-            placeholderTextColor={"#5f6b8b"}
-            onChangeText={(text) => setEmail(text)}
-          ></TextInput>
-          <TextInput
-            className="rounded mb-5 px-3 h-10 justify-center"
-            style={style.input}
-            placeholder="Username (Your app screen name)"
-            placeholderTextColor={"#5f6b8b"}
-            onChangeText={(text) => setUsername(text)}
-          ></TextInput>
-          <TouchableOpacity
-            className="rounded mb-5 px-3 h-10 justify-center"
-            style={style.input}
-            onPress={showDatepicker}
-          >
-            {!changedOnce && (
-              <Text style={{ color: "#5f6b8b" }}>
-                birthdate (works only on Android)
-              </Text>
-            )}
-            {changedOnce && (
-              <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
-            )}
-          </TouchableOpacity>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode="date"
-              onChange={onChange}
-            />
-          )}
-          <TextInput
-            className="rounded mb-5 px-3 h-10 justify-center"
-            secureTextEntry={true}
-            style={style.input}
-            placeholder="Password"
-            placeholderTextColor={"#5f6b8b"}
-            onChangeText={(text) => setPassword(text)}
-          ></TextInput>
-          <TextInput
-            className="rounded mb-5 px-3 h-10 justify-center"
-            secureTextEntry={true}
-            style={style.input}
-            placeholder="Confirm Password"
-            placeholderTextColor={"#5f6b8b"}
-          ></TextInput>
-          <View className="flex-row items-center mb-5">
-            <CheckBox
-              backgroundColor={appStyle.appAzure}
-              valueColor={appStyle.appDarkBlue}
-              value={false}
-            />
-            <Text className="ml-2" style={{ color: appStyle.appAzure }}>
-              {"I agree to the "}
-            </Text>
-            <Text
-              className="font-semibold underline"
-              style={{ color: appStyle.appAzure }}
+        <View className="flex-1 justify-between">
+          <View>
+            <TextInput
+              className="rounded mb-5 px-3 h-10 justify-center"
+              style={style.input}
+              placeholder="Email"
+              placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setEmail(text)}
+            ></TextInput>
+            <TextInput
+              className="rounded mb-5 px-3 h-10 justify-center"
+              style={style.input}
+              placeholder="Username (Your app screen name)"
+              placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setUsername(text)}
+            ></TextInput>
+            <TouchableOpacity
+              className="rounded mb-5 px-3 h-10 justify-center"
+              style={style.input}
+              onPress={showDatepicker}
             >
-              Terms and Conditions
-            </Text>
+              {!changedOnce && (
+                <Text style={{ color: "#5f6b8b" }}>
+                  birthdate (works only on Android)
+                </Text>
+              )}
+              {changedOnce && (
+                <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
+              )}
+            </TouchableOpacity>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode="date"
+                onChange={onChange}
+              />
+            )}
+            <TextInput
+              className="rounded mb-5 px-3 h-10 justify-center"
+              secureTextEntry={true}
+              style={style.input}
+              placeholder="Password"
+              placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setPassword(text)}
+            ></TextInput>
+            <TextInput
+              className="rounded mb-5 px-3 h-10 justify-center"
+              secureTextEntry={true}
+              style={style.input}
+              placeholder="Confirm Password"
+              placeholderTextColor={"#5f6b8b"}
+            ></TextInput>
           </View>
-
-          <TouchableOpacity
-            onPress={handleCreateAccount}
-            onPressIn={registerIn}
-            onPressOut={registerOut}
-            className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
-            style={{
-              borderColor: appStyle.appAzure,
-              backgroundColor: registerBackground,
-              shadowColor: appStyle.appAzure,
-            }}
-          >
-            <Text
-              className="text-center font-bold text-xl tracking-widest"
-              style={{ color: registerColor }}
+          <View>
+            <View className="flex-row items-center mb-5">
+              <CheckBox
+                backgroundColor={appStyle.appAzure}
+                valueColor={appStyle.appDarkBlue}
+                value={false}
+              />
+              <Text className="ml-2" style={{ color: appStyle.appAzure }}>
+                {"I agree to the "}
+              </Text>
+              <Text
+                className="font-semibold underline"
+                style={{ color: appStyle.appAzure }}
+              >
+                Terms and Conditions
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={handleCreateAccount}
+              className={`flex-1 rounded p-2 justify-center border-2 ${ResponsiveShadow}`}
+              style={{
+                backgroundColor: appStyle.appAzure,
+                shadowColor: appStyle.appAzure,
+              }}
             >
-              Create Account
-            </Text>
-          </TouchableOpacity>
+              <Text
+                className="text-center font-bold text-xl tracking-widest"
+                style={{ color: appStyle.appDarkBlue }}
+              >
+                Create Account
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
