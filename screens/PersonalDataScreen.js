@@ -6,14 +6,17 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState, useContext } from "react";
+import authContext from "../context/authContext";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
+import { authImport } from "../firebase-config";
 const PersonalDataScreen = () => {
+  const { user } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,6 +25,32 @@ const PersonalDataScreen = () => {
   }, []);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [isAcceptMale, setAcceptMale] = useState(true);
+  const [isAcceptFemale, setAcceptFemale] = useState(true);
+  const [minAgeAccept, setMinAgeAccept] = useState(16);
+  const [maxAgeAccept, setMaxAgeAccept] = useState(100);
+  const auth = authImport;
+  const checkIfDataValid = () => {
+    return true;
+  };
+  const createAccountPressed = async () => {
+    console.log(value);
+    console.log(isAcceptMale);
+    console.log(isAcceptFemale);
+    console.log(minAgeAccept);
+    console.log(maxAgeAccept);
+    if (checkIfDataValid()) {
+      if (false) {
+        await setDoc(doc(firestore, "users", user.id), {
+          isMale: value,
+          acceptMale: isAcceptMale,
+          acceptFemale: isAcceptFemale,
+          acceptMinAge: minAgeAccept,
+          acceptMaxAge: maxAgeAccept,
+        });
+      }
+    }
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
@@ -120,6 +149,7 @@ const PersonalDataScreen = () => {
             <View className="flex-row justify-around">
               <View className="flex-row">
                 <CheckBox
+                  onValueChange={(value) => setAcceptMale(value)}
                   backgroundColor={appStyle.appAzure}
                   valueColor={appStyle.appDarkBlue}
                   value={true}
@@ -128,6 +158,7 @@ const PersonalDataScreen = () => {
               </View>
               <View className="flex-row">
                 <CheckBox
+                  onValueChange={(value) => setAcceptFemale(value)}
                   backgroundColor={appStyle.appAzure}
                   valueColor={appStyle.appDarkBlue}
                   value={true}
@@ -153,6 +184,7 @@ const PersonalDataScreen = () => {
             </Text>
           </View>
           <TouchableOpacity
+            onPress={createAccountPressed}
             className={`justify-center py-3 ${ResponsiveShadow}`}
             style={{
               backgroundColor: appStyle.appAzure,
