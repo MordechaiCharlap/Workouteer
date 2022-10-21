@@ -22,24 +22,10 @@ const PersonalDataScreen = () => {
   }, []);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  const [registerBackground, setRegisterBackground] = useState(
-    appStyle.appDarkBlue
-  );
-  const [registerColor, setRegisterColor] = useState(appStyle.appAzure);
-
-  const registerIn = () => {
-    setRegisterBackground(appStyle.appAzure);
-    setRegisterColor(appStyle.appDarkBlue);
-  };
-  const registerOut = () => {
-    setRegisterBackground(appStyle.appDarkBlue);
-    setRegisterColor(appStyle.appAzure);
-  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
-        className={`flex-1 mt-6 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
+        className="flex-1 p-4"
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
         <View className="mb-8">
@@ -52,6 +38,12 @@ const PersonalDataScreen = () => {
           </Text>
         </View>
         <View className="flex-1">
+          <Text
+            className="text-center text-xl mb-5 py-2"
+            style={{ backgroundColor: appStyle.appAzure }}
+          >
+            Personal data
+          </Text>
           <TextInput
             className="rounded mb-5 px-3 py-1"
             style={style.input}
@@ -94,8 +86,8 @@ const PersonalDataScreen = () => {
 
           <View className="mb-10">
             <Text
-              className="text-center text-2xl rounded-xl mb-5"
-              style={{ backgroundColor: appStyle.appGray }}
+              className="text-center text-xl mb-5 py-2"
+              style={{ backgroundColor: appStyle.appAzure }}
             >
               Workout preferences
             </Text>
@@ -161,18 +153,15 @@ const PersonalDataScreen = () => {
             </Text>
           </View>
           <TouchableOpacity
-            onPressIn={registerIn}
-            onPressOut={registerOut}
-            className={`rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+            className={`justify-center py-3 ${ResponsiveShadow}`}
             style={{
-              borderColor: appStyle.appAzure,
-              backgroundColor: registerBackground,
+              backgroundColor: appStyle.appAzure,
               shadowColor: appStyle.appAzure,
             }}
           >
             <Text
               className="text-center font-bold text-xl tracking-widest"
-              style={{ color: registerColor }}
+              style={{ color: appStyle.appDarkBlue }}
             >
               Create Account
             </Text>
