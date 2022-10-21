@@ -20,7 +20,9 @@ import { authImport, firestoreImport } from "../firebase-config";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useCheckUsername from "../hooks/useCheckUsername";
 import useCheckEmail from "../hooks/userCheckEmail";
+import useUserData from "../hooks/useUserData";
 const LoginScreen = () => {
+  const { setUser } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -99,6 +101,7 @@ const LoginScreen = () => {
           workoutsCount: 0,
           email: email.toLocaleLowerCase(),
         });
+        setUser(await useUserData(email.toLocaleLowerCase()));
         navigation.navigate("Home");
       })
       .catch((error) => {
@@ -120,7 +123,12 @@ const LoginScreen = () => {
     setRegisterColor(appStyle.appAzure);
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView
+      style={[
+        ResponsiveStyling.safeAreaStyle,
+        { backgroundColor: appStyle.appAzure },
+      ]}
+    >
       <View
         className={`flex-1 my-16 mx-6 rounded-t-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}

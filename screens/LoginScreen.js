@@ -74,7 +74,12 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView
+      style={[
+        ResponsiveStyling.safeAreaStyle,
+        { backgroundColor: appStyle.appAzure },
+      ]}
+    >
       <View className="flex-1 my-32 mx-6">
         <View
           className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
