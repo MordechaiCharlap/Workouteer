@@ -40,7 +40,11 @@ const MyUserScreen = () => {
         <View className="p-3">
           <View className="flex-row-reverse">
             <TouchableOpacity>
-              <FontAwesomeIcon icon={faPencil} size={25} />
+              <FontAwesomeIcon
+                icon={faPencil}
+                size={40}
+                color={appStyle.appGray}
+              />
             </TouchableOpacity>
           </View>
           <Image
@@ -50,7 +54,7 @@ const MyUserScreen = () => {
             className="h-60 w-60 bg-white rounded-full mb-2 self-center"
           />
           <Text
-            className="font-semibold text-5xl self-center"
+            className="font-semibold text-4xl self-center"
             style={{
               color: appStyle.appGray,
             }}
@@ -58,7 +62,7 @@ const MyUserScreen = () => {
             {user.username}
           </Text>
           <Text
-            className="self-center font-bold text-2xl tracking-wider"
+            className="self-center font-bold text-xl tracking-wider"
             style={{ color: appStyle.appGray }}
           >
             {user.firstName} {user.lastName}, {calculateAge()}
