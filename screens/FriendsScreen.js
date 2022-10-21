@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { React, useLayoutEffect } from "react";
 import BottomNavbar from "../components/BottomNavbar";
@@ -13,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const friendsData = [
   {
@@ -97,6 +100,26 @@ const FriendsScreen = () => {
   }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+      <View
+        className="rounded-xl mt-4 p-3"
+        style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+      >
+        <View className="flex-row items-center">
+          <TouchableOpacity>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              size={24}
+              color={appStyle.appDarkBlue}
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={{ color: appStyle.appGray }}
+            placeholder="Search"
+            placeholderTextColor={appStyle.appDarkBlue}
+            className="text-xl ml-3"
+          />
+        </View>
+      </View>
       <FlatList
         showsVerticalScrollIndicator={false}
         className="flex-1 "
@@ -106,9 +129,9 @@ const FriendsScreen = () => {
           <TouchableOpacity
             style={{
               backgroundColor: appStyle.appLightBlue,
-              borderColor: appStyle.appDarkBlue,
+              marginTop: 1,
             }}
-            className={`rounded-lg p-2 h-24 mt-4 mr-4 ml-4 mb-1 flex-row ${ResponsiveShadow}`}
+            className={`p-2 h-16 flex-row ${ResponsiveShadow}`}
           >
             <View className="items-center aspect-square">
               <Image
@@ -119,12 +142,9 @@ const FriendsScreen = () => {
                 style={style.profileImg}
               />
             </View>
-            <View
-              className="justify-center text-center"
-              style={{ flexBasis: "76%" }}
-            >
+            <View className="justify-center" style={{ flexBasis: "76%" }}>
               <Text
-                className="text-xl font-semibold"
+                className="text-xl font-semibold text-center"
                 style={{ color: appStyle.appDarkBlue }}
               >
                 {item.username}
