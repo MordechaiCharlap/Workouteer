@@ -23,7 +23,6 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
-        <UserUpperBanner />
         <AddWorkoutButton hideNavBar={changeNavDisplay} />
       </View>
       <BottomNavbar currentScreen="Home" display={navDisplay} />
