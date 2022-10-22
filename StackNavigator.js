@@ -9,12 +9,13 @@ import CalendarScreen from "./screens/CalendarScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatsScreen from "./screens/ChatsScreen";
 import PersonalData from "./screens/PersonalDataScreen";
-
+import ChangePreferences from "./screens/ChangePreferencesScreen";
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="ChangePreferences" component={ChangePreferences} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="PersonalData" component={PersonalData} />
