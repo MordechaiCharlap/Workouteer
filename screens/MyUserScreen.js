@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { React, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -12,10 +13,21 @@ import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faSliders } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
+
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
+  const ChangePreferences = () => {
+    console.log("moving to preferences");
+    navigation.navigate("ChangePreferences");
+  };
   const calculateAge = () => {
     const birthdate = user.birthdate.toDate();
     var today = new Date();
@@ -28,68 +40,74 @@ const MyUserScreen = () => {
     return age;
   };
 
-  const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
-        <View className="p-3">
-          <View className="flex-row-reverse">
-            <TouchableOpacity>
-              <FontAwesomeIcon
-                icon={faPencil}
-                size={40}
-                color={appStyle.appGray}
-              />
-            </TouchableOpacity>
+        <ScrollView>
+          <View className="p-3">
+            <View className="flex-row justify-between">
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ChangePreferences")}
+              >
+                <FontAwesomeIcon
+                  icon={faSliders}
+                  size={40}
+                  color={appStyle.appGray}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  size={40}
+                  color={appStyle.appGray}
+                />
+              </TouchableOpacity>
+            </View>
+            <Image
+              source={{
+                uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
+              }}
+              className="h-60 w-60 bg-white rounded-full mb-2 self-center"
+            />
+            <Text
+              className="font-semibold text-4xl self-center"
+              style={{
+                color: appStyle.appGray,
+              }}
+            >
+              {user.username}
+            </Text>
+            <Text
+              className="self-center font-bold text-xl tracking-wider"
+              style={{ color: appStyle.appGray }}
+            >
+              {user.firstName} {user.lastName}, {calculateAge()}
+            </Text>
           </View>
-          <Image
-            source={{
-              uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
-            }}
-            className="h-60 w-60 bg-white rounded-full mb-2 self-center"
-          />
-          <Text
-            className="font-semibold text-4xl self-center"
-            style={{
-              color: appStyle.appGray,
-            }}
-          >
-            {user.username}
-          </Text>
-          <Text
-            className="self-center font-bold text-xl tracking-wider"
-            style={{ color: appStyle.appGray }}
-          >
-            {user.firstName} {user.lastName}, {calculateAge()}
-          </Text>
-        </View>
-        <View
-          className="rounded-t-3xl flex-1 mx-2"
-          style={{ backgroundColor: appStyle.appGray }}
-        >
           <View
-            className="flex-row justify-around"
-            style={style.workoutAndFriends}
+            className="rounded-t-3xl flex-1 mx-2"
+            style={{ backgroundColor: appStyle.appGray }}
           >
-            <View className="items-center">
-              <Text style={style.text} className="font-bold">
-                {user.workoutsCount}
-              </Text>
-              <Text style={style.text}>Workouts</Text>
+            <View
+              className="flex-row justify-around"
+              style={style.workoutAndFriends}
+            >
+              <View className="items-center">
+                <Text style={style.text} className="font-bold">
+                  {user.workoutsCount}
+                </Text>
+                <Text style={style.text}>Workouts</Text>
+              </View>
+              <View className="items-center">
+                <Text style={style.text} className="font-bold">
+                  {user.friendsCount}
+                </Text>
+                <Text style={style.text}>Friends</Text>
+              </View>
             </View>
-            <View className="items-center">
-              <Text style={style.text} className="font-bold">
-                {user.friendsCount}
-              </Text>
-              <Text style={style.text}>Friends</Text>
-            </View>
+            <Text>No description yet.</Text>
           </View>
-        </View>
+        </ScrollView>
       </View>
       <BottomNavbar currentScreen="MyUser" />
     </SafeAreaView>
