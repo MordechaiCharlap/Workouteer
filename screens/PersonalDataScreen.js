@@ -44,15 +44,20 @@ const PersonalDataScreen = () => {
     console.log(maxAgeAccept);
     if (checkIfDataValid()) {
       if (true) {
-        await setDoc(doc(firestore, "users", user.id), {
-          firstName: firstNameVal,
-          lastName: lastNameVal,
-          isMale: value,
-          acceptMale: isAcceptMale,
-          acceptFemale: isAcceptFemale,
-          acceptMinAge: minAgeAccept,
-          acceptMaxAge: maxAgeAccept,
-        });
+        await setDoc(
+          doc(firestore, "users", user.id),
+          {
+            firstName: firstNameVal,
+            lastName: lastNameVal,
+            isMale: value,
+            acceptMale: isAcceptMale,
+            acceptFemale: isAcceptFemale,
+            acceptMinAge: minAgeAccept,
+            acceptMaxAge: maxAgeAccept,
+            isPublic: true,
+          },
+          { merge: true }
+        );
       }
       navigation.navigate("Home");
     }
