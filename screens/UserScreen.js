@@ -39,7 +39,7 @@ const UserScreen = ({ route }) => {
     return age;
   };
   const renderSocialButtons = () => {
-    if (shownUser.isPublic == true) {
+    if (shownUser.isPublic == false) {
       return (
         <View className="flex-row items-center self-center">
           <TouchableOpacity
@@ -55,7 +55,7 @@ const UserScreen = ({ route }) => {
           </TouchableOpacity>
         </View>
       );
-    } else if (shownUser.isPublic == false) {
+    } else if (shownUser.isPublic == true) {
       return (
         <View className="flex-row items-center self-center">
           <TouchableOpacity
