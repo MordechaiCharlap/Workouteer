@@ -51,6 +51,9 @@ const SearchUsersScreen = () => {
       console.log(searchedUser);
       return (
         <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("User", { shownUser: searchedUser })
+          }
           style={{
             backgroundColor: appStyle.appLightBlue,
             marginTop: 1,
