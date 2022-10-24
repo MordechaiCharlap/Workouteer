@@ -12,8 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPencil, faSliders } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 const UserScreen = ({ route }) => {
   const { user } = useContext(authContext);
@@ -27,6 +25,9 @@ const UserScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
+  const sendFriendRequest = () => {
+    //TODO
+  };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
@@ -74,10 +75,7 @@ const UserScreen = ({ route }) => {
               {shownUser.firstName} {shownUser.lastName}, {calculateAge()}
             </Text>
           </View>
-          <View
-            className="rounded-t-3xl flex-1 mx-2"
-            style={{ backgroundColor: appStyle.appGray }}
-          >
+          <View className="mx-2">
             <View
               className="flex-row justify-around"
               style={style.workoutAndFriends}
@@ -95,7 +93,13 @@ const UserScreen = ({ route }) => {
                 <Text style={style.text}>Friends</Text>
               </View>
             </View>
-            <Text>No description yet.</Text>
+            <TouchableOpacity
+              onPress={sendFriendRequest}
+              className="w-fit"
+              style={style.addFriendButton}
+            >
+              <Text>Add as a friend</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -106,11 +110,11 @@ const UserScreen = ({ route }) => {
 const style = StyleSheet.create({
   text: {
     fontSize: 20,
-    color: appStyle.appDarkBlue,
+    color: appStyle.appGray,
   },
-  workoutAndFriends: {
-    borderBottomColor: appStyle.appAzure,
-    borderBottomWidth: 1,
+  addFriendButton: {
+    borderWidth: 1,
+    borderColor: appStyle.appLightBlue,
   },
 });
 export default UserScreen;
