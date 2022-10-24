@@ -5,14 +5,14 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import { React, useContext, useEffect, useLayoutEffect } from "react";
+import { React, useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 const UserScreen = ({ route }) => {
   const shownUser = route.params.shownUser;
   useEffect(() => {
@@ -88,11 +88,12 @@ const UserScreen = ({ route }) => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-3">
         <View className="flex-row justify-between">
-          <TouchableOpacity>
-            <Text style={{ color: appStyle.appGray }}> Go back</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={{ color: appStyle.appGray }}>+</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={30}
+              color={appStyle.appGray}
+            />
           </TouchableOpacity>
         </View>
         <Image
