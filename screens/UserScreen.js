@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useContext, useLayoutEffect } from "react";
+import { React, useContext, useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -15,21 +15,20 @@ import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil, faSliders } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
-const UserScreen = () => {
+const UserScreen = ({ route }) => {
   const { user } = useContext(authContext);
-
+  const shownUser = route.params.shownUser;
+  useEffect(() => {
+    console.log(shownUser);
+  });
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const ChangePreferences = () => {
-    console.log("moving to preferences");
-    navigation.navigate("ChangePreferences");
-  };
   const calculateAge = () => {
-    const birthdate = user.birthdate.toDate();
+    const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
     var age = today.getFullYear() - birthdate.getFullYear();
     var m = today.getMonth() - birthdate.getMonth();
@@ -46,26 +45,17 @@ const UserScreen = () => {
         <ScrollView>
           <View className="p-3">
             <View className="flex-row justify-between">
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ChangePreferences")}
-              >
-                <FontAwesomeIcon
-                  icon={faSliders}
-                  size={40}
-                  color={appStyle.appGray}
-                />
-              </TouchableOpacity>
               <TouchableOpacity>
-                <FontAwesomeIcon
-                  icon={faPencil}
-                  size={40}
-                  color={appStyle.appGray}
-                />
+                <Text style={{ color: appStyle.appGray }}> Go back</Text>
+              </TouchableOpacity>
+              <Text style={{ color: appStyle.appGray }}>Profile</Text>
+              <TouchableOpacity>
+                <Text style={{ color: appStyle.appGray }}>+</Text>
               </TouchableOpacity>
             </View>
             <Image
               source={{
-                uri: user.img,
+                uri: shownUser.img,
               }}
               className="h-60 w-60 bg-white rounded-full mb-2 self-center"
             />
@@ -75,13 +65,13 @@ const UserScreen = () => {
                 color: appStyle.appGray,
               }}
             >
-              {user.username}
+              {shownUser.username}
             </Text>
             <Text
               className="self-center font-bold text-xl tracking-wider"
               style={{ color: appStyle.appGray }}
             >
-              {user.firstName} {user.lastName}, {calculateAge()}
+              {shownUser.firstName} {shownUser.lastName}, {calculateAge()}
             </Text>
           </View>
           <View
@@ -94,13 +84,13 @@ const UserScreen = () => {
             >
               <View className="items-center">
                 <Text style={style.text} className="font-bold">
-                  {user.workoutsCount}
+                  {shownUser.workoutsCount}
                 </Text>
                 <Text style={style.text}>Workouts</Text>
               </View>
               <View className="items-center">
                 <Text style={style.text} className="font-bold">
-                  {user.friendsCount}
+                  {shownUser.friendsCount}
                 </Text>
                 <Text style={style.text}>Friends</Text>
               </View>
@@ -109,7 +99,7 @@ const UserScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <BottomNavbar currentScreen="MyUser" />
+      <BottomNavbar currentScreen="User" />
     </SafeAreaView>
   );
 };
