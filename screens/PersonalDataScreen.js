@@ -182,22 +182,6 @@ const PersonalDataScreen = () => {
               </View>
             </View>
           </View>
-          <View className="flex-row items-center mb-5">
-            <CheckBox
-              backgroundColor={appStyle.appAzure}
-              valueColor={appStyle.appDarkBlue}
-              value={false}
-            />
-            <Text className="ml-2" style={{ color: appStyle.appAzure }}>
-              {"I agree to the "}
-            </Text>
-            <Text
-              className="font-semibold underline"
-              style={{ color: appStyle.appAzure }}
-            >
-              Terms and Conditions
-            </Text>
-          </View>
           <TouchableOpacity
             onPress={createAccountPressed}
             className={`justify-center py-3 ${ResponsiveShadow}`}
