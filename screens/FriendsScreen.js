@@ -15,10 +15,12 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import authContext from "../context/authContext";
 import { firestoreImport } from "../firebase-config";
-import { collection, query, where, getDocs } from "firebase/firestore";
 const FriendsScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);
@@ -46,7 +48,14 @@ const FriendsScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-2">
-        <View className="flex-row justify-between">
+        <View className="flex-row justify-between items-center">
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={30}
+              color={appStyle.appGray}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             style={{ backgroundColor: appStyle.appLightBlue }}
             className="rounded-sm items-center justify-center px-2"
@@ -54,13 +63,13 @@ const FriendsScreen = () => {
           >
             <Text className="text-xl font-bold">New friend</Text>
           </TouchableOpacity>
-          <Text
-            className="text-5xl font-bold"
-            style={{ color: appStyle.appGray }}
-          >
-            Friends
-          </Text>
         </View>
+        <Text
+          className="text-5xl font-bold text-center mt-5"
+          style={{ color: appStyle.appGray }}
+        >
+          Friends
+        </Text>
         <View
           className="rounded-xl mt-4 p-3"
           style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
