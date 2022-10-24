@@ -94,7 +94,7 @@ const LoginScreen = () => {
       .then(async (userCredential) => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
-        await setDoc(doc(firestore, "users", userCredential.user.uid), {
+        await setDoc(doc(firestore, "users", usernameLower), {
           username: username,
           usernameLower: username.toLocaleLowerCase(),
           birthdate: date,

@@ -45,7 +45,7 @@ const PersonalDataScreen = () => {
     if (checkIfDataValid()) {
       if (true) {
         await setDoc(
-          doc(firestore, "users", user.id),
+          doc(firestore, "users", user.usernameLower),
           {
             firstName: firstNameVal,
             lastName: lastNameVal,
