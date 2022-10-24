@@ -14,7 +14,10 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
+import { firestoreImport } from "../firebase-config";
+import { setDoc, doc } from "firebase/firestore";
 const PersonalDataScreen = () => {
+  const firestore = firestoreImport;
   const { user } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -40,7 +43,7 @@ const PersonalDataScreen = () => {
     console.log(minAgeAccept);
     console.log(maxAgeAccept);
     if (checkIfDataValid()) {
-      if (false) {
+      if (true) {
         await setDoc(doc(firestore, "users", user.id), {
           firstName: firstNameVal,
           lastName: lastNameVal,
