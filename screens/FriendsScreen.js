@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useLayoutEffect } from "react";
+import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -16,69 +16,106 @@ import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
+import authContext from "../context/authContext";
+import { firestoreImport } from "../firebase-config";
+import { collection, query, where, getDocs } from "firebase/firestore";
 const FriendsScreen = () => {
+  const [searchText, setSearchText] = useState("");
+  const { user } = useContext(authContext);
+  const firestore = firestoreImport;
+  var friendsData;
+  useEffect(() => {
+    friendsData = user.friends;
+  }, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  const searchClicked = async () => {
+    if (searchText != "") {
+      friendsData = [];
+      user.friends.forEach((user) => {
+        if (user.username.toLowerCase() == searchText.toLocaleLowerCase())
+          friendsData.push(user);
+      });
+    }
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View
-        className="rounded-xl mt-4 p-3"
-        style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
-      >
-        <View className="flex-row items-center">
-          <TouchableOpacity>
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              size={24}
-              color={appStyle.appDarkBlue}
-            />
-          </TouchableOpacity>
-          <TextInput
-            style={{ color: appStyle.appGray }}
-            placeholder="Search"
-            placeholderTextColor={appStyle.appDarkBlue}
-            className="text-xl ml-3"
-          />
-        </View>
-      </View>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        className="flex-1 "
-        data={friendsData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+      <View className="flex-1 p-2">
+        <View className="flex-row justify-between">
           <TouchableOpacity
-            style={{
-              backgroundColor: appStyle.appLightBlue,
-              marginTop: 1,
-            }}
-            className={`p-2 h-16 flex-row ${ResponsiveShadow}`}
+            style={{ backgroundColor: appStyle.appLightBlue }}
+            className="rounded-sm items-center justify-center px-2"
+            onPress={() => navigation.navigate("SearchUsers")}
           >
-            <View className="items-center aspect-square">
-              <Image
-                source={{
-                  uri: item.img,
-                }}
-                className="rounded-full aspect-square"
-                style={style.profileImg}
-              />
-            </View>
-            <View className="justify-center" style={{ flexBasis: "76%" }}>
-              <Text
-                className="text-xl font-semibold text-center"
-                style={{ color: appStyle.appDarkBlue }}
-              >
-                {item.username}
-              </Text>
-            </View>
+            <Text className="text-xl font-bold">New friend</Text>
           </TouchableOpacity>
-        )}
-      />
+          <Text
+            className="text-5xl font-bold"
+            style={{ color: appStyle.appGray }}
+          >
+            Friends
+          </Text>
+        </View>
+        <View
+          className="rounded-xl mt-4 p-3"
+          style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+        >
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={searchClicked}>
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                size={24}
+                color={appStyle.appDarkBlue}
+              />
+            </TouchableOpacity>
+            <TextInput
+              onChangeText={(text) => setSearchText(text)}
+              style={{ color: appStyle.appGray }}
+              placeholder="Search"
+              placeholderTextColor={appStyle.appDarkBlue}
+              className="text-xl ml-3"
+            />
+          </View>
+        </View>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          className="flex-1 "
+          data={friendsData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{
+                backgroundColor: appStyle.appLightBlue,
+                marginTop: 1,
+              }}
+              className={`p-2 h-16 flex-row ${ResponsiveShadow}`}
+            >
+              <View className="items-center aspect-square">
+                <Image
+                  source={{
+                    uri: item.img,
+                  }}
+                  className="rounded-full aspect-square"
+                  style={style.profileImg}
+                />
+              </View>
+              <View className="justify-center" style={{ flexBasis: "76%" }}>
+                <Text
+                  className="text-xl font-semibold text-center"
+                  style={{ color: appStyle.appDarkBlue }}
+                >
+                  {item.username}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
       <BottomNavbar currentScreen="Friends" />
     </SafeAreaView>
   );
