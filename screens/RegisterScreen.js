@@ -101,9 +101,10 @@ const LoginScreen = () => {
           friendsCount: 0,
           workoutsCount: 0,
           email: email.toLocaleLowerCase(),
+          id: userCredential.user.uid,
         });
         setUser(await useUserData(email.toLocaleLowerCase()));
-        navigation.navigate("Home");
+        navigation.navigate("PersonalData");
       })
       .catch((error) => {
         console.log(error);
