@@ -11,17 +11,22 @@ import ChatsScreen from "./screens/ChatsScreen";
 import PersonalDataScreen from "./screens/PersonalDataScreen";
 import ChangePreferencesScreen from "./screens/ChangePreferencesScreen";
 import SearchUsersScreen from "./screens/SearchUsersScreen";
+import UserScreen from "./screens/UserScreen";
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="ChangePreferences" component={ChangePreferencesScreen} />
+      <Stack.Screen
+        name="ChangePreferences"
+        component={ChangePreferencesScreen}
+      />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="MyUser" component={MyUserScreen} />
+      <Stack.Screen name="User" component={UserScreen} />
       <Stack.Screen name="Explore" component={ExploreScreen} />
       <Stack.Screen name="Friends" component={FriendsScreen} />
       <Stack.Screen name="Chats" component={ChatsScreen} />
