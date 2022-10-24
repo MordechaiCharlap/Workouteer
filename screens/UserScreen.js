@@ -14,7 +14,6 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
 const UserScreen = ({ route }) => {
-  const { user } = useContext(authContext);
   const shownUser = route.params.shownUser;
   useEffect(() => {
     console.log(shownUser);
@@ -39,69 +38,102 @@ const UserScreen = ({ route }) => {
     console.log(age);
     return age;
   };
-
-  return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1">
-        <ScrollView>
-          <View className="p-3">
-            <View className="flex-row justify-between">
-              <TouchableOpacity>
-                <Text style={{ color: appStyle.appGray }}> Go back</Text>
-              </TouchableOpacity>
-              <Text style={{ color: appStyle.appGray }}>Profile</Text>
-              <TouchableOpacity>
-                <Text style={{ color: appStyle.appGray }}>+</Text>
-              </TouchableOpacity>
-            </View>
-            <Image
-              source={{
-                uri: shownUser.img,
-              }}
-              className="h-60 w-60 bg-white rounded-full mb-2 self-center"
-            />
+  const renderSocialButtons = () => {
+    if (shownUser.isPublic == true) {
+      return (
+        <View className="flex-row items-center self-center">
+          <TouchableOpacity
+            onPress={sendFriendRequest}
+            style={style.socialButton}
+          >
             <Text
-              className="font-semibold text-4xl self-center"
-              style={{
-                color: appStyle.appGray,
-              }}
-            >
-              {shownUser.username}
-            </Text>
-            <Text
-              className="self-center font-bold text-xl tracking-wider"
+              className="text-center text-xl"
               style={{ color: appStyle.appGray }}
             >
-              {shownUser.firstName} {shownUser.lastName}, {calculateAge()}
+              Add as a friend
             </Text>
-          </View>
-          <View className="mx-2">
-            <View
-              className="flex-row justify-around"
-              style={style.workoutAndFriends}
+          </TouchableOpacity>
+        </View>
+      );
+    } else if (shownUser.isPublic == false) {
+      return (
+        <View className="flex-row items-center self-center">
+          <TouchableOpacity
+            onPress={sendFriendRequest}
+            style={style.socialButton}
+          >
+            <Text
+              className="text-center text-xl"
+              style={{ color: appStyle.appGray }}
             >
-              <View className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {shownUser.workoutsCount}
-                </Text>
-                <Text style={style.text}>Workouts</Text>
-              </View>
-              <View className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {shownUser.friendsCount}
-                </Text>
-                <Text style={style.text}>Friends</Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={sendFriendRequest}
-              className="w-fit"
-              style={style.addFriendButton}
+              Add as a friend
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={sendFriendRequest}
+            style={style.socialButton}
+          >
+            <Text
+              className="text-center text-xl"
+              style={{ color: appStyle.appGray }}
             >
-              <Text>Add as a friend</Text>
-            </TouchableOpacity>
+              Send a message
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  };
+  return (
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+      <View className="flex-1 p-3">
+        <View className="flex-row justify-between">
+          <TouchableOpacity>
+            <Text style={{ color: appStyle.appGray }}> Go back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={{ color: appStyle.appGray }}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <Image
+          source={{
+            uri: shownUser.img,
+          }}
+          className="h-60 w-60 bg-white rounded-full mb-2 self-center"
+        />
+        <Text
+          className="font-semibold text-4xl self-center"
+          style={{
+            color: appStyle.appGray,
+          }}
+        >
+          {shownUser.username}
+        </Text>
+        <Text
+          className="self-center font-bold text-xl tracking-wider"
+          style={{ color: appStyle.appGray }}
+        >
+          {shownUser.firstName} {shownUser.lastName}, {calculateAge()}
+        </Text>
+
+        <View
+          className="flex-row justify-around"
+          style={style.workoutAndFriends}
+        >
+          <View className="items-center">
+            <Text style={style.text} className="font-bold">
+              {shownUser.workoutsCount}
+            </Text>
+            <Text style={style.text}>Workouts</Text>
           </View>
-        </ScrollView>
+          <View className="items-center">
+            <Text style={style.text} className="font-bold">
+              {shownUser.friendsCount}
+            </Text>
+            <Text style={style.text}>Friends</Text>
+          </View>
+        </View>
+        {renderSocialButtons()}
       </View>
       <BottomNavbar currentScreen="User" />
     </SafeAreaView>
@@ -112,9 +144,12 @@ const style = StyleSheet.create({
     fontSize: 20,
     color: appStyle.appGray,
   },
-  addFriendButton: {
+  socialButton: {
     borderWidth: 1,
-    borderColor: appStyle.appLightBlue,
+    borderColor: appStyle.appGray,
+    padding: 4,
+    margin: 10,
+    borderRadius: 5,
   },
 });
 export default UserScreen;
