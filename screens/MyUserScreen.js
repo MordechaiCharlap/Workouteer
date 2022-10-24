@@ -65,7 +65,7 @@ const MyUserScreen = () => {
             </View>
             <Image
               source={{
-                uri: "https://i.pinimg.com/564x/39/44/28/394428dcf049dbc614b3a34cef24c164.jpg",
+                uri: user.img,
               }}
               className="h-60 w-60 bg-white rounded-full mb-2 self-center"
             />
