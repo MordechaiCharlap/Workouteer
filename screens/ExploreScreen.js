@@ -16,7 +16,7 @@ import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
-  var data;
+  const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   useLayoutEffect(() => {
@@ -24,17 +24,23 @@ const ExploreScreen = () => {
       headerShown: false,
     });
   }, []);
-  const fetchRequests = async () => {
-    data = await firebase.getOthersRequests(user);
-  };
+  useEffect(() => {
+    const fetchRequests = async () => {
+      const friendReqs = await firebase.getOthersRequests(user);
+      setFriendRequests(friendReqs);
+      console.log(friendRequests);
+    };
+    fetchRequests();
+  }, []);
+
   const renderExplorePage = () => {
     if (renderOption == "Friend requests") {
       console.log("rendering friends requests");
-      console.log(data);
+      console.log(friendRequests);
       return (
         <View>
           <FlatList
-            data={data}
+            data={friendRequests}
             keyExtractor={(item) => item.displayName}
             renderItem={({ item }) => {
               <View className="flex-row justify-between">
