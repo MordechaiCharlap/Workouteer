@@ -29,34 +29,41 @@ const UserScreen = ({ route }) => {
   const db = firestoreImport;
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
+
+  const [friendshipStatus, setfriendshipStatus] = useState(null);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
     console.log(shownUser);
-    console.log(friendOption);
+    console.log(friendshipStatus);
   }, []);
-  const friendOptionInit = async () => {
+  useEffect(() => {
+    friendshipStatusInit();
+  }, friendshipStatus);
+
+  const friendshipStatusInit = async () => {
     const friendsMap = new Map(Object.entries(user.friends));
     if (friendsMap.has(shownUser.usernameLower)) {
-      setFriendOption("Friends");
+      setfriendshipStatus("Friends");
     } else {
       const userReqRef = await getDoc(doc(db, "requests", user.usernameLower));
       const ownReqMap = new Map(Object.entries(userReqRef.data().ownRequests));
       if (ownReqMap.has(shownUser.usernameLower)) {
-        setFriendOption("SentRequest");
+        setfriendshipStatus("SentRequest");
       } else {
         const othersReqMap = new Map(
           Object.entries(userReqRef.data().othersRequests)
         );
         if (othersReqMap.has(shownUser.usernameLower)) {
-          setFriendOption("GotRequest");
+          setfriendshipStatus("GotRequest");
         }
       }
     }
+    console.log(`Friendship status: ${friendshipStatus}`);
   };
 
-  const [friendOption, setFriendOption] = useState("None");
   const sendFriendRequest = async () => {
     const userReqRef = doc(db, "requests", user.usernameLower);
     const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
@@ -75,7 +82,7 @@ const UserScreen = ({ route }) => {
         timestamp: Timestamp.now(),
       },
     });
-    setFriendOption("SentRequest");
+    setfriendshipStatus("SentRequest");
   };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
