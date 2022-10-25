@@ -15,12 +15,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { firestoreImport } from "../firebase-config";
 import {
+  setDoc,
   doc,
   updateDoc,
   arrayUnion,
   increment,
   getDoc,
-  FieldValue,
+  Timestamp,
 } from "firebase/firestore";
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
@@ -33,7 +34,6 @@ const UserScreen = ({ route }) => {
       headerShown: false,
     });
     console.log(shownUser);
-    friendOptionInit();
     console.log(friendOption);
   }, []);
   const friendOptionInit = async () => {
@@ -59,26 +59,22 @@ const UserScreen = ({ route }) => {
   const [friendOption, setFriendOption] = useState("None");
   const sendFriendRequest = async () => {
     const userReqRef = doc(db, "requests", user.usernameLower);
-    const userPath = `ownRequests.${shownUser.usernameLower}`;
     const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-    const shownUserPath = `othersRequests.${user.usernameLower}`;
+    await setDoc(userReqRef, {}, { merge: true });
     await updateDoc(userReqRef, {
-      userPath: {
+      [`ownRequests.${shownUser.usernameLower}`]: {
+        displayName: shownUser.username,
         img: shownUser.img,
-        time: FieldValue.serverTimestamp(),
+        timestamp: Timestamp.now(),
       },
     });
     await updateDoc(shownUserReqRef, {
-      shownUserPath: {
-        img: user.img,
-        time: FieldValue.serverTimestamp(),
+      [`othersRequests.${user.usernameLower}`]: {
+        displayName: user.username,
+        img: shownUser.img,
+        timestamp: Timestamp.now(),
       },
     });
-    await updateDoc(
-      doc(db, "users", shownUser.usernameLower, {
-        friendRequestCount: increment(1),
-      })
-    );
     setFriendOption("SentRequest");
   };
   const calculateAge = () => {
@@ -89,7 +85,6 @@ const UserScreen = ({ route }) => {
     if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
       age--;
     }
-    console.log(age);
     return age;
   };
   return (
