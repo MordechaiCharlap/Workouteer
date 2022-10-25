@@ -88,3 +88,13 @@ export const checkEmail = async (email) => {
   }
   return true;
 };
+export const userDataByEmail = async (email) => {
+  var userData;
+  const q = query(collection(db, "users"), where("email", "==", email));
+  await getDocs(q).then((snapshot) => {
+    snapshot.forEach((doc) => {
+      userData = doc.data();
+    });
+  });
+  return userData;
+};

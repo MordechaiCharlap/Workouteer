@@ -14,8 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import { authImport } from "../services/firebase";
-import useUserData from "../hooks/useUserData";
+import * as firebase from "../services/firebase";
 import authContext from "../context/authContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -35,10 +34,10 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(async () => {
+      .then(() => {
         console.log("signed in!");
 
-        const userData = await useUserData(email.toLowerCase());
+        const userData = firebase.userDataByEmail(email.toLowerCase());
         console.log(userData);
         setUser(userData);
         navigation.navigate("Home");

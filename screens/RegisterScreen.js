@@ -106,7 +106,7 @@ const LoginScreen = () => {
           id: userCredential.user.uid,
         });
         await setDoc(doc(firestore, "requests", username.toLowerCase()), {});
-        setUser(await useUserData(email.toLocaleLowerCase()));
+        setUser(firebase.userDataByEmail(email.toLocaleLowerCase()));
         navigation.navigate("PersonalData");
       })
       .catch((error) => {
