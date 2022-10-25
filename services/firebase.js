@@ -6,6 +6,7 @@ import {
   doc,
   updateDoc,
   increment,
+  setDoc,
   getDoc,
   getDocs,
   where,
@@ -109,4 +110,22 @@ export const updatePersonalData = async (newData) => {
     acceptMaxAge: newData.acceptMaxAge,
     isPublic: newData.isPublic,
   });
+};
+export const createUser = async (newUserData) => {
+  await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
+    img: newUserData.img,
+    username: newUserData.username,
+    usernameLower: newUserData.usernameLower,
+    birthdate: newUserData.birthdate,
+    friendsCount: 0,
+    friendRequestCount: 0,
+    friends: {},
+    workoutsCount: 0,
+    email: newUserData.email,
+    id: newUserData.id,
+  });
+};
+export const createUserRequestsDocs = async (newUserData) => {
+  await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {});
+  setUser(db.userDataByEmail(newUserData.email.toLowerCase()));
 };

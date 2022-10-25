@@ -15,10 +15,8 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import useUserData from "../hooks/useUserData";
 import authContext from "../context/authContext";
 const LoginScreen = () => {
   const { setUser } = useContext(authContext);
@@ -28,8 +26,7 @@ const LoginScreen = () => {
       headerShown: false,
     });
   }, []);
-  const auth = authImport;
-  const firestore = firestoreImport;
+  const auth = firebase.authImport;
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -89,24 +86,19 @@ const LoginScreen = () => {
   };
   const handleLogin = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
+      .then((userCredential) => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
-
-        await setDoc(doc(firestore, "users", username.toLowerCase()), {
+        const newUserData = {
           img: "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000",
           username: username,
-          usernameLower: username.toLocaleLowerCase(),
+          usernameLower: username.toLowerCase(),
           birthdate: date,
-          friendsCount: 0,
-          friendRequestCount: 0,
-          friends: {},
-          workoutsCount: 0,
-          email: email.toLocaleLowerCase(),
+          email: email.toLowerCase(),
           id: userCredential.user.uid,
-        });
-        await setDoc(doc(firestore, "requests", username.toLowerCase()), {});
-        setUser(firebase.userDataByEmail(email.toLocaleLowerCase()));
+        };
+        firebase.createUser(newUserData);
+        firebase.createUserRequestsDocs(newUserData);
         navigation.navigate("PersonalData");
       })
       .catch((error) => {
