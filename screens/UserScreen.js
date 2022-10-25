@@ -37,26 +37,21 @@ const UserScreen = ({ route }) => {
     console.log(friendOption);
   }, []);
   const friendOptionInit = async () => {
-    if (
-      user.friends.some((element) => element.username == shownUser.username)
-    ) {
+    const friendsMap = new Map(Object.entries(user.friends));
+    if (friendsMap.has(shownUser.usernameLower)) {
       setFriendOption("Friends");
     } else {
       const userReqRef = await getDoc(doc(db, "requests", user.usernameLower));
-      if (
-        userReqRef
-          .data()
-          .ownRequests.some((element) => element.username == shownUser.username)
-      ) {
+      const ownReqMap = new Map(Object.entries(userReqRef.data().ownRequests));
+      if (ownReqMap.has(shownUser.usernameLower)) {
         setFriendOption("SentRequest");
-      } else if (
-        userReqRef
-          .data()
-          .othersRequests.some(
-            (element) => element.username == shownUser.username
-          )
-      ) {
-        setFriendOption("GotRequest");
+      } else {
+        const othersReqMap = new Map(
+          Object.entries(userReqRef.data().othersRequests)
+        );
+        if (othersReqMap.has(shownUser.usernameLower)) {
+          setFriendOption("GotRequest");
+        }
       }
     }
   };
@@ -79,6 +74,11 @@ const UserScreen = ({ route }) => {
         time: FieldValue.serverTimestamp(),
       },
     });
+    await updateDoc(
+      doc(db, "users", shownUser.usernameLower, {
+        friendRequestCount: increment(1),
+      })
+    );
     setFriendOption("SentRequest");
   };
   const calculateAge = () => {
