@@ -17,16 +17,14 @@ import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import authContext from "../context/authContext";
 const LoginScreen = () => {
-  const { setUser } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const auth = firebase.authImport;
+  const auth = firebase.auth;
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

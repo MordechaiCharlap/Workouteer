@@ -26,7 +26,7 @@ const firebaseConfig = {
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
-export const authImport = getAuth(firebaseApp);
+export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 
 export const cancelFriendRequest = async (user, shownUser) => {

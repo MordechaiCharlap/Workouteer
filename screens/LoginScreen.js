@@ -20,9 +20,9 @@ import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 const LoginScreen = () => {
-  const { user, setUser } = useContext(authContext);
+  const { setUser } = useContext(authContext);
   const navigation = useNavigation();
-  const auth = authImport;
+  const auth = firebase.auth;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
