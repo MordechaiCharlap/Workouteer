@@ -18,7 +18,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import useCheckEmail from "../hooks/userCheckEmail";
 import useUserData from "../hooks/useUserData";
 import authContext from "../context/authContext";
 const LoginScreen = () => {
