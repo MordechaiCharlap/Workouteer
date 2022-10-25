@@ -47,26 +47,25 @@ const ExploreScreen = () => {
       console.log("rendering friends requests");
       console.log(friendRequests);
       return (
-        <View>
-          <FlatList
-            data={friendRequests}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              <View className="flex-row justify-between">
-                <Image
-                  source={{
-                    uri: item.img,
-                  }}
-                  className="h-15 w-15 bg-white rounded-full mb-2 self-center"
-                />
-                <Text>{item.displayName}</Text>
-                <TouchableOpacity className="bg-blue-500">
-                  <Text className="text-gray-300">Accept!</Text>
-                </TouchableOpacity>
-              </View>;
-            }}
-          />
-        </View>
+        <FlatList
+          className="bg-green-400"
+          data={friendRequests}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View className="flex-row justify-between">
+              <Image
+                source={{
+                  uri: item.img,
+                }}
+                className="h-15 w-15 bg-white rounded-full mb-2 self-center"
+              />
+              <Text>{item.displayName}</Text>
+              <TouchableOpacity className="bg-blue-500">
+                <Text className="text-gray-300">Accept!</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       );
     }
   };
