@@ -6,26 +6,71 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { React, useEffect, useLayoutEffect } from "react";
+import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { firestoreImport } from "../firebase-config";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  increment,
+  getDoc,
+} from "firebase/firestore";
+import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
+  const { user } = useContext(authContext);
+  const db = firestoreImport;
   const shownUser = route.params.shownUser;
-  useEffect(() => {
-    console.log(shownUser);
-  });
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+    console.log(shownUser);
+    friendOptionInit();
+    console.log(friendOption);
   }, []);
-  const sendFriendRequest = () => {
-    //TODO
+  const friendOptionInit = async () => {
+    if (
+      user.friends.some((element) => element.username == shownUser.username)
+    ) {
+      setFriendOption("Friends");
+    } else {
+      const userReqRef = await getDoc(doc(db, "requests", user.usernameLower));
+      if (
+        userReqRef
+          .data()
+          .ownRequests.some((element) => element.username == shownUser.username)
+      ) {
+        setFriendOption("SentRequest");
+      } else if (
+        userReqRef
+          .data()
+          .othersRequests.some(
+            (element) => element.username == shownUser.username
+          )
+      ) {
+        setFriendOption("GotRequest");
+      }
+    }
+  };
+  const [friendOption, setFriendOption] = useState("None");
+  const sendFriendRequest = async () => {
+    // const userRef = doc(db, "users", user.usernameLower);
+    // const shownUserRef = doc(db, "users", shownUser.usernameLower);
+    // await updateDoc(userRef, {
+    //   ownRequests: arrayUnion(shownUser.username, shownUser.img),
+    // });
+    // await updateDoc(shownUserRef, {
+    //   othersRequests: arrayUnion({ username: user.username, img: user.img }),
+    //   friendRequestCount: increment(1),
+    // });
+    // setFriendOption("SentRequest");
   };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
