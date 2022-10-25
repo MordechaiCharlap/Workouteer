@@ -20,6 +20,7 @@ import {
   arrayUnion,
   increment,
   getDoc,
+  FieldValue,
 } from "firebase/firestore";
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
@@ -59,18 +60,26 @@ const UserScreen = ({ route }) => {
       }
     }
   };
+
   const [friendOption, setFriendOption] = useState("None");
   const sendFriendRequest = async () => {
-    // const userRef = doc(db, "users", user.usernameLower);
-    // const shownUserRef = doc(db, "users", shownUser.usernameLower);
-    // await updateDoc(userRef, {
-    //   ownRequests: arrayUnion(shownUser.username, shownUser.img),
-    // });
-    // await updateDoc(shownUserRef, {
-    //   othersRequests: arrayUnion({ username: user.username, img: user.img }),
-    //   friendRequestCount: increment(1),
-    // });
-    // setFriendOption("SentRequest");
+    const userReqRef = doc(db, "requests", user.usernameLower);
+    const userPath = `ownRequests.${shownUser.usernameLower}`;
+    const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
+    const shownUserPath = `othersRequests.${user.usernameLower}`;
+    await updateDoc(userReqRef, {
+      userPath: {
+        img: shownUser.img,
+        time: FieldValue.serverTimestamp(),
+      },
+    });
+    await updateDoc(shownUserReqRef, {
+      shownUserPath: {
+        img: user.img,
+        time: FieldValue.serverTimestamp(),
+      },
+    });
+    setFriendOption("SentRequest");
   };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
