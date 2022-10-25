@@ -150,5 +150,7 @@ export const checkFriendShipStatus = async (userData, otherUserData) => {
   }
 };
 export const getOthersRequests = async (user) => {
-  return await getDoc(doc(db, "requests", user.usernameLower));
+  const othersReqsRef = await getDoc(doc(db, "requests", user.usernameLower));
+  const othersReqs = othersReqsRef.data().othersRequests;
+  return othersReqs;
 };
