@@ -29,7 +29,7 @@ const ExploreScreen = () => {
       const friendReqs = await firebase.getOthersRequests(user);
       var friendsReqsArr = [];
       friendReqs.forEach((value, key) => {
-        const date = new Date(value.timestamp).toDateString();
+        const date = new Date(Number(value.timestamp)).toLocaleDateString();
         friendsReqsArr.push({
           id: key,
           displayName: value.displayName,
@@ -47,25 +47,26 @@ const ExploreScreen = () => {
       console.log("rendering friends requests");
       console.log(friendRequests);
       return (
-        <FlatList
-          className="bg-green-400"
-          data={friendRequests}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View className="flex-row justify-between">
-              <Image
-                source={{
-                  uri: item.img,
-                }}
-                className="h-15 w-15 bg-white rounded-full mb-2 self-center"
-              />
-              <Text>{item.displayName}</Text>
-              <TouchableOpacity className="bg-blue-500">
-                <Text className="text-gray-300">Accept!</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        <View className="flex-1">
+          <FlatList
+            data={friendRequests}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View className="flex-row justify-between bg-slate-500">
+                <Image
+                  source={{
+                    uri: item.img,
+                  }}
+                  className="h-16 w-16 bg-white rounded-full mb-2 self-center"
+                />
+                <Text>{item.displayName}</Text>
+                <TouchableOpacity className="bg-blue-500">
+                  <Text className="text-gray-300">Accept!</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
       );
     }
   };
