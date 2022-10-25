@@ -62,6 +62,9 @@ const UserScreen = ({ route }) => {
     console.log(`Friendship status: ${friendshipStatus}`);
   };
 
+  const removeFriend = async () => {};
+  const acceptFriendRequest = async () => {};
+  const rejectFriendRequest = async () => {};
   const sendFriendRequest = async () => {
     const userReqRef = doc(db, "requests", user.usernameLower);
     const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
@@ -85,6 +88,8 @@ const UserScreen = ({ route }) => {
     });
     setfriendshipStatus("SentRequest");
   };
+  const cancelFriendRequest = async () => {};
+
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
@@ -94,6 +99,80 @@ const UserScreen = ({ route }) => {
       age--;
     }
     return age;
+  };
+  const renderFriendshipButton = () => {
+    if (friendshipStatus == "None")
+      return (
+        <TouchableOpacity
+          onPress={sendFriendRequest}
+          style={style.socialButton}
+        >
+          <Text
+            className="text-center text-xl"
+            style={{ color: appStyle.appGray }}
+          >
+            Add as a friend
+          </Text>
+        </TouchableOpacity>
+      );
+    else if (friendshipStatus == "Friends")
+      return (
+        <TouchableOpacity onPress={removeFriend} style={style.socialButton}>
+          <Text
+            className="text-center text-xl"
+            style={{ color: appStyle.appGray }}
+          >
+            Remove from friends
+          </Text>
+        </TouchableOpacity>
+      );
+    else if (friendshipStatus == "SentRequest")
+      return (
+        <TouchableOpacity
+          onPress={cancelFriendRequest}
+          style={style.socialButton}
+        >
+          <Text
+            className="text-center text-xl"
+            style={{ color: appStyle.appGray }}
+          >
+            Cancel friend request
+          </Text>
+        </TouchableOpacity>
+      );
+    else if (friendshipStatus == "GotRequest")
+      return (
+        <View className="flex-row">
+          <TouchableOpacity
+            onPress={rejectFriendRequest}
+            style={style.socialButton}
+          >
+            <Text
+              className="text-center text-xl"
+              style={{ color: appStyle.appGray }}
+            >
+              Reject
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={acceptFriendRequest}
+            style={style.socialButton}
+          >
+            <Text
+              className="text-center text-xl"
+              style={{ color: appStyle.appGray }}
+            >
+              Accept
+            </Text>
+          </TouchableOpacity>
+          <Text
+            className="text-center text-xl"
+            style={{ color: appStyle.appGray }}
+          >
+            Friend request
+          </Text>
+        </View>
+      );
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -146,18 +225,8 @@ const UserScreen = ({ route }) => {
           </View>
         </View>
         <View className="flex-row items-center self-center">
-          <TouchableOpacity
-            onPress={sendFriendRequest}
-            style={style.socialButton}
-          >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Add as a friend
-            </Text>
-          </TouchableOpacity>
-          {shownUser.isPublic == true && (
+          {renderFriendshipButton()}
+          {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
             <TouchableOpacity
               onPress={sendFriendRequest}
               style={style.socialButton}
