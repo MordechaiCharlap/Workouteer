@@ -34,10 +34,10 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then(async () => {
         console.log("signed in!");
 
-        const userData = firebase.userDataByEmail(email.toLowerCase());
+        const userData = await firebase.userDataByEmail(email.toLowerCase());
         console.log(userData);
         setUser(userData);
         navigation.navigate("Home");

@@ -34,7 +34,7 @@ const PersonalDataScreen = () => {
   const checkIfDataValid = () => {
     return true;
   };
-  const createAccountPressed = () => {
+  const createAccountPressed = async () => {
     console.log(value);
     console.log(isAcceptMale);
     console.log(isAcceptFemale);
@@ -51,7 +51,7 @@ const PersonalDataScreen = () => {
         acceptMaxAge: maxAgeAccept,
         isPublic: true,
       };
-      firebase.updatePersonalData(newData);
+      await firebase.updatePersonalData(newData);
       navigation.navigate("Home");
     }
   };

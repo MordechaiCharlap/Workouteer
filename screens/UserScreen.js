@@ -14,18 +14,11 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import {
-  deleteField,
-  doc,
-  updateDoc,
-  increment,
-  getDoc,
-  Timestamp,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
   const { user } = useContext(authContext);
-  const db = firebase.firestoreImport;
+  const db = firebase.db;
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
@@ -64,11 +57,11 @@ const UserScreen = ({ route }) => {
   const rejectFriendRequest = async () => {};
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
-    firebase.cancelFriendRequest(user, shownUser);
+    await firebase.cancelFriendRequest(user, shownUser);
   };
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
-    firebase.sendFriendRequest(user, shownUser);
+    await firebase.sendFriendRequest(user, shownUser);
   };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();

@@ -43,11 +43,11 @@ const LoginScreen = () => {
   const showDatepicker = () => {
     setShow(true);
   };
-  const handleCreateAccount = () => {
+  const handleCreateAccount = async () => {
     if (changedOnce) {
       var age = calculateAge();
-      var isUserAvailable = firebase.checkUsername(username);
-      var isEmailAvailable = firebase.checkEmail(email);
+      var isUserAvailable = await firebase.checkUsername(username);
+      var isEmailAvailable = await firebase.checkEmail(email);
       if (age >= 16) {
         if (username.length >= 6) {
           if (isUserAvailable) {
@@ -84,7 +84,7 @@ const LoginScreen = () => {
   };
   const handleLogin = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
@@ -95,8 +95,8 @@ const LoginScreen = () => {
           email: email.toLowerCase(),
           id: userCredential.user.uid,
         };
-        firebase.createUser(newUserData);
-        firebase.createUserRequestsDocs(newUserData);
+        await firebase.createUser(newUserData);
+        await firebase.createUserRequestsDocs(newUserData);
         navigation.navigate("PersonalData");
       })
       .catch((error) => {

@@ -28,9 +28,9 @@ const SearchUsersScreen = () => {
     });
   }, []);
 
-  const searchClicked = () => {
+  const searchClicked = async () => {
     if (searchText != "") {
-      const docRef = firebase.searchUser(searchText);
+      const docRef = await firebase.searchUser(searchText);
       if (docRef != null) setSearchedUser(docRef.data());
     }
   };
