@@ -15,10 +15,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { firestoreImport } from "../firebase-config";
 import {
-  setDoc,
+  deleteField,
   doc,
   updateDoc,
-  arrayUnion,
   increment,
   getDoc,
   Timestamp,
@@ -30,32 +29,30 @@ const UserScreen = ({ route }) => {
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
-  const [friendshipStatus, setfriendshipStatus] = useState(null);
+  const [friendshipStatus, setFriendshipStatus] = useState("None");
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-    console.log(shownUser);
     friendshipStatusInit();
-    console.log(friendshipStatus);
   }, []);
 
   const friendshipStatusInit = async () => {
     const friendsMap = new Map(Object.entries(user.friends));
     if (friendsMap.has(shownUser.usernameLower)) {
-      setfriendshipStatus("Friends");
+      setFriendshipStatus("Friends");
     } else {
       const userReqDoc = await getDoc(doc(db, "requests", user.usernameLower));
       const ownReqMap = new Map(Object.entries(userReqDoc.data().ownRequests));
       if (ownReqMap.has(shownUser.usernameLower)) {
-        setfriendshipStatus("SentRequest");
+        setFriendshipStatus("SentRequest");
       } else {
         const othersReqMap = new Map(
           Object.entries(userReqDoc.data().othersRequests)
         );
         if (othersReqMap.has(shownUser.usernameLower)) {
-          setfriendshipStatus("GotRequest");
+          setFriendshipStatus("GotRequest");
         }
       }
     }
@@ -66,9 +63,9 @@ const UserScreen = ({ route }) => {
   const acceptFriendRequest = async () => {};
   const rejectFriendRequest = async () => {};
   const sendFriendRequest = async () => {
+    setFriendshipStatus("SentRequest");
     const userReqRef = doc(db, "requests", user.usernameLower);
     const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-    await setDoc(userReqRef, {}, { merge: true });
     await updateDoc(userReqRef, {
       [`ownRequests.${shownUser.usernameLower}`]: {
         displayName: shownUser.username,
@@ -86,9 +83,21 @@ const UserScreen = ({ route }) => {
     await updateDoc(doc(db, "users", shownUser.usernameLower), {
       friendRequestCount: increment(1),
     });
-    setfriendshipStatus("SentRequest");
   };
-  const cancelFriendRequest = async () => {};
+  const cancelFriendRequest = async () => {
+    setFriendshipStatus("None");
+    const userReqRef = doc(db, "requests", user.usernameLower);
+    const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
+    await updateDoc(userReqRef, {
+      [`ownRequests.${shownUser.usernameLower}`]: deleteField(),
+    });
+    await updateDoc(shownUserReqRef, {
+      [`othersRequests.${user.usernameLower}`]: deleteField(),
+    });
+    await updateDoc(doc(db, "users", shownUser.usernameLower), {
+      friendRequestCount: increment(-1),
+    });
+  };
 
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
