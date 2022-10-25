@@ -38,52 +38,6 @@ const UserScreen = ({ route }) => {
     console.log(age);
     return age;
   };
-  const renderSocialButtons = () => {
-    if (shownUser.isPublic == false) {
-      return (
-        <View className="flex-row items-center self-center">
-          <TouchableOpacity
-            onPress={sendFriendRequest}
-            style={style.socialButton}
-          >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Add as a friend
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else if (shownUser.isPublic == true) {
-      return (
-        <View className="flex-row items-center self-center">
-          <TouchableOpacity
-            onPress={sendFriendRequest}
-            style={style.socialButton}
-          >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Add as a friend
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={sendFriendRequest}
-            style={style.socialButton}
-          >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Send a message
-            </Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-3">
@@ -134,7 +88,32 @@ const UserScreen = ({ route }) => {
             <Text style={style.text}>Friends</Text>
           </View>
         </View>
-        {renderSocialButtons()}
+        <View className="flex-row items-center self-center">
+          <TouchableOpacity
+            onPress={sendFriendRequest}
+            style={style.socialButton}
+          >
+            <Text
+              className="text-center text-xl"
+              style={{ color: appStyle.appGray }}
+            >
+              Add as a friend
+            </Text>
+          </TouchableOpacity>
+          {shownUser.isPublic == true && (
+            <TouchableOpacity
+              onPress={sendFriendRequest}
+              style={style.socialButton}
+            >
+              <Text
+                className="text-center text-xl"
+                style={{ color: appStyle.appGray }}
+              >
+                Send a message
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
       <BottomNavbar currentScreen="User" />
     </SafeAreaView>
