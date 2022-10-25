@@ -20,7 +20,7 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import authContext from "../context/authContext";
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 const FriendsScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);

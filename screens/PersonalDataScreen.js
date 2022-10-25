@@ -14,7 +14,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 import { setDoc, doc, updateDoc } from "firebase/firestore";
 const PersonalDataScreen = () => {
   const firestore = firestoreImport;

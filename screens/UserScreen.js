@@ -13,7 +13,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 import {
   deleteField,
   doc,

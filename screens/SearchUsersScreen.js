@@ -16,7 +16,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 import {
   collection,
   query,

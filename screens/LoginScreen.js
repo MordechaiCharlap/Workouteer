@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import { authImport } from "../firebase-config";
+import { authImport } from "../services/firebase";
 import useUserData from "../hooks/useUserData";
 import authContext from "../context/authContext";
 

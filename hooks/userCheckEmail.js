@@ -1,4 +1,4 @@
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 import { collection, query, where, getDocs, getDoc } from "firebase/firestore";
 async function useCheckEmail(email) {
   const firestore = firestoreImport;

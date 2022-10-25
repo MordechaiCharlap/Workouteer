@@ -16,7 +16,7 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { authImport, firestoreImport } from "../firebase-config";
+import { authImport, firestoreImport } from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useCheckUsername from "../hooks/useCheckUsername";
 import useCheckEmail from "../hooks/userCheckEmail";

@@ -1,4 +1,4 @@
-import { firestoreImport } from "../firebase-config";
+import { firestoreImport } from "../services/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 async function useUserData(email) {
   var userData;
