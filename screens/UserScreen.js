@@ -13,7 +13,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { firestoreImport } from "../services/firebase";
+import * as firebase from "../services/firebase";
 import {
   deleteField,
   doc,
@@ -25,7 +25,7 @@ import {
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
   const { user } = useContext(authContext);
-  const db = firestoreImport;
+  const db = firebase.firestoreImport;
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
@@ -62,43 +62,14 @@ const UserScreen = ({ route }) => {
   const removeFriend = async () => {};
   const acceptFriendRequest = async () => {};
   const rejectFriendRequest = async () => {};
-  const sendFriendRequest = async () => {
-    setFriendshipStatus("SentRequest");
-    const userReqRef = doc(db, "requests", user.usernameLower);
-    const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-    await updateDoc(userReqRef, {
-      [`ownRequests.${shownUser.usernameLower}`]: {
-        displayName: shownUser.username,
-        img: shownUser.img,
-        timestamp: Timestamp.now(),
-      },
-    });
-    await updateDoc(shownUserReqRef, {
-      [`othersRequests.${user.usernameLower}`]: {
-        displayName: user.username,
-        img: shownUser.img,
-        timestamp: Timestamp.now(),
-      },
-    });
-    await updateDoc(doc(db, "users", shownUser.usernameLower), {
-      friendRequestCount: increment(1),
-    });
-  };
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
-    const userReqRef = doc(db, "requests", user.usernameLower);
-    const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-    await updateDoc(userReqRef, {
-      [`ownRequests.${shownUser.usernameLower}`]: deleteField(),
-    });
-    await updateDoc(shownUserReqRef, {
-      [`othersRequests.${user.usernameLower}`]: deleteField(),
-    });
-    await updateDoc(doc(db, "users", shownUser.usernameLower), {
-      friendRequestCount: increment(-1),
-    });
+    firebase.cancelFriendRequest(user, shownUser);
   };
-
+  const sendFriendRequest = async () => {
+    setFriendshipStatus("SentRequest");
+    firebase.sendFriendRequest(user, shownUser);
+  };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
