@@ -80,12 +80,8 @@ const UserScreen = ({ route }) => {
         timestamp: Timestamp.now(),
       },
     });
-    await updateDoc(userReqRef, {
-      [`ownRequests.${shownUser.usernameLower}`]: {
-        displayName: shownUser.username,
-        img: shownUser.img,
-        timestamp: Timestamp.now(),
-      },
+    await updateDoc(doc(db, "users", shownUser.usernameLower), {
+      friendRequestCount: increment(1),
     });
     setfriendshipStatus("SentRequest");
   };
