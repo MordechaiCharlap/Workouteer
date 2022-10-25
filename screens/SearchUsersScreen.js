@@ -17,7 +17,9 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
+import authContext from "../context/authContext";
 const SearchUsersScreen = () => {
+  const { user } = useContext(authContext);
   const [searchText, setSearchText] = useState("");
   const [searchedUser, setSearchedUser] = useState(null);
   useEffect(() => {}, []);
@@ -34,14 +36,13 @@ const SearchUsersScreen = () => {
       if (docRef != null) setSearchedUser(docRef.data());
     }
   };
+
   const renderSearchedUser = () => {
     if (searchedUser != null) {
       console.log(searchedUser);
       return (
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("User", { shownUser: searchedUser })
-          }
+          onPress={() => userClicked(searchedUser)}
           style={{
             backgroundColor: appStyle.appLightBlue,
             marginTop: 1,
@@ -68,6 +69,15 @@ const SearchUsersScreen = () => {
         </TouchableOpacity>
       );
     }
+  };
+  const userClicked = async (searchedUser) => {
+    navigation.navigate("User", {
+      shownUser: searchedUser,
+      friendshipStatus: await firebase.checkFriendShipStatus(
+        user,
+        searchedUser
+      ),
+    });
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>

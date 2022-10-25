@@ -22,35 +22,15 @@ const UserScreen = ({ route }) => {
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
-  const [friendshipStatus, setFriendshipStatus] = useState("None");
+  const [friendshipStatus, setFriendshipStatus] = useState(
+    route.params.friendshipStatus
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-    friendshipStatusInit();
   }, []);
-
-  const friendshipStatusInit = async () => {
-    const friendsMap = new Map(Object.entries(user.friends));
-    if (friendsMap.has(shownUser.usernameLower)) {
-      setFriendshipStatus("Friends");
-    } else {
-      const userReqDoc = await getDoc(doc(db, "requests", user.usernameLower));
-      const ownReqMap = new Map(Object.entries(userReqDoc.data().ownRequests));
-      if (ownReqMap.has(shownUser.usernameLower)) {
-        setFriendshipStatus("SentRequest");
-      } else {
-        const othersReqMap = new Map(
-          Object.entries(userReqDoc.data().othersRequests)
-        );
-        if (othersReqMap.has(shownUser.usernameLower)) {
-          setFriendshipStatus("GotRequest");
-        }
-      }
-    }
-    console.log(`Friendship status: ${friendshipStatus}`);
-  };
 
   const removeFriend = async () => {};
   const acceptFriendRequest = async () => {};

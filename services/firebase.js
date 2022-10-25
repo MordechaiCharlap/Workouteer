@@ -128,3 +128,22 @@ export const createUserRequestsDocs = async (newUserData) => {
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {});
   setUser(db.userDataByEmail(newUserData.email.toLowerCase()));
 };
+export const checkFriendShipStatus = async (user, otherUser) => {
+  const friendsMap = new Map(Object.entries(user.friends));
+  if (friendsMap.has(otherUser.usernameLower)) {
+    return "Friends";
+  } else {
+    const userReqDoc = await getDoc(doc(db, "requests", user.usernameLower));
+    const ownReqMap = new Map(Object.entries(userReqDoc.data().ownRequests));
+    if (ownReqMap.has(otherUser.usernameLower)) {
+      return "SentRequest";
+    } else {
+      const othersReqMap = new Map(
+        Object.entries(userReqDoc.data().othersRequests)
+      );
+      if (othersReqMap.has(otherUser.usernameLower)) {
+        return "GotRequest";
+      } else return "None";
+    }
+  }
+};
