@@ -37,24 +37,22 @@ const UserScreen = ({ route }) => {
       headerShown: false,
     });
     console.log(shownUser);
+    friendshipStatusInit();
     console.log(friendshipStatus);
   }, []);
-  useEffect(() => {
-    friendshipStatusInit();
-  }, [friendshipStatus]);
 
   const friendshipStatusInit = async () => {
     const friendsMap = new Map(Object.entries(user.friends));
     if (friendsMap.has(shownUser.usernameLower)) {
       setfriendshipStatus("Friends");
     } else {
-      const userReqRef = await getDoc(doc(db, "requests", user.usernameLower));
-      const ownReqMap = new Map(Object.entries(userReqRef.data().ownRequests));
+      const userReqDoc = await getDoc(doc(db, "requests", user.usernameLower));
+      const ownReqMap = new Map(Object.entries(userReqDoc.data().ownRequests));
       if (ownReqMap.has(shownUser.usernameLower)) {
         setfriendshipStatus("SentRequest");
       } else {
         const othersReqMap = new Map(
-          Object.entries(userReqRef.data().othersRequests)
+          Object.entries(userReqDoc.data().othersRequests)
         );
         if (othersReqMap.has(shownUser.usernameLower)) {
           setfriendshipStatus("GotRequest");
@@ -78,6 +76,13 @@ const UserScreen = ({ route }) => {
     await updateDoc(shownUserReqRef, {
       [`othersRequests.${user.usernameLower}`]: {
         displayName: user.username,
+        img: shownUser.img,
+        timestamp: Timestamp.now(),
+      },
+    });
+    await updateDoc(userReqRef, {
+      [`ownRequests.${shownUser.usernameLower}`]: {
+        displayName: shownUser.username,
         img: shownUser.img,
         timestamp: Timestamp.now(),
       },
