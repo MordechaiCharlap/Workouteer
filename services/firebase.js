@@ -7,6 +7,10 @@ import {
   updateDoc,
   increment,
   getDoc,
+  getDocs,
+  where,
+  query,
+  collection,
   Timestamp,
 } from "firebase/firestore";
 
@@ -61,4 +65,17 @@ export const sendFriendRequest = async (user, shownUser) => {
 };
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
+};
+export const checkUsername = async (username) => {
+  const usersRef = collection(db, "users");
+  const q = query(
+    usersRef,
+    where("usernameLower", "==", username.toLowerCase())
+  );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.size > 0) {
+    console.log("bigger than 0", querySnapshot.size);
+    return false;
+  }
+  return true;
 };

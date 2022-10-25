@@ -16,9 +16,8 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { authImport, firestoreImport } from "../services/firebase";
+import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import useCheckUsername from "../hooks/useCheckUsername";
 import useCheckEmail from "../hooks/userCheckEmail";
 import useUserData from "../hooks/useUserData";
 import authContext from "../context/authContext";
@@ -50,11 +49,11 @@ const LoginScreen = () => {
   const showDatepicker = () => {
     setShow(true);
   };
-  const handleCreateAccount = async () => {
+  const handleCreateAccount = () => {
     if (changedOnce) {
       var age = calculateAge();
-      var isUserAvailable = await useCheckUsername(username);
-      var isEmailAvailable = await useCheckEmail(email);
+      var isUserAvailable = firebase.checkUsername(username);
+      var isEmailAvailable = firebase.checkEmail(email);
       if (age >= 16) {
         if (username.length >= 6) {
           if (isUserAvailable) {
