@@ -94,18 +94,20 @@ const LoginScreen = () => {
       .then(async (userCredential) => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
-        await setDoc(doc(firestore, "users", username.toLocaleLowerCase()), {
+
+        await setDoc(doc(firestore, "users", username.toLowerCase()), {
           img: "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000",
           username: username,
           usernameLower: username.toLocaleLowerCase(),
           birthdate: date,
           friendsCount: 0,
           friendRequestCount: 0,
-          friends: [],
+          friends: {},
           workoutsCount: 0,
           email: email.toLocaleLowerCase(),
           id: userCredential.user.uid,
         });
+        await setDoc(doc(firestore, "requests", username.toLowerCase()), {});
         setUser(await useUserData(email.toLocaleLowerCase()));
         navigation.navigate("PersonalData");
       })
