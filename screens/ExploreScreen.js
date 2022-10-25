@@ -27,8 +27,17 @@ const ExploreScreen = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       const friendReqs = await firebase.getOthersRequests(user);
-      setFriendRequests(friendReqs);
-      console.log(friendRequests);
+      var friendsReqsArr = [];
+      friendReqs.forEach((value, key) => {
+        const date = new Date(value.timestamp).toDateString();
+        friendsReqsArr.push({
+          id: key,
+          displayName: value.displayName,
+          img: value.img,
+          date: date,
+        });
+      });
+      setFriendRequests(friendsReqsArr);
     };
     fetchRequests();
   }, []);
@@ -41,7 +50,7 @@ const ExploreScreen = () => {
         <View>
           <FlatList
             data={friendRequests}
-            keyExtractor={(item) => item.displayName}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               <View className="flex-row justify-between">
                 <Image
