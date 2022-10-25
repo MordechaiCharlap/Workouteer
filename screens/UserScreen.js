@@ -14,11 +14,9 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
   const { user } = useContext(authContext);
-  const db = firebase.db;
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
