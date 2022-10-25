@@ -15,7 +15,7 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import { firestoreImport } from "../firebase-config";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, updateDoc } from "firebase/firestore";
 const PersonalDataScreen = () => {
   const firestore = firestoreImport;
   const { user } = useContext(authContext);
@@ -44,20 +44,16 @@ const PersonalDataScreen = () => {
     console.log(maxAgeAccept);
     if (checkIfDataValid()) {
       if (true) {
-        await setDoc(
-          doc(firestore, "users", user.usernameLower),
-          {
-            firstName: firstNameVal,
-            lastName: lastNameVal,
-            isMale: value,
-            acceptMale: isAcceptMale,
-            acceptFemale: isAcceptFemale,
-            acceptMinAge: minAgeAccept,
-            acceptMaxAge: maxAgeAccept,
-            isPublic: true,
-          },
-          { merge: true }
-        );
+        await updateDoc(doc(firestore, "users", user.usernameLower), {
+          firstName: firstNameVal,
+          lastName: lastNameVal,
+          isMale: value,
+          acceptMale: isAcceptMale,
+          acceptFemale: isAcceptFemale,
+          acceptMinAge: minAgeAccept,
+          acceptMaxAge: maxAgeAccept,
+          isPublic: true,
+        });
       }
       navigation.navigate("Home");
     }
