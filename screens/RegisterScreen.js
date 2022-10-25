@@ -100,6 +100,8 @@ const LoginScreen = () => {
           usernameLower: username.toLocaleLowerCase(),
           birthdate: date,
           friendsCount: 0,
+          friendRequestCount: 0,
+          friends: [],
           workoutsCount: 0,
           email: email.toLocaleLowerCase(),
           id: userCredential.user.uid,
