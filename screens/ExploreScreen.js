@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import { React, useLayoutEffect, useContext, useState } from "react";
+import { React, useLayoutEffect, useContext, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
@@ -16,6 +16,7 @@ import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
+  var data;
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   useLayoutEffect(() => {
@@ -23,32 +24,36 @@ const ExploreScreen = () => {
       headerShown: false,
     });
   }, []);
+  const fetchRequests = async () => {
+    data = await firebase.getOthersRequests(user);
+  };
   const renderExplorePage = () => {
-    //TODOOOO
-    // if (renderOption == "Friend requests") {
-    //   return (
-    //     <View>
-    //       <FlatList
-    //         data={}
-    //         keyExtractor={(item) => item.username}
-    //         renderItem={({ item }) => {
-    //           <View className="flex-row justify-between">
-    //             <Image
-    //               source={{
-    //                 uri: item.img,
-    //               }}
-    //               className="h-15 w-15 bg-white rounded-full mb-2 self-center"
-    //             />
-    //             <Text>{item.username}</Text>
-    //             <TouchableOpacity className="bg-blue-500">
-    //               <Text className="text-gray-300">Accept!</Text>
-    //             </TouchableOpacity>
-    //           </View>;
-    //         }}
-    //       />
-    //     </View>
-    //   );
-    // }
+    if (renderOption == "Friend requests") {
+      console.log("rendering friends requests");
+      console.log(data);
+      return (
+        <View>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.displayName}
+            renderItem={({ item }) => {
+              <View className="flex-row justify-between">
+                <Image
+                  source={{
+                    uri: item.img,
+                  }}
+                  className="h-15 w-15 bg-white rounded-full mb-2 self-center"
+                />
+                <Text>{item.displayName}</Text>
+                <TouchableOpacity className="bg-blue-500">
+                  <Text className="text-gray-300">Accept!</Text>
+                </TouchableOpacity>
+              </View>;
+            }}
+          />
+        </View>
+      );
+    }
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -72,7 +77,7 @@ const ExploreScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* {renderExplorePage()} */}
+      {renderExplorePage()}
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
   );
