@@ -43,7 +43,6 @@ export const cancelFriendRequest = async (user, shownUser) => {
   });
 };
 export const sendFriendRequest = async (user, shownUser) => {
-  setFriendshipStatus("SentRequest");
   const userReqRef = doc(db, "requests", user.usernameLower);
   const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
   await updateDoc(userReqRef, {
