@@ -59,4 +59,6 @@ export const sendFriendRequest = async (user, shownUser) => {
     friendRequestCount: increment(1),
   });
 };
-export const searchUser = async () => {};
+export const searchUser = async (text) => {
+  return await getDoc(doc(db, "users", text.toLowerCase()));
+};

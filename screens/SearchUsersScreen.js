@@ -16,20 +16,10 @@ import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { firestoreImport } from "../services/firebase";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import * as firebase from "../services/firebase";
 const SearchUsersScreen = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedUser, setSearchedUser] = useState(null);
-  const firestore = firestoreImport;
-  const usersRef = collection(firestore, "users");
   useEffect(() => {}, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -38,11 +28,9 @@ const SearchUsersScreen = () => {
     });
   }, []);
 
-  const searchClicked = async () => {
+  const searchClicked = () => {
     if (searchText != "") {
-      const docRef = await getDoc(
-        doc(firestore, "users", searchText.toLowerCase())
-      );
+      const docRef = firebase.searchUser(searchText);
       if (docRef != null) setSearchedUser(docRef.data());
     }
   };
