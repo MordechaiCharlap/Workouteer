@@ -14,10 +14,8 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
-import { firestoreImport } from "../services/firebase";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import * as firebase from "../services/firebase";
 const PersonalDataScreen = () => {
-  const firestore = firestoreImport;
   const { user } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -36,25 +34,24 @@ const PersonalDataScreen = () => {
   const checkIfDataValid = () => {
     return true;
   };
-  const createAccountPressed = async () => {
+  const createAccountPressed = () => {
     console.log(value);
     console.log(isAcceptMale);
     console.log(isAcceptFemale);
     console.log(minAgeAccept);
     console.log(maxAgeAccept);
     if (checkIfDataValid()) {
-      if (true) {
-        await updateDoc(doc(firestore, "users", user.usernameLower), {
-          firstName: firstNameVal,
-          lastName: lastNameVal,
-          isMale: value,
-          acceptMale: isAcceptMale,
-          acceptFemale: isAcceptFemale,
-          acceptMinAge: minAgeAccept,
-          acceptMaxAge: maxAgeAccept,
-          isPublic: true,
-        });
-      }
+      const newData = {
+        firstName: firstNameVal,
+        lastName: lastNameVal,
+        isMale: value,
+        acceptMale: isAcceptMale,
+        acceptFemale: isAcceptFemale,
+        acceptMinAge: minAgeAccept,
+        acceptMaxAge: maxAgeAccept,
+        isPublic: true,
+      };
+      firebase.updatePersonalData(newData);
       navigation.navigate("Home");
     }
   };

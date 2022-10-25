@@ -20,11 +20,9 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import authContext from "../context/authContext";
-import { firestoreImport } from "../services/firebase";
 const FriendsScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);
-  const firestore = firestoreImport;
   var friendsData;
   useEffect(() => {
     friendsData = user.friends;

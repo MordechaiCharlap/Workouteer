@@ -98,3 +98,15 @@ export const userDataByEmail = async (email) => {
   });
   return userData;
 };
+export const updatePersonalData = async (newData) => {
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    firstName: newData.firstName,
+    lastName: newData.lastName,
+    isMale: newData.isMale,
+    acceptMale: newData.acceptMale,
+    acceptFemale: newData.acceptFemale,
+    acceptMinAge: newData.acceptMinAge,
+    acceptMaxAge: newData.acceptMaxAge,
+    isPublic: newData.isPublic,
+  });
+};
