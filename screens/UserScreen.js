@@ -41,7 +41,7 @@ const UserScreen = ({ route }) => {
   }, []);
   useEffect(() => {
     friendshipStatusInit();
-  }, friendshipStatus);
+  }, [friendshipStatus]);
 
   const friendshipStatusInit = async () => {
     const friendsMap = new Map(Object.entries(user.friends));
