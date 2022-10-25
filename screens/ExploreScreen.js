@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
+import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
@@ -23,30 +24,31 @@ const ExploreScreen = () => {
     });
   }, []);
   const renderExplorePage = () => {
-    if (renderOption == "Friend requests") {
-      return (
-        <View>
-          <FlatList
-            data={user.othersRequests}
-            keyExtractor={(item) => item.username}
-            renderItem={({ item }) => {
-              <View className="flex-row justify-between">
-                <Image
-                  source={{
-                    uri: item.img,
-                  }}
-                  className="h-15 w-15 bg-white rounded-full mb-2 self-center"
-                />
-                <Text>{item.username}</Text>
-                <TouchableOpacity className="bg-blue-500">
-                  <Text className="text-gray-300">Accept!</Text>
-                </TouchableOpacity>
-              </View>;
-            }}
-          />
-        </View>
-      );
-    }
+    //TODOOOO
+    // if (renderOption == "Friend requests") {
+    //   return (
+    //     <View>
+    //       <FlatList
+    //         data={}
+    //         keyExtractor={(item) => item.username}
+    //         renderItem={({ item }) => {
+    //           <View className="flex-row justify-between">
+    //             <Image
+    //               source={{
+    //                 uri: item.img,
+    //               }}
+    //               className="h-15 w-15 bg-white rounded-full mb-2 self-center"
+    //             />
+    //             <Text>{item.username}</Text>
+    //             <TouchableOpacity className="bg-blue-500">
+    //               <Text className="text-gray-300">Accept!</Text>
+    //             </TouchableOpacity>
+    //           </View>;
+    //         }}
+    //       />
+    //     </View>
+    //   );
+    // }
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -57,7 +59,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min bg-gray-500"
               style={style.socialButton}
             >
-              Friend requests: {user.othersRequests?.length || 0}
+              Friend requests: {user.friendRequestCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -70,7 +72,7 @@ const ExploreScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {renderExplorePage()}
+      {/* {renderExplorePage()} */}
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
   );
