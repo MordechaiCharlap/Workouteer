@@ -63,12 +63,26 @@ const MyUserScreen = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Image
-              source={{
-                uri: user.img,
-              }}
-              className="h-60 w-60 bg-white rounded-full mb-2 self-center"
-            />
+            <View className="flex-row">
+              <Image
+                source={{
+                  uri: user.img,
+                }}
+                className="h-60 w-60 bg-white rounded-full mb-2 self-center"
+              />
+              <TouchableOpacity className="items-center">
+                <Text style={style.text} className="font-bold">
+                  {user.workoutsCount}
+                </Text>
+                <Text style={style.text}>Workouts</Text>
+              </TouchableOpacity>
+              <TouchableOpacity className="items-center">
+                <Text style={style.text} className="font-bold">
+                  {user.friendsCount}
+                </Text>
+                <Text style={style.text}>Friends</Text>
+              </TouchableOpacity>
+            </View>
             <Text
               className="font-semibold text-4xl self-center"
               style={{
@@ -84,29 +98,8 @@ const MyUserScreen = () => {
               {user.firstName} {user.lastName}, {calculateAge()}
             </Text>
           </View>
-          <View
-            className="rounded-t-3xl flex-1 mx-2"
-            style={{ backgroundColor: appStyle.appGray }}
-          >
-            <View
-              className="flex-row justify-around"
-              style={style.workoutAndFriends}
-            >
-              <View className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {user.workoutsCount}
-                </Text>
-                <Text style={style.text}>Workouts</Text>
-              </View>
-              <View className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {user.friendsCount}
-                </Text>
-                <Text style={style.text}>Friends</Text>
-              </View>
-            </View>
-            <Text>No description yet.</Text>
-          </View>
+
+          <Text>No description yet.</Text>
         </ScrollView>
       </View>
       <BottomNavbar currentScreen="MyUser" />
