@@ -78,10 +78,7 @@ const MyUserScreen = () => {
               />
               <View className="flex-row flex-1 justify-around">
                 <View>
-                  <TouchableOpacity
-                    className="items-center"
-                    style={{ borderColor: appStyle.appGray, borderWidth: 1 }}
-                  >
+                  <TouchableOpacity className="items-center">
                     <Text
                       style={{ fontSize: 20, color: appStyle.appGray }}
                       className="font-bold"
