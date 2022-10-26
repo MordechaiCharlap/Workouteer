@@ -45,7 +45,7 @@ const MyUserScreen = () => {
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">
-            <View className="flex-row justify-between">
+            {/* <View className="flex-row justify-between">
               <TouchableOpacity
                 onPress={() => navigation.navigate("ChangePreferences")}
               >
@@ -62,7 +62,13 @@ const MyUserScreen = () => {
                   color={appStyle.appGray}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
+            <Text
+              className=" text-center text-3xl tracking-widest"
+              style={{ color: appStyle.appGray }}
+            >
+              {user.username}
+            </Text>
             <View className="flex-row mt-6 mb-3">
               <Image
                 source={{
