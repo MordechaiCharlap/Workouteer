@@ -14,6 +14,7 @@ import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
+import FriendRequests from "../components/FriendRequests";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
@@ -41,57 +42,6 @@ const ExploreScreen = () => {
     };
     fetchRequests();
   }, []);
-
-  const renderExplorePage = () => {
-    if (renderOption == "Friend requests") {
-      console.log("rendering friends requests");
-      console.log(friendRequests);
-      return (
-        <View className="flex-1 mt-3">
-          <FlatList
-            data={friendRequests}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View className="flex-row justify-between items-center">
-                <View className="flex-row items-center">
-                  <Image
-                    source={{
-                      uri: item.img,
-                    }}
-                    className="h-16 w-16 bg-white rounded-full mr-2"
-                  />
-                  <Text className="text-xl" style={{ color: appStyle.appGray }}>
-                    {item.displayName}
-                  </Text>
-                </View>
-                <View className="flex-row">
-                  <TouchableOpacity
-                    className="p-1 rounded"
-                    style={{ backgroundColor: appStyle.appAzure }}
-                  >
-                    <Text
-                      className="text-2xl"
-                      style={{ color: appStyle.appGray }}
-                    >
-                      Accept
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="ml-2 p-1 rounded"
-                    style={{ backgroundColor: appStyle.appGray }}
-                  >
-                    <Text className="text-2xl" style={{ color: "black" }}>
-                      Delete
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          />
-        </View>
-      );
-    }
-  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-3">
@@ -113,7 +63,9 @@ const ExploreScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {renderExplorePage()}
+        {renderOption == "Friend requests" && (
+          <FriendRequests requests={friendRequests} />
+        )}
       </View>
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
