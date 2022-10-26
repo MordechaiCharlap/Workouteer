@@ -44,7 +44,7 @@ const MyUserScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
         <ScrollView>
-          <View className="p-3">
+          <View className="p-4">
             <View className="flex-row justify-between">
               <TouchableOpacity
                 onPress={() => navigation.navigate("ChangePreferences")}
@@ -63,25 +63,27 @@ const MyUserScreen = () => {
                 />
               </TouchableOpacity>
             </View>
-            <View className="flex-row">
+            <View className="flex-row mt-6">
               <Image
                 source={{
                   uri: user.img,
                 }}
-                className="h-60 w-60 bg-white rounded-full mb-2 self-center"
+                className="h-32 w-32 bg-white rounded-full mb-2 self-center"
               />
-              <TouchableOpacity className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {user.workoutsCount}
-                </Text>
-                <Text style={style.text}>Workouts</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="items-center">
-                <Text style={style.text} className="font-bold">
-                  {user.friendsCount}
-                </Text>
-                <Text style={style.text}>Friends</Text>
-              </TouchableOpacity>
+              <View className="flex-row flex-1 justify-around">
+                <TouchableOpacity className="items-center">
+                  <Text style={style.text} className="font-bold">
+                    {user.workoutsCount}
+                  </Text>
+                  <Text style={style.text}>Workouts</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="items-center">
+                  <Text style={style.text} className="font-bold">
+                    {user.friendsCount}
+                  </Text>
+                  <Text style={style.text}>Friends</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <Text
               className="font-semibold text-4xl self-center"
@@ -109,7 +111,7 @@ const MyUserScreen = () => {
 const style = StyleSheet.create({
   text: {
     fontSize: 20,
-    color: appStyle.appDarkBlue,
+    color: appStyle.appGray,
   },
   workoutAndFriends: {
     borderBottomColor: appStyle.appAzure,
