@@ -163,7 +163,7 @@ export const acceptRequest = async (userId, otherUserId) => {
       timestamp: Timestamp.now(),
     },
   });
-  //  user: remove sentRequest,
+  //  user: remove sentRequest
   await updateDoc(doc(db, "requests", userId), {
     [`receivedRequests.${otherUserId}`]: deleteField(),
   });
