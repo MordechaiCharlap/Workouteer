@@ -91,7 +91,7 @@ const UserScreen = ({ route }) => {
           </Text>
         </TouchableOpacity>
       );
-    else if (friendshipStatus == "GotRequest")
+    else if (friendshipStatus == "ReceivedRequest")
       return (
         <View className="flex-row">
           <TouchableOpacity

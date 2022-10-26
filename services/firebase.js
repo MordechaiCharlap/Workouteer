@@ -104,7 +104,7 @@ export const checkFriendShipStatus = async (userData, otherUserData) => {
         Object.entries(userReqDoc.data().receivedRequests)
       );
       if (receivedReqMap.has(otherUserData.usernameLower)) {
-        return "GotRequest";
+        return "ReceivedRequest";
       } else return "None";
     }
   }
