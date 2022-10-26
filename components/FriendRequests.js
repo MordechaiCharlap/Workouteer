@@ -4,8 +4,13 @@ import * as appStyle from "./AppStyleSheet";
 import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
-  const acceptRequest = (otherUserId) => {};
-  const rejectRequest = (otherUserId) => {};
+  const acceptRequest = async (otherUserId) => {
+    await firebase.acceptRequest(props.user.usernameLower, otherUserId);
+  };
+  const rejectRequest = async (otherUserId) => {
+    await firebase.rejectRequest(props.user.usernameLower, otherUserId);
+  };
+  //Make sure delete line AUTO!
   return (
     <View className="flex-1 mt-3">
       <FlatList
@@ -40,7 +45,7 @@ const FriendRequests = (props) => {
                 style={{ backgroundColor: appStyle.appGray }}
               >
                 <Text className="text-2xl" style={{ color: "black" }}>
-                  Delete
+                  Reject
                 </Text>
               </TouchableOpacity>
             </View>
