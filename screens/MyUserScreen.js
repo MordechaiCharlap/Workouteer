@@ -63,7 +63,7 @@ const MyUserScreen = () => {
                 />
               </TouchableOpacity>
             </View>
-            <View className="flex-row mt-6">
+            <View className="flex-row mt-6 mb-3">
               <Image
                 source={{
                   uri: user.img,
@@ -86,22 +86,17 @@ const MyUserScreen = () => {
               </View>
             </View>
             <Text
-              className="font-semibold text-4xl self-center"
+              className="font-semibold text-2xl"
               style={{
                 color: appStyle.appGray,
               }}
             >
-              {user.username}
+              {user.displayName}
             </Text>
-            <Text
-              className="self-center font-bold text-xl tracking-wider"
-              style={{ color: appStyle.appGray }}
-            >
-              {user.firstName} {user.lastName}, {calculateAge()}
+            <Text style={{ color: appStyle.appGray }} className="text-lg">
+              No description yet.
             </Text>
           </View>
-
-          <Text>No description yet.</Text>
         </ScrollView>
       </View>
       <BottomNavbar currentScreen="MyUser" />
