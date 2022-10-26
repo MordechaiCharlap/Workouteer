@@ -148,6 +148,6 @@ export const getReceivedRequests = async (userData) => {
   return receivedReqsMap;
 };
 export const acceptRequest = async (userId, otherUserId) => {
-  //Both: friendsCount++ add the other one to friendsList, user: remove ownRequest, otherUser: remove receivedRequest
+  //Both: friendsCount++ add the other one to friendsList, user: remove sentRequest, otherUser: remove receivedRequest
 };
 export const rejectRequest = async (userId, otherUserId) => {};

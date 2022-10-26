@@ -28,7 +28,7 @@ const ExploreScreen = () => {
   useEffect(() => {
     if (user.friendRequestCount > 0) {
       const fetchRequests = async () => {
-        const friendReqs = await firebase.getOthersRequests(user);
+        const friendReqs = await firebase.getReceivedRequests(user);
         var friendsReqsArr = [];
         friendReqs.forEach((value, key) => {
           const date = new Date(Number(value.timestamp)).toLocaleDateString();
