@@ -77,17 +77,27 @@ const MyUserScreen = () => {
                 className="h-32 w-32 bg-white rounded-full mb-2 self-center"
               />
               <View className="flex-row flex-1 justify-around">
-                <TouchableOpacity className="items-center">
-                  <Text style={style.text} className="font-bold">
+                <TouchableOpacity
+                  style={{ borderWidth: 1, borderColor: appStyle.appGray }}
+                  className="items-center"
+                >
+                  <Text
+                    style={{ fontSize: 20, color: appStyle.appGray }}
+                    className="font-bold"
+                  >
                     {user.workoutsCount}
                   </Text>
-                  <Text style={style.text}>Workouts</Text>
+                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    Workouts
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="items-center">
-                  <Text style={style.text} className="font-bold">
+                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
                     {user.friendsCount}
                   </Text>
-                  <Text style={style.text}>Friends</Text>
+                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    Friends
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -109,14 +119,4 @@ const MyUserScreen = () => {
     </SafeAreaView>
   );
 };
-const style = StyleSheet.create({
-  text: {
-    fontSize: 20,
-    color: appStyle.appGray,
-  },
-  workoutAndFriends: {
-    borderBottomColor: appStyle.appAzure,
-    borderBottomWidth: 1,
-  },
-});
 export default MyUserScreen;
