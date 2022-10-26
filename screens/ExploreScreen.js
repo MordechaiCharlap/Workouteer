@@ -26,8 +26,8 @@ const ExploreScreen = () => {
     });
   }, []);
   useEffect(() => {
-    const fetchRequests = async () => {
-      if (user.friendRequestCount > 0) {
+    if (user.friendRequestCount > 0) {
+      const fetchRequests = async () => {
         const friendReqs = await firebase.getOthersRequests(user);
         var friendsReqsArr = [];
         friendReqs.forEach((value, key) => {
@@ -40,9 +40,9 @@ const ExploreScreen = () => {
           });
         });
         setFriendRequests(friendsReqsArr);
-      }
-    };
-    fetchRequests();
+      };
+      fetchRequests();
+    }
   }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
