@@ -84,8 +84,8 @@ export const createUser = async (newUserData) => {
 };
 export const createUserRequestsDocs = async (newUserData) => {
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
-    receivedRequests: [],
-    sentRequests: [],
+    receivedRequests: {},
+    sentRequests: {},
   });
 };
 export const checkFriendShipStatus = async (userData, otherUserData) => {
@@ -96,14 +96,14 @@ export const checkFriendShipStatus = async (userData, otherUserData) => {
     const userReqDoc = await getDoc(
       doc(db, "requests", userData.usernameLower)
     );
-    const ownReqMap = new Map(Object.entries(userReqDoc.data().ownRequests));
-    if (ownReqMap.has(otherUserData.usernameLower)) {
+    const sentReqsMap = new Map(Object.entries(userReqDoc.data().sentRequests));
+    if (sentReqsMap.has(otherUserData.usernameLower)) {
       return "SentRequest";
     } else {
-      const othersReqMap = new Map(
-        Object.entries(userReqDoc.data().othersRequests)
+      const receivedReqMap = new Map(
+        Object.entries(userReqDoc.data().receivedRequests)
       );
-      if (othersReqMap.has(otherUserData.usernameLower)) {
+      if (receivedReqMap.has(otherUserData.usernameLower)) {
         return "GotRequest";
       } else return "None";
     }
@@ -113,10 +113,10 @@ export const cancelFriendRequest = async (user, shownUser) => {
   const userReqRef = doc(db, "requests", user.usernameLower);
   const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
   await updateDoc(userReqRef, {
-    [`ownRequests.${shownUser.usernameLower}`]: deleteField(),
+    [`sentRequests.${shownUser.usernameLower}`]: deleteField(),
   });
   await updateDoc(shownUserReqRef, {
-    [`othersRequests.${user.usernameLower}`]: deleteField(),
+    [`receivedRequests.${user.usernameLower}`]: deleteField(),
   });
   await updateDoc(doc(db, "users", shownUser.usernameLower), {
     friendRequestCount: increment(-1),
@@ -139,15 +139,15 @@ export const sendFriendRequest = async (user, shownUser) => {
     friendRequestCount: increment(1),
   });
 };
-export const getOthersRequests = async (userData) => {
+export const getReceivedRequests = async (userData) => {
   const userRequests = await getDoc(
     doc(db, "requests", userData.usernameLower)
   );
-  const othersReqs = userRequests.data().othersRequests;
-  const othersReqsMap = new Map(Object.entries(othersReqs));
-  return othersReqsMap;
+  const receivedReqs = userRequests.data().receivedRequests;
+  const receivedReqsMap = new Map(Object.entries(receivedReqs));
+  return receivedReqsMap;
 };
 export const acceptRequest = async (userId, otherUserId) => {
-  //Both: friendsCount++ add the other one to friendsList, user: remove ownRequest, otherUser: remove othersRequest
+  //Both: friendsCount++ add the other one to friendsList, user: remove ownRequest, otherUser: remove receivedRequest
 };
 export const rejectRequest = async (userId, otherUserId) => {};
