@@ -1,7 +1,11 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
+import * as firebase from "../services/firebase";
+
 const FriendRequests = (props) => {
+  const acceptRequest = (otherUserId) => {};
+  const rejectRequest = (otherUserId) => {};
   return (
     <View className="flex-1 mt-3">
       <FlatList
@@ -22,6 +26,7 @@ const FriendRequests = (props) => {
             </View>
             <View className="flex-row">
               <TouchableOpacity
+                onPress={() => acceptRequest(item.id)}
                 className="p-1 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
@@ -30,6 +35,7 @@ const FriendRequests = (props) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => rejectRequest(item.id)}
                 className="ml-2 p-1 rounded"
                 style={{ backgroundColor: appStyle.appGray }}
               >
