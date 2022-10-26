@@ -23,9 +23,14 @@ import authContext from "../context/authContext";
 const FriendsScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);
-  var friendsData;
+  const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  const allFriendsMap = new Map(Object.entries(user.friends));
   useEffect(() => {
-    friendsData = user.friends;
+    const friendsArr = [];
+    allFriendsMap.forEach((value, key) => {
+      friendsArr.push(key);
+    });
+    setShownFriendsArray(friendsArr);
   }, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -36,11 +41,11 @@ const FriendsScreen = () => {
 
   const searchClicked = async () => {
     if (searchText != "") {
-      friendsData = [];
-      user.friends.forEach((user) => {
-        if (user.username.toLowerCase() == searchText.toLocaleLowerCase())
-          friendsData.push(user);
+      const friendsArr = [];
+      allFriendsMap.forEach((value, key) => {
+        friendsArr.push(key);
       });
+      setShownFriendsArray(friendsArr);
     }
   };
   return (
@@ -92,7 +97,7 @@ const FriendsScreen = () => {
         <FlatList
           showsVerticalScrollIndicator={false}
           className="flex-1 "
-          data={friendsData}
+          data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
