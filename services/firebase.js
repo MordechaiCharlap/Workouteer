@@ -19,40 +19,6 @@ export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 
-export const cancelFriendRequest = async (user, shownUser) => {
-  const userReqRef = doc(db, "requests", user.usernameLower);
-  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-  await updateDoc(userReqRef, {
-    [`ownRequests.${shownUser.usernameLower}`]: deleteField(),
-  });
-  await updateDoc(shownUserReqRef, {
-    [`othersRequests.${user.usernameLower}`]: deleteField(),
-  });
-  await updateDoc(doc(db, "users", shownUser.usernameLower), {
-    friendRequestCount: increment(-1),
-  });
-};
-export const sendFriendRequest = async (user, shownUser) => {
-  const userReqRef = doc(db, "requests", user.usernameLower);
-  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-  await updateDoc(userReqRef, {
-    [`ownRequests.${shownUser.usernameLower}`]: {
-      displayName: shownUser.username,
-      img: shownUser.img,
-      timestamp: Timestamp.now(),
-    },
-  });
-  await updateDoc(shownUserReqRef, {
-    [`othersRequests.${user.usernameLower}`]: {
-      displayName: user.username,
-      img: shownUser.img,
-      timestamp: Timestamp.now(),
-    },
-  });
-  await updateDoc(doc(db, "users", shownUser.usernameLower), {
-    friendRequestCount: increment(1),
-  });
-};
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
@@ -100,18 +66,18 @@ export const updatePersonalData = async (newData) => {
     isPublic: newData.isPublic,
   });
 };
-export const createUser = async (newUserData) => {
-  await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
-    img: newUserData.img,
-    username: newUserData.username,
-    usernameLower: newUserData.usernameLower,
-    birthdate: newUserData.birthdate,
+export const createUser = async (newAuthUserData) => {
+  await setDoc(doc(db, "users", newAuthUserData.username.toLowerCase()), {
+    img: newAuthUserData.img,
+    username: newAuthUserData.username,
+    usernameLower: newAuthUserData.usernameLower,
+    birthdate: newAuthUserData.birthdate,
     friendsCount: 0,
     friendRequestCount: 0,
     friends: {},
     workoutsCount: 0,
-    email: newUserData.email,
-    id: newUserData.id,
+    email: newAuthUserData.email,
+    uidAuth: newAuthUserData.id,
   });
 };
 export const createUserRequestsDocs = async (newUserData) => {
@@ -139,9 +105,51 @@ export const checkFriendShipStatus = async (userData, otherUserData) => {
     }
   }
 };
-export const getOthersRequests = async (user) => {
-  const userRequests = await getDoc(doc(db, "requests", user.usernameLower));
+export const cancelFriendRequest = async (user, shownUser) => {
+  const userReqRef = doc(db, "requests", user.usernameLower);
+  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
+  await updateDoc(userReqRef, {
+    [`ownRequests.${shownUser.usernameLower}`]: deleteField(),
+  });
+  await updateDoc(shownUserReqRef, {
+    [`othersRequests.${user.usernameLower}`]: deleteField(),
+  });
+  await updateDoc(doc(db, "users", shownUser.usernameLower), {
+    friendRequestCount: increment(-1),
+  });
+};
+export const sendFriendRequest = async (user, shownUser) => {
+  const userReqRef = doc(db, "requests", user.usernameLower);
+  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
+  await updateDoc(userReqRef, {
+    [`ownRequests.${shownUser.usernameLower}`]: {
+      username: shownUser.username,
+      displayName: shownUser.displayName,
+      img: shownUser.img,
+      timestamp: Timestamp.now(),
+    },
+  });
+  await updateDoc(shownUserReqRef, {
+    [`othersRequests.${user.usernameLower}`]: {
+      username: user.displayName,
+      displayName: user.displayName,
+      img: shownUser.img,
+      timestamp: Timestamp.now(),
+    },
+  });
+  await updateDoc(doc(db, "users", shownUser.usernameLower), {
+    friendRequestCount: increment(1),
+  });
+};
+export const getOthersRequests = async (userData) => {
+  const userRequests = await getDoc(
+    doc(db, "requests", userData.usernameLower)
+  );
   const othersReqs = userRequests.data().othersRequests;
   const othersReqsMap = new Map(Object.entries(othersReqs));
   return othersReqsMap;
 };
+export const acceptRequest = async (userId, otherUserId) => {
+  //Both: friendsCount++ add the other one to friendsList, user: remove ownRequest, otherUser: remove othersRequest
+};
+export const rejectRequest = async (userId, otherUserId) => {};
