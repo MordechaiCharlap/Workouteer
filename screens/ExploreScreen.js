@@ -48,7 +48,13 @@ const ExploreScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-3">
         <View className="flex-row justify-between">
-          <TouchableOpacity onPress={() => setRenderOption("Friend requests")}>
+          <TouchableOpacity
+            onPress={() =>
+              renderOption == "Friend requests"
+                ? setRenderOption("Explore")
+                : setRenderOption("Friend requests")
+            }
+          >
             <Text
               className="text-2xl w-min bg-gray-500"
               style={style.socialButton}
@@ -66,7 +72,7 @@ const ExploreScreen = () => {
           </TouchableOpacity>
         </View>
         {renderOption == "Friend requests" && (
-          <FriendRequests requests={friendRequests} />
+          <FriendRequests friendRequests={friendRequests} />
         )}
       </View>
       <BottomNavbar currentScreen="Explore" />
