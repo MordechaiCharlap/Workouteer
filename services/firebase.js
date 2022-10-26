@@ -148,6 +148,30 @@ export const getReceivedRequests = async (userData) => {
   return receivedReqsMap;
 };
 export const acceptRequest = async (userId, otherUserId) => {
-  //Both: friendsCount++ add the other one to friendsList, user: remove sentRequest, otherUser: remove receivedRequest
+  //user: friendsCount++ && add other to friendsList
+  await updateDoc(doc(db, "users", userId), {
+    friendsCount: increment(1),
+    [`friends.${otherUserId}`]: {
+      timestamp: Timestamp.now(),
+    },
+  });
+  //otherUser: friendsCount++ && add user to friendsList && increment (-1) friendRequestsCount
+  await updateDoc(doc(db, "users", otherUserId), {
+    friendsCount: increment(1),
+    friendsRequestCount: increment(-1),
+    [`friends.${userId}`]: {
+      timestamp: Timestamp.now(),
+    },
+  });
+  //  user: remove sentRequest,
+  await updateDoc(doc(db, "requests", userId), {
+    [`receivedRequests.${otherUserId}`]: deleteField(),
+  });
+  //otherUser: remove receivedRequest
+  await updateDoc(doc(db, "requests", otherUserId), {
+    [`sentRequests.${userId}`]: deleteField(),
+  });
 };
-export const rejectRequest = async (userId, otherUserId) => {};
+export const rejectRequest = async (userId, otherUserId) => {
+  //user: remove receivedRequest, otherUser: remove sentRequest
+};
