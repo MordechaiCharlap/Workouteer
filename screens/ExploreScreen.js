@@ -42,6 +42,12 @@ const ExploreScreen = () => {
         setFriendRequests(friendsReqsArr);
       };
       fetchRequests();
+      //   const unsub = onSnapshot(
+      //     doc(db, "requests", user.usernameLower),
+      //     (doc) => {
+      //       console.log("Current data: ", doc.data());
+      //     }
+      //   );
     }
   }, []);
   const deleteRequestFromArray = (otherUserId) => {
