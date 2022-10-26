@@ -58,6 +58,7 @@ export const updatePersonalData = async (newData) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
     firstName: newData.firstName,
     lastName: newData.lastName,
+    displayName: newData.displayName,
     isMale: newData.isMale,
     acceptMale: newData.acceptMale,
     acceptFemale: newData.acceptFemale,
@@ -66,23 +67,26 @@ export const updatePersonalData = async (newData) => {
     isPublic: newData.isPublic,
   });
 };
-export const createUser = async (newAuthUserData) => {
-  await setDoc(doc(db, "users", newAuthUserData.username.toLowerCase()), {
-    img: newAuthUserData.img,
-    username: newAuthUserData.username,
-    usernameLower: newAuthUserData.usernameLower,
-    birthdate: newAuthUserData.birthdate,
+export const createUser = async (newUserData) => {
+  await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
+    img: newUserData.img,
+    username: newUserData.username,
+    displayName: newUserData.displayName,
+    usernameLower: newUserData.usernameLower,
+    birthdate: newUserData.birthdate,
     friendsCount: 0,
     friendRequestCount: 0,
     friends: {},
     workoutsCount: 0,
-    email: newAuthUserData.email,
-    uidAuth: newAuthUserData.id,
+    email: newUserData.email,
+    uidAuth: newUserData.id,
   });
 };
 export const createUserRequestsDocs = async (newUserData) => {
-  await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {});
-  setUser(db.userDataByEmail(newUserData.email.toLowerCase()));
+  await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
+    receivedRequests: [],
+    sentRequests: [],
+  });
 };
 export const checkFriendShipStatus = async (userData, otherUserData) => {
   const friendsMap = new Map(Object.entries(userData.friends));
@@ -122,18 +126,12 @@ export const sendFriendRequest = async (user, shownUser) => {
   const userReqRef = doc(db, "requests", user.usernameLower);
   const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
   await updateDoc(userReqRef, {
-    [`ownRequests.${shownUser.usernameLower}`]: {
-      username: shownUser.username,
-      displayName: shownUser.displayName,
-      img: shownUser.img,
+    [`sentRequests.${shownUser.usernameLower}`]: {
       timestamp: Timestamp.now(),
     },
   });
   await updateDoc(shownUserReqRef, {
-    [`othersRequests.${user.usernameLower}`]: {
-      username: user.displayName,
-      displayName: user.displayName,
-      img: shownUser.img,
+    [`receivedRequests.${user.usernameLower}`]: {
       timestamp: Timestamp.now(),
     },
   });

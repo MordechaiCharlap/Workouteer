@@ -90,6 +90,8 @@ const LoginScreen = () => {
         const newUserData = {
           img: "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000",
           username: username,
+          //TODO NEED TO BE FIXED
+          displayName: username,
           usernameLower: username.toLowerCase(),
           birthdate: date,
           email: email.toLowerCase(),
