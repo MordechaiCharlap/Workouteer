@@ -28,7 +28,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [displayName, setDisplayName] = useState("");
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
@@ -90,8 +90,7 @@ const LoginScreen = () => {
         const newUserData = {
           img: "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000",
           username: username,
-          //TODO NEED TO BE FIXED
-          displayName: username,
+          displayName: displayName,
           usernameLower: username.toLowerCase(),
           birthdate: date,
           email: email.toLowerCase(),
@@ -138,9 +137,16 @@ const LoginScreen = () => {
             <TextInput
               className="rounded mb-5 px-3 h-10 justify-center"
               style={style.input}
-              placeholder="Username (Your app screen name)"
+              placeholder="Username (Must be unique)"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setUsername(text)}
+            ></TextInput>
+            <TextInput
+              className="rounded mb-5 px-3 h-10 justify-center"
+              style={style.input}
+              placeholder="Display name"
+              placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setDisplayName(text)}
             ></TextInput>
             <TouchableOpacity
               className="rounded mb-5 px-3 h-10 justify-center"
