@@ -77,28 +77,32 @@ const MyUserScreen = () => {
                 className="h-32 w-32 bg-white rounded-full mb-2 self-center"
               />
               <View className="flex-row flex-1 justify-around">
-                <TouchableOpacity
-                  style={{ borderWidth: 1, borderColor: appStyle.appGray }}
-                  className="items-center"
-                >
-                  <Text
-                    style={{ fontSize: 20, color: appStyle.appGray }}
-                    className="font-bold"
+                <View>
+                  <TouchableOpacity
+                    className="items-center"
+                    style={{ borderColor: appStyle.appGray, borderWidth: 1 }}
                   >
-                    {user.workoutsCount}
-                  </Text>
-                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
-                    Workouts
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity className="items-center">
-                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
-                    {user.friendsCount}
-                  </Text>
-                  <Text style={{ fontSize: 20, color: appStyle.appGray }}>
-                    Friends
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      className="font-bold"
+                    >
+                      {user.workoutsCount}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      Workouts
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity className="items-center">
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      {user.friendsCount}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      Friends
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
             <Text
