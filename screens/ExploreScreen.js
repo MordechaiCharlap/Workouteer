@@ -72,7 +72,7 @@ const ExploreScreen = () => {
           </TouchableOpacity>
         </View>
         {renderOption == "Friend requests" && (
-          <FriendRequests friendRequests={friendRequests} />
+          <FriendRequests user={user} friendRequests={friendRequests} />
         )}
       </View>
       <BottomNavbar currentScreen="Explore" />
