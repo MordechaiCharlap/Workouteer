@@ -27,18 +27,20 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {
     const fetchRequests = async () => {
-      const friendReqs = await firebase.getOthersRequests(user);
-      var friendsReqsArr = [];
-      friendReqs.forEach((value, key) => {
-        const date = new Date(Number(value.timestamp)).toLocaleDateString();
-        friendsReqsArr.push({
-          id: key,
-          displayName: value.displayName,
-          img: value.img,
-          date: date,
+      if (user.friendRequestCount > 0) {
+        const friendReqs = await firebase.getOthersRequests(user);
+        var friendsReqsArr = [];
+        friendReqs.forEach((value, key) => {
+          const date = new Date(Number(value.timestamp)).toLocaleDateString();
+          friendsReqsArr.push({
+            id: key,
+            displayName: value.displayName,
+            img: value.img,
+            date: date,
+          });
         });
-      });
-      setFriendRequests(friendsReqsArr);
+        setFriendRequests(friendsReqsArr);
+      }
     };
     fetchRequests();
   }, []);
