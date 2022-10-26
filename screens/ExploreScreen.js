@@ -44,6 +44,12 @@ const ExploreScreen = () => {
       fetchRequests();
     }
   }, []);
+  const deleteRequestFromArray = (otherUserId) => {
+    const index = array.indexOf(otherUserId);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-3">
@@ -72,7 +78,11 @@ const ExploreScreen = () => {
           </TouchableOpacity>
         </View>
         {renderOption == "Friend requests" && (
-          <FriendRequests user={user} friendRequests={friendRequests} />
+          <FriendRequests
+            user={user}
+            friendRequests={friendRequests}
+            deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
+          />
         )}
       </View>
       <BottomNavbar currentScreen="Explore" />

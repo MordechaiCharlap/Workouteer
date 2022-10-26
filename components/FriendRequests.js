@@ -5,9 +5,11 @@ import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
   const acceptRequest = async (otherUserId) => {
+    props.deleteRequest(otherUserId);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
   };
   const rejectRequest = async (otherUserId) => {
+    props.deleteRequest(otherUserId);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
   };
   //Make sure delete line AUTO!
