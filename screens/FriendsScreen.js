@@ -64,7 +64,7 @@ const FriendsScreen = ({ route }) => {
             <Text className="text-xl font-bold">New friend</Text>
           </TouchableOpacity> */}
           <Text
-            className="text-5xl font-bold text-center mt-5"
+            className="text-5xl font-bold pt-3"
             style={{ color: appStyle.appGray }}
           >
             Friends
