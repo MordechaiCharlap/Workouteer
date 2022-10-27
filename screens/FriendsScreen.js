@@ -22,28 +22,35 @@ import {
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 const FriendsScreen = () => {
-  const [searchText, setSearchText] = useState("");
-  const { user } = useContext(authContext);
-  const [shownFriendsArray, setShownFriendsArray] = useState([]);
-  const allFriendsMap = new Map(Object.entries(user.friends));
-  useEffect(() => {
-    const friendsArr = [];
-    allFriendsMap.forEach(async (value, key) => {
-      var userData = await firebase.userDataById(key);
-      friendsArr.push({
-        id: key,
-        username: userData.username,
-        displayName: userData.displayName,
-        img: userData.img,
-      });
-    });
-    setShownFriendsArray(friendsArr);
-  }, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+
+  const [searchText, setSearchText] = useState("");
+  const { user } = useContext(authContext);
+  const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  const allFriendsMap = new Map(Object.entries(user.friends));
+
+  useEffect(() => {
+    const showAllFriends = async () => {
+      const friendsArr = [];
+      for (var [value, key] of allFriendsMap) {
+        var userData = await firebase.userDataById(key);
+        console.log(userData);
+        friendsArr.push({
+          id: key,
+          username: userData.username,
+          displayName: userData.displayName,
+          img: userData.img,
+        });
+      }
+      console.log(friendsArr);
+      setShownFriendsArray(friendsArr);
+    };
+    showAllFriends();
   }, []);
 
   const searchClicked = async () => {
@@ -107,6 +114,27 @@ const FriendsScreen = () => {
           data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
+            <View className="flex-row justify-between items-center">
+              <View className="flex-row items-center">
+                <Image
+                  source={{
+                    uri: item.img,
+                  }}
+                  className="h-16 w-16 bg-white rounded-full mr-2"
+                />
+                <Text className="text-xl" style={{ color: appStyle.appGray }}>
+                  {item.displayName}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
+        {/* <FlatList
+          showsVerticalScrollIndicator={false}
+          className="flex-1 "
+          data={shownFriendsArray}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
             <TouchableOpacity
               style={{
                 backgroundColor: appStyle.appLightBlue,
@@ -119,8 +147,8 @@ const FriendsScreen = () => {
                   source={{
                     uri: item.img,
                   }}
-                  className="rounded-full aspect-square"
-                  style={style.profileImg}
+                  className="h-16 w-16 rounded-full bg-white aspect-square"
+                  // style={style.profileImg}
                 />
               </View>
               <View className="justify-center" style={{ flexBasis: "76%" }}>
@@ -133,7 +161,7 @@ const FriendsScreen = () => {
               </View>
             </TouchableOpacity>
           )}
-        />
+        /> */}
       </View>
       <BottomNavbar currentScreen="Friends" />
     </SafeAreaView>
