@@ -86,7 +86,7 @@ const FriendsScreen = ({ route }) => {
         </View>
         <FlatList
           showsVerticalScrollIndicator={false}
-          className="flex-1 p-3"
+          className="flex-1 px-4 pt-3"
           data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -100,13 +100,13 @@ const FriendsScreen = ({ route }) => {
                 />
                 <View>
                   <Text
-                    className="text-xl font-semibold"
+                    className="text-xl font-semibold tracking-wider"
                     style={{ color: appStyle.appGray }}
                   >
                     {item.username}
                   </Text>
                   <Text
-                    className="text-md opacity-60"
+                    className="text-md opacity-60 tracking-wider"
                     style={{ color: appStyle.appGray }}
                   >
                     {item.displayName}
@@ -114,7 +114,7 @@ const FriendsScreen = ({ route }) => {
                 </View>
               </View>
               <TouchableOpacity
-                className="py-2 px-6 rounded"
+                className="py-1 px-4 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
                 <Text
