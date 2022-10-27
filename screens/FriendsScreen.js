@@ -8,18 +8,16 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faMagnifyingGlass,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import authContext from "../context/authContext";
 
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -33,7 +31,6 @@ const FriendsScreen = ({ route }) => {
   }, []);
 
   const [searchText, setSearchText] = useState("");
-  const { user } = useContext(authContext);
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
 
   const searchClicked = async () => {
@@ -56,13 +53,6 @@ const FriendsScreen = ({ route }) => {
               color={appStyle.appGray}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={{ backgroundColor: appStyle.appLightBlue }}
-            className="rounded-sm items-center justify-center px-2"
-            onPress={() => navigation.navigate("SearchUsers")}
-          >
-            <Text className="text-xl font-bold">New friend</Text>
-          </TouchableOpacity> */}
           <Text
             className="text-5xl font-bold pt-3"
             style={{ color: appStyle.appGray }}
