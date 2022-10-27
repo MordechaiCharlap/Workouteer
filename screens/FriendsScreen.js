@@ -29,7 +29,7 @@ const FriendsScreen = () => {
   useEffect(() => {
     const friendsArr = [];
     allFriendsMap.forEach(async (value, key) => {
-      userData = await firebase.userDataById(key);
+      var userData = await firebase.userDataById(key);
       friendsArr.push({
         id: key,
         username: userData.username,
