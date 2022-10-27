@@ -25,22 +25,6 @@ const MyUserScreen = () => {
   }, []);
 
   useEffect(() => {}, []);
-
-  // const ChangePreferences = () => {
-  //   console.log("moving to preferences");
-  //   navigation.navigate("ChangePreferences");
-  // };
-  // const calculateAge = () => {
-  //   const birthdate = user.birthdate.toDate();
-  //   var today = new Date();
-  //   var age = today.getFullYear() - birthdate.getFullYear();
-  //   var m = today.getMonth() - birthdate.getMonth();
-  //   if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
-  //     age--;
-  //   }
-  //   console.log(age);
-  //   return age;
-  // };
   const showFriends = async () => {
     const friendsArr = [];
     for (var key of allFriendsMap.keys()) {
