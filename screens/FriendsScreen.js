@@ -20,38 +20,21 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import authContext from "../context/authContext";
-import * as firebase from "../services/firebase";
-const FriendsScreen = () => {
+
+const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  useEffect(() => {
+    setShownFriendsArray(route.params.friendsArray);
+  }, []);
 
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
-  const allFriendsMap = new Map(Object.entries(user.friends));
-
-  useEffect(() => {
-    const showAllFriends = async () => {
-      const friendsArr = [];
-      for (var key of allFriendsMap.keys()) {
-        var userData = await firebase.userDataById(key);
-        console.log(userData);
-        friendsArr.push({
-          id: key,
-          username: userData.username,
-          displayName: userData.displayName,
-          img: userData.img,
-        });
-        console.log(friendsArr);
-        setShownFriendsArray(friendsArr);
-      }
-    };
-    showAllFriends();
-  }, []);
 
   const searchClicked = async () => {
     if (searchText != "") {
