@@ -15,9 +15,18 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
-export const firebaseApp = initializeApp(firebaseConfig);
+import { useContext } from "react";
+import authContext from "../context/authContext";
+
+const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
+
+const updateContext = async () => {
+  const { user, setUser } = useContext(authContext);
+  const updatedDoc = await getDoc(doc(db, "users", user.usernameLower));
+  setUser(updatedDoc.data());
+};
 
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
@@ -70,6 +79,7 @@ export const updatePersonalData = async (newData) => {
     acceptMaxAge: newData.acceptMaxAge,
     isPublic: newData.isPublic,
   });
+  await updateContext();
 };
 export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
@@ -85,12 +95,14 @@ export const createUser = async (newUserData) => {
     email: newUserData.email,
     uidAuth: newUserData.id,
   });
+  await updateContext();
 };
 export const createUserRequestsDocs = async (newUserData) => {
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
     receivedRequests: {},
     sentRequests: {},
   });
+  await updateContext();
 };
 export const checkFriendShipStatus = async (userData, otherUserData) => {
   const friendsMap = new Map(Object.entries(userData.friends));
@@ -125,16 +137,17 @@ export const cancelFriendRequest = async (user, shownUser) => {
   await updateDoc(doc(db, "users", shownUser.usernameLower), {
     friendRequestCount: increment(-1),
   });
+  await updateContext();
 };
 export const sendFriendRequest = async (user, shownUser) => {
-  const userReqRef = doc(db, "requests", user.usernameLower);
-  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-  await updateDoc(userReqRef, {
+  const userReqDoc = doc(db, "requests", user.usernameLower);
+  const shownUserReqDoc = doc(db, "requests", shownUser.usernameLower);
+  await updateDoc(userReqDoc, {
     [`sentRequests.${shownUser.usernameLower}`]: {
       timestamp: Timestamp.now(),
     },
   });
-  await updateDoc(shownUserReqRef, {
+  await updateDoc(shownUserReqDoc, {
     [`receivedRequests.${user.usernameLower}`]: {
       timestamp: Timestamp.now(),
     },
@@ -142,6 +155,7 @@ export const sendFriendRequest = async (user, shownUser) => {
   await updateDoc(doc(db, "users", shownUser.usernameLower), {
     friendRequestCount: increment(1),
   });
+  await updateContext();
 };
 export const getReceivedRequests = async (userData) => {
   const userRequests = await getDoc(
@@ -169,6 +183,7 @@ export const acceptRequest = async (userId, otherUserId) => {
   });
   //delete both side's end of the request
   await deleteRequest();
+  await updateContext();
 };
 export const rejectRequest = async (userId, otherUserId) => {
   //user: increment (-1) friendRequestsCount
@@ -177,6 +192,7 @@ export const rejectRequest = async (userId, otherUserId) => {
   });
   //delete both side's end of the request
   await deleteRequest();
+  await updateContext();
 };
 const deleteRequest = async (userId, otherUserId) => {
   //  user: remove receivedRequest
@@ -187,6 +203,7 @@ const deleteRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "requests", otherUserId), {
     [`sentRequests.${userId}`]: deleteField(),
   });
+  await updateContext();
 };
 export const deleteFriend = async (userId, otherUserId) => {
   //Both: friendsCount--, remove each other from friends
@@ -198,4 +215,5 @@ export const deleteFriend = async (userId, otherUserId) => {
     friendsCount: increment(-1),
     [`friends.${userId}`]: deleteField(),
   });
+  await updateContext();
 };
