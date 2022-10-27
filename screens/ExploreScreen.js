@@ -15,6 +15,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import FriendRequests from "../components/FriendRequests";
+import SearchUsers from "../components/SearchUsers";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
@@ -58,8 +59,8 @@ const ExploreScreen = () => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1 p-3">
-        <View className="flex-row justify-between">
+      <View className="flex-1">
+        <View className="flex-row justify-between p-3">
           <TouchableOpacity
             onPress={() =>
               renderOption == "Friend requests"
@@ -90,6 +91,7 @@ const ExploreScreen = () => {
             deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
           />
         )}
+        {renderOption == "Explore" && <SearchUsers />}
       </View>
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
