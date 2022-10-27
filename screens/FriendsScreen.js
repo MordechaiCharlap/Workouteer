@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
+import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -17,8 +17,11 @@ import {
   faMagnifyingGlass,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import * as firebase from "../services/firebase";
+import authContext from "../context/authContext";
 
 const FriendsScreen = ({ route }) => {
+  const { user } = useContext(authContext);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,6 +43,9 @@ const FriendsScreen = ({ route }) => {
       });
       setShownFriendsArray(friendsArr);
     }
+  };
+  const removeFriend = async (userRemoveId) => {
+    await firebase.removeFriend(user.usernameLower, userRemoveId);
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -115,7 +121,7 @@ const FriendsScreen = ({ route }) => {
               </View>
               <TouchableOpacity
                 className="py-1 px-6 rounded"
-                style={{ backgroundColor: appStyle.appAzure }}
+                style={{ borderColor: "#707787", borderWidth: 0.5 }}
               >
                 <Text
                   className="text-lg font-semibold"
