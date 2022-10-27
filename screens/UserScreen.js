@@ -32,7 +32,9 @@ const UserScreen = ({ route }) => {
     });
   }, []);
 
-  const removeFriend = async () => {};
+  const deleteFriend = async () => {
+    await firebase.deleteFriend(user.usernameLower, shownUser.usernameLower);
+  };
   const acceptFriendRequest = async () => {};
   const rejectFriendRequest = async () => {};
   const cancelFriendRequest = async () => {
@@ -72,12 +74,12 @@ const UserScreen = ({ route }) => {
       );
     else if (friendshipStatus == "Friends")
       return (
-        <TouchableOpacity onPress={removeFriend} style={style.socialButton}>
+        <TouchableOpacity onPress={deleteFriend} style={style.socialButton}>
           <Text
             className="text-center text-xl"
             style={{ color: appStyle.appGray }}
           >
-            Remove from friends
+            Delete friend
           </Text>
         </TouchableOpacity>
       );
