@@ -30,6 +30,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
@@ -46,38 +47,25 @@ const LoginScreen = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
-    if (acceptTerms) {
-      if (changedOnce) {
-        var age = calculateAge();
-        var isUserAvailable = await firebase.checkUsername(username);
-        var isEmailAvailable = await firebase.checkEmail(email);
-        if (age >= 16) {
-          if (username.length >= 6) {
-            if (isUserAvailable) {
-              console.log(username);
-              console.log("username is good");
-              if (isEmailAvailable) {
-                console.log(email);
-                console.log("email is good");
+    setInputErrorText("");
+    if (changedOnce) {
+      var age = calculateAge();
+      var isUserAvailable = await firebase.checkUsername(username);
+      var isEmailAvailable = await firebase.checkEmail(email);
+      if (age >= 16) {
+        if (username.length >= 6) {
+          if (isUserAvailable) {
+            console.log(username);
+            if (isEmailAvailable) {
+              console.log(email);
+              if (acceptTerms) {
                 handleLogin();
-              } else {
-                console.log("email isnt available");
-              }
-            } else {
-              console.log("Username isnt available");
-            }
-          } else {
-            console.log("Username too small (6+ characters)");
-          }
-        } else {
-          console.log("Need to be >=16");
-        }
-      } else {
-        console.log("Choose birthdate");
-      }
-    } else {
-      console.log("Accept terms before going further");
-    }
+              } else setInputErrorText("Accept terms before going further");
+            } else setInputErrorText("email isnt available");
+          } else setInputErrorText("Username isnt available");
+        } else setInputErrorText("Username too small (6+ characters)");
+      } else setInputErrorText("Need to be >=16");
+    } else setInputErrorText("Choose birthdate");
   };
   const calculateAge = () => {
     var today = new Date();
@@ -119,7 +107,7 @@ const LoginScreen = () => {
       ]}
     >
       <View
-        className={`flex-1 my-16 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+        className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
         <View className="mb-8">
@@ -185,7 +173,7 @@ const LoginScreen = () => {
               onChangeText={(text) => setPassword(text)}
             ></TextInput>
             <TextInput
-              className="rounded mb-5 px-3 h-10 justify-center"
+              className="rounded mb-3 px-3 h-10 justify-center"
               secureTextEntry={true}
               style={style.input}
               placeholder="Confirm Password"
@@ -210,6 +198,12 @@ const LoginScreen = () => {
                 Terms and Conditions
               </Text>
             </View>
+            <Text
+              className="text-center mt-4 mb-2"
+              style={{ color: appStyle.appGray }}
+            >
+              {inputErrorText}
+            </Text>
             <TouchableOpacity
               onPress={handleCreateAccount}
               className={`flex-1 rounded p-2 justify-center border-2 ${ResponsiveShadow}`}
