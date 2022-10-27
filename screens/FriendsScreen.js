@@ -20,6 +20,7 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import authContext from "../context/authContext";
+import * as firebase from "../services/firebase";
 const FriendsScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { user } = useContext(authContext);
@@ -27,8 +28,14 @@ const FriendsScreen = () => {
   const allFriendsMap = new Map(Object.entries(user.friends));
   useEffect(() => {
     const friendsArr = [];
-    allFriendsMap.forEach((value, key) => {
-      friendsArr.push(key);
+    allFriendsMap.forEach(async (value, key) => {
+      userData = await firebase.userDataById(key);
+      friendsArr.push({
+        id: key,
+        username: userData.username,
+        displayName: userData.displayName,
+        img: userData.img,
+      });
     });
     setShownFriendsArray(friendsArr);
   }, []);
