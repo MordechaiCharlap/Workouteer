@@ -53,7 +53,6 @@ const MyUserScreen = () => {
         img: userData.img,
       });
       console.log(friendsArr);
-      setShownFriendsArray(friendsArr);
     }
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
