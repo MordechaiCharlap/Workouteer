@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -53,6 +54,7 @@ const UserScreen = ({ route }) => {
     }
     return age;
   };
+  const showOtherUserFriends = () => {};
   const renderFriendshipButton = () => {
     if (friendshipStatus == "None")
       return (
@@ -129,70 +131,82 @@ const UserScreen = ({ route }) => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1 p-3">
-        <View className="flex-row justify-between">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              size={30}
-              color={appStyle.appGray}
-            />
-          </TouchableOpacity>
-        </View>
-        <Image
-          source={{
-            uri: shownUser.img,
-          }}
-          className="h-60 w-60 bg-white rounded-full mb-2 self-center"
-        />
-        <Text
-          className="font-semibold text-4xl self-center"
-          style={{
-            color: appStyle.appGray,
-          }}
-        >
-          {shownUser.username}
-        </Text>
-        <Text
-          className="self-center font-bold text-xl tracking-wider"
-          style={{ color: appStyle.appGray }}
-        >
-          {shownUser.firstName} {shownUser.lastName}, {calculateAge()}
-        </Text>
-
-        <View
-          className="flex-row justify-around"
-          style={style.workoutAndFriends}
-        >
-          <View className="items-center">
-            <Text style={style.text} className="font-bold">
-              {shownUser.workoutsCount}
-            </Text>
-            <Text style={style.text}>Workouts</Text>
-          </View>
-          <View className="items-center">
-            <Text style={style.text} className="font-bold">
-              {shownUser.friendsCount}
-            </Text>
-            <Text style={style.text}>Friends</Text>
-          </View>
-        </View>
-        <View className="flex-row items-center self-center">
-          {renderFriendshipButton()}
-          {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
-            <TouchableOpacity
-              onPress={sendFriendRequest}
-              style={style.socialButton}
-            >
+      <View className="flex-1">
+        <ScrollView>
+          <View className="p-4">
+            <View className="flex-row justify-between">
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  size={30}
+                  color={appStyle.appGray}
+                />
+              </TouchableOpacity>
               <Text
-                className="text-center text-xl"
+                className=" text-center text-3xl tracking-widest"
                 style={{ color: appStyle.appGray }}
               >
-                Send a message
+                {shownUser.username}
               </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+              <View className="opacity-0">
+                <FontAwesomeIcon icon={faChevronLeft} size={30} />
+              </View>
+            </View>
+            <View className="flex-row mt-6 mb-3">
+              <Image
+                source={{
+                  uri: shownUser.img,
+                }}
+                className="h-32 w-32 bg-white rounded-full mb-2 self-center"
+              />
+              <View className="flex-row flex-1 justify-around">
+                <View>
+                  <TouchableOpacity className="items-center">
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      className="font-bold"
+                    >
+                      {shownUser.workoutsCount}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      Workouts
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    className="items-center"
+                    onPress={showOtherUserFriends}
+                  >
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      {shownUser.friendsCount}
+                    </Text>
+                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                      Friends
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            <View className="flex-row items-center self-center">
+              {renderFriendshipButton()}
+              {(shownUser.isPublic == true ||
+                friendshipStatus == "Friends") && (
+                <TouchableOpacity
+                  onPress={sendFriendRequest}
+                  style={style.socialButton}
+                >
+                  <Text
+                    className="text-center text-xl"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    Send a message
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        </ScrollView>
       </View>
       <BottomNavbar currentScreen="User" />
     </SafeAreaView>
