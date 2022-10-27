@@ -56,20 +56,24 @@ const FriendsScreen = ({ route }) => {
               color={appStyle.appGray}
             />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{ backgroundColor: appStyle.appLightBlue }}
             className="rounded-sm items-center justify-center px-2"
             onPress={() => navigation.navigate("SearchUsers")}
           >
             <Text className="text-xl font-bold">New friend</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Text
+            className="text-5xl font-bold text-center mt-5"
+            style={{ color: appStyle.appGray }}
+          >
+            Friends
+          </Text>
+          <View className="opacity-0">
+            <FontAwesomeIcon icon={faChevronLeft} size={30} />
+          </View>
         </View>
-        <Text
-          className="text-5xl font-bold text-center mt-5"
-          style={{ color: appStyle.appGray }}
-        >
-          Friends
-        </Text>
+
         <View
           className="rounded-xl mt-4 p-3"
           style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
@@ -97,7 +101,7 @@ const FriendsScreen = ({ route }) => {
           data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center">
+            <View className="flex-row justify-between items-center mt-2">
               <View className="flex-row items-center">
                 <Image
                   source={{
