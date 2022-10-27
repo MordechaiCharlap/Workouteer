@@ -7,7 +7,6 @@ const CheckBox = (props) => {
   const changeValue = () => {
     if (props.onValueChange != null) props.onValueChange(!value);
     setValue(!value);
-    if (props.onPress != null) props.onPress();
   };
   const style = StyleSheet.create({
     valueStyle: {
