@@ -31,7 +31,7 @@ const ExploreScreen = () => {
         const friendReqs = await firebase.getReceivedRequests(user);
         var friendsReqsArr = [];
         friendReqs.forEach((value, key) => {
-          const date = new Date(Number(value.timestamp)).toLocaleDateString();
+          const date = new Date(Number(value.timestamp)).toDateString();
           friendsReqsArr.push({
             id: key,
             displayName: value.displayName,
