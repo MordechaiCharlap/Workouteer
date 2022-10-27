@@ -188,3 +188,14 @@ const deleteRequest = async (userId, otherUserId) => {
     [`sentRequests.${userId}`]: deleteField(),
   });
 };
+const deleteFriend = async (userId, otherUserId) => {
+  //Both: friendsCount--, remove each other from friends
+  await updateDoc(doc(db, "users", userId), {
+    friendsCount: increment(-1),
+    [`friends.${otherUserId}`]: deleteField(),
+  });
+  await updateDoc(doc(db, "users", otherUserId), {
+    friendsCount: increment(-1),
+    [`friends.${userId}`]: deleteField(),
+  });
+};
