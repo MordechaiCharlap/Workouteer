@@ -91,7 +91,10 @@ const MyUserScreen = () => {
                   </TouchableOpacity>
                 </View>
                 <View>
-                  <TouchableOpacity className="items-center">
+                  <TouchableOpacity
+                    className="items-center"
+                    onPress={() => navigation.navigate("Friends")}
+                  >
                     <Text style={{ fontSize: 20, color: appStyle.appGray }}>
                       {user.friendsCount}
                     </Text>
