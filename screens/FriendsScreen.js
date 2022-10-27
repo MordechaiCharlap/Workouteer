@@ -44,8 +44,8 @@ const FriendsScreen = ({ route }) => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1 p-2">
-        <View className="flex-row justify-between items-center">
+      <View className="flex-1">
+        <View className="flex-row justify-between items-center mb-3 px-3 pt-3">
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faChevronLeft}
@@ -54,7 +54,7 @@ const FriendsScreen = ({ route }) => {
             />
           </TouchableOpacity>
           <Text
-            className="text-5xl font-bold pt-3"
+            className="text-2xl font-semibold pt-3"
             style={{ color: appStyle.appGray }}
           >
             Friends
@@ -65,14 +65,14 @@ const FriendsScreen = ({ route }) => {
         </View>
 
         <View
-          className="rounded-xl mt-4 p-3"
+          className="rounded-xl p-3 mx-2"
           style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
         >
           <View className="flex-row items-center">
             <TouchableOpacity onPress={searchClicked}>
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
-                size={24}
+                size={20}
                 color={appStyle.appDarkBlue}
               />
             </TouchableOpacity>
@@ -87,7 +87,7 @@ const FriendsScreen = ({ route }) => {
         </View>
         <FlatList
           showsVerticalScrollIndicator={false}
-          className="flex-1 "
+          className="flex-1 p-3"
           data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -97,12 +97,34 @@ const FriendsScreen = ({ route }) => {
                   source={{
                     uri: item.img,
                   }}
-                  className="h-16 w-16 bg-white rounded-full mr-2"
+                  className="h-16 w-16 bg-white rounded-full mr-4"
                 />
-                <Text className="text-xl" style={{ color: appStyle.appGray }}>
-                  {item.displayName}
-                </Text>
+                <View>
+                  <Text
+                    className="text-xl font-semibold"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    {item.username}
+                  </Text>
+                  <Text
+                    className="text-md opacity-60"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    {item.displayName}
+                  </Text>
+                </View>
               </View>
+              <TouchableOpacity
+                className="py-2 px-6 rounded"
+                style={{ backgroundColor: appStyle.appAzure }}
+              >
+                <Text
+                  className="text-xl font-semibold"
+                  style={{ color: appStyle.appGray }}
+                >
+                  Remove
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
         />
