@@ -37,7 +37,7 @@ const FriendsScreen = () => {
   useEffect(() => {
     const showAllFriends = async () => {
       const friendsArr = [];
-      for (var [value, key] of allFriendsMap) {
+      for (var key of allFriendsMap.keys()) {
         var userData = await firebase.userDataById(key);
         console.log(userData);
         friendsArr.push({
@@ -46,9 +46,9 @@ const FriendsScreen = () => {
           displayName: userData.displayName,
           img: userData.img,
         });
+        console.log(friendsArr);
+        setShownFriendsArray(friendsArr);
       }
-      console.log(friendsArr);
-      setShownFriendsArray(friendsArr);
     };
     showAllFriends();
   }, []);
