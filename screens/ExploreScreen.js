@@ -16,11 +16,13 @@ import * as firebase from "../services/firebase";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
+import Explore from "../components/Explore";
 const ExploreScreen = () => {
   const { user } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
+  const [searchInputEmpty, setSearchInputEmpty] = useState(true);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -57,6 +59,16 @@ const ExploreScreen = () => {
       array.splice(index, 1);
     }
   };
+  const userClicked = async (userData) => {
+    const friendshipStatus = await firebase.checkFriendShipStatus(
+      user,
+      userData
+    );
+    navigation.navigate("User", {
+      shownUser: userData,
+      friendshipStatus: friendshipStatus,
+    });
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
@@ -91,7 +103,13 @@ const ExploreScreen = () => {
             deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
           />
         )}
-        {renderOption == "Explore" && <SearchUsers />}
+        {renderOption == "Explore" && (
+          <SearchUsers
+            userClicked={userClicked}
+            isEmpty={(isEmpty) => setSearchInputEmpty(isEmpty)}
+          />
+        )}
+        {renderOption == "Explore" && searchInputEmpty == true && <Explore />}
       </View>
       <BottomNavbar currentScreen="Explore" />
     </SafeAreaView>
