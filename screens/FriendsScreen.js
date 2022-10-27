@@ -96,7 +96,7 @@ const FriendsScreen = ({ route }) => {
                   source={{
                     uri: item.img,
                   }}
-                  className="h-16 w-16 bg-white rounded-full mr-4"
+                  className="h-14 w-14 bg-white rounded-full mr-4"
                 />
                 <View>
                   <Text
@@ -114,11 +114,11 @@ const FriendsScreen = ({ route }) => {
                 </View>
               </View>
               <TouchableOpacity
-                className="py-1 px-4 rounded"
+                className="py-1 px-6 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
                 <Text
-                  className="text-xl font-semibold"
+                  className="text-lg font-semibold"
                   style={{ color: appStyle.appGray }}
                 >
                   Remove
