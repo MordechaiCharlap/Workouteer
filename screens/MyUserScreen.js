@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useEffect, useContext, useLayoutEffect } from "react";
+import { React, useEffect, useState, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPencil, faSliders } from "@fortawesome/free-solid-svg-icons";
+import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
@@ -27,24 +28,8 @@ const MyUserScreen = () => {
 
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
 
-  useEffect(() => {
-    const getAllFriends = async () => {
-      const friendsArr = [];
-      for (var key of allFriendsMap.keys()) {
-        var userData = await firebase.userDataById(key);
-        console.log(userData);
-        friendsArr.push({
-          id: key,
-          username: userData.username,
-          displayName: userData.displayName,
-          img: userData.img,
-        });
-        console.log(friendsArr);
-        setShownFriendsArray(friendsArr);
-      }
-    };
-    getAllFriends();
-  }, []);
+  useEffect(() => {}, []);
+
   // const ChangePreferences = () => {
   //   console.log("moving to preferences");
   //   navigation.navigate("ChangePreferences");
@@ -61,6 +46,19 @@ const MyUserScreen = () => {
   //   return age;
   // };
   const showFriends = async () => {
+    const friendsArr = [];
+    for (var key of allFriendsMap.keys()) {
+      var userData = await firebase.userDataById(key);
+      console.log(userData);
+      friendsArr.push({
+        id: key,
+        username: userData.username,
+        displayName: userData.displayName,
+        img: userData.img,
+      });
+      console.log(friendsArr);
+      setShownFriendsArray(friendsArr);
+    }
     navigation.navigate("Friends", { friendsArray: shownFriendsArray });
   };
   return (
