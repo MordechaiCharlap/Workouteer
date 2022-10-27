@@ -7,13 +7,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useEffect, useState, useContext, useLayoutEffect } from "react";
+import { React, useEffect, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPencil, faSliders } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 const MyUserScreen = () => {
@@ -25,8 +23,6 @@ const MyUserScreen = () => {
       headerShown: false,
     });
   }, []);
-
-  const [shownFriendsArray, setShownFriendsArray] = useState([]);
 
   useEffect(() => {}, []);
 
@@ -59,31 +55,13 @@ const MyUserScreen = () => {
       console.log(friendsArr);
       setShownFriendsArray(friendsArr);
     }
-    navigation.navigate("Friends", { friendsArray: shownFriendsArray });
+    navigation.navigate("Friends", { friendsArray: friendsArr });
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">
-            {/* <View className="flex-row justify-between">
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ChangePreferences")}
-              >
-                <FontAwesomeIcon
-                  icon={faSliders}
-                  size={40}
-                  color={appStyle.appGray}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <FontAwesomeIcon
-                  icon={faPencil}
-                  size={40}
-                  color={appStyle.appGray}
-                />
-              </TouchableOpacity>
-            </View> */}
             <Text
               className=" text-center text-3xl tracking-widest"
               style={{ color: appStyle.appGray }}
