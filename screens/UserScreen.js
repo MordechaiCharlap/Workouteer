@@ -25,6 +25,7 @@ const UserScreen = ({ route }) => {
   );
 
   useLayoutEffect(() => {
+    console.log(shownUser);
     navigation.setOptions({
       headerShown: false,
     });
@@ -42,6 +43,7 @@ const UserScreen = ({ route }) => {
     await firebase.sendFriendRequest(user, shownUser);
   };
   const calculateAge = () => {
+    console.log(shownUser.birthdate);
     const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
     var age = today.getFullYear() - birthdate.getFullYear();

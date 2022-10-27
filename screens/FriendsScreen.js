@@ -38,12 +38,15 @@ const FriendsScreen = ({ route }) => {
   const searchClicked = async () => {
     if (searchText != "") {
       const friendsArr = [];
-      allFriendsMap.forEach((value, key) => {
-        friendsArr.push(key);
-      });
-      setShownFriendsArray(friendsArr);
+      //TODO!!
+      // allFriendsMap.forEach((value, key) => {
+      //   friendsArr.push(key);
+      // });
+      // setShownFriendsArray(friendsArr);
     }
   };
+  //TODO
+  const openChat = (userData) => {};
   const removeFriend = async (userRemoveId) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
   };
@@ -94,10 +97,18 @@ const FriendsScreen = ({ route }) => {
           showsVerticalScrollIndicator={false}
           className="flex-1 px-4 pt-3"
           data={shownFriendsArray}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.usernameLower}
           renderItem={({ item }) => (
-            <View className="flex-row justify-between items-center mt-2">
-              <View className="flex-row items-center">
+            <View className="flex-row items-center mt-2">
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("User", {
+                    shownUser: item,
+                    friendshipStatus: "Friends",
+                  })
+                }
+                className="flex-row flex-1 items-center"
+              >
                 <Image
                   source={{
                     uri: item.img,
@@ -118,8 +129,9 @@ const FriendsScreen = ({ route }) => {
                     {item.displayName}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity
+                onPress={(item) => openChat(item)}
                 className="py-1 px-6 rounded"
                 style={{ borderColor: "#707787", borderWidth: 0.5 }}
               >
@@ -127,7 +139,7 @@ const FriendsScreen = ({ route }) => {
                   className="text-lg font-semibold"
                   style={{ color: appStyle.appGray }}
                 >
-                  Remove
+                  Message
                 </Text>
               </TouchableOpacity>
             </View>
