@@ -29,11 +29,13 @@ const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  //Datepicker state
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
     setShow(false);
@@ -44,33 +46,37 @@ const LoginScreen = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
-    if (changedOnce) {
-      var age = calculateAge();
-      var isUserAvailable = await firebase.checkUsername(username);
-      var isEmailAvailable = await firebase.checkEmail(email);
-      if (age >= 16) {
-        if (username.length >= 6) {
-          if (isUserAvailable) {
-            console.log(username);
-            console.log("username is good");
-            if (isEmailAvailable) {
-              console.log(email);
-              console.log("email is good");
-              handleLogin();
+    if (acceptTerms) {
+      if (changedOnce) {
+        var age = calculateAge();
+        var isUserAvailable = await firebase.checkUsername(username);
+        var isEmailAvailable = await firebase.checkEmail(email);
+        if (age >= 16) {
+          if (username.length >= 6) {
+            if (isUserAvailable) {
+              console.log(username);
+              console.log("username is good");
+              if (isEmailAvailable) {
+                console.log(email);
+                console.log("email is good");
+                handleLogin();
+              } else {
+                console.log("email isnt available");
+              }
             } else {
-              console.log("email isnt available");
+              console.log("Username isnt available");
             }
           } else {
-            console.log("Username isnt available");
+            console.log("Username too small (6+ characters)");
           }
         } else {
-          console.log("Username too small (6+ characters)");
+          console.log("Need to be >=16");
         }
       } else {
-        console.log("Need to be >=16");
+        console.log("Choose birthdate");
       }
     } else {
-      console.log("Choose birthdate");
+      console.log("Accept terms before going further");
     }
   };
   const calculateAge = () => {
@@ -167,7 +173,7 @@ const LoginScreen = () => {
                 testID="dateTimePicker"
                 value={date}
                 mode="date"
-                onChange={onChange}
+                onChange={onDateChange}
               />
             )}
             <TextInput
@@ -192,6 +198,7 @@ const LoginScreen = () => {
                 backgroundColor={appStyle.appAzure}
                 valueColor={appStyle.appDarkBlue}
                 value={false}
+                onValueChange={setAcceptTerms}
               />
               <Text className="ml-2" style={{ color: appStyle.appAzure }}>
                 {"I agree to the "}
