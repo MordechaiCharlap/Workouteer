@@ -33,14 +33,17 @@ const ExploreScreen = () => {
       const fetchRequests = async () => {
         const friendReqs = await firebase.getReceivedRequests(user);
         var friendsReqsArr = [];
+        var index = 0;
         friendReqs.forEach((value, key) => {
           const date = new Date(Number(value.timestamp)).toDateString();
           friendsReqsArr.push({
+            index: index,
             id: key,
             displayName: value.displayName,
             img: value.img,
             date: date,
           });
+          index++;
         });
         setFriendRequests(friendsReqsArr);
       };
@@ -53,11 +56,10 @@ const ExploreScreen = () => {
       //   );
     }
   }, []);
-  const deleteRequestFromArray = (otherUserId) => {
-    const index = array.indexOf(otherUserId);
-    if (index > -1) {
-      array.splice(index, 1);
-    }
+  const deleteRequestFromArray = (index) => {
+    const array = friendRequests;
+    array.splice(index, 1);
+    setFriendRequests(array);
   };
   const userClicked = async (userData) => {
     const friendshipStatus = await firebase.checkFriendShipStatus(
@@ -100,7 +102,7 @@ const ExploreScreen = () => {
           <FriendRequests
             user={user}
             friendRequests={friendRequests}
-            deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
+            deleteRequest={(index) => deleteRequestFromArray(index)}
           />
         )}
         {renderOption == "Explore" && (

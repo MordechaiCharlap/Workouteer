@@ -4,12 +4,13 @@ import * as appStyle from "./AppStyleSheet";
 import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
-  const acceptRequest = async (otherUserId) => {
-    props.deleteRequest(otherUserId);
+  console.log("Friends request component got: " + props.friendRequests);
+  const acceptRequest = async (otherUserId, index) => {
+    props.deleteRequest(index);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
   };
-  const rejectRequest = async (otherUserId) => {
-    props.deleteRequest(otherUserId);
+  const rejectRequest = async (otherUserId, index) => {
+    props.deleteRequest(index);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
   };
   //Make sure delete line AUTO!
@@ -33,7 +34,7 @@ const FriendRequests = (props) => {
             </View>
             <View className="flex-row">
               <TouchableOpacity
-                onPress={() => acceptRequest(item.id)}
+                onPress={() => acceptRequest(item.id, item.index)}
                 className="p-1 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
@@ -42,7 +43,7 @@ const FriendRequests = (props) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => rejectRequest(item.id)}
+                onPress={() => rejectRequest(item.id, item.index)}
                 className="ml-2 p-1 rounded"
                 style={{ backgroundColor: appStyle.appGray }}
               >
