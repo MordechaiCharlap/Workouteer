@@ -20,18 +20,37 @@ const FriendRequests = (props) => {
         data={props.friendRequests}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="flex-row justify-between items-center">
-            <View className="flex-row items-center">
+          <View className="flex-row items-center mt-2">
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("User", {
+                  shownUser: item,
+                  friendshipStatus: "Friends",
+                })
+              }
+              className="flex-row flex-1 items-center"
+            >
               <Image
                 source={{
                   uri: item.img,
                 }}
-                className="h-16 w-16 bg-white rounded-full mr-2"
+                className="h-14 w-14 bg-white rounded-full mr-4"
               />
-              <Text className="text-xl" style={{ color: appStyle.appGray }}>
-                {item.displayName}
-              </Text>
-            </View>
+              <View>
+                <Text
+                  className="text-xl font-semibold tracking-wider"
+                  style={{ color: appStyle.appGray }}
+                >
+                  {item.username}
+                </Text>
+                <Text
+                  className="text-md opacity-60 tracking-wider"
+                  style={{ color: appStyle.appGray }}
+                >
+                  {item.displayName}
+                </Text>
+              </View>
+            </TouchableOpacity>
             <View className="flex-row">
               <TouchableOpacity
                 onPress={() => acceptRequest(item.id, item.index)}
