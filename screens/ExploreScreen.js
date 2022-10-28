@@ -34,17 +34,18 @@ const ExploreScreen = () => {
         const friendReqs = await firebase.getReceivedRequests(user);
         var friendsReqsArr = [];
         var index = 0;
-        friendReqs.forEach((value, key) => {
-          const date = new Date(Number(value.timestamp)).toDateString();
+        for (var key of friendReqs.keys()) {
+          const userData = await firebase.userDataById(key);
+          const date = userData.birthdate.toDate().toString();
           friendsReqsArr.push({
             index: index,
             id: key,
-            displayName: value.displayName,
-            img: value.img,
+            displayName: userData.displayName,
+            img: userData.img,
             date: date,
           });
           index++;
-        });
+        }
         setFriendRequests(friendsReqsArr);
       };
       fetchRequests();
