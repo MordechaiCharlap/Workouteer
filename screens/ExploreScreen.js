@@ -59,7 +59,7 @@ const ExploreScreen = () => {
   const userClicked = async (userData) => {
     const friendshipStatus = await firebase.checkFriendShipStatus(
       user,
-      userData
+      userData.usernameLower
     );
     navigation.navigate("User", {
       shownUser: userData,
@@ -95,6 +95,7 @@ const ExploreScreen = () => {
         </View>
         {renderOption == "Friend requests" && (
           <FriendRequests
+            userClicked={userClicked}
             user={user}
             friendRequests={friendRequests}
             deleteRequest={(index) => deleteRequestFromArray(index)}
