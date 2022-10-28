@@ -22,7 +22,7 @@ const FriendRequests = (props) => {
         renderItem={({ item }) => (
           <View className="flex-row items-center mt-2">
             <TouchableOpacity
-              onPress={() => props.userClicked(item.usernameLower)}
+              onPress={() => props.userClicked(item)}
               className="flex-row flex-1 items-center"
             >
               <Image
