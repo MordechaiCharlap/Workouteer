@@ -223,7 +223,7 @@ const style = StyleSheet.create({
   leftSocialButton: {
     marginRight: 0,
     paddingRight: 5,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderTopColor: appStyle.appDarkBlue,
     borderLeftColor: appStyle.appDarkBlue,
     borderBottomColor: appStyle.appDarkBlue,
@@ -232,7 +232,7 @@ const style = StyleSheet.create({
   rightSocialButton: {
     marginLeft: 0,
     paddingLeft: 5,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderTopColor: appStyle.appDarkBlue,
     borderRightColor: appStyle.appDarkBlue,
     borderBottomColor: appStyle.appDarkBlue,
