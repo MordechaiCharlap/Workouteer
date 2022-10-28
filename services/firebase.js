@@ -104,22 +104,22 @@ export const createUserRequestsDocs = async (newUserData) => {
   });
   await updateContext();
 };
-export const checkFriendShipStatus = async (userData, otherUserData) => {
+export const checkFriendShipStatus = async (userData, otherUserId) => {
   const friendsMap = new Map(Object.entries(userData.friends));
-  if (friendsMap.has(otherUserData.usernameLower)) {
+  if (friendsMap.has(otherUserId)) {
     return "Friends";
   } else {
     const userReqDoc = await getDoc(
       doc(db, "requests", userData.usernameLower)
     );
     const sentReqsMap = new Map(Object.entries(userReqDoc.data().sentRequests));
-    if (sentReqsMap.has(otherUserData.usernameLower)) {
+    if (sentReqsMap.has(otherUserId)) {
       return "SentRequest";
     } else {
       const receivedReqMap = new Map(
         Object.entries(userReqDoc.data().receivedRequests)
       );
-      if (receivedReqMap.has(otherUserData.usernameLower)) {
+      if (receivedReqMap.has(otherUserId)) {
         return "ReceivedRequest";
       } else return "None";
     }
