@@ -99,10 +99,10 @@ const UserScreen = ({ route }) => {
       );
     else if (friendshipStatus == "ReceivedRequest")
       return (
-        <View className="flex-row">
+        <View className="flex-row items-center" style={style.socialButton}>
           <TouchableOpacity
             onPress={rejectFriendRequest}
-            style={style.socialButton}
+            style={style.leftSocialButton}
           >
             <Text
               className="text-center text-xl"
@@ -113,7 +113,7 @@ const UserScreen = ({ route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={acceptFriendRequest}
-            style={style.socialButton}
+            style={style.rightSocialButton}
           >
             <Text
               className="text-center text-xl"
@@ -122,12 +122,6 @@ const UserScreen = ({ route }) => {
               Accept
             </Text>
           </TouchableOpacity>
-          <Text
-            className="text-center text-xl"
-            style={{ color: appStyle.appGray }}
-          >
-            Friend request
-          </Text>
         </View>
       );
   };
@@ -225,6 +219,24 @@ const style = StyleSheet.create({
     padding: 4,
     margin: 10,
     borderRadius: 5,
+  },
+  leftSocialButton: {
+    marginRight: 0,
+    paddingRight: 5,
+    borderWidth: 1,
+    borderTopColor: appStyle.appDarkBlue,
+    borderLeftColor: appStyle.appDarkBlue,
+    borderBottomColor: appStyle.appDarkBlue,
+    borderRightColor: appStyle.appGray,
+  },
+  rightSocialButton: {
+    marginLeft: 0,
+    paddingLeft: 5,
+    borderWidth: 1,
+    borderTopColor: appStyle.appDarkBlue,
+    borderRightColor: appStyle.appDarkBlue,
+    borderBottomColor: appStyle.appDarkBlue,
+    borderLeftColor: appStyle.appGray,
   },
 });
 export default UserScreen;
