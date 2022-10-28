@@ -18,16 +18,11 @@ const FriendRequests = (props) => {
     <View className="flex-1 mt-3">
       <FlatList
         data={props.friendRequests}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.username}
         renderItem={({ item }) => (
           <View className="flex-row items-center mt-2">
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("User", {
-                  shownUser: item,
-                  friendshipStatus: "Friends",
-                })
-              }
+              onPress={() => props.userClicked(item.usernameLower)}
               className="flex-row flex-1 items-center"
             >
               <Image
@@ -53,7 +48,7 @@ const FriendRequests = (props) => {
             </TouchableOpacity>
             <View className="flex-row">
               <TouchableOpacity
-                onPress={() => acceptRequest(item.id, item.index)}
+                onPress={() => acceptRequest(item.usernameLower, item.index)}
                 className="p-1 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
@@ -62,7 +57,7 @@ const FriendRequests = (props) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => rejectRequest(item.id, item.index)}
+                onPress={() => rejectRequest(item.usernameLower, item.index)}
                 className="ml-2 p-1 rounded"
                 style={{ backgroundColor: appStyle.appGray }}
               >
