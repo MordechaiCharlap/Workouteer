@@ -4,7 +4,7 @@ import * as appStyle from "./AppStyleSheet";
 import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
-  console.log("Friends request component got: " + props.friendRequests);
+  console.log(props.friendRequests);
   const acceptRequest = async (otherUserId, index) => {
     props.deleteRequest(index);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
