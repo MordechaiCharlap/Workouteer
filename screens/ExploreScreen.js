@@ -36,13 +36,8 @@ const ExploreScreen = () => {
         var index = 0;
         for (var key of friendReqs.keys()) {
           const userData = await firebase.userDataById(key);
-          friendsReqsArr.push({
-            index: index,
-            id: key,
-            username: userData.username,
-            displayName: userData.displayName,
-            img: userData.img,
-          });
+          friendsReqsArr.push(userData);
+          friendsReqsArr[index].index = index;
           index++;
         }
         setFriendRequests(friendsReqsArr);
