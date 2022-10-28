@@ -8,11 +8,11 @@ const WorkoutDescription = (props) => {
       <Text style={style.label}>Details:</Text>
       <TextInput
         style={{
+          textAlignVertical: "top",
           backgroundColor: appStyle.appLightBlue,
           borderRadius: 8,
           padding: 8,
         }}
-        className=""
         multiline
         placeholder="Optional text"
         placeholderTextColor={"#72757b"}
