@@ -36,13 +36,12 @@ const ExploreScreen = () => {
         var index = 0;
         for (var key of friendReqs.keys()) {
           const userData = await firebase.userDataById(key);
-          const date = userData.birthdate.toDate().toString();
           friendsReqsArr.push({
             index: index,
             id: key,
+            username: userData.username,
             displayName: userData.displayName,
             img: userData.img,
-            date: date,
           });
           index++;
         }
