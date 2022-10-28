@@ -17,6 +17,7 @@ const FriendRequests = (props) => {
   return (
     <View className="flex-1 mt-3">
       <FlatList
+        className="px-4 pt-3"
         data={props.friendRequests}
         keyExtractor={(item) => item.username}
         renderItem={({ item }) => (
