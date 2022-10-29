@@ -99,27 +99,23 @@ const UserScreen = ({ route }) => {
       );
     else if (friendshipStatus == "ReceivedRequest")
       return (
-        <View className="flex-row items-center" style={style.socialButton}>
+        <View className="flex-row items-center">
           <TouchableOpacity
+            className="rounded-l"
             onPress={rejectFriendRequest}
             style={style.leftSocialButton}
           >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Reject
+            <Text className="text-center text-xl" style={style.leftText}>
+              Accept
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            className="rounded-r"
             onPress={acceptFriendRequest}
             style={style.rightSocialButton}
           >
-            <Text
-              className="text-center text-xl"
-              style={{ color: appStyle.appGray }}
-            >
-              Accept
+            <Text className="text-center text-xl" style={style.rightText}>
+              Reject
             </Text>
           </TouchableOpacity>
         </View>
@@ -184,7 +180,7 @@ const UserScreen = ({ route }) => {
                 </View>
               </View>
             </View>
-            <View className="flex-row items-center self-center">
+            <View className="flex-row items-center self-center justify-around">
               {renderFriendshipButton()}
               {(shownUser.isPublic == true ||
                 friendshipStatus == "Friends") && (
@@ -220,23 +216,27 @@ const style = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
   },
+  leftText: {
+    fontSize: 20,
+    color: appStyle.appDarkBlue,
+  },
+  rightText: {
+    fontSize: 20,
+    color: appStyle.appGray,
+  },
   leftSocialButton: {
-    marginRight: 0,
-    paddingRight: 5,
-    borderWidth: 0.5,
-    borderTopColor: appStyle.appDarkBlue,
-    borderLeftColor: appStyle.appDarkBlue,
-    borderBottomColor: appStyle.appDarkBlue,
-    borderRightColor: appStyle.appGray,
+    borderColor: appStyle.appGray,
+    borderWidth: 1,
+    margin: 0,
+    padding: 4,
+    backgroundColor: appStyle.appGray,
   },
   rightSocialButton: {
-    marginLeft: 0,
-    paddingLeft: 5,
-    borderWidth: 0.5,
-    borderTopColor: appStyle.appDarkBlue,
-    borderRightColor: appStyle.appDarkBlue,
-    borderBottomColor: appStyle.appDarkBlue,
-    borderLeftColor: appStyle.appGray,
+    borderColor: appStyle.appGray,
+    borderWidth: 1,
+    margin: 0,
+    padding: 4,
+    backgroundColor: appStyle.appDarkBlue,
   },
 });
 export default UserScreen;
