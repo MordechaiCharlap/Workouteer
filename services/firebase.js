@@ -23,7 +23,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
-const updateContext = async () => {
+export const updateContext = async () => {
   const { user, setUser } = useContext(authContext);
   const updatedDoc = await getDoc(doc(db, "users", user.usernameLower));
   setUser(updatedDoc.data());
