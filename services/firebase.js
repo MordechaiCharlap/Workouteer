@@ -170,7 +170,7 @@ export const acceptRequest = async (userId, otherUserId) => {
   //user: friendsCount++ && add other to friendsList && increment (-1) friendRequestsCount
   await updateDoc(doc(db, "users", userId), {
     friendsCount: increment(1),
-    friendsRequestCount: increment(-1),
+    friendRequestCount: increment(-1),
     [`friends.${otherUserId}`]: {
       timestamp: Timestamp.now(),
     },
@@ -204,7 +204,7 @@ const deleteRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "requests", otherUserId), {
     [`sentRequests.${userId}`]: deleteField(),
   });
-  await updateContext();
+  //updateContext happens in the calling func
 };
 export const removeFriend = async (userId, otherUserId) => {
   //Both: friendsCount--, remove each other from friends
