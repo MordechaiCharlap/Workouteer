@@ -23,7 +23,8 @@ const ExploreScreen = () => {
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
-  useLayoutEffect(() => {
+  useLayoutEffect(async () => {
+    await firebase.updateContext();
     navigation.setOptions({
       headerShown: false,
     });
