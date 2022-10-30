@@ -30,6 +30,7 @@
     "react-native": "0.69.6",
     "react-native-element-dropdown": "^2.3.0",
     "react-native-maps": "0.31.1",
+    "react-native-permissions": "^3.6.1",
     "react-native-system-navigation-bar": "^2.0.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
