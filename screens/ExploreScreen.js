@@ -52,7 +52,7 @@ const ExploreScreen = () => {
     }
   }, []);
   const deleteRequestFromArray = (index) => {
-    const array = friendRequests;
+    const array = friendRequests.slice();
     array.splice(index, 1);
     setFriendRequests(array);
   };
