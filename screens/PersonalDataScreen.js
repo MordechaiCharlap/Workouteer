@@ -15,6 +15,7 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 const PersonalDataScreen = () => {
   const { user } = useContext(authContext);
   const navigation = useNavigation();
