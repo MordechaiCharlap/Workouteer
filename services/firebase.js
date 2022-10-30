@@ -1,5 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import {
   getFirestore,
   deleteField,
@@ -21,7 +22,7 @@ import authContext from "../context/authContext";
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
-
+export const storage = getStorage(firebaseApp);
 const updateContext = async () => {
   const { user, setUser } = useContext(authContext);
   const updatedDoc = await getDoc(doc(db, "users", user.usernameLower));
