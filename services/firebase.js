@@ -27,7 +27,16 @@ export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
 };
-
+export const saveProfileChanges = async (
+  userId,
+  newDisplayName,
+  newDescription
+) => {
+  await updateDoc(doc(db, "users", userId), {
+    displayName: newDisplayName,
+    description: newDescription,
+  });
+};
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
