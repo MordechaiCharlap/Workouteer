@@ -29,37 +29,30 @@ const ExploreScreen = () => {
     });
   }, []);
   useEffect(() => {
-    const fetchRequests = async () => {
-      console.log("useEffect works");
-      setUser(await firebase.updateContext(user.usernameLower));
-      if (user.friendRequestCount > 0) {
-        const friendReqs = await firebase.getReceivedRequests(user);
-        var friendsReqsArr = [];
-        for (var key of friendReqs.keys()) {
-          const userData = await firebase.userDataById(key);
-          friendsReqsArr.push(userData);
+    if (renderOption == "Explore") {
+      const fetchRequests = async () => {
+        setUser(await firebase.updateContext(user.usernameLower));
+        if (user.friendRequestCount > 0) {
+          const friendReqs = await firebase.getReceivedRequests(user);
+          var friendsReqsArr = [];
+          for (var key of friendReqs.keys()) {
+            const userData = await firebase.userDataById(key);
+            friendsReqsArr.push(userData);
+          }
+          setFriendRequests(friendsReqsArr);
+          console.log(friendsReqsArr);
         }
-        setFriendRequests(friendsReqsArr);
-        console.log(friendsReqsArr);
-      }
-    };
-    fetchRequests();
-    //   const unsub = onSnapshot(
-    //     doc(db, "requests", user.usernameLower),
-    //     (doc) => {
-    //       console.log("Current data: ", doc.data());
-    //     }
-    //   );
-  }, []);
+      };
+      fetchRequests();
+    }
+  }, [renderOption]);
   const deleteRequestFromArray = async (otherUserId) => {
     const updatedUser = await firebase.updateContext(user.usernameLower);
     setUser(updatedUser);
     const array = friendRequests.slice();
-    // const index = array.indexOf((item) => item.usernameLower == otherUserId);
-    var index = 0;
+    const index = array.indexOf((item) => item.usernameLower == otherUserId);
     array.splice(index, 1);
-    console.log("updated array");
-    console.log(array);
+    console.log("deleted item from array");
     setFriendRequests(array);
   };
   const userClicked = async (userData) => {

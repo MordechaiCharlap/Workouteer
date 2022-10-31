@@ -177,7 +177,7 @@ export const acceptRequest = async (userId, otherUserId) => {
     },
   });
   //delete both side's end of the request
-  await deleteRequest();
+  await deleteRequest(userId, otherUserId);
 };
 export const rejectRequest = async (userId, otherUserId) => {
   //user: increment (-1) friendRequestsCount
@@ -185,7 +185,7 @@ export const rejectRequest = async (userId, otherUserId) => {
     friendsRequestCount: increment(-1),
   });
   //delete both side's end of the request
-  await deleteRequest();
+  await deleteRequest(userId, otherUserId);
 };
 const deleteRequest = async (userId, otherUserId) => {
   //  user: remove receivedRequest

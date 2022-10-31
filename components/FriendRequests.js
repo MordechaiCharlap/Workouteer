@@ -8,14 +8,13 @@ const FriendRequests = (props) => {
   const acceptRequest = async (otherUserId) => {
     console.log(otherUserId);
     await props.deleteRequest(otherUserId);
-    //await firebase.acceptRequest(props.user.usernameLower, otherUserId);
+    await firebase.acceptRequest(props.user.usernameLower, otherUserId);
   };
   const rejectRequest = async (otherUserId) => {
     console.log(otherUserId);
     await props.deleteRequest(otherUserId);
-    //await firebase.rejectRequest(props.user.usernameLower, otherUserId);
+    await firebase.rejectRequest(props.user.usernameLower, otherUserId);
   };
-  //Make sure delete line AUTO!
   return (
     <View className="flex-1 mt-3">
       <FlatList
