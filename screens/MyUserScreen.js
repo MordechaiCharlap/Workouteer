@@ -106,7 +106,7 @@ const MyUserScreen = () => {
               </View>
             </View>
             <Text
-              className="font-semibold text-2xl"
+              className="font-semibold text-2xl mb-5"
               style={{
                 color: appStyle.appGray,
               }}
@@ -114,7 +114,7 @@ const MyUserScreen = () => {
               {user.displayName}
             </Text>
             <Text style={{ color: appStyle.appGray }} className="text-lg">
-              No description yet.
+              {user.description == "" ? "No description yet" : user.description}
             </Text>
           </View>
         </ScrollView>
