@@ -23,10 +23,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
-export const updateContext = async () => {
-  const { user, setUser } = useContext(authContext);
-  const updatedDoc = await getDoc(doc(db, "users", user.usernameLower));
-  setUser(updatedDoc.data());
+export const updateContext = async (userId) => {
+  const updatedDoc = await getDoc(doc(db, "users", userId));
+  return updatedDoc.data();
 };
 
 export const searchUser = async (text) => {
@@ -140,8 +139,8 @@ export const cancelFriendRequest = async (user, shownUser) => {
   });
   await updateContext();
 };
-export const sendFriendRequest = async (user, shownUser) => {
-  const userReqDoc = doc(db, "requests", user.usernameLower);
+export const sendFriendRequest = async (userId, shownUser) => {
+  const userReqDoc = doc(db, "requests", userId);
   const shownUserReqDoc = doc(db, "requests", shownUser.usernameLower);
   await updateDoc(userReqDoc, {
     [`sentRequests.${shownUser.usernameLower}`]: {
@@ -149,14 +148,13 @@ export const sendFriendRequest = async (user, shownUser) => {
     },
   });
   await updateDoc(shownUserReqDoc, {
-    [`receivedRequests.${user.usernameLower}`]: {
+    [`receivedRequests.${userId}`]: {
       timestamp: Timestamp.now(),
     },
   });
   await updateDoc(doc(db, "users", shownUser.usernameLower), {
     friendRequestCount: increment(1),
   });
-  await updateContext();
 };
 export const getReceivedRequests = async (userData) => {
   const userRequests = await getDoc(
