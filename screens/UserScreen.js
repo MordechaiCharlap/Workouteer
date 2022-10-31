@@ -44,7 +44,6 @@ const UserScreen = ({ route }) => {
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
     await firebase.sendFriendRequest(user.usernameLower, shownUser);
-    setUser(await firebase.updateContext(user.usernameLower));
   };
   const calculateAge = () => {
     console.log(shownUser.birthdate);
