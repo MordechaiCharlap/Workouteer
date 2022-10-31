@@ -17,17 +17,28 @@ import * as appStyle from "../components/AppStyleSheet";
 import { useState } from "react";
 import { useContext } from "react";
 import authContext from "../context/authContext";
+import * as firebase from "../services/firebase";
 const EditDataScreen = () => {
   const { user, setUser } = useContext(authContext);
-  const [displayName, setDisplayName] = useState("");
-  const [description, setDescription] = useState("");
+  const [displayName, setDisplayName] = useState(user.displayName);
+  const [description, setDescription] = useState(user.description);
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState("ProfileData");
+  const [isLoading, setLoading] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  const saveProfileChanges = async () => {
+    if (displayName == "") setDisplayName(user.username);
+    if (!description) setDescription("");
+    await firebase.saveProfileChanges(
+      user.usernameLower,
+      displayName,
+      description
+    );
+  };
   const renderChosenSection = () => {
     if (currentTab == "ProfileData")
       return (
@@ -69,7 +80,9 @@ const EditDataScreen = () => {
                 placeholderTextColor={"#5f6b8b"}
                 maxLength={10}
                 onChangeText={(text) => setDisplayName(text)}
-              ></TextInput>
+              >
+                {user.displayName}
+              </TextInput>
             </View>
             <View className="mb-5">
               <Text
@@ -96,6 +109,7 @@ const EditDataScreen = () => {
               </TextInput>
             </View>
             <TouchableOpacity
+              onPress={saveProfileChanges}
               className="self-center py-1 px-5"
               style={{ backgroundColor: appStyle.appAzure }}
             >
