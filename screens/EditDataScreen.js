@@ -7,8 +7,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import ImagePicker from "react-native-image-picker";
-import React, { useLayoutEffect, useCallback } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -25,20 +24,12 @@ const EditDataScreen = () => {
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState("ProfileData");
   const [isLoading, setLoading] = useState(false);
-  const [pickerResponse, setPickerResponse] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const onImageLibraryPress = async () => {
-    const options = {
-      selectionLimit: 1,
-      mediaType: "photo",
-      quality: 0.5,
-    };
-    const result = await ImagePicker.launchImageLibrary(options);
-  };
+  const onImageLibraryPress = async () => {};
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.username);
