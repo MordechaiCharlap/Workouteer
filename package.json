@@ -38,7 +38,8 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "expo-image-picker": "~13.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
