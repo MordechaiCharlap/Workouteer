@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import React, { useLayoutEffect } from "react";
@@ -18,6 +19,7 @@ import { useContext } from "react";
 import authContext from "../context/authContext";
 const EditDataScreen = () => {
   const { user, setUser } = useContext(authContext);
+  const [displayName, setDisplayName] = useState("");
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState("ProfileData");
   useLayoutEffect(() => {
@@ -29,8 +31,8 @@ const EditDataScreen = () => {
     if (currentTab == "ProfileData")
       return (
         <View>
-          <View className="items-center">
-            <View>
+          <View>
+            <View className="mb-5 self-center">
               <Image
                 source={{
                   uri: user.img,
@@ -51,6 +53,22 @@ const EditDataScreen = () => {
                   color={appStyle.appDarkBlue}
                 />
               </TouchableOpacity>
+            </View>
+            <View className="flex-row items-center">
+              <Text
+                className="mr-3 text-lg"
+                style={{ color: appStyle.appGray }}
+              >
+                Display name:
+              </Text>
+              <TextInput
+                className="rounded text-lg flex-1"
+                style={style.input}
+                placeholder={user.displayName}
+                placeholderTextColor={"#5f6b8b"}
+                maxLength={10}
+                onChangeText={(text) => setDisplayName(text)}
+              ></TextInput>
             </View>
           </View>
         </View>
@@ -112,3 +130,10 @@ const EditDataScreen = () => {
   );
 };
 export default EditDataScreen;
+const style = StyleSheet.create({
+  input: {
+    borderWidth: 1,
+    borderColor: "#5f6b8b",
+    color: appStyle.appGray,
+  },
+});
