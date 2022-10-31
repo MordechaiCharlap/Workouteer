@@ -26,6 +26,7 @@ const EditDataScreen = () => {
       <View className="flex-1  p-3">
         <View className="flex-row justify-around">
           <TouchableOpacity
+            onPress={() => setCurrentTab("ProfileData")}
             className="w-1/2"
             style={{
               backgroundColor:
@@ -47,6 +48,7 @@ const EditDataScreen = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => setCurrentTab("WorkoutPreferences")}
             className="w-1/2"
             style={{
               backgroundColor:
