@@ -31,13 +31,15 @@ const EditDataScreen = () => {
     });
   }, []);
   const saveProfileChanges = async () => {
+    setLoading(true);
     if (displayName == "") setDisplayName(user.username);
-    if (!description) setDescription("");
     await firebase.saveProfileChanges(
       user.usernameLower,
-      displayName,
-      description
+      displayName == null ? "" : displayName,
+      description == null ? "" : description
     );
+    setUser(await firebase.updateContext(user.usernameLower));
+    setLoading(false);
   };
   const renderChosenSection = () => {
     if (currentTab == "ProfileData")
@@ -114,7 +116,7 @@ const EditDataScreen = () => {
               style={{ backgroundColor: appStyle.appAzure }}
             >
               <Text className="text-2xl" style={{ color: appStyle.appGray }}>
-                Save
+                {isLoading == false ? "Save" : "Loading"}
               </Text>
             </TouchableOpacity>
           </View>
