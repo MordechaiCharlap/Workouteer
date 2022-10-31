@@ -7,8 +7,8 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import React, { useLayoutEffect } from "react";
+import ImagePicker from "react-native-image-picker";
+import React, { useLayoutEffect, useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -25,11 +25,20 @@ const EditDataScreen = () => {
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState("ProfileData");
   const [isLoading, setLoading] = useState(false);
+  const [pickerResponse, setPickerResponse] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  const onImageLibraryPress = async () => {
+    const options = {
+      selectionLimit: 1,
+      mediaType: "photo",
+      quality: 0.5,
+    };
+    const result = await ImagePicker.launchImageLibrary(options);
+  };
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.username);
@@ -45,6 +54,7 @@ const EditDataScreen = () => {
     if (currentTab == "ProfileData")
       return (
         <View>
+          <View></View>
           <View>
             <View className="mb-5 self-center">
               <Image
@@ -54,6 +64,7 @@ const EditDataScreen = () => {
                 className="h-32 w-32 bg-white rounded-full mb-2"
               />
               <TouchableOpacity
+                onPress={onImageLibraryPress}
                 className="absolute right-0 bottom-0 rounded-full p-2"
                 style={{
                   backgroundColor: appStyle.appGray,
