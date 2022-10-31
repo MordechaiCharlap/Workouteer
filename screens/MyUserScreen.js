@@ -44,7 +44,7 @@ const MyUserScreen = () => {
         <ScrollView>
           <View className="p-4">
             <View className="flex-row items-center justify-between">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
                 <FontAwesomeIcon
                   icon={faUserPen}
                   size={25}
@@ -75,20 +75,6 @@ const MyUserScreen = () => {
                   }}
                   className="h-32 w-32 bg-white rounded-full mb-2 self-center"
                 />
-                <TouchableOpacity
-                  className="absolute right-0 bottom-0 rounded-full p-2"
-                  style={{
-                    backgroundColor: appStyle.appGray,
-                    borderWidth: 1,
-                    borderColor: appStyle.appDarkBlue,
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faPen}
-                    size={20}
-                    color={appStyle.appDarkBlue}
-                  />
-                </TouchableOpacity>
               </View>
 
               <View className="flex-row flex-1 justify-around">
