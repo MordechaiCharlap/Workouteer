@@ -8,14 +8,15 @@ import {
   ScrollView,
 } from "react-native";
 import { React, useEffect, useContext, useLayoutEffect } from "react";
-import { DarkTheme, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faGear, faSliders } from "@fortawesome/free-solid-svg-icons";
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
   const allFriendsMap = new Map(Object.entries(user.friends));
@@ -42,12 +43,30 @@ const MyUserScreen = () => {
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">
-            <Text
-              className=" text-center text-3xl tracking-widest"
-              style={{ color: appStyle.appGray }}
-            >
-              {user.username}
-            </Text>
+            <View className="flex-row items-center justify-between">
+              <TouchableOpacity>
+                <FontAwesomeIcon
+                  icon={faSliders}
+                  size={25}
+                  color={appStyle.appGray}
+                />
+              </TouchableOpacity>
+
+              <Text
+                className="text-3xl tracking-widest"
+                style={{ color: appStyle.appGray }}
+              >
+                {user.username}
+              </Text>
+              <TouchableOpacity>
+                <FontAwesomeIcon
+                  icon={faGear}
+                  size={25}
+                  color={appStyle.appGray}
+                />
+              </TouchableOpacity>
+            </View>
+
             <View className="flex-row mt-6 mb-3">
               <View>
                 <Image
