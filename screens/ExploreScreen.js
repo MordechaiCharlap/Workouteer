@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { React, useLayoutEffect, useContext, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
@@ -19,6 +19,7 @@ import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 const ExploreScreen = () => {
   const { user, setUser } = useContext(authContext);
+  const isFocused = useIsFocused();
   const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
@@ -30,6 +31,7 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {
     if (renderOption == "Explore") {
+      console.log("using effectionn <3");
       const fetchRequests = async () => {
         setUser(await firebase.updateContext(user.usernameLower));
         if (user.friendRequestCount > 0) {
@@ -45,7 +47,7 @@ const ExploreScreen = () => {
       };
       fetchRequests();
     }
-  }, [renderOption]);
+  }, [renderOption, isFocused]);
   const deleteRequestFromArray = async (index) => {
     if (friendRequests.length == 1) setRenderOption("Explore");
     else {
