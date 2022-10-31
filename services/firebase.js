@@ -182,7 +182,7 @@ export const acceptRequest = async (userId, otherUserId) => {
 export const rejectRequest = async (userId, otherUserId) => {
   //user: increment (-1) friendRequestsCount
   await updateDoc(doc(db, "users", userId), {
-    friendsRequestCount: increment(-1),
+    friendRequestCount: increment(-1),
   });
   //delete both side's end of the request
   await deleteRequest(userId, otherUserId);
