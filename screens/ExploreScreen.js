@@ -23,15 +23,15 @@ const ExploreScreen = () => {
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
-  useLayoutEffect(async () => {
-    await firebase.updateContext();
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
   useEffect(() => {
-    if (user.friendRequestCount > 0) {
-      const fetchRequests = async () => {
+    const fetchRequests = async () => {
+      await firebase.updateContext();
+      if (user.friendRequestCount > 0) {
         const friendReqs = await firebase.getReceivedRequests(user);
         var friendsReqsArr = [];
         var index = 0;
@@ -42,15 +42,15 @@ const ExploreScreen = () => {
           index++;
         }
         setFriendRequests(friendsReqsArr);
-      };
-      fetchRequests();
-      //   const unsub = onSnapshot(
-      //     doc(db, "requests", user.usernameLower),
-      //     (doc) => {
-      //       console.log("Current data: ", doc.data());
-      //     }
-      //   );
-    }
+      }
+    };
+    fetchRequests();
+    //   const unsub = onSnapshot(
+    //     doc(db, "requests", user.usernameLower),
+    //     (doc) => {
+    //       console.log("Current data: ", doc.data());
+    //     }
+    //   );
   }, []);
   const deleteRequestFromArray = (index) => {
     const array = friendRequests.slice();
