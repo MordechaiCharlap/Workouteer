@@ -30,19 +30,16 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {
     const fetchRequests = async () => {
-      await firebase.updateContext();
-      if (user.friendRequestCount > 0) {
-        const friendReqs = await firebase.getReceivedRequests(user);
-        var friendsReqsArr = [];
-        var index = 0;
-        for (var key of friendReqs.keys()) {
-          const userData = await firebase.userDataById(key);
-          friendsReqsArr.push(userData);
-          friendsReqsArr[index].index = index;
-          index++;
-        }
-        setFriendRequests(friendsReqsArr);
+      const friendReqs = await firebase.getReceivedRequests(user);
+      var friendsReqsArr = [];
+      var index = 0;
+      for (var key of friendReqs.keys()) {
+        const userData = await firebase.userDataById(key);
+        friendsReqsArr.push(userData);
+        friendsReqsArr[index].index = index;
+        index++;
       }
+      setFriendRequests(friendsReqsArr);
     };
     fetchRequests();
     //   const unsub = onSnapshot(
