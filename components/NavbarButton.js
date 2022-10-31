@@ -10,7 +10,11 @@ import {
   faComments,
   faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import authContext from "../context/authContext";
+import * as firebase from "../services/firebase";
 const NavbarButton = (props) => {
+  const { user, setUser } = useContext(authContext);
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
     if (props.screen == "Calendar") return faCalendarDays;
@@ -19,11 +23,16 @@ const NavbarButton = (props) => {
     if (props.screen == "Explore") return faGlobe;
   };
   const navigation = useNavigation();
+  const navigate = async () => {
+    if (props.screen == "Explore")
+      setUser(await firebase.updateContext(user.usernameLower));
+    navigation.navigate(props.screen);
+  };
   if (props.screen != props.currentScreen) {
     return (
       <TouchableOpacity
         className="flex-grow w-1 items-center justify-center"
-        onPress={() => navigation.navigate(props.screen)}
+        onPress={navigate}
         style={style.button}
       >
         <FontAwesomeIcon
