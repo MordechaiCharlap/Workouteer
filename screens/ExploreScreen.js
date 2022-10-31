@@ -18,7 +18,7 @@ import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 const ExploreScreen = () => {
-  const { user } = useContext(authContext);
+  const { user, setUser } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
@@ -30,16 +30,16 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {
     const fetchRequests = async () => {
-      const friendReqs = await firebase.getReceivedRequests(user);
-      var friendsReqsArr = [];
-      var index = 0;
-      for (var key of friendReqs.keys()) {
-        const userData = await firebase.userDataById(key);
-        friendsReqsArr.push(userData);
-        friendsReqsArr[index].index = index;
-        index++;
+      setUser(await firebase.updateContext(user.usernameLower));
+      if (user.friendRequestCount > 0) {
+        const friendReqs = await firebase.getReceivedRequests(user);
+        var friendsReqsArr = [];
+        for (var key of friendReqs.keys()) {
+          const userData = await firebase.userDataById(key);
+          friendsReqsArr.push(userData);
+        }
+        setFriendRequests(friendsReqsArr);
       }
-      setFriendRequests(friendsReqsArr);
     };
     fetchRequests();
     //   const unsub = onSnapshot(
@@ -49,8 +49,9 @@ const ExploreScreen = () => {
     //     }
     //   );
   }, []);
-  const deleteRequestFromArray = (index) => {
+  const deleteRequestFromArray = (otherUserId) => {
     const array = friendRequests.slice();
+    const index = array.indexOf((item) => item.usernameLower == otherUserId);
     array.splice(index, 1);
     setFriendRequests(array);
   };

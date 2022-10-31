@@ -5,12 +5,12 @@ import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
   console.log(props.friendRequests);
-  const acceptRequest = async (otherUserId, index) => {
-    props.deleteRequest(index);
+  const acceptRequest = async (otherUserId) => {
+    props.deleteRequest(otherUserId);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
   };
-  const rejectRequest = async (otherUserId, index) => {
-    props.deleteRequest(index);
+  const rejectRequest = async (otherUserId) => {
+    props.deleteRequest(otherUserId);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
   };
   //Make sure delete line AUTO!
@@ -49,7 +49,7 @@ const FriendRequests = (props) => {
             </TouchableOpacity>
             <View className="flex-row">
               <TouchableOpacity
-                onPress={() => acceptRequest(item.usernameLower, item.index)}
+                onPress={() => acceptRequest(item.usernameLower)}
                 className="p-1 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
@@ -58,7 +58,7 @@ const FriendRequests = (props) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => rejectRequest(item.usernameLower, item.index)}
+                onPress={() => rejectRequest(item.usernameLower)}
                 className="ml-2 p-1 rounded"
                 style={{ backgroundColor: appStyle.appGray }}
               >
