@@ -29,12 +29,20 @@ const EditDataScreen = () => {
             className="w-1/2"
             style={{
               backgroundColor:
-                currentTab == "Workout Preferences"
+                currentTab == "ProfileData"
                   ? appStyle.appDarkBlue
                   : appStyle.appLightBlue,
             }}
           >
-            <Text className="text-lg" style={style.tabText}>
+            <Text
+              className="text-lg text-center"
+              style={{
+                color:
+                  currentTab == "ProfileData"
+                    ? appStyle.appGray
+                    : appStyle.appDarkBlue,
+              }}
+            >
               Profile data
             </Text>
           </TouchableOpacity>
@@ -42,12 +50,20 @@ const EditDataScreen = () => {
             className="w-1/2"
             style={{
               backgroundColor:
-                currentTab == "Workout Preferences"
+                currentTab == "WorkoutPreferences"
                   ? appStyle.appDarkBlue
                   : appStyle.appLightBlue,
             }}
           >
-            <Text className="text-lg" style={style.tabText}>
+            <Text
+              className="text-lg text-center"
+              style={{
+                color:
+                  currentTab == "WorkoutPreferences"
+                    ? appStyle.appGray
+                    : appStyle.appDarkBlue,
+              }}
+            >
               Workout preferences
             </Text>
           </TouchableOpacity>
@@ -66,9 +82,4 @@ const EditDataScreen = () => {
     </SafeAreaView>
   );
 };
-const style = StyleSheet.create({
-  tabText: {
-    textAlign: "center",
-  },
-});
 export default EditDataScreen;
