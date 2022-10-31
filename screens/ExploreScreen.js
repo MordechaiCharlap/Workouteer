@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { React, useLayoutEffect, useContext, useState, useEffect } from "react";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
@@ -19,11 +19,7 @@ import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 const ExploreScreen = () => {
   const { user, setUser } = useContext(authContext);
-  const isFocused = useIsFocused();
   const [friendRequests, setFriendRequests] = useState(null);
-  const [friendRequestCount, setFriendRequestCount] = useState(
-    user.friendRequestCount
-  );
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
@@ -38,6 +34,7 @@ const ExploreScreen = () => {
       const fetchRequests = async () => {
         setUser(await firebase.updateContext(user.usernameLower));
         if (user.friendRequestCount > 0) {
+          console.log("more than 0 requests!");
           const friendReqs = await firebase.getReceivedRequests(user);
           var friendsReqsArr = [];
           for (var key of friendReqs.keys()) {
@@ -46,13 +43,14 @@ const ExploreScreen = () => {
           }
           setFriendRequests(friendsReqsArr);
           console.log(friendsReqsArr);
+        } else {
+          console.log("0 requests");
         }
       };
       fetchRequests();
     }
-  }, [renderOption, isFocused]);
+  }, [renderOption]);
   const deleteRequestFromArray = async (index) => {
-    setFriendRequestCount(friendRequestCount - 1);
     if (friendRequests.length == 1) setRenderOption("Explore");
     else {
       const array = friendRequests.slice();
@@ -86,7 +84,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min bg-gray-500"
               style={style.socialButton}
             >
-              Friend requests: {friendRequestCount}
+              Friend requests: {user.friendRequestCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
