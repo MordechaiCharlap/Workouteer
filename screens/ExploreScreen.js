@@ -49,7 +49,8 @@ const ExploreScreen = () => {
     //     }
     //   );
   }, []);
-  const deleteRequestFromArray = (otherUserId) => {
+  const deleteRequestFromArray = async (otherUserId) => {
+    setUser(await firebase.updateContext());
     const array = friendRequests.slice();
     const index = array.indexOf((item) => item.usernameLower == otherUserId);
     array.splice(index, 1);
