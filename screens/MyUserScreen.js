@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { React, useEffect, useContext, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import authContext from "../context/authContext";
