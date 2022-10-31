@@ -20,6 +20,7 @@ import authContext from "../context/authContext";
 const EditDataScreen = () => {
   const { user, setUser } = useContext(authContext);
   const [displayName, setDisplayName] = useState("");
+  const [description, setDescription] = useState("");
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState("ProfileData");
   useLayoutEffect(() => {
@@ -54,7 +55,7 @@ const EditDataScreen = () => {
                 />
               </TouchableOpacity>
             </View>
-            <View className="flex-row items-center">
+            <View className="flex-row items-center mb-5">
               <Text
                 className="mr-3 text-lg"
                 style={{ color: appStyle.appGray }}
@@ -70,6 +71,38 @@ const EditDataScreen = () => {
                 onChangeText={(text) => setDisplayName(text)}
               ></TextInput>
             </View>
+            <View className="mb-5">
+              <Text
+                className="mr-3 text-lg"
+                style={{ color: appStyle.appGray }}
+              >
+                Description
+              </Text>
+              <TextInput
+                style={{
+                  textAlignVertical: "top",
+                  backgroundColor: appStyle.appLightBlue,
+                  borderRadius: 8,
+                  padding: 8,
+                }}
+                multiline
+                placeholder="Optional text"
+                placeholderTextColor={appStyle.appDarkBlue}
+                numberOfLines={12}
+                maxLength={350}
+                onChangeText={(text) => setDescription(text)}
+              >
+                {user.description}
+              </TextInput>
+            </View>
+            <TouchableOpacity
+              className="self-center py-1 px-5"
+              style={{ backgroundColor: appStyle.appAzure }}
+            >
+              <Text className="text-2xl" style={{ color: appStyle.appGray }}>
+                Save
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       );
