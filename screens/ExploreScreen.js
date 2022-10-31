@@ -46,14 +46,14 @@ const ExploreScreen = () => {
       fetchRequests();
     }
   }, [renderOption]);
-  const deleteRequestFromArray = async (otherUserId) => {
-    const updatedUser = await firebase.updateContext(user.usernameLower);
-    setUser(updatedUser);
-    const array = friendRequests.slice();
-    const index = array.indexOf((item) => item.usernameLower == otherUserId);
-    array.splice(index, 1);
-    console.log("deleted item from array");
-    setFriendRequests(array);
+  const deleteRequestFromArray = async (index) => {
+    if (friendRequests.length == 1) setRenderOption("Explore");
+    else {
+      const array = friendRequests.slice();
+      array.splice(index, 1);
+      console.log("deleted item from array");
+      setFriendRequests(array);
+    }
   };
   const userClicked = async (userData) => {
     const friendshipStatus = await firebase.checkFriendShipStatus(

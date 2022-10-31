@@ -5,14 +5,14 @@ import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
   console.log(props.friendRequests);
-  const acceptRequest = async (otherUserId) => {
+  const acceptRequest = async (otherUserId, index) => {
     console.log(otherUserId);
-    await props.deleteRequest(otherUserId);
+    await props.deleteRequest(index);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
   };
-  const rejectRequest = async (otherUserId) => {
+  const rejectRequest = async (otherUserId, index) => {
     console.log(otherUserId);
-    await props.deleteRequest(otherUserId);
+    await props.deleteRequest(index);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
   };
   return (
@@ -21,7 +21,7 @@ const FriendRequests = (props) => {
         className="px-4 pt-3"
         data={props.friendRequests}
         keyExtractor={(item) => item.username}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View className="flex-row items-center mt-2">
             <TouchableOpacity
               onPress={() => props.userClicked(item)}
@@ -50,7 +50,7 @@ const FriendRequests = (props) => {
             </TouchableOpacity>
             <View className="flex-row">
               <TouchableOpacity
-                onPress={() => acceptRequest(item.usernameLower)}
+                onPress={() => acceptRequest(item.usernameLower, index)}
                 className="p-1 rounded"
                 style={{ backgroundColor: appStyle.appAzure }}
               >
@@ -59,7 +59,7 @@ const FriendRequests = (props) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => rejectRequest(item.usernameLower)}
+                onPress={() => rejectRequest(item.usernameLower, index)}
                 className="ml-2 p-1 rounded"
                 style={{ backgroundColor: appStyle.appGray }}
               >
