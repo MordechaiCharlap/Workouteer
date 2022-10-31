@@ -16,7 +16,7 @@ import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPen, faGear, faSliders } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen, faGear, faPen } from "@fortawesome/free-solid-svg-icons";
 const MyUserScreen = () => {
   const { user } = useContext(authContext);
   const allFriendsMap = new Map(Object.entries(user.friends));
@@ -46,7 +46,7 @@ const MyUserScreen = () => {
             <View className="flex-row items-center justify-between">
               <TouchableOpacity>
                 <FontAwesomeIcon
-                  icon={faSliders}
+                  icon={faUserPen}
                   size={25}
                   color={appStyle.appGray}
                 />
