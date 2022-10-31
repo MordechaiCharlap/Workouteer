@@ -79,7 +79,6 @@ export const updatePersonalData = async (newData) => {
     acceptMaxAge: newData.acceptMaxAge,
     isPublic: newData.isPublic,
   });
-  await updateContext();
 };
 export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
@@ -95,14 +94,12 @@ export const createUser = async (newUserData) => {
     email: newUserData.email,
     uidAuth: newUserData.id,
   });
-  await updateContext();
 };
 export const createUserRequestsDocs = async (newUserData) => {
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
     receivedRequests: {},
     sentRequests: {},
   });
-  await updateContext();
 };
 export const checkFriendShipStatus = async (userData, otherUserId) => {
   const friendsMap = new Map(Object.entries(userData.friends));
@@ -137,7 +134,6 @@ export const cancelFriendRequest = async (user, shownUser) => {
   await updateDoc(doc(db, "users", shownUser.usernameLower), {
     friendRequestCount: increment(-1),
   });
-  await updateContext();
 };
 export const sendFriendRequest = async (userId, shownUser) => {
   const userReqDoc = doc(db, "requests", userId);
@@ -182,7 +178,6 @@ export const acceptRequest = async (userId, otherUserId) => {
   });
   //delete both side's end of the request
   await deleteRequest();
-  await updateContext();
 };
 export const rejectRequest = async (userId, otherUserId) => {
   //user: increment (-1) friendRequestsCount
@@ -191,7 +186,6 @@ export const rejectRequest = async (userId, otherUserId) => {
   });
   //delete both side's end of the request
   await deleteRequest();
-  await updateContext();
 };
 const deleteRequest = async (userId, otherUserId) => {
   //  user: remove receivedRequest
@@ -202,7 +196,6 @@ const deleteRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "requests", otherUserId), {
     [`sentRequests.${userId}`]: deleteField(),
   });
-  //updateContext happens in the calling func
 };
 export const removeFriend = async (userId, otherUserId) => {
   //Both: friendsCount--, remove each other from friends
@@ -214,5 +207,4 @@ export const removeFriend = async (userId, otherUserId) => {
     friendsCount: increment(-1),
     [`friends.${userId}`]: deleteField(),
   });
-  await updateContext();
 };

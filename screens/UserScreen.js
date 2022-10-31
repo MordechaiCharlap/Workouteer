@@ -17,7 +17,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import authContext from "../context/authContext";
 const UserScreen = ({ route }) => {
-  const { user } = useContext(authContext);
+  const { user, setUser } = useContext(authContext);
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
@@ -43,7 +43,8 @@ const UserScreen = ({ route }) => {
   };
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
-    await firebase.sendFriendRequest(user, shownUser);
+    await firebase.sendFriendRequest(user.usernameLower, shownUser);
+    setUser(await firebase.updateContext(user.usernameLower));
   };
   const calculateAge = () => {
     console.log(shownUser.birthdate);
