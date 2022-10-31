@@ -21,6 +21,9 @@ const ExploreScreen = () => {
   const { user, setUser } = useContext(authContext);
   const isFocused = useIsFocused();
   const [friendRequests, setFriendRequests] = useState(null);
+  const [friendRequestCount, setFriendRequestCount] = useState(
+    user.friendRequestCount
+  );
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
@@ -49,6 +52,7 @@ const ExploreScreen = () => {
     }
   }, [renderOption, isFocused]);
   const deleteRequestFromArray = async (index) => {
+    setFriendRequestCount(friendRequestCount - 1);
     if (friendRequests.length == 1) setRenderOption("Explore");
     else {
       const array = friendRequests.slice();
@@ -82,7 +86,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min bg-gray-500"
               style={style.socialButton}
             >
-              Friend requests: {user.friendRequestCount}
+              Friend requests: {friendRequestCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
