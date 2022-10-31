@@ -30,6 +30,7 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {
     const fetchRequests = async () => {
+      console.log("useEffect works");
       setUser(await firebase.updateContext(user.usernameLower));
       if (user.friendRequestCount > 0) {
         const friendReqs = await firebase.getReceivedRequests(user);
@@ -39,6 +40,7 @@ const ExploreScreen = () => {
           friendsReqsArr.push(userData);
         }
         setFriendRequests(friendsReqsArr);
+        console.log(friendsReqsArr);
       }
     };
     fetchRequests();
@@ -50,10 +52,14 @@ const ExploreScreen = () => {
     //   );
   }, []);
   const deleteRequestFromArray = async (otherUserId) => {
-    setUser(await firebase.updateContext());
+    const updatedUser = await firebase.updateContext(user.usernameLower);
+    setUser(updatedUser);
     const array = friendRequests.slice();
-    const index = array.indexOf((item) => item.usernameLower == otherUserId);
+    // const index = array.indexOf((item) => item.usernameLower == otherUserId);
+    var index = 0;
     array.splice(index, 1);
+    console.log("updated array");
+    console.log(array);
     setFriendRequests(array);
   };
   const userClicked = async (userData) => {
@@ -98,7 +104,7 @@ const ExploreScreen = () => {
             userClicked={userClicked}
             user={user}
             friendRequests={friendRequests}
-            deleteRequest={(index) => deleteRequestFromArray(index)}
+            deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
           />
         )}
         {renderOption == "Explore" && (
