@@ -25,23 +25,25 @@ export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
 };
-export const uploadImageAsync = async (uri) => {
+export const uploadProfileImage = async (userId, uri) => {
   const blob = await fetch(uri).then((r) => r.blob());
-  const storageRef = ref(storage, "newImage.jpg");
+  const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
   await uploadBytes(storageRef, blob).then((snapshot) => {
     console.log("Uploaded a blob or file!");
   });
 
-  return await getDownloadURL(ref(storage, "newImage.jpg"));
+  return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
 };
 export const saveProfileChanges = async (
   userId,
   newDisplayName,
-  newDescription
+  newDescription,
+  newImageUrl
 ) => {
   await updateDoc(doc(db, "users", userId), {
     displayName: newDisplayName,
     description: newDescription,
+    img: newImageUrl,
   });
 };
 export const searchUser = async (text) => {
