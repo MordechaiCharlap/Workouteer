@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+
 import React, { useLayoutEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
@@ -33,19 +34,20 @@ const EditDataScreen = () => {
     });
   }, []);
   const onImageLibraryPress = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [1, 1],
+      quality: 0.5,
     });
-    console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      const uploadUrl = await firebase.uploadImageAsync(result.uri);
+      console.log("uploadUrl: " + uploadUrl);
+      setImage(uploadUrl);
     }
   };
+
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.username);
@@ -66,7 +68,7 @@ const EditDataScreen = () => {
             <View className="mb-5 self-center">
               <Image
                 source={{
-                  uri: user.img,
+                  uri: image,
                 }}
                 className="h-32 w-32 bg-white rounded-full mb-2"
               />
