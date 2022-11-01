@@ -32,8 +32,6 @@ const EditDataScreen = () => {
       headerShown: false,
     });
   }, []);
-
-  const renderChosenSection = () => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1  p-3">
@@ -41,21 +39,12 @@ const EditDataScreen = () => {
           <TouchableOpacity
             onPress={() => setCurrentTab("ProfileData")}
             className="w-1/2"
-            style={{
-              backgroundColor:
-                currentTab == "ProfileData"
-                  ? appStyle.appDarkBlue
-                  : appStyle.appLightBlue,
-            }}
           >
             <Text
               className="text-lg text-center"
-              style={{
-                color:
-                  currentTab == "ProfileData"
-                    ? appStyle.appGray
-                    : appStyle.appDarkBlue,
-              }}
+              style={
+                currentTab == "ProfileData" ? style.currentTab : style.otherTab
+              }
             >
               Profile data
             </Text>
@@ -63,21 +52,14 @@ const EditDataScreen = () => {
           <TouchableOpacity
             onPress={() => setCurrentTab("WorkoutPreferences")}
             className="w-1/2"
-            style={{
-              backgroundColor:
-                currentTab == "WorkoutPreferences"
-                  ? appStyle.appDarkBlue
-                  : appStyle.appLightBlue,
-            }}
           >
             <Text
               className="text-lg text-center"
-              style={{
-                color:
-                  currentTab == "WorkoutPreferences"
-                    ? appStyle.appGray
-                    : appStyle.appDarkBlue,
-              }}
+              style={
+                currentTab == "WorkoutPreferences"
+                  ? style.currentTab
+                  : style.otherTab
+              }
             >
               Workout preferences
             </Text>
@@ -237,5 +219,13 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#5f6b8b",
     color: appStyle.appGray,
+  },
+  currentTab: {
+    color: appStyle.appGray,
+    textDecorationLine: "underline",
+  },
+  otherTab: {
+    color: appStyle.appDarkBlue,
+    backgroundColor: appStyle.appLightBlue,
   },
 });
