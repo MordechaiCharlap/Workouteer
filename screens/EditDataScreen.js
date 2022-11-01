@@ -92,7 +92,7 @@ const EditDataScreen = () => {
 };
 export default EditDataScreen;
 
-const EditProfileData = () => {
+const EditProfileData = (props) => {
   useEffect(() => {
     if (
       description == props.user.description &&

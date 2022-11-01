@@ -15,7 +15,6 @@ import {
   collection,
   Timestamp,
 } from "firebase/firestore";
-import uuid from "uuid";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
