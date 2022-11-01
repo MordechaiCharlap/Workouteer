@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
   Alert,
-  Platform,
+  Image,
 } from "react-native";
 import { React, useLayoutEffect, useState, useContext } from "react";
 import CheckBox from "../components/CheckBox";
@@ -17,6 +17,8 @@ import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCircleUser, faPlus } from "@fortawesome/free-solid-svg-icons";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -25,6 +27,7 @@ const LoginScreen = () => {
     });
   }, []);
   const auth = firebase.auth;
+  const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -82,7 +85,10 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img: "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000",
+          img:
+            image == null
+              ? "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000"
+              : image,
           username: username,
           displayName: displayName,
           usernameLower: username.toLowerCase(),
@@ -110,14 +116,33 @@ const LoginScreen = () => {
         className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
-        <View className="mb-8">
-          <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
-            {"Welcome :)"}
-          </Text>
-          <Text style={{ color: appStyle.appGray }}>
-            Register in a few seconds and find a partner for your next workout
-            TODAY!
-          </Text>
+        <View className="mb-8 items-center">
+          {image != null && <Image source={image}></Image>}
+          {image == null && (
+            <View className="items-center">
+              <TouchableOpacity className="mb-5">
+                <FontAwesomeIcon
+                  icon={faCircleUser}
+                  size={80}
+                  color={appStyle.appGray}
+                />
+                <View
+                  className="rounded-full items-center absolute right-0 bottom-0"
+                  style={{ backgroundColor: appStyle.appGray }}
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    size={25}
+                    color={appStyle.appDarkBlue}
+                  />
+                </View>
+              </TouchableOpacity>
+
+              <Text style={{ color: appStyle.appGray }}>
+                Click to add profile picture
+              </Text>
+            </View>
+          )}
         </View>
         <View className="flex-1 justify-between">
           <View>
