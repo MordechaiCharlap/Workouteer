@@ -19,20 +19,33 @@ import { useState } from "react";
 import { useContext } from "react";
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
+import { useEffect } from "react";
 const EditDataScreen = () => {
   const navigation = useNavigation();
 
   const { user, setUser } = useContext(authContext);
+
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
   const [image, setImage] = useState(user.img);
+
   const [currentTab, setCurrentTab] = useState("ProfileData");
+  const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  useEffect(() => {
+    if (
+      description == user.description &&
+      displayName == user.displayName &&
+      image == user.img
+    )
+      setChangesMade(false);
+    else setChangesMade(true);
+  }, [displayName, description]);
   const onImageLibraryPress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -63,6 +76,55 @@ const EditDataScreen = () => {
     );
     setUser(await firebase.updateContext(user.usernameLower));
     setLoading(false);
+    setChangesMade(false);
+  };
+  const SaveButton = () => {
+    if (changesMade == false)
+      return (
+        <TouchableOpacity
+          className="self-center py-1 px-5 w-9/12 rounded"
+          style={{ backgroundColor: appStyle.appAzure }}
+        >
+          <Text
+            className="text-2xl text-center"
+            style={{ color: appStyle.appGray }}
+          >
+            No changes made
+          </Text>
+        </TouchableOpacity>
+      );
+    else {
+      if (isLoading == false)
+        return (
+          <TouchableOpacity
+            onPress={saveProfileChanges}
+            className="self-center py-1 px-5 w-9/12 rounded"
+            style={{ backgroundColor: appStyle.appAzure }}
+          >
+            <Text
+              className="text-2xl text-center"
+              style={{ color: appStyle.appGray }}
+            >
+              Save changes
+            </Text>
+          </TouchableOpacity>
+        );
+      else {
+        return (
+          <TouchableOpacity
+            className="self-center py-1 px-5 w-9/12 rounded"
+            style={{ backgroundColor: appStyle.appAzure }}
+          >
+            <Text
+              className="text-2xl text-center"
+              style={{ color: appStyle.appGray }}
+            >
+              Loading...
+            </Text>
+          </TouchableOpacity>
+        );
+      }
+    }
   };
   const renderChosenSection = () => {
     if (currentTab == "ProfileData")
@@ -135,15 +197,7 @@ const EditDataScreen = () => {
                 {user.description}
               </TextInput>
             </View>
-            <TouchableOpacity
-              onPress={saveProfileChanges}
-              className="self-center py-1 px-5"
-              style={{ backgroundColor: appStyle.appAzure }}
-            >
-              <Text className="text-2xl" style={{ color: appStyle.appGray }}>
-                {isLoading == false ? "Save changes" : "Loading"}
-              </Text>
-            </TouchableOpacity>
+            {SaveButton()}
           </View>
         </View>
       );
