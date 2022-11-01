@@ -141,53 +141,28 @@ const EditProfileData = () => {
     setChangesMade(false);
   };
 
-  const SaveButton = () => {
-    if (changesMade == false)
-      return (
-        <TouchableOpacity
-          className="self-center py-1 px-5 w-9/12 rounded"
-          style={{ backgroundColor: appStyle.appAzure }}
-        >
-          <Text
-            className="text-2xl text-center"
-            style={{ color: appStyle.appGray }}
-          >
-            No changes made
-          </Text>
-        </TouchableOpacity>
-      );
-    else {
-      if (isLoading == false)
-        return (
-          <TouchableOpacity
-            onPress={saveProfileChanges}
-            className="self-center py-1 px-5 w-9/12 rounded"
-            style={{ backgroundColor: appStyle.appAzure }}
-          >
-            <Text
-              className="text-2xl text-center"
-              style={{ color: appStyle.appGray }}
-            >
-              Save changes
-            </Text>
-          </TouchableOpacity>
-        );
-      else {
-        return (
-          <TouchableOpacity
-            className="self-center py-1 px-5 w-9/12 rounded"
-            style={{ backgroundColor: appStyle.appAzure }}
-          >
-            <Text
-              className="text-2xl text-center"
-              style={{ color: appStyle.appGray }}
-            >
-              Loading...
-            </Text>
-          </TouchableOpacity>
-        );
-      }
+  const saveButtonClicked = () => {
+    if (changesMade == true) {
+      if (isLoading == false) saveProfileChanges();
     }
+  };
+  const SaveButton = () => {
+    return (
+      <TouchableOpacity
+        onPress={saveButtonClicked}
+        className="self-center py-1 px-5 w-9/12 rounded"
+        style={{ backgroundColor: appStyle.appAzure }}
+      >
+        <Text
+          className="text-2xl text-center"
+          style={{ color: appStyle.appGray }}
+        >
+          {changesMade == false && "No changes made"}
+          {changesMade == true && loading == false && "Save Changes"}
+          {changesMade == true && loading == true && "Loading"}
+        </Text>
+      </TouchableOpacity>
+    );
   };
   return (
     <View>
@@ -257,7 +232,6 @@ const EditProfileData = () => {
     </View>
   );
 };
-
 const style = StyleSheet.create({
   input: {
     borderWidth: 1,
