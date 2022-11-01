@@ -42,7 +42,10 @@ const EditDataScreen = () => {
     });
 
     if (!result.cancelled) {
-      const uploadUrl = await firebase.uploadImageAsync(result.uri);
+      const uploadUrl = await firebase.uploadProfileImage(
+        user.usernameLower,
+        result.uri
+      );
       console.log("uploadUrl: " + uploadUrl);
       setImage(uploadUrl);
     }
@@ -54,7 +57,9 @@ const EditDataScreen = () => {
     await firebase.saveProfileChanges(
       user.usernameLower,
       displayName == null ? "" : displayName,
-      description == null ? "" : description
+      description == null ? "" : description,
+      image == null ? "" : image
+      //should add deafult link to firebase storage deafult profile picture
     );
     setUser(await firebase.updateContext(user.usernameLower));
     setLoading(false);
@@ -136,7 +141,7 @@ const EditDataScreen = () => {
               style={{ backgroundColor: appStyle.appAzure }}
             >
               <Text className="text-2xl" style={{ color: appStyle.appGray }}>
-                {isLoading == false ? "Save" : "Loading"}
+                {isLoading == false ? "Save changes" : "Loading"}
               </Text>
             </TouchableOpacity>
           </View>
