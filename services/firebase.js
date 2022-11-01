@@ -105,12 +105,13 @@ export const createUser = async (newUserData) => {
     displayName: newUserData.displayName,
     usernameLower: newUserData.usernameLower,
     birthdate: newUserData.birthdate,
+    email: newUserData.email,
+    uidAuth: newUserData.id,
     friendsCount: 0,
     friendRequestCount: 0,
     friends: {},
     workoutsCount: 0,
-    email: newUserData.email,
-    uidAuth: newUserData.id,
+    description: "",
   });
 };
 export const createUserRequestsDocs = async (newUserData) => {
