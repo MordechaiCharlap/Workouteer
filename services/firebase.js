@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getFirestore,
   deleteField,
@@ -15,10 +15,8 @@ import {
   collection,
   Timestamp,
 } from "firebase/firestore";
+import uuid from "uuid";
 import { firebaseConfig } from "../firebase.config";
-import { useContext } from "react";
-import authContext from "../context/authContext";
-
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
@@ -26,6 +24,15 @@ export const storage = getStorage(firebaseApp);
 export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
+};
+export const uploadImageAsync = async (uri) => {
+  const blob = await fetch(uri).then((r) => r.blob());
+  const storageRef = ref(storage, "newImage.jpg");
+  await uploadBytes(storageRef, blob).then((snapshot) => {
+    console.log("Uploaded a blob or file!");
+  });
+
+  return await getDownloadURL(ref(storage, "newImage.jpg"));
 };
 export const saveProfileChanges = async (
   userId,
