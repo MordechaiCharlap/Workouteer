@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import { React, useLayoutEffect, useState, useContext } from "react";
+import * as ImagePicker from "expo-image-picker";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -45,30 +46,49 @@ const LoginScreen = () => {
     setShow(false);
     setChangeOnce(true);
   };
+  const openImageLibrary = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
 
+    if (!result.cancelled) {
+      const uploadUrl = await firebase.uploadProfileImage(
+        user.usernameLower,
+        result.uri
+      );
+      console.log("uploadUrl: " + uploadUrl);
+      setImage(uploadUrl);
+    }
+  };
   const showDatepicker = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
     setInputErrorText("");
-    if (changedOnce) {
-      var age = calculateAge();
-      var isUserAvailable = await firebase.checkUsername(username);
-      var isEmailAvailable = await firebase.checkEmail(email);
-      if (age >= 16) {
-        if (username.length >= 6) {
-          if (isUserAvailable) {
-            console.log(username);
-            if (isEmailAvailable) {
-              console.log(email);
-              if (acceptTerms) {
-                handleLogin();
-              } else setInputErrorText("Accept terms before going further");
-            } else setInputErrorText("email isnt available");
-          } else setInputErrorText("Username isnt available");
-        } else setInputErrorText("Username too small (6+ characters)");
-      } else setInputErrorText("Need to be >=16");
-    } else setInputErrorText("Choose birthdate");
+    if (image != null) {
+      if (changedOnce) {
+        var age = calculateAge();
+        var isUserAvailable = await firebase.checkUsername(username);
+        var isEmailAvailable = await firebase.checkEmail(email);
+
+        if (age >= 16) {
+          if (username.length >= 6) {
+            if (isUserAvailable) {
+              console.log(username);
+              if (isEmailAvailable) {
+                console.log(email);
+                if (acceptTerms) {
+                  handleLogin();
+                } else setInputErrorText("Accept terms before going further");
+              } else setInputErrorText("email isnt available");
+            } else setInputErrorText("Username isnt available");
+          } else setInputErrorText("Username too small (6+ characters)");
+        } else setInputErrorText("Need to be >=16");
+      } else setInputErrorText("Choose birthdate");
+    } else setInputErrorText("Upload a profile picture");
   };
   const calculateAge = () => {
     var today = new Date();
@@ -85,10 +105,7 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img:
-            image == null
-              ? "https://img.freepik.com/free-vector/man-practicing-dance-fitness-home_23-2148890577.jpg?w=2000"
-              : image,
+          img: image,
           username: username,
           displayName: displayName,
           usernameLower: username.toLowerCase(),
@@ -120,7 +137,7 @@ const LoginScreen = () => {
           {image != null && <Image source={image}></Image>}
           {image == null && (
             <View className="items-center">
-              <TouchableOpacity className="mb-5">
+              <TouchableOpacity onPress={openImageLibrary} className="mb-5">
                 <FontAwesomeIcon
                   icon={faCircleUser}
                   size={80}
