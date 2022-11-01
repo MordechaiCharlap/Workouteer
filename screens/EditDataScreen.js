@@ -8,6 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import React, { useLayoutEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -18,10 +19,12 @@ import { useContext } from "react";
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 const EditDataScreen = () => {
+  const navigation = useNavigation();
+
   const { user, setUser } = useContext(authContext);
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
-  const navigation = useNavigation();
+  const [image, setImage] = useState(user.img);
   const [currentTab, setCurrentTab] = useState("ProfileData");
   const [isLoading, setLoading] = useState(false);
   useLayoutEffect(() => {
@@ -29,7 +32,20 @@ const EditDataScreen = () => {
       headerShown: false,
     });
   }, []);
-  const onImageLibraryPress = async () => {};
+  const onImageLibraryPress = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.username);
