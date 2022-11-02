@@ -122,13 +122,28 @@ const EditWorkoutPreferences = (props) => {
         >
           Partner's sex:
         </Text>
-        <CheckBox
-          onValueChange={(value) => setAcceptMale(value)}
-          backgroundColor={appStyle.appLightBlue}
-          valueColor={appStyle.appDarkBlue}
-          value={acceptMale}
-        />
-        <Text>Male</Text>
+        <View className="flex-row items-center mr-2">
+          <CheckBox
+            onValueChange={(value) => setAcceptMale(value)}
+            backgroundColor={appStyle.appLightBlue}
+            valueColor={appStyle.appDarkBlue}
+            value={acceptMale}
+          />
+          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+            Male
+          </Text>
+        </View>
+        <View className="flex-row items-center">
+          <CheckBox
+            onValueChange={(value) => setAcceptMale(value)}
+            backgroundColor={appStyle.appLightBlue}
+            valueColor={appStyle.appDarkBlue}
+            value={acceptMale}
+          />
+          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+            Male
+          </Text>
+        </View>
       </View>
     </View>
   );
