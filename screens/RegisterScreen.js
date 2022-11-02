@@ -55,12 +55,7 @@ const LoginScreen = () => {
     });
 
     if (!result.cancelled) {
-      const uploadUrl = await firebase.uploadProfileImage(
-        user.usernameLower,
-        result.uri
-      );
-      console.log("uploadUrl: " + uploadUrl);
-      setImage(uploadUrl);
+      setImage(result.uri);
     }
   };
   const showDatepicker = () => {
@@ -115,6 +110,7 @@ const LoginScreen = () => {
         };
         await firebase.createUser(newUserData);
         await firebase.createUserRequestsDocs(newUserData);
+        await firebase.uploadProfileImage(username.toLowerCase(), image);
         navigation.navigate("PersonalData");
       })
       .catch((error) => {
@@ -134,32 +130,39 @@ const LoginScreen = () => {
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
         <View className="mb-8 items-center">
-          {image != null && <Image source={image}></Image>}
-          {image == null && (
-            <View className="items-center">
-              <TouchableOpacity onPress={openImageLibrary} className="mb-5">
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  size={80}
-                  color={appStyle.appGray}
-                />
-                <View
-                  className="rounded-full items-center absolute right-0 bottom-0"
-                  style={{ backgroundColor: appStyle.appGray }}
-                >
+          <View className="items-center">
+            <TouchableOpacity onPress={openImageLibrary} className="mb-5">
+              {image != null && (
+                <Image
+                  source={{ uri: image }}
+                  className="w-28 h-28 bg-white aspect-square rounded-full"
+                ></Image>
+              )}
+              {image == null && (
+                <View>
                   <FontAwesomeIcon
-                    icon={faPlus}
-                    size={25}
-                    color={appStyle.appDarkBlue}
+                    icon={faCircleUser}
+                    size={80}
+                    color={appStyle.appGray}
                   />
+                  <View
+                    className="rounded-full items-center absolute right-0 bottom-0"
+                    style={{ backgroundColor: appStyle.appGray }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      size={25}
+                      color={appStyle.appDarkBlue}
+                    />
+                  </View>
                 </View>
-              </TouchableOpacity>
+              )}
+            </TouchableOpacity>
 
-              <Text style={{ color: appStyle.appGray }}>
-                Click to add profile picture
-              </Text>
-            </View>
-          )}
+            <Text style={{ color: appStyle.appGray }}>
+              Click to add profile picture
+            </Text>
+          </View>
         </View>
         <View className="flex-1 justify-between">
           <View>
