@@ -90,6 +90,7 @@ const EditProfileData = (props) => {
   const [description, setDescription] = useState(props.user.description);
   const [image, setImage] = useState(props.user.img);
 
+  const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -133,9 +134,14 @@ const EditProfileData = (props) => {
       description == null ? "" : description,
       image == null ? "" : image
     );
-    setUser(await firebase.updateContext(props.user.usernameLower));
-    setLoading(false);
-    setChangesMade(false);
+    props.setUser(await firebase.updateContext(props.user.usernameLower));
+
+    setUpdated(true);
+    setTimeout(() => {
+      setLoading(false);
+      setChangesMade(false);
+      setUpdated(false);
+    }, 2000);
   };
 
   const saveButtonClicked = () => {
@@ -148,15 +154,24 @@ const EditProfileData = (props) => {
       <TouchableOpacity
         onPress={saveButtonClicked}
         className="self-center py-1 px-5 w-9/12 rounded"
-        style={{ backgroundColor: appStyle.appAzure }}
+        style={{
+          backgroundColor: updated == false ? appStyle.appAzure : "#28a923",
+        }}
       >
         <Text
           className="text-2xl text-center"
           style={{ color: appStyle.appGray }}
         >
-          {changesMade == false && "No changes made"}
-          {changesMade == true && isLoading == false && "Save Changes"}
-          {changesMade == true && isLoading == true && "Loading"}
+          {updated == true && "Updated successfuly!"}
+          {updated == false && changesMade == false && "No changes made"}
+          {updated == false &&
+            changesMade == true &&
+            isLoading == false &&
+            "Save Changes"}
+          {updated == false &&
+            changesMade == true &&
+            isLoading == true &&
+            "Loading"}
         </Text>
       </TouchableOpacity>
     );
