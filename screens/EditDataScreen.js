@@ -10,6 +10,7 @@ import {
 
 import React, { useLayoutEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -98,14 +99,28 @@ const EditProfileData = (props) => {
       aspect: [1, 1],
       quality: 1,
     });
-
     if (!result.cancelled) {
+      const manipResult = await ImageManipulator.manipulateAsync(
+        result.localUri || result.uri,
+        [
+          { resize: { height: 1080, width: 1080 } },
+          { flip: ImageManipulator.FlipType.Vertical },
+        ],
+        {
+          compress: 0.5,
+          height: 1080,
+          width: 1080,
+          format: ImageManipulator.SaveFormat.JPEG,
+        }
+      );
+
+      setImage(manipResult.uri);
       const uploadUrl = await firebase.uploadProfileImage(
         props.user.usernameLower,
         result.uri
       );
       console.log("uploadUrl: " + uploadUrl);
-      setImage(uploadUrl);
+      setImage(manipResult.uri);
     }
   };
   const saveProfileChanges = async () => {
