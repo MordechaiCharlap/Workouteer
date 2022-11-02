@@ -127,36 +127,38 @@ const PersonalDataScreen = () => {
             >
               Workout preferences
             </Text>
-            <Text className="text-center mb-2 font-semibold" style={style.text}>
-              Partner's age
-            </Text>
-            <View className="flex-row justify-around mb-5">
-              <View className="flex-row w-1/2">
-                <Text style={style.text}>From: </Text>
+
+            <View className="mb-5">
+              <View className="flex-row w-1/2 items-center">
+                <Text className="font-semibold mr-5" style={style.text}>
+                  Partner's age:
+                </Text>
+                <Text style={style.text}>From</Text>
                 <TextInput
                   onChangeText={(text) => setMinAgeAccept(text)}
-                  className="rounded w-1/2"
+                  className="rounded w-1/2 text-center"
                   style={style.input}
                   placeholder="Minimum age"
+                  placeholderTextColor={"#5f6b8b"}
                   value={16}
                 ></TextInput>
-              </View>
-              <View className="flex-row w-1/2">
-                <Text style={style.text}>To: </Text>
+                <Text style={style.text}>to</Text>
                 <TextInput
                   onChangeText={(text) => setMaxAgeAccept(text)}
-                  className="rounded w-1/2"
+                  className="rounded w-1/2 text-center"
                   style={style.input}
                   placeholder="Maximum age"
+                  placeholderTextColor={"#5f6b8b"}
                   value={100}
                 ></TextInput>
               </View>
             </View>
-            <Text className="text-center mb-2 font-semibold" style={style.text}>
-              Partner's sex
-            </Text>
-            <View className="flex-row justify-around">
-              <View className="flex-row">
+
+            <View className="flex-row items-center">
+              <Text className="font-semibold mr-5" style={style.text}>
+                Partner's sex:
+              </Text>
+              <View className="flex-row mr-5 items-center">
                 <CheckBox
                   onValueChange={(value) => setAcceptMale(value)}
                   backgroundColor={appStyle.appAzure}
@@ -165,7 +167,7 @@ const PersonalDataScreen = () => {
                 />
                 <Text style={style.text}>Male</Text>
               </View>
-              <View className="flex-row">
+              <View className="flex-row items-center">
                 <CheckBox
                   onValueChange={(value) => setAcceptFemale(value)}
                   backgroundColor={appStyle.appAzure}
