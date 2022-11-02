@@ -77,6 +77,7 @@ export default EditDataScreen;
 
 const EditProfileData = (props) => {
   useEffect(() => {
+    console.log("checking if changes were made");
     if (
       description == props.user.description &&
       displayName == props.user.displayName &&
@@ -84,7 +85,7 @@ const EditProfileData = (props) => {
     )
       setChangesMade(false);
     else setChangesMade(true);
-  }, [displayName, description]);
+  });
   const [displayName, setDisplayName] = useState(props.user.displayName);
   const [description, setDescription] = useState(props.user.description);
   const [image, setImage] = useState(props.user.img);
@@ -131,7 +132,6 @@ const EditProfileData = (props) => {
       displayName == null ? "" : displayName,
       description == null ? "" : description,
       image == null ? "" : image
-      //should add deafult link to firebase storage deafult profile picture
     );
     setUser(await firebase.updateContext(props.user.usernameLower));
     setLoading(false);
@@ -155,77 +155,74 @@ const EditProfileData = (props) => {
           style={{ color: appStyle.appGray }}
         >
           {changesMade == false && "No changes made"}
-          {changesMade == true && loading == false && "Save Changes"}
-          {changesMade == true && loading == true && "Loading"}
+          {changesMade == true && isLoading == false && "Save Changes"}
+          {changesMade == true && isLoading == true && "Loading"}
         </Text>
       </TouchableOpacity>
     );
   };
   return (
     <View>
-      <View></View>
-      <View>
-        <View className="mb-5 self-center">
-          <Image
-            source={{
-              uri: image,
-            }}
-            className="h-32 w-32 bg-white rounded-full mb-2"
+      <View className="mb-5 self-center">
+        <Image
+          source={{
+            uri: image,
+          }}
+          className="h-32 w-32 bg-white rounded-full mb-2"
+        />
+        <TouchableOpacity
+          onPress={onImageLibraryPress}
+          className="absolute right-0 bottom-0 rounded-full p-2"
+          style={{
+            backgroundColor: appStyle.appGray,
+            borderWidth: 1,
+            borderColor: appStyle.appDarkBlue,
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faPen}
+            size={20}
+            color={appStyle.appDarkBlue}
           />
-          <TouchableOpacity
-            onPress={onImageLibraryPress}
-            className="absolute right-0 bottom-0 rounded-full p-2"
-            style={{
-              backgroundColor: appStyle.appGray,
-              borderWidth: 1,
-              borderColor: appStyle.appDarkBlue,
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faPen}
-              size={20}
-              color={appStyle.appDarkBlue}
-            />
-          </TouchableOpacity>
-        </View>
-        <View className="flex-row items-center mb-5">
-          <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
-            Display name:
-          </Text>
-          <TextInput
-            className="rounded text-lg flex-1"
-            style={style.input}
-            placeholder={props.user.displayName}
-            placeholderTextColor={"#5f6b8b"}
-            maxLength={10}
-            onChangeText={(text) => setDisplayName(text)}
-          >
-            {props.user.displayName}
-          </TextInput>
-        </View>
-        <View className="mb-5">
-          <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
-            Description
-          </Text>
-          <TextInput
-            style={{
-              textAlignVertical: "top",
-              backgroundColor: appStyle.appLightBlue,
-              borderRadius: 8,
-              padding: 8,
-            }}
-            multiline
-            placeholder="Optional text"
-            placeholderTextColor={appStyle.appDarkBlue}
-            numberOfLines={12}
-            maxLength={350}
-            onChangeText={(text) => setDescription(text)}
-          >
-            {props.user.description}
-          </TextInput>
-        </View>
-        {SaveButton()}
+        </TouchableOpacity>
       </View>
+      <View className="flex-row items-center mb-5">
+        <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
+          Display name:
+        </Text>
+        <TextInput
+          className="rounded text-lg flex-1"
+          style={style.input}
+          placeholder={props.user.displayName}
+          placeholderTextColor={"#5f6b8b"}
+          maxLength={10}
+          onChangeText={(text) => setDisplayName(text)}
+        >
+          {props.user.displayName}
+        </TextInput>
+      </View>
+      <View className="mb-5">
+        <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
+          Description
+        </Text>
+        <TextInput
+          style={{
+            textAlignVertical: "top",
+            backgroundColor: appStyle.appLightBlue,
+            borderRadius: 8,
+            padding: 8,
+          }}
+          multiline
+          placeholder="Optional text"
+          placeholderTextColor={appStyle.appDarkBlue}
+          numberOfLines={12}
+          maxLength={350}
+          onChangeText={(text) => setDescription(text)}
+        >
+          {props.user.description}
+        </TextInput>
+      </View>
+      {SaveButton()}
     </View>
   );
 };
