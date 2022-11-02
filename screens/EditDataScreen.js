@@ -135,10 +135,10 @@ const EditWorkoutPreferences = (props) => {
         </View>
         <View className="flex-row items-center">
           <CheckBox
-            onValueChange={(value) => setAcceptMale(value)}
+            onValueChange={(value) => setAcceptFemale(value)}
             backgroundColor={appStyle.appLightBlue}
             valueColor={appStyle.appDarkBlue}
-            value={acceptMale}
+            value={acceptFemale}
           />
           <Text className="ml-1" style={{ color: appStyle.appGray }}>
             Male
