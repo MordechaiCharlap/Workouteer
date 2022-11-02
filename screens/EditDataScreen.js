@@ -96,7 +96,7 @@ const EditProfileData = (props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.5,
+      quality: 1,
     });
 
     if (!result.cancelled) {
