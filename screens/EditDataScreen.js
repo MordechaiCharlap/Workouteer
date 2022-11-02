@@ -21,7 +21,7 @@ import { useContext } from "react";
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 import { useEffect } from "react";
-import { CheckBox } from "../components/CheckBox";
+import CheckBox from "../components/CheckBox";
 const EditDataScreen = () => {
   const navigation = useNavigation();
 
@@ -115,31 +115,20 @@ const EditWorkoutPreferences = (props) => {
           {maxAge}
         </TextInput>
       </View>
-      <View className="flex-row mb-5">
+      <View className="flex-row items-center mb-5">
         <Text
           className="text-xl font-semibold mr-2"
           style={{ color: appStyle.appGray }}
         >
           Partner's sex:
         </Text>
-        {/* <View className="flex-row">
-          <CheckBox
-            onValueChange={(value) => setAcceptMale(value)}
-            backgroundColor={appStyle.appAzure}
-            valueColor={appStyle.appDarkBlue}
-            value={true}
-          />
-          <Text>Male</Text>
-        </View>
-        <View className="flex-row">
-          <CheckBox
-            onValueChange={(value) => setAcceptFemale(value)}
-            backgroundColor={appStyle.appAzure}
-            valueColor={appStyle.appDarkBlue}
-            value={true}
-          />
-          <Text>Female</Text>
-        </View> */}
+        <CheckBox
+          onValueChange={(value) => setAcceptMale(value)}
+          backgroundColor={appStyle.appLightBlue}
+          valueColor={appStyle.appDarkBlue}
+          value={acceptMale}
+        />
+        <Text>Male</Text>
       </View>
     </View>
   );
