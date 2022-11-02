@@ -69,12 +69,52 @@ const EditDataScreen = () => {
         {currentTab == "ProfileData" && (
           <EditProfileData user={user} setUser={setUser} />
         )}
+        {currentTab == "WorkoutPreferences" && (
+          <EditWorkoutPreferences user={user} setUser={setUser} />
+        )}
       </View>
     </SafeAreaView>
   );
 };
 export default EditDataScreen;
-
+const EditWorkoutPreferences = (props) => {
+  const [minAge, setMinAge] = useState(props.user.acceptMinAge);
+  const [maxAge, setMaxAge] = useState(props.user.acceptMaxAge);
+  return (
+    <View>
+      <View className="flex-row mb-5">
+        <Text
+          className="text-xl font-semibold mr-2"
+          style={{ color: appStyle.appGray }}
+        >
+          Partner's age:
+        </Text>
+        <TextInput
+          className="rounded text-lg px-2 text-center w-16"
+          style={style.input}
+          maxLength={3}
+          onChangeText={(text) => setMinAge(text)}
+        >
+          {minAge}
+        </TextInput>
+        <Text
+          className="text-xl font-semibold mx-3"
+          style={{ color: appStyle.appGray }}
+        >
+          -
+        </Text>
+        <TextInput
+          className="rounded text-lg px-2 text-center w-16"
+          style={style.input}
+          maxLength={3}
+          onChangeText={(text) => setMaxAge(text)}
+        >
+          {maxAge}
+        </TextInput>
+      </View>
+    </View>
+  );
+};
 const EditProfileData = (props) => {
   useEffect(() => {
     console.log("checking if changes were made");
@@ -206,7 +246,7 @@ const EditProfileData = (props) => {
           Display name:
         </Text>
         <TextInput
-          className="rounded text-lg flex-1"
+          className="rounded text-lg flex-1 px-2"
           style={style.input}
           placeholder={props.user.displayName}
           placeholderTextColor={"#5f6b8b"}
