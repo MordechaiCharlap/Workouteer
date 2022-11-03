@@ -94,7 +94,6 @@ export const updatePersonalData = async (newData) => {
     acceptFemale: newData.acceptFemale,
     acceptMinAge: newData.acceptMinAge,
     acceptMaxAge: newData.acceptMaxAge,
-    isPublic: newData.isPublic,
   });
 };
 export const createUser = async (newUserData) => {
@@ -111,6 +110,8 @@ export const createUser = async (newUserData) => {
     friends: {},
     workoutsCount: 0,
     description: "",
+    isPublic: true,
+    showOnline: true,
   });
 };
 export const createUserRequestsDocs = async (newUserData) => {
