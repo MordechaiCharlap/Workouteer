@@ -16,6 +16,9 @@ import { useContext } from "react";
 import authContext from "../context/authContext";
 const SettingsScreen = () => {
   const { user, setUser } = useContext(authContext);
+  const [applyChangesText, setApplyChangesText] = useState(
+    "No changes were made"
+  );
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const navigation = useNavigation();
@@ -26,7 +29,7 @@ const SettingsScreen = () => {
   }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1">
+      <View className="flex-1 p-4">
         <Text
           className="text-center text-2xl"
           style={{ color: appStyle.appGray }}
@@ -56,6 +59,19 @@ const SettingsScreen = () => {
             onValueChange={() => setShowOnline((prev) => !prev)}
           />
         </View>
+      </View>
+      <View
+        style={{ backgroundColor: appStyle.appAzure }}
+        className="h-16 p-2 justify-center items-center"
+      >
+        <TouchableOpacity className="bg-gray-100 p-1 rounded">
+          <Text
+            className="text-xl text-center"
+            style={{ color: appStyle.appDarkBlue }}
+          >
+            {applyChangesText}
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
