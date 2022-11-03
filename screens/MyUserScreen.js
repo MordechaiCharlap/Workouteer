@@ -57,7 +57,7 @@ const MyUserScreen = () => {
               >
                 {user.username}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                 <FontAwesomeIcon
                   icon={faGear}
                   size={25}
@@ -95,7 +95,10 @@ const MyUserScreen = () => {
                     className="items-center"
                     onPress={showFriends}
                   >
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      className="font-bold"
+                    >
                       {user.friendsCount}
                     </Text>
                     <Text style={{ fontSize: 20, color: appStyle.appGray }}>
