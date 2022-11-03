@@ -14,6 +14,7 @@ import SearchUsersScreen from "./screens/SearchUsersScreen";
 import UserScreen from "./screens/UserScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
 import EditDataScreen from "./screens/EditDataScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
@@ -36,6 +37,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
       <Stack.Screen name="EditData" component={EditDataScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 };
