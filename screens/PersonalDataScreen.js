@@ -50,7 +50,6 @@ const PersonalDataScreen = () => {
         acceptFemale: isAcceptFemale,
         acceptMinAge: minAgeAccept,
         acceptMaxAge: maxAgeAccept,
-        isPublic: true,
       };
       await firebase.updatePersonalData(newData);
       navigation.navigate("Home");
