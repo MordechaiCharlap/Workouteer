@@ -17,6 +17,7 @@ import authContext from "../context/authContext";
 const SettingsScreen = () => {
   const { user, setUser } = useContext(authContext);
   const [isPublic, setIsPublic] = useState(user.isPublic);
+  const [showOnline, setShowOnline] = useState(user.showOnline);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,14 +41,20 @@ const SettingsScreen = () => {
           style={{ color: appStyle.appGray }}
         >
           <Text style={{ color: appStyle.appGray }}>Public account:</Text>
-          <Switch value={false} />
+          <Switch
+            value={isPublic}
+            onValueChange={() => setIsPublic((prev) => !prev)}
+          />
         </View>
         <View
           className="flex-row justify-between items-center"
           style={{ color: appStyle.appGray }}
         >
           <Text style={{ color: appStyle.appGray }}>Online status:</Text>
-          <Switch value={false} />
+          <Switch
+            value={showOnline}
+            onValueChange={() => setShowOnline((prev) => !prev)}
+          />
         </View>
       </View>
     </SafeAreaView>
