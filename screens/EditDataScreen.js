@@ -177,10 +177,7 @@ const EditProfileData = (props) => {
     if (!result.cancelled) {
       const manipResult = await ImageManipulator.manipulateAsync(
         result.localUri || result.uri,
-        [
-          { resize: { height: 1080, width: 1080 } },
-          { flip: ImageManipulator.FlipType.Vertical },
-        ],
+        [{ resize: { height: 1080, width: 1080 } }],
         {
           compress: 0.5,
           height: 1080,
@@ -188,14 +185,12 @@ const EditProfileData = (props) => {
           format: ImageManipulator.SaveFormat.JPEG,
         }
       );
-
-      setImage(manipResult.uri);
       const uploadUrl = await firebase.uploadProfileImage(
         props.user.usernameLower,
-        result.uri
+        manipResult.uri
       );
       console.log("uploadUrl: " + uploadUrl);
-      setImage(manipResult.uri);
+      setImage(uploadUrl);
     }
   };
   const saveProfileChanges = async () => {

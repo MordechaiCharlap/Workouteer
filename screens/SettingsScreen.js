@@ -10,7 +10,6 @@ import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-import CheckBox from "../components/CheckBox";
 import { useState } from "react";
 import { useContext } from "react";
 import authContext from "../context/authContext";
