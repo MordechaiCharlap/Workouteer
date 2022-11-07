@@ -33,6 +33,7 @@ const UserScreen = ({ route }) => {
   }, []);
 
   const removeFriend = async () => {
+    setFriendshipStatus("None");
     await firebase.removeFriend(user.usernameLower, shownUser.usernameLower);
   };
   const acceptFriendRequest = async () => {};
@@ -79,7 +80,7 @@ const UserScreen = ({ route }) => {
             className="text-center text-xl"
             style={{ color: appStyle.appGray }}
           >
-            Delete friend
+            Remove friend
           </Text>
         </TouchableOpacity>
       );
