@@ -33,7 +33,7 @@ const ExploreScreen = () => {
       console.log("using effectionn <3");
       const fetchRequests = async () => {
         if (user.friendRequestCount > 0) {
-          console.log("more than 0 requests!");
+          console.log("more than 0 requests: " + user.friendRequestCount);
           const friendReqs = await firebase.getReceivedRequests(user);
           var friendsReqsArr = [];
           for (var key of friendReqs.keys()) {
@@ -50,13 +50,12 @@ const ExploreScreen = () => {
     }
   }, [renderOption]);
   const deleteRequestFromArray = async (index) => {
-    if (friendRequests.length == 1) setRenderOption("Explore");
-    else {
-      const array = friendRequests.slice();
-      array.splice(index, 1);
-      console.log("deleted item from array");
-      setFriendRequests(array);
-    }
+    setUser(await firebase.updateContext(user.usernameLower));
+    console.log("updated user requests: " + user.friendRequestCount);
+    const array = friendRequests.slice();
+    array.splice(index, 1);
+    console.log("deleted item from array");
+    setFriendRequests(array);
   };
   const userClicked = async (userData) => {
     const friendshipStatus = await firebase.checkFriendShipStatus(
