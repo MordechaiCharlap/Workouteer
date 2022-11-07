@@ -7,13 +7,13 @@ const FriendRequests = (props) => {
   console.log(props.friendRequests);
   const acceptRequest = async (otherUserId, index) => {
     console.log(otherUserId);
-    await props.deleteRequest(index);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
+    await props.deleteRequest(index);
   };
   const rejectRequest = async (otherUserId, index) => {
     console.log(otherUserId);
-    await props.deleteRequest(index);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
+    await props.deleteRequest(index);
   };
   if (props.friendRequests.length != 0)
     return (
