@@ -8,6 +8,7 @@ import {
   Alert,
   Image,
 } from "react-native";
+import * as ImageManipulator from "expo-image-manipulator";
 import { React, useLayoutEffect, useState, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
 import CheckBox from "../components/CheckBox";
@@ -55,7 +56,22 @@ const LoginScreen = () => {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      const manipResult = await ImageManipulator.manipulateAsync(
+        result.localUri || result.uri,
+        [{ resize: { height: 1080, width: 1080 } }],
+        {
+          compress: 0.5,
+          height: 1080,
+          width: 1080,
+          format: ImageManipulator.SaveFormat.JPEG,
+        }
+      );
+      const uploadUrl = await firebase.uploadProfileImage(
+        props.user.usernameLower,
+        manipResult.uri
+      );
+      console.log("uploadUrl: " + uploadUrl);
+      setImage(uploadUrl);
     }
   };
   const showDatepicker = () => {
