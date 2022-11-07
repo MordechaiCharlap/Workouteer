@@ -32,7 +32,6 @@ const ExploreScreen = () => {
     if (renderOption == "Explore") {
       console.log("using effectionn <3");
       const fetchRequests = async () => {
-        setUser(await firebase.updateContext(user.usernameLower));
         if (user.friendRequestCount > 0) {
           console.log("more than 0 requests!");
           const friendReqs = await firebase.getReceivedRequests(user);
