@@ -17,6 +17,8 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCircleUser, faPlus } from "@fortawesome/free-solid-svg-icons";
 const ExploreScreen = () => {
   const { user, setUser } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
@@ -32,19 +34,19 @@ const ExploreScreen = () => {
     if (renderOption == "Explore") {
       console.log("using effectionn <3");
       const fetchRequests = async () => {
+        var friendsReqsArr = [];
         if (user.friendRequestCount > 0) {
           console.log("more than 0 requests: " + user.friendRequestCount);
           const friendReqs = await firebase.getReceivedRequests(user);
-          var friendsReqsArr = [];
           for (var key of friendReqs.keys()) {
             const userData = await firebase.userDataById(key);
             friendsReqsArr.push(userData);
           }
-          setFriendRequests(friendsReqsArr);
-          console.log(friendsReqsArr);
         } else {
           console.log("0 requests");
         }
+        setFriendRequests(friendsReqsArr);
+        console.log(friendsReqsArr);
       };
       fetchRequests();
     }
@@ -72,17 +74,36 @@ const ExploreScreen = () => {
       <View className="flex-1">
         <View className="flex-row justify-between p-3">
           <TouchableOpacity
+            style={{ backgroundColor: appStyle.appAzure }}
+            className="flex-row items-center rounded"
             onPress={() =>
               renderOption == "Friend requests"
                 ? setRenderOption("Explore")
                 : setRenderOption("Friend requests")
             }
           >
+            <View>
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                size={40}
+                color={appStyle.appDarkBlue}
+              />
+              <View
+                style={{ backgroundColor: appStyle.appAzure }}
+                className="rounded-full items-center absolute right-0 bottom-0"
+              >
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  size={15}
+                  color={appStyle.appDarkBlue}
+                />
+              </View>
+            </View>
             <Text
-              className="text-2xl w-min bg-gray-500"
-              style={style.socialButton}
+              className="text-2xl w-min"
+              style={{ color: appStyle.appDarkBlue }}
             >
-              Friend requests: {user.friendRequestCount}
+              {user.friendRequestCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
