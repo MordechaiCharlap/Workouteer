@@ -18,7 +18,11 @@ import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleUser, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleUser,
+  faPlus,
+  faBell,
+} from "@fortawesome/free-solid-svg-icons";
 const ExploreScreen = () => {
   const { user, setUser } = useContext(authContext);
   const [friendRequests, setFriendRequests] = useState(null);
@@ -72,24 +76,24 @@ const ExploreScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
-        <View className="flex-row justify-between p-3">
+        <View className="flex-row p-3">
           <TouchableOpacity
-            style={{ backgroundColor: appStyle.appAzure }}
-            className="flex-row items-center rounded"
+            style={{ backgroundColor: appStyle.appLightBlue }}
+            className="flex-row items-center rounded mr-3 p-2"
             onPress={() =>
               renderOption == "Friend requests"
                 ? setRenderOption("Explore")
                 : setRenderOption("Friend requests")
             }
           >
-            <View>
+            <View className="mr-2">
               <FontAwesomeIcon
                 icon={faCircleUser}
                 size={40}
                 color={appStyle.appDarkBlue}
               />
               <View
-                style={{ backgroundColor: appStyle.appAzure }}
+                style={{ backgroundColor: appStyle.appLightBlue }}
                 className="rounded-full items-center absolute right-0 bottom-0"
               >
                 <FontAwesomeIcon
@@ -100,7 +104,7 @@ const ExploreScreen = () => {
               </View>
             </View>
             <Text
-              className="text-2xl w-min"
+              className="text-2xl w-min font-bold"
               style={{ color: appStyle.appDarkBlue }}
             >
               {user.friendRequestCount}
