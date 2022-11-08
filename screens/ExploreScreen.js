@@ -76,7 +76,7 @@ const ExploreScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
-        <View className="flex-row p-3">
+        <View className="flex-row px-3 pt-3">
           <TouchableOpacity
             style={{ backgroundColor: appStyle.appLightBlue }}
             className="flex-row items-center rounded mr-3 p-2"
