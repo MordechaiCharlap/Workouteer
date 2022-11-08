@@ -123,7 +123,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min font-bold"
               style={{ color: appStyle.appDarkBlue }}
             >
-              {user.notifications?.length || 0}
+              {user.notificationsCount}
             </Text>
           </TouchableOpacity>
         </View>
