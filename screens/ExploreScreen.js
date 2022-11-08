@@ -89,7 +89,7 @@ const ExploreScreen = () => {
             <View className="mr-2">
               <FontAwesomeIcon
                 icon={faCircleUser}
-                size={40}
+                size={35}
                 color={appStyle.appDarkBlue}
               />
               <View
@@ -98,7 +98,7 @@ const ExploreScreen = () => {
               >
                 <FontAwesomeIcon
                   icon={faPlus}
-                  size={15}
+                  size={13}
                   color={appStyle.appDarkBlue}
                 />
               </View>
@@ -110,12 +110,20 @@ const ExploreScreen = () => {
               {user.friendRequestCount}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            style={{ backgroundColor: appStyle.appLightBlue }}
+            className="flex-row items-center rounded p-2"
+          >
+            <FontAwesomeIcon
+              icon={faBell}
+              size={35}
+              color={appStyle.appDarkBlue}
+            />
             <Text
-              className="text-2xl w-min bg-gray-500"
-              style={style.socialButton}
+              className="text-2xl w-min font-bold"
+              style={{ color: appStyle.appDarkBlue }}
             >
-              Notifications: {user.notifications?.length || 0}
+              {user.notifications?.length || 0}
             </Text>
           </TouchableOpacity>
         </View>
