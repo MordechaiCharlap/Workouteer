@@ -22,14 +22,18 @@ const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
-  const [message, setMessage] = useState("");
+  const [messageText, setMessageText] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
   const inputTextChanged = (text) => {
-    setMessage(text);
+    setMessageText(text);
+  };
+  const sendMessage = async () => {
+    if (messageText != "") {
+    }
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -59,6 +63,8 @@ const ChatScreen = ({ route }) => {
             {otherUser.username}
           </Text>
         </View>
+        {/* <FlatList
+              /> */}
       </View>
       <View className="flex-row p-2 items-center">
         <TextInput
@@ -72,11 +78,13 @@ const ChatScreen = ({ route }) => {
           className="rounded-full w-10 h-10 items-center justify-center"
           style={{ backgroundColor: "#25c5e8" }}
         >
-          <FontAwesomeIcon
-            icon={faChevronRight}
-            size={25}
-            color={appStyle.appGray}
-          />
+          <TouchableOpacity onPress={sendMessage}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              size={25}
+              color={appStyle.appGray}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
