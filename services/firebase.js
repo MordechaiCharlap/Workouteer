@@ -5,16 +5,16 @@ import {
   getFirestore,
   deleteField,
   doc,
+  addDoc,
+  setDoc,
   updateDoc,
   increment,
-  setDoc,
   getDoc,
   getDocs,
   where,
   query,
   collection,
   Timestamp,
-  arrayUnion,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
@@ -258,12 +258,8 @@ export const sendMessage = async (user, otherUser, content) => {
       messagesCount: increment(1),
     }
   );
-  await setDoc(
-    doc(
-      db,
-      `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`,
-      selfUpdatedChat.data().messagesCount
-    ),
+  await addDoc(
+    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`),
     {
       content: content,
       isRead: false,
@@ -284,12 +280,8 @@ export const sendMessage = async (user, otherUser, content) => {
       messagesCount: increment(1),
     }
   );
-  await setDoc(
-    doc(
-      db,
-      `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`,
-      otherUserUpdatedChat.data().messagesCount
-    ),
+  await addDoc(
+    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`),
     {
       content: content,
       isRead: false,
