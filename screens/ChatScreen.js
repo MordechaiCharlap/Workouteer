@@ -15,17 +15,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,
   faCommentDots,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
+  const [message, setMessage] = useState("");
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
+  const inputTextChanged = (text) => {
+    setMessage(text);
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
@@ -60,13 +65,19 @@ const ChatScreen = ({ route }) => {
           className="text-2xl flex-1 mr-2 rounded-full py-1 pl-4"
           placeholder="Message"
           placeholderTextColor={appStyle.appGray}
-          style={{ backgroundColor: "#333946" }}
+          style={{ backgroundColor: "#333946", color: appStyle.appGray }}
+          onChangeText={(text) => inputTextChanged(text)}
         ></TextInput>
-        <FontAwesomeIcon
-          icon={faCommentDots}
-          size={35}
-          color={appStyle.appGray}
-        />
+        <View
+          className="rounded-full w-10 h-10 items-center justify-center"
+          style={{ backgroundColor: "#25c5e8" }}
+        >
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            size={25}
+            color={appStyle.appGray}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
