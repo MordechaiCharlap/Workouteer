@@ -47,7 +47,7 @@ const FriendsScreen = ({ route }) => {
   };
   //TODO
   const openChat = (otherUser) => {
-    navigation.navigate("Chat", { user: otherUser });
+    navigation.navigate("Chat", { otherUser: otherUser });
   };
   const removeFriend = async (userRemoveId) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
