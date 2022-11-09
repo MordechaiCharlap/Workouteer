@@ -110,6 +110,7 @@ export const createUser = async (newUserData) => {
     friendRequestCount: 0,
     workoutsCount: 0,
     notificationsCount: 0,
+    chatPals: {},
     friends: {},
     description: "",
     isPublic: true,
