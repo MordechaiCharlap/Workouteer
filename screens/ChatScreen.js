@@ -1,20 +1,31 @@
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import React, { useContext, useLayoutEffect, useState } from "react";
 import authContext from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
-const ChatScreen = (props) => {
+import ResponsiveStyling from "../components/ResponsiveStyling";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import * as appStyle from "../components/AppStyleSheet";
+const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
-  const otherUser = props.otherUser;
+  const otherUser = route.params.otherUser;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
   return (
-    <View>
-      <Text>ChatScreen</Text>
-    </View>
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+      <View className="flex-1"></View>
+    </SafeAreaView>
   );
 };
 
