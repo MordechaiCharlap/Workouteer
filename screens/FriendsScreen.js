@@ -46,7 +46,9 @@ const FriendsScreen = ({ route }) => {
     }
   };
   //TODO
-  const openChat = (userData) => {};
+  const openChat = (otherUser) => {
+    navigation.navigate("Chat", { user: otherUser });
+  };
   const removeFriend = async (userRemoveId) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
   };
@@ -131,7 +133,7 @@ const FriendsScreen = ({ route }) => {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={(item) => openChat(item)}
+                onPress={() => openChat(item)}
                 className="py-1 px-6 rounded"
                 style={{ borderColor: "#707787", borderWidth: 0.5 }}
               >
