@@ -29,6 +29,8 @@ const ChatsScreen = () => {
   useEffect(() => {
     const getChats = async () => {
       setChatArr(await firebase.getChatsArray(user));
+      console.log("loaded chats!");
+      console.log(chatsArr);
     };
     getChats();
   }, []);
