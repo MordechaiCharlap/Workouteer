@@ -19,19 +19,21 @@ import * as firebase from "../services/firebase";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
-  const allFriendsMap = new Map(Object.entries(user.friends));
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
+  const chatsList = async () => {
+    const allChatPals = new Map(Object.entries(user.chatPals));
+  };
   const showFriends = async () => {
+    const allFriendsMap = new Map(Object.entries(user.friends));
     const friendsArr = [];
     for (var key of allFriendsMap.keys()) {
       var userData = await firebase.userDataById(key);
-      console.log(userData);
       friendsArr.push(userData);
-      console.log(friendsArr);
     }
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
