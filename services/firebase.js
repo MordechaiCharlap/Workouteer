@@ -296,3 +296,13 @@ export const sendMessage = async (user, otherUser, content) => {
     }
   );
 };
+export const getChatsArray = async (user) => {
+  const allChatPals = new Map(Object.entries(user.chatPals));
+  const chatsArr = [];
+  for (var key in allChatPals.keys()) {
+    chatsArr.push(
+      (await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))).data()
+    );
+  }
+  return chatsArr;
+};
