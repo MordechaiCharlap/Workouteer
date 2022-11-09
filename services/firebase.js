@@ -233,11 +233,26 @@ export const getChat = async (userId, otherUserId) => {
   if (chatDoc.exists()) {
     return chatDoc;
   }
-  chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`));
+  chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
+    lastMessage: {},
+    messagesCount: 0,
+  });
   return chatDoc;
 };
-export const sendMessage = async (userId, chatId, content, chatExists) => {
-  if (chatExists) {
-    await setDoc(doc(db, `chats/${userId}-${otherUserId}/messages`));
-  }
+export const sendMessage = async (userId, chatId, content) => {
+  await updateDoc(doc(db, `chats/${userId}-${otherUserId}`), {
+    lastMessage: {
+      content: content,
+      isRead: false,
+      sender: userId,
+      sentAt: Timestamp.now(),
+    },
+    messagesCount: increment(1),
+  });
+  await setDoc(doc(db, `chats/${userId}-${otherUserId}/messages`), {
+    content: content,
+    isRead: false,
+    sender: userId,
+    sentAt: Timestamp.now(),
+  });
 };
