@@ -18,6 +18,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
+import * as firebase from "../services/firebase";
 const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
@@ -28,11 +29,13 @@ const ChatScreen = ({ route }) => {
       headerShown: false,
     });
   });
-  const inputTextChanged = (text) => {
-    setMessageText(text);
-  };
   const sendMessage = async () => {
     if (messageText != "") {
+      await firebase.sendMessage(
+        user.usernameLower,
+        otherUser.usernameLower,
+        messageText
+      );
     }
   };
   return (
@@ -72,7 +75,7 @@ const ChatScreen = ({ route }) => {
           placeholder="Message"
           placeholderTextColor={appStyle.appGray}
           style={{ backgroundColor: "#333946", color: appStyle.appGray }}
-          onChangeText={(text) => inputTextChanged(text)}
+          onChangeText={(text) => setMessageText(text)}
         ></TextInput>
         <View
           className="rounded-full w-10 h-10 items-center justify-center"
