@@ -228,3 +228,16 @@ export const removeFriend = async (userId, otherUserId) => {
     [`friends.${userId}`]: deleteField(),
   });
 };
+export const getChat = async (userId, otherUserId) => {
+  var chatDoc = await getDoc(doc(db, "chats", `${userId}-${otherUserId}`));
+  if (chatDoc.exists()) {
+    return chatDoc;
+  }
+  chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`));
+  return chatDoc;
+};
+export const sendMessage = async (userId, chatId, content, chatExists) => {
+  if (chatExists) {
+    await setDoc(doc(db, `chats/${userId}-${otherUserId}/messages`));
+  }
+};
