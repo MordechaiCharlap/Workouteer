@@ -230,21 +230,19 @@ export const removeFriend = async (userId, otherUserId) => {
   });
 };
 export const createChatConnection = async (userId, otherUserId) => {
-  var chatDoc = await getDoc(doc(db, "chats", `${userId}-${otherUserId}`));
-  if (!chatDoc.exists()) {
-    //add to chat pals and create chat
-    await updateDoc(doc(db, "users", userId), {
-      [`chatPals.${otherUserId}`]: true,
-    });
-    chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
-      lastMessage: {},
-      messagesCount: 0,
-    });
-  }
+  await updateDoc(doc(db, "users", userId), {
+    [`chatPals.${otherUserId}`]: true,
+  });
+  await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
+    lastMessage: {},
+    messagesCount: 0,
+  });
 };
 export const sendMessage = async (user, otherUser, content) => {
   if (!user.chatPals.has(otherUser.usernameLower))
     await createChatConnection(user.usernameLower, otherUser.usernameLower);
+  if (!otherUser.chatPals.has(otherUser.usernameLower))
+    await createChatConnection(otherUser.usernameLower, user.usernameLower);
   //Update last message for self and add message to collection
   const selfUpdatedChat = await updateDoc(
     doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
@@ -271,22 +269,6 @@ export const sendMessage = async (user, otherUser, content) => {
       sentAt: Timestamp.now(),
     }
   );
-  //create chat for other user if not exists
-  if (
-    !(
-      await getDoc(
-        doc(db, "chats", `${otherUser.usernameLower}-${user.usernameLower}`)
-      )
-    ).exists()
-  ) {
-    await setDoc(
-      doc(db, "chats", `${otherUser.usernameLower}-${user.usernameLower}`),
-      {
-        lastMessage: {},
-        messagesCount: 0,
-      }
-    );
-  }
   //Update last message for other user and add message to collection
   const otherUserUpdatedChat = await updateDoc(
     doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
@@ -294,7 +276,7 @@ export const sendMessage = async (user, otherUser, content) => {
       lastMessage: {
         content: content,
         isRead: false,
-        sender: userId,
+        sender: user.usernameLower,
         sentAt: Timestamp.now(),
       },
       messagesCount: increment(1),
