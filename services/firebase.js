@@ -240,28 +240,54 @@ export const getChat = async (userId, otherUserId) => {
   return chatDoc;
 };
 export const sendMessage = async (userId, otherUserId, content) => {
-  await updateDoc(doc(db, `chats/${userId}-${otherUserId}`), {
-    lastMessage: {
+  const selfUpdatedChat = await updateDoc(
+    doc(db, `chats/${userId}-${otherUserId}`),
+    {
+      lastMessage: {
+        content: content,
+        isRead: false,
+        sender: userId,
+        sentAt: Timestamp.now(),
+      },
+      messagesCount: increment(1),
+    }
+  );
+  await setDoc(
+    doc(
+      db,
+      `chats/${userId}-${otherUserId}/messages`,
+      selfUpdatedChat.data().messagesCount
+    ),
+    {
       content: content,
       isRead: false,
       sender: userId,
       sentAt: Timestamp.now(),
-    },
-    messagesCount: increment(1),
-  });
-  await updateDoc(doc(db, `chats/${otherUserId}-${userId}`), {
-    lastMessage: {
+    }
+  );
+  const otherUserUpdatedChat = await updateDoc(
+    doc(db, `chats/${otherUserId}-${userId}`),
+    {
+      lastMessage: {
+        content: content,
+        isRead: false,
+        sender: userId,
+        sentAt: Timestamp.now(),
+      },
+      messagesCount: increment(1),
+    }
+  );
+  await setDoc(
+    doc(
+      db,
+      `chats/${otherUserId}-${userId}/messages`,
+      otherUserUpdatedChat.data().messagesCount
+    ),
+    {
       content: content,
       isRead: false,
       sender: userId,
       sentAt: Timestamp.now(),
-    },
-    messagesCount: increment(1),
-  });
-  await setDoc(doc(db, `chats/${userId}-${otherUserId}/messages`), {
-    content: content,
-    isRead: false,
-    sender: userId,
-    sentAt: Timestamp.now(),
-  });
+    }
+  );
 };
