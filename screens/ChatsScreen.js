@@ -4,9 +4,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useContext } from "react";
+import { React, useLayoutEffect, useContext, useEffect, useState } from "react";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -19,14 +20,20 @@ import * as firebase from "../services/firebase";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
-
+  const [chatsArr, setChatArr] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
-  const chatsList = async () => {
-    const allChatPals = new Map(Object.entries(user.chatPals));
+  useEffect(() => {
+    const getChats = async () => {
+      setChatArr(await firebase.getChatsArray(user));
+    };
+    getChats();
+  }, []);
+  const chatsList = () => {
+    return <View></View>;
   };
   const showFriends = async () => {
     const allFriendsMap = new Map(Object.entries(user.friends));
@@ -71,7 +78,8 @@ const ChatsScreen = () => {
             />
           </View>
         </View>
-        <View className="flex-1">
+        <View className="flex-1 bg-gray-50">
+          {chatsList()}
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
