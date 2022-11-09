@@ -12,7 +12,10 @@ import authContext from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -28,7 +31,7 @@ const ChatScreen = ({ route }) => {
       <View className="flex-1">
         <View
           className="flex-row items-center pb-3 pt-2"
-          style={{ backgroundColor: "#464f5b" }}
+          style={{ backgroundColor: "#333946" }}
         >
           <FontAwesomeIcon
             icon={faChevronLeft}
@@ -45,6 +48,19 @@ const ChatScreen = ({ route }) => {
             {otherUser.username}
           </Text>
         </View>
+      </View>
+      <View className="flex-row p-2 items-center">
+        <TextInput
+          className="text-2xl flex-1 mr-2 rounded-full py-1 pl-4"
+          placeholder="Message"
+          placeholderTextColor={appStyle.appGray}
+          style={{ backgroundColor: "#333946" }}
+        ></TextInput>
+        <FontAwesomeIcon
+          icon={faCommentDots}
+          size={35}
+          color={appStyle.appGray}
+        />
       </View>
     </SafeAreaView>
   );
