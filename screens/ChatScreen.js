@@ -31,11 +31,7 @@ const ChatScreen = ({ route }) => {
   });
   const sendMessage = async () => {
     if (messageText != "") {
-      await firebase.sendMessage(
-        user.usernameLower,
-        otherUser.usernameLower,
-        messageText
-      );
+      await firebase.sendMessage(user, otherUser, messageText);
     }
   };
   return (

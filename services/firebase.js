@@ -14,6 +14,7 @@ import {
   query,
   collection,
   Timestamp,
+  arrayUnion,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
@@ -228,26 +229,30 @@ export const removeFriend = async (userId, otherUserId) => {
     [`friends.${userId}`]: deleteField(),
   });
 };
-export const getChat = async (userId, otherUserId) => {
+export const createChatConnection = async (userId, otherUserId) => {
   var chatDoc = await getDoc(doc(db, "chats", `${userId}-${otherUserId}`));
-  if (chatDoc.exists()) {
-    return chatDoc;
+  if (!chatDoc.exists()) {
+    //add to chat pals and create chat
+    await updateDoc(doc(db, "users", userId), {
+      [`chatPals.${otherUserId}`]: true,
+    });
+    chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
+      lastMessage: {},
+      messagesCount: 0,
+    });
   }
-  chatDoc = await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
-    lastMessage: {},
-    messagesCount: 0,
-  });
-  return chatDoc;
 };
-export const sendMessage = async (userId, otherUserId, content) => {
+export const sendMessage = async (user, otherUser, content) => {
+  if (!user.chatPals.has(otherUser.usernameLower))
+    await createChatConnection(user.usernameLower, otherUser.usernameLower);
   //Update last message for self and add message to collection
   const selfUpdatedChat = await updateDoc(
-    doc(db, `chats/${userId}-${otherUserId}`),
+    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
     {
       lastMessage: {
         content: content,
         isRead: false,
-        sender: userId,
+        sender: user.usernameLower,
         sentAt: Timestamp.now(),
       },
       messagesCount: increment(1),
@@ -256,26 +261,35 @@ export const sendMessage = async (userId, otherUserId, content) => {
   await setDoc(
     doc(
       db,
-      `chats/${userId}-${otherUserId}/messages`,
+      `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`,
       selfUpdatedChat.data().messagesCount
     ),
     {
       content: content,
       isRead: false,
-      sender: userId,
+      sender: user.usernameLower,
       sentAt: Timestamp.now(),
     }
   );
   //create chat for other user if not exists
-  if (!(await getDoc(doc(db, "chats", `${otherUserId}-${userId}`))).exists()) {
-    await setDoc(doc(db, "chats", `${otherUserId}-${userId}`), {
-      lastMessage: {},
-      messagesCount: 0,
-    });
+  if (
+    !(
+      await getDoc(
+        doc(db, "chats", `${otherUser.usernameLower}-${user.usernameLower}`)
+      )
+    ).exists()
+  ) {
+    await setDoc(
+      doc(db, "chats", `${otherUser.usernameLower}-${user.usernameLower}`),
+      {
+        lastMessage: {},
+        messagesCount: 0,
+      }
+    );
   }
   //Update last message for other user and add message to collection
   const otherUserUpdatedChat = await updateDoc(
-    doc(db, `chats/${otherUserId}-${userId}`),
+    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
     {
       lastMessage: {
         content: content,
@@ -289,13 +303,13 @@ export const sendMessage = async (userId, otherUserId, content) => {
   await setDoc(
     doc(
       db,
-      `chats/${otherUserId}-${userId}/messages`,
+      `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`,
       otherUserUpdatedChat.data().messagesCount
     ),
     {
       content: content,
       isRead: false,
-      sender: userId,
+      sender: user.usernameLower,
       sentAt: Timestamp.now(),
     }
   );
