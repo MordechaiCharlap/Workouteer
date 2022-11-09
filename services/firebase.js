@@ -260,7 +260,10 @@ export const sendMessage = async (user, otherUser, content) => {
     }
   );
   await addDoc(
-    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`),
+    collection(
+      db,
+      `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
+    ),
     {
       content: content,
       isRead: false,
@@ -282,7 +285,10 @@ export const sendMessage = async (user, otherUser, content) => {
     }
   );
   await addDoc(
-    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`),
+    collection(
+      db,
+      `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`
+    ),
     {
       content: content,
       isRead: false,
