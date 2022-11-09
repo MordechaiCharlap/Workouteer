@@ -33,18 +33,24 @@ const ChatScreen = ({ route }) => {
           className="flex-row items-center pb-3 pt-2"
           style={{ backgroundColor: "#333946" }}
         >
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            size={40}
-            color={appStyle.appGray}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={40}
+              color={appStyle.appGray}
+            />
+          </TouchableOpacity>
+
           <Image
             source={{
               uri: otherUser.img,
             }}
             className="h-14 w-14 bg-white rounded-full mr-4"
           />
-          <Text className="text-2xl" style={{ color: appStyle.appGray }}>
+          <Text
+            className="text-2xl font-semibold"
+            style={{ color: appStyle.appGray }}
+          >
             {otherUser.username}
           </Text>
         </View>
