@@ -240,6 +240,7 @@ export const getChat = async (userId, otherUserId) => {
   return chatDoc;
 };
 export const sendMessage = async (userId, otherUserId, content) => {
+  //Update last message for self and add message to collection
   const selfUpdatedChat = await updateDoc(
     doc(db, `chats/${userId}-${otherUserId}`),
     {
@@ -265,6 +266,14 @@ export const sendMessage = async (userId, otherUserId, content) => {
       sentAt: Timestamp.now(),
     }
   );
+  //create chat for other user if not exists
+  if (!(await getDoc(doc(db, "chats", `${otherUserId}-${userId}`))).exists()) {
+    await setDoc(doc(db, "chats", `${otherUserId}-${userId}`), {
+      lastMessage: {},
+      messagesCount: 0,
+    });
+  }
+  //Update last message for other user and add message to collection
   const otherUserUpdatedChat = await updateDoc(
     doc(db, `chats/${otherUserId}-${userId}`),
     {
