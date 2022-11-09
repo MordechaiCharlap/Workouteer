@@ -247,7 +247,7 @@ export const sendMessage = async (user, otherUser, content) => {
   if (!otherUserChatPals.has(otherUser.usernameLower))
     await createChatConnection(otherUser.usernameLower, user.usernameLower);
   //Update last message for self and add message to collection
-  const selfUpdatedChat = await updateDoc(
+  await updateDoc(
     doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
     {
       lastMessage: {
@@ -269,7 +269,7 @@ export const sendMessage = async (user, otherUser, content) => {
     }
   );
   //Update last message for other user and add message to collection
-  const otherUserUpdatedChat = await updateDoc(
+  await updateDoc(
     doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
     {
       lastMessage: {
