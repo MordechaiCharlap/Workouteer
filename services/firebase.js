@@ -239,8 +239,17 @@ export const getChat = async (userId, otherUserId) => {
   });
   return chatDoc;
 };
-export const sendMessage = async (userId, chatId, content) => {
+export const sendMessage = async (userId, otherUserId, content) => {
   await updateDoc(doc(db, `chats/${userId}-${otherUserId}`), {
+    lastMessage: {
+      content: content,
+      isRead: false,
+      sender: userId,
+      sentAt: Timestamp.now(),
+    },
+    messagesCount: increment(1),
+  });
+  await updateDoc(doc(db, `chats/${otherUserId}-${userId}`), {
     lastMessage: {
       content: content,
       isRead: false,
