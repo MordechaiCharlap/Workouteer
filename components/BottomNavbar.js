@@ -3,11 +3,6 @@ import React from "react";
 import NavbarButton from "./NavbarButton";
 import * as appStyle from "./AppStyleSheet";
 const BottomNavbar = (props) => {
-  const navStyle = () => {
-    if (Platform.OS == "android") return style.androidNavStyle;
-    else return style.webNavStyle;
-  };
-
   return (
     <View
       className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display}`}

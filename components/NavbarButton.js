@@ -24,8 +24,12 @@ const NavbarButton = (props) => {
   };
   const navigation = useNavigation();
   const navigate = async () => {
-    if (props.screen == "Explore" || props.screen == "MyUser")
-      setUser(await firebase.updateContext(user.usernameLower));
+    // if (
+    //   props.screen == "Explore" ||
+    //   props.screen == "MyUser" ||
+    //   props.screen == "Chats"
+    // )
+    setUser(await firebase.updateContext(user.usernameLower));
     navigation.navigate(props.screen);
   };
   if (props.screen != props.currentScreen) {
