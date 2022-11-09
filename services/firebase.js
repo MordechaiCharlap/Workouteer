@@ -239,9 +239,11 @@ export const createChatConnection = async (userId, otherUserId) => {
   });
 };
 export const sendMessage = async (user, otherUser, content) => {
-  if (!user.chatPals.has(otherUser.usernameLower))
+  const userChatPals = new Map(Object.entries(user.chatPals));
+  if (!userChatPals.has(otherUser.usernameLower))
     await createChatConnection(user.usernameLower, otherUser.usernameLower);
-  if (!otherUser.chatPals.has(otherUser.usernameLower))
+  const otherUserChatPals = new Map(Object.entries(user.chatPals));
+  if (!otherUserChatPals.has(otherUser.usernameLower))
     await createChatConnection(otherUser.usernameLower, user.usernameLower);
   //Update last message for self and add message to collection
   const selfUpdatedChat = await updateDoc(
