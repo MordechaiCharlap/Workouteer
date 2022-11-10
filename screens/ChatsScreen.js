@@ -54,19 +54,22 @@ const ChatsScreen = () => {
               }
               className="flex-row flex-1 items-center"
             >
-              <View className="flex-row items-center mt-2">
-                <Image
-                  source={{
-                    uri: item.user.img,
-                  }}
-                  className="h-14 w-14 bg-white rounded-full mr-4"
-                />
-                <Text
-                  className="text-xl font-semibold tracking-wider"
-                  style={{ color: appStyle.appGray }}
-                >
-                  {item.user.displayName}
-                </Text>
+              <View className="flex-row items-center mt-2 justify-between">
+                <View className="flex-row items-center">
+                  <Image
+                    source={{
+                      uri: item.user.img,
+                    }}
+                    className="h-14 w-14 bg-white rounded-full mr-4"
+                  />
+                  <Text
+                    className="text-xl font-semibold tracking-wider"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    {item.user.displayName}
+                  </Text>
+                </View>
+                <Text>{item.chat.lastMessage.content}</Text>
               </View>
             </TouchableOpacity>
           )}
