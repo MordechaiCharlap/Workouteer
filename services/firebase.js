@@ -303,8 +303,9 @@ export const getChatsArray = async (user) => {
   const chatsArr = [];
   for (var key of allChatPals.keys()) {
     console.log("getting your chat with " + key);
-    var chat = await getDoc(
-      doc(db, "chats", `${user.usernameLower}-${key}`)
+
+    var chat = (
+      await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))
     ).data();
     chatsArr.push(chat);
     console.log("Got a chat:");
