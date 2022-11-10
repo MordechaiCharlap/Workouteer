@@ -315,7 +315,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     };
     var chatWithUser = {
       chat: chatWithId,
-      user: await getDoc(doc(db, "users", key)),
+      user: (await getDoc(doc(db, "users", key))).data(),
     };
     chatsArr.push(chatWithUser);
   }
