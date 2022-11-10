@@ -40,7 +40,6 @@ const ChatsScreen = () => {
       <View>
         <FlatList
           className="w-auto rounded-lg"
-          initialScrollIndex={0.8}
           data={chatsArr}
           keyExtractor={(item) => item.id}
           horizontal
