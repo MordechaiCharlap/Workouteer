@@ -15,6 +15,8 @@ import {
   query,
   collection,
   Timestamp,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
@@ -329,4 +331,14 @@ export const getFriendsArray = async (user) => {
     friendsArr.push(userData);
   }
   return friendsArr;
+};
+export const getFirstPageMessages = async (chatId) => {
+  const messagesArr = [];
+  const messagesRef = collection(db, `chats/${chatId}/messages`);
+  const q = query(messagesRef, orderBy("sentAt", "desc"), limit(25));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    messagesArr.push(doc.data());
+  });
+  return messagesArr;
 };
