@@ -299,8 +299,10 @@ export const sendMessage = async (user, otherUser, content) => {
 };
 export const getChatsArray = async (user) => {
   const allChatPals = new Map(Object.entries(user.chatPals));
+  console.log(allChatPals);
   const chatsArr = [];
-  for (var key in allChatPals.keys()) {
+  for (var key of allChatPals.keys()) {
+    console.log("getting your chat with " + key);
     var chat = await getDoc(
       doc(db, "chats", `${user.usernameLower}-${key}`)
     ).data();
