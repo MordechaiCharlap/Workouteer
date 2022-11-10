@@ -35,7 +35,23 @@ const ChatsScreen = () => {
     getChats();
   }, []);
   const chatsList = () => {
-    return <View></View>;
+    return (
+      <View>
+        <FlatList
+          showsHorizontalScrollIndicator={isWeb}
+          className="w-auto rounded-lg"
+          initialScrollIndex={0.8}
+          data={chatsArr}
+          keyExtractor={(item) => item.id}
+          horizontal
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.id}</Text>
+            </View>
+          )}
+        />
+      </View>
+    );
   };
   const showFriends = async () => {
     const friendsArr = await firebase.getFriendsArray(user);
@@ -77,6 +93,15 @@ const ChatsScreen = () => {
         </View>
         <View className="flex-1">
           {chatsList()}
+          <TouchableOpacity
+            className=" m-2"
+            style={{ backgroundColor: appStyle.appGray }}
+            onPress={() => console.log(chatsArr)}
+          >
+            <Text className="text-center text-xl">
+              Click to see chats in console.log
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
