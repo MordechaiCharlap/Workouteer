@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState, useEffect } from "react";
 import authContext from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -24,16 +24,22 @@ const ChatScreen = ({ route }) => {
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
   const [messageText, setMessageText] = useState("");
+  const [messagesLoaded, setMessagesLoaded] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  });
+  useEffect(() => {
+    const getFirstPageMessages = async () => {};
+    getFirstPageMessages();
   });
   const sendMessage = async () => {
     if (messageText != "") {
       await firebase.sendMessage(user, otherUser, messageText);
     }
   };
+  const getMessages = () => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
@@ -62,8 +68,17 @@ const ChatScreen = ({ route }) => {
             {otherUser.username}
           </Text>
         </View>
-        {/* <FlatList
-              /> */}
+        {messagesLoaded == false ? (
+          <Text
+            className="text-center text-xl font-semibold m-4"
+            style={{ color: appStyle.appGray }}
+          >
+            Loading...
+          </Text>
+        ) : (
+          {}
+        )}
+        {getMessages()}
       </View>
       <View className="flex-row p-2 items-center">
         <TextInput
@@ -77,7 +92,7 @@ const ChatScreen = ({ route }) => {
           className="rounded-full w-10 h-10 items-center justify-center"
           style={{ backgroundColor: "#25c5e8" }}
         >
-          <TouchableOpacity onPress={sendMessage}>
+          <TouchableOpacity onPress={() => sendMessage()}>
             <FontAwesomeIcon
               icon={faChevronRight}
               size={25}
