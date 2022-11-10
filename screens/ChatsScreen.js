@@ -38,12 +38,7 @@ const ChatsScreen = () => {
     return <View></View>;
   };
   const showFriends = async () => {
-    const allFriendsMap = new Map(Object.entries(user.friends));
-    const friendsArr = [];
-    for (var key of allFriendsMap.keys()) {
-      var userData = await firebase.userDataById(key);
-      friendsArr.push(userData);
-    }
+    const friendsArr = await firebase.getFriendsArray(user);
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
   return (
