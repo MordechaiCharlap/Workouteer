@@ -45,16 +45,30 @@ const ChatsScreen = () => {
           keyExtractor={(item) => item.id}
           horizontal
           renderItem={({ item }) => (
-            <View
-              className="rounded flex-row"
-              style={{ backgroundColor: appStyle.appAzure }}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Chat", {
+                  otherUser: item.user,
+                  chat: item.chat,
+                })
+              }
+              className="flex-row flex-1 items-center"
             >
-              <Image source={{ uri: item.user.img }} />
-              <Text className="text-xl" style={{ color: appStyle.appDarkBlue }}>
-                {item.user.username}
-              </Text>
-              <Text>{item.chat.lastMessage.content}</Text>
-            </View>
+              <View className="flex-row items-center mt-2">
+                <Image
+                  source={{
+                    uri: item.user.img,
+                  }}
+                  className="h-14 w-14 bg-white rounded-full mr-4"
+                />
+                <Text
+                  className="text-xl font-semibold tracking-wider"
+                  style={{ color: appStyle.appGray }}
+                >
+                  {item.user.displayName}
+                </Text>
+              </View>
+            </TouchableOpacity>
           )}
         />
       </View>
