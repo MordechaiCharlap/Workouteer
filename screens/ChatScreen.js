@@ -35,9 +35,10 @@ const ChatScreen = ({ route }) => {
       const messagesArr = await firebase.getFirstPageMessages(
         route.params.chat.id
       );
+      setMessagesArr(messagesArr);
     };
     getFirstPageMessages();
-  });
+  }, []);
   const sendMessage = async () => {
     if (messageText != "") {
       await firebase.sendMessage(user, otherUser, messageText);
@@ -80,7 +81,7 @@ const ChatScreen = ({ route }) => {
             Loading...
           </Text>
         ) : (
-          {}
+          <View></View>
         )}
         {getMessages()}
       </View>
