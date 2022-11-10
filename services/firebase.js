@@ -311,7 +311,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
       await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))
     ).data();
     var chatWithId = {
-      id: key,
+      id: `${user.usernameLower}-${key}`,
       lastMessage: chat.lastMessage,
       messagesCount: chat.messagesCount,
     };
@@ -334,10 +334,12 @@ export const getFriendsArray = async (user) => {
 };
 export const getFirstPageMessages = async (chatId) => {
   const messagesArr = [];
+  console.log("chatId=>" + chatId);
   const messagesRef = collection(db, `chats/${chatId}/messages`);
   const q = query(messagesRef, orderBy("sentAt", "desc"), limit(25));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
+    console.log("pushed message to array");
     messagesArr.push(doc.data());
   });
   return messagesArr;
