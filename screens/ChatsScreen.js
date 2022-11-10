@@ -30,8 +30,6 @@ const ChatsScreen = () => {
   useEffect(() => {
     const getChats = async () => {
       setChatArr(await firebase.getChatsArrayIncludeUsers(user));
-      console.log("loaded chats! test2");
-      console.log(chatsArr);
     };
     getChats();
   }, []);
@@ -116,15 +114,7 @@ const ChatsScreen = () => {
         </View>
         <View className="flex-1">
           {chatsList()}
-          <TouchableOpacity
-            className=" m-2"
-            style={{ backgroundColor: appStyle.appGray }}
-            onPress={() => console.log(chatsArr)}
-          >
-            <Text className="text-center text-xl">
-              Click to see chats in console.log
-            </Text>
-          </TouchableOpacity>
+          {chatsArr == null && <Text className="">Loading...</Text>}
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
