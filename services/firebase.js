@@ -237,6 +237,7 @@ export const createChatConnection = async (userId, otherUserId) => {
   await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
     lastMessage: {},
     messagesCount: 0,
+    members: [userId, otherUserId],
   });
 };
 export const sendMessage = async (user, otherUser, content) => {
@@ -297,7 +298,7 @@ export const sendMessage = async (user, otherUser, content) => {
     }
   );
 };
-export const getChatsArray = async (user) => {
+export const getChatsArrayIncludeUsers = async (user) => {
   const allChatPals = new Map(Object.entries(user.chatPals));
   console.log(allChatPals);
   const chatsArr = [];
@@ -312,9 +313,11 @@ export const getChatsArray = async (user) => {
       lastMessage: chat.lastMessage,
       messagesCount: chat.messagesCount,
     };
-    chatsArr.push(chat);
-    console.log("Got a chat:");
-    console.log(chat);
+    var chatWithUser = {
+      chat: chatWithId,
+      user: await getDoc(doc(db, "users", key)),
+    };
+    chatsArr.push(chatWithUser);
   }
   return chatsArr;
 };
