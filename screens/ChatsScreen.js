@@ -34,55 +34,53 @@ const ChatsScreen = () => {
     getChats();
   }, []);
   const chatsList = () => {
-    const convertLastMessageTimestamp = (timestamp) => {};
+    const convertLastMessageTimestamp = (timestamp) => {
+      var newDate = new Date(timestamp * 1000).toDateString();
+      console.log(newDate);
+      return newDate;
+    };
     return (
-      <View>
-        <FlatList
-          className="w-auto rounded-lg"
-          data={chatsArr}
-          keyExtractor={(item) => item.id}
-          horizontal
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Chat", {
-                  otherUser: item.user,
-                  chat: item.chat,
-                })
-              }
-              className="flex-row flex-1 items-center"
-            >
-              <View className="flex-row items-center mt-2 justify-between">
-                <View className="flex-row items-center">
-                  <Image
-                    source={{
-                      uri: item.user.img,
-                    }}
-                    className="h-14 w-14 bg-white rounded-full mr-4"
-                  />
-                  <View>
-                    <Text
-                      className="text-xl font-semibold tracking-wider"
-                      style={{ color: appStyle.appGray }}
-                    >
-                      {item.user.displayName}
-                    </Text>
-                    <Text style={{ color: "#c5c6c8" }}>
-                      {item.chat.lastMessage.sender == user.usernameLower
-                        ? "You: "
-                        : ""}
-                      {item.chat.lastMessage.content}
-                    </Text>
-                  </View>
-                </View>
-                <Text>
-                  {convertLastMessageTimestamp(item.chat.lastMessage.sentAt)}
+      <FlatList
+        data={chatsArr}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Chat", {
+                otherUser: item.user,
+                chat: item.chat,
+              })
+            }
+            className="flex-row justify-between mt-2"
+          >
+            <View className="flex-row">
+              <Image
+                source={{
+                  uri: item.user.img,
+                }}
+                className="h-14 w-14 bg-white rounded-full mr-4"
+              />
+              <View>
+                <Text
+                  className="text-xl font-semibold tracking-wider"
+                  style={{ color: appStyle.appGray }}
+                >
+                  {item.user.displayName}
+                </Text>
+                <Text style={{ color: "#c5c6c8" }}>
+                  {item.chat.lastMessage.sender == user.usernameLower
+                    ? "You: "
+                    : ""}
+                  {item.chat.lastMessage.content}
                 </Text>
               </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+            </View>
+            <Text className="mt-1" style={{ color: "#c5c6c8" }}>
+              {convertLastMessageTimestamp(item.chat.lastMessage.sentAt)}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
     );
   };
   const showFriends = async () => {
