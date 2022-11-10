@@ -19,6 +19,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
+import ChatMessage from "../components/ChatMessage";
 const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
@@ -44,7 +45,15 @@ const ChatScreen = ({ route }) => {
       await firebase.sendMessage(user, otherUser, messageText);
     }
   };
-  const getMessages = () => {};
+  const getMessages = () => {
+    return (
+      <FlatList
+        data={messagesArr}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ChatMessage message={item} />}
+      />
+    );
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1">
