@@ -46,12 +46,14 @@ const ChatsScreen = () => {
           horizontal
           renderItem={({ item }) => (
             <View
-              className="rounded"
+              className="rounded flex-row"
               style={{ backgroundColor: appStyle.appAzure }}
             >
+              <Image source={{ uri: item.user.img }} />
               <Text className="text-xl" style={{ color: appStyle.appDarkBlue }}>
-                {item.id}
+                {item.user.username}
               </Text>
+              <Text>{item.chat.lastMessage.content}</Text>
             </View>
           )}
         />
