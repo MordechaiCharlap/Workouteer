@@ -123,7 +123,6 @@ const ChatsScreen = () => {
           </View>
         </View>
         <View className="flex-1">
-          {chatsList()}
           {chatsArr == null && (
             <Text
               className="text-center text-xl font-semibold m-4"
@@ -132,6 +131,8 @@ const ChatsScreen = () => {
               Loading...
             </Text>
           )}
+          {chatsList()}
+
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
