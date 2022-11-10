@@ -5,7 +5,7 @@ const ChatMessage = (props) => {
   const isSelfMessage = props.sender == props.user.usernameLower;
   return (
     <View
-      className="rounded w-10/12"
+      className={`rounded ${isSelfMessage ? "mr-3" : "ml-3"}mt-1`}
       style={{
         backgroundColor: isSelfMessage ? appStyle.appAzure : appStyle.appGray,
       }}
