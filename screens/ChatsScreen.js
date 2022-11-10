@@ -29,7 +29,7 @@ const ChatsScreen = () => {
   useEffect(() => {
     const getChats = async () => {
       setChatArr(await firebase.getChatsArray(user));
-      console.log("loaded chats!");
+      console.log("loaded chats! test2");
       console.log(chatsArr);
     };
     getChats();
@@ -80,7 +80,7 @@ const ChatsScreen = () => {
             />
           </View>
         </View>
-        <View className="flex-1 bg-gray-50">
+        <View className="flex-1">
           {chatsList()}
           <TouchableOpacity
             onPress={showFriends}
