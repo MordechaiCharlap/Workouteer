@@ -307,6 +307,11 @@ export const getChatsArray = async (user) => {
     var chat = (
       await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))
     ).data();
+    var chatWithId = {
+      id: key,
+      lastMessage: chat.lastMessage,
+      messagesCount: chat.messagesCount,
+    };
     chatsArr.push(chat);
     console.log("Got a chat:");
     console.log(chat);
