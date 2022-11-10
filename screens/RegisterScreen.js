@@ -37,7 +37,7 @@ const LoginScreen = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState();
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
 
