@@ -34,6 +34,7 @@ const ChatsScreen = () => {
     getChats();
   }, []);
   const chatsList = () => {
+    const convertLastMessageTimestamp = (timestamp) => {};
     return (
       <View>
         <FlatList
@@ -74,6 +75,9 @@ const ChatsScreen = () => {
                     </Text>
                   </View>
                 </View>
+                <Text>
+                  {convertLastMessageTimestamp(item.chat.lastMessage.sentAt)}
+                </Text>
               </View>
             </TouchableOpacity>
           )}
