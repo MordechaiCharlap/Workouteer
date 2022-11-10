@@ -339,8 +339,14 @@ export const getFirstPageMessages = async (chatId) => {
   const q = query(messagesRef, orderBy("sentAt", "desc"), limit(25));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    console.log("pushed message to array");
-    messagesArr.push(doc.data());
+    const message = doc.data();
+    messagesArr.push({
+      content: message.content,
+      sentAt: message.sentAt,
+      isRead: message.isRead,
+      sender: message.sender,
+      id: doc.id,
+    });
   });
   return messagesArr;
 };
