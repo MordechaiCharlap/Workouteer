@@ -28,7 +28,7 @@ const ChatsScreen = () => {
   });
   useEffect(() => {
     const getChats = async () => {
-      setChatArr(await firebase.getChatsArray(user));
+      setChatArr(await firebase.getChatsArrayIncludeUsers(user));
       console.log("loaded chats! test2");
       console.log(chatsArr);
     };
@@ -45,8 +45,13 @@ const ChatsScreen = () => {
           keyExtractor={(item) => item.id}
           horizontal
           renderItem={({ item }) => (
-            <View>
-              <Text>{item.id}</Text>
+            <View
+              className="rounded"
+              style={{ backgroundColor: appStyle.appAzure }}
+            >
+              <Text className="text-xl" style={{ color: appStyle.appDarkBlue }}>
+                {item.id}
+              </Text>
             </View>
           )}
         />
