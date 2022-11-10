@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useContext, useEffect, useState } from "react";
@@ -38,7 +39,6 @@ const ChatsScreen = () => {
     return (
       <View>
         <FlatList
-          showsHorizontalScrollIndicator={isWeb}
           className="w-auto rounded-lg"
           initialScrollIndex={0.8}
           data={chatsArr}
