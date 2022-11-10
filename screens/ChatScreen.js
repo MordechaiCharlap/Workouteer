@@ -24,14 +24,18 @@ const ChatScreen = ({ route }) => {
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
   const [messageText, setMessageText] = useState("");
-  const [messagesLoaded, setMessagesLoaded] = useState(false);
+  const [messagesArr, setMessagesArr] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
   useEffect(() => {
-    const getFirstPageMessages = async () => {};
+    const getFirstPageMessages = async () => {
+      const messagesArr = await firebase.getFirstPageMessages(
+        route.params.chat.id
+      );
+    };
     getFirstPageMessages();
   });
   const sendMessage = async () => {
@@ -68,7 +72,7 @@ const ChatScreen = ({ route }) => {
             {otherUser.username}
           </Text>
         </View>
-        {messagesLoaded == false ? (
+        {messagesArr == null ? (
           <Text
             className="text-center text-xl font-semibold m-4"
             style={{ color: appStyle.appGray }}
