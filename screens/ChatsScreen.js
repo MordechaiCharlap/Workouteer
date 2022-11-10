@@ -59,14 +59,21 @@ const ChatsScreen = () => {
                     }}
                     className="h-14 w-14 bg-white rounded-full mr-4"
                   />
-                  <Text
-                    className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.appGray }}
-                  >
-                    {item.user.displayName}
-                  </Text>
+                  <View>
+                    <Text
+                      className="text-xl font-semibold tracking-wider"
+                      style={{ color: appStyle.appGray }}
+                    >
+                      {item.user.displayName}
+                    </Text>
+                    <Text style={{ color: "#c5c6c8" }}>
+                      {item.chat.lastMessage.sender == user.usernameLower
+                        ? "You: "
+                        : ""}
+                      {item.chat.lastMessage.content}
+                    </Text>
+                  </View>
                 </View>
-                <Text>{item.chat.lastMessage.content}</Text>
               </View>
             </TouchableOpacity>
           )}
@@ -114,7 +121,14 @@ const ChatsScreen = () => {
         </View>
         <View className="flex-1">
           {chatsList()}
-          {chatsArr == null && <Text className="">Loading...</Text>}
+          {chatsArr == null && (
+            <Text
+              className="text-center text-xl font-semibold m-4"
+              style={{ color: appStyle.appGray }}
+            >
+              Loading...
+            </Text>
+          )}
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
