@@ -301,9 +301,12 @@ export const getChatsArray = async (user) => {
   const allChatPals = new Map(Object.entries(user.chatPals));
   const chatsArr = [];
   for (var key in allChatPals.keys()) {
-    chatsArr.push(
-      (await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))).data()
-    );
+    var chat = await getDoc(
+      doc(db, "chats", `${user.usernameLower}-${key}`)
+    ).data();
+    chatsArr.push(chat);
+    console.log("Got a chat:");
+    console.log(chat);
   }
   return chatsArr;
 };
