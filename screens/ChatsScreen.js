@@ -33,6 +33,12 @@ const ChatsScreen = () => {
     };
     getChats();
   }, []);
+  const chatClicked = async (item) => {
+    navigation.navigate("Chat", {
+      otherUser: item.user,
+      chat: item.chat,
+    });
+  };
   const chatsList = () => {
     const convertLastMessageTimestamp = (timestamp) => {
       var newDate = new Date(timestamp * 1000).toDateString();
@@ -45,12 +51,7 @@ const ChatsScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Chat", {
-                otherUser: item.user,
-                chat: item.chat,
-              })
-            }
+            onPress={() => chatClicked(item)}
             className="flex-row justify-between mt-2"
           >
             <View className="flex-row">
