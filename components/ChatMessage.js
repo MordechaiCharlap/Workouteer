@@ -5,7 +5,6 @@ const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
   const convertTimeStamp = (timestamp) => {
     var newDate = new Date(timestamp * 1000).toDateString();
-    console.log(newDate);
     return newDate;
   };
   return (
