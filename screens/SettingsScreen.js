@@ -13,11 +13,10 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useState } from "react";
 import { useContext } from "react";
 import authContext from "../context/authContext";
+import { useEffect } from "react";
 const SettingsScreen = () => {
   const { user, setUser } = useContext(authContext);
-  const [applyChangesText, setApplyChangesText] = useState(
-    "No changes were made"
-  );
+  const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const navigation = useNavigation();
@@ -26,6 +25,11 @@ const SettingsScreen = () => {
       headerShown: false,
     });
   }, []);
+  useEffect(() => {
+    if (user.isPublic != isPublic || user.showOnline != showOnline)
+      setChangesMade(true);
+    else setChangesMade(false);
+  }, [isPublic, showOnline]);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-4">
@@ -68,7 +72,7 @@ const SettingsScreen = () => {
             className="text-xl text-center"
             style={{ color: appStyle.appDarkBlue }}
           >
-            {applyChangesText}
+            {changesMade == false ? "No changes were made" : "Apply changes"}
           </Text>
         </TouchableOpacity>
       </View>
