@@ -11,13 +11,13 @@ const ChatMessage = (props) => {
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
       <View
-        className="mt-1"
+        className="mt-1 p-1.5 rounded"
         style={{
           backgroundColor: isSelfMessage ? appStyle.appAzure : appStyle.appGray,
         }}
       >
         <Text
-          className="text-xl rounded px-3"
+          className="text-xl"
           style={{
             color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
           }}
