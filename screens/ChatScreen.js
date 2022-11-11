@@ -50,6 +50,7 @@ const ChatScreen = ({ route }) => {
       <FlatList
         data={messagesArr}
         keyExtractor={(item) => item.id}
+        inverted={true}
         renderItem={({ item }) => <ChatMessage message={item} user={user} />}
       />
     );
