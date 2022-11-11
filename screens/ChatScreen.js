@@ -91,7 +91,7 @@ const ChatScreen = ({ route }) => {
             Loading...
           </Text>
         ) : (
-          <View></View>
+          <></>
         )}
         {getMessages()}
       </View>
