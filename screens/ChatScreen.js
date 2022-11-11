@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { Timestamp } from "firebase/firestore";
 import React, { useContext, useLayoutEffect, useState, useEffect } from "react";
 import authContext from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
@@ -25,7 +26,7 @@ const ChatScreen = ({ route }) => {
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
   const [messageText, setMessageText] = useState("");
-
+  const [tempIdCounter, setTempIdCounter] = useState(1);
   const [messagesArr, setMessagesArr] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -43,12 +44,24 @@ const ChatScreen = ({ route }) => {
   }, []);
   const sendMessage = async () => {
     if (messageText != "") {
+      const newMessage = {
+        id: tempIdCounter,
+        content: messageText,
+        isRead: false,
+        sender: user.usernameLower,
+        sentAt: Timestamp.now(),
+      };
+      setTempIdCounter((prev) => prev + 1);
+      const messagesArrClone = messagesArr.slice();
+      messagesArrClone.push(newMessage);
+      setMessagesArr(messagesArrClone);
+      console.log(messagesArr);
       const content = messageText;
       setMessageText("");
       await firebase.sendMessage(user, otherUser, content);
     }
   };
-  const getMessages = () => {
+  const renderFlatList = () => {
     return (
       <FlatList
         data={messagesArr}
@@ -94,9 +107,8 @@ const ChatScreen = ({ route }) => {
             Loading...
           </Text>
         ) : (
-          <></>
+          renderFlatList()
         )}
-        {getMessages()}
       </View>
       <View className="flex-row p-2 items-center">
         <TextInput
