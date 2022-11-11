@@ -25,6 +25,7 @@ const ChatScreen = ({ route }) => {
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
   const [messageText, setMessageText] = useState("");
+
   const [messagesArr, setMessagesArr] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -42,7 +43,9 @@ const ChatScreen = ({ route }) => {
   }, []);
   const sendMessage = async () => {
     if (messageText != "") {
-      await firebase.sendMessage(user, otherUser, messageText);
+      const content = messageText;
+      setMessageText("");
+      await firebase.sendMessage(user, otherUser, content);
     }
   };
   const getMessages = () => {
@@ -101,7 +104,10 @@ const ChatScreen = ({ route }) => {
           placeholder="Message"
           placeholderTextColor={appStyle.appGray}
           style={{ backgroundColor: "#333946", color: appStyle.appGray }}
-          onChangeText={(text) => setMessageText(text)}
+          onChangeText={(text) => {
+            setMessageText(text);
+          }}
+          value={messageText}
         ></TextInput>
         <View
           className="rounded-full w-10 h-10 items-center justify-center"
