@@ -62,6 +62,19 @@ const SettingsScreen = () => {
             onValueChange={() => setShowOnline((prev) => !prev)}
           />
         </View>
+        <View className="items-center">
+          <TouchableOpacity>
+            <Text
+              className="text-center py-1 px-2"
+              style={{
+                backgroundColor: appStyle.appAzure,
+                color: appStyle.appDarkBlue,
+              }}
+            >
+              Change password
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         style={{ backgroundColor: appStyle.appAzure }}
