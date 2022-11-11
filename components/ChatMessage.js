@@ -3,16 +3,21 @@ import React from "react";
 import * as appStyle from "./AppStyleSheet";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
+  const convertTimeStamp = (timestamp) => {
+    var newDate = new Date(timestamp * 1000).toDateString();
+    console.log(newDate);
+    return newDate;
+  };
   return (
-    <View className={`${isSelfMessage ? "flex-row-reverse" : "flex-row"}`}>
+    <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
       <View
-        className={`rounded mt-1 px-3`}
+        className="mt-1"
         style={{
           backgroundColor: isSelfMessage ? appStyle.appAzure : appStyle.appGray,
         }}
       >
         <Text
-          className="text-xl"
+          className="text-xl rounded px-3"
           style={{
             color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
           }}
@@ -20,7 +25,7 @@ const ChatMessage = (props) => {
           {props.message.content}
         </Text>
         <Text style={{ color: appStyle.appGray }}>
-          {props.message.createdAt}
+          {convertTimeStamp(props.message.sentAt)}
         </Text>
       </View>
     </View>
