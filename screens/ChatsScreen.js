@@ -48,7 +48,7 @@ const ChatsScreen = () => {
     return (
       <FlatList
         data={chatsArr}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.chat.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => chatClicked(item)}
