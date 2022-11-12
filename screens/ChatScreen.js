@@ -28,7 +28,6 @@ const ChatScreen = ({ route }) => {
   const [messageText, setMessageText] = useState("");
   const [tempIdCounter, setTempIdCounter] = useState(1);
   const [messagesArr, setMessagesArr] = useState(null);
-  const currentDay = now();
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -40,6 +39,7 @@ const ChatScreen = ({ route }) => {
       day: day,
     };
   };
+  const currentDay = now();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
