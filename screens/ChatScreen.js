@@ -53,23 +53,13 @@ const ChatScreen = ({ route }) => {
       };
       setTempIdCounter((prev) => prev + 1);
       const messagesArrClone = messagesArr.slice();
-      messagesArrClone.push(newMessage);
+      messagesArrClone.unshift(newMessage);
       setMessagesArr(messagesArrClone);
-      console.log(messagesArr);
       const content = messageText;
       setMessageText("");
       await firebase.sendMessage(user, otherUser, content);
+      console.log(messagesArr[0]);
     }
-  };
-  const renderFlatList = () => {
-    return (
-      <FlatList
-        data={messagesArr}
-        keyExtractor={(item) => item.id}
-        inverted={true}
-        renderItem={({ item }) => <ChatMessage message={item} user={user} />}
-      />
-    );
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -107,7 +97,15 @@ const ChatScreen = ({ route }) => {
             Loading...
           </Text>
         ) : (
-          renderFlatList()
+          <FlatList
+            extraData={messagesArr}
+            data={messagesArr}
+            keyExtractor={(item) => item.id}
+            inverted={true}
+            renderItem={({ item }) => (
+              <ChatMessage message={item} user={user} />
+            )}
+          />
         )}
       </View>
       <View className="flex-row p-2 items-center">
