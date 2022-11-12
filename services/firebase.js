@@ -327,7 +327,7 @@ export const getFriendsArray = async (user) => {
   const allFriendsMap = new Map(Object.entries(user.friends));
   const friendsArr = [];
   for (var key of allFriendsMap.keys()) {
-    var userData = await firebase.userDataById(key);
+    var userData = await userDataById(key);
     friendsArr.push(userData);
   }
   return friendsArr;
