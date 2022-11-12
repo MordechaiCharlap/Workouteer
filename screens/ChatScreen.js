@@ -98,7 +98,6 @@ const ChatScreen = ({ route }) => {
           </Text>
         ) : (
           <FlatList
-            extraData={messagesArr}
             data={messagesArr}
             keyExtractor={(item) => item.id}
             inverted={true}
