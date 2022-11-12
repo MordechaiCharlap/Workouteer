@@ -14,7 +14,6 @@ const ChatMessage = (props) => {
     } else {
       return `${day}/${month} ${h}:${m}`;
     }
-    return date.toDateString();
   };
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
