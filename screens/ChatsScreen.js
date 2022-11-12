@@ -36,6 +36,18 @@ const ChatsScreen = () => {
       getChats();
     }, [])
   );
+  const now = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    return {
+      year: year,
+      month: month,
+      day: day,
+    };
+  };
+  const currentDay = now();
   const chatClicked = async (item) => {
     navigation.navigate("Chat", {
       otherUser: item.user,
@@ -44,9 +56,16 @@ const ChatsScreen = () => {
   };
   const chatsList = () => {
     const convertLastMessageTimestamp = (timestamp) => {
-      var newDate = new Date(timestamp * 1000).toDateString();
-      console.log(newDate);
-      return newDate;
+      const date = timestamp.toDate();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
+      const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+      if (currentDay.day == day) {
+        return h + ":" + m;
+      } else {
+        return `${day}/${month} ${h}:${m}`;
+      }
     };
     return (
       <FlatList
