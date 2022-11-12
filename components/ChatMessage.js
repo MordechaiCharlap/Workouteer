@@ -1,10 +1,19 @@
 import { View, Text } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
+import moment from "moment";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
   const sentAtText = (date) => {
-    console.log("msg date: " + date.toLocaleDateString());
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
+    const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+    if (props.currentDay.day == day) {
+      return h + ":" + m;
+    } else {
+      return `${day}/${month} ${h}:${m}`;
+    }
     return date.toDateString();
   };
   return (
