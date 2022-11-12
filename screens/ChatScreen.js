@@ -28,6 +28,18 @@ const ChatScreen = ({ route }) => {
   const [messageText, setMessageText] = useState("");
   const [tempIdCounter, setTempIdCounter] = useState(1);
   const [messagesArr, setMessagesArr] = useState(null);
+  const currentTime = now();
+  const now = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    return {
+      year: year,
+      month: month,
+      day: day,
+    };
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -107,7 +119,7 @@ const ChatScreen = ({ route }) => {
             keyExtractor={(item) => item.id}
             inverted={true}
             renderItem={({ item }) => (
-              <ChatMessage message={item} user={user} />
+              <ChatMessage message={item} user={user} now={currentTime} />
             )}
           />
         )}
