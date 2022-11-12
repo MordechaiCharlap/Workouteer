@@ -28,7 +28,7 @@ const ChatScreen = ({ route }) => {
   const [messageText, setMessageText] = useState("");
   const [tempIdCounter, setTempIdCounter] = useState(1);
   const [messagesArr, setMessagesArr] = useState(null);
-  const currentTime = now();
+  const currentDay = now();
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -119,7 +119,7 @@ const ChatScreen = ({ route }) => {
             keyExtractor={(item) => item.id}
             inverted={true}
             renderItem={({ item }) => (
-              <ChatMessage message={item} user={user} now={currentTime} />
+              <ChatMessage message={item} user={user} currentDay={currentDay} />
             )}
           />
         )}
