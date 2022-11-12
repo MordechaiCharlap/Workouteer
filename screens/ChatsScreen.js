@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useContext, useEffect, useState } from "react";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
@@ -18,6 +18,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
+import { useCallback } from "react";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
@@ -27,12 +28,14 @@ const ChatsScreen = () => {
       headerShown: false,
     });
   });
-  useEffect(() => {
-    const getChats = async () => {
-      setChatArr(await firebase.getChatsArrayIncludeUsers(user));
-    };
-    getChats();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const getChats = async () => {
+        setChatArr(await firebase.getChatsArrayIncludeUsers(user));
+      };
+      getChats();
+    }, [])
+  );
   const chatClicked = async (item) => {
     navigation.navigate("Chat", {
       otherUser: item.user,
