@@ -25,8 +25,6 @@ const MyUserScreen = () => {
       headerShown: false,
     });
   }, []);
-
-  useEffect(() => {}, []);
   const showFriends = async () => {
     const friendsArr = [];
     for (var key of allFriendsMap.keys()) {
