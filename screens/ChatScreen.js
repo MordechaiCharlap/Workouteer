@@ -34,13 +34,16 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
-    const getFirstPageMessages = async () => {
-      const messagesArr = await firebase.getFirstPageMessages(
-        route.params.chat.id
-      );
-      setMessagesArr(messagesArr);
-    };
-    getFirstPageMessages();
+    const chatPals = new Map(Object.entries(user.chatPals));
+    if (chatPals.has(otherUser.usernameLower)) {
+      const getFirstPageMessages = async () => {
+        const messagesArr = await firebase.getFirstPageMessages(
+          user.usernameLower + "-" + otherUser.usernameLower
+        );
+        setMessagesArr(messagesArr);
+      };
+      getFirstPageMessages();
+    }
   }, []);
   const sendMessage = async () => {
     if (messageText != "") {
