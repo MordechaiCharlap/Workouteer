@@ -147,14 +147,4 @@ const ExploreScreen = () => {
     </SafeAreaView>
   );
 };
-const style = StyleSheet.create({
-  socialButton: {
-    borderColor: appStyle.appGray,
-    borderWidth: 1,
-    color: appStyle.appGray,
-    borderRadius: 5,
-    paddingVertical: 4,
-    paddingHorizontal: 2,
-  },
-});
 export default ExploreScreen;
