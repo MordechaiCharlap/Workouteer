@@ -101,6 +101,8 @@ const ChatScreen = ({ route }) => {
           </Text>
         ) : (
           <FlatList
+            className="p-2"
+            showsVerticalScrollIndicator={false}
             data={messagesArr}
             keyExtractor={(item) => item.id}
             inverted={true}
