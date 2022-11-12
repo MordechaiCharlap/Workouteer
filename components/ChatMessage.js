@@ -3,9 +3,9 @@ import React from "react";
 import * as appStyle from "./AppStyleSheet";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
-  const convertTimeStamp = (timestamp) => {
-    var newDate = new Date(timestamp * 1000).toDateString();
-    return newDate;
+  const sentAtText = (date) => {
+    console.log("msg date: " + date.toLocaleDateString());
+    return date.toDateString();
   };
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
@@ -28,7 +28,7 @@ const ChatMessage = (props) => {
             color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
           }}
         >
-          {convertTimeStamp(props.message.sentAt)}
+          {sentAtText(props.message.sentAt.toDate())}
         </Text>
       </View>
     </View>
