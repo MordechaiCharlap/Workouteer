@@ -23,7 +23,11 @@ const ChatMessage = (props) => {
         >
           {props.message.content}
         </Text>
-        <Text style={{ color: appStyle.appGray }}>
+        <Text
+          style={{
+            color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
+          }}
+        >
           {convertTimeStamp(props.message.sentAt)}
         </Text>
       </View>
