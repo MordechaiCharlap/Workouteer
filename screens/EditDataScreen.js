@@ -68,10 +68,18 @@ const EditDataScreen = () => {
           </TouchableOpacity>
         </View>
         {currentTab == "ProfileData" && (
-          <EditProfileData user={user} setUser={setUser} />
+          <EditProfileData
+            user={user}
+            setUser={setUser}
+            navigation={navigation}
+          />
         )}
         {currentTab == "WorkoutPreferences" && (
-          <EditWorkoutPreferences user={user} setUser={setUser} />
+          <EditWorkoutPreferences
+            user={user}
+            setUser={setUser}
+            navigation={navigation}
+          />
         )}
       </View>
     </SafeAreaView>
@@ -209,7 +217,8 @@ const EditProfileData = (props) => {
       setLoading(false);
       setChangesMade(false);
       setUpdated(false);
-    }, 2000);
+      props.navigation.navigate("MyUser");
+    }, 1000);
   };
 
   const saveButtonClicked = () => {
