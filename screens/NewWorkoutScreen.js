@@ -22,9 +22,9 @@ const NewWorkoutScreen = () => {
   const [waitingTime, setWaitingTime] = useState(null);
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState("");
-  const [isNextDisabled, setIsNextDisabled] = useState(true);
-  const [nextButtonTextColor, setNextButtonTextColor] = useState("white");
-  const [nextButtonColor, setNextButtonColor] = useState("black");
+  const [isCreateDisabled, setIsCreateDisabled] = useState(true);
+  const [createButtonTextColor, setCreateButtonTextColor] = useState("white");
+  const [createButtonColor, setCreateButtonColor] = useState("black");
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, waitingTime]);
@@ -41,14 +41,14 @@ const NewWorkoutScreen = () => {
       waitingTime != null
     ) {
       console.log("can add workout");
-      setIsNextDisabled(false);
-      setNextButtonTextColor(appStyle.appDarkBlue);
-      setNextButtonColor("white");
+      setIsCreateDisabled(false);
+      setCreateButtonTextColor(appStyle.appDarkBlue);
+      setCreateButtonColor("white");
     } else {
       console.log("cant add workout");
-      setIsNextDisabled(true);
-      setNextButtonTextColor("white");
-      setNextButtonColor("black");
+      setIsCreateDisabled(true);
+      setCreateButtonTextColor("white");
+      setCreateButtonColor("black");
     }
   };
   const createWorkout = () => {};
@@ -91,17 +91,17 @@ const NewWorkoutScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={{
-                backgroundColor: nextButtonColor,
+                backgroundColor: createButtonColor,
               }}
-              disabled={isNextDisabled}
+              disabled={isCreateDisabled}
               className="rounded-lg shadow px-5 py-1 mx-2"
               onPress={createWorkout}
             >
               <Text
-                style={{ color: nextButtonTextColor }}
+                style={{ color: createButtonTextColor }}
                 className="text-center text-2xl font-semibold"
               >
-                Next
+                Create
               </Text>
             </TouchableOpacity>
           </View>
