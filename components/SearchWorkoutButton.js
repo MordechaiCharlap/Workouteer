@@ -1,14 +1,21 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 const SearchWorkoutButton = () => {
   return (
-    <View className="items-center">
+    <View>
       <TouchableOpacity
-        className="items-center justify-center  p-2 pt-3 pb-3 rounded-lg shadow-lg mb-3"
+        className="items-center justify-center rounded-lg shadow-lg w-40 h-40"
         style={{ backgroundColor: appStyle.appAzure }}
       >
-        <Text className="font-bold text-center text-4xl text-white">
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
+          size={40}
+          color={appStyle.appGray}
+        />
+        <Text className="font-bold text-center text-3xl text-white">
           SEARCH WORKOUT
         </Text>
       </TouchableOpacity>
