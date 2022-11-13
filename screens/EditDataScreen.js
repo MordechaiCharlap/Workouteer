@@ -96,8 +96,21 @@ const EditWorkoutPreferences = (props) => {
   const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
+  const onChangedMinAge = (text) => {
+    setMinAge(text.replace(/[^0-9]/g, ""));
+  };
+  const onChangedMaxAge = (text) => {
+    setMaxAge(text.replace(/[^0-9]/g, ""));
+  };
   useEffect(() => {
+    if (
+      minAge == "" ||
+      maxAge == "" ||
+      (acceptMale == false && acceptFemale == false)
+    ) {
+      setInvalidInput(true);
+      console.log("invalid input");
+    } else setInvalidInput(false);
     if (
       minAge != props.user.acceptMinAge ||
       maxAge != props.user.acceptMaxAge ||
@@ -127,8 +140,10 @@ const EditWorkoutPreferences = (props) => {
     }, 1000);
   };
   const saveButtonClicked = () => {
-    if (changesMade == true) {
-      if (isLoading == false) savePreferencesChanges();
+    if (!invalidInput) {
+      if (changesMade == true) {
+        if (isLoading == false) savePreferencesChanges();
+      }
     }
   };
   const SaveButton = () => {
@@ -144,13 +159,19 @@ const EditWorkoutPreferences = (props) => {
           className="text-2xl text-center"
           style={{ color: appStyle.appGray }}
         >
-          {updated == true && "Updated successfuly!"}
-          {updated == false && changesMade == false && "No changes made"}
-          {updated == false &&
+          {invalidInput == true && "Invalid input"}
+          {invalidInput == false && updated == true && "Updated successfuly!"}
+          {invalidInput == false &&
+            updated == false &&
+            changesMade == false &&
+            "No changes made"}
+          {invalidInput == false &&
+            updated == false &&
             changesMade == true &&
             isLoading == false &&
             "Save Changes"}
-          {updated == false &&
+          {invalidInput == false &&
+            updated == false &&
             changesMade == true &&
             isLoading == true &&
             "Loading"}
@@ -168,13 +189,13 @@ const EditWorkoutPreferences = (props) => {
           Partner's age:
         </Text>
         <TextInput
+          keyboardType="numeric"
           className="rounded text-lg px-2 text-center w-16"
           style={style.input}
           maxLength={3}
-          onChangeText={(text) => setMinAge(text)}
-        >
-          {minAge}
-        </TextInput>
+          onChangeText={(text) => onChangedMinAge(text)}
+          value={minAge}
+        ></TextInput>
         <Text
           className="text-xl font-semibold mx-3"
           style={{ color: appStyle.appGray }}
@@ -182,13 +203,13 @@ const EditWorkoutPreferences = (props) => {
           -
         </Text>
         <TextInput
+          keyboardType="numeric"
           className="rounded text-lg px-2 text-center w-16"
           style={style.input}
           maxLength={3}
-          onChangeText={(text) => setMaxAge(text)}
-        >
-          {maxAge}
-        </TextInput>
+          onChangeText={(text) => onChangedMaxAge(text)}
+          value={maxAge}
+        ></TextInput>
       </View>
       <View className="flex-row items-center mb-5">
         <Text
