@@ -148,12 +148,16 @@ const EditWorkoutPreferences = (props) => {
     }
   };
   const SaveButton = () => {
+    const getBackgroundColor = () => {
+      if (invalidInput) return "gray";
+      return updated == false ? appStyle.appAzure : "#28a923";
+    };
     return (
       <TouchableOpacity
         onPress={saveButtonClicked}
         className="self-center py-1 px-5 w-9/12 rounded"
         style={{
-          backgroundColor: updated == false ? appStyle.appAzure : "#28a923",
+          backgroundColor: getBackgroundColor(),
         }}
       >
         <Text
