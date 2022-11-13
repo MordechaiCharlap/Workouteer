@@ -2,10 +2,10 @@ import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { React, useEffect, useRef, useState } from "react";
 import NewWorkout from "./NewWorkout";
 import * as appStyle from "./AppStyleSheet";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 const AddWorkoutButton = (props) => {
   const useAnimate = false;
-  // var newWorkoutOpacity;
-  // var addButtonMarginTop;
   const [newWorkoutOpacity, setNewWorkoutOpacity] = useState(0);
   const [addButtonMarginTop, setAddButtonMarginTop] = useState(300);
 
@@ -91,25 +91,18 @@ const AddWorkoutButton = (props) => {
   };
 
   return (
-    <View className="self-center items-center w-full">
-      <Animated.View
-        style={{
-          width: "100%",
-          marginTop: addButtonMarginTop,
-          alignItems: "center",
-        }}
+    <View>
+      <TouchableOpacity
+        className="items-center justify-center rounded-lg shadow-lg w-40 h-40"
+        style={{ backgroundColor: appStyle.appAzure }}
+        onPress={workoutButtonClicked}
       >
-        <TouchableOpacity
-          className="items-center justify-center  p-2 pt-3 pb-3 rounded-lg shadow-lg mb-3"
-          style={{ backgroundColor: appStyle.appAzure }}
-          onPress={workoutButtonClicked}
-        >
-          <Text className="font-bold text-center text-4xl text-white">
-            NEW WORKOUT
-          </Text>
-        </TouchableOpacity>
-        <NewWorkout display={newWorkoutDisplay} opacity={newWorkoutOpacity} />
-      </Animated.View>
+        <FontAwesomeIcon icon={faPlus} size={40} color={appStyle.appGray} />
+        <Text className="font-bold text-center text-3xl text-white">
+          NEW WORKOUT
+        </Text>
+      </TouchableOpacity>
+      <NewWorkout display={newWorkoutDisplay} opacity={newWorkoutOpacity} />
     </View>
   );
 };
