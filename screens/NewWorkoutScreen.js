@@ -10,10 +10,12 @@ import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import WorkoutMaximumWaiting from "../components/WorkoutMaximumWaiting";
 import WorkoutDescription from "../components/WorkoutDescription";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
+import { useNavigation } from "@react-navigation/native";
 const NewWorkoutScreen = () => {
+  const navigation = useNavigation();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
@@ -26,6 +28,11 @@ const NewWorkoutScreen = () => {
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, waitingTime]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
   const checkIfCanAddWorkout = () => {
     if (
       type != null &&
