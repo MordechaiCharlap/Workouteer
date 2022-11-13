@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import authContext from "../context/authContext";
 import { useEffect } from "react";
+import { saveSettingsChanges, updateContext } from "../services/firebase";
 const SettingsScreen = () => {
   const { user, setUser } = useContext(authContext);
   const [changesMade, setChangesMade] = useState(false);
@@ -25,11 +26,20 @@ const SettingsScreen = () => {
       headerShown: false,
     });
   }, []);
+
   useEffect(() => {
+    console.log("useEffecting settings");
     if (user.isPublic != isPublic || user.showOnline != showOnline)
       setChangesMade(true);
     else setChangesMade(false);
   }, [isPublic, showOnline]);
+  const applyChanges = async () => {
+    if (changesMade) {
+      await saveSettingsChanges(user.usernameLower, isPublic, showOnline);
+      setUser(await updateContext(user.usernameLower));
+      navigation.goBack();
+    }
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 p-4">
@@ -80,7 +90,10 @@ const SettingsScreen = () => {
         style={{ backgroundColor: appStyle.appAzure }}
         className="h-16 p-2 justify-center items-center"
       >
-        <TouchableOpacity className="bg-gray-100 p-1 rounded">
+        <TouchableOpacity
+          onPress={applyChanges}
+          className="bg-gray-100 p-1 rounded"
+        >
           <Text
             className="text-xl text-center"
             style={{ color: appStyle.appDarkBlue }}
