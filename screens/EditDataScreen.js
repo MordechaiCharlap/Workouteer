@@ -263,6 +263,9 @@ const EditWorkoutPreferences = (props) => {
   );
 };
 const EditProfileData = (props) => {
+  const [displayName, setDisplayName] = useState(props.user.displayName);
+  const [description, setDescription] = useState(props.user.description);
+  const [image, setImage] = useState(props.user.img);
   useEffect(() => {
     console.log("checking if changes were made");
     if (
@@ -273,10 +276,6 @@ const EditProfileData = (props) => {
       setChangesMade(false);
     else setChangesMade(true);
   }, [displayName, description, image]);
-  const [displayName, setDisplayName] = useState(props.user.displayName);
-  const [description, setDescription] = useState(props.user.description);
-  const [image, setImage] = useState(props.user.img);
-
   const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
