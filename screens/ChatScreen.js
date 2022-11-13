@@ -90,19 +90,25 @@ const ChatScreen = ({ route }) => {
               color={appStyle.appGray}
             />
           </TouchableOpacity>
-
-          <Image
-            source={{
-              uri: otherUser.img,
-            }}
-            className="h-14 w-14 bg-white rounded-full mr-4"
-          />
-          <Text
-            className="text-2xl font-semibold"
-            style={{ color: appStyle.appGray }}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("User", { shownUser: otherUser })
+            }
+            className="flex-row items-center"
           >
-            {otherUser.username}
-          </Text>
+            <Image
+              source={{
+                uri: otherUser.img,
+              }}
+              className="h-14 w-14 bg-white rounded-full mr-4"
+            />
+            <Text
+              className="text-2xl font-semibold"
+              style={{ color: appStyle.appGray }}
+            >
+              {otherUser.username}
+            </Text>
+          </TouchableOpacity>
         </View>
         {messagesArr == null ? (
           <Text
