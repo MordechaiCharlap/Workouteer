@@ -54,11 +54,9 @@ const NewWorkoutScreen = () => {
   const createWorkout = () => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1 rounded-xl p-28">
+      <View className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}
-          className={`rounded-xl content-center  mb-20`}
           style={{
             backgroundColor: appStyle.appGray,
           }}
@@ -78,25 +76,35 @@ const NewWorkoutScreen = () => {
           <View className="pb-2 rounded mb-5">
             <WorkoutDescription descChanged={setDescription} />
           </View>
-          <TouchableOpacity
-            style={{
-              marginHorizontal: "auto",
-              marginBottom: 15,
-              paddingHorizontal: 6,
-              paddingVertical: 2,
-              backgroundColor: nextButtonColor,
-            }}
-            disabled={isNextDisabled}
-            className="rounded-lg shadow w-fit"
-            onPress={createWorkout}
-          >
-            <Text
-              style={{ color: nextButtonTextColor }}
-              className="text-center text-2xl font-semibold w-fit"
+          <View className="flex-row items-center justify-center">
+            <TouchableOpacity
+              style={{ borderWidth: 1, borderColor: "black" }}
+              className="rounded-lg shadow px-5 py-1 mx-2"
+              onPress={() => navigation.goBack()}
             >
-              Next
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{ color: "black" }}
+                className="text-center text-2xl font-semibold"
+              >
+                Cancel
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                backgroundColor: nextButtonColor,
+              }}
+              disabled={isNextDisabled}
+              className="rounded-lg shadow px-5 py-1 mx-2"
+              onPress={createWorkout}
+            >
+              <Text
+                style={{ color: nextButtonTextColor }}
+                className="text-center text-2xl font-semibold"
+              >
+                Next
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
