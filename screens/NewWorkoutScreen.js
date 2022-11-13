@@ -1,11 +1,18 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import WorkoutMaximumWaiting from "../components/WorkoutMaximumWaiting";
 import WorkoutDescription from "../components/WorkoutDescription";
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import * as appStyle from "../components/AppStyleSheet";
+import ResponsiveStyling from "../components/ResponsiveStyling";
 const NewWorkoutScreen = () => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -39,54 +46,53 @@ const NewWorkoutScreen = () => {
   };
   const createWorkout = () => {};
   return (
-    <View
-      className="flex-1 rounded-xl p-28"
-      style={ResponsiveStyling.newWorkoutScrollView}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
-        className={`rounded-xl content-center  mb-20`}
-        style={{
-          backgroundColor: appStyle.appGray,
-        }}
-      >
-        <View className="pt-4 pb-2 rounded mb-5">
-          <WorkoutType typeSelected={setType} />
-        </View>
-        <View className="pb-2 rounded mb-5">
-          <WorkoutMinutes minutesSelected={setMinutes} />
-        </View>
-        <View className="pb-2 rounded mb-5">
-          <WorkoutStartingTime startingTimeSelected={setStartingTime} />
-        </View>
-        <View className="pb-2 rounded mb-5">
-          <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
-        </View>
-        <View className="pb-2 rounded mb-5">
-          <WorkoutDescription descChanged={setDesc} />
-        </View>
-        <TouchableOpacity
+    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+      <View className="flex-1 rounded-xl p-28">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+          className={`rounded-xl content-center  mb-20`}
           style={{
-            marginHorizontal: "auto",
-            marginBottom: 15,
-            paddingHorizontal: 6,
-            paddingVertical: 2,
-            backgroundColor: nextButtonColor,
+            backgroundColor: appStyle.appGray,
           }}
-          disabled={isNextDisabled}
-          className="rounded-lg shadow w-fit"
-          onPress={createWorkout}
         >
-          <Text
-            style={{ color: nextButtonTextColor }}
-            className="text-center text-2xl font-semibold w-fit"
+          <View className="pt-4 pb-2 rounded mb-5">
+            <WorkoutType typeSelected={setType} />
+          </View>
+          <View className="pb-2 rounded mb-5">
+            <WorkoutMinutes minutesSelected={setMinutes} />
+          </View>
+          <View className="pb-2 rounded mb-5">
+            <WorkoutStartingTime startingTimeSelected={setStartingTime} />
+          </View>
+          <View className="pb-2 rounded mb-5">
+            <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
+          </View>
+          <View className="pb-2 rounded mb-5">
+            <WorkoutDescription descChanged={setDescription} />
+          </View>
+          <TouchableOpacity
+            style={{
+              marginHorizontal: "auto",
+              marginBottom: 15,
+              paddingHorizontal: 6,
+              paddingVertical: 2,
+              backgroundColor: nextButtonColor,
+            }}
+            disabled={isNextDisabled}
+            className="rounded-lg shadow w-fit"
+            onPress={createWorkout}
           >
-            Next
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+            <Text
+              style={{ color: nextButtonTextColor }}
+              className="text-center text-2xl font-semibold w-fit"
+            >
+              Next
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
