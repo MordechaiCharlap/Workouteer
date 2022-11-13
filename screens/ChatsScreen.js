@@ -55,24 +55,24 @@ const ChatsScreen = () => {
       chat: item.chat,
     });
   };
-  const chatsList = () => {
-    const convertLastMessageTimestamp = (timestamp) => {
-      const date = timestamp.toDate();
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
-      const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-      if (currentDay.day == day) {
-        return h + ":" + m;
-      } else {
-        const yasterday = new Date();
-        yasterday.setDate(yasterday.getDate() - 1);
-        if (yasterday.toDateString() == date.toDateString()) {
-          return "Yasterday " + h + ":" + m;
-        }
-        return `${day}/${month} ${h}:${m}`;
+  const convertTimestamp = (timestamp) => {
+    const date = timestamp.toDate();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
+    const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+    if (currentDay.day == day) {
+      return h + ":" + m;
+    } else {
+      const yasterday = new Date();
+      yasterday.setDate(yasterday.getDate() - 1);
+      if (yasterday.toDateString() == date.toDateString()) {
+        return "Yasterday " + h + ":" + m;
       }
-    };
+      return `${day}/${month} ${h}:${m}`;
+    }
+  };
+  const chatsList = () => {
     return (
       <FlatList
         data={chatsArr}
@@ -105,7 +105,7 @@ const ChatsScreen = () => {
               </View>
             </View>
             <Text className="mt-1" style={{ color: "#c5c6c8" }}>
-              {convertLastMessageTimestamp(item.chat.lastMessage.sentAt)}
+              {convertTimestamp(item.chat.lastMessage.sentAt)}
             </Text>
           </TouchableOpacity>
         )}
