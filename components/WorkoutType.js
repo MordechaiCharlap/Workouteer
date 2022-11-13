@@ -46,40 +46,124 @@ const WorkoutType = (props) => {
     setChosenType(id);
   };
   return (
-    <View className="h-40">
-      <FlatList
-        showsHorizontalScrollIndicator={isWeb}
-        className="w-auto rounded-lg"
-        initialScrollIndex={0.8}
-        data={workoutTypes}
-        keyExtractor={(item) => item.id}
-        horizontal
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              typeClicked(item.id);
-            }}
+    <View className="h-80">
+      <View className="flex-row justify-around mb-10">
+        <TouchableOpacity
+          onPress={() => {
+            typeClicked(1);
+          }}
+        >
+          <View
+            style={{ backgroundColor: getBackgroundColor(1) }}
+            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
           >
-            <View
-              style={{ backgroundColor: getBackgroundColor(item.id) }}
-              className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-            >
-              <FontAwesomeIcon
-                color={getTextColor(item.id)}
-                icon={item.icon}
-                size={60}
-              />
-              <Text
-                style={{ textAlign: "center", color: getTextColor(item.id) }}
-              >
-                {item.title}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+            <FontAwesomeIcon
+              color={getTextColor(1)}
+              icon={faDumbbell}
+              size={60}
+            />
+            <Text style={{ textAlign: "center", color: getTextColor(1) }}>
+              Resistance Training
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            typeClicked(2);
+          }}
+        >
+          <View
+            style={{ backgroundColor: getBackgroundColor(2) }}
+            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+          >
+            <FontAwesomeIcon
+              color={getTextColor(2)}
+              icon={faPersonWalking}
+              size={60}
+            />
+            <Text style={{ textAlign: "center", color: getTextColor(2) }}>
+              Walking
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View className="flex-row justify-around">
+        <TouchableOpacity
+          onPress={() => {
+            typeClicked(3);
+          }}
+        >
+          <View
+            style={{ backgroundColor: getBackgroundColor(3) }}
+            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+          >
+            <FontAwesomeIcon
+              color={getTextColor(3)}
+              icon={faPersonRunning}
+              size={60}
+            />
+            <Text style={{ textAlign: "center", color: getTextColor(3) }}>
+              Running
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            typeClicked(4);
+          }}
+        >
+          <View
+            style={{ backgroundColor: getBackgroundColor(4) }}
+            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+          >
+            <FontAwesomeIcon
+              color={getTextColor(4)}
+              icon={faPersonBiking}
+              size={60}
+            />
+            <Text style={{ textAlign: "center", color: getTextColor(4) }}>
+              Biking
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
+  // return (
+  //   <View className="h-40">
+  //     <FlatList
+  //       showsHorizontalScrollIndicator={isWeb}
+  //       className="w-auto rounded-lg"
+  //       initialScrollIndex={0.8}
+  //       data={workoutTypes}
+  //       keyExtractor={(item) => item.id}
+  //       horizontal
+  //       renderItem={({ item }) => (
+  //         <TouchableOpacity
+  //           onPress={() => {
+  //             typeClicked(item.id);
+  //           }}
+  //         >
+  //           <View
+  //             style={{ backgroundColor: getBackgroundColor(item.id) }}
+  //             className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+  //           >
+  //             <FontAwesomeIcon
+  //               color={getTextColor(item.id)}
+  //               icon={item.icon}
+  //               size={60}
+  //             />
+  //             <Text
+  //               style={{ textAlign: "center", color: getTextColor(item.id) }}
+  //             >
+  //               {item.title}
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
+  //       )}
+  //     />
+  //   </View>
+  // );
 };
 
 export default WorkoutType;

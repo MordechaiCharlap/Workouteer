@@ -6,6 +6,8 @@ import AddWorkoutButton from "../components/AddWorkoutButton";
 import style from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import UserUpperBanner from "../components/UserUpperBanner";
+import SearchWorkoutButton from "../components/SearchWorkoutButton";
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -24,6 +26,7 @@ const HomeScreen = () => {
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
         <AddWorkoutButton hideNavBar={changeNavDisplay} />
+        <SearchWorkoutButton />
       </View>
       <BottomNavbar currentScreen="Home" display={navDisplay} />
     </SafeAreaView>

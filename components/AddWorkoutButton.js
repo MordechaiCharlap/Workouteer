@@ -91,7 +91,7 @@ const AddWorkoutButton = (props) => {
   };
 
   return (
-    <View className="self-center flex-1 items-center w-full">
+    <View className="self-center items-center w-full">
       <Animated.View
         style={{
           width: "100%",
