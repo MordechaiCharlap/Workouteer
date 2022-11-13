@@ -25,6 +25,7 @@ const ChatMessage = (props) => {
       <View
         className="mt-1 p-1.5 rounded"
         style={{
+          maxWidth: "90%",
           backgroundColor: isSelfMessage ? appStyle.appAzure : appStyle.appGray,
         }}
       >
