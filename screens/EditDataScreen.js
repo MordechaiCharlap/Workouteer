@@ -125,8 +125,8 @@ const EditWorkoutPreferences = (props) => {
     setLoading(true);
     await firebase.savePreferencesChanges(
       props.user.usernameLower,
-      minAge,
-      maxAge,
+      Math.max(parseInt(minAge), 16).toString(),
+      Math.min(parseInt(maxAge), 100).toString(),
       acceptMale,
       acceptFemale
     );
