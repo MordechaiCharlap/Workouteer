@@ -197,7 +197,9 @@ const EditWorkoutPreferences = (props) => {
           onChangeText={(text) => onChangedMinAge(text)}
           onBlur={() => {
             if (minAge != "")
-              setMinAge(Math.max(parseInt(minAge), 16).toString());
+              setMinAge(
+                Math.min(Math.max(parseInt(minAge), 16), maxAge).toString()
+              );
           }}
           value={minAge}
         ></TextInput>
@@ -215,7 +217,9 @@ const EditWorkoutPreferences = (props) => {
           onChangeText={(text) => onChangedMaxAge(text)}
           onBlur={() => {
             if (maxAge != "")
-              setMaxAge(Math.min(parseInt(maxAge), 100).toString());
+              setMaxAge(
+                Math.max(Math.min(parseInt(maxAge), 100), minAge).toString()
+              );
           }}
           value={maxAge}
         ></TextInput>
