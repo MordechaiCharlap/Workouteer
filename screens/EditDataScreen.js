@@ -92,6 +92,7 @@ const EditWorkoutPreferences = (props) => {
   const [acceptMale, setAcceptMale] = useState(props.user.acceptMale);
   const [acceptFemale, setAcceptFemale] = useState(props.user.acceptFemale);
 
+  const [invalidInput, setInvalidInput] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
