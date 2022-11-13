@@ -96,16 +96,26 @@ const EditWorkoutPreferences = (props) => {
   const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (
+      minAge != props.user.acceptMinAge ||
+      maxAge != props.user.acceptMaxAge ||
+      acceptMale != props.user.acceptMale ||
+      acceptFemale != props.user.acceptFemale
+    ) {
+      setChangesMade(true);
+    } else setChangesMade(false);
+  }, [minAge, maxAge, acceptFemale, acceptMale]);
   const savePreferencesChanges = async () => {
     setLoading(true);
-    // if (displayName == "") setDisplayName(props.user.username);
     // await firebase.saveProfileChanges(
     //   props.user.usernameLower,
     //   displayName == null ? "" : displayName,
     //   description == null ? "" : description,
     //   image == null ? "" : image
     // );
-    // props.setUser(await firebase.updateContext(props.user.usernameLower));
+    //  props.setUser(await firebase.updateContext(props.user.usernameLower));
 
     setUpdated(true);
     setTimeout(() => {
