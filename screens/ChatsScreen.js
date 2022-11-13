@@ -42,6 +42,7 @@ const ChatsScreen = () => {
     let month = today.getMonth() + 1;
     let day = today.getDate();
     return {
+      date: today,
       year: year,
       month: month,
       day: day,
@@ -64,6 +65,11 @@ const ChatsScreen = () => {
       if (currentDay.day == day) {
         return h + ":" + m;
       } else {
+        const yasterday = new Date();
+        yasterday.setDate(yasterday.getDate() - 1);
+        if (yasterday.toDateString() == date.toDateString()) {
+          return "Yasterday " + h + ":" + m;
+        }
         return `${day}/${month} ${h}:${m}`;
       }
     };
