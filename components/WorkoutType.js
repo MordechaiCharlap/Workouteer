@@ -52,10 +52,11 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
+        className="w-5/12"
       >
         <View
           style={{ backgroundColor: getBackgroundColor(type.id) }}
-          className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+          className={`p-4 items-center rounded-lg`}
         >
           <FontAwesomeIcon
             color={getTextColor(type.id)}
