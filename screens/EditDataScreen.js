@@ -223,7 +223,7 @@ const EditProfileData = (props) => {
     )
       setChangesMade(false);
     else setChangesMade(true);
-  });
+  }, [displayName, description, image]);
   const [displayName, setDisplayName] = useState(props.user.displayName);
   const [description, setDescription] = useState(props.user.description);
   const [image, setImage] = useState(props.user.img);
