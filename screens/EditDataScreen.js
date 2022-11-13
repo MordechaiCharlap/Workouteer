@@ -91,6 +91,61 @@ const EditWorkoutPreferences = (props) => {
   const [maxAge, setMaxAge] = useState(props.user.acceptMaxAge);
   const [acceptMale, setAcceptMale] = useState(props.user.acceptMale);
   const [acceptFemale, setAcceptFemale] = useState(props.user.acceptFemale);
+
+  const [updated, setUpdated] = useState(false);
+  const [changesMade, setChangesMade] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const savePreferencesChanges = async () => {
+    setLoading(true);
+    // if (displayName == "") setDisplayName(props.user.username);
+    // await firebase.saveProfileChanges(
+    //   props.user.usernameLower,
+    //   displayName == null ? "" : displayName,
+    //   description == null ? "" : description,
+    //   image == null ? "" : image
+    // );
+    // props.setUser(await firebase.updateContext(props.user.usernameLower));
+
+    setUpdated(true);
+    setTimeout(() => {
+      setLoading(false);
+      setChangesMade(false);
+      setUpdated(false);
+      props.navigation.navigate("MyUser");
+    }, 1000);
+  };
+  const saveButtonClicked = () => {
+    if (changesMade == true) {
+      if (isLoading == false) savePreferencesChanges();
+    }
+  };
+  const SaveButton = () => {
+    return (
+      <TouchableOpacity
+        onPress={saveButtonClicked}
+        className="self-center py-1 px-5 w-9/12 rounded"
+        style={{
+          backgroundColor: updated == false ? appStyle.appAzure : "#28a923",
+        }}
+      >
+        <Text
+          className="text-2xl text-center"
+          style={{ color: appStyle.appGray }}
+        >
+          {updated == true && "Updated successfuly!"}
+          {updated == false && changesMade == false && "No changes made"}
+          {updated == false &&
+            changesMade == true &&
+            isLoading == false &&
+            "Save Changes"}
+          {updated == false &&
+            changesMade == true &&
+            isLoading == true &&
+            "Loading"}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View>
       <View className="flex-row mb-5">
@@ -153,6 +208,7 @@ const EditWorkoutPreferences = (props) => {
           </Text>
         </View>
       </View>
+      {SaveButton()}
     </View>
   );
 };
