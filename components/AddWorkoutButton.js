@@ -4,7 +4,9 @@ import NewWorkout from "./NewWorkout";
 import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-const AddWorkoutButton = (props) => {
+import { useNavigation } from "@react-navigation/native";
+const AddWorkoutButton = () => {
+  const navigation = useNavigation();
   const useAnimate = false;
   const [newWorkoutOpacity, setNewWorkoutOpacity] = useState(0);
   const [addButtonMarginTop, setAddButtonMarginTop] = useState(300);
@@ -32,7 +34,6 @@ const AddWorkoutButton = (props) => {
   }, []);
 
   const workoutButtonClicked = () => {
-    //props.hideNavBar();
     if (!isAdd) addWorkoutIn();
     else addWorkoutOut();
   };
@@ -95,14 +96,14 @@ const AddWorkoutButton = (props) => {
       <TouchableOpacity
         className="items-center justify-center rounded-lg shadow-lg w-40 h-40"
         style={{ backgroundColor: appStyle.appAzure }}
-        onPress={workoutButtonClicked}
+        onPress={() => navigation.navigate("NewWorkout")}
       >
         <FontAwesomeIcon icon={faPlus} size={40} color={appStyle.appGray} />
         <Text className="font-bold text-center text-3xl text-white">
           NEW WORKOUT
         </Text>
       </TouchableOpacity>
-      <NewWorkout display={newWorkoutDisplay} opacity={newWorkoutOpacity} />
+      {/* <NewWorkout display={newWorkoutDisplay} opacity={newWorkoutOpacity} /> */}
     </View>
   );
 };
