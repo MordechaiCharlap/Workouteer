@@ -48,6 +48,20 @@ export const saveProfileChanges = async (
     img: newImageUrl,
   });
 };
+export const savePreferencesChanges = async (
+  userId,
+  newAcceptMinAge,
+  newAcceptMaxAge,
+  newAcceptMale,
+  newAcceptFemale
+) => {
+  await updateDoc(doc(db, "users", userId), {
+    acceptMinAge: newAcceptMinAge,
+    acceptMaxAge: newAcceptMaxAge,
+    acceptMale: newAcceptMale,
+    acceptFemale: newAcceptFemale,
+  });
+};
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
