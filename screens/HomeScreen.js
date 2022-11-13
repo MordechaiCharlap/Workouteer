@@ -25,8 +25,10 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
-        <AddWorkoutButton hideNavBar={changeNavDisplay} />
-        <SearchWorkoutButton />
+        <View className="flex-row justify-around p-3">
+          <AddWorkoutButton hideNavBar={changeNavDisplay} />
+          <SearchWorkoutButton />
+        </View>
       </View>
       <BottomNavbar currentScreen="Home" display={navDisplay} />
     </SafeAreaView>
