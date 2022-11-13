@@ -109,13 +109,14 @@ const EditWorkoutPreferences = (props) => {
   }, [minAge, maxAge, acceptFemale, acceptMale]);
   const savePreferencesChanges = async () => {
     setLoading(true);
-    // await firebase.saveProfileChanges(
-    //   props.user.usernameLower,
-    //   displayName == null ? "" : displayName,
-    //   description == null ? "" : description,
-    //   image == null ? "" : image
-    // );
-    //  props.setUser(await firebase.updateContext(props.user.usernameLower));
+    await firebase.savePreferencesChanges(
+      props.user.usernameLower,
+      minAge,
+      maxAge,
+      acceptMale,
+      acceptFemale
+    );
+    props.setUser(await firebase.updateContext(props.user.usernameLower));
 
     setUpdated(true);
     setTimeout(() => {
