@@ -254,7 +254,7 @@ const EditWorkoutPreferences = (props) => {
             value={acceptFemale}
           />
           <Text className="ml-1" style={{ color: appStyle.appGray }}>
-            Male
+            Female
           </Text>
         </View>
       </View>
