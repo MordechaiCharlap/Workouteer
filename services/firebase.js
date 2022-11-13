@@ -62,6 +62,16 @@ export const savePreferencesChanges = async (
     acceptFemale: newAcceptFemale,
   });
 };
+export const saveSettingsChanges = async (
+  userId,
+  newIsPublic,
+  newShowOnline
+) => {
+  await updateDoc(doc(db, "users", userId), {
+    isPublic: newIsPublic,
+    showOnline: newShowOnline,
+  });
+};
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
