@@ -126,7 +126,7 @@ const ChatScreen = ({ route }) => {
       </View>
       <View className="flex-row p-2 items-center">
         <TextInput
-          className="text-2xl flex-1 mr-2 rounded-full py-1 px-4"
+          className="text-2xl flex-1 mr-2 rounded py-1 px-4"
           multiline={true}
           placeholder="Message"
           placeholderTextColor={appStyle.appGray}
