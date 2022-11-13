@@ -52,7 +52,7 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="w-5/12"
+        className="w-5/12 mb-5"
       >
         <View
           style={{ backgroundColor: getBackgroundColor(type.id) }}
@@ -63,7 +63,10 @@ const WorkoutType = (props) => {
             icon={type.icon}
             size={iconSize}
           />
-          <Text style={{ textAlign: "center", color: getTextColor(type.id) }}>
+          <Text
+            className="text-center"
+            style={{ color: getTextColor(type.id) }}
+          >
             {type.title}
           </Text>
         </View>
@@ -72,11 +75,9 @@ const WorkoutType = (props) => {
   };
   return (
     <View>
-      <View className="flex-row justify-around mb-5">
+      <View className="flex-row flex-wrap justify-around">
         {renderWorkoutTypeButton(workoutTypes[0])}
         {renderWorkoutTypeButton(workoutTypes[1])}
-      </View>
-      <View className="flex-row justify-around">
         {renderWorkoutTypeButton(workoutTypes[2])}
         {renderWorkoutTypeButton(workoutTypes[3])}
       </View>
