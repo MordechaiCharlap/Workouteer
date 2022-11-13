@@ -4,8 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import AddWorkoutButton from "../components/AddWorkoutButton";
 import style from "../components/ResponsiveStyling";
-import * as appStyle from "../components/AppStyleSheet";
-import UserUpperBanner from "../components/UserUpperBanner";
 import SearchWorkoutButton from "../components/SearchWorkoutButton";
 
 const HomeScreen = () => {
