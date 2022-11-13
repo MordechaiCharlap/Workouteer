@@ -31,6 +31,7 @@ const workoutTypes = [
 ];
 
 const WorkoutType = (props) => {
+  const iconSize = 60;
   const isWeb = Platform.OS == "web";
   const [chosenType, setChosenType] = useState(0);
   const getBackgroundColor = (id) => {
@@ -45,87 +46,38 @@ const WorkoutType = (props) => {
     props.typeSelected(id);
     setChosenType(id);
   };
+  const renderWorkoutTypeButton = (type) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          typeClicked(type.id);
+        }}
+      >
+        <View
+          style={{ backgroundColor: getBackgroundColor(type.id) }}
+          className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
+        >
+          <FontAwesomeIcon
+            color={getTextColor(type.id)}
+            icon={type.icon}
+            size={iconSize}
+          />
+          <Text style={{ textAlign: "center", color: getTextColor(type.id) }}>
+            {type.title}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View>
       <View className="flex-row justify-around mb-5">
-        <TouchableOpacity
-          onPress={() => {
-            typeClicked(1);
-          }}
-        >
-          <View
-            style={{ backgroundColor: getBackgroundColor(1) }}
-            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-          >
-            <FontAwesomeIcon
-              color={getTextColor(1)}
-              icon={faDumbbell}
-              size={60}
-            />
-            <Text style={{ textAlign: "center", color: getTextColor(1) }}>
-              Resistance Training
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            typeClicked(2);
-          }}
-        >
-          <View
-            style={{ backgroundColor: getBackgroundColor(2) }}
-            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-          >
-            <FontAwesomeIcon
-              color={getTextColor(2)}
-              icon={faPersonWalking}
-              size={60}
-            />
-            <Text style={{ textAlign: "center", color: getTextColor(2) }}>
-              Walking
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {renderWorkoutTypeButton(workoutTypes[0])}
+        {renderWorkoutTypeButton(workoutTypes[1])}
       </View>
       <View className="flex-row justify-around">
-        <TouchableOpacity
-          onPress={() => {
-            typeClicked(3);
-          }}
-        >
-          <View
-            style={{ backgroundColor: getBackgroundColor(3) }}
-            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-          >
-            <FontAwesomeIcon
-              color={getTextColor(3)}
-              icon={faPersonRunning}
-              size={60}
-            />
-            <Text style={{ textAlign: "center", color: getTextColor(3) }}>
-              Running
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            typeClicked(4);
-          }}
-        >
-          <View
-            style={{ backgroundColor: getBackgroundColor(4) }}
-            className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-          >
-            <FontAwesomeIcon
-              color={getTextColor(4)}
-              icon={faPersonBiking}
-              size={60}
-            />
-            <Text style={{ textAlign: "center", color: getTextColor(4) }}>
-              Biking
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {renderWorkoutTypeButton(workoutTypes[2])}
+        {renderWorkoutTypeButton(workoutTypes[3])}
       </View>
     </View>
   );
