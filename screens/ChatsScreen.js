@@ -73,15 +73,20 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
+    const lastMessageConverter = (lastMessage) => {
+      var shownText =
+        (lastMessage.sender == user.usernameLower
+          ? "You: "
+          : `${lastMessage.sender}:`) + lastMessage.content;
+      if (shownText.length > 25) shownText = shownText.slice(0, 17) + "...";
+      return <Text style={{ color: "#c5c6c8" }}>{shownText}</Text>;
+    };
     return (
       <FlatList
         data={chatsArr}
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => chatClicked(item)}
-            className="flex-row justify-between mt-2"
-          >
+          <TouchableOpacity onPress={() => chatClicked(item)} className="mt-2">
             <View className="flex-row">
               <Image
                 source={{
@@ -90,23 +95,20 @@ const ChatsScreen = () => {
                 className="h-14 w-14 bg-white rounded-full mr-4"
               />
               <View>
-                <Text
-                  className="text-xl font-semibold tracking-wider"
-                  style={{ color: appStyle.appGray }}
-                >
-                  {item.user.displayName}
-                </Text>
-                <Text style={{ color: "#c5c6c8" }}>
-                  {item.chat.lastMessage.sender == user.usernameLower
-                    ? "You: "
-                    : ""}
-                  {item.chat.lastMessage.content}
-                </Text>
+                <View className="flex-row justify-between">
+                  <Text
+                    className="text-xl font-semibold tracking-wider"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    {item.user.displayName}
+                  </Text>
+                  <Text className="mt-1" style={{ color: "#c5c6c8" }}>
+                    {convertTimestamp(item.chat.lastMessage.sentAt)}
+                  </Text>
+                </View>
+                {lastMessageConverter(item.chat.lastMessage)}
               </View>
             </View>
-            <Text className="mt-1" style={{ color: "#c5c6c8" }}>
-              {convertTimestamp(item.chat.lastMessage.sentAt)}
-            </Text>
           </TouchableOpacity>
         )}
       />
