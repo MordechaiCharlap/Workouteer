@@ -106,6 +106,7 @@ const EditWorkoutPreferences = (props) => {
     if (
       minAge == "" ||
       maxAge == "" ||
+      parseInt(minAge) > parseInt(maxAge) ||
       (acceptMale == false && acceptFemale == false)
     ) {
       setInvalidInput(true);
@@ -194,6 +195,7 @@ const EditWorkoutPreferences = (props) => {
           style={style.input}
           maxLength={3}
           onChangeText={(text) => onChangedMinAge(text)}
+          onBlur={() => {}}
           value={minAge}
         ></TextInput>
         <Text
