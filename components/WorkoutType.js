@@ -46,8 +46,8 @@ const WorkoutType = (props) => {
     setChosenType(id);
   };
   return (
-    <View className="h-80">
-      <View className="flex-row justify-around mb-10">
+    <View>
+      <View className="flex-row justify-around mb-5">
         <TouchableOpacity
           onPress={() => {
             typeClicked(1);
