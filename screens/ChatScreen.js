@@ -34,7 +34,6 @@ const ChatScreen = ({ route }) => {
   const otherUser = route.params.otherUser;
   const db = firebase.db;
   const [messageText, setMessageText] = useState("");
-  const [tempIdCounter, setTempIdCounter] = useState(1);
   const [messagesArr, setMessagesArr] = useState([]);
   const now = () => {
     const today = new Date();
@@ -54,6 +53,16 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
+    const chatPals = new Map(Object.entries(user.chatPals));
+    if (chatPals.has(otherUser.usernameLower)) {
+      const getFirstPageMessages = async () => {
+        const messagesArr = await firebase.getFirstPageMessages(
+          user.usernameLower + "-" + otherUser.usernameLower
+        );
+        setMessagesArr(messagesArr);
+      };
+      getFirstPageMessages();
+    }
     chatUpdatesListener();
   }, []);
   const chatUpdatesListener = () => {
@@ -63,13 +72,15 @@ const ChatScreen = ({ route }) => {
         db,
         `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
       ),
+      where("sentAt", ">", route.params.chat.lastMessage.sentAt),
       orderBy("sentAt", "desc")
     );
-    return onSnapshot(q, (querySnapshot) =>
+    return onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => console.log(doc.data().sentAt));
       setMessagesArr(
         querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      )
-    );
+      );
+    });
   };
 
   const sendMessage = async () => {
