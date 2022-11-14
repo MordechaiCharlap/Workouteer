@@ -7,7 +7,7 @@ const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      className={`items-center justify-center rounded-lg shadow-lg w-${props.style.buttonSize} h-${props.style.buttonSize} m-3`}
+      className={`items-center justify-center rounded-lg shadow-lg w-${props.style.buttonSize.toString()} h-${props.style.buttonSize.toString()} m-3`}
       style={{ backgroundColor: props.style.backgroundColor }}
       onPress={() => navigation.navigate(props.navigateScreen)}
     >
