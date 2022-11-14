@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import {
   collection,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -29,12 +30,13 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 const ChatScreen = ({ route }) => {
+  const [snapShot, setSnapshot] = useState(null);
+  const [messages, setMessages] = useState(null);
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
   const db = firebase.db;
   const [messageText, setMessageText] = useState("");
-  const [messagesArr, setMessagesArr] = useState([]);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -53,42 +55,87 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
-    const chatPals = new Map(Object.entries(user.chatPals));
-    if (chatPals.has(otherUser.usernameLower)) {
-      const getFirstPageMessages = async () => {
-        const messagesArr = await firebase.getFirstPageMessages(
-          user.usernameLower + "-" + otherUser.usernameLower
-        );
-        setMessagesArr(messagesArr);
-      };
-      getFirstPageMessages();
-    }
-    chatUpdatesListener();
-  }, []);
-  const chatUpdatesListener = () => {
-    console.log(route.params.chat.lastMessage.sentAt);
     const q = query(
       collection(
         db,
         `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
       ),
-      where("sentAt", ">", route.params.chat.lastMessage.sentAt),
-      orderBy("sentAt", "desc")
+      orderBy("sentAt", "desc"),
+      limit(5)
     );
-    return onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => console.log(doc.data().sentAt));
-      setMessagesArr(
-        querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      );
+
+    const unsuscribe = onSnapshot(q, (querySnapshot) => {
+      setSnapshot(querySnapshot);
     });
-  };
+    return () => {
+      unsuscribe();
+    };
+  }, [route.params.chat]);
+
+  useEffect(() => {
+    if (snapShot != null) {
+      if (messages === null) {
+        console.log("setting messages the first time");
+        setMessages(snapShot.docs);
+      } else {
+        console.log("updating messages");
+        setMessages([...snapShot.docs, ...messages]);
+      }
+    }
+  }, [snapShot]);
+  // useEffect(() => {
+  //   const chatPals = new Map(Object.entries(user.chatPals));
+  //   if (chatPals.has(otherUser.usernameLower)) {
+  //     const getFirstPageMessages = async () => {
+  //       const messagesArr = await firebase.getFirstPageMessages(
+  //         user.usernameLower + "-" + otherUser.usernameLower
+  //       );
+  //       setMessagesArr(messagesArr);
+  //     };
+  //     getFirstPageMessages();
+  //   }
+  //   chatUpdatesListener();
+  // }, []);
+  // const chatUpdatesListener = () => {
+  //   const q = query(
+  //     collection(
+  //       db,
+  //       `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
+  //     ),
+  //     where("sentAt", ">", route.params.chat.lastMessage.sentAt),
+  //     orderBy("sentAt", "desc")
+  //   );
+  //   return onSnapshot(q, (querySnapshot) => {
+  //     querySnapshot.docChanges().forEach((change) => {
+  //       if (change.type === "added") {
+  //         if (firstSnapshot) {
+  //           console.log("First snapshot");
+  //           setFirstSnapshot(false);
+  //           console.log(firstSnapshot);
+  //         } else {
+  //           console.log("Not first snapshot");
+  //           const newMessage = change.doc.data();
+  //           console.log(newMessage);
+  //           const arrClone = messagesArr.slice();
+  //           arrClone.unshift({
+  //             id: doc.id,
+  //             content: message.content,
+  //             isRead: message.isRead,
+  //             sender: message.sender,
+  //             sentAt: message.sentAt,
+  //           });
+  //           setMessagesArr(arrClone);
+  //         }
+  //       }
+  //     });
+  //   });
+  // };
 
   const sendMessage = async () => {
     if (messageText != "") {
       const content = messageText;
       setMessageText("");
       await firebase.sendMessage(user, otherUser, content);
-      console.log(messagesArr[0]);
     }
   };
   return (
@@ -125,7 +172,7 @@ const ChatScreen = ({ route }) => {
             </Text>
           </TouchableOpacity>
         </View>
-        {messagesArr == null ? (
+        {messages == null ? (
           <Text
             className="text-center text-xl font-semibold m-4"
             style={{ color: appStyle.appGray }}
@@ -136,7 +183,7 @@ const ChatScreen = ({ route }) => {
           <FlatList
             className="p-2"
             showsVerticalScrollIndicator={false}
-            data={messagesArr}
+            data={messages}
             keyExtractor={(item) => item.id}
             inverted={true}
             renderItem={({ item }) => (
