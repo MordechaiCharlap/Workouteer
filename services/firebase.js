@@ -275,19 +275,8 @@ export const sendMessage = async (user, otherUser, content) => {
   if (!otherUserChatPals.has(otherUser.usernameLower))
     await createChatConnection(otherUser.usernameLower, user.usernameLower);
   //Update last message for self and add message to collection
-  await updateDoc(
-    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
-    {
-      lastMessage: {
-        content: content,
-        isRead: false,
-        sender: user.usernameLower,
-        sentAt: Timestamp.now(),
-      },
-      messagesCount: increment(1),
-    }
-  );
-  await addDoc(
+
+  const userRef = await addDoc(
     collection(
       db,
       `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
@@ -299,20 +288,22 @@ export const sendMessage = async (user, otherUser, content) => {
       sentAt: Timestamp.now(),
     }
   );
-  //Update last message for other user and add message to collection
   await updateDoc(
-    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
+    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
     {
       lastMessage: {
         content: content,
         isRead: false,
         sender: user.usernameLower,
         sentAt: Timestamp.now(),
+        id: userRef.id,
       },
       messagesCount: increment(1),
     }
   );
-  await addDoc(
+  //Update last message for other user and add message to collection
+
+  const otherUserRef = await addDoc(
     collection(
       db,
       `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`
@@ -322,6 +313,19 @@ export const sendMessage = async (user, otherUser, content) => {
       isRead: false,
       sender: user.usernameLower,
       sentAt: Timestamp.now(),
+    }
+  );
+  await updateDoc(
+    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
+    {
+      lastMessage: {
+        content: content,
+        isRead: false,
+        sender: user.usernameLower,
+        sentAt: Timestamp.now(),
+        id: otherUserRef.id,
+      },
+      messagesCount: increment(1),
     }
   );
 };
