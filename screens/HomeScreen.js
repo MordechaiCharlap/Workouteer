@@ -1,10 +1,8 @@
 import { SafeAreaView, View } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
-import AddWorkoutButton from "../components/AddWorkoutButton";
 import style from "../components/ResponsiveStyling";
-import SearchWorkoutButton from "../components/SearchWorkoutButton";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../components/AppStyleSheet";
 import {
