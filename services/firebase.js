@@ -262,6 +262,7 @@ export const createChatConnection = async (userId, otherUserId) => {
   });
   await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
     lastMessage: {},
+    notificationsCount: 0,
     messagesCount: 0,
     members: [userId, otherUserId],
   });
