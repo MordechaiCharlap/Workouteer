@@ -7,7 +7,14 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Timestamp } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  Timestamp,
+  where,
+} from "firebase/firestore";
 import React, { useContext, useLayoutEffect, useState, useEffect } from "react";
 import authContext from "../context/authContext";
 import { useNavigation } from "@react-navigation/native";
@@ -25,9 +32,10 @@ const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
+  const db = firebase.db;
   const [messageText, setMessageText] = useState("");
   const [tempIdCounter, setTempIdCounter] = useState(1);
-  const [messagesArr, setMessagesArr] = useState(null);
+  const [messagesArr, setMessagesArr] = useState([]);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -46,30 +54,26 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
-    const chatPals = new Map(Object.entries(user.chatPals));
-    if (chatPals.has(otherUser.usernameLower)) {
-      const getFirstPageMessages = async () => {
-        const messagesArr = await firebase.getFirstPageMessages(
-          user.usernameLower + "-" + otherUser.usernameLower
-        );
-        setMessagesArr(messagesArr);
-      };
-      getFirstPageMessages();
-    }
+    chatUpdatesListener();
   }, []);
+  const chatUpdatesListener = () => {
+    console.log(route.params.chat.lastMessage.sentAt);
+    const q = query(
+      collection(
+        db,
+        `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
+      ),
+      orderBy("sentAt", "desc")
+    );
+    return onSnapshot(q, (querySnapshot) =>
+      setMessagesArr(
+        querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      )
+    );
+  };
+
   const sendMessage = async () => {
     if (messageText != "") {
-      const newMessage = {
-        id: tempIdCounter,
-        content: messageText,
-        isRead: false,
-        sender: user.usernameLower,
-        sentAt: Timestamp.now(),
-      };
-      setTempIdCounter((prev) => prev + 1);
-      const messagesArrClone = messagesArr.slice();
-      messagesArrClone.unshift(newMessage);
-      setMessagesArr(messagesArrClone);
       const content = messageText;
       setMessageText("");
       await firebase.sendMessage(user, otherUser, content);
