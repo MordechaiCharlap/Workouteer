@@ -7,20 +7,20 @@ const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      className={`items-center justify-center rounded-lg shadow-lg w-${props.buttonSize} h-${props.buttonSize}`}
-      style={{ backgroundColor: props.backgroundColor }}
-      onPress={() => navigation.navigate("NewWorkout")}
+      className={`items-center justify-center rounded-lg shadow-lg w-${props.style.buttonSize} h-${props.style.buttonSize}`}
+      style={{ backgroundColor: props.style.backgroundColor }}
+      onPress={() => navigation.navigate(props.navigateScreen)}
     >
       <FontAwesomeIcon
         icon={props.icon}
-        size={props.iconSize}
-        color={props.color}
+        size={props.style.iconSize}
+        color={props.style.color}
       />
       <Text
-        style={{ color: props.color }}
+        style={{ color: props.style.color }}
         className="font-bold text-center text-3xl"
       >
-        {props.text}
+        {props.buttonText}
       </Text>
     </TouchableOpacity>
   );
