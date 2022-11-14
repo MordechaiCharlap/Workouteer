@@ -7,7 +7,11 @@ import style from "../components/ResponsiveStyling";
 import SearchWorkoutButton from "../components/SearchWorkoutButton";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../components/AppStyleSheet";
-import { faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faMagnifyingGlass,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -24,7 +28,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
-        <View className="flex-row justify-around p-3">
+        <View className="flex-row flex-wrap p-3">
           <HomeScreenButton
             buttonText="FIND A WORKOUT"
             style={buttonStyle}
@@ -36,6 +40,12 @@ const HomeScreen = () => {
             style={buttonStyle}
             navigateScreen="NewWorkout"
             icon={faPlus}
+          />
+          <HomeScreenButton
+            buttonText="FRIENDS WORKOUTS"
+            style={buttonStyle}
+            navigateScreen="NewWorkout"
+            icon={faUserGroup}
           />
         </View>
       </View>
