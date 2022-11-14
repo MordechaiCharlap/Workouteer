@@ -13,19 +13,13 @@ const HomeScreen = () => {
       headerShown: false,
     });
   }, []);
-  const [navDisplay, setNavDisplay] = useState("block");
-  const changeNavDisplay = () => {
-    if (navDisplay == "block") setNavDisplay("hidden");
-    else {
-      setNavDisplay("block");
-    }
-  };
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1">
         <View className="flex-row justify-around p-3">
-          <AddWorkoutButton hideNavBar={changeNavDisplay} />
+          <AddWorkoutButton />
           <SearchWorkoutButton />
+          <FriendsWorkoutsButton />
         </View>
       </View>
       <BottomNavbar currentScreen="Home" display={navDisplay} />
