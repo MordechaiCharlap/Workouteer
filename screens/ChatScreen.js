@@ -31,7 +31,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 const ChatScreen = ({ route }) => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
@@ -65,44 +65,42 @@ const ChatScreen = ({ route }) => {
       };
       getFirstPageMessages();
     }
-    return chatUpdatesListener();
   }, []);
-  const chatUpdatesListener = () => {
-    const q = query(
-      collection(
-        db,
-        `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
-      ),
-      where("sentAt", ">", route.params.chat.lastMessage.sentAt),
-      orderBy("sentAt", "desc"),
-      limit(1)
-    );
-    return onSnapshot(q, (querySnapshot) => {
-      querySnapshot.docChanges().map((change) => {
-        if (
-          change.type === "added" &&
-          messages != null &&
-          change.doc.id != route.params.chat.lastMessage.id
-        ) {
-          const messagesClone = messages;
-          const newMessageDoc = change.doc.data();
-          const newMessage = {
-            id: change.doc.id,
-            content: newMessageDoc.content,
-            isRead: newMessageDoc.isRead,
-            sender: newMessageDoc.sender,
-            sentAt: newMessageDoc.sentAt,
-          };
-          console.log(messagesClone.length);
-          messagesClone.unshift(newMessage);
-          console.log(messagesClone.length);
-          console.log("adding the message: ", newMessage);
-          setMessages(messagesClone);
-        }
+  useEffect(() => {
+    if (messages != null) {
+      var messagesClone = messages.slice();
+      console.log("Starting updating");
+      const q = query(
+        collection(
+          db,
+          `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
+        ),
+        where("sentAt", ">", messages.length > 0 ? messages[0].sentAt : 0),
+        orderBy("sentAt", "desc")
+      );
+      return onSnapshot(q, (querySnapshot) => {
+        querySnapshot.docChanges().map((change) => {
+          if (
+            change.type === "added" &&
+            messages != null &&
+            change.doc.id != route.params.chat.lastMessage.id
+          ) {
+            const newMessageDoc = change.doc.data();
+            const newMessage = {
+              id: change.doc.id,
+              content: newMessageDoc.content,
+              isRead: newMessageDoc.isRead,
+              sender: newMessageDoc.sender,
+              sentAt: newMessageDoc.sentAt,
+            };
+            messagesClone = [newMessage, ...messagesClone];
+            console.log(messagesClone);
+            setMessages(messagesClone);
+          }
+        });
       });
-    });
-  };
-
+    }
+  }, [route.params.chat, messages]);
   const sendMessage = async () => {
     if (messageText != "") {
       const content = messageText;
