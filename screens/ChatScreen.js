@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import {
   collection,
+  doc,
   limit,
   onSnapshot,
   orderBy,
@@ -30,8 +31,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 const ChatScreen = ({ route }) => {
-  const [snapShot, setSnapshot] = useState(null);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const { user } = useContext(authContext);
   const otherUser = route.params.otherUser;
@@ -55,81 +55,53 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
+    const chatPals = new Map(Object.entries(user.chatPals));
+    if (chatPals.has(otherUser.usernameLower)) {
+      const getFirstPageMessages = async () => {
+        const messagesArr = await firebase.getFirstPageMessages(
+          user.usernameLower + "-" + otherUser.usernameLower
+        );
+        setMessages(messagesArr);
+      };
+      getFirstPageMessages();
+    }
+    return chatUpdatesListener();
+  }, []);
+  const chatUpdatesListener = () => {
     const q = query(
       collection(
         db,
         `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
       ),
+      where("sentAt", ">", route.params.chat.lastMessage.sentAt),
       orderBy("sentAt", "desc"),
-      limit(5)
+      limit(1)
     );
-
-    const unsuscribe = onSnapshot(q, (querySnapshot) => {
-      setSnapshot(querySnapshot);
+    return onSnapshot(q, (querySnapshot) => {
+      querySnapshot.docChanges().map((change) => {
+        if (
+          change.type === "added" &&
+          messages != null &&
+          change.doc.id != route.params.chat.lastMessage.id
+        ) {
+          const messagesClone = messages;
+          const newMessageDoc = change.doc.data();
+          const newMessage = {
+            id: change.doc.id,
+            content: newMessageDoc.content,
+            isRead: newMessageDoc.isRead,
+            sender: newMessageDoc.sender,
+            sentAt: newMessageDoc.sentAt,
+          };
+          console.log(messagesClone.length);
+          messagesClone.unshift(newMessage);
+          console.log(messagesClone.length);
+          console.log("adding the message: ", newMessage);
+          setMessages(messagesClone);
+        }
+      });
     });
-    return () => {
-      unsuscribe();
-    };
-  }, [route.params.chat]);
-
-  useEffect(() => {
-    if (snapShot != null) {
-      if (messages === null) {
-        console.log("setting messages the first time");
-        setMessages(snapShot.docs);
-      } else {
-        console.log("updating messages");
-        setMessages([...snapShot.docs, ...messages]);
-      }
-    }
-  }, [snapShot]);
-  // useEffect(() => {
-  //   const chatPals = new Map(Object.entries(user.chatPals));
-  //   if (chatPals.has(otherUser.usernameLower)) {
-  //     const getFirstPageMessages = async () => {
-  //       const messagesArr = await firebase.getFirstPageMessages(
-  //         user.usernameLower + "-" + otherUser.usernameLower
-  //       );
-  //       setMessagesArr(messagesArr);
-  //     };
-  //     getFirstPageMessages();
-  //   }
-  //   chatUpdatesListener();
-  // }, []);
-  // const chatUpdatesListener = () => {
-  //   const q = query(
-  //     collection(
-  //       db,
-  //       `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
-  //     ),
-  //     where("sentAt", ">", route.params.chat.lastMessage.sentAt),
-  //     orderBy("sentAt", "desc")
-  //   );
-  //   return onSnapshot(q, (querySnapshot) => {
-  //     querySnapshot.docChanges().forEach((change) => {
-  //       if (change.type === "added") {
-  //         if (firstSnapshot) {
-  //           console.log("First snapshot");
-  //           setFirstSnapshot(false);
-  //           console.log(firstSnapshot);
-  //         } else {
-  //           console.log("Not first snapshot");
-  //           const newMessage = change.doc.data();
-  //           console.log(newMessage);
-  //           const arrClone = messagesArr.slice();
-  //           arrClone.unshift({
-  //             id: doc.id,
-  //             content: message.content,
-  //             isRead: message.isRead,
-  //             sender: message.sender,
-  //             sentAt: message.sentAt,
-  //           });
-  //           setMessagesArr(arrClone);
-  //         }
-  //       }
-  //     });
-  //   });
-  // };
+  };
 
   const sendMessage = async () => {
     if (messageText != "") {
