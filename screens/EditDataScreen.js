@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import { useNavigation } from "@react-navigation/native";
@@ -16,16 +16,12 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
-import { useState } from "react";
-import { useContext } from "react";
-import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
-import { useEffect } from "react";
 import CheckBox from "../components/CheckBox";
+import useAuth from "../hooks/useAuth";
 const EditDataScreen = () => {
   const navigation = useNavigation();
-
-  const { user, setUser } = useContext(authContext);
+  const { user, setUser } = useAuth();
 
   const [currentTab, setCurrentTab] = useState("ProfileData");
 

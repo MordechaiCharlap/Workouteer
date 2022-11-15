@@ -1,13 +1,5 @@
-import {
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  FlatList,
-  Image,
-} from "react-native";
-import { React, useLayoutEffect, useContext, useState, useEffect } from "react";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { React, useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
@@ -23,8 +15,9 @@ import {
   faPlus,
   faBell,
 } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../hooks/useAuth";
 const ExploreScreen = () => {
-  const { user, setUser } = useContext(authContext);
+  const { user, setUser } = useAuth();
   const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
   const [renderOption, setRenderOption] = useState("Explore");

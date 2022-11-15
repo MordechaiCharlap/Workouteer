@@ -2,12 +2,11 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
   Image,
   Text,
   ScrollView,
 } from "react-native";
-import { React, useContext, useState } from "react";
+import { React, useState } from "react";
 
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

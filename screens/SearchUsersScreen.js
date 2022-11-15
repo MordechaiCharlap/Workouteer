@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -17,9 +17,9 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import authContext from "../context/authContext";
+import useAuth from "../hooks/useAuth";
 const SearchUsersScreen = () => {
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const [searchText, setSearchText] = useState("");
   const [searchedUser, setSearchedUser] = useState(null);
   useEffect(() => {}, []);

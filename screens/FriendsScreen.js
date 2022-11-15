@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -18,10 +18,10 @@ import {
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import authContext from "../context/authContext";
+import useAuth from "../hooks/useAuth";
 
 const FriendsScreen = ({ route }) => {
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({

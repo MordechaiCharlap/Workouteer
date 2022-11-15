@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useContext, useEffect, useState } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -16,12 +16,12 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
-import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 import { useCallback } from "react";
+import useAuth from "../hooks/useAuth";
 const ChatsScreen = () => {
   const navigation = useNavigation();
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const [chatsArr, setChatArr] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({

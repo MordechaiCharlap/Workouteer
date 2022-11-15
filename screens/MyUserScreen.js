@@ -7,17 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useEffect, useContext, useLayoutEffect } from "react";
+import { React, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-import authContext from "../context/authContext";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUserPen, faGear, faPen } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../hooks/useAuth";
 const MyUserScreen = () => {
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const allFriendsMap = new Map(Object.entries(user.friends));
   const navigation = useNavigation();
   useLayoutEffect(() => {

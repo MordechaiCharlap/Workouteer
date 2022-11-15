@@ -11,31 +11,27 @@ import {
 } from "react-native";
 import {
   collection,
-  doc,
-  limit,
   onSnapshot,
   orderBy,
   query,
-  Timestamp,
   where,
 } from "firebase/firestore";
-import React, { useContext, useLayoutEffect, useState, useEffect } from "react";
-import authContext from "../context/authContext";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,
-  faCommentDots,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
+import useAuth from "../hooks/useAuth";
 const ChatScreen = ({ route }) => {
   const [messages, setMessages] = useState(null);
   const navigation = useNavigation();
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const otherUser = route.params.otherUser;
   const db = firebase.db;
   const [messageText, setMessageText] = useState("");

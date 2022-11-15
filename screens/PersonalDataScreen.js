@@ -6,8 +6,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { React, useLayoutEffect, useState, useContext } from "react";
-import authContext from "../context/authContext";
+import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -15,9 +14,9 @@ import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import useAuth from "../hooks/useAuth";
 const PersonalDataScreen = () => {
-  const { user } = useContext(authContext);
+  const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({

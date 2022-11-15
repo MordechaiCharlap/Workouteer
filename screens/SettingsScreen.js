@@ -3,20 +3,17 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
-  ScrollView,
   Switch,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-import { useState } from "react";
-import { useContext } from "react";
 import authContext from "../context/authContext";
-import { useEffect } from "react";
 import { saveSettingsChanges, updateContext } from "../services/firebase";
+import useAuth from "../hooks/useAuth";
 const SettingsScreen = () => {
-  const { user, setUser } = useContext(authContext);
+  const { user, setUser } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);

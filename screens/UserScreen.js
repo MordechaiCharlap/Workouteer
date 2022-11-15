@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -15,9 +15,9 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import authContext from "../context/authContext";
+import useAuth from "../hooks/useAuth";
 const UserScreen = ({ route }) => {
-  const { user, setUser } = useContext(authContext);
+  const { user } = useAuth();
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
 
