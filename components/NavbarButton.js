@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCircleUser,
   faCalendarDays,
-  faCirclePlus,
+  faDumbbell,
   faComments,
   faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ const NavbarButton = (props) => {
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
     if (props.screen == "Calendar") return faCalendarDays;
-    if (props.screen == "Home") return faCirclePlus;
+    if (props.screen == "Home") return faDumbbell;
     if (props.screen == "Chats") return faComments;
     if (props.screen == "Explore") return faGlobe;
   };
@@ -36,8 +36,8 @@ const NavbarButton = (props) => {
     >
       <FontAwesomeIcon
         icon={getIcon()}
-        size={30}
-        color={appStyle.appDarkBlue}
+        size={props.screen == "Home" ? 40 : 30}
+        color={props.screen == "Home" ? "#c60f1a" : appStyle.appDarkBlue}
       />
     </TouchableOpacity>
   );
