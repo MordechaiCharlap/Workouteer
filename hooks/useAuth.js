@@ -26,10 +26,6 @@ export const AuthPrvider = ({ children }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async () => {
         console.log("signed in!");
-
-        const userData = await firebase.userDataByEmail(email.toLowerCase());
-        console.log(userData);
-        setUser(userData);
       })
       .catch((error) => {
         console.log(error);
