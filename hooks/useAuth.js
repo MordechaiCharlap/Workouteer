@@ -11,6 +11,7 @@ const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
   const auth = firebase.auth;
+  const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
@@ -18,6 +19,8 @@ export const AuthPrvider = ({ children }) => {
         console.log("state Changed, user logged in: " + authUser.email);
         const setUserAsync = async () => {
           setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+          setInitialLoading(false);
+          console.log("initial loading is false now");
         };
         setUserAsync();
       } else {
@@ -40,7 +43,9 @@ export const AuthPrvider = ({ children }) => {
     console.log("trying to sign out");
     signOut(auth)
       .then(() => {})
-      .catch((error) => {});
+      .catch((error) => {
+        console.log("signed out succesfuly");
+      });
   };
   return (
     <AuthContext.Provider
@@ -49,6 +54,7 @@ export const AuthPrvider = ({ children }) => {
         setUser,
         signInEmailPassword,
         userSignOut,
+        initialLoading,
       }}
     >
       {children}

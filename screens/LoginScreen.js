@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState, useEffect } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -16,14 +16,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 const LoginScreen = () => {
-  const { signInEmailPassword } = useAuth();
+  const { signInEmailPassword, initialLoading } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -58,95 +57,112 @@ const LoginScreen = () => {
     <SafeAreaView
       style={[
         ResponsiveStyling.safeAreaStyle,
-        { backgroundColor: appStyle.appLightBlue },
+        {
+          backgroundColor: initialLoading
+            ? appStyle.appDarkBlue
+            : appStyle.appLightBlue,
+        },
       ]}
     >
-      <View className="flex-1 my-20 mx-6">
-        <View
-          className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
-          style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
-        >
-          <View className="my-3 items-center">
-            <FontAwesomeIcon
-              icon={faCircleUser}
-              color={appStyle.appGray}
-              size={50}
-            />
-            <Text style={{ color: appStyle.appGray }} className="text-2xl my-4">
-              {"Welcome :)"}
-            </Text>
-            <Text style={{ color: appStyle.appGray }}>
-              Sign in and find a partner for your next workout TODAY!
-            </Text>
-          </View>
-          <View>
-            {/* focus:border-sky-500 focus:border-2 */}
-            <TextInput
-              className="rounded mb-5 px-3 py-1 focus:"
-              style={style.input}
-              placeholder="Email"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setEmail(text)}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-5 px-3 py-1"
-              secureTextEntry={true}
-              style={style.input}
-              placeholder="Password"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setPassword(text)}
-            ></TextInput>
-            <View className="flex-row items-center">
-              <CheckBox valueColor={appStyle.appDarkBlue} value={false} />
-              <Text className="ml-2" style={{ color: appStyle.appGray }}>
-                Remember me!
+      {initialLoading ? (
+        <Text className="text-4xl text-white text-center">Loading...</Text>
+      ) : (
+        <View className="flex-1 my-20 mx-6">
+          <View
+            className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
+            style={{
+              backgroundColor: appStyle.appDarkBlue,
+              shadowColor: "#000",
+            }}
+          >
+            <View className="my-3 items-center">
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                color={appStyle.appGray}
+                size={50}
+              />
+              <Text
+                style={{ color: appStyle.appGray }}
+                className="text-2xl my-4"
+              >
+                {"Welcome :)"}
+              </Text>
+              <Text style={{ color: appStyle.appGray }}>
+                Sign in and find a partner for your next workout TODAY!
               </Text>
             </View>
-          </View>
-          <TouchableOpacity
-            onPress={() => signInEmailPassword(email, password)}
-            onPressIn={loginIn}
-            onPressOut={loginOut}
-            className={`self-center rounded py-2 px-8 w-full border-2`}
-            style={{
-              backgroundColor: loginBackground,
-              borderColor: loginBorderColor,
-            }}
-          >
-            <Text
-              className="text-center tracking-widest font-bold text-xl"
+            <View>
+              {/* focus:border-sky-500 focus:border-2 */}
+              <TextInput
+                className="rounded mb-5 px-3 py-1 focus:"
+                style={style.input}
+                placeholder="Email"
+                placeholderTextColor={"#5f6b8b"}
+                onChangeText={(text) => setEmail(text)}
+              ></TextInput>
+              <TextInput
+                className="rounded mb-5 px-3 py-1"
+                secureTextEntry={true}
+                style={style.input}
+                placeholder="Password"
+                placeholderTextColor={"#5f6b8b"}
+                onChangeText={(text) => setPassword(text)}
+              ></TextInput>
+              <View className="flex-row items-center">
+                <CheckBox valueColor={appStyle.appDarkBlue} value={false} />
+                <Text className="ml-2" style={{ color: appStyle.appGray }}>
+                  Remember me!
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => signInEmailPassword(email, password)}
+              onPressIn={loginIn}
+              onPressOut={loginOut}
+              className={`self-center rounded py-2 px-8 w-full border-2`}
               style={{
-                color: loginColor,
+                backgroundColor: loginBackground,
+                borderColor: loginBorderColor,
               }}
             >
-              Login
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
-          style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
-        >
-          <TouchableOpacity
-            onPressIn={registerIn}
-            onPressOut={registerOut}
-            onPress={() => navigation.navigate("Register")}
-            className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+              <Text
+                className="text-center tracking-widest font-bold text-xl"
+                style={{
+                  color: loginColor,
+                }}
+              >
+                Login
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
             style={{
-              borderColor: appStyle.appLightBlue,
-              backgroundColor: registerBackground,
-              shadowColor: appStyle.appLightBlue,
+              backgroundColor: appStyle.appDarkBlue,
+              shadowColor: "#000",
             }}
           >
-            <Text
-              className="text-center font-bold text-xl tracking-widest"
-              style={{ color: registerColor }}
+            <TouchableOpacity
+              onPressIn={registerIn}
+              onPressOut={registerOut}
+              onPress={() => navigation.navigate("Register")}
+              className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+              style={{
+                borderColor: appStyle.appLightBlue,
+                backgroundColor: registerBackground,
+                shadowColor: appStyle.appLightBlue,
+              }}
             >
-              Register
-            </Text>
-          </TouchableOpacity>
+              <Text
+                className="text-center font-bold text-xl tracking-widest"
+                style={{ color: registerColor }}
+              >
+                Register
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      )}
     </SafeAreaView>
   );
 };
