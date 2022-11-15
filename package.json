@@ -29,6 +29,7 @@
     "expo-updates": "~0.14.6",
     "firebase": "^9.12.1",
     "firestore-size": "^2.0.7",
+    "lottie-react-native": "^5.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
