@@ -11,10 +11,10 @@ const Header = (props) => {
       className="flex-row items-center pt-5 px-5"
       style={{
         backgroundColor: appDarkBlue,
-        justifyContent: props.goBack ? "space-between" : "center",
+        justifyContent: props.goBackOption ? "space-between" : "center",
       }}
     >
-      {props.goBack ? (
+      {props.goBackOption ? (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon
             icon={faChevronLeft}
@@ -29,7 +29,7 @@ const Header = (props) => {
       <Text className="text-4xl font-semibold" style={{ color: appGray }}>
         {props.title}
       </Text>
-      {props.goBack ? (
+      {props.goBackOption ? (
         <FontAwesomeIcon icon={faChevronLeft} size={40} color={appDarkBlue} />
       ) : (
         <></>
