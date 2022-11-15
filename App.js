@@ -6,12 +6,12 @@ import { useState } from "react";
 export default function App() {
   const [user, setUser] = useState(null);
   return (
-    <authContext.Provider value={{ user, setUser }}>
-      <TailwindProvider>
-        <NavigationContainer>
+    <NavigationContainer>
+      <authContext.Provider value={{ user, setUser }}>
+        <TailwindProvider>
           <StackNavigator />
-        </NavigationContainer>
-      </TailwindProvider>
-    </authContext.Provider>
+        </TailwindProvider>
+      </authContext.Provider>
+    </NavigationContainer>
   );
 }
