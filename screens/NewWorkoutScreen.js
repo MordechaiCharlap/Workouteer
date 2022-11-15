@@ -43,7 +43,7 @@ const NewWorkoutScreen = () => {
       console.log("can add workout");
       setIsCreateDisabled(false);
       setCreateButtonTextColor(appStyle.appDarkBlue);
-      setCreateButtonColor("white");
+      setCreateButtonColor(appStyle.appLightBlue);
     } else {
       console.log("cant add workout");
       setIsCreateDisabled(true);
@@ -78,12 +78,12 @@ const NewWorkoutScreen = () => {
           </View>
           <View className="flex-row items-center justify-center">
             <TouchableOpacity
-              style={{ borderWidth: 1, borderColor: "black" }}
+              style={{ borderWidth: 1, borderColor: appStyle.appGray }}
               className="rounded-lg shadow px-5 py-1 mx-2"
               onPress={() => navigation.goBack()}
             >
               <Text
-                style={{ color: "black" }}
+                style={{ color: appStyle.appGray }}
                 className="text-center text-2xl font-semibold"
               >
                 Cancel
