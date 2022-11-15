@@ -65,7 +65,11 @@ const LoginScreen = () => {
       ]}
     >
       {initialLoading ? (
-        <Text className="text-4xl text-white text-center">Loading...</Text>
+        <View className="flex-1 justify-center">
+          <Text className="text-4xl font-bold tracking-widest text-white text-center">
+            Loading...
+          </Text>
+        </View>
       ) : (
         <View className="flex-1 my-20 mx-6">
           <View
