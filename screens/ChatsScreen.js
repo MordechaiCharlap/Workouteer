@@ -19,6 +19,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { useCallback } from "react";
 import useAuth from "../hooks/useAuth";
+import Header from "../components/Header";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -121,17 +122,7 @@ const ChatsScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="pt-5 px-5 flex-1">
-        <View className="flex-row justify-between">
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={faBars} size={48} color={appStyle.appGray} />
-          </TouchableOpacity>
-          <Text
-            className="text-5xl font-bold"
-            style={{ color: appStyle.appGray }}
-          >
-            Chats
-          </Text>
-        </View>
+        <Header title="Chats" />
         <View
           className="rounded-xl mt-4 p-3"
           style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
