@@ -26,7 +26,7 @@ const LoginScreen = () => {
   }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [rememberMe, setRememberMe] = useState(false);
   const [registerBackground, setRegisterBackground] = useState(
     appStyle.appDarkBlue
   );
@@ -123,14 +123,18 @@ const LoginScreen = () => {
                 onChangeText={(text) => setPassword(text)}
               ></TextInput>
               <View className="flex-row items-center">
-                <CheckBox valueColor={appStyle.appDarkBlue} value={false} />
+                <CheckBox
+                  valueColor={appStyle.appDarkBlue}
+                  value={false}
+                  onValueChange={(value) => setRememberMe(value)}
+                />
                 <Text className="ml-2" style={{ color: appStyle.appGray }}>
                   Remember me!
                 </Text>
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => signInEmailPassword(email, password)}
+              onPress={() => signInEmailPassword(email, password, rememberMe)}
               onPressIn={loginIn}
               onPressOut={loginOut}
               className={`self-center rounded py-2 px-8 w-full border-2`}

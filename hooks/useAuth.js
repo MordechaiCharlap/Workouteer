@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import * as firebase from "../services/firebase";
 import { useEffect, useState } from "react";
+import { inMemoryPersistence, setPersistence } from "firebase/auth";
+
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
@@ -16,28 +18,40 @@ export const AuthPrvider = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        console.log("state Changed, user logged in: " + authUser.email);
         const setUserAsync = async () => {
           setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+          console.log("state Changed, user logged in: " + authUser.email);
           setInitialLoading(false);
-          console.log("initial loading is false now");
         };
         setUserAsync();
       } else {
         setUser(null);
         console.log("state Changed, user logged out");
+        setInitialLoading(false);
       }
     });
   }, []);
-  const signInEmailPassword = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(async () => {
-        console.log("signed in!");
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
+  const signInEmailPassword = (email, password, rememberMe) => {
+    if (!rememberMe) {
+      console.log("not remembering user");
+      setPersistence(auth, inMemoryPersistence)
+        .then(() => {
+          signInWithEmailAndPassword(auth, email, password);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log("remembering user");
+      signInWithEmailAndPassword(auth, email, password)
+        .then(async () => {
+          console.log("signed in!");
+        })
+        .catch((error) => {
+          console.log(error);
+          Alert.alert(error.message);
+        });
+    }
   };
   const userSignOut = () => {
     console.log("trying to sign out");
