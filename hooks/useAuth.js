@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { createContext, useContext } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +12,10 @@ export const AuthPrvider = ({ children }) => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         console.log("state Changed, user logged in: " + authUser.email);
+        const setUserAsync = async () => {
+          setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+        };
+        setUserAsync();
       } else {
         setUser(null);
         console.log("state Changed, user logged out");
