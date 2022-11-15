@@ -18,32 +18,42 @@ import SettingsScreen from "./screens/SettingsScreen";
 import ChatScreen from "./screens/ChatScreen";
 import NewWorkoutScreen from "./screens/NewWorkoutScreen";
 import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
+import useAuth from "./hooks/useAuth";
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
+  const { user } = useAuth();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} />
+      {user ? (
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
+          <Stack.Screen name="MyUser" component={MyUserScreen} />
+          <Stack.Screen name="User" component={UserScreen} />
+          <Stack.Screen name="Explore" component={ExploreScreen} />
+          <Stack.Screen name="Friends" component={FriendsScreen} />
+          <Stack.Screen name="Chats" component={ChatsScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen name="Calendar" component={CalendarScreen} />
+          <Stack.Screen name="Notifications" component={NotificationsScreen} />
+          <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
+          <Stack.Screen name="EditData" component={EditDataScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="NewWorkout" component={NewWorkoutScreen} />
+          <Stack.Screen name="SearchWorkout" component={SearchWorkoutScreen} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </>
+      )}
+
       <Stack.Screen
         name="ChangePreferences"
         component={ChangePreferencesScreen}
       />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="MyUser" component={MyUserScreen} />
-      <Stack.Screen name="User" component={UserScreen} />
-      <Stack.Screen name="Explore" component={ExploreScreen} />
-      <Stack.Screen name="Friends" component={FriendsScreen} />
-      <Stack.Screen name="Chats" component={ChatsScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
-      <Stack.Screen name="Calendar" component={CalendarScreen} />
-      <Stack.Screen name="Notifications" component={NotificationsScreen} />
-      <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
-      <Stack.Screen name="EditData" component={EditDataScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-      <Stack.Screen name="NewWorkout" component={NewWorkoutScreen} />
-      <Stack.Screen name="SearchWorkout" component={SearchWorkoutScreen} />
     </Stack.Navigator>
   );
 };
