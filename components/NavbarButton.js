@@ -26,34 +26,21 @@ const NavbarButton = (props) => {
     setUser(await firebase.updateContext(user.usernameLower));
     navigation.navigate(props.screen);
   };
-  if (props.screen != props.currentScreen) {
-    return (
-      <TouchableOpacity
-        className="flex-grow w-1 items-center justify-center"
-        onPress={navigate}
-        style={style.button}
-      >
-        <FontAwesomeIcon
-          icon={getIcon()}
-          size={30}
-          color={appStyle.appDarkBlue}
-        />
-      </TouchableOpacity>
-    );
-  } else {
-    return (
-      <TouchableOpacity
-        className="flex-grow w-1 items-center justify-center"
-        style={style.currentButton}
-      >
-        <FontAwesomeIcon
-          icon={getIcon()}
-          size={30}
-          color={appStyle.appDarkBlue}
-        />
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity
+      className="flex-grow w-1 items-center justify-center"
+      onPress={props.screen != props.currentScreen ? navigate : {}}
+      style={
+        props.screen != props.currentScreen ? style.button : style.currentButton
+      }
+    >
+      <FontAwesomeIcon
+        icon={getIcon()}
+        size={30}
+        color={appStyle.appDarkBlue}
+      />
+    </TouchableOpacity>
+  );
 };
 const style = StyleSheet.create({
   button: {},
