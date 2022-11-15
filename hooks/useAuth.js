@@ -1,14 +1,25 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { createContext, useContext } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
+import { useEffect } from "react";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
   const auth = firebase.auth;
   const [user, setUser] = useState(null);
-  const signIn = (email, password) => {
+  const signInEmailPassword = (email, password) => {
+    useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+        } else {
+          setUser(null);
+        }
+      });
+    }, []);
+
     signInWithEmailAndPassword(auth, email, password)
       .then(async () => {
         console.log("signed in!");
@@ -16,7 +27,6 @@ export const AuthPrvider = ({ children }) => {
         const userData = await firebase.userDataByEmail(email.toLowerCase());
         console.log(userData);
         setUser(userData);
-        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
@@ -24,7 +34,12 @@ export const AuthPrvider = ({ children }) => {
       });
   };
   return (
-    <AuthContext.Provider value={{ user: user }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signInEmailPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
