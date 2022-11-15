@@ -22,7 +22,6 @@ import useAuth from "../hooks/useAuth";
 const EditDataScreen = () => {
   const navigation = useNavigation();
   const { user, setUser } = useAuth();
-
   const [currentTab, setCurrentTab] = useState("ProfileData");
 
   useLayoutEffect(() => {
