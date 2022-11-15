@@ -5,24 +5,19 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Alert,
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { React, useLayoutEffect, useState, useContext } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import * as firebase from "../services/firebase";
-import authContext from "../context/authContext";
-
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../hooks/useAuth";
 const LoginScreen = () => {
-  const { setUser } = useContext(authContext);
+  const { signInEmailPassword } = useAuth();
   const navigation = useNavigation();
-  const auth = firebase.auth;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -31,22 +26,6 @@ const LoginScreen = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(async () => {
-        console.log("signed in!");
-
-        const userData = await firebase.userDataByEmail(email.toLowerCase());
-        console.log(userData);
-        setUser(userData);
-        navigation.navigate("Home");
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
-  };
 
   const [registerBackground, setRegisterBackground] = useState(
     appStyle.appDarkBlue
@@ -125,7 +104,7 @@ const LoginScreen = () => {
             </View>
           </View>
           <TouchableOpacity
-            onPress={handleLogin}
+            onPress={() => signInEmailPassword(email, password)}
             onPressIn={loginIn}
             onPressOut={loginOut}
             className={`self-center rounded py-2 px-8 w-full border-2`}
