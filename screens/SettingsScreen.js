@@ -12,7 +12,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { saveSettingsChanges, updateContext } from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const SettingsScreen = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
@@ -80,7 +80,7 @@ const SettingsScreen = () => {
               Change password
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-5/12">
+          <TouchableOpacity onPress={() => userSignOut()} className="w-5/12">
             <Text
               className="text-center py-1 px-1"
               style={{
