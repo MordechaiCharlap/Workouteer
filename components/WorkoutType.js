@@ -34,14 +34,6 @@ const WorkoutType = (props) => {
   const iconSize = 60;
   const isWeb = Platform.OS == "web";
   const [chosenType, setChosenType] = useState(0);
-  const getBackgroundColor = (id) => {
-    if (chosenType == id) return appStyle.appDarkBlue;
-    return appStyle.appLightBlue;
-  };
-  const getTextColor = (id) => {
-    if (chosenType == id) return "white";
-    return appStyle.appDarkBlue;
-  };
   const typeClicked = (id) => {
     props.typeSelected(id);
     setChosenType(id);
@@ -52,20 +44,35 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="w-5/12 mb-5"
+        className="w-5/12 mb-5 rounded-lg"
+        style={{
+          borderWidth: 1,
+          borderColor:
+            type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue,
+        }}
       >
         <View
-          style={{ backgroundColor: getBackgroundColor(type.id) }}
+          style={{
+            backgroundColor:
+              type.id == chosenType
+                ? appStyle.appDarkBlue
+                : appStyle.appLightBlue,
+          }}
           className={`p-4 items-center rounded-lg`}
         >
           <FontAwesomeIcon
-            color={getTextColor(type.id)}
+            color={
+              type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue
+            }
             icon={type.icon}
             size={iconSize}
           />
           <Text
             className="text-center"
-            style={{ color: getTextColor(type.id) }}
+            style={{
+              color:
+                type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue,
+            }}
           >
             {type.title}
           </Text>

@@ -64,8 +64,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   dropdown: {
+    backgroundColor: appStyle.appGray,
     height: 50,
-    borderColor: appStyle.appDarkBlue,
+    borderColor: appStyle.appLightBlue,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -77,8 +78,8 @@ const styles = StyleSheet.create({
   label: {
     position: "absolute",
     // fontWeight: 450,
-    color: appStyle.appDarkBlue,
-    backgroundColor: appStyle.appYellow,
+    color: appStyle.appLightBlue,
+    backgroundColor: appStyle.appDarkBlue,
     left: 22,
     top: -10,
     zIndex: 999,

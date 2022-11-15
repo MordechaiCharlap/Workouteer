@@ -54,13 +54,13 @@ const NewWorkoutScreen = () => {
   const createWorkout = () => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1">
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            backgroundColor: appStyle.appGray,
-          }}
-        >
+      <View
+        className="flex-1"
+        style={{
+          backgroundColor: appStyle.appDarkBlue,
+        }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View className="pt-4 pb-2 rounded mb-5">
             <WorkoutType typeSelected={setType} />
           </View>
