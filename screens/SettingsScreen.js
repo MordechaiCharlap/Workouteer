@@ -9,7 +9,6 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
-import authContext from "../context/authContext";
 import { saveSettingsChanges, updateContext } from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const SettingsScreen = () => {
@@ -69,16 +68,27 @@ const SettingsScreen = () => {
             onValueChange={() => setShowOnline((prev) => !prev)}
           />
         </View>
-        <View className="items-center">
-          <TouchableOpacity>
+        <View className="flex-row items-center justify-around">
+          <TouchableOpacity className="w-5/12">
             <Text
-              className="text-center py-1 px-2"
+              className="text-center py-1 px-1"
               style={{
                 backgroundColor: appStyle.appAzure,
                 color: appStyle.appDarkBlue,
               }}
             >
               Change password
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="w-5/12">
+            <Text
+              className="text-center py-1 px-1"
+              style={{
+                backgroundColor: appStyle.appAzure,
+                color: appStyle.appDarkBlue,
+              }}
+            >
+              Log out
             </Text>
           </TouchableOpacity>
         </View>
