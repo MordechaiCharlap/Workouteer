@@ -14,8 +14,10 @@ export const AuthPrvider = ({ children }) => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user);
+          console.log("state Changed, user logged in");
         } else {
           setUser(null);
+          console.log("state Changed, user logged out");
         }
       });
     }, []);
