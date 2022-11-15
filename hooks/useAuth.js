@@ -3,25 +3,23 @@ import React from "react";
 import { createContext, useContext } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
   const auth = firebase.auth;
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        console.log("state Changed, user logged in: " + authUser.email);
+      } else {
+        setUser(null);
+        console.log("state Changed, user logged out");
+      }
+    });
+  }, []);
   const signInEmailPassword = (email, password) => {
-    useEffect(() => {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setUser(user);
-          console.log("state Changed, user logged in");
-        } else {
-          setUser(null);
-          console.log("state Changed, user logged out");
-        }
-      });
-    }, []);
-
     signInWithEmailAndPassword(auth, email, password)
       .then(async () => {
         console.log("signed in!");
