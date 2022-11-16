@@ -256,78 +256,66 @@ export const removeFriend = async (userId, otherUserId) => {
     [`friends.${userId}`]: deleteField(),
   });
 };
-export const createChatConnection = async (userId, otherUserId) => {
+const addToChatPals = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
-    [`chatPals.${otherUserId}`]: true,
-  });
-  await setDoc(doc(db, "chats", `${userId}-${otherUserId}`), {
-    lastMessage: {},
-    notificationsCount: 0,
-    messagesCount: 0,
-    members: [userId, otherUserId],
+    [`chatPals.${otherUserId}`]: chatId,
   });
 };
-export const sendMessage = async (user, otherUser, content) => {
-  const userChatPals = new Map(Object.entries(user.chatPals));
-  if (!userChatPals.has(otherUser.usernameLower))
-    await createChatConnection(user.usernameLower, otherUser.usernameLower);
+const getSeenByMap = (senderId, chat) => {
+  const chatMembers = new Map(Object.entries(chat.members));
+  const seenByMap = new Map();
+  for (var memberId of chatMembers.keys()) {
+    if (memberId != senderId) seenByMap.set(memberId, false);
+  }
+  return seenByMap;
+};
+export const sendPrivateMessage = async (user, otherUser, content) => {
   const otherUserChatPals = new Map(Object.entries(user.chatPals));
-  if (!otherUserChatPals.has(otherUser.usernameLower))
-    await createChatConnection(otherUser.usernameLower, user.usernameLower);
-  //Update last message for self and add message to collection
+  var chatId = "";
+  if (
+    userChatPals.has(otherUser.usernameLower) &&
+    !otherUserChatPals.has(otherUser.usernameLower)
+  ) {
+    //chat doesnt exists
+    //Create chat
+    const chatRef = await addDoc(collection(db, `chats`), {
+      isGroupChat: false,
+      members: {
+        [user.usernameLower]: Timestamp.now(),
+        [otherUser.usernameLower]: Timestamp.now(),
+      },
+      messagesCount: 0,
+    });
+    chatId = chatRef.id;
+  } else if (!otherUserChatPals.has(user.usernameLower)) {
+    //I have him in chat pals but he doesnt have me
+    chatId = userChatPals.get(otherUser.usernameLower);
+    await addToChatPals(otherUser.usernameLower, user.usernameLower, chatId);
+  } else if (!userChatPals.has(otherUser.usernameLower)) {
+    //He has me but I dont have him
+    chatId = otherUserChatPals.get(user.usernameLower);
+    await addToChatPals(user.usernameLower, otherUser.usernameLower, chatId);
+  }
+  const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
 
-  const userRef = await addDoc(
-    collection(
-      db,
-      `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
-    ),
-    {
+  const seenByMap = getSeenByMap(chat);
+
+  const newMessage = await addDoc(collection(db, `chats/${chatId}/messages`), {
+    content: content,
+    seenBy: seenByMap,
+    sender: user.usernameLower,
+    sentAt: Timestamp.now(),
+  });
+  await updateDoc(doc(db, `chats/${chatId}`), {
+    lastMessage: {
       content: content,
-      isRead: false,
+      seenBy: seenByMap,
       sender: user.usernameLower,
       sentAt: Timestamp.now(),
-    }
-  );
-  await updateDoc(
-    doc(db, `chats/${user.usernameLower}-${otherUser.usernameLower}`),
-    {
-      lastMessage: {
-        content: content,
-        isRead: false,
-        sender: user.usernameLower,
-        sentAt: Timestamp.now(),
-        id: userRef.id,
-      },
-      messagesCount: increment(1),
-    }
-  );
-  //Update last message for other user and add message to collection
-
-  const otherUserRef = await addDoc(
-    collection(
-      db,
-      `chats/${otherUser.usernameLower}-${user.usernameLower}/messages`
-    ),
-    {
-      content: content,
-      isRead: false,
-      sender: user.usernameLower,
-      sentAt: Timestamp.now(),
-    }
-  );
-  await updateDoc(
-    doc(db, `chats/${otherUser.usernameLower}-${user.usernameLower}`),
-    {
-      lastMessage: {
-        content: content,
-        isRead: false,
-        sender: user.usernameLower,
-        sentAt: Timestamp.now(),
-        id: otherUserRef.id,
-      },
-      messagesCount: increment(1),
-    }
-  );
+      id: newMessage.id,
+    },
+    messagesCount: increment(1),
+  });
 };
 export const getChatsArrayIncludeUsers = async (user) => {
   const allChatPals = new Map(Object.entries(user.chatPals));
