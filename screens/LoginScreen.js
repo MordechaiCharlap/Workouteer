@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { React, useLayoutEffect, useState, useEffect } from "react";
 import CheckBox from "../components/CheckBox";
@@ -67,11 +68,13 @@ const LoginScreen = () => {
     >
       {initialLoading ? (
         <View className="flex-1">
-          <Lottie
-            source={require("../animations/initialLoading.json")}
-            autoPlay
-            loop
-          />
+          {Platform.OS == "android" && (
+            <Lottie
+              source={require("../animations/initialLoading.json")}
+              autoPlay
+              loop
+            />
+          )}
           <View className="h-1/3"></View>
           <Text
             style={{ color: appStyle.appLightBlue }}
