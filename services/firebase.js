@@ -270,7 +270,8 @@ const getSeenByMap = (senderId, chat) => {
   return seenByMap;
 };
 export const sendPrivateMessage = async (user, otherUser, content) => {
-  const otherUserChatPals = new Map(Object.entries(user.chatPals));
+  const userChatPals = new Map(Object.entries(user.chatPals));
+  const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
   var chatId = "";
   if (
     userChatPals.has(otherUser.usernameLower) &&
@@ -319,7 +320,6 @@ export const sendPrivateMessage = async (user, otherUser, content) => {
 };
 export const getChatsArrayIncludeUsers = async (user) => {
   const allChatPals = new Map(Object.entries(user.chatPals));
-  console.log(allChatPals);
   const chatsArr = [];
   for (var key of allChatPals.keys()) {
     console.log("getting your chat with " + key);
