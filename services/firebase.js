@@ -269,10 +269,10 @@ const getSeenByMap = (senderId, chat) => {
   }
   return seenByMap;
 };
-export const sendPrivateMessage = async (user, otherUser, content) => {
+export const getOrCreatePrivateChat = async (user, otherUser) => {
   const userChatPals = new Map(Object.entries(user.chatPals));
   const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
-  var chatId = "";
+  var chatId;
   if (
     userChatPals.has(otherUser.usernameLower) &&
     !otherUserChatPals.has(otherUser.usernameLower)
@@ -298,9 +298,9 @@ export const sendPrivateMessage = async (user, otherUser, content) => {
     await addToChatPals(user.usernameLower, otherUser.usernameLower, chatId);
   }
   const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
-
+};
+export const sendPrivateMessage = async (user, content, chatId) => {
   const seenByMap = getSeenByMap(chat);
-
   const newMessage = await addDoc(collection(db, `chats/${chatId}/messages`), {
     content: content,
     seenBy: seenByMap,
