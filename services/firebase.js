@@ -1,6 +1,12 @@
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  connectStorageEmulator,
+} from "firebase/storage";
 import {
   getFirestore,
   deleteField,
@@ -265,6 +271,7 @@ const addChatConnection = async (userId, otherUserId, chatId) => {
   });
 };
 const getSeenByMap = (senderId, chat) => {
+  console.log(chat);
   const chatMembers = new Map(Object.entries(chat.members));
   const seenByMap = new Map();
   for (var memberId of chatMembers.keys()) {
@@ -281,7 +288,6 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     //Create chat
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
-      id: chatRef.id,
       members: {
         [user.usernameLower]: Timestamp.now(),
         [otherUser.usernameLower]: Timestamp.now(),
@@ -304,7 +310,9 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   return chat;
 };
 export const sendPrivateMessage = async (user, chat, content) => {
-  const seenByMap = getSeenByMap(chat);
+  console.log("chat:");
+  console.log(chat);
+  const seenByMap = getSeenByMap(user.usernameLower, chat);
   const newMessage = await addDoc(collection(db, `chats/${chat.id}/messages`), {
     content: content,
     seenBy: seenByMap,
@@ -323,25 +331,25 @@ export const sendPrivateMessage = async (user, chat, content) => {
   });
 };
 export const getChatsArrayIncludeUsers = async (user) => {
-  const allChatPals = new Map(Object.entries(user.chatPals));
   const chatsArr = [];
-  for (var key of allChatPals.keys()) {
-    console.log("getting your chat with " + key);
-
-    var chat = (
-      await getDoc(doc(db, "chats", `${user.usernameLower}-${key}`))
-    ).data();
-    var chatWithId = {
-      id: `${user.usernameLower}-${key}`,
+  user.chats.forEach(async (value) => {
+    var chat = (await getDoc(doc(db, "chats", `${value}`))).data();
+    var chatToPush = {
+      id: `${value}`,
+      isGroupChat: chat.isGroupChat,
       lastMessage: chat.lastMessage,
       messagesCount: chat.messagesCount,
     };
-    var chatWithUser = {
-      chat: chatWithId,
-      user: (await getDoc(doc(db, "users", key))).data(),
-    };
-    chatsArr.push(chatWithUser);
-  }
+    if (!chat.isGroupChat) {
+      chatToPush = {
+        chat: chatWithId,
+        user: (await getDoc(doc(db, "users", key))).data(),
+      };
+    }
+
+    chatsArr.push(chatToPush);
+  });
+
   return chatsArr;
 };
 export const getFriendsArray = async (user) => {
