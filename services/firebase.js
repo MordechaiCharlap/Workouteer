@@ -390,7 +390,7 @@ export const getFirstPageMessages = async (chatId) => {
     messagesArr.push({
       content: message.content,
       sentAt: message.sentAt,
-      isRead: message.isRead,
+      seenBy: message.seenBy,
       sender: message.sender,
       id: doc.id,
     });
