@@ -321,8 +321,6 @@ export const sendPrivateMessage = async (
   chat,
   content
 ) => {
-  console.log("chat:");
-  console.log(chat);
   const message = {
     content: content,
     seenBy: { [otherUserId]: false },

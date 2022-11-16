@@ -103,7 +103,6 @@ const ChatScreen = ({ route }) => {
     if (messageText != "") {
       if (!chat) {
         const chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
-        console.log(chatData);
         setChat(chatData);
         const content = messageText;
         setMessageText("");
