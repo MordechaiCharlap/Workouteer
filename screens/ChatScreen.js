@@ -29,7 +29,7 @@ import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
 const ChatScreen = ({ route }) => {
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const { user } = useAuth();
   const [chat, setChat] = useState(route.params.chat);
@@ -54,49 +54,47 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
-    const chatPals = new Map(Object.entries(user.chatPals));
-    if (chatPals.has(otherUser.usernameLower)) {
-      const getFirstPageMessages = async () => {
-        const messagesArr = await firebase.getFirstPageMessages(
-          chatPals.get(otherUser.usernameLower)
-        );
-        setMessages(messagesArr);
-      };
-      getFirstPageMessages();
-    } else setMessages([]);
-  }, []);
-  useEffect(() => {
-    if (chat != null && messages != null) {
+    if (chat != null && messages.length == 0) {
       var messagesClone = messages.slice();
       console.log("Starting updating");
       const q = query(
         collection(db, `chats/${chat.id}/messages`),
-        where("sentAt", ">", messages.length > 0 ? messages[0].sentAt : 0),
-        orderBy("sentAt", "desc")
+        orderBy("sentAt", "asc")
       );
       return onSnapshot(q, (querySnapshot) => {
+        console.log("new change chat query");
         querySnapshot.docChanges().map((change) => {
-          console.log(change);
-          if (
-            change.type === "added" &&
-            messages != null &&
-            change.doc.id != chat.lastMessage.id
-          ) {
-            const newMessageDoc = change.doc.data();
+          const messageDoc = change.doc.data();
+          if (change.type === "added") {
+            console.log("adding message");
             const newMessage = {
               id: change.doc.id,
-              content: newMessageDoc.content,
-              seenBy: newMessageDoc.seenBy,
-              sender: newMessageDoc.sender,
-              sentAt: newMessageDoc.sentAt,
+              ...messageDoc,
             };
             messagesClone = [newMessage, ...messagesClone];
             setMessages(messagesClone);
+          } else if (change.type === "modified") {
+            const modifiedMessage = {
+              id: change.doc.id,
+              ...messageDoc,
+            };
+            var messageInserted = false;
+            for (var i = 0; i < messagesClone.length; i++) {
+              if (messagesClone[i].id == modifiedMessage.id) {
+                messagesClone[i] = modifiedMessage;
+                setMessages(messagesClone);
+                setTimeout(() => console.log(messages), 2000);
+
+                messageInserted = true;
+                console.log("message replaces succesfully");
+                break;
+              }
+            }
           }
         });
       });
     }
-  }, [chat, messages]);
+  }, [chat]);
   const sendMessage = async () => {
     if (messageText != "") {
       if (!chat) {
@@ -170,6 +168,7 @@ const ChatScreen = ({ route }) => {
             <FlatList
               className="p-2"
               showsVerticalScrollIndicator={false}
+              extraData={true}
               data={messages}
               keyExtractor={(item) => item.id}
               inverted={true}
