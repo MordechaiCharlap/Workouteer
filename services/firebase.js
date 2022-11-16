@@ -270,12 +270,12 @@ const addChatConnection = async (userId, otherUserId, chatId) => {
     chats: arrayUnion(chatId),
   });
 };
-const getSeenByMap = (senderId, chat) => {
+const getSeenByMapGroupChat = (senderId, chat) => {
   console.log(chat);
   const chatMembers = new Map(Object.entries(chat.members));
   const seenByMap = new Map();
   for (var memberId of chatMembers.keys()) {
-    if (memberId != senderId) seenByMap.set(memberId, false);
+    if (memberId != senderId) seenByMap.set(memberId.toString(), false);
   }
 
   return seenByMap;
@@ -310,14 +310,18 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
   return chat;
 };
-export const sendPrivateMessage = async (user, chat, content) => {
+export const sendPrivateMessage = async (
+  userId,
+  otherUserId,
+  chat,
+  content
+) => {
   console.log("chat:");
   console.log(chat);
-  const seenByMap = getSeenByMap(user.usernameLower, chat);
   const message = {
     content: content,
-    seenBy: seenByMap,
-    sender: user.usernameLower,
+    seenBy: { otherUserId: false },
+    sender: userId,
     sentAt: Timestamp.now(),
   };
   const newMessage = await addDoc(
@@ -327,8 +331,8 @@ export const sendPrivateMessage = async (user, chat, content) => {
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
-      seenBy: seenByMap,
-      sender: user.usernameLower,
+      seenBy: { otherUserId: false },
+      sender: userId,
       sentAt: Timestamp.now(),
       id: newMessage.id,
     },
