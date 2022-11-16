@@ -175,6 +175,7 @@ const ChatScreen = ({ route }) => {
               inverted={true}
               renderItem={({ item }) => (
                 <ChatMessage
+                  chatId={chat.id}
                   message={item}
                   user={user}
                   currentDay={currentDay}

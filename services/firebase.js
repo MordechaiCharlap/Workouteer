@@ -379,6 +379,11 @@ export const getFriendsArray = async (user) => {
   }
   return friendsArr;
 };
+export const seenByMe = async (userId, chatId, messageId) => {
+  await updateDoc(doc(db, `chats/${chatId}/messages/${messageId}`), {
+    [`seenBy.${userId}`]: true,
+  });
+};
 export const getFirstPageMessages = async (chatId) => {
   const messagesArr = [];
   console.log("chatId=>" + chatId);
