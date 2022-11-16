@@ -62,7 +62,7 @@ const ChatScreen = ({ route }) => {
         setMessages(messagesArr);
       };
       getFirstPageMessages();
-    }
+    } else setMessages([]);
   }, []);
   useEffect(() => {
     if (messages != null) {
