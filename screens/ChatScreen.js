@@ -72,7 +72,6 @@ const ChatScreen = ({ route }) => {
               ...messageDoc,
             };
             messagesClone = [newMessage, ...messagesClone];
-            setMessages(messagesClone);
           } else if (change.type === "modified") {
             const modifiedMessage = {
               id: change.doc.id,
@@ -82,7 +81,6 @@ const ChatScreen = ({ route }) => {
             for (var i = 0; i < messagesClone.length; i++) {
               if (messagesClone[i].id == modifiedMessage.id) {
                 messagesClone[i] = modifiedMessage;
-                setMessages(messagesClone.slice());
                 messageInserted = true;
                 console.log(
                   "message replaces succesfully:" + modifiedMessage.content
@@ -92,6 +90,7 @@ const ChatScreen = ({ route }) => {
             }
           }
         });
+        setMessages(messagesClone.slice());
       });
     }
   }, [chat]);
