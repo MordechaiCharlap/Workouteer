@@ -86,7 +86,7 @@ const ChatScreen = ({ route }) => {
             const newMessage = {
               id: change.doc.id,
               content: newMessageDoc.content,
-              isRead: newMessageDoc.isRead,
+              seenBy: newMessageDoc.seenBy,
               sender: newMessageDoc.sender,
               sentAt: newMessageDoc.sentAt,
             };
