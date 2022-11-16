@@ -17,6 +17,7 @@ import {
   Timestamp,
   orderBy,
   limit,
+  arrayUnion,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
@@ -138,6 +139,7 @@ export const createUser = async (newUserData) => {
     notificationsCount: 0,
     chatPals: {},
     friends: {},
+    chats: [],
     description: "",
     isPublic: true,
     showOnline: true,
@@ -256,9 +258,10 @@ export const removeFriend = async (userId, otherUserId) => {
     [`friends.${userId}`]: deleteField(),
   });
 };
-const addToChatPals = async (userId, otherUserId, chatId) => {
+const addChatConnection = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
     [`chatPals.${otherUserId}`]: chatId,
+    chats: arrayUnion(chatId),
   });
 };
 const getSeenByMap = (senderId, chat) => {
@@ -270,17 +273,15 @@ const getSeenByMap = (senderId, chat) => {
   return seenByMap;
 };
 export const getOrCreatePrivateChat = async (user, otherUser) => {
-  const userChatPals = new Map(Object.entries(user.chatPals));
+  //This function called just when I dont have a chat already
   const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
   var chatId;
-  if (
-    userChatPals.has(otherUser.usernameLower) &&
-    !otherUserChatPals.has(otherUser.usernameLower)
-  ) {
+  if (!otherUserChatPals.has(otherUser.usernameLower)) {
     //chat doesnt exists
     //Create chat
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
+      id: chatRef.id,
       members: {
         [user.usernameLower]: Timestamp.now(),
         [otherUser.usernameLower]: Timestamp.now(),
@@ -288,20 +289,23 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
       messagesCount: 0,
     });
     chatId = chatRef.id;
-  } else if (!otherUserChatPals.has(user.usernameLower)) {
-    //I have him in chat pals but he doesnt have me
-    chatId = userChatPals.get(otherUser.usernameLower);
-    await addToChatPals(otherUser.usernameLower, user.usernameLower, chatId);
-  } else if (!userChatPals.has(otherUser.usernameLower)) {
+    await addChatConnection(
+      otherUser.usernameLower,
+      user.usernameLower,
+      chatId
+    );
+  } else {
     //He has me but I dont have him
     chatId = otherUserChatPals.get(user.usernameLower);
-    await addToChatPals(user.usernameLower, otherUser.usernameLower, chatId);
   }
+
+  await addChatConnection(user.usernameLower, otherUser.usernameLower, chatId);
   const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
+  return chat;
 };
-export const sendPrivateMessage = async (user, content, chatId) => {
+export const sendPrivateMessage = async (user, chat, content) => {
   const seenByMap = getSeenByMap(chat);
-  const newMessage = await addDoc(collection(db, `chats/${chatId}/messages`), {
+  const newMessage = await addDoc(collection(db, `chats/${chat.id}/messages`), {
     content: content,
     seenBy: seenByMap,
     sender: user.usernameLower,
