@@ -20,6 +20,7 @@ import * as firebase from "../services/firebase";
 import { useCallback } from "react";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
+import { useEffect } from "react";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -32,11 +33,18 @@ const ChatsScreen = () => {
   useFocusEffect(
     useCallback(() => {
       const getChats = async () => {
+        console.log("getting chats");
         setChatArr(await firebase.getChatsArrayIncludeUsers(user));
       };
       getChats();
     }, [])
   );
+  useEffect(() => {
+    if (chatsArr != null) {
+      console.log(chatsArr);
+      console.log(chatsArr[0]);
+    }
+  }, [chatsArr]);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -74,6 +82,7 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
+    console.log(chatsArr);
     const lastMessageConverter = (lastMessage) => {
       var shownText =
         (lastMessage.sender == user.usernameLower
@@ -144,15 +153,16 @@ const ChatsScreen = () => {
           </View>
         </View>
         <View className="flex-1">
-          {chatsArr == null && (
+          {chatsArr == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
               style={{ color: appStyle.appGray }}
             >
               Loading...
             </Text>
+          ) : (
+            chatsList()
           )}
-          {chatsList()}
 
           <TouchableOpacity
             onPress={showFriends}

@@ -344,7 +344,7 @@ export const sendPrivateMessage = async (
 };
 export const getChatsArrayIncludeUsers = async (user) => {
   const chatsArr = [];
-  user.chats.forEach(async (value) => {
+  for (var value of user.chats) {
     var chat = (await getDoc(doc(db, "chats", `${value}`))).data();
     var chatToPush = {
       id: `${value}`,
@@ -365,9 +365,8 @@ export const getChatsArrayIncludeUsers = async (user) => {
         }
       }
     }
-
     chatsArr.push(chatToPush);
-  });
+  }
 
   return chatsArr;
 };
