@@ -25,8 +25,8 @@ const HomeScreen = () => {
   };
   return (
     <SafeAreaView style={style.safeAreaStyle}>
-      <View className="flex-1">
-        <View className="flex-row flex-wrap p-3">
+      <View className="flex-1 p-3">
+        <View className="flex-row justify-around">
           <HomeScreenButton
             buttonText="FIND A WORKOUT"
             style={buttonStyle}
@@ -39,12 +39,15 @@ const HomeScreen = () => {
             navigateScreen="NewWorkout"
             icon={faPlus}
           />
+        </View>
+        <View className="flex-row justify-around">
           <HomeScreenButton
             buttonText="FRIENDS WORKOUTS"
             style={buttonStyle}
             navigateScreen="NewWorkout"
             icon={faUserGroup}
           />
+          <HomeScreenButton spaceHolderButton={true} style={buttonStyle} />
         </View>
       </View>
       <BottomNavbar currentScreen="Home" />
