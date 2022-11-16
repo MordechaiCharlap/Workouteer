@@ -277,6 +277,7 @@ const getSeenByMap = (senderId, chat) => {
   for (var memberId of chatMembers.keys()) {
     if (memberId != senderId) seenByMap.set(memberId, false);
   }
+
   return seenByMap;
 };
 export const getOrCreatePrivateChat = async (user, otherUser) => {
@@ -313,13 +314,17 @@ export const sendPrivateMessage = async (user, chat, content) => {
   console.log("chat:");
   console.log(chat);
   const seenByMap = getSeenByMap(user.usernameLower, chat);
-  const newMessage = await addDoc(collection(db, `chats/${chat.id}/messages`), {
+  const message = {
     content: content,
     seenBy: seenByMap,
     sender: user.usernameLower,
     sentAt: Timestamp.now(),
-  });
-  await updateDoc(doc(db, `chats/${chatId}`), {
+  };
+  const newMessage = await addDoc(
+    collection(db, `chats/${chat.id}/messages`),
+    message
+  );
+  await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
       seenBy: seenByMap,
@@ -342,7 +347,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     };
     if (!chat.isGroupChat) {
       chatToPush = {
-        chat: chatWithId,
+        chat: chatToPush,
         user: (await getDoc(doc(db, "users", key))).data(),
       };
     }
