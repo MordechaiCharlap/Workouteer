@@ -5,22 +5,20 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import { doc, onSnapshot } from "firebase/firestore";
 const ChatMessage = (props) => {
-  const [message, setMessage] = useState(props.message);
-  const isSelfMessage = message.sender == props.user.usernameLower;
+  const isSelfMessage = props.message.sender == props.user.usernameLower;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
-  const db = firebase.db;
   useEffect(() => {
+    console.log("Setting message:" + props.message.content);
     const seenByMe = async () => {
       console.log("seeing message for the first time");
       await firebase.seenByMe(
         props.user.usernameLower,
         props.chatId,
-        message.id
+        props.message.id
       );
     };
-    const seenByMap = new Map(Object.entries(message.seenBy));
+    const seenByMap = new Map(Object.entries(props.message.seenBy));
     var seenByEveryBody = true;
     for (var value of seenByMap.values()) {
       if (value == false) {
@@ -33,16 +31,8 @@ const ChatMessage = (props) => {
     } else if (!isSelfMessage && !seenByEveryBody) {
       seenByMe();
     }
-  }, [message]);
-  useEffect(() => {
-    return onSnapshot(
-      doc(db, `chats/${props.chatId}/messages/${message.id}`),
-      (doc) => {
-        console.log(doc.id + " has changed");
-        setMessage({ id: doc.id, ...doc.data() });
-      }
-    );
-  }, []);
+  }, [props.message.seenBy]);
+
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     //workaround
@@ -77,7 +67,7 @@ const ChatMessage = (props) => {
             color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
           }}
         >
-          {message.content}
+          {props.message.content}
         </Text>
         <View className="flex-row items-end">
           <Text
@@ -85,7 +75,7 @@ const ChatMessage = (props) => {
               color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
             }}
           >
-            {convertTimestamp(message.sentAt)}
+            {convertTimestamp(props.message.sentAt)}
           </Text>
           {isSelfMessage ? (
             <View className="ml-2">
