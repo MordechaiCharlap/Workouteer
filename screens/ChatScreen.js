@@ -102,7 +102,7 @@ const ChatScreen = ({ route }) => {
     if (messageText != "") {
       const content = messageText;
       setMessageText("");
-      await firebase.sendMessage(user, otherUser, content);
+      await firebase.sendPrivateMessage(user, otherUser, content);
     }
   };
   return (
