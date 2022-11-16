@@ -5,6 +5,8 @@ import React from "react";
 
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
+  const width = props.style.buttonSize;
+  //Somehow this line above make the button not be wierd na flat
   return (
     <View>
       {props.spaceHolderButton ? (
