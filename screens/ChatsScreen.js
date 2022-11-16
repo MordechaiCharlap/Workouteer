@@ -66,6 +66,8 @@ const ChatsScreen = () => {
   };
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
+    //workaround
+    date.setHours(date.getHours() + 2);
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
@@ -82,7 +84,6 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
-    console.log(chatsArr);
     const lastMessageConverter = (lastMessage) => {
       var shownText =
         (lastMessage.sender == user.usernameLower
