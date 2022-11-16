@@ -70,15 +70,13 @@ const ChatScreen = ({ route }) => {
       var messagesClone = messages.slice();
       console.log("Starting updating");
       const q = query(
-        collection(
-          db,
-          `chats/${user.usernameLower}-${otherUser.usernameLower}/messages`
-        ),
+        collection(db, `chats/${chat.id}/messages`),
         where("sentAt", ">", messages.length > 0 ? messages[0].sentAt : 0),
         orderBy("sentAt", "desc")
       );
       return onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().map((change) => {
+          console.log(change);
           if (
             change.type === "added" &&
             messages != null &&
