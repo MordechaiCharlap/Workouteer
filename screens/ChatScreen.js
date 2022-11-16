@@ -32,6 +32,7 @@ const ChatScreen = ({ route }) => {
   const [messages, setMessages] = useState(null);
   const navigation = useNavigation();
   const { user } = useAuth();
+  const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
   const db = firebase.db;
   const [messageText, setMessageText] = useState("");
@@ -57,7 +58,7 @@ const ChatScreen = ({ route }) => {
     if (chatPals.has(otherUser.usernameLower)) {
       const getFirstPageMessages = async () => {
         const messagesArr = await firebase.getFirstPageMessages(
-          user.usernameLower + "-" + otherUser.usernameLower
+          chatPals.get(otherUser.usernameLower)
         );
         setMessages(messagesArr);
       };
@@ -65,7 +66,7 @@ const ChatScreen = ({ route }) => {
     } else setMessages([]);
   }, []);
   useEffect(() => {
-    if (messages != null) {
+    if (chat != null && messages != null) {
       var messagesClone = messages.slice();
       console.log("Starting updating");
       const q = query(
@@ -81,7 +82,7 @@ const ChatScreen = ({ route }) => {
           if (
             change.type === "added" &&
             messages != null &&
-            change.doc.id != route.params.chat.lastMessage.id
+            change.doc.id != chat.lastMessage.id
           ) {
             const newMessageDoc = change.doc.data();
             const newMessage = {
@@ -97,12 +98,20 @@ const ChatScreen = ({ route }) => {
         });
       });
     }
-  }, [route.params.chat, messages]);
+  }, [chat, messages]);
   const sendMessage = async () => {
     if (messageText != "") {
-      const content = messageText;
-      setMessageText("");
-      await firebase.sendPrivateMessage(user, otherUser, content);
+      if (!chat) {
+        const chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
+        setChat(chatData);
+        const content = messageText;
+        setMessageText("");
+        await firebase.sendPrivateMessage(user, chatData, content);
+      } else {
+        const content = messageText;
+        setMessageText("");
+        await firebase.sendPrivateMessage(user, chat, content);
+      }
     }
   };
   return (
