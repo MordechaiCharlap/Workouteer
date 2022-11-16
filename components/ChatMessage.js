@@ -1,8 +1,30 @@
 import { View, Text } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
+import { useState, useEffect } from "react";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
+  const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
+  useEffect(() => {
+    if (isSelfMessage) {
+      console.log(props.message);
+      // const seenByMap = new Map(Object.entries(props.message.seenBy));
+      // var seenByEveryBody = true;
+      // for (var value of seenByMap) {
+      //   if (value == false) {
+      //     seenByEveryBody = false;
+      //     break;
+      //   }
+      // }
+      // if (seenByEveryBody == true) {
+      //   setChecksNum(2);
+      //   console.log(2);
+      // } else {
+      //   console.log(1);
+      // }
+    }
+  }, []);
+
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     //workaround
