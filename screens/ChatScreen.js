@@ -82,11 +82,11 @@ const ChatScreen = ({ route }) => {
             for (var i = 0; i < messagesClone.length; i++) {
               if (messagesClone[i].id == modifiedMessage.id) {
                 messagesClone[i] = modifiedMessage;
-                setMessages(messagesClone);
-                setTimeout(() => console.log(messages), 2000);
-
+                setMessages(messagesClone.slice());
                 messageInserted = true;
-                console.log("message replaces succesfully");
+                console.log(
+                  "message replaces succesfully:" + modifiedMessage.content
+                );
                 break;
               }
             }
