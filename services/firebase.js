@@ -308,7 +308,12 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
 
   await addChatConnection(user.usernameLower, otherUser.usernameLower, chatId);
   const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
-  return chat;
+  return {
+    messagesCount: chat.messagesCount,
+    isGroupChat: chat.isGroupChat,
+    members: chat.members,
+    id: chatId,
+  };
 };
 export const sendPrivateMessage = async (
   userId,
@@ -320,7 +325,7 @@ export const sendPrivateMessage = async (
   console.log(chat);
   const message = {
     content: content,
-    seenBy: { otherUserId: false },
+    seenBy: { [otherUserId]: false },
     sender: userId,
     sentAt: Timestamp.now(),
   };
@@ -331,7 +336,7 @@ export const sendPrivateMessage = async (
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
-      seenBy: { otherUserId: false },
+      seenBy: { [otherUserId]: false },
       sender: userId,
       sentAt: Timestamp.now(),
       id: newMessage.id,
