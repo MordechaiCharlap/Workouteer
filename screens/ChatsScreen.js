@@ -13,14 +13,12 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { useCallback } from "react";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
-import { useEffect } from "react";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -39,12 +37,6 @@ const ChatsScreen = () => {
       getChats();
     }, [])
   );
-  useEffect(() => {
-    if (chatsArr != null) {
-      console.log(chatsArr);
-      console.log(chatsArr[0]);
-    }
-  }, [chatsArr]);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
