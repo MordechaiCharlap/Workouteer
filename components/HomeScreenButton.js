@@ -5,19 +5,15 @@ import React from "react";
 
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
-  const width = props.style.buttonSize;
-  //Somehow this line above make the button not be wierd na flat
   return (
     <View>
       {props.spaceHolderButton ? (
-        <View
-          className={`items-center justify-center w-${props.style.buttonSize} h-${props.style.buttonSize} m-3`}
-        ></View>
+        <View className={`items-center justify-center w-36 h-36 m-3`}></View>
       ) : (
         <TouchableOpacity
-          className={`items-center justify-center rounded-lg w-${props.style.buttonSize} h-${props.style.buttonSize} m-3`}
+          className={`items-center justify-center rounded-lg w-36 h-36 m-3`}
           style={{ backgroundColor: props.style.backgroundColor }}
-          onPress={() => navigation.navigate(props.navigateScreen)}
+          onPress={() => navigation.push(props.navigateScreen)}
         >
           <FontAwesomeIcon
             icon={props.icon}
