@@ -20,7 +20,6 @@ const HomeScreen = () => {
   const buttonStyle = {
     color: appStyle.appGray,
     backgroundColor: appStyle.appAzure,
-    buttonSize: 36,
     iconSize: 40,
   };
   return (
