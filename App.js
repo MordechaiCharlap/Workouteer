@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./StackNavigator";

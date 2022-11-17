@@ -21,15 +21,19 @@ import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 
-// const Stack = createNativeStackNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+//const Stack = createStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
   return (
     <Stack.Navigator>
       {user ? (
         <>
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={verticalConfig}
+          />
           <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
           <Stack.Screen name="MyUser" component={MyUserScreen} />
           <Stack.Screen name="User" component={UserScreen} />
@@ -68,8 +72,11 @@ const StackNavigator = () => {
 };
 const verticalConfig = () => {
   const options = {
-    animationTypeForReplace: "push",
+    // animationEnabled: true,
+    // gestureEnabled: true,
+    // gestureDirection: "vertical",
     animation: "slide_from_bottom",
+    animationTypeForReplace: "push",
   };
   return options;
 };
