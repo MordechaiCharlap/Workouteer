@@ -19,8 +19,10 @@ import ChatScreen from "./screens/ChatScreen";
 import NewWorkoutScreen from "./screens/NewWorkoutScreen";
 import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
 import useAuth from "./hooks/useAuth";
-const Stack = createNativeStackNavigator();
+import { createStackNavigator } from "@react-navigation/stack";
 
+// const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
   return (
