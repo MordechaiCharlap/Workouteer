@@ -33,6 +33,8 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordText, setConfirmPasswordText] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState("");
@@ -80,25 +82,28 @@ const LoginScreen = () => {
   const handleCreateAccount = async () => {
     setInputErrorText("");
     if (image != null) {
-      if (changedOnce) {
-        var age = calculateAge();
-        var isUserAvailable = await firebase.checkUsername(username);
-        var isEmailAvailable = await firebase.checkEmail(email);
+      if (confirmPasswordText != "") {
+        if (username.length >= 6) {
+          if (changedOnce) {
+            var age = calculateAge();
+            var isUserAvailable = await firebase.checkUsername(username);
+            var isEmailAvailable = await firebase.checkEmail(email);
 
-        if (age >= 16) {
-          if (username.length >= 6) {
-            if (isUserAvailable) {
-              console.log(username);
-              if (isEmailAvailable) {
-                console.log(email);
-                if (acceptTerms) {
-                  handleLogin();
-                } else setInputErrorText("Accept terms before going further");
-              } else setInputErrorText("email isnt available");
-            } else setInputErrorText("Username isnt available");
-          } else setInputErrorText("Username too small (6+ characters)");
-        } else setInputErrorText("Need to be >=16");
-      } else setInputErrorText("Choose birthdate");
+            if (age >= 16) {
+              if (isUserAvailable) {
+                if (isEmailAvailable) {
+                  if (acceptTerms) {
+                    handleLogin();
+                  } else setInputErrorText("Accept terms before going further");
+                } else setInputErrorText("email isnt available");
+              } else setInputErrorText("Username isnt available");
+            } else setInputErrorText("Need to be >=16");
+          } else setInputErrorText("Choose birthdate");
+        } else setInputErrorText("Username too small (6+ characters)");
+      } else
+        setInputErrorText(
+          "Your 'confirmed' password does not match your original password"
+        );
     } else setInputErrorText("Upload a profile picture");
   };
   const calculateAge = () => {
@@ -239,6 +244,14 @@ const LoginScreen = () => {
               style={style.input}
               placeholder="Confirm Password"
               placeholderTextColor={"#5f6b8b"}
+              onChangeText={(text) => setConfirmPassword(text)}
+              onBlur={() => {
+                if (confirmPassword != password) {
+                  setConfirmPasswordText("Not the same password");
+                } else {
+                  setConfirmPasswordText("");
+                }
+              }}
             ></TextInput>
           </View>
           <View>
