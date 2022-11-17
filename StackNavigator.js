@@ -40,8 +40,20 @@ const StackNavigator = () => {
           <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
           <Stack.Screen name="EditData" component={EditDataScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
-          <Stack.Screen name="NewWorkout" component={NewWorkoutScreen} />
-          <Stack.Screen name="SearchWorkout" component={SearchWorkoutScreen} />
+          <Stack.Screen
+            name="NewWorkout"
+            component={NewWorkoutScreen}
+            options={verticalConfig}
+          />
+          <Stack.Screen
+            name="SearchWorkout"
+            component={SearchWorkoutScreen}
+            options={verticalConfig}
+          />
+          <Stack.Screen
+            name="ChangePreferences"
+            component={ChangePreferencesScreen}
+          />
         </>
       ) : (
         <>
@@ -49,13 +61,14 @@ const StackNavigator = () => {
           <Stack.Screen name="Register" component={RegisterScreen} />
         </>
       )}
-
-      <Stack.Screen
-        name="ChangePreferences"
-        component={ChangePreferencesScreen}
-      />
     </Stack.Navigator>
   );
 };
-
+const verticalConfig = () => {
+  const options = {
+    animationTypeForReplace: "push",
+    animation: "slide_from_bottom",
+  };
+  return options;
+};
 export default StackNavigator;
