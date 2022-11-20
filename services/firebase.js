@@ -403,5 +403,8 @@ export const getFirstPageMessages = async (chatId) => {
   return messagesArr;
 };
 export const createWorkout = async (workout) => {
-  await addDoc(collection(db, "workouts"), workout);
+  const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
+  await updateDoc(doc(db, "users", workout.creator), {
+    [`workouts.${newWorkoutRef.id}`]: false,
+  });
 };
