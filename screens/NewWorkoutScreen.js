@@ -58,7 +58,7 @@ const NewWorkoutScreen = () => {
   const createWorkout = async () => {
     const workout = {
       creator: user.usernameLower,
-      members: [user.usernameLower],
+      members: { [user.usernameLower]: true },
       type: type,
       startingTime: startingTime,
       minutes: minutes,
@@ -86,7 +86,7 @@ const NewWorkoutScreen = () => {
             <WorkoutMinutes minutesSelected={setMinutes} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutStartingTime startingTimeSelected={setStartingTime} />
+            <WorkoutStartingTime dateTimeChanged={setStartingTime} />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
