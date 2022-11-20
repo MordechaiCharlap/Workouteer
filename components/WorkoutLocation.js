@@ -6,8 +6,11 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
 const WorkoutLocation = (props) => {
   const [locationType, setLocationType] = useState(null);
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const cancelLocation = () => {
+    setLocationType(null);
+  };
+  const getPinnedLocation = () => {};
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -16,7 +19,6 @@ const WorkoutLocation = (props) => {
     }
 
     const location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
     setLocationType("current");
     props.locationChanged(location);
   };
@@ -33,7 +35,9 @@ const WorkoutLocation = (props) => {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={getCurrentLocation}
+        onPress={() =>
+          locationType == "current" ? cancelLocation() : getCurrentLocation()
+        }
         className="rounded justify-center p-1"
         style={{
           backgroundColor:
@@ -45,6 +49,11 @@ const WorkoutLocation = (props) => {
         <Text style={{ color: appStyle.appDarkBlue }}>Current location</Text>
       </TouchableOpacity>
       <TouchableOpacity
+        onPress={() =>
+          locationType == "locationPinned"
+            ? cancelLocation()
+            : getPinnedLocation()
+        }
         className="rounded justify-center p-1"
         style={{
           backgroundColor:
