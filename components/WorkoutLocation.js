@@ -9,8 +9,9 @@ const WorkoutLocation = (props) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const cancelLocation = () => {
     setLocationType(null);
+    props.locationChanged(null);
   };
-  const getPinnedLocation = () => {};
+  const pinLocationOnMap = () => {};
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -52,7 +53,7 @@ const WorkoutLocation = (props) => {
         onPress={() =>
           locationType == "locationPinned"
             ? cancelLocation()
-            : getPinnedLocation()
+            : pinLocationOnMap()
         }
         className="rounded justify-center p-1"
         style={{
