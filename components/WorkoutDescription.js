@@ -4,7 +4,7 @@ import * as appStyle from "./AppStyleSheet";
 
 const WorkoutDescription = (props) => {
   return (
-    <View style={{ paddingHorizontal: 16 }}>
+    <View>
       <Text style={style.label}>Details:</Text>
       <TextInput
         style={{

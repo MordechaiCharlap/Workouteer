@@ -32,7 +32,7 @@ const WorkoutStartingTime = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {renderLabel()}
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: appStyle.appAzure }]}
@@ -63,9 +63,6 @@ const WorkoutStartingTime = (props) => {
 export default WorkoutStartingTime;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16,
-  },
   dropdown: {
     backgroundColor: appStyle.appGray,
     height: 50,

@@ -14,6 +14,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
+import WorkoutLocation from "../components/WorkoutLocation";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const [type, setType] = useState(null);
@@ -55,7 +56,7 @@ const NewWorkoutScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
-        className="flex-1"
+        className="flex-1 mx-4"
         style={{
           backgroundColor: appStyle.appDarkBlue,
         }}
@@ -75,6 +76,9 @@ const NewWorkoutScreen = () => {
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutDescription descChanged={setDescription} />
+          </View>
+          <View className="pb-2 rounded mb-5">
+            <WorkoutLocation locationChange={setLocation} />
           </View>
           <View className="flex-row items-center justify-center">
             <TouchableOpacity

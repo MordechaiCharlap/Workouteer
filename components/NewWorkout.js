@@ -91,9 +91,9 @@ const NewWorkout = (props) => {
         <View className="pb-2 rounded mb-5">
           <WorkoutMaximumWaiting waitingTimeSelected={waitingTimeSelected} />
         </View>
-        <View className="pb-2 rounded mb-5">
+        {/* <View className="pb-2 rounded mb-5">
           <WorkoutDescription descChanged={setDesc} />
-        </View>
+        </View> */}
         <View className="pb-2 rounded mb-5">
           <WorkoutLocation />
         </View>

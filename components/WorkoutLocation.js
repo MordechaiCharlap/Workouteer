@@ -1,17 +1,20 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import MapView from "react-native-maps";
+import * as appStyle from "./AppStyleSheet";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 const WorkoutLocation = () => {
   return (
-    <View>
-      <MapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+    <View className="flex-row">
+      <FontAwesomeIcon
+        icon={faLocationDot}
+        size={30}
+        color={appStyle.appGray}
       />
+      <Text style={{ color: appStyle.appGray }}>Location:</Text>
+      <TouchableOpacity className="bg-black">
+        <Text style={{ color: appStyle.appGray }}>Current location</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -31,7 +31,7 @@ const WorkoutMaximumWaiting = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {renderLabel()}
       <Dropdown
         style={[styles.dropdown, isFocus && { borderColor: appStyle.appAzure }]}
@@ -60,9 +60,6 @@ const WorkoutMaximumWaiting = (props) => {
 export default WorkoutMaximumWaiting;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 16,
-  },
   dropdown: {
     backgroundColor: appStyle.appGray,
     height: 50,
