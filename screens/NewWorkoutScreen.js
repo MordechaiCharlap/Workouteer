@@ -29,7 +29,7 @@ const NewWorkoutScreen = () => {
   const [createButtonColor, setCreateButtonColor] = useState("black");
   useEffect(() => {
     checkIfCanAddWorkout();
-  }, [type, startingTime, minutes, waitingTime]);
+  }, [type, startingTime, minutes, waitingTime, location]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -40,7 +40,8 @@ const NewWorkoutScreen = () => {
       type != null &&
       startingTime != null &&
       minutes != null &&
-      waitingTime != null
+      waitingTime != null &&
+      location != null
     ) {
       console.log("can add workout");
       setIsCreateDisabled(false);
