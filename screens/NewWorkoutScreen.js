@@ -17,7 +17,9 @@ import { useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
+import useAuth from "../hooks/useAuth";
 const NewWorkoutScreen = () => {
+  const { user } = useAuth();
   const navigation = useNavigation();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -57,6 +59,8 @@ const NewWorkoutScreen = () => {
   };
   const createWorkout = async () => {
     const workout = {
+      creator: user.usernameLower,
+      members: [user.usernameLower],
       type: type,
       startingTime: startingTime,
       minutes: minutes,
