@@ -20,8 +20,12 @@ const WorkoutLocation = (props) => {
     }
 
     const location = await Location.getCurrentPositionAsync({});
+    const lotLangLocation = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
     setLocationType("current");
-    props.locationChanged(location);
+    props.locationChanged(lotLangLocation);
   };
   return (
     <View className="flex-row items-center justify-between">
