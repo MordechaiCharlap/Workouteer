@@ -56,7 +56,7 @@ const NewWorkoutScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
-        className="flex-1 mx-4"
+        className="flex-1 px-4"
         style={{
           backgroundColor: appStyle.appDarkBlue,
         }}
