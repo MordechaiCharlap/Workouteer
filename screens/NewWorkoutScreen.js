@@ -78,7 +78,7 @@ const NewWorkoutScreen = () => {
             <WorkoutDescription descChanged={setDescription} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutLocation locationChange={setLocation} />
+            <WorkoutLocation locationChanged={setLocation} />
           </View>
           <View className="flex-row items-center justify-center">
             <TouchableOpacity

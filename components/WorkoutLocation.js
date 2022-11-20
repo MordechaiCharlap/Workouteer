@@ -4,7 +4,7 @@ import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
-const WorkoutLocation = () => {
+const WorkoutLocation = (props) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const getCurrentLocation = async () => {
@@ -16,7 +16,8 @@ const WorkoutLocation = () => {
 
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location);
-    locationChanged(location);
+    props.locationChanged(location);
+    console.log(JSON.stringify(location));
   };
   return (
     <View className="flex-row items-center justify-between">
