@@ -6,6 +6,7 @@ import style from "../components/ResponsiveStyling";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../components/AppStyleSheet";
 import {
+  faClock,
   faPlus,
   faMagnifyingGlass,
   faUserGroup,
@@ -25,7 +26,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1 p-3">
-        <View className="flex-row justify-around">
+        <View className="flex-row justify-around my-5">
           <HomeScreenButton
             buttonText="FIND A WORKOUT"
             style={buttonStyle}
@@ -39,14 +40,19 @@ const HomeScreen = () => {
             icon={faPlus}
           />
         </View>
-        <View className="flex-row justify-around">
+        <View className="flex-row justify-around my-5">
           <HomeScreenButton
             buttonText="FRIENDS WORKOUTS"
             style={buttonStyle}
             navigateScreen="NewWorkout"
             icon={faUserGroup}
           />
-          <HomeScreenButton spaceHolderButton={true} style={buttonStyle} />
+          <HomeScreenButton
+            buttonText="PLANNED WORKOUTS"
+            style={buttonStyle}
+            navigateScreen="PlannedWorkouts"
+            icon={faClock}
+          />
         </View>
       </View>
       <BottomNavbar currentScreen="Home" />

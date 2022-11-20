@@ -8,10 +8,10 @@ const HomeScreenButton = (props) => {
   return (
     <View>
       {props.spaceHolderButton ? (
-        <View className={`items-center justify-center w-36 h-36 m-3`}></View>
+        <View className={`items-center justify-center w-36 h-36`}></View>
       ) : (
         <TouchableOpacity
-          className={`items-center justify-center rounded-lg w-36 h-36 m-3`}
+          className={`items-center justify-center rounded-lg w-36 h-36`}
           style={{ backgroundColor: props.style.backgroundColor }}
           onPress={() => navigation.push(props.navigateScreen)}
         >

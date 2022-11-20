@@ -18,6 +18,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import ChatScreen from "./screens/ChatScreen";
 import NewWorkoutScreen from "./screens/NewWorkoutScreen";
 import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
+import PlannedWorkoutsScreen from "./screens/PlannedWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -54,6 +55,11 @@ const StackNavigator = () => {
           <Stack.Screen
             name="SearchWorkout"
             component={SearchWorkoutScreen}
+            options={verticalConfig}
+          />
+          <Stack.Screen
+            name="PlannedWorkouts"
+            component={PlannedWorkoutsScreen}
             options={verticalConfig}
           />
           <Stack.Screen
