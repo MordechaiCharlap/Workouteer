@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
 const WorkoutLocation = (props) => {
+  const [locationType, setLocationType] = useState(null);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const getCurrentLocation = async () => {
@@ -14,10 +15,10 @@ const WorkoutLocation = (props) => {
       return;
     }
 
-    let location = await Location.getCurrentPositionAsync({});
+    const location = await Location.getCurrentPositionAsync({});
     setLocation(location);
+    setLocationType("current");
     props.locationChanged(location);
-    console.log(JSON.stringify(location));
   };
   return (
     <View className="flex-row items-center justify-between">
@@ -31,24 +32,30 @@ const WorkoutLocation = (props) => {
           Location:
         </Text>
       </View>
-      <Text className="ml-1" style={{ color: appStyle.appGray }}>
-        {location == null ? "Not chosen" : JSON.stringify(location)}
-      </Text>
       <TouchableOpacity
         onPress={getCurrentLocation}
         className="rounded justify-center p-1"
-        style={{ backgroundColor: appStyle.appLightBlue }}
+        style={{
+          backgroundColor:
+            locationType == "current"
+              ? appStyle.appNeonAzure
+              : appStyle.appLightBlue,
+        }}
       >
         <Text style={{ color: appStyle.appDarkBlue }}>Current location</Text>
       </TouchableOpacity>
       <TouchableOpacity
         className="rounded justify-center p-1"
-        style={{ backgroundColor: appStyle.appLightBlue }}
+        style={{
+          backgroundColor:
+            locationType == "locationPinned"
+              ? appStyle.appNeonAzure
+              : appStyle.appLightBlue,
+        }}
       >
         <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
 export default WorkoutLocation;
