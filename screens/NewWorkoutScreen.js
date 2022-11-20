@@ -15,6 +15,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
+import Header from "../components/Header";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const [type, setType] = useState(null);
@@ -61,6 +62,7 @@ const NewWorkoutScreen = () => {
           backgroundColor: appStyle.appDarkBlue,
         }}
       >
+        <Header title="New workout" goBackOption={true} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="pt-4 pb-2 rounded mb-5">
             <WorkoutType typeSelected={setType} />
@@ -80,25 +82,13 @@ const NewWorkoutScreen = () => {
           <View className="pb-2 rounded mb-5">
             <WorkoutLocation locationChanged={setLocation} />
           </View>
-          <View className="flex-row items-center justify-center">
-            <TouchableOpacity
-              style={{ borderWidth: 1, borderColor: appStyle.appGray }}
-              className="rounded-lg shadow px-5 py-1 mx-2"
-              onPress={() => navigation.goBack()}
-            >
-              <Text
-                style={{ color: appStyle.appGray }}
-                className="text-center text-2xl font-semibold"
-              >
-                Cancel
-              </Text>
-            </TouchableOpacity>
+          <View className="items-center mb-5">
             <TouchableOpacity
               style={{
                 backgroundColor: createButtonColor,
               }}
               disabled={isCreateDisabled}
-              className="rounded-lg shadow px-5 py-1 mx-2"
+              className="rounded-lg shadow px-7 py-1"
               onPress={createWorkout}
             >
               <Text
