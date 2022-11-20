@@ -46,12 +46,10 @@ const NewWorkoutScreen = () => {
       waitingTime != null &&
       location != null
     ) {
-      console.log("can add workout");
       setIsCreateDisabled(false);
       setCreateButtonTextColor(appStyle.appDarkBlue);
       setCreateButtonColor(appStyle.appLightBlue);
     } else {
-      console.log("cant add workout");
       setIsCreateDisabled(true);
       setCreateButtonTextColor("white");
       setCreateButtonColor("black");
@@ -69,6 +67,7 @@ const NewWorkoutScreen = () => {
       description: description,
     };
     await firebase.createWorkout(workout);
+    navigation.goBack();
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
