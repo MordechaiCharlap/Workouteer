@@ -44,8 +44,9 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="w-5/12 mb-5 rounded-lg"
+        className="mb-5 rounded-lg"
         style={{
+          width: "47%",
           borderWidth: 1,
           borderColor:
             type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue,
@@ -82,7 +83,7 @@ const WorkoutType = (props) => {
   };
   return (
     <View>
-      <View className="flex-row flex-wrap justify-around">
+      <View className="flex-row flex-wrap justify-between">
         {renderWorkoutTypeButton(workoutTypes[0])}
         {renderWorkoutTypeButton(workoutTypes[1])}
         {renderWorkoutTypeButton(workoutTypes[2])}
