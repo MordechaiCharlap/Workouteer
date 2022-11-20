@@ -13,6 +13,7 @@ import WorkoutMaximumWaiting from "./WorkoutMaximumWaiting";
 import WorkoutDescription from "./WorkoutDescription";
 import * as appStyle from "./AppStyleSheet";
 import ResponsiveStyling from "./ResponsiveStyling";
+import WorkoutLocation from "./WorkoutLocation";
 const NewWorkout = (props) => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -42,8 +43,8 @@ const NewWorkout = (props) => {
     setWaitingTime(minutes);
   };
 
-  const locationSelected = (id) => {
-    setLocation(id);
+  const locationSelected = (location) => {
+    console.log(location);
   };
   const workoutAdded = () => {};
   const checkIfCanAddWorkout = () => {
@@ -92,6 +93,9 @@ const NewWorkout = (props) => {
         </View>
         <View className="pb-2 rounded mb-5">
           <WorkoutDescription descChanged={setDesc} />
+        </View>
+        <View className="pb-2 rounded mb-5">
+          <WorkoutLocation />
         </View>
         <TouchableOpacity
           style={{
