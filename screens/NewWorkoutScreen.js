@@ -16,6 +16,7 @@ import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";
+import * as firebase from "../services/firebase";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const [type, setType] = useState(null);
@@ -54,7 +55,17 @@ const NewWorkoutScreen = () => {
       setCreateButtonColor("black");
     }
   };
-  const createWorkout = () => {};
+  const createWorkout = async () => {
+    const workout = {
+      type: type,
+      startingTime: startingTime,
+      minutes: minutes,
+      waitingTime: waitingTime,
+      location: location,
+      description: description,
+    };
+    await firebase.createWorkout(workout);
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View
