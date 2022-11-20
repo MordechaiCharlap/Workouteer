@@ -267,7 +267,7 @@ export const removeFriend = async (userId, otherUserId) => {
 const addChatConnection = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
     [`chatPals.${otherUserId}`]: chatId,
-    chats: arrayUnion(chatId),
+    [`chats.${chatId}`]: Timestamp.now(),
   });
 };
 const getSeenByMapGroupChat = (senderId, chat) => {
@@ -401,4 +401,7 @@ export const getFirstPageMessages = async (chatId) => {
     });
   });
   return messagesArr;
+};
+export const createWorkout = async (workout) => {
+  await addDoc(collection(db, "workouts"), workout);
 };
