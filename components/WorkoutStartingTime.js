@@ -10,6 +10,7 @@ import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useEffect } from "react";
 const WorkoutStartingTime = (props) => {
+  const today = new Date();
   const getMaxDate = () => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
@@ -21,6 +22,20 @@ const WorkoutStartingTime = (props) => {
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [timeChangedOnce, setTimeChangedOnce] = useState(false);
   const [mode, setMode] = useState(null);
+  const dateString = () => {
+    if (today.getDate() == date.getDate()) return "Today";
+    else if (today.getDate() + 1 == date.getDate()) return "Tomorrow";
+    else {
+      const dd = date.getDate();
+      const mm = date.getMonth() + 1;
+      return dd + "/" + mm;
+    }
+  };
+  const timeString = () => {
+    const hh = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
+    const mm = time.getMinutes();
+    return hh + ":" + mm;
+  };
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (mode == "date") {
@@ -28,9 +43,15 @@ const WorkoutStartingTime = (props) => {
       setDateChangedOnce(true);
     }
     if (mode == "time") {
-      // if(date.getDate()==new Date().getDate())
-      setTime(currentDate);
-      setTimeChangedOnce(true);
+      if (
+        date.getDate() == today.getDate() &&
+        currentDate.getTime() < today.getTime()
+      ) {
+        console.log("cant go back in time");
+      } else {
+        setTime(currentDate);
+        setTimeChangedOnce(true);
+      }
     }
     setShow(false);
   };
@@ -61,7 +82,7 @@ const WorkoutStartingTime = (props) => {
           <Text style={{ color: "#5f6b8b" }}>Choose a day</Text>
         )}
         {dateChangedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
+          <Text style={{ color: "#5f6b8b" }}>{dateString()}</Text>
         )}
       </TouchableOpacity>
       <TouchableOpacity
@@ -73,12 +94,12 @@ const WorkoutStartingTime = (props) => {
           <Text style={{ color: "#5f6b8b" }}>Choose a time</Text>
         )}
         {timeChangedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>{time.toLocaleTimeString()}</Text>
+          <Text style={{ color: "#5f6b8b" }}>{timeString()}</Text>
         )}
       </TouchableOpacity>
       {show && (
         <DateTimePicker
-          minimumDate={new Date()}
+          minimumDate={today}
           maximumDate={getMaxDate()}
           testID="dateTimePicker"
           value={date}
