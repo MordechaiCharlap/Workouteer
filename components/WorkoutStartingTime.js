@@ -1,48 +1,65 @@
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import { React, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 const WorkoutStartingTime = (props) => {
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
   const [mode, setMode] = useState(null);
-  const onDateChange = (selectedDate) => {
+  const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setDate(currentDate);
+    if (mode == "date") setDate(currentDate);
+    if (mode == "time") setTime(currentDate);
+    console.log(selectedDate);
     setShow(false);
     setChangeOnce(true);
-    props.dateTimeChanged(selectedDate);
   };
-  const showMode = (currentMode) => {
+  const showTrue = () => {
     if (Platform.OS === "android") {
       setShow(true);
       // for iOS, add a button that closes the picker
     }
-    setMode(currentMode);
   };
 
   const showDatepicker = () => {
-    showMode("date");
+    setMode("date");
+    showTrue();
   };
 
   const showTimepicker = () => {
-    showMode("time");
+    setMode("time");
+    showTrue();
   };
   return (
-    <View>
+    <View className="flex-row justify-between">
       <TouchableOpacity
         style={styles.input}
         className="rounded mb-5 px-3 h-10 justify-center"
         onPress={showDatepicker}
       >
-        {!changedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>
-            birthdate (works only on Android)
-          </Text>
-        )}
+        {!changedOnce && <Text style={{ color: "#5f6b8b" }}>Choose a day</Text>}
         {changedOnce && (
           <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
+        )}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.input}
+        className="rounded mb-5 px-3 h-10 justify-center"
+        onPress={showTimepicker}
+      >
+        {!changedOnce && (
+          <Text style={{ color: "#5f6b8b" }}>Choose a time</Text>
+        )}
+        {changedOnce && (
+          <Text style={{ color: "#5f6b8b" }}>{time.toTimeString()}</Text>
         )}
       </TouchableOpacity>
       {show && (
