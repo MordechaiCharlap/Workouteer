@@ -22,6 +22,7 @@ const WorkoutStartingTime = (props) => {
       setDateChangedOnce(true);
     }
     if (mode == "time") {
+      // if(date.getDate()==new Date().getDate())
       setTime(currentDate);
       setTimeChangedOnce(true);
     }
@@ -71,9 +72,11 @@ const WorkoutStartingTime = (props) => {
       </TouchableOpacity>
       {show && (
         <DateTimePicker
+          minimumDate={new Date()}
           testID="dateTimePicker"
           value={date}
           mode={mode}
+          is24Hour={true}
           onChange={onDateChange}
         />
       )}
