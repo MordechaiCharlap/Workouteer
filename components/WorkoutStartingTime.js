@@ -8,7 +8,13 @@ import {
 import { React, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useEffect } from "react";
 const WorkoutStartingTime = (props) => {
+  const getMaxDate = () => {
+    const maximumDate = new Date();
+    maximumDate.setDate(maximumDate.getDate() + 7);
+    return maximumDate;
+  };
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -73,10 +79,12 @@ const WorkoutStartingTime = (props) => {
       {show && (
         <DateTimePicker
           minimumDate={new Date()}
+          maximumDate={getMaxDate()}
           testID="dateTimePicker"
           value={date}
           mode={mode}
           is24Hour={true}
+          minuteInterval={15}
           onChange={onDateChange}
         />
       )}
