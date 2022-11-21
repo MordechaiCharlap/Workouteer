@@ -12,15 +12,20 @@ const WorkoutStartingTime = (props) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [changedOnce, setChangeOnce] = useState(false);
+  const [dateChangedOnce, setDateChangedOnce] = useState(false);
+  const [timeChangedOnce, setTimeChangedOnce] = useState(false);
   const [mode, setMode] = useState(null);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    if (mode == "date") setDate(currentDate);
-    if (mode == "time") setTime(currentDate);
-    console.log(selectedDate);
+    if (mode == "date") {
+      setDate(currentDate);
+      setDateChangedOnce(true);
+    }
+    if (mode == "time") {
+      setTime(currentDate);
+      setTimeChangedOnce(true);
+    }
     setShow(false);
-    setChangeOnce(true);
   };
   const showTrue = () => {
     if (Platform.OS === "android") {
@@ -45,8 +50,10 @@ const WorkoutStartingTime = (props) => {
         className="rounded mb-5 px-3 h-10 justify-center"
         onPress={showDatepicker}
       >
-        {!changedOnce && <Text style={{ color: "#5f6b8b" }}>Choose a day</Text>}
-        {changedOnce && (
+        {!dateChangedOnce && (
+          <Text style={{ color: "#5f6b8b" }}>Choose a day</Text>
+        )}
+        {dateChangedOnce && (
           <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
         )}
       </TouchableOpacity>
@@ -55,11 +62,11 @@ const WorkoutStartingTime = (props) => {
         className="rounded mb-5 px-3 h-10 justify-center"
         onPress={showTimepicker}
       >
-        {!changedOnce && (
+        {!timeChangedOnce && (
           <Text style={{ color: "#5f6b8b" }}>Choose a time</Text>
         )}
-        {changedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>{time.toTimeString()}</Text>
+        {timeChangedOnce && (
+          <Text style={{ color: "#5f6b8b" }}>{time.toLocaleTimeString()}</Text>
         )}
       </TouchableOpacity>
       {show && (
