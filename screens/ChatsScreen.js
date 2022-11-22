@@ -53,16 +53,29 @@ const ChatsScreen = () => {
   const currentDay = now();
 
   const chatLongClicked = (item) => {
-    setSelectedChats(item.chat.id);
+    const selectedChatsClone = selectedChats.slice();
+    const index = selectedChatsClone.indexOf(item.chat.id);
+    if (index > -1) {
+      selectedChatsClone.splice(index, 1);
+    } else {
+      selectedChatsClone.push(item.chat.id);
+    }
+    setSelectedChats(selectedChatsClone);
   };
 
   const chatClicked = async (item) => {
+    const selectedChatsClone = selectedChats.slice();
     if (selectedChats.length == 0) {
       navigation.navigate("Chat", {
         otherUser: item.user,
         chat: item.chat,
       });
     } else {
+      const index = selectedChats.indexOf(item.chat.id);
+      if (index > -1) {
+        selectedChatsClone.splice(index, 1);
+        setSelectedChats(selectedChatsClone);
+      }
     }
   };
   const convertTimestamp = (timestamp) => {
