@@ -17,7 +17,6 @@ const WorkoutStartingTime = (props) => {
     return maximumDate;
   };
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [timeChangedOnce, setTimeChangedOnce] = useState(false);
@@ -32,8 +31,8 @@ const WorkoutStartingTime = (props) => {
     }
   };
   const timeString = () => {
-    const hh = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
-    const mm = time.getMinutes();
+    const hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    const mm = date.getMinutes();
     return hh + ":" + mm;
   };
   const onDateChange = (event, selectedDate) => {
@@ -41,15 +40,17 @@ const WorkoutStartingTime = (props) => {
     if (mode == "date") {
       setDate(currentDate);
       setDateChangedOnce(true);
+      setTimeChangedOnce(false);
     }
     if (mode == "time") {
       if (
-        date.getDate() == today.getDate() &&
-        currentDate.getTime() < today.getTime()
+        !(
+          date.getDate() == today.getDate() &&
+          currentDate.getTime() < today.getTime()
+        )
       ) {
-        console.log("cant go back in time");
-      } else {
-        setTime(currentDate);
+        console.log("Time is good, dateTime chosen: " + currentDate);
+        setDate(currentDate);
         setTimeChangedOnce(true);
       }
     }
@@ -72,29 +73,30 @@ const WorkoutStartingTime = (props) => {
     showTrue();
   };
   return (
-    <View className="flex-row justify-between">
+    <View className="flex-row">
       <TouchableOpacity
         style={styles.input}
-        className="rounded mb-5 px-3 h-10 justify-center"
+        className="rounded mb-5 px-3 h-10 justify-center mr-3"
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
           <Text style={{ color: "#5f6b8b" }}>Choose a day</Text>
         )}
         {dateChangedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>{dateString()}</Text>
+          <Text style={{ color: appStyle.appDarkBlue }}>{dateString()}</Text>
         )}
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.input}
         className="rounded mb-5 px-3 h-10 justify-center"
         onPress={showTimepicker}
+        disabled={!dateChangedOnce}
       >
         {!timeChangedOnce && (
           <Text style={{ color: "#5f6b8b" }}>Choose a time</Text>
         )}
         {timeChangedOnce && (
-          <Text style={{ color: "#5f6b8b" }}>{timeString()}</Text>
+          <Text style={{ color: appStyle.appDarkBlue }}>{timeString()}</Text>
         )}
       </TouchableOpacity>
       {show && (
