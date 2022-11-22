@@ -79,14 +79,15 @@ const NewWorkoutScreen = () => {
       >
         <Header title="New workout" goBackOption={true} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="pt-4 pb-2 rounded mb-5">
+          <View className="pt-4 pb-2 rounded">
+            {/* margin is inside the component after each types row */}
             <WorkoutType typeSelected={setType} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutMinutes minutesSelected={setMinutes} />
+            <WorkoutStartingTime startingTimeChanged={setStartingTime} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutStartingTime startingTimeChanged={setStartingTime} />
+            <WorkoutMinutes minutesSelected={setMinutes} />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />

@@ -44,7 +44,7 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="mb-5 rounded-lg"
+        className="rounded-lg mb-5"
         style={{
           width: "47%",
           borderWidth: 1,
@@ -82,13 +82,11 @@ const WorkoutType = (props) => {
     );
   };
   return (
-    <View>
-      <View className="flex-row flex-wrap justify-between">
-        {renderWorkoutTypeButton(workoutTypes[0])}
-        {renderWorkoutTypeButton(workoutTypes[1])}
-        {renderWorkoutTypeButton(workoutTypes[2])}
-        {renderWorkoutTypeButton(workoutTypes[3])}
-      </View>
+    <View className="flex-row flex-wrap justify-between">
+      {renderWorkoutTypeButton(workoutTypes[0])}
+      {renderWorkoutTypeButton(workoutTypes[1])}
+      {renderWorkoutTypeButton(workoutTypes[2])}
+      {renderWorkoutTypeButton(workoutTypes[3])}
     </View>
   );
   // return (
