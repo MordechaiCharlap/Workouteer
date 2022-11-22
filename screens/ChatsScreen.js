@@ -23,6 +23,7 @@ const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [chatsArr, setChatArr] = useState(null);
+  const [selectedChats, setSelectedChats] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -50,11 +51,19 @@ const ChatsScreen = () => {
     };
   };
   const currentDay = now();
+
+  const chatLongClicked = (item) => {
+    setSelectedChats(item.chat.id);
+  };
+
   const chatClicked = async (item) => {
-    navigation.navigate("Chat", {
-      otherUser: item.user,
-      chat: item.chat,
-    });
+    if (selectedChats.length == 0) {
+      navigation.navigate("Chat", {
+        otherUser: item.user,
+        chat: item.chat,
+      });
+    } else {
+    }
   };
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
@@ -87,9 +96,19 @@ const ChatsScreen = () => {
     return (
       <FlatList
         data={chatsArr}
+        className="mt-2"
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => chatClicked(item)} className="mt-2 ">
+          <TouchableOpacity
+            onLongPress={() => chatLongClicked(item)}
+            onPress={() => chatClicked(item)}
+            className="p-2 rounded"
+            style={{
+              backgroundColor: selectedChats.includes(item.chat.id)
+                ? appStyle.appAzure
+                : appStyle.appDarkBlue,
+            }}
+          >
             <View className="flex-row">
               <Image
                 source={{
@@ -123,7 +142,7 @@ const ChatsScreen = () => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="pt-5 px-5 flex-1">
+      <View className="px-5 flex-1">
         <Header title="Chats" />
         <View
           className="rounded-xl mt-4 p-3"
