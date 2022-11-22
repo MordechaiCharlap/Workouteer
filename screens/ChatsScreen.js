@@ -157,26 +157,31 @@ const ChatsScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="px-5 flex-1">
         <Header title="Chats" />
-        <View
-          className="rounded-xl mt-4 p-3"
-          style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
-        >
-          <View className="flex-row items-center">
-            <TouchableOpacity>
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                size={24}
-                color={appStyle.appDarkBlue}
+
+        {selectedChats.length == 0 ? (
+          <View
+            className="rounded-xl"
+            style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+          >
+            <View className="flex-row items-center h-12 p-3">
+              <TouchableOpacity>
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  size={24}
+                  color={appStyle.appDarkBlue}
+                />
+              </TouchableOpacity>
+              <TextInput
+                style={{ color: appStyle.appGray }}
+                placeholder="Search"
+                placeholderTextColor={appStyle.appDarkBlue}
+                className="text-xl ml-3"
               />
-            </TouchableOpacity>
-            <TextInput
-              style={{ color: appStyle.appGray }}
-              placeholder="Search"
-              placeholderTextColor={appStyle.appDarkBlue}
-              className="text-xl ml-3"
-            />
+            </View>
           </View>
-        </View>
+        ) : (
+          <View className="flex-row items-center h-12"></View>
+        )}
         <View className="flex-1">
           {chatsArr == null ? (
             <Text
