@@ -8,7 +8,7 @@ const Header = (props) => {
   const navigation = useNavigation();
   return (
     <View
-      className="flex-row items-center py-4"
+      className="flex-row items-center h-10"
       style={{
         backgroundColor: appDarkBlue,
         justifyContent: props.goBackOption ? "space-between" : "center",
