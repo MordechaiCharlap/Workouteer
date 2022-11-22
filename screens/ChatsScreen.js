@@ -8,15 +8,18 @@ import {
   Image,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useState, useCallback } from "react";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faPenToSquare,
+  faArrowLeft,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
-import { useCallback } from "react";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 const ChatsScreen = () => {
@@ -78,6 +81,7 @@ const ChatsScreen = () => {
       }
     }
   };
+  const deleteSelectedChats = async () => {};
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     //workaround
@@ -180,7 +184,29 @@ const ChatsScreen = () => {
             </View>
           </View>
         ) : (
-          <View className="flex-row items-center h-12"></View>
+          <View className="flex-row items-center h-12 justify-between">
+            <TouchableOpacity onPress={() => setSelectedChats([])}>
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                size={24}
+                color={appStyle.appGray}
+              />
+            </TouchableOpacity>
+
+            <Text
+              className="text-2xl font-bold ml-4"
+              style={{ color: appStyle.appGray }}
+            >
+              {selectedChats.length}
+            </Text>
+            <TouchableOpacity onPress={() => deleteSelectedChats()}>
+              <FontAwesomeIcon
+                icon={faTrash}
+                size={24}
+                color={appStyle.appGray}
+              />
+            </TouchableOpacity>
+          </View>
         )}
         <View className="flex-1">
           {chatsArr == null ? (
