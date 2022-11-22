@@ -58,12 +58,12 @@ const ChatsScreen = () => {
   const chatLongClicked = (item) => {
     const selectedChatsClone = selectedChats.slice();
     const index = selectedChatsClone.findIndex(
-      (chat) => chat.id == item.chat.id
+      (arrayItem) => arrayItem.chat.id == item.chat.id
     );
     if (index > -1) {
       selectedChatsClone.splice(index, 1);
     } else {
-      selectedChatsClone.push(item.chat);
+      selectedChatsClone.push(item);
     }
     setSelectedChats(selectedChatsClone);
   };
@@ -76,7 +76,9 @@ const ChatsScreen = () => {
         chat: item.chat,
       });
     } else {
-      const index = selectedChats.findIndex((chat) => chat.id == item.chat.id);
+      const index = selectedChats.findIndex(
+        (arrayItem) => arrayItem.chat.id == item.chat.id
+      );
       if (index > -1) {
         selectedChatsClone.splice(index, 1);
         setSelectedChats(selectedChatsClone);
@@ -123,8 +125,8 @@ const ChatsScreen = () => {
             onPress={() => chatClicked(item)}
             className="p-2 rounded"
             style={{
-              backgroundColor: selectedChats.some(
-                (chat) => chat.id == item.chat.id
+              backgroundColor: selectedChats.includes(
+                (arrayItem) => arrayItem.chat.id == item.chat.id
               )
                 ? appStyle.appAzure
                 : appStyle.appDarkBlue,
