@@ -86,7 +86,7 @@ const NewWorkoutScreen = () => {
             <WorkoutMinutes minutesSelected={setMinutes} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutStartingTime dateTimeChanged={setStartingTime} />
+            <WorkoutStartingTime startingTimeChanged={setStartingTime} />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
