@@ -41,6 +41,7 @@ const WorkoutStartingTime = (props) => {
       setDate(currentDate);
       setDateChangedOnce(true);
       setTimeChangedOnce(false);
+      props.startingTimeChanged(null);
     }
     if (mode == "time") {
       if (
@@ -49,9 +50,9 @@ const WorkoutStartingTime = (props) => {
           currentDate.getTime() < today.getTime()
         )
       ) {
-        console.log("Time is good, dateTime chosen: " + currentDate);
         setDate(currentDate);
         setTimeChangedOnce(true);
+        props.startingTimeChanged(currentDate);
       }
     }
     setShow(false);
