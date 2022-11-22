@@ -24,6 +24,7 @@ import {
   orderBy,
   limit,
   arrayUnion,
+  deleteDoc,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 const firebaseApp = initializeApp(firebaseConfig);
@@ -409,11 +410,17 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: false,
   });
 };
-const deletePrivateChatForUser = async (user, chat) => {};
-const deleteGroupChatForUser = async (user, chat) => {};
-export const deleteChatsForUser = async (user, chatArray) => {
-  for (var chat in chatArray) {
-    if (chat.isGroupChat == false) await deletePrivateChatForUser(user, chat);
-    else await deleteGroupChatForUser(user, chat);
+const deleteChatFromDb = async (chatId) => {
+  await deleteDoc(doc(db, "chats", chatId));
+};
+export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
+  const memebers = new Map(Object.entries(chatAndUserItem.chat.members));
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
+    [`chats.${chatId}`]: deleteField(),
+  });
+  if (memebers.size == 1) {
+    await deleteChatFromDb(chatAndUserItem.chat.id);
   }
 };
+export const deleteGroupChatForUser = async (user, chat) => {};
