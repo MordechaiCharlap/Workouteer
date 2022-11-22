@@ -409,3 +409,11 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: false,
   });
 };
+const deletePrivateChatForUser = async (user, chat) => {};
+const deleteGroupChatForUser = async (user, chat) => {};
+export const deleteChatsForUser = async (user, chatArray) => {
+  for (var chat in chatArray) {
+    if (chat.isGroupChat == false) await deletePrivateChatForUser(user, chat);
+    else await deleteGroupChatForUser(user, chat);
+  }
+};
