@@ -412,8 +412,11 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: false,
   });
 };
-const deleteChatFromDb = async (chatId) => {
-  await deleteDoc(doc(db, "chats", chatId));
+const deleteFromDbIfNeeded = async (chat) => {
+  const memebers = new Map(Object.entries(chat.members));
+  if (memebers.size == 1) {
+    await deleteDoc(doc(db, "chats", chat.id));
+  }
 };
 export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
   const memebers = new Map(Object.entries(chatAndUserItem.chat.members));
@@ -421,8 +424,6 @@ export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatId}`]: deleteField(),
   });
-  if (memebers.size == 1) {
-    await deleteChatFromDb(chatAndUserItem.chat.id);
-  }
+  await deleteFromDbIfNeeded(chatAndUserItem.chat);
 };
 export const deleteGroupChatForUser = async (user, chat) => {};
