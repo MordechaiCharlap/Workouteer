@@ -349,12 +349,14 @@ export const getChatsArrayIncludeUsers = async (user) => {
   for (var chatId of userChatsMap.keys()) {
     var chat = (await getDoc(doc(db, "chats", `${chatId}`))).data();
     var chatToPush = {
-      id: `${chatId}`,
-      isGroupChat: chat.isGroupChat,
-      lastMessage: chat.lastMessage,
-      messagesCount: chat.messagesCount,
-      isGroupChat: chat.isGroupChat,
-      members: chat.members,
+      chat: {
+        id: `${chatId}`,
+        isGroupChat: chat.isGroupChat,
+        lastMessage: chat.lastMessage,
+        messagesCount: chat.messagesCount,
+        isGroupChat: chat.isGroupChat,
+        members: chat.members,
+      },
     };
     if (!chat.isGroupChat) {
       const members = new Map(Object.entries(chat.members));
