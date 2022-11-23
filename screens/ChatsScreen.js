@@ -85,7 +85,15 @@ const ChatsScreen = () => {
       }
     }
   };
-  const deleteSelectedChats = async () => {};
+  const deleteSelectedChats = async () => {
+    for (var selectedChat of selectedChats) {
+      if (selectedChat.chat.isGroupChat) {
+        await firebase.deleteGroupChatForUser(user, selectedChat);
+      } else {
+        await firebase.deletePrivateChatForUser(user, selectedChat);
+      }
+    }
+  };
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     //workaround
