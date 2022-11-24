@@ -59,7 +59,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             buttonText="PAST WORKOUTS"
             style={buttonStyle}
-            navigateScreen="NewWorkout"
+            navigateScreen="PastWorkouts"
             icon={faClockRotateLeft}
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
