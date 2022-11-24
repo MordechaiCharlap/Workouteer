@@ -117,7 +117,14 @@ const FutureWorkoutsScreen = () => {
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
-                    <Text className="text-lg">: {item.minutes} minutes</Text>
+                    <Text
+                      className="text-lg"
+                      style={{
+                        color: appStyle.appDarkBlue,
+                      }}
+                    >
+                      : {item.minutes} minutes
+                    </Text>
                   </View>
                   <View className="flex-row">
                     <FontAwesomeIcon
@@ -125,12 +132,29 @@ const FutureWorkoutsScreen = () => {
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
-                    <Text className="text-lg">
+                    <Text
+                      className="text-lg"
+                      style={{
+                        color: appStyle.appDarkBlue,
+                      }}
+                    >
                       : {new Map(Object.entries(item.members)).size}
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity></TouchableOpacity>
+                <View className="justify-center flex-1 items-center">
+                  <TouchableOpacity>
+                    <Text
+                      className="p-2 rounded"
+                      style={{
+                        backgroundColor: appStyle.appDarkBlue,
+                        color: appStyle.appGray,
+                      }}
+                    >
+                      More details
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           )}
