@@ -415,6 +415,7 @@ export const getFutureWorkouts = async (user) => {
   const userWorkouts = new Map(Object.entries(user.workouts));
   for (var [key, value] of userWorkouts) {
     if (value.toDate() > now) {
+      console.log("Found workout");
       workoutsArray.push({
         id: key,
         ...(await getDoc(doc(db, "workouts", key))).data(),
@@ -422,7 +423,8 @@ export const getFutureWorkouts = async (user) => {
     }
   }
   workoutsArray.sort(
-    (a, b) => a.startingTime.getTime() - b.startingTime.getTime()
+    (a, b) =>
+      a.startingTime.toDate().getTime() - b.startingTime.toDate().getTime()
   );
   return workoutsArray;
 };
@@ -441,7 +443,8 @@ export const getPastWorkouts = async (user) => {
     }
   }
   workoutsArray.sort(
-    (a, b) => a.startingTime.getTime() - b.startingTime.getTime()
+    (a, b) =>
+      b.startingTime.toDate().getTime() - a.startingTime.toDate().getTime()
   );
   return workoutsArray;
 };
