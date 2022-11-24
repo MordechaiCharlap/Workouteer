@@ -54,6 +54,15 @@ const HomeScreen = () => {
             icon={faClock}
           />
         </View>
+        <View className="flex-row justify-around my-5">
+          <HomeScreenButton
+            buttonText="HISTORY"
+            style={buttonStyle}
+            navigateScreen="NewWorkout"
+            icon={faUserGroup}
+          />
+          <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
+        </View>
       </View>
       <BottomNavbar currentScreen="Home" />
     </SafeAreaView>
