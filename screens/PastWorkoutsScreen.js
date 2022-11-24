@@ -68,7 +68,7 @@ const FutureWorkoutsScreen = () => {
               }}
             >
               <View
-                className="flex-row justify-between"
+                className="flex-row justify-between px-2"
                 style={{
                   borderBottomColor: appStyle.appDarkBlue,
                   borderBottomWidth: 2,
@@ -88,7 +88,10 @@ const FutureWorkoutsScreen = () => {
                     color: appStyle.appDarkBlue,
                   }}
                 >
-                  {item.creator}'s workout
+                  {item.creator == user.usernameLower
+                    ? "Your "
+                    : item.creator + "'s"}
+                  workout
                 </Text>
               </View>
 
@@ -97,7 +100,7 @@ const FutureWorkoutsScreen = () => {
                   className="justify-around items-center aspect-square"
                   style={{
                     borderRightColor: appStyle.appDarkBlue,
-                    borderRightWidth: 1,
+                    borderRightWidth: 2,
                   }}
                 >
                   <FontAwesomeIcon
