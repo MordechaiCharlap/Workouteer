@@ -409,8 +409,20 @@ export const getFirstPageMessages = async (chatId) => {
 export const createWorkout = async (workout) => {
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
-    [`workouts.${newWorkoutRef.id}`]: false,
+    [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
   });
+};
+export const getPlannedWorkouts = async (user) => {
+  const workoutsArray = [];
+  const now = new Date();
+  const userWorkouts = new Map(Object.entries(user.workouts));
+  for (var [key, value] of userWorkouts) {
+    if (value.startingTime > now) {
+      workoutsArray.push(await getDoc(doc(db, "workouts", key)));
+    }
+  }
+  workoutsArray.sort((a, b) => a.getTime() - b.getTime());
+  return workoutsArray;
 };
 const deleteFromDbIfNeeded = async (chat) => {
   const memebers = new Map(Object.entries(chat.members));
@@ -419,7 +431,6 @@ const deleteFromDbIfNeeded = async (chat) => {
   }
 };
 export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
-  const memebers = new Map(Object.entries(chatAndUserItem.chat.members));
   await updateDoc(doc(db, "users", user.usernameLower), {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatId}`]: deleteField(),
