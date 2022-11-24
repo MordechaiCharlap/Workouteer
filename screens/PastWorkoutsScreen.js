@@ -15,6 +15,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 const FutureWorkoutsScreen = () => {
   const workoutTypesArray = workoutTypes;
   const { user } = useAuth();
@@ -109,6 +110,27 @@ const FutureWorkoutsScreen = () => {
                     color={appStyle.appDarkBlue}
                   />
                 </View>
+                <View className="px-2 justify-evenly">
+                  <View className="flex-row">
+                    <FontAwesomeIcon
+                      icon={faStopwatch}
+                      size={30}
+                      color={appStyle.appDarkBlue}
+                    />
+                    <Text className="text-lg">: {item.minutes} minutes</Text>
+                  </View>
+                  <View className="flex-row">
+                    <FontAwesomeIcon
+                      icon={faUserGroup}
+                      size={30}
+                      color={appStyle.appDarkBlue}
+                    />
+                    <Text className="text-lg">
+                      : {new Map(Object.entries(item.members)).size}
+                    </Text>
+                  </View>
+                </View>
+                <TouchableOpacity></TouchableOpacity>
               </View>
             </View>
           )}
