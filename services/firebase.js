@@ -426,7 +426,25 @@ export const getFutureWorkouts = async (user) => {
   );
   return workoutsArray;
 };
-export const getPastWorkouts = async (user) => {};
+export const getPastWorkouts = async (user) => {
+  const workoutsArray = [];
+  const now = new Date();
+  const limitDate = new Date();
+  limitDate.setDate(limitDate.getDate() - 7);
+  const userWorkouts = new Map(Object.entries(user.workouts));
+  for (var [key, value] of userWorkouts) {
+    if (value.toDate() < now && value.toDate() >= limitDate.getDate()) {
+      workoutsArray.push({
+        id: key,
+        ...(await getDoc(doc(db, "workouts", key))).data(),
+      });
+    }
+  }
+  workoutsArray.sort(
+    (a, b) => a.startingTime.getTime() - b.startingTime.getTime()
+  );
+  return workoutsArray;
+};
 const deleteFromDbIfNeeded = async (chat) => {
   const memebers = new Map(Object.entries(chat.members));
   if (memebers.size == 1) {
