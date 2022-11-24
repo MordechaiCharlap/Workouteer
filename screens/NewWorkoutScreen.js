@@ -24,7 +24,7 @@ const NewWorkoutScreen = () => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
-  const [waitingTime, setWaitingTime] = useState(null);
+  //const [waitingTime, setWaitingTime] = useState(null);
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState("");
   const [isCreateDisabled, setIsCreateDisabled] = useState(true);
@@ -32,7 +32,13 @@ const NewWorkoutScreen = () => {
   const [createButtonColor, setCreateButtonColor] = useState("black");
   useEffect(() => {
     checkIfCanAddWorkout();
-  }, [type, startingTime, minutes, waitingTime, location]);
+  }, [
+    type,
+    startingTime,
+    minutes,
+    location,
+    // , waitingTime
+  ]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -43,8 +49,8 @@ const NewWorkoutScreen = () => {
       type != null &&
       startingTime != null &&
       minutes != null &&
-      waitingTime != null &&
       location != null
+      // &&waitingTime != null
     ) {
       setIsCreateDisabled(false);
       setCreateButtonTextColor(appStyle.appDarkBlue);
@@ -62,7 +68,7 @@ const NewWorkoutScreen = () => {
       type: type,
       startingTime: startingTime,
       minutes: minutes,
-      waitingTime: waitingTime,
+      //waitingTime: waitingTime,
       location: location,
       description: description,
     };
@@ -89,9 +95,9 @@ const NewWorkoutScreen = () => {
           <View className="pb-2 rounded mb-5">
             <WorkoutMinutes minutesSelected={setMinutes} />
           </View>
-          <View className="pb-2 rounded mb-5">
+          {/* <View className="pb-2 rounded mb-5">
             <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
-          </View>
+          </View> */}
           <View className="pb-2 rounded mb-5">
             <WorkoutDescription descChanged={setDescription} />
           </View>
