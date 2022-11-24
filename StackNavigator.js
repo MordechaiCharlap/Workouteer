@@ -19,6 +19,7 @@ import ChatScreen from "./screens/ChatScreen";
 import NewWorkoutScreen from "./screens/NewWorkoutScreen";
 import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
 import FutureWorkoutsScreen from "./screens/FutureWorkoutsScreen";
+import PastWorkoutsScreen from "./screens/PastWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -60,6 +61,11 @@ const StackNavigator = () => {
           <Stack.Screen
             name="FutureWorkouts"
             component={FutureWorkoutsScreen}
+            options={verticalConfig}
+          />
+          <Stack.Screen
+            name="PastWorkouts"
+            component={PastWorkoutsScreen}
             options={verticalConfig}
           />
           <Stack.Screen
