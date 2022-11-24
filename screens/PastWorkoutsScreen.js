@@ -105,7 +105,7 @@ const FutureWorkoutsScreen = () => {
                   }}
                 >
                   <FontAwesomeIcon
-                    icon={workoutTypesArray[item.type].icon}
+                    icon={workoutTypesArray[item.type - 1].icon}
                     size={60}
                     color={appStyle.appDarkBlue}
                   />

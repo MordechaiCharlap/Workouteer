@@ -13,7 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import { workoutTypes } from "../components/WorkoutType";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 const FutureWorkoutsScreen = () => {
+  const workoutTypesArray = workoutTypes;
   const { user } = useAuth();
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
@@ -101,7 +105,7 @@ const FutureWorkoutsScreen = () => {
                   }}
                 >
                   <FontAwesomeIcon
-                    icon={workoutTypesArray[item.type].icon}
+                    icon={workoutTypesArray[item.type - 1].icon}
                     size={60}
                     color={appStyle.appDarkBlue}
                   />
