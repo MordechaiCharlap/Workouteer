@@ -7,7 +7,7 @@ import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { faPersonBiking } from "@fortawesome/free-solid-svg-icons";
 
-const workoutTypes = [
+export const workoutTypes = [
   {
     id: 1,
     title: "Resistance Training",
