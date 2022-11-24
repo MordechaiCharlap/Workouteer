@@ -63,7 +63,7 @@ const FutureWorkoutsScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View
-              className="rounded h-28"
+              className="rounded h-32 mb-5"
               style={{
                 backgroundColor: appStyle.appLightBlue,
               }}
@@ -142,16 +142,36 @@ const FutureWorkoutsScreen = () => {
                     </Text>
                   </View>
                 </View>
-                <View className="justify-center flex-1 items-center">
-                  <TouchableOpacity>
+                <View className="justify-around flex-1">
+                  <TouchableOpacity
+                    className="mx-2 h-8 justify-center rounded"
+                    style={{
+                      backgroundColor: appStyle.appDarkBlue,
+                    }}
+                  >
                     <Text
-                      className="p-2 rounded"
+                      className="text-center"
                       style={{
-                        backgroundColor: appStyle.appDarkBlue,
                         color: appStyle.appGray,
                       }}
                     >
                       More details
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="mx-2 h-8 justify-center rounded"
+                    style={{
+                      borderColor: appStyle.appDarkBlue,
+                      borderWidth: 1,
+                    }}
+                  >
+                    <Text
+                      className="text-center"
+                      style={{
+                        color: appStyle.appDarkBlue,
+                      }}
+                    >
+                      Cancel
                     </Text>
                   </TouchableOpacity>
                 </View>

@@ -142,10 +142,10 @@ const FutureWorkoutsScreen = () => {
                     </Text>
                   </View>
                 </View>
-                <View className="justify-center flex-1 items-center">
-                  <TouchableOpacity>
+                <View className="justify-center flex-1">
+                  <TouchableOpacity className="mx-2">
                     <Text
-                      className="p-2 rounded"
+                      className="py-2 rounded text-center"
                       style={{
                         backgroundColor: appStyle.appDarkBlue,
                         color: appStyle.appGray,
