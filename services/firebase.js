@@ -352,11 +352,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     var chatToPush = {
       chat: {
         id: `${chatId}`,
-        isGroupChat: chat.isGroupChat,
-        lastMessage: chat.lastMessage,
-        messagesCount: chat.messagesCount,
-        isGroupChat: chat.isGroupChat,
-        members: chat.members,
+        ...chat,
       },
     };
     if (!chat.isGroupChat) {
