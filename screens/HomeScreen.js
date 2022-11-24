@@ -10,6 +10,7 @@ import {
   faPlus,
   faMagnifyingGlass,
   faUserGroup,
+  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -48,18 +49,18 @@ const HomeScreen = () => {
             icon={faUserGroup}
           />
           <HomeScreenButton
-            buttonText="PLANNED WORKOUTS"
+            buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
-            navigateScreen="PlannedWorkouts"
+            navigateScreen="FutureWorkouts"
             icon={faClock}
           />
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
-            buttonText="HISTORY"
+            buttonText="PAST WORKOUTS"
             style={buttonStyle}
             navigateScreen="NewWorkout"
-            icon={faUserGroup}
+            icon={faClockRotateLeft}
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
         </View>

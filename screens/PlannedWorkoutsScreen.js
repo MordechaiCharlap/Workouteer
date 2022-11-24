@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-const PlannedWorkoutsScreen = () => {
+const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
@@ -50,7 +50,7 @@ const PlannedWorkoutsScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 px-4">
-        <Header title="Planned workouts" goBackOption={true} />
+        <Header title="Future workouts" goBackOption={true} />
         <FlatList
           className="p-2"
           showsVerticalScrollIndicator={false}
@@ -75,4 +75,4 @@ const PlannedWorkoutsScreen = () => {
   );
 };
 
-export default PlannedWorkoutsScreen;
+export default FutureWorkoutsScreen;
