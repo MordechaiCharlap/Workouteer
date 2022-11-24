@@ -364,7 +364,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
       for (var key of members.keys()) {
         if (key != user.usernameLower) {
           chatToPush = {
-            chat: chatToPush,
+            chat: chatToPush.chat,
             user: (await getDoc(doc(db, "users", key))).data(),
           };
         }
@@ -419,10 +419,15 @@ export const getPlannedWorkouts = async (user) => {
   const userWorkouts = new Map(Object.entries(user.workouts));
   for (var [key, value] of userWorkouts) {
     if (value.startingTime > now) {
-      workoutsArray.push(await getDoc(doc(db, "workouts", key)));
+      workoutsArray.push({
+        id: key,
+        ...(await getDoc(doc(db, "workouts", key))),
+      });
     }
   }
-  workoutsArray.sort((a, b) => a.getTime() - b.getTime());
+  workoutsArray.sort(
+    (a, b) => a.startingTime.getTime() - b.startingTime.getTime()
+  );
   return workoutsArray;
 };
 const deleteFromDbIfNeeded = async (chat) => {
