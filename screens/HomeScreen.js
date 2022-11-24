@@ -43,24 +43,24 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
-            buttonText="FRIENDS WORKOUTS"
-            style={buttonStyle}
-            navigateScreen="NewWorkout"
-            icon={faUserGroup}
-          />
-          <HomeScreenButton
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
             icon={faClock}
           />
-        </View>
-        <View className="flex-row justify-around my-5">
           <HomeScreenButton
             buttonText="PAST WORKOUTS"
             style={buttonStyle}
             navigateScreen="PastWorkouts"
             icon={faClockRotateLeft}
+          />
+        </View>
+        <View className="flex-row justify-around my-5">
+          <HomeScreenButton
+            buttonText="FRIENDS WORKOUTS"
+            style={buttonStyle}
+            navigateScreen="NewWorkout"
+            icon={faUserGroup}
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
         </View>
