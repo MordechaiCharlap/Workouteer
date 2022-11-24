@@ -10,7 +10,7 @@ import {
   faPlus,
   faMagnifyingGlass,
   faUserGroup,
-  faClockRotateLeft,
+  faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -52,7 +52,7 @@ const HomeScreen = () => {
             buttonText="PAST WORKOUTS"
             style={buttonStyle}
             navigateScreen="PastWorkouts"
-            icon={faClockRotateLeft}
+            icon={faCalendarCheck}
           />
         </View>
         <View className="flex-row justify-around my-5">
