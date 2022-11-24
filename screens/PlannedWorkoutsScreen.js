@@ -26,7 +26,7 @@ const PlannedWorkoutsScreen = () => {
   useEffect(() => {
     const getWorkouts = async () => {
       console.log("getting workouts");
-      const workoutsArr = await firebase.getPlannedWorkouts(user);
+      const workoutsArr = await firebase.getFutureWorkouts(user);
       console.log(workoutsArr);
       setWorkouts(workoutsArr);
     };

@@ -409,7 +409,7 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
   });
 };
-export const getPlannedWorkouts = async (user) => {
+export const getFutureWorkouts = async (user) => {
   const workoutsArray = [];
   const now = new Date();
   const userWorkouts = new Map(Object.entries(user.workouts));
@@ -426,6 +426,7 @@ export const getPlannedWorkouts = async (user) => {
   );
   return workoutsArray;
 };
+export const getPastWorkouts = async (user) => {};
 const deleteFromDbIfNeeded = async (chat) => {
   const memebers = new Map(Object.entries(chat.members));
   if (memebers.size == 1) {
