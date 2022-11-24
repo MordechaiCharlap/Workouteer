@@ -414,10 +414,10 @@ export const getPlannedWorkouts = async (user) => {
   const now = new Date();
   const userWorkouts = new Map(Object.entries(user.workouts));
   for (var [key, value] of userWorkouts) {
-    if (value.startingTime > now) {
+    if (value.toDate() > now) {
       workoutsArray.push({
         id: key,
-        ...(await getDoc(doc(db, "workouts", key))),
+        ...(await getDoc(doc(db, "workouts", key))).data(),
       });
     }
   }
