@@ -165,10 +165,10 @@ const FutureWorkoutsScreen = () => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={
+                    onPress={() =>
                       item.creator == user.usernameLower
-                        ? { cancelWorkout }
-                        : { leaveWorkout }
+                        ? cancelWorkout(item)
+                        : leaveWorkout(item)
                     }
                     className="mx-2 h-8 justify-center rounded"
                     style={{
