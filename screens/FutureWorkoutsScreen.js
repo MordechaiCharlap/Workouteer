@@ -52,7 +52,9 @@ const FutureWorkoutsScreen = () => {
     time = hh + ":" + mm;
     return day + ", " + time;
   };
-  const leaveWorkout = async (workout) => {};
+  const leaveWorkout = async (workout) => {
+    await firebase.leaveWorkout(user, workout);
+  };
   const cancelWorkout = async (workout) => {
     await firebase.cancelWorkout(user, workout);
   };
