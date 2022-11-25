@@ -60,6 +60,11 @@ const FutureWorkoutsScreen = () => {
     await firebase.cancelWorkout(user, workout);
     await firebase.updateContext(user);
   };
+  const removeFromUI = (workout) => {
+    const index = workouts.indexOf(workout);
+    const workoutsClone = workouts;
+    workoutsClone.splice(index, 1);
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 px-4">
