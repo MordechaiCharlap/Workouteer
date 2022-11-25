@@ -476,3 +476,11 @@ export const cancelWorkout = async (user, workout) => {
   }
   await deleteDoc(doc(db, "workouts", workout.id));
 };
+export const leaveWorkout = async (user, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`members.${user.usernameLower}`]: deleteField(),
+  });
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    [`workouts.${workout.id}`]: deleteField(),
+  });
+};
