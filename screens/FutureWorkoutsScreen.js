@@ -158,22 +158,24 @@ const FutureWorkoutsScreen = () => {
                       More details
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    className="mx-2 h-8 justify-center rounded"
-                    style={{
-                      borderColor: appStyle.appDarkBlue,
-                      borderWidth: 1,
-                    }}
-                  >
-                    <Text
-                      className="text-center"
+                  {item.creator == user.usernameLower && (
+                    <TouchableOpacity
+                      className="mx-2 h-8 justify-center rounded"
                       style={{
-                        color: appStyle.appDarkBlue,
+                        borderColor: appStyle.appDarkBlue,
+                        borderWidth: 1,
                       }}
                     >
-                      Cancel
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        className="text-center"
+                        style={{
+                          color: appStyle.appDarkBlue,
+                        }}
+                      >
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             </View>
