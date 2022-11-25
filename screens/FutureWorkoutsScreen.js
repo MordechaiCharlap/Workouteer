@@ -52,6 +52,8 @@ const FutureWorkoutsScreen = () => {
     time = hh + ":" + mm;
     return day + ", " + time;
   };
+  const leaveWorkout = (workout) => {};
+  const cancelWorkout = (workout) => {};
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 px-4">
@@ -111,14 +113,14 @@ const FutureWorkoutsScreen = () => {
                   />
                 </View>
                 <View className="px-2 justify-evenly">
-                  <View className="flex-row">
+                  <View className="flex-row items-center">
                     <FontAwesomeIcon
                       icon={faStopwatch}
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
                     <Text
-                      className="text-lg"
+                      className="text-md"
                       style={{
                         color: appStyle.appDarkBlue,
                       }}
@@ -126,14 +128,14 @@ const FutureWorkoutsScreen = () => {
                       : {item.minutes} minutes
                     </Text>
                   </View>
-                  <View className="flex-row">
+                  <View className="flex-row items-center">
                     <FontAwesomeIcon
                       icon={faUserGroup}
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
                     <Text
-                      className="text-lg"
+                      className="text-md"
                       style={{
                         color: appStyle.appDarkBlue,
                       }}
@@ -158,24 +160,24 @@ const FutureWorkoutsScreen = () => {
                       More details
                     </Text>
                   </TouchableOpacity>
-                  {item.creator == user.usernameLower && (
-                    <TouchableOpacity
-                      className="mx-2 h-8 justify-center rounded"
+                  <TouchableOpacity
+                    className="mx-2 h-8 justify-center rounded"
+                    style={{
+                      borderColor: appStyle.appDarkBlue,
+                      borderWidth: 1,
+                    }}
+                  >
+                    <Text
+                      className="text-center"
                       style={{
-                        borderColor: appStyle.appDarkBlue,
-                        borderWidth: 1,
+                        color: appStyle.appDarkBlue,
                       }}
                     >
-                      <Text
-                        className="text-center"
-                        style={{
-                          color: appStyle.appDarkBlue,
-                        }}
-                      >
-                        Cancel
-                      </Text>
-                    </TouchableOpacity>
-                  )}
+                      {item.creator == user.usernameLower
+                        ? "Cancel workout"
+                        : "Leave workout"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
