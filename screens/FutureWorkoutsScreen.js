@@ -66,6 +66,7 @@ const FutureWorkoutsScreen = () => {
     const index = workouts.indexOf(workout);
     const workoutsClone = workouts;
     workoutsClone.splice(index, 1);
+    setWorkouts(workoutsClone);
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
