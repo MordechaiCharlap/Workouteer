@@ -52,8 +52,10 @@ const FutureWorkoutsScreen = () => {
     time = hh + ":" + mm;
     return day + ", " + time;
   };
-  const leaveWorkout = (workout) => {};
-  const cancelWorkout = (workout) => {};
+  const leaveWorkout = async (workout) => {};
+  const cancelWorkout = async (workout) => {
+    await firebase.cancelWorkout(user, workout);
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <View className="flex-1 px-4">
@@ -161,6 +163,11 @@ const FutureWorkoutsScreen = () => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    onPress={
+                      item.creator == user.usernameLower
+                        ? { cancelWorkout }
+                        : { leaveWorkout }
+                    }
                     className="mx-2 h-8 justify-center rounded"
                     style={{
                       borderColor: appStyle.appDarkBlue,
