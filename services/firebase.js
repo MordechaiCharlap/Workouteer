@@ -462,3 +462,17 @@ export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
   await deleteChatFromDbIfNeeded(chatAndUserItem.chat);
 };
 export const deleteGroupChatForUser = async (user, chat) => {};
+export const cancelWorkout = async (user, workout) => {
+  const membersMap = new Map(Object.entries(workout.members));
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    [`workouts.${workout.id}`]: deleteField(),
+  });
+  for (var [key, value] of membersMap) {
+    if (value == true) {
+      await updateDoc(doc(db, "users", key), {
+        [`workouts.${workout.id}`]: deleteField(),
+      });
+    }
+  }
+  await deleteDoc(doc(db, "workouts", workout.id));
+};
