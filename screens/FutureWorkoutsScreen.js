@@ -54,9 +54,11 @@ const FutureWorkoutsScreen = () => {
   };
   const leaveWorkout = async (workout) => {
     await firebase.leaveWorkout(user, workout);
+    await firebase.updateContext(user);
   };
   const cancelWorkout = async (workout) => {
     await firebase.cancelWorkout(user, workout);
+    await firebase.updateContext(user);
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
