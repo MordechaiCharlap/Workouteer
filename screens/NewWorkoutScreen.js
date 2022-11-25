@@ -73,6 +73,7 @@ const NewWorkoutScreen = () => {
       description: description,
     };
     await firebase.createWorkout(workout);
+    await firebase.updateContext(user.usernameLower);
     navigation.goBack();
   };
   return (
