@@ -53,12 +53,14 @@ const FutureWorkoutsScreen = () => {
     return day + ", " + time;
   };
   const leaveWorkout = async (workout) => {
+    removeFromUI(workout);
     await firebase.leaveWorkout(user, workout);
-    await firebase.updateContext(user);
+    await firebase.updateContext(user.usernameLower);
   };
   const cancelWorkout = async (workout) => {
+    removeFromUI(workout);
     await firebase.cancelWorkout(user, workout);
-    await firebase.updateContext(user);
+    await firebase.updateContext(user.usernameLower);
   };
   const removeFromUI = (workout) => {
     const index = workouts.indexOf(workout);
