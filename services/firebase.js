@@ -448,7 +448,7 @@ export const getPastWorkouts = async (user) => {
   );
   return workoutsArray;
 };
-const deleteFromDbIfNeeded = async (chat) => {
+const deleteChatFromDbIfNeeded = async (chat) => {
   const memebers = new Map(Object.entries(chat.members));
   if (memebers.size == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
@@ -459,6 +459,6 @@ export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatId}`]: deleteField(),
   });
-  await deleteFromDbIfNeeded(chatAndUserItem.chat);
+  await deleteChatFromDbIfNeeded(chatAndUserItem.chat);
 };
 export const deleteGroupChatForUser = async (user, chat) => {};
