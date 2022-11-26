@@ -63,7 +63,7 @@ const FutureWorkoutsScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View
-              className="rounded h-28"
+              className="rounded h-32 mb-5"
               style={{
                 backgroundColor: appStyle.appLightBlue,
               }}
@@ -111,14 +111,14 @@ const FutureWorkoutsScreen = () => {
                   />
                 </View>
                 <View className="px-2 justify-evenly">
-                  <View className="flex-row">
+                  <View className="flex-row items-center">
                     <FontAwesomeIcon
                       icon={faStopwatch}
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
                     <Text
-                      className="text-lg"
+                      className="text-md"
                       style={{
                         color: appStyle.appDarkBlue,
                       }}
@@ -126,14 +126,14 @@ const FutureWorkoutsScreen = () => {
                       : {item.minutes} minutes
                     </Text>
                   </View>
-                  <View className="flex-row">
+                  <View className="flex-row items-center">
                     <FontAwesomeIcon
                       icon={faUserGroup}
                       size={30}
                       color={appStyle.appDarkBlue}
                     />
                     <Text
-                      className="text-lg"
+                      className="text-md"
                       style={{
                         color: appStyle.appDarkBlue,
                       }}
@@ -142,12 +142,16 @@ const FutureWorkoutsScreen = () => {
                     </Text>
                   </View>
                 </View>
-                <View className="justify-center flex-1">
-                  <TouchableOpacity className="mx-2">
+                <View className="justify-around flex-1">
+                  <TouchableOpacity
+                    className="mx-2 h-8 justify-center rounded"
+                    style={{
+                      backgroundColor: appStyle.appDarkBlue,
+                    }}
+                  >
                     <Text
-                      className="py-2 rounded text-center"
+                      className="text-center"
                       style={{
-                        backgroundColor: appStyle.appDarkBlue,
                         color: appStyle.appGray,
                       }}
                     >
