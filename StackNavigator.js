@@ -17,7 +17,7 @@ import EditDataScreen from "./screens/EditDataScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import ChatScreen from "./screens/ChatScreen";
 import NewWorkoutScreen from "./screens/NewWorkoutScreen";
-import SearchWorkoutScreen from "./screens/SearchWorkoutScreen";
+import FindWorkoutScreen from "./screens/FindWorkoutScreen";
 import FutureWorkoutsScreen from "./screens/FutureWorkoutsScreen";
 import PastWorkoutsScreen from "./screens/PastWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
@@ -54,8 +54,8 @@ const StackNavigator = () => {
             options={verticalConfig}
           />
           <Stack.Screen
-            name="SearchWorkout"
-            component={SearchWorkoutScreen}
+            name="FindWorkout"
+            component={FindWorkoutScreen}
             options={verticalConfig}
           />
           <Stack.Screen

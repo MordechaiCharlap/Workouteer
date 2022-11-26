@@ -31,7 +31,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             buttonText="FIND A WORKOUT"
             style={buttonStyle}
-            navigateScreen="SearchWorkout"
+            navigateScreen="FindWorkout"
             icon={faMagnifyingGlass}
           />
           <HomeScreenButton

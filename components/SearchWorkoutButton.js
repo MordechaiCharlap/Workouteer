@@ -3,7 +3,7 @@ import React from "react";
 import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-const SearchWorkoutButton = () => {
+const FindWorkoutButton = () => {
   return (
     <View>
       <TouchableOpacity
@@ -23,4 +23,4 @@ const SearchWorkoutButton = () => {
   );
 };
 
-export default SearchWorkoutButton;
+export default FindWorkoutButton;

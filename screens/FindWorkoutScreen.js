@@ -3,7 +3,7 @@ import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import Header from "../components/Header";
-const SearchWorkoutScreen = () => {
+const FindWorkoutScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,4 +19,4 @@ const SearchWorkoutScreen = () => {
   );
 };
 
-export default SearchWorkoutScreen;
+export default FindWorkoutScreen;
