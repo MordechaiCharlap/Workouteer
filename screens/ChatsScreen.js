@@ -173,9 +173,8 @@ const ChatsScreen = () => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="px-5 flex-1">
-        <Header title="Chats" />
-
+      <Header title="Chats" />
+      <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (
           <View
             className="rounded-xl"

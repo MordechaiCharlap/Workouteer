@@ -70,8 +70,8 @@ const FutureWorkoutsScreen = () => {
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+      <Header title="Future workouts" goBackOption={true} />
       <View className="flex-1 px-4">
-        <Header title="Future workouts" goBackOption={true} />
         <FlatList
           className="p-2"
           showsVerticalScrollIndicator={false}

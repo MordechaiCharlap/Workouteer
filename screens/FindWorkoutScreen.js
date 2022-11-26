@@ -3,6 +3,7 @@ import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import Header from "../components/Header";
+import WorkoutType from "../components/WorkoutType";
 const FindWorkoutScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -12,8 +13,9 @@ const FindWorkoutScreen = () => {
   }, []);
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
-      <View className="flex-1">
-        <Header title="Find workout" goBackOption={true} />
+      <Header title="Find workout" goBackOption={true} />
+      <View className="flex-1 px-4">
+        <WorkoutType />
       </View>
     </SafeAreaView>
   );
