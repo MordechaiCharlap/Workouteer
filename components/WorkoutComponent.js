@@ -121,6 +121,31 @@ const WorkoutComponent = (props) => {
               More details
             </Text>
           </TouchableOpacity>
+          {!props.isPastWorkout && (
+            <TouchableOpacity
+              onPress={() =>
+                props.workout.creator == props.user.usernameLower
+                  ? cancelWorkout(props.workout)
+                  : leaveWorkout(props.workout)
+              }
+              className="mx-2 h-8 justify-center rounded"
+              style={{
+                borderColor: appStyle.appDarkBlue,
+                borderWidth: 1,
+              }}
+            >
+              <Text
+                className="text-center"
+                style={{
+                  color: appStyle.appDarkBlue,
+                }}
+              >
+                {props.workout.creator == props.user.usernameLower
+                  ? "Cancel workout"
+                  : "Leave workout"}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
