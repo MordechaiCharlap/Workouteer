@@ -30,7 +30,7 @@ const FutureWorkoutsScreen = () => {
   useEffect(() => {
     const getWorkouts = async () => {
       console.log("getting workouts");
-      const workoutsArr = await firebase.getPastWorkouts(user);
+      const workoutsArr = await firebase.getPastWorkouts(user, now);
       console.log(workoutsArr);
       setWorkouts(workoutsArr);
     };
