@@ -15,20 +15,24 @@ const WorkoutLocation = (props) => {
     props.locationChanged(null);
   };
   const pinLocationOnMap = () => {};
-  const mapOnCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
+  const setLocationClicked = async () => {
+    if (showMap) {
+      setShowMap(false);
+    } else {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
 
-    const location = await Location.getCurrentPositionAsync({});
-    const lotLangLocation = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-    setDefaultMarker(lotLangLocation);
-    setShowMap(true);
+      const location = await Location.getCurrentPositionAsync({});
+      const lotLangLocation = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setDefaultMarker(lotLangLocation);
+      setShowMap(true);
+    }
   };
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -76,7 +80,7 @@ const WorkoutLocation = (props) => {
           onPress={() =>
             locationType == "locationPinned"
               ? cancelLocation()
-              : mapOnCurrentLocation()
+              : setLocationClicked()
           }
           className="rounded justify-center p-1"
           style={{
