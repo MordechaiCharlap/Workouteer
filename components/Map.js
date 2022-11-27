@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as appStyle from "./AppStyleSheet";
 const Map = (props) => {
   console.log(props.defaultMarker);
@@ -15,7 +15,9 @@ const Map = (props) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-      />
+      >
+        <Marker draggable coordinate={props.defaultMarker} />
+      </MapView>
     </View>
   );
 };
