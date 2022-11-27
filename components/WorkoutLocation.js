@@ -35,6 +35,7 @@ const WorkoutLocation = (props) => {
   };
   const locationPinned = (coords) => {
     setLocationType("locationPinned");
+    setShowMap(false);
     props.locationChanged(coords);
   };
   const getCurrentLocation = async () => {
