@@ -5,9 +5,6 @@ import * as appStyle from "./AppStyleSheet";
 const Map = () => {
   return (
     <View className="items-center" style={styles.container}>
-      <Text className="text-xl" style={{ color: appStyle.appGray }}>
-        Map is down here
-      </Text>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
