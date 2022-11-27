@@ -31,7 +31,7 @@ const Map = (props) => {
         <Marker coordinate={coords} />
       </MapView>
       <TouchableOpacity
-        className="absolute bottom-4 rounded p-2  opacity-80"
+        className="absolute bottom-4 rounded p-2"
         style={{
           backgroundColor: appStyle.appLightBlue,
           borderColor: appStyle.appDarkBlue,
@@ -40,7 +40,7 @@ const Map = (props) => {
         onPress={() => saveLocation()}
       >
         <Text
-          className="text-2xl font-semibold"
+          className="text-1xl font-semibold"
           style={{ color: appStyle.appDarkBlue }}
         >
           Save location
