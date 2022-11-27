@@ -36,7 +36,6 @@ const WorkoutLocation = (props) => {
   const locationPinned = (coords) => {
     setLocation(coords);
     setShowMap(false);
-    console.log("location saved:", coords);
     props.locationChanged(coords);
   };
   return (
