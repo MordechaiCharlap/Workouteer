@@ -60,7 +60,7 @@ const WorkoutLocation = (props) => {
           onPress={() =>
             locationType == "locationPinned"
               ? cancelLocation()
-              : pinLocationOnMap()
+              : setShowMap(true)
           }
           className="rounded justify-center p-1"
           style={{
