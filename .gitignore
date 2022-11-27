@@ -3,6 +3,7 @@ node_modules/
 dist/
 npm-debug.*
 google-services.json
+AndroidManifest.xml
 firebase.config.js
 *.jks
 *.p8
