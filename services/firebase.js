@@ -428,9 +428,8 @@ export const getFutureWorkouts = async (user) => {
   );
   return workoutsArray;
 };
-export const getPastWorkouts = async (user) => {
+export const getPastWorkouts = async (user, now) => {
   const workoutsArray = [];
-  const now = new Date();
   const limitDate = new Date();
   limitDate.setDate(limitDate.getDate() - 7);
   const userWorkouts = new Map(Object.entries(user.workouts));
