@@ -4,7 +4,9 @@ import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
+import Map from "./Map";
 const WorkoutLocation = (props) => {
+  const [showMap, setShowMap] = useState(false);
   const [locationType, setLocationType] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const cancelLocation = () => {
@@ -28,47 +30,50 @@ const WorkoutLocation = (props) => {
     props.locationChanged(lotLangLocation);
   };
   return (
-    <View className="flex-row items-center justify-between">
-      <View className="flex-row items-center">
-        <FontAwesomeIcon
-          icon={faLocationDot}
-          size={25}
-          color={appStyle.appGray}
-        />
-        <Text className="ml-1" style={{ color: appStyle.appGray }}>
-          Location:
-        </Text>
-      </View>
-      <TouchableOpacity
-        onPress={() =>
-          locationType == "current" ? cancelLocation() : getCurrentLocation()
-        }
-        className="rounded justify-center p-1"
-        style={{
-          backgroundColor:
-            locationType == "current"
-              ? appStyle.appNeonAzure
-              : appStyle.appLightBlue,
-        }}
-      >
-        <Text style={{ color: appStyle.appDarkBlue }}>Current location</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          locationType == "locationPinned"
-            ? cancelLocation()
-            : pinLocationOnMap()
-        }
-        className="rounded justify-center p-1"
-        style={{
-          backgroundColor:
+    <View>
+      <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center">
+          <FontAwesomeIcon
+            icon={faLocationDot}
+            size={25}
+            color={appStyle.appGray}
+          />
+          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+            Location:
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() =>
+            locationType == "current" ? cancelLocation() : getCurrentLocation()
+          }
+          className="rounded justify-center p-1"
+          style={{
+            backgroundColor:
+              locationType == "current"
+                ? appStyle.appNeonAzure
+                : appStyle.appLightBlue,
+          }}
+        >
+          <Text style={{ color: appStyle.appDarkBlue }}>Current location</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
             locationType == "locationPinned"
-              ? appStyle.appNeonAzure
-              : appStyle.appLightBlue,
-        }}
-      >
-        <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
-      </TouchableOpacity>
+              ? cancelLocation()
+              : pinLocationOnMap()
+          }
+          className="rounded justify-center p-1"
+          style={{
+            backgroundColor:
+              locationType == "locationPinned"
+                ? appStyle.appNeonAzure
+                : appStyle.appLightBlue,
+          }}
+        >
+          <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
+        </TouchableOpacity>
+        {showMap && <Map />}
+      </View>
     </View>
   );
 };
