@@ -1,21 +1,10 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
+import { View, SafeAreaView, FlatList } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import * as appStyle from "../components/AppStyleSheet";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-import { workoutTypes } from "../components/WorkoutType";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import WorkoutComponent from "../components/WorkoutComponent";
 const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
