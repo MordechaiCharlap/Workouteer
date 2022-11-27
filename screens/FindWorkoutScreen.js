@@ -4,12 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
+import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 const FindWorkoutScreen = () => {
   const navigation = useNavigation();
   const [type, setType] = useState(null);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
+  const [minStartingTime, setMinStartingTime] = useState(true);
+  const [maxStartingTime, setMaxStartingTime] = useState(true);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -26,12 +29,18 @@ const FindWorkoutScreen = () => {
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <WorkoutType typeSelected={setType} />
+        <View className="mb-5">
+          <Text style={{ color: appStyle.appGray }}>
+            Select day and the earlier you want to train
+          </Text>
+          <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
+        </View>
         <View className="items-center">
           <TouchableOpacity
             className="px-2 py-1"
             style={{ backgroundColor: appStyle.appAzure }}
           >
-            <Text className="text-xl" style={{ color: appStyle.appDarkBlue }}>
+            <Text className="text-2xl" style={{ color: appStyle.appDarkBlue }}>
               Search
             </Text>
           </TouchableOpacity>
