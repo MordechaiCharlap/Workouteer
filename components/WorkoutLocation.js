@@ -7,11 +7,11 @@ import * as Location from "expo-location";
 import Map from "./Map";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
-  const [defaultMarker, setDefaultMarker] = useState(null);
-  const [locationType, setLocationType] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [markerCoords, setMarkerCoords] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const cancelLocation = () => {
-    setLocationType(null);
+    setLocation(null);
     props.locationChanged(null);
   };
   const setLocationClicked = async () => {
@@ -29,13 +29,14 @@ const WorkoutLocation = (props) => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-      setDefaultMarker(lotLangLocation);
+      setMarkerCoords(lotLangLocation);
       setShowMap(true);
     }
   };
   const locationPinned = (coords) => {
-    setLocationType("locationPinned");
+    setLocation(coords);
     setShowMap(false);
+    console.log("location saved:", coords);
     props.locationChanged(coords);
   };
   return (
@@ -54,15 +55,11 @@ const WorkoutLocation = (props) => {
         <TouchableOpacity
           className="rounded justify-center p-1 ml-5"
           onPress={() =>
-            locationType == "locationPinned"
-              ? cancelLocation()
-              : setLocationClicked()
+            location != null ? cancelLocation() : setLocationClicked()
           }
           style={{
             backgroundColor:
-              locationType == "locationPinned"
-                ? appStyle.appNeonAzure
-                : appStyle.appLightBlue,
+              location != null ? appStyle.appNeonAzure : appStyle.appLightBlue,
           }}
         >
           <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
@@ -70,7 +67,7 @@ const WorkoutLocation = (props) => {
       </View>
       <View className="items-center">
         {showMap && (
-          <Map defaultMarker={defaultMarker} saveLocation={locationPinned} />
+          <Map defaultMarker={markerCoords} saveLocation={locationPinned} />
         )}
       </View>
     </View>

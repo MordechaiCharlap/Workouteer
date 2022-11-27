@@ -8,7 +8,6 @@ import * as appStyle from "./AppStyleSheet";
 const Map = (props) => {
   const [coords, setCoords] = useState(props.defaultMarker);
   const pressed = (ltLng) => {
-    console.log(ltLng);
     setCoords(ltLng);
   };
   const saveLocation = () => {
