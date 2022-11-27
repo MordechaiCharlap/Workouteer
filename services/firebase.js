@@ -409,9 +409,8 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
   });
 };
-export const getFutureWorkouts = async (user) => {
+export const getFutureWorkouts = async (user, now) => {
   const workoutsArray = [];
-  const now = new Date();
   const userWorkouts = new Map(Object.entries(user.workouts));
   for (var [key, value] of userWorkouts) {
     if (value.toDate() > now) {
