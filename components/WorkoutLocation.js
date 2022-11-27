@@ -6,7 +6,8 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
 import Map from "./Map";
 const WorkoutLocation = (props) => {
-  const [showMap, setShowMap] = useState(true);
+  const [showMap, setShowMap] = useState(false);
+  const [defaultMarker, setDefaultMarker] = useState(null);
   const [locationType, setLocationType] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const cancelLocation = () => {
@@ -14,6 +15,21 @@ const WorkoutLocation = (props) => {
     props.locationChanged(null);
   };
   const pinLocationOnMap = () => {};
+  const mapOnCurrentLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    const lotLangLocation = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setDefaultMarker(lotLangLocation);
+    setShowMap(true);
+  };
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -60,7 +76,7 @@ const WorkoutLocation = (props) => {
           onPress={() =>
             locationType == "locationPinned"
               ? cancelLocation()
-              : setShowMap(true)
+              : mapOnCurrentLocation()
           }
           className="rounded justify-center p-1"
           style={{
@@ -73,7 +89,9 @@ const WorkoutLocation = (props) => {
           <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
         </TouchableOpacity>
       </View>
-      {showMap && <Map />}
+      <View className="items-center">
+        {showMap && <Map defaultMarker={defaultMarker} />}
+      </View>
     </View>
   );
 };
