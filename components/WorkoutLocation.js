@@ -14,7 +14,6 @@ const WorkoutLocation = (props) => {
     setLocationType(null);
     props.locationChanged(null);
   };
-  const pinLocationOnMap = () => {};
   const setLocationClicked = async () => {
     if (showMap) {
       setShowMap(false);
@@ -33,6 +32,10 @@ const WorkoutLocation = (props) => {
       setDefaultMarker(lotLangLocation);
       setShowMap(true);
     }
+  };
+  const locationPinned = (coords) => {
+    setLocationType("locationPinned");
+    props.locationChanged(coords);
   };
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -94,7 +97,9 @@ const WorkoutLocation = (props) => {
         </TouchableOpacity>
       </View>
       <View className="items-center">
-        {showMap && <Map defaultMarker={defaultMarker} />}
+        {showMap && (
+          <Map defaultMarker={defaultMarker} saveLocation={locationPinned} />
+        )}
       </View>
     </View>
   );
