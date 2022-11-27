@@ -11,55 +11,40 @@ const Map = (props) => {
     console.log(ltLng);
     setCoords(ltLng);
   };
+  const saveLocation = () => {
+    props.saveLocation(coords);
+  };
   return (
     <View className="items-center">
-      <View>
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
-          showsUserLocation={true}
-          onPress={(e) => pressed(e.nativeEvent.coordinate)}
-          initialRegion={{
-            latitude: props.defaultMarker.latitude,
-            longitude: props.defaultMarker.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        onPress={(e) => pressed(e.nativeEvent.coordinate)}
+        initialRegion={{
+          latitude: props.defaultMarker.latitude,
+          longitude: props.defaultMarker.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        <Marker coordinate={coords} />
+      </MapView>
+      <TouchableOpacity
+        className="absolute bottom-4 rounded p-2  opacity-80"
+        style={{
+          backgroundColor: appStyle.appLightBlue,
+          borderColor: appStyle.appDarkBlue,
+          borderWidth: 1,
+        }}
+        onPress={() => saveLocation()}
+      >
+        <Text
+          className="text-2xl font-semibold"
+          style={{ color: appStyle.appDarkBlue }}
         >
-          <Marker coordinate={coords} />
-        </MapView>
-        {/* <View className="absolute" style={{ left: "50%", top: "50%" }}>
-          <View className="flex-row">
-            <View>
-              <FontAwesomeIcon
-                icon={faDotCircle}
-                color={appStyle.appDarkBlue}
-                size={30}
-              />
-              <FontAwesomeIcon
-                icon={faDotCircle}
-                color={appStyle.appDarkBlue}
-                size={30}
-              />
-            </View>
-            <View>
-              <FontAwesomeIcon
-                icon={faDotCircle}
-                color={appStyle.appDarkBlue}
-                size={30}
-              />
-              <FontAwesomeIcon
-                icon={faDotCircle}
-                color={appStyle.appDarkBlue}
-                size={30}
-              />
-            </View>
-          </View>
-        </View> */}
-      </View>
-
-      <TouchableOpacity onPress={() => saveRegion()}>
-        <Text>Save location</Text>
+          Save location
+        </Text>
       </TouchableOpacity>
     </View>
   );
