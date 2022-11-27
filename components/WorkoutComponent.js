@@ -1,22 +1,13 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
 import * as appStyle from "../components/AppStyleSheet";
-import ResponsiveStyling from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
-import Header from "../components/Header";
 import * as firebase from "../services/firebase";
-import useAuth from "../hooks/useAuth";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 const WorkoutComponent = (props) => {
+  const workoutTypesArray = workoutTypes;
   const timeString = (date) => {
     var day;
     var time;
@@ -61,7 +52,7 @@ const WorkoutComponent = (props) => {
             color: appStyle.appDarkBlue,
           }}
         >
-          {props.workout.creator == user.usernameLower
+          {props.workout.creator == props.user.usernameLower
             ? "Your "
             : props.workout.creator + "'s"}
           workout
