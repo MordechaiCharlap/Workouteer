@@ -6,7 +6,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
 import Map from "./Map";
 const WorkoutLocation = (props) => {
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const [locationType, setLocationType] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const cancelLocation = () => {
@@ -72,8 +72,8 @@ const WorkoutLocation = (props) => {
         >
           <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
         </TouchableOpacity>
-        {showMap && <Map />}
       </View>
+      {showMap && <Map />}
     </View>
   );
 };
