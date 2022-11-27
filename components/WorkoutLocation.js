@@ -38,24 +38,9 @@ const WorkoutLocation = (props) => {
     setShowMap(false);
     props.locationChanged(coords);
   };
-  const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
-
-    const location = await Location.getCurrentPositionAsync({});
-    const lotLangLocation = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-    setLocationType("current");
-    props.locationChanged(lotLangLocation);
-  };
   return (
     <View>
-      <View className="flex-row items-center justify-between">
+      <View className="flex-row items-center mb-5">
         <View className="flex-row items-center">
           <FontAwesomeIcon
             icon={faLocationDot}
@@ -67,26 +52,12 @@ const WorkoutLocation = (props) => {
           </Text>
         </View>
         <TouchableOpacity
-          onPress={() =>
-            locationType == "current" ? cancelLocation() : getCurrentLocation()
-          }
-          className="rounded justify-center p-1"
-          style={{
-            backgroundColor:
-              locationType == "current"
-                ? appStyle.appNeonAzure
-                : appStyle.appLightBlue,
-          }}
-        >
-          <Text style={{ color: appStyle.appDarkBlue }}>Current location</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          className="rounded justify-center p-1 ml-5"
           onPress={() =>
             locationType == "locationPinned"
               ? cancelLocation()
               : setLocationClicked()
           }
-          className="rounded justify-center p-1"
           style={{
             backgroundColor:
               locationType == "locationPinned"
