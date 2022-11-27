@@ -125,8 +125,8 @@ const WorkoutComponent = (props) => {
             <TouchableOpacity
               onPress={() =>
                 props.workout.creator == props.user.usernameLower
-                  ? cancelWorkout(props.workout)
-                  : leaveWorkout(props.workout)
+                  ? props.cancelWorkout(props.workout)
+                  : props.leaveWorkout(props.workout)
               }
               className="mx-2 h-8 justify-center rounded"
               style={{
