@@ -4,12 +4,12 @@ import {
   Text,
   StyleSheet,
   Platform,
+  Alert,
 } from "react-native";
 import { React, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 const WorkoutStartingTime = (props) => {
-  const now = new Date();
   const getMaxDate = () => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
@@ -30,13 +30,17 @@ const WorkoutStartingTime = (props) => {
     if (mode == "time") {
       if (
         !(
-          date.getDate() == now.getDate() &&
-          currentDate.getTime() < now.getTime()
+          currentDate.getDate() == props.minDate.getDate() &&
+          currentDate.getTime() < props.minDate.getTime()
         )
       ) {
         setDate(currentDate);
         props.startingTimeChanged(currentDate);
         setShow(false);
+      } else {
+        Alert.alert("cant go back in time");
+        setDateChangedOnce(false);
+        props.startingTimeChanged(null);
       }
     }
   };
@@ -54,8 +58,8 @@ const WorkoutStartingTime = (props) => {
   const timeString = () => {
     var day;
     var time;
-    if (now.getDate() == date.getDate()) day = "Today";
-    else if (now.getDate() + 1 == date.getDate()) day = "Tomorrow";
+    if (props.minDate.getDate() == date.getDate()) day = "Today";
+    else if (props.minDate.getDate() + 1 == date.getDate()) day = "Tomorrow";
     else {
       const dd = date.getDate();
       const mm = date.getMonth() + 1;
@@ -75,9 +79,7 @@ const WorkoutStartingTime = (props) => {
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
-          <Text style={{ color: "#5f6b8b", textAlign: "center" }}>
-            Choose a day
-          </Text>
+          <Text style={{ color: "#5f6b8b", textAlign: "center" }}>Select</Text>
         )}
         {dateChangedOnce && (
           <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
@@ -87,7 +89,7 @@ const WorkoutStartingTime = (props) => {
       </TouchableOpacity>
       {show && (
         <DateTimePicker
-          minimumDate={now}
+          minimumDate={props.minDate}
           maximumDate={getMaxDate()}
           testID="dateTimePicker"
           value={date}
