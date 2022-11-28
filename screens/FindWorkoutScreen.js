@@ -25,6 +25,10 @@ const FindWorkoutScreen = () => {
       setIsSearchDisabled(true);
     }
   }, [type]);
+  const minDateChanged = (date) => {
+    setMinStartingTime(null);
+    setMinStartingTime(date);
+  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <Header title="Find workout" goBackOption={true} />
@@ -34,7 +38,7 @@ const FindWorkoutScreen = () => {
           <StartingTimeComp
             minDate={now}
             title="From"
-            startingTimeChanged={setMinStartingTime}
+            startingTimeChanged={(date) => minDateChanged(date)}
           />
           {minStartingTime != null && (
             <StartingTimeComp
