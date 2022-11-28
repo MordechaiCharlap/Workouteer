@@ -7,6 +7,8 @@ import WorkoutType from "../components/WorkoutType";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
+import * as firebase from "../services/firebase";
+import useAuth from "../hooks/useAuth";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const navigation = useNavigation();
@@ -14,6 +16,7 @@ const FindWorkoutScreen = () => {
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
+  const { user } = useAuth();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -41,8 +44,14 @@ const FindWorkoutScreen = () => {
       setMaxStartingTime(date);
     }
   };
-  const showResults = () => {
-    navigation.navigate("SearchedWorkouts");
+  const showResults = async () => {
+    const workouts = await firebase.getWorkoutResults(
+      user,
+      type,
+      minStartingTime,
+      maxStartingTime
+    );
+    navigation.navigate("SearchedWorkouts", { workouts: workouts });
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
