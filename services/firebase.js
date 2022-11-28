@@ -482,3 +482,4 @@ export const leaveWorkout = async (user, workout) => {
     [`workouts.${workout.id}`]: deleteField(),
   });
 };
+export const findWorkouts = async (user, type, minTime, maxTime) => {};
