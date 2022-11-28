@@ -509,10 +509,8 @@ export const getWorkoutResults = async (user, type, minTime, maxTime) => {
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    console.log("pushing workout");
-    const workout = doc.data();
     workoutsArr.push({
-      ...workout,
+      ...doc.data(),
       id: doc.id,
     });
   });
