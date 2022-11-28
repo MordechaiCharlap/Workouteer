@@ -485,7 +485,7 @@ export const leaveWorkout = async (user, workout) => {
 export const findWorkouts = async (user, type, minTime, maxTime) => {
   var q;
   const workoutsArr = [];
-  if (type == null) {
+  if (type == 0) {
     q = query(
       collection(db, "workouts"),
       where("startingTime", ">", Timestamp.fromDate(minTime)),
@@ -497,8 +497,8 @@ export const findWorkouts = async (user, type, minTime, maxTime) => {
     q = query(
       collection(db, "workouts"),
       where("type", "==", type),
-      where("startingTime", ">", Timestamp.fromDate(minTime)),
-      where("startingTime", "<", Timestamp.fromDate(maxTime)),
+      where("startingTime", ">=", Timestamp.fromDate(minTime)),
+      where("startingTime", "<=", Timestamp.fromDate(maxTime)),
       orderBy("startingTime", "asc"),
       limit(25)
     );
