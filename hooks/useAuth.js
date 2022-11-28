@@ -8,7 +8,7 @@ import {
 import * as firebase from "../services/firebase";
 import { useEffect, useState } from "react";
 import { inMemoryPersistence, setPersistence } from "firebase/auth";
-
+import { Alert } from "react-native";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
