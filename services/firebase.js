@@ -483,14 +483,27 @@ export const leaveWorkout = async (user, workout) => {
   });
 };
 export const findWorkouts = async (user, type, minTime, maxTime) => {
+  var q;
   const workoutsArr = [];
-  const q = query(
-    collection(db, "workouts"),
-    where("startingTime", ">", Timestamp.fromDate(minTime)),
-    where("startingTime", "<", Timestamp.fromDate(maxTime)),
-    orderBy("startingTime", "asc"),
-    limit(25)
-  );
+  if (type == null) {
+    q = query(
+      collection(db, "workouts"),
+      where("startingTime", ">", Timestamp.fromDate(minTime)),
+      where("startingTime", "<", Timestamp.fromDate(maxTime)),
+      orderBy("startingTime", "asc"),
+      limit(25)
+    );
+  } else {
+    q = query(
+      collection(db, "workouts"),
+      where("type", "==", type),
+      where("startingTime", ">", Timestamp.fromDate(minTime)),
+      where("startingTime", "<", Timestamp.fromDate(maxTime)),
+      orderBy("startingTime", "asc"),
+      limit(25)
+    );
+  }
+
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     const workout = doc.data();
