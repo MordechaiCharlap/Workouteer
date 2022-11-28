@@ -482,20 +482,23 @@ export const leaveWorkout = async (user, workout) => {
     [`workouts.${workout.id}`]: deleteField(),
   });
 };
-export const findWorkouts = async (user, type, minTime, maxTime) => {
+export const getWorkoutResults = async (user, type, minTime, maxTime) => {
   var q;
   const workoutsArr = [];
+  const workoutsCollection = collection(db, "workouts");
   if (type == 0) {
+    console.log("every type");
     q = query(
-      collection(db, "workouts"),
+      workoutsCollection,
       where("startingTime", ">", Timestamp.fromDate(minTime)),
       where("startingTime", "<", Timestamp.fromDate(maxTime)),
       orderBy("startingTime", "asc"),
       limit(25)
     );
   } else {
+    console.log("just one type: ", type);
     q = query(
-      collection(db, "workouts"),
+      workoutsCollection,
       where("type", "==", type),
       where("startingTime", ">=", Timestamp.fromDate(minTime)),
       where("startingTime", "<=", Timestamp.fromDate(maxTime)),
@@ -506,10 +509,12 @@ export const findWorkouts = async (user, type, minTime, maxTime) => {
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
+    console.log("pushing workout");
     const workout = doc.data();
     workoutsArr.push({
       ...workout,
       id: doc.id,
     });
   });
+  return workoutsArr;
 };
