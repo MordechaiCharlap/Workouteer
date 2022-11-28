@@ -21,6 +21,7 @@ import useAuth from "../hooks/useAuth";
 const NewWorkoutScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
+  const now = new Date();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
@@ -32,13 +33,7 @@ const NewWorkoutScreen = () => {
   const [createButtonColor, setCreateButtonColor] = useState("black");
   useEffect(() => {
     checkIfCanAddWorkout();
-  }, [
-    type,
-    startingTime,
-    minutes,
-    location,
-    // , waitingTime
-  ]);
+  }, [type, startingTime, minutes, location]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -50,7 +45,6 @@ const NewWorkoutScreen = () => {
       startingTime != null &&
       minutes != null &&
       location != null
-      // &&waitingTime != null
     ) {
       setIsCreateDisabled(false);
       setCreateButtonTextColor(appStyle.appDarkBlue);
@@ -68,7 +62,6 @@ const NewWorkoutScreen = () => {
       type: type,
       startingTime: startingTime,
       minutes: minutes,
-      //waitingTime: waitingTime,
       location: location,
       description: description,
     };
@@ -91,14 +84,14 @@ const NewWorkoutScreen = () => {
             <WorkoutType typeSelected={setType} />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutStartingTime startingTimeChanged={setStartingTime} />
+            <WorkoutStartingTime
+              startingTimeChanged={setStartingTime}
+              minDate={now}
+            />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMinutes minutesSelected={setMinutes} />
           </View>
-          {/* <View className="pb-2 rounded mb-5">
-            <WorkoutMaximumWaiting waitingTimeSelected={setWaitingTime} />
-          </View> */}
           <View className="pb-2 rounded mb-5">
             <WorkoutDescription descChanged={setDescription} />
           </View>
