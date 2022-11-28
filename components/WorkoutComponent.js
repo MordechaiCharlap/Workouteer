@@ -24,6 +24,14 @@ const WorkoutComponent = (props) => {
     time = hh + ":" + mm;
     return day + ", " + time;
   };
+  const leaveWorkout = async (workout) => {
+    await firebase.leaveWorkout(user, workout);
+    await firebase.updateContext(user.usernameLower);
+  };
+  const cancelWorkout = async (workout) => {
+    await firebase.cancelWorkout(user, workout);
+    await firebase.updateContext(user.usernameLower);
+  };
   return (
     <View
       className="rounded h-32 mb-5"
@@ -68,7 +76,7 @@ const WorkoutComponent = (props) => {
           }}
         >
           <FontAwesomeIcon
-            icon={workoutTypesArray[props.workout.type - 1].icon}
+            icon={workoutTypesArray[props.workout.type].icon}
             size={60}
             color={appStyle.appDarkBlue}
           />
@@ -125,8 +133,8 @@ const WorkoutComponent = (props) => {
             <TouchableOpacity
               onPress={() =>
                 props.workout.creator == props.user.usernameLower
-                  ? props.cancelWorkout(props.workout)
-                  : props.leaveWorkout(props.workout)
+                  ? cancelWorkout(props.workout)
+                  : leaveWorkout(props.workout)
               }
               className="mx-2 h-8 justify-center rounded"
               style={{
