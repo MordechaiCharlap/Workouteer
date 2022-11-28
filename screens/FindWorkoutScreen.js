@@ -8,11 +8,12 @@ import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 const FindWorkoutScreen = () => {
+  const now = new Date();
   const navigation = useNavigation();
   const [type, setType] = useState(null);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
-  const [minStartingTime, setMinStartingTime] = useState(true);
-  const [maxStartingTime, setMaxStartingTime] = useState(true);
+  const [minStartingTime, setMinStartingTime] = useState(null);
+  const [maxStartingTime, setMaxStartingTime] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -31,13 +32,17 @@ const FindWorkoutScreen = () => {
         <WorkoutType typeSelected={setType} everythingOption={true} />
         <View className="flex-row justify-around mb-5">
           <StartingTimeComp
+            minDate={now}
             title="From"
             startingTimeChanged={setMinStartingTime}
           />
-          <StartingTimeComp
-            title="to"
-            startingTimeChanged={setMinStartingTime}
-          />
+          {minStartingTime != null && (
+            <StartingTimeComp
+              minDate={minStartingTime}
+              title="to"
+              startingTimeChanged={setMaxStartingTime}
+            />
+          )}
         </View>
 
         <View className="items-center">
@@ -66,7 +71,10 @@ const StartingTimeComp = (props) => {
       >
         {props.title}
       </Text>
-      <WorkoutStartingTime startingTimeChanged={props.startingTimeChanged} />
+      <WorkoutStartingTime
+        startingTimeChanged={props.startingTimeChanged}
+        minDate={props.minDate}
+      />
     </View>
   );
 };
