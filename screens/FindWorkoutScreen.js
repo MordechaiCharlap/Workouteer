@@ -37,6 +37,8 @@ const FindWorkoutScreen = () => {
     if (date < minStartingTime) {
       minDateChanged(minStartingTime);
       setMaxStartingTime(null);
+    } else {
+      setMaxStartingTime(date);
     }
   };
   const showResults = () => {
