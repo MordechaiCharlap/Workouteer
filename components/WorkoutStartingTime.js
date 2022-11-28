@@ -8,9 +8,8 @@ import {
 import { React, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useEffect } from "react";
 const WorkoutStartingTime = (props) => {
-  const today = new Date();
+  const now = new Date();
   const getMaxDate = () => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
@@ -19,44 +18,27 @@ const WorkoutStartingTime = (props) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
-  const [timeChangedOnce, setTimeChangedOnce] = useState(false);
   const [mode, setMode] = useState(null);
-  const dateString = () => {
-    if (today.getDate() == date.getDate()) return "Today";
-    else if (today.getDate() + 1 == date.getDate()) return "Tomorrow";
-    else {
-      const dd = date.getDate();
-      const mm = date.getMonth() + 1;
-      return dd + "/" + mm;
-    }
-  };
-  const timeString = () => {
-    const hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-    const mm =
-      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-    return hh + ":" + mm;
-  };
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (mode == "date") {
       setDate(currentDate);
       setDateChangedOnce(true);
-      setTimeChangedOnce(false);
       props.startingTimeChanged(null);
+      setMode("time");
     }
     if (mode == "time") {
       if (
         !(
-          date.getDate() == today.getDate() &&
-          currentDate.getTime() < today.getTime()
+          date.getDate() == now.getDate() &&
+          currentDate.getTime() < now.getTime()
         )
       ) {
         setDate(currentDate);
-        setTimeChangedOnce(true);
         props.startingTimeChanged(currentDate);
+        setShow(false);
       }
     }
-    setShow(false);
   };
   const showTrue = () => {
     if (Platform.OS === "android") {
@@ -69,10 +51,21 @@ const WorkoutStartingTime = (props) => {
     setMode("date");
     showTrue();
   };
-
-  const showTimepicker = () => {
-    setMode("time");
-    showTrue();
+  const timeString = () => {
+    var day;
+    var time;
+    if (now.getDate() == date.getDate()) day = "Today";
+    else if (now.getDate() + 1 == date.getDate()) day = "Tomorrow";
+    else {
+      const dd = date.getDate();
+      const mm = date.getMonth() + 1;
+      day = dd + "/" + mm;
+    }
+    const hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    const mm =
+      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    time = hh + ":" + mm;
+    return day + ", " + time;
   };
   return (
     <View className="flex-row justify-around">
@@ -88,30 +81,13 @@ const WorkoutStartingTime = (props) => {
         )}
         {dateChangedOnce && (
           <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
-            {dateString()}
-          </Text>
-        )}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.input}
-        className="rounded px-3 h-10 justify-center w-5/12"
-        onPress={showTimepicker}
-        disabled={!dateChangedOnce}
-      >
-        {!timeChangedOnce && (
-          <Text style={{ color: "#5f6b8b", textAlign: "center" }}>
-            Choose a time
-          </Text>
-        )}
-        {timeChangedOnce && (
-          <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
             {timeString()}
           </Text>
         )}
       </TouchableOpacity>
       {show && (
         <DateTimePicker
-          minimumDate={today}
+          minimumDate={now}
           maximumDate={getMaxDate()}
           testID="dateTimePicker"
           value={date}
