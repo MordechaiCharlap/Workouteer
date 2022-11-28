@@ -53,7 +53,6 @@ const FindWorkoutScreen = () => {
     );
     navigation.navigate("SearchedWorkouts", {
       workouts: workouts,
-      now: now,
       user: user,
     });
   };
