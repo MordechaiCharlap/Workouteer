@@ -28,35 +28,18 @@ const FindWorkoutScreen = () => {
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
-        <WorkoutType typeSelected={setType} />
-        <View className="mb-5">
-          <View
-            className="rounded pt-2 pb-4"
-            style={{ backgroundColor: appStyle.appLightBlue }}
-          >
-            <Text
-              className="text-xl font-semibold ml-4"
-              style={{ color: appStyle.appDarkBlue }}
-            >
-              From
-            </Text>
-            <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
-          </View>
+        <WorkoutType typeSelected={setType} everythingOption={true} />
+        <View className="flex-row justify-around mb-5">
+          <StartingTimeComp
+            title="From"
+            startingTimeChanged={setMinStartingTime}
+          />
+          <StartingTimeComp
+            title="to"
+            startingTimeChanged={setMinStartingTime}
+          />
         </View>
-        <View className="mb-5">
-          <View
-            className="rounded pt-2 pb-4"
-            style={{ backgroundColor: appStyle.appLightBlue }}
-          >
-            <Text
-              className="text-xl font-semibold ml-4"
-              style={{ color: appStyle.appDarkBlue }}
-            >
-              to
-            </Text>
-            <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
-          </View>
-        </View>
+
         <View className="items-center">
           <TouchableOpacity
             className="px-2 py-1"
@@ -71,5 +54,20 @@ const FindWorkoutScreen = () => {
     </SafeAreaView>
   );
 };
-
+const StartingTimeComp = (props) => {
+  return (
+    <View
+      className="rounded-xl p-2 pb-4 px-4 items-center"
+      style={{ backgroundColor: appStyle.appLightBlue }}
+    >
+      <Text
+        className="text-xl font-semibold"
+        style={{ color: appStyle.appDarkBlue }}
+      >
+        {props.title}
+      </Text>
+      <WorkoutStartingTime startingTimeChanged={props.startingTimeChanged} />
+    </View>
+  );
+};
 export default FindWorkoutScreen;
