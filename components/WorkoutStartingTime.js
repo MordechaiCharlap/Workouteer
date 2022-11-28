@@ -18,29 +18,35 @@ const WorkoutStartingTime = (props) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState("date");
   const onDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    if (mode == "date") {
-      setDate(currentDate);
-      setDateChangedOnce(true);
+    console.log(selectedDate);
+    if (selectedDate == null) {
+      setShow(false);
+      setDate(selectedDate);
+      setDateChangedOnce(false);
       props.startingTimeChanged(null);
-      setMode("time");
-    }
-    if (mode == "time") {
-      if (
-        !(
-          currentDate.getDate() == props.minDate.getDate() &&
-          currentDate.getTime() < props.minDate.getTime()
-        )
-      ) {
-        setDate(currentDate);
-        props.startingTimeChanged(currentDate);
+    } else {
+      if (mode == "date") {
+        setDate(selectedDate);
+        setDateChangedOnce(true);
+        setMode("time");
+      } else if (mode == "time") {
+        if (
+          !(
+            selectedDate.getDate() == props.minDate.getDate() &&
+            selectedDate.getTime() < props.minDate.getTime()
+          )
+        ) {
+          setDate(selectedDate);
+          props.startingTimeChanged(selectedDate);
+        } else {
+          Alert.alert("cant go back in time");
+          setDateChangedOnce(false);
+          props.startingTimeChanged(null);
+        }
         setShow(false);
-      } else {
-        Alert.alert("cant go back in time");
-        setDateChangedOnce(false);
-        props.startingTimeChanged(null);
+        setMode("date");
       }
     }
   };
@@ -75,12 +81,10 @@ const WorkoutStartingTime = (props) => {
     <View>
       <TouchableOpacity
         style={styles.input}
-        className="rounded px-3 h-10 justify-center"
+        className="rounded px-3 h-10 justify-center items-center"
         onPress={showDatepicker}
       >
-        {!dateChangedOnce && (
-          <Text style={{ color: "#5f6b8b", textAlign: "center" }}>Select</Text>
-        )}
+        {!dateChangedOnce && <Text style={{ color: "#5f6b8b" }}>Select</Text>}
         {dateChangedOnce && (
           <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
             {timeString()}
@@ -104,6 +108,7 @@ const WorkoutStartingTime = (props) => {
 };
 const styles = StyleSheet.create({
   input: {
+    width: 130,
     backgroundColor: appStyle.appGray,
     height: 50,
     borderColor: appStyle.appLightBlue,
