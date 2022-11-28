@@ -7,7 +7,11 @@ import WorkoutType from "../components/WorkoutType";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
-const SearchedWorkoutsScreen = () => {
+import { FlatList } from "react-native-gesture-handler";
+import WorkoutComponent from "../components/WorkoutComponent";
+const SearchedWorkoutsScreen = ({ route }) => {
+  const now = new Date();
+  const workouts = route.params.workouts;
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -17,6 +21,18 @@ const SearchedWorkoutsScreen = () => {
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <Header title="Results" goBackOption={true} />
+      <FlatList
+        data={workouts}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <WorkoutComponent
+            now={now}
+            workout={item}
+            user={route.params.user}
+            isPastWorkout={false}
+          />
+        )}
+      />
     </SafeAreaView>
   );
 };
