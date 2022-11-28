@@ -20,33 +20,28 @@ const WorkoutStartingTime = (props) => {
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [mode, setMode] = useState("date");
   const onDateChange = (event, selectedDate) => {
-    console.log(selectedDate);
-    if (selectedDate == null) {
-      setShow(false);
-      setDate(selectedDate);
-      setDateChangedOnce(false);
-      props.startingTimeChanged(null);
-    } else {
+    const currentDate = selectedDate;
+    console.log("date changed");
+    if (event.type == "set") {
       if (mode == "date") {
-        setDate(selectedDate);
+        setDate(currentDate);
         setDateChangedOnce(true);
         setMode("time");
       } else if (mode == "time") {
         if (
-          !(
-            selectedDate.getDate() == props.minDate.getDate() &&
-            selectedDate.getTime() < props.minDate.getTime()
-          )
+          date.getDate() == props.minDate.getDate() &&
+          currentDate.getTime() < props.minDate.getTime()
         ) {
-          setDate(selectedDate);
-          props.startingTimeChanged(selectedDate);
-        } else {
           Alert.alert("cant go back in time");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
+          setShow(false);
+        } else {
+          console.log("time is ok");
+          setDate(currentDate);
+          props.startingTimeChanged(currentDate);
+          setShow(false);
         }
-        setShow(false);
-        setMode("date");
       }
     }
   };
