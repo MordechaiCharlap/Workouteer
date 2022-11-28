@@ -11,12 +11,12 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const FindWorkoutScreen = () => {
   const now = new Date();
+  const { user } = useAuth();
   const navigation = useNavigation();
   const [type, setType] = useState(0);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
-  const { user } = useAuth();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -51,7 +51,11 @@ const FindWorkoutScreen = () => {
       minStartingTime,
       maxStartingTime
     );
-    navigation.navigate("SearchedWorkouts", { workouts: workouts });
+    navigation.navigate("SearchedWorkouts", {
+      workouts: workouts,
+      now: now,
+      user: user,
+    });
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
