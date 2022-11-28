@@ -22,7 +22,7 @@ import FutureWorkoutsScreen from "./screens/FutureWorkoutsScreen";
 import PastWorkoutsScreen from "./screens/PastWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 const Stack = createNativeStackNavigator();
 //const Stack = createStackNavigator();
 const StackNavigator = () => {
@@ -72,6 +72,11 @@ const StackNavigator = () => {
             name="ChangePreferences"
             component={ChangePreferencesScreen}
           />
+          <Stack.Screen
+            name="SearchedWorkouts"
+            options={horizontalConfig}
+            component={SearchedWorkoutsScreen}
+          />
         </>
       ) : (
         <>
@@ -88,6 +93,16 @@ const verticalConfig = () => {
     // gestureEnabled: true,
     // gestureDirection: "vertical",
     animation: "slide_from_bottom",
+    animationTypeForReplace: "push",
+  };
+  return options;
+};
+const horizontalConfig = () => {
+  const options = {
+    // animationEnabled: true,
+    // gestureEnabled: true,
+    // gestureDirection: "vertical",
+    animation: "slide_from_left",
     animationTypeForReplace: "push",
   };
   return options;
