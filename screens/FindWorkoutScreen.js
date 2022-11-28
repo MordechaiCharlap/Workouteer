@@ -10,7 +10,7 @@ import * as appStyle from "../components/AppStyleSheet";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const navigation = useNavigation();
-  const [type, setType] = useState(null);
+  const [type, setType] = useState(0);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
@@ -20,14 +20,27 @@ const FindWorkoutScreen = () => {
     });
   }, []);
   useEffect(() => {
-    if (type != null) setIsSearchDisabled(false);
-    else {
+    if (type == null || minStartingTime == null || maxStartingTime == null) {
       setIsSearchDisabled(true);
+      console.log("cant search");
+    } else {
+      setIsSearchDisabled(false);
+
+      console.log("can search");
     }
-  }, [type]);
+  }, [type, minStartingTime, maxStartingTime]);
   const minDateChanged = (date) => {
     setMinStartingTime(null);
     setMinStartingTime(date);
+  };
+  const maxDateChanged = (date) => {
+    if (date < minStartingTime) {
+      minDateChanged(minStartingTime);
+      setMaxStartingTime(null);
+    }
+  };
+  const showResults = () => {
+    navigation.navigate("SearchedWorkouts");
   };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
@@ -44,14 +57,16 @@ const FindWorkoutScreen = () => {
             <StartingTimeComp
               minDate={minStartingTime}
               title="to"
-              startingTimeChanged={setMaxStartingTime}
+              startingTimeChanged={(date) => maxDateChanged(date)}
             />
           )}
         </View>
 
         <View className="items-center">
           <TouchableOpacity
+            disabled={isSearchDisabled}
             className="px-2 py-1"
+            onPress={showResults}
             style={{ backgroundColor: appStyle.appAzure }}
           >
             <Text className="text-2xl" style={{ color: appStyle.appDarkBlue }}>
