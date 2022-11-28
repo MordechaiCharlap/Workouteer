@@ -75,10 +75,10 @@ const WorkoutStartingTime = (props) => {
     showTrue();
   };
   return (
-    <View className="flex-row">
+    <View className="flex-row justify-around">
       <TouchableOpacity
         style={styles.input}
-        className="rounded px-3 h-10 justify-center mr-3 w-1/3"
+        className="rounded px-3 h-10 justify-center w-5/12"
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
@@ -94,7 +94,7 @@ const WorkoutStartingTime = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.input}
-        className="rounded px-3 h-10 justify-center w-1/3"
+        className="rounded px-3 h-10 justify-center w-5/12"
         onPress={showTimepicker}
         disabled={!dateChangedOnce}
       >
