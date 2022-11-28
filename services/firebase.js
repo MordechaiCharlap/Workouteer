@@ -482,4 +482,21 @@ export const leaveWorkout = async (user, workout) => {
     [`workouts.${workout.id}`]: deleteField(),
   });
 };
-export const findWorkouts = async (user, type, minTime, maxTime) => {};
+export const findWorkouts = async (user, type, minTime, maxTime) => {
+  const workoutsArr = [];
+  const q = query(
+    collection(db, "workouts"),
+    where("startingTime", ">", Timestamp.fromDate(minTime)),
+    where("startingTime", "<", Timestamp.fromDate(maxTime)),
+    orderBy("startingTime", "asc"),
+    limit(25)
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    const workout = doc.data();
+    workoutsArr.push({
+      ...workout,
+      id: doc.id,
+    });
+  });
+};
