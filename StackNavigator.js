@@ -24,7 +24,6 @@ import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 const Stack = createNativeStackNavigator();
-//const Stack = createStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
   return (
@@ -89,9 +88,6 @@ const StackNavigator = () => {
 };
 const verticalConfig = () => {
   const options = {
-    // animationEnabled: true,
-    // gestureEnabled: true,
-    // gestureDirection: "vertical",
     animation: "slide_from_bottom",
     animationTypeForReplace: "push",
   };
@@ -99,10 +95,7 @@ const verticalConfig = () => {
 };
 const horizontalConfig = () => {
   const options = {
-    // animationEnabled: true,
-    // gestureEnabled: true,
-    // gestureDirection: "vertical",
-    animation: "slide_from_left",
+    animation: "slide_from_right",
     animationTypeForReplace: "push",
   };
   return options;
