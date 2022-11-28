@@ -30,10 +30,32 @@ const FindWorkoutScreen = () => {
       <View className="flex-1 px-4">
         <WorkoutType typeSelected={setType} />
         <View className="mb-5">
-          <Text style={{ color: appStyle.appGray }}>
-            Select day and the earlier you want to train
-          </Text>
-          <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
+          <View
+            className="rounded pt-2 pb-4"
+            style={{ backgroundColor: appStyle.appLightBlue }}
+          >
+            <Text
+              className="text-xl font-semibold ml-4"
+              style={{ color: appStyle.appDarkBlue }}
+            >
+              From
+            </Text>
+            <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
+          </View>
+        </View>
+        <View className="mb-5">
+          <View
+            className="rounded pt-2 pb-4"
+            style={{ backgroundColor: appStyle.appLightBlue }}
+          >
+            <Text
+              className="text-xl font-semibold ml-4"
+              style={{ color: appStyle.appDarkBlue }}
+            >
+              to
+            </Text>
+            <WorkoutStartingTime startingTimeChanged={setMinStartingTime} />
+          </View>
         </View>
         <View className="items-center">
           <TouchableOpacity
