@@ -9,6 +9,10 @@ import { faPersonBiking } from "@fortawesome/free-solid-svg-icons";
 
 export const workoutTypes = [
   {
+    id: 0,
+    title: "Everything",
+  },
+  {
     id: 1,
     title: "Resistance Training",
     icon: faDumbbell,
@@ -82,48 +86,52 @@ const WorkoutType = (props) => {
     );
   };
   return (
-    <View className="flex-row flex-wrap justify-between">
-      {renderWorkoutTypeButton(workoutTypes[0])}
-      {renderWorkoutTypeButton(workoutTypes[1])}
-      {renderWorkoutTypeButton(workoutTypes[2])}
-      {renderWorkoutTypeButton(workoutTypes[3])}
+    <View>
+      <View className="flex-row flex-wrap justify-between">
+        {renderWorkoutTypeButton(workoutTypes[1])}
+        {renderWorkoutTypeButton(workoutTypes[2])}
+        {renderWorkoutTypeButton(workoutTypes[3])}
+        {renderWorkoutTypeButton(workoutTypes[4])}
+      </View>
+      {props.everythingOption == true && (
+        <TouchableOpacity
+          onPress={() => {
+            typeClicked(workoutTypes[0].id);
+          }}
+          className="rounded-lg mb-5"
+          style={{
+            borderWidth: 1,
+            borderColor:
+              workoutTypes[0].id == chosenType
+                ? appStyle.appGray
+                : appStyle.appDarkBlue,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor:
+                workoutTypes[0].id == chosenType
+                  ? appStyle.appDarkBlue
+                  : appStyle.appLightBlue,
+            }}
+            className={`p-4 items-center rounded-lg`}
+          >
+            <Text
+              className="text-center font-bold tracking-widest"
+              style={{
+                color:
+                  workoutTypes[0].id == chosenType
+                    ? appStyle.appGray
+                    : appStyle.appDarkBlue,
+              }}
+            >
+              {workoutTypes[0].title}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
-  // return (
-  //   <View className="h-40">
-  //     <FlatList
-  //       showsHorizontalScrollIndicator={isWeb}
-  //       className="w-auto rounded-lg"
-  //       initialScrollIndex={0.8}
-  //       data={workoutTypes}
-  //       keyExtractor={(item) => item.id}
-  //       horizontal
-  //       renderItem={({ item }) => (
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             typeClicked(item.id);
-  //           }}
-  //         >
-  //           <View
-  //             style={{ backgroundColor: getBackgroundColor(item.id) }}
-  //             className={`w-28 h-28 p-4 items-center m-1 rounded-lg shadow-lg `}
-  //           >
-  //             <FontAwesomeIcon
-  //               color={getTextColor(item.id)}
-  //               icon={item.icon}
-  //               size={60}
-  //             />
-  //             <Text
-  //               style={{ textAlign: "center", color: getTextColor(item.id) }}
-  //             >
-  //               {item.title}
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-  //       )}
-  //     />
-  //   </View>
-  // );
 };
 
 export default WorkoutType;
