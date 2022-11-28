@@ -26,22 +26,6 @@ const FutureWorkoutsScreen = () => {
     getWorkouts();
   }, []);
 
-  const leaveWorkout = async (workout) => {
-    removeFromUI(workout);
-    await firebase.leaveWorkout(user, workout);
-    await firebase.updateContext(user.usernameLower);
-  };
-  const cancelWorkout = async (workout) => {
-    removeFromUI(workout);
-    await firebase.cancelWorkout(user, workout);
-    await firebase.updateContext(user.usernameLower);
-  };
-  const removeFromUI = (workout) => {
-    const index = workouts.indexOf(workout);
-    const workoutsClone = workouts;
-    workoutsClone.splice(index, 1);
-    setWorkouts(workoutsClone);
-  };
   return (
     <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
       <Header title="Future workouts" goBackOption={true} />
@@ -57,8 +41,6 @@ const FutureWorkoutsScreen = () => {
               workout={item}
               user={user}
               isPastWorkout={false}
-              cancelWorkout={cancelWorkout}
-              leaveWorkout={leaveWorkout}
             />
           )}
         />
