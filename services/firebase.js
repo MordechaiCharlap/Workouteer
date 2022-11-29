@@ -552,13 +552,12 @@ export const getWorkoutResults = async (preferences) => {
 };
 export const getCities = async (country) => {
   const citiesArr = [];
-  const countryRef = await getDoc(doc(db, "countries", country));
-  if (countryRef == null) {
-    return citiesArr;
-  } else {
-    const citiesMap = new Map(Object.entries(countryRef.data().cities));
+  const countries = await getDoc(doc(db, "appData/countries"));
+  if (countries.get(country) != null) {
+    const citiesMap = new Map(Object.entries(countries.get(workout.country)));
     for (var key of citiesMap.keys()) {
       citiesArr.push(key);
     }
   }
+  return citiesArr;
 };
