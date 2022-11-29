@@ -404,19 +404,21 @@ export const getFirstPageMessages = async (chatId) => {
   return messagesArr;
 };
 export const createWorkout = async (workout) => {
-  const countryRef = await getDoc(doc(db, "countries", workout.country));
-  if (countryRef == null) {
-    await addDoc(doc(db, "countries", workout.country), {
-      [`cities.${workout.city}`]: true,
+  const countries = await getDoc(doc(db, "appData", "countries"));
+
+  if (countries.get(workout.country) == null) {
+    await updateDoc(doc(db, "appData", "countries"), {
+      [`${workout.country}.${workout.city}`]: true,
     });
   } else {
-    const citiesMap = new Map(Object.entries(countryRef.data().cities));
+    const citiesMap = new Map(Object.entries(countries.get(workout.country)));
     if (!citiesMap.has(workout.city)) {
-      await updateDoc(doc(db, "countries", workout.country), {
-        [`cities.${workout.city}`]: true,
+      await updateDoc(doc(db, "appData", "countries"), {
+        [`${workout.country}.${workout.city}`]: true,
       });
     }
   }
+
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
     [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
