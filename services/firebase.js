@@ -490,10 +490,10 @@ export const getWorkoutResults = async (user, type, minTime, maxTime) => {
     console.log("every type");
     q = query(
       workoutsCollection,
-      where("startingTime", ">", Timestamp.fromDate(minTime)),
-      where("startingTime", "<", Timestamp.fromDate(maxTime)),
+      where("startingTime", ">=", Timestamp.fromDate(minTime)),
+      where("startingTime", "<=", Timestamp.fromDate(maxTime)),
       orderBy("startingTime", "asc"),
-      limit(25)
+      limit(30)
     );
   } else {
     console.log("just one type: ", type);
@@ -503,7 +503,7 @@ export const getWorkoutResults = async (user, type, minTime, maxTime) => {
       where("startingTime", ">=", Timestamp.fromDate(minTime)),
       where("startingTime", "<=", Timestamp.fromDate(maxTime)),
       orderBy("startingTime", "asc"),
-      limit(25)
+      limit(30)
     );
   }
 
