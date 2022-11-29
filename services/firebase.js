@@ -410,7 +410,7 @@ export const createWorkout = async (workout) => {
       [`cities.${workout.city}`]: true,
     });
   } else {
-    const citiesMap = Map(Object.entries(countryRef.cities));
+    const citiesMap = new Map(Object.entries(countryRef.data().cities));
     if (!citiesMap.has(workout.city)) {
       await updateDoc(doc(db, "countries", workout.country), {
         [`cities.${workout.city}`]: true,
@@ -547,4 +547,16 @@ export const getWorkoutResults = async (preferences) => {
     });
   });
   return workoutsArr;
+};
+export const getCities = async (country) => {
+  const citiesArr = [];
+  const countryRef = await getDoc(doc(db, "countries", country));
+  if (countryRef == null) {
+    return citiesArr;
+  } else {
+    const citiesMap = new Map(Object.entries(countryRef.data().cities));
+    for (var key of citiesMap.keys()) {
+      citiesArr.push(key);
+    }
+  }
 };
