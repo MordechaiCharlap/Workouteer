@@ -1,11 +1,4 @@
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Platform,
-  Alert,
-} from "react-native";
+import { View, Text } from "react-native";
 import { React, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import * as appStyle from "./AppStyleSheet";
@@ -28,7 +21,7 @@ const WorkoutSex = (props) => {
         value={true}
       />
       <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
-        Open for both sexes
+        {props.text}
       </Text>
     </View>
   );
