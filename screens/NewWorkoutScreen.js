@@ -8,7 +8,7 @@ import {
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
-import WorkoutMaximumWaiting from "../components/WorkoutMaximumWaiting";
+import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
@@ -26,7 +26,10 @@ const NewWorkoutScreen = () => {
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
   //const [waitingTime, setWaitingTime] = useState(null);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({
+    latitude: 31.77722762942308,
+    longitude: 35.21447606384754,
+  });
   const [description, setDescription] = useState("");
   const [isCreateDisabled, setIsCreateDisabled] = useState(true);
   const [createButtonTextColor, setCreateButtonTextColor] = useState("white");
@@ -55,7 +58,28 @@ const NewWorkoutScreen = () => {
       setCreateButtonColor("black");
     }
   };
+  const getCityAndCountry = (location) => {
+    var cityAndCountry = { city: "blabla", country: "blabla" };
+    Geocoder.from(location)
+      .then((json) => {
+        var results = json.results[0];
+        results.address_components.forEach((element) => {
+          if (element.types.includes("locality")) {
+            console.log("city: ", element.long_name);
+            cityAndCountry.city = element.long_name;
+          }
+          if (element.types.includes("country")) {
+            console.log("country: ", element.long_name);
+            cityAndCountry.country = element.long_name;
+          }
+        });
+        console.log(cityAndCountry);
+        return cityAndCountry;
+      })
+      .catch((error) => console.log(error));
+  };
   const createWorkout = async () => {
+    const cityAndCountry = getCityAndCountry(location);
     const workout = {
       creator: user.usernameLower,
       members: { [user.usernameLower]: true },
@@ -64,6 +88,7 @@ const NewWorkoutScreen = () => {
       minutes: minutes,
       location: location,
       description: description,
+      ...cityAndCountry,
     };
     await firebase.createWorkout(workout);
     await firebase.updateContext(user.usernameLower);
