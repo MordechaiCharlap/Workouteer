@@ -482,29 +482,48 @@ export const leaveWorkout = async (user, workout) => {
     [`workouts.${workout.id}`]: deleteField(),
   });
 };
-export const getWorkoutResults = async (user, type, minTime, maxTime) => {
+export const getWorkoutResults = async (preferences) => {
   var q;
   const workoutsArr = [];
   const workoutsCollection = collection(db, "workouts");
-  if (type == 0) {
-    console.log("every type");
-    q = query(
-      workoutsCollection,
-      where("startingTime", ">=", Timestamp.fromDate(minTime)),
-      where("startingTime", "<=", Timestamp.fromDate(maxTime)),
-      orderBy("startingTime", "asc"),
-      limit(30)
-    );
+  if (preferences.type == 0) {
+    if (preferences.sex == "everyone") {
+      q = query(
+        workoutsCollection,
+        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+        orderBy("startingTime", "asc"),
+        limit(30)
+      );
+    } else {
+      q = query(
+        workoutsCollection,
+        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+        where("sex", "==", preferences.sex),
+        orderBy("startingTime", "asc"),
+        limit(30)
+      );
+    }
   } else {
-    console.log("just one type: ", type);
-    q = query(
+    if (preferences.sex == "everyone") {
+      q = query(
+        workoutsCollection,
+        where("type", "==", preferences.type),
+        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+        orderBy("startingTime", "asc"),
+        limit(30)
+      );
+    } else {
       workoutsCollection,
-      where("type", "==", type),
-      where("startingTime", ">=", Timestamp.fromDate(minTime)),
-      where("startingTime", "<=", Timestamp.fromDate(maxTime)),
-      orderBy("startingTime", "asc"),
-      limit(30)
-    );
+        where("type", "==", preferences.type),
+        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+        where("sex", "==", preferences.sex),
+        orderBy("startingTime", "asc"),
+        limit(30);
+    }
   }
 
   const querySnapshot = await getDocs(q);
