@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import * as appStyle from "../components/AppStyleSheet";
-import { useNavigation } from "@react-navigation/native";
 import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 const WorkoutComponent = (props) => {
+  const [buttonText, setButtonText] = useState(null);
   const { user, setUser } = useAuth();
   const workoutTypesArray = workoutTypes;
   const timeString = (date) => {
@@ -27,12 +27,14 @@ const WorkoutComponent = (props) => {
     return day + ", " + time;
   };
   const leaveWorkout = async (workout) => {
+    setButtonText("Left");
     await firebase.leaveWorkout(user, workout);
-    await firebase.updateContext(user.usernameLower);
+    setUser(await firebase.updateContext(user.usernameLower));
   };
   const cancelWorkout = async (workout) => {
+    setButtonText("Canceled");
     await firebase.cancelWorkout(user, workout);
-    await firebase.updateContext(user.usernameLower);
+    setUser(await firebase.updateContext(user.usernameLower));
   };
   return (
     <View
@@ -134,7 +136,9 @@ const WorkoutComponent = (props) => {
           {!props.isPastWorkout && (
             <TouchableOpacity
               onPress={() =>
-                props.workout.creator == user.usernameLower
+                buttonText
+                  ? {}
+                  : props.workout.creator == user.usernameLower
                   ? cancelWorkout(props.workout)
                   : leaveWorkout(props.workout)
               }
@@ -150,7 +154,9 @@ const WorkoutComponent = (props) => {
                   color: appStyle.appDarkBlue,
                 }}
               >
-                {props.workout.creator == user.usernameLower
+                {buttonText
+                  ? buttonText
+                  : props.workout.creator == user.usernameLower
                   ? "Cancel workout"
                   : "Leave workout"}
               </Text>
