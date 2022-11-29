@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import WorkoutSex from "../components/WorkoutSex";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
@@ -17,6 +18,7 @@ const FindWorkoutScreen = () => {
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
+  const [workoutSex, setWorkoutSex] = useState("everyone");
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -75,7 +77,9 @@ const FindWorkoutScreen = () => {
             />
           )}
         </View>
-
+        <View className="mb-5 items-center">
+          <WorkoutSex user={user} sexChanged={setWorkoutSex} />
+        </View>
         <View className="items-center">
           <TouchableOpacity
             disabled={isSearchDisabled}
