@@ -110,7 +110,7 @@ const NewWorkoutScreen = () => {
             {/* margin is inside the component after each types row */}
             <WorkoutType typeSelected={setType} />
           </View>
-          <View className="pb-2 rounded mb-5 flex-row">
+          <View className="pb-2 rounded mb-5 flex-row justify-between">
             <WorkoutStartingTime
               startingTimeChanged={setStartingTime}
               minDate={now}

@@ -23,11 +23,13 @@ const WorkoutSex = (props) => {
             ? setWorkoutSex("everyone")
             : setWorkoutSex(props.user.isMale == true ? "men" : "women")
         }
-        backgroundColor={appStyle.appAzure}
+        backgroundColor={appStyle.appLightBlue}
         valueColor={appStyle.appDarkBlue}
         value={true}
       />
-      <Text>Open for both sexes</Text>
+      <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+        Open for both sexes
+      </Text>
     </View>
   );
 };
