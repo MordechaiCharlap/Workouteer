@@ -112,7 +112,11 @@ const NewWorkoutScreen = () => {
               startingTimeChanged={setStartingTime}
               minDate={now}
             />
-            <WorkoutSex user={user} sexChanged={setWorkoutSex} />
+            <WorkoutSex
+              user={user}
+              sexChanged={setWorkoutSex}
+              text={"Open for both genders"}
+            />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMinutes minutesSelected={setMinutes} />
