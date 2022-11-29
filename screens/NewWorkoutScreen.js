@@ -18,6 +18,7 @@ import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import WorkoutSex from "../components/WorkoutSex";
 const NewWorkoutScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -25,7 +26,7 @@ const NewWorkoutScreen = () => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
-  //const [waitingTime, setWaitingTime] = useState(null);
+  const [workoutSex, setWorkoutSex] = useState("everyone");
   const [location, setLocation] = useState({
     latitude: 31.77722762942308,
     longitude: 35.21447606384754,
@@ -84,6 +85,7 @@ const NewWorkoutScreen = () => {
       creator: user.usernameLower,
       members: { [user.usernameLower]: true },
       type: type,
+      sex: workoutSex,
       startingTime: startingTime,
       minutes: minutes,
       location: location,
@@ -108,11 +110,12 @@ const NewWorkoutScreen = () => {
             {/* margin is inside the component after each types row */}
             <WorkoutType typeSelected={setType} />
           </View>
-          <View className="pb-2 rounded mb-5">
+          <View className="pb-2 rounded mb-5 flex-row">
             <WorkoutStartingTime
               startingTimeChanged={setStartingTime}
               minDate={now}
             />
+            <WorkoutSex user={user} sexChanged={setWorkoutSex} />
           </View>
           <View className="pb-2 rounded mb-5">
             <WorkoutMinutes minutesSelected={setMinutes} />
