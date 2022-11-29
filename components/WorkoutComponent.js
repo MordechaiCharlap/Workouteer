@@ -6,7 +6,9 @@ import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../hooks/useAuth";
 const WorkoutComponent = (props) => {
+  const { user, setUser } = useAuth();
   const workoutTypesArray = workoutTypes;
   const timeString = (date) => {
     var day;
@@ -60,7 +62,7 @@ const WorkoutComponent = (props) => {
             color: appStyle.appDarkBlue,
           }}
         >
-          {props.workout.creator == props.user.usernameLower
+          {props.workout.creator == user.usernameLower
             ? "Your "
             : props.workout.creator + "'s"}
           workout
@@ -132,7 +134,7 @@ const WorkoutComponent = (props) => {
           {!props.isPastWorkout && (
             <TouchableOpacity
               onPress={() =>
-                props.workout.creator == props.user.usernameLower
+                props.workout.creator == user.usernameLower
                   ? cancelWorkout(props.workout)
                   : leaveWorkout(props.workout)
               }
@@ -148,7 +150,7 @@ const WorkoutComponent = (props) => {
                   color: appStyle.appDarkBlue,
                 }}
               >
-                {props.workout.creator == props.user.usernameLower
+                {props.workout.creator == user.usernameLower
                   ? "Cancel workout"
                   : "Leave workout"}
               </Text>
