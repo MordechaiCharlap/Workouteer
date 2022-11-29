@@ -79,7 +79,7 @@ const WorkoutStartingTime = (props) => {
         className="rounded px-3 h-10 justify-center items-center"
         onPress={showDatepicker}
       >
-        {!dateChangedOnce && <Text style={{ color: "#5f6b8b" }}>Select</Text>}
+        {!dateChangedOnce && <Text style={{ color: "#5f6b8b" }}>When?</Text>}
         {dateChangedOnce && (
           <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
             {timeString()}
