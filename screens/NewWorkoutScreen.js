@@ -20,7 +20,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
 const NewWorkoutScreen = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigation = useNavigation();
   const now = new Date();
   const [type, setType] = useState(null);
@@ -59,28 +59,25 @@ const NewWorkoutScreen = () => {
       setCreateButtonColor("black");
     }
   };
-  const getCityAndCountry = (location) => {
-    var cityAndCountry = { city: "blabla", country: "blabla" };
-    Geocoder.from(location)
-      .then((json) => {
-        var results = json.results[0];
-        results.address_components.forEach((element) => {
-          if (element.types.includes("locality")) {
-            console.log("city: ", element.long_name);
-            cityAndCountry.city = element.long_name;
-          }
-          if (element.types.includes("country")) {
-            console.log("country: ", element.long_name);
-            cityAndCountry.country = element.long_name;
-          }
-        });
-        console.log(cityAndCountry);
-        return cityAndCountry;
-      })
-      .catch((error) => console.log(error));
+  const getCityAndCountry = async (location) => {
+    const arr = { city: "", country: "" };
+    const json = await Geocoder.from(location);
+    var results = json.results[0];
+    for (var element of results.address_components) {
+      if (element.types.includes("locality")) {
+        console.log(element.long_name);
+        arr.city = element.long_name;
+      }
+      if (element.types.includes("country")) {
+        console.log(element.long_name);
+        arr.country = element.long_name;
+      }
+    }
+    return arr;
   };
   const createWorkout = async () => {
-    const cityAndCountry = getCityAndCountry(location);
+    const cityAndCountry = await getCityAndCountry(location);
+    console.log(cityAndCountry);
     const workout = {
       creator: user.usernameLower,
       members: { [user.usernameLower]: true },
@@ -93,7 +90,7 @@ const NewWorkoutScreen = () => {
       ...cityAndCountry,
     };
     await firebase.createWorkout(workout);
-    await firebase.updateContext(user.usernameLower);
+    setUser(await firebase.updateContext(user.usernameLower));
     navigation.goBack();
   };
   return (
