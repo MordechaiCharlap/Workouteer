@@ -10,6 +10,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
+import CheckBox from "../components/CheckBox";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
@@ -47,12 +48,13 @@ const FindWorkoutScreen = () => {
     }
   };
   const showResults = async () => {
-    const workouts = await firebase.getWorkoutResults(
-      user,
-      type,
-      minStartingTime,
-      maxStartingTime
-    );
+    const preferences = {
+      type: type,
+      minTime: minStartingTime,
+      maxTime: maxStartingTime,
+      sex: workoutSex,
+    };
+    const workouts = await firebase.getWorkoutResults(preferences);
     navigation.navigate("SearchedWorkouts", {
       workouts: workouts,
       user: user,
@@ -78,7 +80,22 @@ const FindWorkoutScreen = () => {
           )}
         </View>
         <View className="mb-5 items-center">
-          <WorkoutSex user={user} sexChanged={setWorkoutSex} />
+          <View className="flex-row">
+            <CheckBox
+              backgroundColor={appStyle.appLightBlue}
+              value={false}
+              onValueChange={(value) =>
+                value == true
+                  ? user.isMale
+                    ? setWorkoutSex("men")
+                    : setWorkoutSex("women")
+                  : setWorkoutSex("everyone")
+              }
+            />
+            <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+              Show me just {user.isMale ? "men" : "women"}-only workouts
+            </Text>
+          </View>
         </View>
         <View className="items-center">
           <TouchableOpacity
