@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-import WorkoutSex from "../components/WorkoutSex";
 import CheckBox from "../components/CheckBox";
 const FindWorkoutScreen = () => {
   const now = new Date();
