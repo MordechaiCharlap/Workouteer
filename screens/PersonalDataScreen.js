@@ -23,7 +23,8 @@ const PersonalDataScreen = () => {
       headerShown: false,
     });
   }, []);
-  const [value, setValue] = useState(null);
+  const [isMale, setIsMale] = useState(null);
+  const [country, setCountry] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [firstNameVal, setFirstNameVal] = useState("");
   const [lastNameVal, setLastNameVal] = useState("");
@@ -35,16 +36,12 @@ const PersonalDataScreen = () => {
     return true;
   };
   const createAccountPressed = async () => {
-    console.log(value);
-    console.log(isAcceptMale);
-    console.log(isAcceptFemale);
-    console.log(minAgeAccept);
-    console.log(maxAgeAccept);
     if (checkIfDataValid()) {
       const newData = {
         firstName: firstNameVal,
         lastName: lastNameVal,
-        isMale: value,
+        isMale: isMale,
+        country: country,
         acceptMale: isAcceptMale,
         acceptFemale: isAcceptFemale,
         acceptMinAge: minAgeAccept,
@@ -96,6 +93,30 @@ const PersonalDataScreen = () => {
                 style.dropdown,
                 isFocus && { borderColor: appStyle.appAzure },
               ]}
+              placeholder="Country"
+              placeholderStyle={style.placeholderStyle}
+              selectedTextStyle={style.selectedTextStyle}
+              inputSearchStyle={style.inputSearchStyle}
+              iconStyle={style.iconStyle}
+              data={[{ label: "Israel", value: "Israel" }]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              value={country}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setCountry(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View className="mb-5">
+            <Dropdown
+              style={[
+                style.dropdown,
+                isFocus && { borderColor: appStyle.appAzure },
+              ]}
               placeholder="Sex"
               placeholderStyle={style.placeholderStyle}
               selectedTextStyle={style.selectedTextStyle}
@@ -108,11 +129,11 @@ const PersonalDataScreen = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              value={value}
+              value={isMale}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={(item) => {
-                setValue(item.value);
+                setIsMale(item.value);
                 setIsFocus(false);
               }}
             />
