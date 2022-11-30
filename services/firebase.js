@@ -553,3 +553,20 @@ export const getCities = async (country) => {
   }
   return citiesArr;
 };
+export const getUsers = async (usersMap) => {
+  const usersArr = [];
+  for (var [key, value] of usersMap) {
+    if (value == true) usersArr.push(key);
+  }
+  const q = query(
+    collection(db, "users"),
+    where("usernameLower", "in", usersArr)
+  );
+  const querySnapshot = await getDocs(q);
+
+  const returnedMap = new Map();
+  querySnapshot.forEach((doc) => {
+    returnedMap.set(doc.id, doc.data());
+  });
+  return returnedMap;
+};
