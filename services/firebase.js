@@ -534,7 +534,7 @@ export const getWorkoutResults = async (preferences) => {
 export const getCountries = async () => {
   const countriesArr = [];
   const countriesDoc = await getDoc(doc(db, "countriesData", "countries"));
-  const citiesMap = new Map(Object.entries(countriesDoc.data().names));
+  const countriesMap = new Map(Object.entries(countriesDoc.data().names));
   for (var key of citiesMap.keys()) {
     citiesArr.push({ label: key, value: key });
   }
