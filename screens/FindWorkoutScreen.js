@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -97,121 +98,126 @@ const FindWorkoutScreen = () => {
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
-        <WorkoutType typeSelected={setType} everythingOption={true} />
-        <Dropdown
-          style={[
-            style.dropdown,
-            countryIsFocus && { borderColor: appStyle.appAzure },
-          ]}
-          placeholder="Country"
-          placeholderStyle={style.placeholderStyle}
-          selectedTextStyle={style.selectedTextStyle}
-          inputSearchStyle={style.inputSearchStyle}
-          iconStyle={style.iconStyle}
-          data={countriesArr}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          value={country}
-          onFocus={() => setCountryIsFocus(true)}
-          onBlur={() => setCountryIsFocus(false)}
-          onChange={(item) => {
-            setCountry(item.value);
-            setCountryIsFocus(false);
-          }}
-        />
-        <Dropdown
-          style={[
-            style.dropdown,
-            cityIsFocus && { borderColor: appStyle.appAzure },
-          ]}
-          placeholder="City"
-          placeholderStyle={style.placeholderStyle}
-          selectedTextStyle={style.selectedTextStyle}
-          inputSearchStyle={style.inputSearchStyle}
-          iconStyle={style.iconStyle}
-          data={citiesArr}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          value={city}
-          onFocus={() => setCityIsFocus(true)}
-          onBlur={() => setCityIsFocus(false)}
-          onChange={(item) => {
-            setCity(item.value);
-            setCityIsFocus(false);
-          }}
-        />
-        <View className="flex-row">
-          <TouchableOpacity
-            onPress={() => setNoCityInformation(!noCityInformation)}
-            className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
-            style={{ backgroundColor: appStyle.appLightBlue }}
-          >
-            <Text style={{ color: appStyle.appDarkBlue }}>
-              Can't find a certain city? Click here
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Text
-          className="mb-5"
-          style={{
-            color: appStyle.appLightBlue,
-            display: noCityInformation ? "flex" : "none",
-          }}
-        >
-          If The city you're looking for doesn't appear here, it's because no
-          workout has been created there yet. Be the first!
-        </Text>
-
-        <View className="flex-row justify-around mb-5">
-          <StartingTimeComp
-            minDate={now}
-            title="From"
-            startingTimeChanged={(date) => minDateChanged(date)}
+        <ScrollView>
+          <WorkoutType typeSelected={setType} everythingOption={true} />
+          <Dropdown
+            style={[
+              style.dropdown,
+              countryIsFocus && { borderColor: appStyle.appAzure },
+            ]}
+            placeholder="Country"
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={countriesArr}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={country}
+            onFocus={() => setCountryIsFocus(true)}
+            onBlur={() => setCountryIsFocus(false)}
+            onChange={(item) => {
+              setCountry(item.value);
+              setCountryIsFocus(false);
+            }}
           />
-          {minStartingTime != null && (
-            <StartingTimeComp
-              minDate={minStartingTime}
-              title="to"
-              startingTimeChanged={(date) => maxDateChanged(date)}
-            />
-          )}
-        </View>
-        <View className="mb-5 items-center">
+          <Dropdown
+            style={[
+              style.dropdown,
+              cityIsFocus && { borderColor: appStyle.appAzure },
+            ]}
+            placeholder="City"
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={citiesArr}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={city}
+            onFocus={() => setCityIsFocus(true)}
+            onBlur={() => setCityIsFocus(false)}
+            onChange={(item) => {
+              setCity(item.value);
+              setCityIsFocus(false);
+            }}
+          />
           <View className="flex-row">
-            <CheckBox
-              backgroundColor={appStyle.appLightBlue}
-              value={false}
-              onValueChange={(value) =>
-                value == true
-                  ? user.isMale
-                    ? setWorkoutSex("men")
-                    : setWorkoutSex("women")
-                  : setWorkoutSex("everyone")
-              }
-            />
-            <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
-              Show me just {user.isMale ? "men" : "women"}-only workouts
-            </Text>
+            <TouchableOpacity
+              onPress={() => setNoCityInformation(!noCityInformation)}
+              className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
+              style={{ backgroundColor: appStyle.appLightBlue }}
+            >
+              <Text style={{ color: appStyle.appDarkBlue }}>
+                Can't find a certain city? Click here
+              </Text>
+            </TouchableOpacity>
           </View>
-        </View>
-        <View className="items-center">
-          <TouchableOpacity
-            disabled={isSearchDisabled}
-            className="px-2 py-1"
-            onPress={showResults}
+          <Text
+            className="mb-5"
             style={{
-              backgroundColor: isSearchDisabled
-                ? appStyle.appDarkBlueGrayer
-                : appStyle.appAzure,
+              color: appStyle.appLightBlue,
+              display: noCityInformation ? "flex" : "none",
             }}
           >
-            <Text className="text-2xl" style={{ color: appStyle.appDarkBlue }}>
-              Search
-            </Text>
-          </TouchableOpacity>
-        </View>
+            If The city you're looking for doesn't appear here, it's because no
+            workout has been created there yet. Be the first!
+          </Text>
+
+          <View className="flex-row justify-around mb-5">
+            <StartingTimeComp
+              minDate={now}
+              title="From"
+              startingTimeChanged={(date) => minDateChanged(date)}
+            />
+            {minStartingTime != null && (
+              <StartingTimeComp
+                minDate={minStartingTime}
+                title="to"
+                startingTimeChanged={(date) => maxDateChanged(date)}
+              />
+            )}
+          </View>
+          <View className="mb-5 items-center">
+            <View className="flex-row">
+              <CheckBox
+                backgroundColor={appStyle.appLightBlue}
+                value={false}
+                onValueChange={(value) =>
+                  value == true
+                    ? user.isMale
+                      ? setWorkoutSex("men")
+                      : setWorkoutSex("women")
+                    : setWorkoutSex("everyone")
+                }
+              />
+              <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+                Show me just {user.isMale ? "men" : "women"}-only workouts
+              </Text>
+            </View>
+          </View>
+          <View className="items-center">
+            <TouchableOpacity
+              disabled={isSearchDisabled}
+              className="px-2 py-1"
+              onPress={showResults}
+              style={{
+                backgroundColor: isSearchDisabled
+                  ? appStyle.appDarkBlueGrayer
+                  : appStyle.appAzure,
+              }}
+            >
+              <Text
+                className="text-2xl"
+                style={{ color: appStyle.appDarkBlue }}
+              >
+                Search
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
