@@ -565,8 +565,11 @@ export const getUsers = async (usersMap) => {
   const querySnapshot = await getDocs(q);
 
   const returnedMap = new Map();
+  const returnedArr = [];
   querySnapshot.forEach((doc) => {
     returnedMap.set(doc.id, doc.data());
+    returnedArr.push(doc.data());
   });
-  return returnedMap;
+
+  return { map: returnedMap, array: returnedArr };
 };
