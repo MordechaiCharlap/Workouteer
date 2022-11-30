@@ -6,6 +6,9 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { workoutTypes } from "../components/WorkoutType";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
@@ -19,11 +22,14 @@ const WorkoutDetailsScreen = ({ route }) => {
   const { user } = useAuth();
   const workout = route.params.workout;
   const [membersMap, setMembersMap] = useState(new Map());
+  const [membersArray, setMembersArray] = useState(new Map());
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
     const getMembersData = async () => {
       const membersIdMap = new Map(Object.entries(workout.members));
-      setMembersMap(await firebase.getUsers(membersIdMap));
+      const usersData = await firebase.getUsers(membersIdMap);
+      setMembersMap(usersData.map);
+      setMembersArray(usersData.array);
       setInitialLoading(false);
     };
     getMembersData();
@@ -57,22 +63,54 @@ const WorkoutDetailsScreen = ({ route }) => {
                 Date: {timeString(workout.startingTime.toDate())}
               </Text>
             </View>
-            <View>
-              <Text
-                className="text-2xl font-bold text-center"
-                style={{ color: appStyle.appDarkBlue }}
-              >
-                Members
-              </Text>
+            <View className="flex-row flex-1">
               <View
-                className="flex-row"
+                className="aspect-square p-2"
                 style={{
-                  borderTopColor: appStyle.appDarkBlue,
-                  borderTopWidth: 2,
-                  borderBottomColor: appStyle.appDarkBlue,
-                  borderBottomWidth: 2,
+                  borderRightColor: appStyle.appDarkBlue,
+                  borderRightWidth: 2,
                 }}
               >
+                <FontAwesomeIcon
+                  icon={workoutTypes[workout.type].icon}
+                  size={120}
+                  color={appStyle.appDarkBlue}
+                />
+              </View>
+              <View className="px-2 justify-evenly">
+                <View className="flex-row items-center">
+                  <FontAwesomeIcon
+                    icon={faStopwatch}
+                    size={60}
+                    color={appStyle.appDarkBlue}
+                  />
+                  <Text
+                    className="text-md"
+                    style={{
+                      color: appStyle.appDarkBlue,
+                    }}
+                  >
+                    : {workout.minutes} minutes
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              className="items-center"
+              style={{
+                borderTopColor: appStyle.appDarkBlue,
+                borderTopWidth: 2,
+                borderBottomColor: appStyle.appDarkBlue,
+                borderBottomWidth: 2,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                size={60}
+                color={appStyle.appDarkBlue}
+              />
+              <View></View>
+              <View className="flex-row">
                 <View className="w-2/5 pb-3 items-center">
                   <Text
                     className="text-lg font-semibold m-1"
