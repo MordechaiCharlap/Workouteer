@@ -528,6 +528,19 @@ export const getWorkoutResults = async (preferences) => {
   });
   return workoutsArr;
 };
+export const getCountries = async () => {
+  const countriesArr = [];
+  const safeCountryString = country.replace(/\s/g, "-");
+  const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
+  if (countryDoc.exists()) {
+    const citiesMap = new Map(Object.entries(countryDoc.data().cities));
+    for (var key of citiesMap.keys()) {
+      citiesArr.push({ label: key, value: key });
+    }
+  }
+  return countriesArr;
+};
+
 export const getCities = async (country) => {
   const citiesArr = [];
   const safeCountryString = country.replace(/\s/g, "-");
