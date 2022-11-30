@@ -408,7 +408,9 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
   const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
   if (!countryDoc.exists()) {
     await setDoc(doc(db, "countriesData", safeCountryString), {
-      [`cities.${city}`]: {},
+      cities: {
+        [`${city}`]: {},
+      },
     });
   } else {
     const citiesMap = new Map(Object.entries(countryDoc.data().cities));
@@ -419,7 +421,7 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
     }
   }
 };
-export const createWorkout = async () => {
+export const createWorkout = async (workout) => {
   await addCountryAndCityToDbIfNeeded(workout.country, workout.city);
 
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
