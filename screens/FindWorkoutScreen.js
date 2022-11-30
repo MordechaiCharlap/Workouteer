@@ -22,12 +22,13 @@ const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
   const navigation = useNavigation();
+  const [country, setCountry] = useState(user.country);
+  const [city, setCity] = useState(null);
   const [type, setType] = useState(0);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
   const [workoutSex, setWorkoutSex] = useState("everyone");
-  const [city, setCity] = useState(null);
   const [cityIsFocus, setCityIsFocus] = useState(false);
   const [noCityInformation, setNoCityInformation] = useState(false);
   const [citiesArr, setCitiesArr] = useState([]);
@@ -71,6 +72,8 @@ const FindWorkoutScreen = () => {
   };
   const showResults = async () => {
     const preferences = {
+      country: country,
+      city: city,
       type: type,
       minTime: minStartingTime,
       maxTime: maxStartingTime,
