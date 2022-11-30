@@ -109,7 +109,6 @@ const WorkoutComponent = (props) => {
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: props.workout,
-                timeString,
               })
             }
             className="mx-2 h-8 justify-center rounded"
