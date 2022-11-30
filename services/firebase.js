@@ -119,7 +119,7 @@ export const userDataById = async (userId) => {
   var userData = await getDoc(doc(db, "users", userId));
   return userData.data();
 };
-export const updatePersonalData = async (newData) => {
+export const updatePersonalData = async (user, newData) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
     firstName: newData.firstName,
     lastName: newData.lastName,

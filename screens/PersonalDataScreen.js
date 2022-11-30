@@ -48,7 +48,7 @@ const PersonalDataScreen = () => {
         acceptMinAge: minAgeAccept,
         acceptMaxAge: maxAgeAccept,
       };
-      await firebase.updatePersonalData(newData);
+      await firebase.updatePersonalData(user, newData);
       navigation.navigate("Home");
     }
   };
