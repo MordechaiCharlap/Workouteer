@@ -53,7 +53,7 @@ const PersonalDataScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View
         className="flex-1 p-4"
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}

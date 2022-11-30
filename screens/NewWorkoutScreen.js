@@ -94,7 +94,7 @@ const NewWorkoutScreen = () => {
     navigation.goBack();
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="New workout" goBackOption={true} />
       <View
         className="flex-1 px-4"

@@ -53,7 +53,7 @@ const FriendsScreen = ({ route }) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <View className="flex-row justify-between items-center mb-3 px-3 pt-3">
           <TouchableOpacity onPress={() => navigation.goBack()}>

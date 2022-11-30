@@ -172,7 +172,7 @@ const ChatsScreen = () => {
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Chats" />
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (

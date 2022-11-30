@@ -80,7 +80,7 @@ const SearchUsersScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 p-2">
         <View>
           <Text

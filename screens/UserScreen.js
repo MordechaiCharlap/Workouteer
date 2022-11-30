@@ -123,7 +123,7 @@ const UserScreen = ({ route }) => {
       );
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">

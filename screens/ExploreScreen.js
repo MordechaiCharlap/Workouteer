@@ -67,7 +67,7 @@ const ExploreScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <View className="flex-row px-3 pt-3">
           <TouchableOpacity

@@ -13,7 +13,7 @@ const CalendarScreen = () => {
   });
 
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 justify-center">
         <Text className="text-4xl text-white font-bold text-center">
           Coming soon!

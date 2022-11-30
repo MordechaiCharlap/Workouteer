@@ -142,7 +142,7 @@ const LoginScreen = () => {
   return (
     <SafeAreaView
       style={[
-        ResponsiveStyling.safeAreaStyle,
+        responsiveStyle.safeAreaStyle,
         { backgroundColor: appStyle.appAzure },
       ]}
     >

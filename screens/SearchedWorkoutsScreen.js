@@ -19,7 +19,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
     });
   }, []);
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Results" goBackOption={true} />
       <FlatList
         data={workouts}

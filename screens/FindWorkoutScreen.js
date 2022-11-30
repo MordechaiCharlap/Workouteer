@@ -94,7 +94,7 @@ const FindWorkoutScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <WorkoutType typeSelected={setType} everythingOption={true} />

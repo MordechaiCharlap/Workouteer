@@ -30,7 +30,7 @@ const EditDataScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1  p-3">
         <View className="flex-row justify-around mb-8">
           <TouchableOpacity

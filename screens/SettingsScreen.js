@@ -37,7 +37,7 @@ const SettingsScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 p-4">
         <Text
           className="text-center text-2xl"

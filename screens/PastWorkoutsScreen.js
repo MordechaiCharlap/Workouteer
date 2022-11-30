@@ -26,7 +26,7 @@ const FutureWorkoutsScreen = () => {
     getWorkouts();
   }, []);
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Past workouts" goBackOption={true} />
       <View className="flex-1 px-4">
         <FlatList

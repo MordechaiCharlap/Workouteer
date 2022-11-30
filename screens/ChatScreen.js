@@ -120,7 +120,7 @@ const ChatScreen = ({ route }) => {
     }
   };
   return (
-    <SafeAreaView style={ResponsiveStyling.safeAreaStyle}>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View
         className="flex-row items-center pb-3 pt-2"
         style={{ backgroundColor: "#333946" }}
