@@ -504,6 +504,8 @@ export const getWorkoutResults = async (preferences) => {
   const workoutsArr = [];
   var q = query(
     collection(db, "workouts"),
+    where("country", "==", preferences.country),
+    where("city", "==", preferences.city),
     where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
     where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
     orderBy("startingTime", "asc"),
