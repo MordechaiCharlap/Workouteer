@@ -12,7 +12,6 @@ const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
   const { user, setUser } = useAuth();
-  const workoutTypesArray = workoutTypes;
   const leaveWorkout = async (workout) => {
     setButtonText("Left");
     await firebase.leaveWorkout(user, workout);
@@ -67,7 +66,7 @@ const WorkoutComponent = (props) => {
           }}
         >
           <FontAwesomeIcon
-            icon={workoutTypesArray[props.workout.type].icon}
+            icon={workoutTypes[props.workout.type].icon}
             size={60}
             color={appStyle.appDarkBlue}
           />
