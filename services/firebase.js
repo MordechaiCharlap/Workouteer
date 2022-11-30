@@ -533,13 +533,10 @@ export const getWorkoutResults = async (preferences) => {
 };
 export const getCountries = async () => {
   const countriesArr = [];
-  const safeCountryString = country.replace(/\s/g, "-");
-  const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
-  if (countryDoc.exists()) {
-    const citiesMap = new Map(Object.entries(countryDoc.data().cities));
-    for (var key of citiesMap.keys()) {
-      citiesArr.push({ label: key, value: key });
-    }
+  const countriesDoc = await getDoc(doc(db, "countriesData", "countries"));
+  const citiesMap = new Map(Object.entries(countriesDoc.data().names));
+  for (var key of citiesMap.keys()) {
+    citiesArr.push({ label: key, value: key });
   }
   return countriesArr;
 };
