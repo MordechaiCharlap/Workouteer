@@ -501,49 +501,20 @@ export const leaveWorkout = async (user, workout) => {
   });
 };
 export const getWorkoutResults = async (preferences) => {
-  var q;
   const workoutsArr = [];
-  const workoutsCollection = collection(db, "workouts");
-  if (preferences.type == 0) {
-    if (preferences.sex == "everyone") {
-      q = query(
-        workoutsCollection,
-        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
-        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
-        orderBy("startingTime", "asc"),
-        limit(30)
-      );
-    } else {
-      q = query(
-        workoutsCollection,
-        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
-        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
-        where("sex", "==", preferences.sex),
-        orderBy("startingTime", "asc"),
-        limit(30)
-      );
-    }
-  } else {
-    if (preferences.sex == "everyone") {
-      q = query(
-        workoutsCollection,
-        where("type", "==", preferences.type),
-        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
-        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
-        orderBy("startingTime", "asc"),
-        limit(30)
-      );
-    } else {
-      workoutsCollection,
-        where("type", "==", preferences.type),
-        where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
-        where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
-        where("sex", "==", preferences.sex),
-        orderBy("startingTime", "asc"),
-        limit(30);
-    }
+  var q = query(
+    collection(db, "workouts"),
+    where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+    where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+    orderBy("startingTime", "asc"),
+    limit(30)
+  );
+  if (preferences.type != 0) {
+    q = query(q, where("type", "==", preferences.type));
   }
-
+  if (preferences.sex != "everyone") {
+    q = query(q, where("sex", "==", preferences.sex));
+  }
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     workoutsArr.push({
