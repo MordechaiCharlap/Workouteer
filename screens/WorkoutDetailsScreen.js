@@ -1,7 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import Header from "../components/Header";
+import responsiveStyle from "../components/ResponsiveStyling";
 const WorkoutDetailsScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -10,9 +11,9 @@ const WorkoutDetailsScreen = () => {
     });
   }, []);
   return (
-    <View>
+    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title={"Details"} />
-    </View>
+    </SafeAreaView>
   );
 };
 

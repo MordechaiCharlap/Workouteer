@@ -1,6 +1,6 @@
 import { Platform, StyleSheet, StatusBar } from "react-native";
 import * as appStyle from "./AppStyleSheet";
-var style = StyleSheet.create({});
+var style;
 if (Platform.OS == "web") {
   style = StyleSheet.create({
     safeAreaStyle: {

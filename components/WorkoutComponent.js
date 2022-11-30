@@ -6,7 +6,9 @@ import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
+import { useNavigation } from "@react-navigation/native";
 const WorkoutComponent = (props) => {
+  const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
   const { user, setUser } = useAuth();
   const workoutTypesArray = workoutTypes;
@@ -119,6 +121,7 @@ const WorkoutComponent = (props) => {
         </View>
         <View className="justify-around flex-1">
           <TouchableOpacity
+            onPress={() => navigation.navigate("WorkoutDetails")}
             className="mx-2 h-8 justify-center rounded"
             style={{
               backgroundColor: appStyle.appDarkBlue,
