@@ -121,7 +121,9 @@ const WorkoutComponent = (props) => {
         </View>
         <View className="justify-around flex-1">
           <TouchableOpacity
-            onPress={() => navigation.navigate("WorkoutDetails")}
+            onPress={() =>
+              navigation.navigate("WorkoutDetails", { workout: props.workout })
+            }
             className="mx-2 h-8 justify-center rounded"
             style={{
               backgroundColor: appStyle.appDarkBlue,
