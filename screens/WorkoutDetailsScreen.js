@@ -33,9 +33,6 @@ const WorkoutDetailsScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
-  const getImageUri = (userId) => {
-    return membersMap.get(userId).img;
-  };
   return (
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title={"Details"} goBackOption={true} />
@@ -86,7 +83,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                   <Image
                     className="rounded-full border-2"
                     style={style.image}
-                    source={{ uri: getImageUri(workout.creator) }}
+                    source={{ uri: membersMap.get(workout.creator).img }}
                   />
                   <Text>{membersMap.get(workout.creator).displayName}</Text>
                 </View>
