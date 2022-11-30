@@ -21,7 +21,7 @@ const FriendRequests = (props) => {
         <FlatList
           className="px-4 pt-3"
           data={props.friendRequests}
-          keyExtractor={(item) => item.username}
+          keyExtractor={(item) => item.usernameLower}
           renderItem={({ item, index }) => (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
