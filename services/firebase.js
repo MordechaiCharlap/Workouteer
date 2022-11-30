@@ -555,9 +555,10 @@ export const getWorkoutResults = async (preferences) => {
 };
 export const getCities = async (country) => {
   const citiesArr = [];
-  const countries = await getDoc(doc(db, "appData/countries"));
-  if (countries.get(country) != null) {
-    const citiesMap = new Map(Object.entries(countries.get(country)));
+  const safeCountryString = country.replace(/\s/g, "-");
+  const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
+  if (countryDoc.exists()) {
+    const citiesMap = new Map(Object.entries(countryDoc.data().cities));
     for (var key of citiesMap.keys()) {
       citiesArr.push({ label: key, value: key });
     }
