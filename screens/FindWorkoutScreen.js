@@ -29,7 +29,7 @@ const FindWorkoutScreen = () => {
   const [workoutSex, setWorkoutSex] = useState("everyone");
   const [city, setCity] = useState(null);
   const [cityIsFocus, setCityIsFocus] = useState(false);
-
+  const [noCityInformation, setNoCityInformation] = useState(false);
   const [citiesArr, setCitiesArr] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -109,6 +109,28 @@ const FindWorkoutScreen = () => {
             setCityIsFocus(false);
           }}
         />
+        <View className="flex-row">
+          <TouchableOpacity
+            onPress={() => setNoCityInformation(!noCityInformation)}
+            className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
+            style={{ backgroundColor: appStyle.appLightBlue }}
+          >
+            <Text style={{ color: appStyle.appDarkBlue }}>
+              Can't find a certain city? Click here
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Text
+          className="mb-5"
+          style={{
+            color: appStyle.appLightBlue,
+            display: noCityInformation ? "flex" : "none",
+          }}
+        >
+          If The city you're looking for doesn't appear here, it's because no
+          workout has been created there yet. Be the first!
+        </Text>
+
         <View className="flex-row justify-around mb-5">
           <StartingTimeComp
             minDate={now}
@@ -146,7 +168,11 @@ const FindWorkoutScreen = () => {
             disabled={isSearchDisabled}
             className="px-2 py-1"
             onPress={showResults}
-            style={{ backgroundColor: appStyle.appAzure }}
+            style={{
+              backgroundColor: isSearchDisabled
+                ? appStyle.appDarkBlueGrayer
+                : appStyle.appAzure,
+            }}
           >
             <Text className="text-2xl" style={{ color: appStyle.appDarkBlue }}>
               Search
@@ -188,7 +214,8 @@ const style = StyleSheet.create({
     paddingHorizontal: 16,
   },
   dropdown: {
-    height: 30,
+    backgroundColor: appStyle.appGray,
+    height: 50,
     borderColor: "#5f6b8b",
     borderWidth: 0.5,
     borderRadius: 4,
