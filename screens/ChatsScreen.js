@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useState, useCallback } from "react";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {

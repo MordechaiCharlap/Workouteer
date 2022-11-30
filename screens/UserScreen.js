@@ -10,7 +10,7 @@ import {
 import { React, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";

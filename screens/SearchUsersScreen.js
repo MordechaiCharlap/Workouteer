@@ -11,7 +11,7 @@ import {
 import { React, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useNavigation } from "@react-navigation/native";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

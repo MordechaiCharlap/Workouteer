@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,

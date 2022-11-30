@@ -1,7 +1,7 @@
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";

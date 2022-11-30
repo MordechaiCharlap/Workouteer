@@ -13,7 +13,7 @@ import { React, useLayoutEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";

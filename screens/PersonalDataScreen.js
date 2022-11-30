@@ -9,7 +9,7 @@ import {
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";

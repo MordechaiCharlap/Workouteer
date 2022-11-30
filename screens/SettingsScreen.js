@@ -8,7 +8,7 @@ import {
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { saveSettingsChanges, updateContext } from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const SettingsScreen = () => {

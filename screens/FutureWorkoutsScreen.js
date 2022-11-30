@@ -1,6 +1,6 @@
 import { View, SafeAreaView, FlatList } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";

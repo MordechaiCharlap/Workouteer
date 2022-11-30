@@ -12,7 +12,7 @@ import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";

@@ -5,7 +5,7 @@ import BottomNavbar from "../components/BottomNavbar";
 import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
-import ResponsiveStyling from "../components/ResponsiveStyling";
+import responsiveStyle from "../components/ResponsiveStyling";
 import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
