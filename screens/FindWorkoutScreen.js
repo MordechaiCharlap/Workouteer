@@ -29,8 +29,10 @@ const FindWorkoutScreen = () => {
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
   const [workoutSex, setWorkoutSex] = useState("everyone");
+  const [countryIsFocus, setCountryIsFocus] = useState(false);
   const [cityIsFocus, setCityIsFocus] = useState(false);
   const [noCityInformation, setNoCityInformation] = useState(false);
+  const [countriesArr, setCountriesArr] = useState([]);
   const [citiesArr, setCitiesArr] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,11 +40,17 @@ const FindWorkoutScreen = () => {
     });
   }, []);
   useEffect(() => {
+    const updateCountries = async () => {
+      setCitiesArr(await firebase.getCountries());
+    };
+    updateCountries();
+  }, []);
+  useEffect(() => {
     const updateCities = async () => {
-      setCitiesArr(await firebase.getCities("Israel"));
+      setCitiesArr(await firebase.getCities(country));
     };
     updateCities();
-  }, []);
+  }, [country]);
   useEffect(() => {
     if (
       type == null ||
@@ -57,7 +65,7 @@ const FindWorkoutScreen = () => {
 
       console.log("can search");
     }
-  }, [type, minStartingTime, maxStartingTime, city]);
+  }, [type, minStartingTime, maxStartingTime, city, country]);
   const minDateChanged = (date) => {
     setMinStartingTime(null);
     setMinStartingTime(date);
@@ -90,6 +98,28 @@ const FindWorkoutScreen = () => {
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <WorkoutType typeSelected={setType} everythingOption={true} />
+        <Dropdown
+          style={[
+            style.dropdown,
+            countryIsFocus && { borderColor: appStyle.appAzure },
+          ]}
+          placeholder="Country"
+          placeholderStyle={style.placeholderStyle}
+          selectedTextStyle={style.selectedTextStyle}
+          inputSearchStyle={style.inputSearchStyle}
+          iconStyle={style.iconStyle}
+          data={countriesArr}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          value={country}
+          onFocus={() => setCountryIsFocus(true)}
+          onBlur={() => setCountryIsFocus(false)}
+          onChange={(item) => {
+            setCountry(item.value);
+            setCountryIsFocus(false);
+          }}
+        />
         <Dropdown
           style={[
             style.dropdown,
