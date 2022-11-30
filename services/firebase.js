@@ -412,6 +412,9 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
         [`${city}`]: {},
       },
     });
+    await updateDoc(doc(db, "countriesData", "countries"), {
+      [`names.${country}`]: true,
+    });
   } else {
     const citiesMap = new Map(Object.entries(countryDoc.data().cities));
     if (!citiesMap.has(city)) {
