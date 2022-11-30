@@ -554,9 +554,9 @@ export const getCities = async (country) => {
   const citiesArr = [];
   const countries = await getDoc(doc(db, "appData/countries"));
   if (countries.get(country) != null) {
-    const citiesMap = new Map(Object.entries(countries.get(workout.country)));
+    const citiesMap = new Map(Object.entries(countries.get(country)));
     for (var key of citiesMap.keys()) {
-      citiesArr.push(key);
+      citiesArr.push({ label: key, value: key });
     }
   }
   return citiesArr;
