@@ -65,11 +65,9 @@ const NewWorkoutScreen = () => {
     var results = json.results[0];
     for (var element of results.address_components) {
       if (element.types.includes("locality")) {
-        console.log(element.long_name);
         arr.city = element.long_name;
       }
       if (element.types.includes("country")) {
-        console.log(element.long_name);
         arr.country = element.long_name;
       }
     }
@@ -77,7 +75,6 @@ const NewWorkoutScreen = () => {
   };
   const createWorkout = async () => {
     const cityAndCountry = await getCityAndCountry(location);
-    console.log(cityAndCountry);
     const workout = {
       creator: user.usernameLower,
       members: { [user.usernameLower]: true },

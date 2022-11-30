@@ -4,7 +4,7 @@ import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as Location from "expo-location";
-import Map from "./Map";
+import PinOnMap from "./PinOnMap";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
@@ -66,7 +66,10 @@ const WorkoutLocation = (props) => {
       </View>
       <View className="items-center">
         {showMap && (
-          <Map defaultMarker={markerCoords} saveLocation={locationPinned} />
+          <PinOnMap
+            defaultMarker={markerCoords}
+            saveLocation={locationPinned}
+          />
         )}
       </View>
     </View>

@@ -1,11 +1,9 @@
-import { faDotCircle, faLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as appStyle from "./AppStyleSheet";
-const Map = (props) => {
+const PinOnMap = (props) => {
   const [coords, setCoords] = useState(props.defaultMarker);
   const pressed = (ltLng) => {
     setCoords(ltLng);
@@ -54,4 +52,4 @@ const styles = StyleSheet.create({
     width: 400,
   },
 });
-export default Map;
+export default PinOnMap;
