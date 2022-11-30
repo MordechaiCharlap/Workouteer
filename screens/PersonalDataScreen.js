@@ -25,7 +25,8 @@ const PersonalDataScreen = () => {
   }, []);
   const [isMale, setIsMale] = useState(null);
   const [country, setCountry] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const [isMaleIsFocus, setIsMaleIsFocus] = useState(false);
+  const [countryIsFocus, setCountryIsFocus] = useState(false);
   const [firstNameVal, setFirstNameVal] = useState("");
   const [lastNameVal, setLastNameVal] = useState("");
   const [isAcceptMale, setAcceptMale] = useState(true);
@@ -91,7 +92,7 @@ const PersonalDataScreen = () => {
             <Dropdown
               style={[
                 style.dropdown,
-                isFocus && { borderColor: appStyle.appAzure },
+                countryIsFocus && { borderColor: appStyle.appAzure },
               ]}
               placeholder="Country"
               placeholderStyle={style.placeholderStyle}
@@ -103,11 +104,11 @@ const PersonalDataScreen = () => {
               labelField="label"
               valueField="value"
               value={country}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
+              onFocus={() => setCountryIsFocus(true)}
+              onBlur={() => setCountryIsFocus(false)}
               onChange={(item) => {
                 setCountry(item.value);
-                setIsFocus(false);
+                setCountryIsFocus(false);
               }}
             />
           </View>
@@ -115,7 +116,7 @@ const PersonalDataScreen = () => {
             <Dropdown
               style={[
                 style.dropdown,
-                isFocus && { borderColor: appStyle.appAzure },
+                isMaleIsFocus && { borderColor: appStyle.appAzure },
               ]}
               placeholder="Sex"
               placeholderStyle={style.placeholderStyle}
@@ -130,11 +131,11 @@ const PersonalDataScreen = () => {
               labelField="label"
               valueField="value"
               value={isMale}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
+              onFocus={() => setIsMaleIsFocus(true)}
+              onBlur={() => setIsMaleIsFocus(false)}
               onChange={(item) => {
                 setIsMale(item.value);
-                setIsFocus(false);
+                setIsMaleIsFocus(false);
               }}
             />
           </View>
