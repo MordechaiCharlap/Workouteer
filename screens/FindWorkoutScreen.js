@@ -1,4 +1,10 @@
-import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import ResponsiveStyling from "../components/ResponsiveStyling";
@@ -10,6 +16,8 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";
+import { Dropdown } from "react-native-element-dropdown";
+
 const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
@@ -19,13 +27,28 @@ const FindWorkoutScreen = () => {
   const [minStartingTime, setMinStartingTime] = useState(null);
   const [maxStartingTime, setMaxStartingTime] = useState(null);
   const [workoutSex, setWorkoutSex] = useState("everyone");
+  const [city, setCity] = useState(null);
+  const [cityIsFocus, setCityIsFocus] = useState(false);
+
+  const [citiesArr, setCitiesArr] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
   useEffect(() => {
-    if (type == null || minStartingTime == null || maxStartingTime == null) {
+    const updateCities = async () => {
+      setCitiesArr(await firebase.getCities("Israel"));
+    };
+    updateCities();
+  }, []);
+  useEffect(() => {
+    if (
+      type == null ||
+      minStartingTime == null ||
+      maxStartingTime == null ||
+      city == null
+    ) {
       setIsSearchDisabled(true);
       console.log("cant search");
     } else {
@@ -33,7 +56,7 @@ const FindWorkoutScreen = () => {
 
       console.log("can search");
     }
-  }, [type, minStartingTime, maxStartingTime]);
+  }, [type, minStartingTime, maxStartingTime, city]);
   const minDateChanged = (date) => {
     setMinStartingTime(null);
     setMinStartingTime(date);
@@ -64,6 +87,28 @@ const FindWorkoutScreen = () => {
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <WorkoutType typeSelected={setType} everythingOption={true} />
+        <Dropdown
+          style={[
+            style.dropdown,
+            cityIsFocus && { borderColor: appStyle.appAzure },
+          ]}
+          placeholder="City"
+          placeholderStyle={style.placeholderStyle}
+          selectedTextStyle={style.selectedTextStyle}
+          inputSearchStyle={style.inputSearchStyle}
+          iconStyle={style.iconStyle}
+          data={citiesArr}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          value={city}
+          onFocus={() => setCityIsFocus(true)}
+          onBlur={() => setCityIsFocus(false)}
+          onChange={(item) => {
+            setCity(item.value);
+            setCityIsFocus(false);
+          }}
+        />
         <View className="flex-row justify-around mb-5">
           <StartingTimeComp
             minDate={now}
@@ -132,3 +177,54 @@ const StartingTimeComp = (props) => {
   );
 };
 export default FindWorkoutScreen;
+const style = StyleSheet.create({
+  input: {
+    borderWidth: 1,
+    borderColor: "#5f6b8b",
+    color: appStyle.appGray,
+  },
+  text: { color: appStyle.appGray },
+  container: {
+    paddingHorizontal: 16,
+  },
+  dropdown: {
+    height: 30,
+    borderColor: "#5f6b8b",
+    borderWidth: 0.5,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+    color: "white",
+  },
+  label: {
+    position: "absolute",
+    // fontWeight: 450,
+    color: "#5f6b8b",
+    backgroundColor: appStyle.appYellow,
+    left: 22,
+    top: -10,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    color: "#5f6b8b",
+    // fontWeight: 600,
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    // fontWeight: 600,
+    color: "#5f6b8b",
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+});
