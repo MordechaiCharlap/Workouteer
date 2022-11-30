@@ -2,11 +2,17 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   Image,
   StyleSheet,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
-import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStopwatch,
+  faUserGroup,
+  faLocationDot,
+  faVenusMars,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { workoutTypes } from "../components/WorkoutType";
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -17,6 +23,7 @@ import useAuth from "../hooks/useAuth";
 import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -46,9 +53,9 @@ const WorkoutDetailsScreen = ({ route }) => {
         <></>
       ) : (
         <View className="flex-1 px-4">
-          <ScrollView
+          <View
             style={{ backgroundColor: appStyle.appLightBlue }}
-            className="flex-1 rounded"
+            className="rounded"
           >
             <View
               style={{
@@ -80,12 +87,32 @@ const WorkoutDetailsScreen = ({ route }) => {
               <View className="px-2 justify-evenly">
                 <View className="flex-row items-center">
                   <FontAwesomeIcon
+                    icon={faVenusMars}
+                    size={60}
+                    color={appStyle.appDarkBlue}
+                  />
+                  <Text
+                    className="text-lg font-semibold"
+                    style={{
+                      color: appStyle.appDarkBlue,
+                    }}
+                  >
+                    :
+                    {workout.sex == "everyone"
+                      ? "For everyone"
+                      : workout.sex == "men"
+                      ? "Men only"
+                      : "Women only"}
+                  </Text>
+                </View>
+                <View className="flex-row items-center">
+                  <FontAwesomeIcon
                     icon={faStopwatch}
                     size={60}
                     color={appStyle.appDarkBlue}
                   />
                   <Text
-                    className="text-md"
+                    className="text-lg font-semibold"
                     style={{
                       color: appStyle.appDarkBlue,
                     }}
@@ -96,7 +123,6 @@ const WorkoutDetailsScreen = ({ route }) => {
               </View>
             </View>
             <View
-              className="items-center"
               style={{
                 borderTopColor: appStyle.appDarkBlue,
                 borderTopWidth: 2,
@@ -104,41 +130,119 @@ const WorkoutDetailsScreen = ({ route }) => {
                 borderBottomWidth: 2,
               }}
             >
-              <FontAwesomeIcon
-                icon={faUserGroup}
-                size={60}
-                color={appStyle.appDarkBlue}
-              />
-              <View></View>
-              <View className="flex-row">
-                <View className="w-2/5 pb-3 items-center">
-                  <Text
-                    className="text-lg font-semibold m-1"
-                    style={{ color: appStyle.appDarkBlue }}
-                  >
-                    Creator
-                  </Text>
-                  <Image
-                    className="rounded-full border-2"
-                    style={style.image}
-                    source={{ uri: membersMap.get(workout.creator).img }}
-                  />
-                  <Text>{membersMap.get(workout.creator).displayName}</Text>
-                </View>
-                <View className="w-3/5">
-                  <Text
-                    className="text-lg m-1 font-semibold text-center"
-                    style={{ color: appStyle.appDarkBlue }}
-                  >
-                    Others
-                  </Text>
-                </View>
+              <View className="flex-row items-center p-2 justify-center">
+                <FontAwesomeIcon
+                  icon={faUserGroup}
+                  size={30}
+                  color={appStyle.appDarkBlue}
+                />
+                <Text
+                  className="text-lg"
+                  style={{ color: appStyle.appDarkBlue }}
+                >
+                  Members
+                </Text>
               </View>
+
+              <FlatList
+                data={membersArray}
+                keyExtractor={(item) => item.usernameLower}
+                renderItem={({ item }) => (
+                  <View className="p-1 flex-row items-center justify-between">
+                    <View className="flex-row items-center">
+                      <Image
+                        className="rounded-full"
+                        style={style.image}
+                        source={{ uri: item.img }}
+                      />
+                      <View className="ml-2">
+                        <Text
+                          className="text-xl font-semibold tracking-wider"
+                          style={{ color: appStyle.appDarkBlue }}
+                        >
+                          {item.username}
+                        </Text>
+                        <Text
+                          className="text-md opacity-60 tracking-wider"
+                          style={{ color: appStyle.appDarkBlue }}
+                        >
+                          {item.displayName}
+                        </Text>
+                      </View>
+                    </View>
+                    {item.usernameLower == workout.creator && (
+                      <Text
+                        style={{ color: appStyle.appDarkBlue }}
+                        className="mr-5"
+                      >
+                        Creator
+                      </Text>
+                    )}
+                  </View>
+                )}
+              />
             </View>
-          </ScrollView>
+            <View>
+              <View className="flex-row items-center p-2 justify-center">
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  size={30}
+                  color={appStyle.appDarkBlue}
+                />
+                <Text
+                  className="text-lg"
+                  style={{ color: appStyle.appDarkBlue }}
+                >
+                  Location
+                </Text>
+              </View>
+              <WorkoutLocation ltLng={workout.location} />
+            </View>
+          </View>
         </View>
       )}
     </SafeAreaView>
+  );
+};
+
+const WorkoutLocation = (props) => {
+  return (
+    <View style={{ height: 500 }} className="items-center">
+      <View
+        className="items-center"
+        style={{ borderWidth: 1, borderColor: appStyle.appDarkBlue }}
+      >
+        <MapView
+          style={style.map}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          initialRegion={{
+            latitude: props.ltLng.latitude,
+            longitude: props.ltLng.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker coordinate={props.ltLng} />
+        </MapView>
+        <TouchableOpacity
+          className="absolute bottom-4 rounded p-2"
+          style={{
+            backgroundColor: appStyle.appLightBlue,
+            borderColor: appStyle.appDarkBlue,
+            borderWidth: 1,
+          }}
+          onPress={() => saveLocation()}
+        >
+          <Text
+            className="text-1xl font-semibold"
+            style={{ color: appStyle.appDarkBlue }}
+          >
+            Directions
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 const style = StyleSheet.create({
@@ -148,5 +252,10 @@ const style = StyleSheet.create({
     borderWidth: 0.8,
     borderColor: appStyle.appDarkBlue,
   },
+  map: {
+    width: 300,
+    height: 300,
+  },
 });
+
 export default WorkoutDetailsScreen;
