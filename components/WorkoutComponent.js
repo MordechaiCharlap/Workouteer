@@ -178,6 +178,7 @@ const WorkoutComponent = (props) => {
                 workout: props.workout,
                 isCreator: isCreator,
                 isPastWorkout: isPastWorkout,
+                userMemberStatus: userMemberStatus,
               })
             }
             className="mx-2 h-8 justify-center rounded"
