@@ -113,10 +113,10 @@ const WorkoutDetailsScreen = ({ route }) => {
                         >
                           :
                           {workout.sex == "everyone"
-                            ? "For everyone"
+                            ? " For everyone"
                             : workout.sex == "men"
-                            ? "Men only"
-                            : "Women only"}
+                            ? " Men only"
+                            : " Women only"}
                         </Text>
                       </View>
                       <View className="flex-row items-center">
@@ -220,7 +220,7 @@ const WorkoutDetailsScreen = ({ route }) => {
             />
           </View>
           {isPastWorkout && (
-            <View className="flex-row mt-1 justify-between">
+            <View className="flex-row mt-1 justify-between py-1">
               <TouchableOpacity
                 className="rounded p-1 flex-1 w-2/5 mr-1"
                 style={{ backgroundColor: appStyle.appRed }}
