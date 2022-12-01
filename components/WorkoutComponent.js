@@ -67,7 +67,6 @@ const WorkoutComponent = (props) => {
     const membersMapClone = new Map(membersMap);
     membersMapClone.set(user.usernameLower, null);
     setMembersMap(membersMapClone);
-    console.log(membersMapClone);
   };
   const cancelWorkoutRequest = async () => {
     await firebase.cancelWorkoutRequest(user.usernameLower, props.workout);
@@ -168,7 +167,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.appDarkBlue,
               }}
             >
-              : {new Map(Object.entries(props.workout.members)).size}
+              : {membersCount}
             </Text>
           </View>
         </View>
