@@ -11,9 +11,9 @@ import { timeString } from "../services/timeFunctions";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
+  const { user, setUser } = useAuth();
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
-  const { user, setUser } = useAuth();
   const leaveWorkout = async (workout) => {
     setButtonText("Left");
     await firebase.leaveWorkout(user, workout);
