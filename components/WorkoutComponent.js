@@ -13,7 +13,7 @@ const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
   const { user, setUser } = useAuth();
-  const membersMap = new Map(Obecjt.entries(props.workout.members));
+  const membersMap = new Map(Object.entries(props.workout.members));
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
