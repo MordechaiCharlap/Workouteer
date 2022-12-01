@@ -8,12 +8,32 @@ import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { timeString } from "../services/timeFunctions";
+import { useEffect } from "react";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
   const { user, setUser } = useAuth();
+  const membersMap = new Map(Obecjt.entries(props.workout.members));
+  const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
+  useEffect(() => {
+    if (!membersMap.has(user.usernameLower)) {
+      setUserMemberStatus("not");
+    } else {
+      switch (membersMap.get(user.usernameLower)) {
+        case true:
+          setUserMemberStatus("in");
+          break;
+        case null:
+          setUserMemberStatus("pending");
+          break;
+        case false:
+          setUserMemberStatus("rejected");
+          break;
+      }
+    }
+  }, []);
   const leaveWorkout = async (workout) => {
     setButtonText("Left");
     await firebase.leaveWorkout(user, workout);
