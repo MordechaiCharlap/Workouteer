@@ -576,3 +576,8 @@ export const requestToJoinWorkout = async (userId, workout) => {
     [`members.${userId}`]: null,
   });
 };
+export const cancelWorkoutRequest = async (userId, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`members.${userId}`]: deleteField(),
+  });
+};
