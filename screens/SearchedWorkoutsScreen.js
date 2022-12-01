@@ -25,7 +25,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
         data={workouts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <WorkoutComponent now={now} workout={item} isPastWorkout={false} />
+          <WorkoutComponent workout={item} isPastWorkout={false} />
         )}
       />
     </SafeAreaView>
