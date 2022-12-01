@@ -54,13 +54,12 @@ const WorkoutDetailsScreen = ({ route }) => {
       {initalLoading ? (
         <></>
       ) : (
-        <View className="flex-1 px-4">
+        <View className="flex-1 mx-4">
           <View
             style={{ backgroundColor: appStyle.appLightBlue }}
-            className="rounded"
+            className="rounded flex-1"
           >
             <FlatList
-              scrollEnabled={false}
               data={membersArray}
               keyExtractor={(item) => item.usernameLower}
               ListHeaderComponent={() => (
@@ -160,40 +159,6 @@ const WorkoutDetailsScreen = ({ route }) => {
                   </View>
                 </View>
               )}
-              ListFooterComponent={() => (
-                <View
-                  style={{
-                    borderTopColor: appStyle.appDarkBlue,
-                    borderTopWidth: 2,
-                  }}
-                >
-                  <View>
-                    <View className="flex-row items-center p-2 justify-center">
-                      <FontAwesomeIcon
-                        icon={faLocationDot}
-                        size={30}
-                        color={appStyle.appDarkBlue}
-                      />
-                      <Text
-                        className="text-lg"
-                        style={{ color: appStyle.appDarkBlue }}
-                      >
-                        Location
-                      </Text>
-                    </View>
-                    <WorkoutPinnedLocation ltLng={workout.location} />
-                  </View>
-                  <View className="flex-row">
-                    {isCreator && isPastWorkout && (
-                      <TouchableOpacity
-                        style={{ backgroundColor: appStyle.appDarkBlue }}
-                      >
-                        <Text>Cancel workout</Text>
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                </View>
-              )}
               renderItem={({ item }) => (
                 <View className="p-1 flex-row items-center justify-between">
                   <View className="flex-row items-center">
@@ -227,9 +192,59 @@ const WorkoutDetailsScreen = ({ route }) => {
                   )}
                 </View>
               )}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    borderTopColor: appStyle.appDarkBlue,
+                    borderTopWidth: 2,
+                  }}
+                >
+                  <View>
+                    <View className="flex-row items-center p-2 justify-center">
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        size={30}
+                        color={appStyle.appDarkBlue}
+                      />
+                      <Text
+                        className="text-lg"
+                        style={{ color: appStyle.appDarkBlue }}
+                      >
+                        Location
+                      </Text>
+                    </View>
+                    <WorkoutPinnedLocation ltLng={workout.location} />
+                  </View>
+                </View>
+              )}
             />
-            {/* </View> */}
           </View>
+          {isPastWorkout && (
+            <View className="flex-row mt-1 justify-between">
+              <TouchableOpacity
+                className="rounded p-1 flex-1 w-2/5 mr-1"
+                style={{ backgroundColor: appStyle.appRed }}
+              >
+                <Text
+                  className="text-xl font-semibold text-center"
+                  style={{ color: appStyle.appGray }}
+                >
+                  {isCreator ? "Cancel" : "Leave"} workout
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="rounded p-1 flex-1 w-2/5 ml-1"
+                style={{ backgroundColor: appStyle.appLightBlue }}
+              >
+                <Text
+                  className="text-xl text-center font-semibold"
+                  style={{ color: appStyle.appDarkBlue }}
+                >
+                  Invite friends
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       )}
     </SafeAreaView>
