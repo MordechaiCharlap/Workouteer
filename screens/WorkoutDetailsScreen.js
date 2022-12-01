@@ -27,15 +27,12 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
-  const [isFutureWorkout, setIsFutureWorkout] = useState(false);
-  const [isCreator, setIsCreator] = useState(false);
+  const isPastWorkout = route.params.isPastWorkout;
+  const isCreator = route.params.isCreator;
   const workout = route.params.workout;
   const [membersArray, setMembersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
-    if (workout.creator == user.usernameLower) setIsCreator(true);
-    if (workout.startingTime.toDate() > new Date().getDate())
-      setIsFutureWorkout(true);
     const getMembersData = async () => {
       const membersIdMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getUsers(membersIdMap);
@@ -180,7 +177,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         </Text>
                       </View>
                     </View>
-                    {item.usernameLower == workout.creator && (
+                    {isCreator && (
                       <Text
                         style={{ color: appStyle.appDarkBlue }}
                         className="mr-5"
