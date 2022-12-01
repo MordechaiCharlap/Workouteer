@@ -11,7 +11,7 @@ import { timeString } from "../services/timeFunctions";
 import { useEffect } from "react";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
-  const [buttonText, setButtonText] = useState(null);
+  const [buttonText, setButtonText] = useState("");
   const { user, setUser } = useAuth();
   const membersMap = new Map(Object.entries(props.workout.members));
   const [userMemberStatus, setUserMemberStatus] = useState(null);
@@ -20,20 +20,29 @@ const WorkoutComponent = (props) => {
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
+      setButtonText("Request to join");
     } else {
       switch (membersMap.get(user.usernameLower)) {
         case true:
-          setUserMemberStatus("in");
+          if (isCreator) {
+            setUserMemberStatus("creator");
+            setButtonText("Cancel workout");
+          } else {
+            setUserMemberStatus("member");
+            setButtonText("Leave workout");
+          }
           break;
         case null:
           setUserMemberStatus("pending");
+          setButtonText("Waiting.. Tap to cancel");
           break;
         case false:
           setUserMemberStatus("rejected");
+          setButtonText("Request rejected");
           break;
       }
     }
-  }, []);
+  }, [membersMap]);
   const leaveWorkout = async (workout) => {
     setButtonText("Left");
     await firebase.leaveWorkout(user, workout);
@@ -44,6 +53,10 @@ const WorkoutComponent = (props) => {
     await firebase.cancelWorkout(user, workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
+  const requestToJoin = async (workout) => {
+    await firebase.requestToJoinWorkout(user.usernameLower, workout);
+  };
+  const cancelRequest = async (workout) => {};
   return (
     <View
       className="rounded h-32 mb-5"
@@ -167,11 +180,7 @@ const WorkoutComponent = (props) => {
                   color: appStyle.appDarkBlue,
                 }}
               >
-                {buttonText
-                  ? buttonText
-                  : isCreator
-                  ? "Cancel workout"
-                  : "Leave workout"}
+                {buttonText}
               </Text>
             </TouchableOpacity>
           )}

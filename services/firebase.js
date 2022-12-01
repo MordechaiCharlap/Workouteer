@@ -571,3 +571,8 @@ export const getUsers = async (usersMap) => {
 
   return returnedArr;
 };
+export const requestToJoinWorkout = async (userId, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`members.${userId}`]: null,
+  });
+};
