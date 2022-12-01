@@ -24,6 +24,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import { ScrollView } from "react-native-gesture-handler";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -36,7 +37,8 @@ const WorkoutDetailsScreen = ({ route }) => {
     const getMembersData = async () => {
       const membersIdMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getUsers(membersIdMap);
-      setMembersArray(usersData.array);
+      setMembersArray(usersData);
+      console.log(usersData);
       setInitialLoading(false);
     };
     getMembersData();
@@ -57,154 +59,176 @@ const WorkoutDetailsScreen = ({ route }) => {
             style={{ backgroundColor: appStyle.appLightBlue }}
             className="rounded"
           >
-            <View
-              className="flex-row justify-between"
-              style={{
-                borderBottomColor: appStyle.appDarkBlue,
-                borderBottomWidth: 2,
-              }}
-            >
-              <Text
-                className="text-xl m-1"
-                style={{ color: appStyle.appDarkBlue }}
-              >
-                Date: {timeString(workout.startingTime.toDate())}
-              </Text>
-              <Text
-                className="text-xl m-1"
-                style={{ color: appStyle.appDarkBlue }}
-              >
-                {workout.city}
-              </Text>
-            </View>
-            <View className="flex-row flex-1">
-              <View
-                className="aspect-square p-2"
-                style={{
-                  borderRightColor: appStyle.appDarkBlue,
-                  borderRightWidth: 2,
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={workoutTypes[workout.type].icon}
-                  size={120}
-                  color={appStyle.appDarkBlue}
-                />
-              </View>
-              <View className="px-2 pl-5 flex-1 justify-evenly">
-                <View className="flex-row items-center">
-                  <FontAwesomeIcon
-                    icon={faVenusMars}
-                    size={40}
-                    color={appStyle.appDarkBlue}
-                  />
-                  <Text
-                    className="text-lg font-semibold"
+            <FlatList
+              scrollEnabled={false}
+              data={membersArray}
+              keyExtractor={(item) => item.usernameLower}
+              ListHeaderComponent={() => (
+                <View>
+                  <View
+                    className="flex-row justify-between"
                     style={{
-                      color: appStyle.appDarkBlue,
+                      borderBottomColor: appStyle.appDarkBlue,
+                      borderBottomWidth: 2,
                     }}
                   >
-                    :
-                    {workout.sex == "everyone"
-                      ? "For everyone"
-                      : workout.sex == "men"
-                      ? "Men only"
-                      : "Women only"}
-                  </Text>
-                </View>
-                <View className="flex-row items-center">
-                  <FontAwesomeIcon
-                    icon={faStopwatch}
-                    size={40}
-                    color={appStyle.appDarkBlue}
-                  />
-                  <Text
-                    className="text-lg font-semibold"
-                    style={{
-                      color: appStyle.appDarkBlue,
-                    }}
-                  >
-                    : {workout.minutes} minutes
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                borderTopColor: appStyle.appDarkBlue,
-                borderTopWidth: 2,
-                borderBottomColor: appStyle.appDarkBlue,
-                borderBottomWidth: 2,
-              }}
-            >
-              <View className="flex-row items-center p-2 justify-center">
-                <FontAwesomeIcon
-                  icon={faUserGroup}
-                  size={30}
-                  color={appStyle.appDarkBlue}
-                />
-                <Text
-                  className="text-lg"
-                  style={{ color: appStyle.appDarkBlue }}
-                >
-                  Members
-                </Text>
-              </View>
-
-              <FlatList
-                data={membersArray}
-                keyExtractor={(item) => item.usernameLower}
-                renderItem={({ item }) => (
-                  <View className="p-1 flex-row items-center justify-between">
-                    <View className="flex-row items-center">
-                      <Image
-                        className="rounded-full"
-                        style={style.image}
-                        source={{ uri: item.img }}
+                    <Text
+                      className="text-xl m-1"
+                      style={{ color: appStyle.appDarkBlue }}
+                    >
+                      Date: {timeString(workout.startingTime.toDate())}
+                    </Text>
+                    <Text
+                      className="text-xl m-1"
+                      style={{ color: appStyle.appDarkBlue }}
+                    >
+                      {workout.city}
+                    </Text>
+                  </View>
+                  <View className="flex-row flex-1">
+                    <View
+                      className="aspect-square p-2"
+                      style={{
+                        borderRightColor: appStyle.appDarkBlue,
+                        borderRightWidth: 2,
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={workoutTypes[workout.type].icon}
+                        size={120}
+                        color={appStyle.appDarkBlue}
                       />
-                      <View className="ml-2">
+                    </View>
+                    <View className="px-2 pl-5 flex-1 justify-evenly">
+                      <View className="flex-row items-center">
+                        <FontAwesomeIcon
+                          icon={faVenusMars}
+                          size={40}
+                          color={appStyle.appDarkBlue}
+                        />
                         <Text
-                          className="text-xl font-semibold tracking-wider"
-                          style={{ color: appStyle.appDarkBlue }}
+                          className="text-lg font-semibold"
+                          style={{
+                            color: appStyle.appDarkBlue,
+                          }}
                         >
-                          {item.username}
+                          :
+                          {workout.sex == "everyone"
+                            ? "For everyone"
+                            : workout.sex == "men"
+                            ? "Men only"
+                            : "Women only"}
                         </Text>
+                      </View>
+                      <View className="flex-row items-center">
+                        <FontAwesomeIcon
+                          icon={faStopwatch}
+                          size={40}
+                          color={appStyle.appDarkBlue}
+                        />
                         <Text
-                          className="text-md opacity-60 tracking-wider"
-                          style={{ color: appStyle.appDarkBlue }}
+                          className="text-lg font-semibold"
+                          style={{
+                            color: appStyle.appDarkBlue,
+                          }}
                         >
-                          {item.displayName}
+                          : {workout.minutes} minutes
                         </Text>
                       </View>
                     </View>
-                    {isCreator && (
+                  </View>
+                  <View>
+                    <View
+                      className="flex-row items-center p-2 justify-center"
+                      style={{
+                        borderTopColor: appStyle.appDarkBlue,
+                        borderTopWidth: 2,
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserGroup}
+                        size={30}
+                        color={appStyle.appDarkBlue}
+                      />
                       <Text
+                        className="text-lg"
                         style={{ color: appStyle.appDarkBlue }}
-                        className="mr-5"
                       >
-                        Creator
+                        Members
                       </Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    borderTopColor: appStyle.appDarkBlue,
+                    borderTopWidth: 2,
+                  }}
+                >
+                  <View>
+                    <View className="flex-row items-center p-2 justify-center">
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        size={30}
+                        color={appStyle.appDarkBlue}
+                      />
+                      <Text
+                        className="text-lg"
+                        style={{ color: appStyle.appDarkBlue }}
+                      >
+                        Location
+                      </Text>
+                    </View>
+                    <WorkoutLocation ltLng={workout.location} />
+                  </View>
+                  <View className="flex-row">
+                    {isCreator && isPastWorkout && (
+                      <TouchableOpacity
+                        style={{ backgroundColor: appStyle.appDarkBlue }}
+                      >
+                        <Text>Cancel workout</Text>
+                      </TouchableOpacity>
                     )}
                   </View>
-                )}
-              />
-            </View>
-            <View>
-              <View className="flex-row items-center p-2 justify-center">
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  size={30}
-                  color={appStyle.appDarkBlue}
-                />
-                <Text
-                  className="text-lg"
-                  style={{ color: appStyle.appDarkBlue }}
-                >
-                  Location
-                </Text>
-              </View>
-              <WorkoutLocation ltLng={workout.location} />
-            </View>
+                </View>
+              )}
+              renderItem={({ item }) => (
+                <View className="p-1 flex-row items-center justify-between">
+                  <View className="flex-row items-center">
+                    <Image
+                      className="rounded-full"
+                      style={style.image}
+                      source={{ uri: item.img }}
+                    />
+                    <View className="ml-2">
+                      <Text
+                        className="text-xl font-semibold tracking-wider"
+                        style={{ color: appStyle.appDarkBlue }}
+                      >
+                        {item.username}
+                      </Text>
+                      <Text
+                        className="text-md opacity-60 tracking-wider"
+                        style={{ color: appStyle.appDarkBlue }}
+                      >
+                        {item.displayName}
+                      </Text>
+                    </View>
+                  </View>
+                  {isCreator && (
+                    <Text
+                      style={{ color: appStyle.appDarkBlue }}
+                      className="mr-5"
+                    >
+                      Creator
+                    </Text>
+                  )}
+                </View>
+              )}
+            />
+            {/* </View> */}
           </View>
         </View>
       )}
