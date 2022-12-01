@@ -219,7 +219,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
             />
           </View>
-          {!isPastWorkout && (
+          {!isPastWorkout && membersArray.length < 10 && (
             <TouchableOpacity
               className="rounded p-1 my-1"
               style={{ backgroundColor: appStyle.appNeonAzure }}
