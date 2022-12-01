@@ -30,8 +30,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [isFutureWorkout, setIsFutureWorkout] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
   const workout = route.params.workout;
-  const [membersMap, setMembersMap] = useState(new Map());
-  const [membersArray, setMembersArray] = useState(new Map());
+  const [membersArray, setMembersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
     if (workout.creator == user.usernameLower) setIsCreator(true);
@@ -40,7 +39,6 @@ const WorkoutDetailsScreen = ({ route }) => {
     const getMembersData = async () => {
       const membersIdMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getUsers(membersIdMap);
-      setMembersMap(usersData.map);
       setMembersArray(usersData.array);
       setInitialLoading(false);
     };
