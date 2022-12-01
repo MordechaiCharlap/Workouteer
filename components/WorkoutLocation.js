@@ -25,11 +25,11 @@ const WorkoutLocation = (props) => {
       }
 
       const location = await Location.getCurrentPositionAsync({});
-      const lotLangLocation = {
+      const latLongLocation = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-      setMarkerCoords(lotLangLocation);
+      setMarkerCoords(latLongLocation);
       setShowMap(true);
     }
   };
