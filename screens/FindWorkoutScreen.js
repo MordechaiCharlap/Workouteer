@@ -18,7 +18,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";
 import { Dropdown } from "react-native-element-dropdown";
-
+import * as Location from "expo-location";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
@@ -35,6 +35,7 @@ const FindWorkoutScreen = () => {
   const [noCityInformation, setNoCityInformation] = useState(false);
   const [countriesArr, setCountriesArr] = useState([]);
   const [citiesArr, setCitiesArr] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState(null);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -67,6 +68,14 @@ const FindWorkoutScreen = () => {
       console.log("can search");
     }
   }, [type, minStartingTime, maxStartingTime, city, country]);
+  const getCurrentLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({});
+    const latLongLocation = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+    setCurrentLocation(latLongLocation);
+  };
   const minDateChanged = (date) => {
     setMinStartingTime(null);
     setMinStartingTime(date);
@@ -92,6 +101,7 @@ const FindWorkoutScreen = () => {
     navigation.navigate("SearchedWorkouts", {
       workouts: workouts,
       user: user,
+      location: currentLocation,
     });
   };
   return (
@@ -180,7 +190,7 @@ const FindWorkoutScreen = () => {
               />
             )}
           </View>
-          <View className="mb-5 items-center">
+          <View className="mb-5">
             <View className="flex-row">
               <CheckBox
                 backgroundColor={appStyle.appLightBlue}
@@ -195,6 +205,22 @@ const FindWorkoutScreen = () => {
               />
               <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
                 Show me just {user.isMale ? "men" : "women"}-only workouts
+              </Text>
+            </View>
+          </View>
+          <View className="mb-5">
+            <View className="flex-row">
+              <CheckBox
+                backgroundColor={appStyle.appLightBlue}
+                value={false}
+                onValueChange={(value) =>
+                  value == true
+                    ? getCurrentLocation()
+                    : setCurrentLocation(null)
+                }
+              />
+              <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+                Use my location to messure distance from workout
               </Text>
             </View>
           </View>
