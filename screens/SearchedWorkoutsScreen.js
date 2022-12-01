@@ -10,7 +10,6 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FlatList } from "react-native-gesture-handler";
 import WorkoutComponent from "../components/WorkoutComponent";
 const SearchedWorkoutsScreen = ({ route }) => {
-  const now = new Date();
   const workouts = route.params.workouts;
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -25,7 +24,11 @@ const SearchedWorkoutsScreen = ({ route }) => {
         data={workouts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <WorkoutComponent workout={item} isPastWorkout={false} />
+          <WorkoutComponent
+            location={route.params.location}
+            workout={item}
+            isPastWorkout={false}
+          />
         )}
       />
     </SafeAreaView>
