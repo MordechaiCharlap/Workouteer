@@ -106,7 +106,7 @@ const WorkoutComponent = (props) => {
   };
   return (
     <View
-      className="rounded h-32 mb-5"
+      className="rounded mb-5"
       style={{
         backgroundColor: appStyle.appLightBlue,
       }}
@@ -138,20 +138,20 @@ const WorkoutComponent = (props) => {
       </View>
 
       <View className="flex-row flex-1">
-        <View
-          className="justify-around items-center aspect-square"
-          style={{
-            borderRightColor: appStyle.appDarkBlue,
-            borderRightWidth: 2,
-          }}
-        >
+        <View className="justify-around items-center aspect-square">
           <FontAwesomeIcon
             icon={workoutTypes[props.workout.type].icon}
-            size={60}
+            size={45}
             color={appStyle.appDarkBlue}
           />
         </View>
-        <View className="px-2 justify-evenly">
+        <View
+          className="p-2 justify-evenly"
+          style={{
+            borderLeftColor: appStyle.appDarkBlue,
+            borderLeftWidth: 2,
+          }}
+        >
           <View className="flex-row items-center">
             <FontAwesomeIcon
               icon={faLocationDot}
@@ -198,50 +198,53 @@ const WorkoutComponent = (props) => {
             </Text>
           </View>
         </View>
-        <View className="justify-around flex-1">
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("WorkoutDetails", {
-                workout: props.workout,
-                isCreator: isCreator,
-                isPastWorkout: isPastWorkout,
-                userMemberStatus: userMemberStatus,
-              })
-            }
-            className="mx-2 h-8 justify-center rounded"
+      </View>
+      <View
+        className="flex-1 py-1 flex-row"
+        style={{ borderTopColor: appStyle.appDarkBlue, borderTopWidth: 2 }}
+      >
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("WorkoutDetails", {
+              workout: props.workout,
+              isCreator: isCreator,
+              isPastWorkout: isPastWorkout,
+              userMemberStatus: userMemberStatus,
+            })
+          }
+          className="mx-1 h-8 w-1 flex-1 rounded justify-center"
+          style={{
+            backgroundColor: appStyle.appDarkBlue,
+          }}
+        >
+          <Text
+            className="text-center"
             style={{
-              backgroundColor: appStyle.appDarkBlue,
+              color: appStyle.appGray,
+            }}
+          >
+            Details
+          </Text>
+        </TouchableOpacity>
+        {!isPastWorkout && (
+          <TouchableOpacity
+            onPress={workoutActionButtonClicked}
+            className="mx-1 h-8 rounded w-1 flex-1 justify-center"
+            style={{
+              borderColor: appStyle.appDarkBlue,
+              borderWidth: 1,
             }}
           >
             <Text
               className="text-center"
               style={{
-                color: appStyle.appGray,
+                color: appStyle.appDarkBlue,
               }}
             >
-              More details
+              {buttonText}
             </Text>
           </TouchableOpacity>
-          {!isPastWorkout && (
-            <TouchableOpacity
-              onPress={workoutActionButtonClicked}
-              className="mx-2 h-8 justify-center rounded"
-              style={{
-                borderColor: appStyle.appDarkBlue,
-                borderWidth: 1,
-              }}
-            >
-              <Text
-                className="text-center"
-                style={{
-                  color: appStyle.appDarkBlue,
-                }}
-              >
-                {buttonText}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        )}
       </View>
     </View>
   );
