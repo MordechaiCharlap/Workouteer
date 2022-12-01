@@ -63,6 +63,7 @@ const WorkoutDetailsScreen = ({ route }) => {
             className="rounded"
           >
             <View
+              className="flex-row justify-between"
               style={{
                 borderBottomColor: appStyle.appDarkBlue,
                 borderBottomWidth: 2,
@@ -73,6 +74,12 @@ const WorkoutDetailsScreen = ({ route }) => {
                 style={{ color: appStyle.appDarkBlue }}
               >
                 Date: {timeString(workout.startingTime.toDate())}
+              </Text>
+              <Text
+                className="text-xl m-1"
+                style={{ color: appStyle.appDarkBlue }}
+              >
+                {workout.city}
               </Text>
             </View>
             <View className="flex-row flex-1">
