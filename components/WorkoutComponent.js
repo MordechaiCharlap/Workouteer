@@ -55,7 +55,7 @@ const WorkoutComponent = (props) => {
     await firebase.cancelWorkout(user, props.workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
-  const requestToJoin = async () => {
+  const requestToJoinWorkout = async () => {
     await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
     const membersMapClone = membersMap.slice();
     membersMapClone.set((user.usernameLower, null));
@@ -65,8 +65,10 @@ const WorkoutComponent = (props) => {
   const workoutActionButtonClicked = async () => {
     switch (userMemberStatus) {
       case "not":
+        await requestToJoinWorkout();
         break;
       case "creator":
+        await cancelWorkout();
         break;
       case "member":
         await leaveWorkout();
