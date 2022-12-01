@@ -13,7 +13,9 @@ const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState("");
   const { user, setUser } = useAuth();
-  const membersMap = new Map(Object.entries(props.workout.members));
+  const [membersMap, setMembersMap] = useState(
+    new Map(Object.entries(props.workout.members))
+  );
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
@@ -43,20 +45,36 @@ const WorkoutComponent = (props) => {
       }
     }
   }, [membersMap]);
-  const leaveWorkout = async (workout) => {
+  const leaveWorkout = async () => {
     setButtonText("Left");
-    await firebase.leaveWorkout(user, workout);
+    await firebase.leaveWorkout(user, props.workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
-  const cancelWorkout = async (workout) => {
+  const cancelWorkout = async () => {
     setButtonText("Canceled");
-    await firebase.cancelWorkout(user, workout);
+    await firebase.cancelWorkout(user, props.workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
-  const requestToJoin = async (workout) => {
-    await firebase.requestToJoinWorkout(user.usernameLower, workout);
+  const requestToJoin = async () => {
+    await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
+    const membersMapClone = membersMap.slice();
+    membersMapClone.set((user.usernameLower, null));
+    setMembersMap(membersMapClone);
   };
-  const cancelRequest = async (workout) => {};
+  const cancelRequest = async () => {};
+  const workoutActionButtonClicked = async () => {
+    switch (userMemberStatus) {
+      case "not":
+        break;
+      case "creator":
+        break;
+      case "member":
+        await leaveWorkout();
+        break;
+      case "rejected":
+        break;
+    }
+  };
   return (
     <View
       className="rounded h-32 mb-5"
@@ -161,13 +179,7 @@ const WorkoutComponent = (props) => {
           </TouchableOpacity>
           {!isPastWorkout && (
             <TouchableOpacity
-              onPress={() =>
-                buttonText
-                  ? {}
-                  : isCreator
-                  ? cancelWorkout(props.workout)
-                  : leaveWorkout(props.workout)
-              }
+              onPress={workoutActionButtonClicked}
               className="mx-2 h-8 justify-center rounded"
               style={{
                 borderColor: appStyle.appDarkBlue,
