@@ -182,7 +182,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  {isCreator && (
+                  {item.usernameLower == workout.creator && (
                     <Text
                       style={{ color: appStyle.appDarkBlue }}
                       className="mr-5"
@@ -213,7 +213,19 @@ const WorkoutDetailsScreen = ({ route }) => {
                         Location
                       </Text>
                     </View>
-                    <WorkoutPinnedLocation ltLng={workout.location} />
+                    {route.params.userMemberStatus == "member" ||
+                    route.params.userMemberStatus == "creator" ? (
+                      <WorkoutPinnedLocation ltLng={workout.location} />
+                    ) : (
+                      <View>
+                        <Text
+                          style={{ color: appStyle.appDarkBlue }}
+                          className="text-center"
+                        >
+                          Location would be shown only for members.
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </View>
               )}
