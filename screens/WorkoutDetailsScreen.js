@@ -89,11 +89,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                   color={appStyle.appDarkBlue}
                 />
               </View>
-              <View className="px-2 justify-evenly">
+              <View className="px-2 pl-5 flex-1 justify-evenly">
                 <View className="flex-row items-center">
                   <FontAwesomeIcon
                     icon={faVenusMars}
-                    size={60}
+                    size={40}
                     color={appStyle.appDarkBlue}
                   />
                   <Text
@@ -113,7 +113,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                 <View className="flex-row items-center">
                   <FontAwesomeIcon
                     icon={faStopwatch}
-                    size={60}
+                    size={40}
                     color={appStyle.appDarkBlue}
                   />
                   <Text
