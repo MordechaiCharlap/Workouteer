@@ -181,7 +181,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         Location
                       </Text>
                     </View>
-                    <WorkoutLocation ltLng={workout.location} />
+                    <WorkoutPinnedLocation ltLng={workout.location} />
                   </View>
                   <View className="flex-row">
                     {isCreator && isPastWorkout && (
@@ -236,9 +236,9 @@ const WorkoutDetailsScreen = ({ route }) => {
   );
 };
 
-const WorkoutLocation = (props) => {
+const WorkoutPinnedLocation = (props) => {
   return (
-    <View style={{ height: 500 }} className="items-center">
+    <View className="items-center">
       <View
         className="items-center"
         style={{ borderWidth: 1, borderColor: appStyle.appDarkBlue }}
@@ -257,7 +257,7 @@ const WorkoutLocation = (props) => {
           <Marker coordinate={props.ltLng} />
         </MapView>
         <TouchableOpacity
-          className="absolute bottom-4 rounded p-2"
+          className="bottom-4 rounded p-2 absolute"
           style={{
             backgroundColor: appStyle.appLightBlue,
             borderColor: appStyle.appDarkBlue,
