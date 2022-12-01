@@ -219,31 +219,18 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
             />
           </View>
-          {isPastWorkout && (
-            <View className="flex-row mt-1 justify-between py-1">
-              <TouchableOpacity
-                className="rounded p-1 flex-1 w-2/5 mr-1"
-                style={{ backgroundColor: appStyle.appRed }}
+          {!isPastWorkout && (
+            <TouchableOpacity
+              className="rounded p-1 my-1"
+              style={{ backgroundColor: appStyle.appNeonAzure }}
+            >
+              <Text
+                className="text-xl text-center font-semibold"
+                style={{ color: appStyle.appDarkBlue }}
               >
-                <Text
-                  className="text-xl font-semibold text-center"
-                  style={{ color: appStyle.appGray }}
-                >
-                  {isCreator ? "Cancel" : "Leave"} workout
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="rounded p-1 flex-1 w-2/5 ml-1"
-                style={{ backgroundColor: appStyle.appLightBlue }}
-              >
-                <Text
-                  className="text-xl text-center font-semibold"
-                  style={{ color: appStyle.appDarkBlue }}
-                >
-                  Invite friends
-                </Text>
-              </TouchableOpacity>
-            </View>
+                Invite friends to join
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       )}
@@ -253,7 +240,7 @@ const WorkoutDetailsScreen = ({ route }) => {
 
 const WorkoutPinnedLocation = (props) => {
   return (
-    <View className="items-center">
+    <View className="items-center mb-3">
       <View
         className="items-center"
         style={{ borderWidth: 1, borderColor: appStyle.appDarkBlue }}
