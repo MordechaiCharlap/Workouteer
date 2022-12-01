@@ -16,6 +16,7 @@ const WorkoutComponent = (props) => {
   const [membersMap, setMembersMap] = useState(
     new Map(Object.entries(props.workout.members))
   );
+  const [membersCount, setMembersCount] = useState(null);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
@@ -44,6 +45,11 @@ const WorkoutComponent = (props) => {
           break;
       }
     }
+    var membersCount = 0;
+    for (var value of membersMap.values()) {
+      if (value == true) membersCount++;
+    }
+    setMembersCount(membersCount);
   }, [membersMap]);
   const leaveWorkout = async () => {
     setButtonText("Left");
@@ -56,12 +62,19 @@ const WorkoutComponent = (props) => {
     setUser(await firebase.updateContext(user.usernameLower));
   };
   const requestToJoinWorkout = async () => {
+    console.log("requesting to join");
     await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
-    const membersMapClone = membersMap.slice();
-    membersMapClone.set((user.usernameLower, null));
+    const membersMapClone = new Map(membersMap);
+    membersMapClone.set(user.usernameLower, null);
+    setMembersMap(membersMapClone);
+    console.log(membersMapClone);
+  };
+  const cancelWorkoutRequest = async () => {
+    await firebase.cancelWorkoutRequest(user.usernameLower, props.workout);
+    const membersMapClone = new Map(membersMap);
+    membersMapClone.delete(user.usernameLower);
     setMembersMap(membersMapClone);
   };
-  const cancelRequest = async () => {};
   const workoutActionButtonClicked = async () => {
     switch (userMemberStatus) {
       case "not":
@@ -72,6 +85,9 @@ const WorkoutComponent = (props) => {
         break;
       case "member":
         await leaveWorkout();
+        break;
+      case "pending":
+        await cancelWorkoutRequest();
         break;
       case "rejected":
         break;
