@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useLayoutEffect } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -16,9 +16,20 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUserPen, faGear, faPen } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
+import { useEffect } from "react";
 const MyUserScreen = () => {
   const { user } = useAuth();
   const allFriendsMap = new Map(Object.entries(user.friends));
+  const [workoutsCount, setWorkoutsCount] = useState();
+  useEffect(() => {
+    const workouts = new Map(Object.entries(user.workouts));
+    const now = new Date();
+    var count = 0;
+    for (var value of workouts.values()) {
+      if (value.toDate() < now) count++;
+    }
+    setWorkoutsCount(count);
+  }, []);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -81,7 +92,7 @@ const MyUserScreen = () => {
                       style={{ fontSize: 20, color: appStyle.appGray }}
                       className="font-bold"
                     >
-                      {user.workoutsCount}
+                      {workoutsCount}
                     </Text>
                     <Text style={{ fontSize: 20, color: appStyle.appGray }}>
                       Workouts
