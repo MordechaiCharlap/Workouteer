@@ -27,10 +27,7 @@ const NewWorkoutScreen = () => {
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
   const [workoutSex, setWorkoutSex] = useState("everyone");
-  const [location, setLocation] = useState({
-    latitude: 31.77722762942308,
-    longitude: 35.21447606384754,
-  });
+  const [location, setLocation] = useState(null);
   const [description, setDescription] = useState("");
   const [isCreateDisabled, setIsCreateDisabled] = useState(true);
   const [createButtonTextColor, setCreateButtonTextColor] = useState("white");
