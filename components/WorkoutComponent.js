@@ -11,6 +11,8 @@ import { timeString } from "../services/timeFunctions";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState(null);
+  const isPastWorkout = props.isPastWorkout;
+  const isCreator = props.workout.creator == user.usernameLower;
   const { user, setUser } = useAuth();
   const leaveWorkout = async (workout) => {
     setButtonText("Left");
@@ -50,9 +52,7 @@ const WorkoutComponent = (props) => {
             color: appStyle.appDarkBlue,
           }}
         >
-          {props.workout.creator == user.usernameLower
-            ? "Your "
-            : props.workout.creator + "'s"}
+          {isCreator ? "Your " : props.workout.creator + "'s"}
           workout
         </Text>
       </View>
@@ -108,6 +108,8 @@ const WorkoutComponent = (props) => {
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: props.workout,
+                isCreator: isCreator,
+                isPastWorkout: isPastWorkout,
               })
             }
             className="mx-2 h-8 justify-center rounded"
@@ -124,12 +126,12 @@ const WorkoutComponent = (props) => {
               More details
             </Text>
           </TouchableOpacity>
-          {!props.isPastWorkout && (
+          {!isPastWorkout && (
             <TouchableOpacity
               onPress={() =>
                 buttonText
                   ? {}
-                  : props.workout.creator == user.usernameLower
+                  : isCreator
                   ? cancelWorkout(props.workout)
                   : leaveWorkout(props.workout)
               }
@@ -147,7 +149,7 @@ const WorkoutComponent = (props) => {
               >
                 {buttonText
                   ? buttonText
-                  : props.workout.creator == user.usernameLower
+                  : isCreator
                   ? "Cancel workout"
                   : "Leave workout"}
               </Text>
