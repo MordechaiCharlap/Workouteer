@@ -4,7 +4,12 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStopwatch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faStopwatch,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
+import { getDistance } from "geolib";
 import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { timeString } from "../services/timeFunctions";
@@ -20,6 +25,7 @@ const WorkoutComponent = (props) => {
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
+  const [distance, setDistance] = useState(null);
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
@@ -51,6 +57,12 @@ const WorkoutComponent = (props) => {
     }
     setMembersCount(membersCount);
   }, [membersMap]);
+  useEffect(() => {
+    if (props.location) {
+      const distance = getDistance(props.location, props.workout.location);
+      setDistance(Math.ceil(distance / 1000));
+    }
+  }, []);
   const leaveWorkout = async () => {
     setButtonText("Left");
     await firebase.leaveWorkout(user, props.workout);
@@ -140,6 +152,21 @@ const WorkoutComponent = (props) => {
           />
         </View>
         <View className="px-2 justify-evenly">
+          <View className="flex-row items-center">
+            <FontAwesomeIcon
+              icon={faLocationDot}
+              size={30}
+              color={appStyle.appDarkBlue}
+            />
+            <Text
+              className="text-md"
+              style={{
+                color: appStyle.appDarkBlue,
+              }}
+            >
+              : {distance ? "Less than " + distance + " km away" : ""}
+            </Text>
+          </View>
           <View className="flex-row items-center">
             <FontAwesomeIcon
               icon={faStopwatch}
