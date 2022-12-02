@@ -571,15 +571,16 @@ export const getUsers = async (usersMap) => {
   );
   const snapMembers = await getDocs(qMembers);
   const snapRequesters = await getDocs(qRequesters);
-  const returnedArr = [];
+  const returnedMembersArr = [];
+  const returnedRequestersArr = [];
   snapMembers.forEach((doc) => {
-    returnedArr.push(doc.data());
+    returnedMembersArr.push(doc.data());
   });
   snapRequesters.forEach((doc) => {
-    returnedArr.push(doc.data());
+    returnedRequestersArr.push(doc.data());
   });
 
-  return returnedArr;
+  return { members: returnedMembersArr, requesters: returnedRequestersArr };
 };
 export const requestToJoinWorkout = async (userId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
