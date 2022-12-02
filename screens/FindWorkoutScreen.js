@@ -18,7 +18,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";
 import { Dropdown } from "react-native-element-dropdown";
-import * as Location from "expo-location";
+import * as geoService from "../services/geoService";
 const FindWorkoutScreen = () => {
   const now = new Date();
   const { user } = useAuth();
@@ -69,12 +69,8 @@ const FindWorkoutScreen = () => {
     }
   }, [type, minStartingTime, maxStartingTime, city, country]);
   const getCurrentLocation = async () => {
-    const location = await Location.getCurrentPositionAsync({});
-    const latLongLocation = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-    setCurrentLocation(latLongLocation);
+    const currentLocation = await geoService.getCurrentLocation();
+    setCurrentLocation(currentLocation);
   };
   const minDateChanged = (date) => {
     setMinStartingTime(null);
