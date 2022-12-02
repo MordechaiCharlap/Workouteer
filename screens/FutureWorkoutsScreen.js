@@ -7,6 +7,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
 import * as geoService from "../services/geoService";
+import LoadingAnimation from "../components/LoadingAnimation";
 const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
   const now = new Date();
@@ -29,6 +30,7 @@ const FutureWorkoutsScreen = () => {
       const workoutsArr = await firebase.getFutureWorkouts(user, now);
       console.log(workoutsArr);
       setWorkouts(workoutsArr);
+      setInitialLoading(false);
     };
     setLocation();
     getWorkouts();
@@ -38,19 +40,23 @@ const FutureWorkoutsScreen = () => {
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Future workouts" goBackOption={true} />
       <View className="flex-1 px-4">
-        <FlatList
-          className="p-2"
-          showsVerticalScrollIndicator={false}
-          data={workouts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <WorkoutComponent
-              workout={item}
-              isPastWorkout={false}
-              location={currentLocation}
-            />
-          )}
-        />
+        {initialLoading ? (
+          <LoadingAnimation />
+        ) : (
+          <FlatList
+            className="p-2"
+            showsVerticalScrollIndicator={false}
+            data={workouts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <WorkoutComponent
+                workout={item}
+                isPastWorkout={false}
+                location={currentLocation}
+              />
+            )}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
