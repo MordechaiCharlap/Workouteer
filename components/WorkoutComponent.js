@@ -146,13 +146,13 @@ const WorkoutComponent = (props) => {
           />
         </View>
         <View
-          className="p-2 justify-evenly"
+          className="p-1 justify-around"
           style={{
             borderLeftColor: appStyle.appDarkBlue,
             borderLeftWidth: 2,
           }}
         >
-          <View className="flex-row items-center">
+          <View className="flex-row items-center my-1">
             <FontAwesomeIcon
               icon={faLocationDot}
               size={30}
@@ -164,10 +164,13 @@ const WorkoutComponent = (props) => {
                 color: appStyle.appDarkBlue,
               }}
             >
-              : {distance ? "Less than " + distance + " km away" : ""}
+              :{" "}
+              {distance
+                ? "Less than " + distance + " km away"
+                : props.workout.city}
             </Text>
           </View>
-          <View className="flex-row items-center">
+          <View className="flex-row items-center my-1">
             <FontAwesomeIcon
               icon={faStopwatch}
               size={30}
@@ -182,7 +185,7 @@ const WorkoutComponent = (props) => {
               : {props.workout.minutes} minutes
             </Text>
           </View>
-          <View className="flex-row items-center">
+          <View className="flex-row items-center my-1">
             <FontAwesomeIcon
               icon={faUserGroup}
               size={30}
