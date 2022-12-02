@@ -8,6 +8,7 @@ import {
   faLocationDot,
   faStopwatch,
   faUserGroup,
+  faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { getDistance } from "geolib";
 import useAuth from "../hooks/useAuth";
@@ -26,6 +27,7 @@ const WorkoutComponent = (props) => {
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
   const [distance, setDistance] = useState(null);
+  const [notificationCount, setNotificationCount] = useState(0);
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
@@ -52,12 +54,21 @@ const WorkoutComponent = (props) => {
       }
     }
     var membersCount = 0;
+    var tempNotificationCount = 0;
     for (var value of membersMap.values()) {
       if (value == true) membersCount++;
+      else if (value == null) tempNotificationCount++;
     }
+    setNotificationCount(tempNotificationCount);
     setMembersCount(membersCount);
   }, [membersMap]);
   useEffect(() => {
+    var tempNotificationCount = 0;
+    for (var value of membersMap.values()) {
+      if (value == null) tempNotificationCount++;
+    }
+    setNotificationCount(tempNotificationCount);
+
     if (props.location) {
       const distance = getDistance(props.location, props.workout.location);
       setDistance(Math.ceil(distance / 1000));
@@ -220,6 +231,23 @@ const WorkoutComponent = (props) => {
             backgroundColor: appStyle.appDarkBlue,
           }}
         >
+          {!isPastWorkout && isCreator && notificationCount > 0 && (
+            <View
+              className="absolute aspect-square"
+              style={{
+                backgroundColor: appStyle.appLightBlue,
+              }}
+            >
+              <Text
+                style={{
+                  color: appStyle.appRed,
+                }}
+              >
+                {notificationCount}
+              </Text>
+            </View>
+          )}
+
           <Text
             className="text-center"
             style={{
