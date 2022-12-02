@@ -24,24 +24,26 @@ import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { ScrollView } from "react-native-gesture-handler";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const workout = route.params.workout;
+  const membersMap = route.params.membersMap;
   const [membersArray, setMembersArray] = useState([]);
+  const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
-    const getMembersData = async () => {
+    const getUsersData = async () => {
       const membersIdMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getUsers(membersIdMap);
-      setMembersArray(usersData);
+      setMembersArray(usersData.members);
+      setRequestersArray(usersData.requesters);
       console.log(usersData);
       setInitialLoading(false);
     };
-    getMembersData();
+    getUsersData();
   }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -138,7 +140,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                   </View>
                   <View>
                     <View
-                      className="flex-row items-center p-2 justify-center"
+                      className="p-2 flex-row justify-center items-center"
                       style={{
                         borderTopColor: appStyle.appDarkBlue,
                         borderTopWidth: 2,
@@ -156,6 +158,18 @@ const WorkoutDetailsScreen = ({ route }) => {
                         Members
                       </Text>
                     </View>
+
+                    <TouchableOpacity
+                      className="absolute m-2 rounded"
+                      style={{ backgroundColor: appStyle.appDarkBlue }}
+                    >
+                      <Text
+                        style={{ color: appStyle.appGray }}
+                        className="text-lg"
+                      >
+                        Requests: {requestersArray.length}
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               )}
