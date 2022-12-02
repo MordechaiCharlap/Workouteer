@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import * as Location from "expo-location";
+import * as geoService from "../services/geoService";
 import PinOnMap from "./PinOnMap";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
@@ -18,17 +18,7 @@ const WorkoutLocation = (props) => {
     if (showMap) {
       setShowMap(false);
     } else {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      const location = await Location.getCurrentPositionAsync({});
-      const latLongLocation = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
+      const latLongLocation = await geoService.getCurrentLocation();
       setMarkerCoords(latLongLocation);
       setShowMap(true);
     }
