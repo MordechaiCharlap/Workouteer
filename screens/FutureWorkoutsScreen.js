@@ -6,10 +6,13 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
+import * as geoService from "../services/geoService";
 const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [initialLoading, setInitialLoading] = useState(true);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -17,12 +20,17 @@ const FutureWorkoutsScreen = () => {
     });
   }, []);
   useEffect(() => {
+    const setLocation = async () => {
+      const location = await geoService.getCurrentLocation();
+      setCurrentLocation(location);
+    };
     const getWorkouts = async () => {
       console.log("getting workouts");
       const workoutsArr = await firebase.getFutureWorkouts(user, now);
       console.log(workoutsArr);
       setWorkouts(workoutsArr);
     };
+    setLocation();
     getWorkouts();
   }, []);
 
@@ -36,7 +44,11 @@ const FutureWorkoutsScreen = () => {
           data={workouts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <WorkoutComponent workout={item} isPastWorkout={false} />
+            <WorkoutComponent
+              workout={item}
+              isPastWorkout={false}
+              location={currentLocation}
+            />
           )}
         />
       </View>
