@@ -5,9 +5,8 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Platform,
 } from "react-native";
-import { React, useLayoutEffect, useState, useEffect } from "react";
+import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -16,7 +15,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
-import Lottie from "lottie-react-native";
+import LoadingAnimation from "../components/LoadingAnimation";
 const LoginScreen = () => {
   const { signInEmailPassword, initialLoading } = useAuth();
   const navigation = useNavigation();
@@ -67,22 +66,7 @@ const LoginScreen = () => {
       ]}
     >
       {initialLoading ? (
-        <View className="flex-1">
-          {Platform.OS == "android" && (
-            <Lottie
-              source={require("../animations/initialLoading.json")}
-              autoPlay
-              loop
-            />
-          )}
-          <View className="h-1/3"></View>
-          <Text
-            style={{ color: appStyle.appLightBlue }}
-            className="text-5xl font-semibold tracking-widest text-white text-center"
-          >
-            Loading
-          </Text>
-        </View>
+        <LoadingAnimation />
       ) : (
         <View className="flex-1 my-20 mx-6">
           <View

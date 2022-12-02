@@ -6,10 +6,12 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
+import LoadingAnimation from "../components/LoadingAnimation";
 const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
+  const [initialLoading, setInitialLoading] = useState(true);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,6 +24,7 @@ const FutureWorkoutsScreen = () => {
       const workoutsArr = await firebase.getPastWorkouts(user, now);
       console.log(workoutsArr);
       setWorkouts(workoutsArr);
+      setInitialLoading(false);
     };
     getWorkouts();
   }, []);
@@ -29,15 +32,19 @@ const FutureWorkoutsScreen = () => {
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title="Past workouts" goBackOption={true} />
       <View className="flex-1 px-4">
-        <FlatList
-          className="p-2"
-          showsVerticalScrollIndicator={false}
-          data={workouts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <WorkoutComponent workout={item} isPastWorkout={true} />
-          )}
-        />
+        {initialLoading ? (
+          <LoadingAnimation />
+        ) : (
+          <FlatList
+            className="p-2"
+            showsVerticalScrollIndicator={false}
+            data={workouts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <WorkoutComponent workout={item} isPastWorkout={true} />
+            )}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
