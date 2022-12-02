@@ -554,18 +554,28 @@ export const getCities = async (country) => {
   return citiesArr;
 };
 export const getUsers = async (usersMap) => {
-  const usersArr = [];
+  const membersArr = [];
+  const requestersArr = [];
   for (var [key, value] of usersMap) {
-    if (value == true) usersArr.push(key);
+    if (value == true) membersArr.push(key);
+    else if (value == null) requestersArr.push(key);
   }
-  const q = query(
-    collection(db, "users"),
-    where("usernameLower", "in", usersArr)
-  );
-  const querySnapshot = await getDocs(q);
 
+  const qMembers = query(
+    collection(db, "users"),
+    where("usernameLower", "in", membersArr)
+  );
+  const qRequesters = query(
+    collection(db, "users"),
+    where("usernameLower", "in", requestersArr)
+  );
+  const snapMembers = await getDocs(qMembers);
+  const snapRequesters = await getDocs(qRequesters);
   const returnedArr = [];
-  querySnapshot.forEach((doc) => {
+  snapMembers.forEach((doc) => {
+    returnedArr.push(doc.data());
+  });
+  snapRequesters.forEach((doc) => {
     returnedArr.push(doc.data());
   });
 
