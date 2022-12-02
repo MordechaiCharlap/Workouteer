@@ -233,14 +233,17 @@ const WorkoutComponent = (props) => {
         >
           {!isPastWorkout && isCreator && notificationCount > 0 && (
             <View
-              className="absolute aspect-square"
+              className="absolute aspect-square left-5 w-5 h-5 items-center justify-center rounded-full"
               style={{
+                borderWidth: 1,
+                borderColor: appStyle.appAzure,
                 backgroundColor: appStyle.appLightBlue,
               }}
             >
               <Text
+                className="font-semibold"
                 style={{
-                  color: appStyle.appRed,
+                  color: appStyle.appDarkBlue,
                 }}
               >
                 {notificationCount}
