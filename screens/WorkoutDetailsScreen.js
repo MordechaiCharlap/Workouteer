@@ -36,8 +36,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
     const getUsersData = async () => {
-      const membersIdMap = new Map(Object.entries(workout.members));
-      const usersData = await firebase.getUsers(membersIdMap);
+      const usersData = await firebase.getWorkoutMembers(membersMap);
       setMembersArray(usersData.members);
       setRequestersArray(usersData.requesters);
       console.log(usersData);

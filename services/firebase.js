@@ -553,7 +553,7 @@ export const getCities = async (country) => {
   }
   return citiesArr;
 };
-export const getUsers = async (usersMap) => {
+export const getWorkoutMembers = async (usersMap) => {
   const membersArr = [];
   const requestersArr = [];
   for (var [key, value] of usersMap) {
