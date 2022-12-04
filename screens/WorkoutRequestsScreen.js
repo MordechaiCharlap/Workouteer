@@ -45,12 +45,13 @@ const WorkoutRequestsScreen = ({ route }) => {
   };
   const goBack = () => {
     console.log("goback function");
-    if (changesMade) {
+    if (!changesMade) {
       navigation.navigate("WorkoutDetails", {
         workout: workout,
         isCreator: true,
         isPastWorkout: false,
         userMemberStatus: "creator",
+        changesMade: "true",
       });
     } else {
       navigation.goBack();
@@ -115,9 +116,17 @@ const WorkoutRequestsScreen = ({ route }) => {
                   </TouchableOpacity>
                 </View>
               ) : (
-                <Text style={{ color: appStyle.appGray }}>
-                  {item.accepted == false ? "Rejected" : "Accepted"}
-                </Text>
+                <View
+                  className="w-40 mr-2 h-10 rounded justify-center"
+                  style={{ backgroundColor: appStyle.appDarkBlue }}
+                >
+                  <Text
+                    className="text-center text-lg"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    {item.accepted == false ? "Rejected" : "Accepted"}
+                  </Text>
+                </View>
               )}
             </View>
           )}
