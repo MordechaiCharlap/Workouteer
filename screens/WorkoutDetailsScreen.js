@@ -34,6 +34,7 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import LoadingAnimation from "../components/LoadingAnimation";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { user } = useAuth();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const workout = route.params.workout;
@@ -182,7 +183,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                 </View>
               )}
               renderItem={({ item }) => (
-                <View className="p-1 flex-row items-center justify-between">
+                <TouchableOpacity
+                  onPress={() =>
+                    item.usernameLower == user.usernameLower
+                      ? {}
+                      : navigation.navigate("User", { shownUser: item })
+                  }
+                  className="p-1 flex-row items-center justify-between"
+                >
                   <View className="flex-row items-center">
                     <Image
                       className="rounded-full"
@@ -212,7 +220,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       Creator
                     </Text>
                   )}
-                </View>
+                </TouchableOpacity>
               )}
               ListFooterComponent={() => (
                 <View>
