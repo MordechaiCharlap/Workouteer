@@ -154,7 +154,12 @@ const UserScreen = ({ route }) => {
               />
               <View className="flex-row flex-1 justify-around">
                 <View>
-                  <TouchableOpacity className="items-center">
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("PastWorkouts", { user: shownUser })
+                    }
+                    className="items-center"
+                  >
                     <Text
                       style={{ fontSize: 20, color: appStyle.appGray }}
                       className="font-bold"
