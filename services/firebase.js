@@ -565,19 +565,23 @@ export const getWorkoutMembers = async (usersMap) => {
     collection(db, "users"),
     where("usernameLower", "in", membersArr)
   );
-  const qRequesters = query(
-    collection(db, "users"),
-    where("usernameLower", "in", requestersArr)
-  );
+  if (requestersArr.length > 0) {
+    const qRequesters = query(
+      collection(db, "users"),
+      where("usernameLower", "in", requestersArr)
+    );
+
+    const snapRequesters = await getDocs(qRequesters);
+    snapRequesters.forEach((doc) => {
+      returnedRequestersArr.push({ accepted: null, ...doc.data() });
+    });
+  }
+
   const snapMembers = await getDocs(qMembers);
-  const snapRequesters = await getDocs(qRequesters);
   const returnedMembersArr = [];
   const returnedRequestersArr = [];
   snapMembers.forEach((doc) => {
     returnedMembersArr.push(doc.data());
-  });
-  snapRequesters.forEach((doc) => {
-    returnedRequestersArr.push(doc.data());
   });
 
   return { members: returnedMembersArr, requesters: returnedRequestersArr };
@@ -601,4 +605,7 @@ export const rejectWorkoutRequest = async (userId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`members.${userId}`]: false,
   });
+};
+export const getWorkout = async (workoutId) => {
+  return (await getDoc(doc(db, "workouts", workoutId))).data();
 };
