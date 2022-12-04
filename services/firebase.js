@@ -556,6 +556,8 @@ export const getCities = async (country) => {
 export const getWorkoutMembers = async (usersMap) => {
   const membersArr = [];
   const requestersArr = [];
+  const returnedRequestersArr = [];
+  const returnedMembersArr = [];
   for (var [key, value] of usersMap) {
     if (value == true) membersArr.push(key);
     else if (value == null) requestersArr.push(key);
@@ -578,8 +580,7 @@ export const getWorkoutMembers = async (usersMap) => {
   }
 
   const snapMembers = await getDocs(qMembers);
-  const returnedMembersArr = [];
-  const returnedRequestersArr = [];
+
   snapMembers.forEach((doc) => {
     returnedMembersArr.push(doc.data());
   });
