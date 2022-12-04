@@ -18,7 +18,7 @@ import responsiveStyle from "../components/ResponsiveStyling";
 const WorkoutRequestsScreen = ({ route }) => {
   const navigation = useNavigation();
   const [changesMade, setChangesMade] = useState(false);
-  const workout = route.params.workout;
+  const [workout, setWorkout] = useState(route.params.workout);
   const requestersArray = route.params.requestersArray;
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -78,23 +78,28 @@ const WorkoutRequestsScreen = ({ route }) => {
                   </Text>
                 </View>
               </View>
-              <View className="flex-row justify-between w-36 mr-3">
+              <View className="flex-row-reverse w-40 ml-2">
+                <TouchableOpacity
+                  onPress={() => rejectUser(item)}
+                  className="justify-center w-16 h-10 rounded ml-3"
+                  style={{ backgroundColor: appStyle.appDarkBlue }}
+                >
+                  <Text
+                    className="text-center"
+                    style={{ color: appStyle.appGray }}
+                  >
+                    Accept
+                  </Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => acceptUser(item)}
-                  className="py-2 px-3 rounded"
+                  className="justify-center w-16 h-10 rounded"
                   style={{
                     borderColor: appStyle.appDarkBlue,
                     borderWidth: 1,
                   }}
                 >
-                  <Text>Reject</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => rejectUser(item)}
-                  className="py-2 px-3 rounded"
-                  style={{ backgroundColor: appStyle.appDarkBlue }}
-                >
-                  <Text style={{ color: appStyle.appGray }}>Accept</Text>
+                  <Text className="text-center">Reject</Text>
                 </TouchableOpacity>
               </View>
             </View>
