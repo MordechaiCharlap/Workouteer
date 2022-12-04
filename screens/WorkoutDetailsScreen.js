@@ -159,6 +159,17 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </View>
                     </View>
                   </View>
+                  {workout.description != "" && (
+                    <View
+                      style={{
+                        borderTopColor: appStyle.appDarkBlue,
+                        borderTopWidth: 2,
+                      }}
+                    >
+                      <Text>Description: {workout.description}</Text>
+                    </View>
+                  )}
+
                   <View>
                     <View
                       className="p-2 flex-row justify-center items-center"
