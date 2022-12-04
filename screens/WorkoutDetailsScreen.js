@@ -216,7 +216,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
               ListFooterComponent={() => (
                 <View>
-                  {isCreator && (
+                  {isCreator && requestersArray.length > 0 && (
                     <View className="items-center">
                       <TouchableOpacity
                         onPress={() => {
