@@ -202,6 +202,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         onPress={() => {
                           navigation.navigate("WorkoutRequests", {
                             requestersArray: requestersArray,
+                            workout: workout,
                           });
                         }}
                         className="m-2 p-2 rounded"
