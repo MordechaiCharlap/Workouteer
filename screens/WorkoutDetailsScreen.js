@@ -16,11 +16,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { workoutTypes } from "../components/WorkoutType";
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import responsiveStyle from "../components/ResponsiveStyling";
 import useAuth from "../hooks/useAuth";
+import { useFocusEffect } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
@@ -34,13 +40,27 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [membersArray, setMembersArray] = useState([]);
   const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
+
+  useFocusEffect(
+    useCallback(() => {
+      const getUsersData = async () => {
+        const membersMap = new Map(Object.entries(workout.members));
+        const usersData = await firebase.getWorkoutMembers(membersMap);
+        setMembersArray(usersData.members);
+        setRequestersArray(usersData.requesters);
+        setInitialLoading(false);
+      };
+      if (route.params.changesMade) {
+        getUsersData();
+      }
+    }, [])
+  );
   useEffect(() => {
     const getUsersData = async () => {
       const membersMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getWorkoutMembers(membersMap);
       setMembersArray(usersData.members);
       setRequestersArray(usersData.requesters);
-      console.log(usersData);
       setInitialLoading(false);
     };
     getUsersData();
