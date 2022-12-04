@@ -224,7 +224,6 @@ const WorkoutComponent = (props) => {
               isCreator: isCreator,
               isPastWorkout: isPastWorkout,
               userMemberStatus: userMemberStatus,
-              membersMap: membersMap,
             })
           }
           className="mx-1 h-8 w-1 flex-1 rounded justify-center"
