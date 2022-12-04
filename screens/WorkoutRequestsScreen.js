@@ -19,21 +19,32 @@ const WorkoutRequestsScreen = ({ route }) => {
   const navigation = useNavigation();
   const [changesMade, setChangesMade] = useState(false);
   const [workout, setWorkout] = useState(route.params.workout);
-  const requestersArray = route.params.requestersArray;
+  const [requestersArray, setRequestersArray] = useState(
+    route.params.requestersArray
+  );
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const acceptUser = async (user) => {
+  const acceptUser = async (user, index) => {
     await firebase.acceptWorkoutRequest(user.usernameLower, workout);
+    const requestersClone = requestersArray.slice();
+    requestersClone[index].accepted = true;
+    setRequestersArray(requestersClone);
     setChangesMade(true);
+    setWorkout(await firebase.getWorkout(workout.id));
   };
-  const rejectUser = async (user) => {
+  const rejectUser = async (user, index) => {
     await firebase.rejectWorkoutRequest(user.usernameLower, workout);
+    const requestersClone = requestersArray.slice();
+    requestersClone[index].accepted = false;
+    setRequestersArray(requestersClone);
     setChangesMade(true);
+    setWorkout(await firebase.getWorkout(workout.id));
   };
   const goBack = () => {
+    console.log("goback function");
     if (changesMade) {
       navigation.navigate("WorkoutDetails", {
         workout: workout,
@@ -55,7 +66,7 @@ const WorkoutRequestsScreen = ({ route }) => {
         <FlatList
           data={requestersArray}
           keyExtractor={(item) => item.usernameLower}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View className="p-1 flex-row items-center justify-between">
               <View className="flex-row items-center">
                 <Image
@@ -78,30 +89,36 @@ const WorkoutRequestsScreen = ({ route }) => {
                   </Text>
                 </View>
               </View>
-              <View className="flex-row-reverse w-40 ml-2">
-                <TouchableOpacity
-                  onPress={() => rejectUser(item)}
-                  className="justify-center w-16 h-10 rounded ml-3"
-                  style={{ backgroundColor: appStyle.appDarkBlue }}
-                >
-                  <Text
-                    className="text-center"
-                    style={{ color: appStyle.appGray }}
+              {item.accepted == null ? (
+                <View className="flex-row-reverse w-40 ml-2">
+                  <TouchableOpacity
+                    onPress={() => acceptUser(item, index)}
+                    className="justify-center w-16 h-10 rounded ml-3"
+                    style={{ backgroundColor: appStyle.appDarkBlue }}
                   >
-                    Accept
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => acceptUser(item)}
-                  className="justify-center w-16 h-10 rounded"
-                  style={{
-                    borderColor: appStyle.appDarkBlue,
-                    borderWidth: 1,
-                  }}
-                >
-                  <Text className="text-center">Reject</Text>
-                </TouchableOpacity>
-              </View>
+                    <Text
+                      className="text-center"
+                      style={{ color: appStyle.appGray }}
+                    >
+                      Accept
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => rejectUser(item, index)}
+                    className="justify-center w-16 h-10 rounded"
+                    style={{
+                      borderColor: appStyle.appDarkBlue,
+                      borderWidth: 1,
+                    }}
+                  >
+                    <Text className="text-center">Reject</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <Text style={{ color: appStyle.appGray }}>
+                  {item.accepted == false ? "Rejected" : "Accepted"}
+                </Text>
+              )}
             </View>
           )}
         />
