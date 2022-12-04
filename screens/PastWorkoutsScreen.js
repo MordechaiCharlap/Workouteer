@@ -7,8 +7,8 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
-const FutureWorkoutsScreen = () => {
-  const { user } = useAuth();
+const PastWorkoutScreen = ({ route }) => {
+  const user = route.params.user;
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -50,4 +50,4 @@ const FutureWorkoutsScreen = () => {
   );
 };
 
-export default FutureWorkoutsScreen;
+export default PastWorkoutScreen;
