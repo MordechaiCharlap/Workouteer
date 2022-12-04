@@ -24,19 +24,22 @@ import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import LoadingAnimation from "../components/LoadingAnimation";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const workout = route.params.workout;
-  const membersMap = route.params.membersMap;
+  const [membersMap, setMembersMap] = useState(null);
   const [membersArray, setMembersArray] = useState([]);
   const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
     const getUsersData = async () => {
-      const usersData = await firebase.getWorkoutMembers(membersMap);
+      const membersMapCreate = new Map(Object.entries(workout.members));
+      setMembersMap(membersMapCreate);
+      const usersData = await firebase.getWorkoutMembers(membersMapCreate);
       setMembersArray(usersData.members);
       setRequestersArray(usersData.requesters);
       console.log(usersData);
@@ -53,7 +56,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <Header title={"Details"} goBackOption={true} />
       {initalLoading ? (
-        <></>
+        <LoadingAnimation />
       ) : (
         <View className="flex-1 mx-4">
           <View
@@ -157,18 +160,6 @@ const WorkoutDetailsScreen = ({ route }) => {
                         Members
                       </Text>
                     </View>
-
-                    <TouchableOpacity
-                      className="absolute m-2 rounded"
-                      style={{ backgroundColor: appStyle.appDarkBlue }}
-                    >
-                      <Text
-                        style={{ color: appStyle.appGray }}
-                        className="text-lg"
-                      >
-                        Requests: {requestersArray.length}
-                      </Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
               )}
@@ -206,13 +197,29 @@ const WorkoutDetailsScreen = ({ route }) => {
                 </View>
               )}
               ListFooterComponent={() => (
-                <View
-                  style={{
-                    borderTopColor: appStyle.appDarkBlue,
-                    borderTopWidth: 2,
-                  }}
-                >
-                  <View>
+                <View>
+                  {isCreator && (
+                    <View className="items-center">
+                      <TouchableOpacity
+                        className="m-2 p-2 rounded"
+                        style={{ backgroundColor: appStyle.appDarkBlue }}
+                      >
+                        <Text
+                          style={{ color: appStyle.appGray }}
+                          className="text-lg"
+                        >
+                          Requests: {requestersArray.length}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
+                  <View
+                    style={{
+                      borderTopColor: appStyle.appDarkBlue,
+                      borderTopWidth: 2,
+                    }}
+                  >
                     <View className="flex-row items-center p-2 justify-center">
                       <FontAwesomeIcon
                         icon={faLocationDot}
