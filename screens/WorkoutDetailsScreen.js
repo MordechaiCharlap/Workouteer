@@ -28,21 +28,16 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import LoadingAnimation from "../components/LoadingAnimation";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { user } = useAuth();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const workout = route.params.workout;
-  const [membersMap, setMembersMap] = useState(null);
   const [membersArray, setMembersArray] = useState([]);
   const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const acceptUser = async (user) => {};
   useEffect(() => {
     const getUsersData = async () => {
-      const membersMapCreate = new Map(Object.entries(workout.members));
-      setMembersMap(membersMapCreate);
-      const usersData = await firebase.getWorkoutMembers(membersMapCreate);
+      const membersMap = new Map(Object.entries(workout.members));
+      const usersData = await firebase.getWorkoutMembers(membersMap);
       setMembersArray(usersData.members);
       setRequestersArray(usersData.requesters);
       console.log(usersData);
@@ -57,73 +52,6 @@ const WorkoutDetailsScreen = ({ route }) => {
   }, []);
   return (
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View className="flex-1 justify-center">
-          <View
-            className="m-4 rounded-lg"
-            style={{
-              backgroundColor: appStyle.appLightBlue,
-              borderWidth: 2,
-              borderColor: appStyle.appDarkBlue,
-            }}
-          >
-            <FlatList
-              data={requestersArray}
-              keyExtractor={(item) => item.usernameLower}
-              renderItem={({ item }) => (
-                <View className="p-1 flex-row items-center justify-between">
-                  <View className="flex-row items-center">
-                    <Image
-                      className="rounded-full"
-                      style={style.image}
-                      source={{ uri: item.img }}
-                    />
-                    <View className="ml-2">
-                      <Text
-                        className="text-xl font-semibold tracking-wider"
-                        style={{ color: appStyle.appDarkBlue }}
-                      >
-                        {item.username}
-                      </Text>
-                      <Text
-                        className="text-md opacity-60 tracking-wider"
-                        style={{ color: appStyle.appDarkBlue }}
-                      >
-                        {item.displayName}
-                      </Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => acceptUser(item)}
-                    className="mr-4 py-2 px-4 rounded"
-                    style={{
-                      borderColor: appStyle.appDarkBlue,
-                      borderWidth: 1,
-                    }}
-                  >
-                    <Text>Accept</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-            <TouchableOpacity
-              className="m-2 p-2 rounded"
-              style={{ backgroundColor: appStyle.appDarkBlue }}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={{ color: appStyle.appGray }} className="text-lg">
-                Close modal
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
       <Header title={"Details"} goBackOption={true} />
       {initalLoading ? (
         <LoadingAnimation />
@@ -272,7 +200,9 @@ const WorkoutDetailsScreen = ({ route }) => {
                     <View className="items-center">
                       <TouchableOpacity
                         onPress={() => {
-                          setModalVisible(true);
+                          navigation.navigate("WorkoutRequests", {
+                            requestersArray: requestersArray,
+                          });
                         }}
                         className="m-2 p-2 rounded"
                         style={{ backgroundColor: appStyle.appDarkBlue }}
