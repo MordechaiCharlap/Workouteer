@@ -134,7 +134,7 @@ const ChatScreen = ({ route }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate("User", { shownUser: otherUser })}
-          className="flex-row items-center"
+          className="flex-row flex-1 items-center"
         >
           <Image
             source={{
