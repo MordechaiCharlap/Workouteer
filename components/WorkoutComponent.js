@@ -99,7 +99,11 @@ const WorkoutComponent = (props) => {
   const workoutActionButtonClicked = async () => {
     switch (userMemberStatus) {
       case "not":
-        await requestToJoinWorkout();
+        if (
+          buttonText != "Workout is full!" ||
+          buttonText != "Requests are full"
+        )
+          await requestToJoinWorkout();
         break;
       case "creator":
         await cancelWorkout();
