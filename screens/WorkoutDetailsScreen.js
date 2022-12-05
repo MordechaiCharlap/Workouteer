@@ -223,6 +223,25 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
+                  {item.usernameLower == user.usernameLower && (
+                    <View
+                      className="rounded-lg p-1"
+                      style={{
+                        marginRight:
+                          item.usernameLower == workout.creator ? 0 : 20,
+                        backgroundColor: appStyle.appDarkBlue,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: appStyle.appGray,
+                        }}
+                      >
+                        You!
+                      </Text>
+                    </View>
+                  )}
+
                   {item.usernameLower == workout.creator && (
                     <Text
                       style={{ color: appStyle.appDarkBlue }}
