@@ -29,7 +29,7 @@ const NavbarButton = (props) => {
   return (
     <TouchableOpacity
       className="flex-grow w-1 items-center justify-center"
-      onPress={props.screen != props.currentScreen ? navigate : {}}
+      onPress={() => (props.screen != props.currentScreen ? navigate : {})}
       style={
         props.screen != props.currentScreen ? style.button : style.currentButton
       }
