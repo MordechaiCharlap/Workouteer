@@ -28,7 +28,6 @@ const FutureWorkoutsScreen = () => {
     const getWorkouts = async () => {
       console.log("getting workouts");
       const workoutsArr = await firebase.getFutureWorkouts(user, now);
-      console.log(workoutsArr);
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
