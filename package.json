@@ -47,7 +47,8 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "react-native-svg": "12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
