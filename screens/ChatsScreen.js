@@ -17,6 +17,8 @@ import {
   faPenToSquare,
   faArrowLeft,
   faTrash,
+  faSquare,
+  faCheckSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -66,6 +68,8 @@ const ChatsScreen = () => {
       selectedChatsClone.push(item);
     }
     setSelectedChats(selectedChatsClone);
+
+    console.log(selectedChatsClone);
   };
 
   const chatClicked = async (item) => {
@@ -133,11 +137,7 @@ const ChatsScreen = () => {
             onPress={() => chatClicked(item)}
             className="p-2 rounded"
             style={{
-              backgroundColor: selectedChats.includes(
-                (arrayItem) => arrayItem.chat.id == item.chat.id
-              )
-                ? appStyle.appAzure
-                : appStyle.appDarkBlue,
+              backgroundColor: appStyle.appDarkBlue,
             }}
           >
             <View className="flex-row">
@@ -162,6 +162,22 @@ const ChatsScreen = () => {
                 {lastMessageConverter(item.chat.lastMessage)}
               </View>
             </View>
+            {selectedChats.some(
+              (selectedItem) => selectedItem.chat.id == item.chat.id
+            ) && (
+              <View className="absolute top-0 bottom-0 justify-center">
+                <View
+                  className="rounded-lg p-1"
+                  style={{ backgroundColor: appStyle.appDarkBlue }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCheckSquare}
+                    color={appStyle.appGray}
+                    size={30}
+                  />
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
         )}
       />
