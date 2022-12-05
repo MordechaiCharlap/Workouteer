@@ -333,6 +333,7 @@ const WorkoutDetailsScreen = ({ route }) => {
 };
 
 const WorkoutPinnedLocation = (props) => {
+  const showDirections = () => {};
   return (
     <View className="items-center mb-3">
       <View
@@ -359,7 +360,7 @@ const WorkoutPinnedLocation = (props) => {
             borderColor: appStyle.appDarkBlue,
             borderWidth: 1,
           }}
-          onPress={() => saveLocation()}
+          onPress={() => showDirections()}
         >
           <Text
             className="text-1xl font-semibold"
