@@ -610,3 +610,4 @@ export const rejectWorkoutRequest = async (userId, workout) => {
 export const getWorkout = async (workoutId) => {
   return (await getDoc(doc(db, "workouts", workoutId))).data();
 };
+export const getFriendsWorkouts = async (user) => {};
