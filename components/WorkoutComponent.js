@@ -22,16 +22,15 @@ const WorkoutComponent = (props) => {
   const [membersMap, setMembersMap] = useState(
     new Map(Object.entries(props.workout.members))
   );
-  const [membersCount, setMembersCount] = useState(null);
+  const [members, setMembers] = useState(null);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
   const [distance, setDistance] = useState(null);
-  const [notificationCount, setNotificationCount] = useState(0);
+  const [requests, setRequests] = useState(0);
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
-      setButtonText("Request to join");
     } else {
       switch (membersMap.get(user.usernameLower)) {
         case true:
@@ -54,21 +53,21 @@ const WorkoutComponent = (props) => {
       }
     }
     var membersCount = 0;
-    var tempNotificationCount = 0;
+    var requestsCount = 0;
     for (var value of membersMap.values()) {
       if (value == true) membersCount++;
-      else if (value == null) tempNotificationCount++;
+      else if (value == null) requests++;
     }
-    setNotificationCount(tempNotificationCount);
-    setMembersCount(membersCount);
+    setRequests(requestsCount);
+    setMembers(membersCount);
+
+    if (userMemberStatus == "not") {
+      if (membersCount == 10) setButtonText("Workout is full!");
+      else if (requestsCount == 10) setButtonText("Requests are full");
+      else setButtonText("Request to join");
+    }
   }, [membersMap]);
   useEffect(() => {
-    var tempNotificationCount = 0;
-    for (var value of membersMap.values()) {
-      if (value == null) tempNotificationCount++;
-    }
-    setNotificationCount(tempNotificationCount);
-
     if (props.location) {
       const distance = getDistance(props.location, props.workout.location);
       setDistance(Math.ceil(distance / 1000));
@@ -208,7 +207,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.appDarkBlue,
               }}
             >
-              : {membersCount}
+              : {members}
             </Text>
           </View>
         </View>
@@ -231,7 +230,7 @@ const WorkoutComponent = (props) => {
             backgroundColor: appStyle.appDarkBlue,
           }}
         >
-          {!isPastWorkout && isCreator && notificationCount > 0 && (
+          {!isPastWorkout && isCreator && requests > 0 && (
             <View
               className="absolute aspect-square left-5 w-5 h-5 items-center justify-center rounded-full"
               style={{
