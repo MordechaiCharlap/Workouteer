@@ -162,16 +162,20 @@ const ChatsScreen = () => {
                 {lastMessageConverter(item.chat.lastMessage)}
               </View>
             </View>
-            {selectedChats.some(
-              (selectedItem) => selectedItem.chat.id == item.chat.id
-            ) && (
+            {selectedChats.length > 0 && (
               <View className="absolute top-0 bottom-0 justify-center">
                 <View
                   className="rounded-lg p-1"
                   style={{ backgroundColor: appStyle.appDarkBlue }}
                 >
                   <FontAwesomeIcon
-                    icon={faCheckSquare}
+                    icon={
+                      selectedChats.some(
+                        (selectedItem) => selectedItem.chat.id == item.chat.id
+                      )
+                        ? faCheckSquare
+                        : faSquare
+                    }
                     color={appStyle.appGray}
                     size={30}
                   />
