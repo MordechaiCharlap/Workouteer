@@ -51,7 +51,8 @@
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
     "webpack-cli": "^4.10.0",
-    "expo-dev-client": "~2.0.1"
+    "expo-dev-client": "~2.0.1",
+    "expo-system-ui": "~2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
