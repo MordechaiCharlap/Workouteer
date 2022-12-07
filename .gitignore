@@ -1,11 +1,11 @@
+google-services.json
+firebase.config.js
+geocoder.js
 node_modules/
 .expo/
 dist/
 npm-debug.*
-google-services.json
-geocoder.js
 AndroidManifest.xml
-firebase.config.js
 *.jks
 *.p8
 *.p12
