@@ -23,12 +23,14 @@
     "@reduxjs/toolkit": "^1.8.6",
     "expo": "^47.0.0",
     "expo-camera": "~13.1.0",
+    "expo-dev-client": "~2.0.1",
     "expo-image-manipulator": "~11.0.0",
     "expo-image-picker": "~14.0.2",
     "expo-location": "~15.0.1",
     "expo-navigation-bar": "~2.0.1",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "expo-system-ui": "~2.0.1",
     "expo-updates": "~0.15.6",
     "firebase": "^9.12.1",
     "firestore-size": "^2.0.7",
@@ -50,9 +52,7 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
-    "webpack-cli": "^4.10.0",
-    "expo-dev-client": "~2.0.1",
-    "expo-system-ui": "~2.0.1"
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
