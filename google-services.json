@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371037963339",
+    "project_id": "workouteer-54450",
+    "storage_bucket": "workouteer-54450.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371037963339:android:b3675ece7af0dd04b6b9ce",
+        "android_client_info": {
+          "package_name": "com.charlap.workouteer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgpvR-wnwxybdFSBBmnLH20ykZFOhvJjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,6 @@
-google-services.json
-firebase.config.js
-geocoder.js
+#google-services.json
+#firebase.config.js
+#geocoder.js
 node_modules/
 .expo/
 dist/
