@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-community/cli-platform-android": "^10.0.0",
     "@react-native-community/datetimepicker": "6.2.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
@@ -43,12 +44,12 @@
     "react-native-maps": "0.31.1",
     "react-native-permissions": "^3.6.1",
     "react-native-progress": "^5.0.0",
+    "react-native-svg": "12.3.0",
     "react-native-system-navigation-bar": "^2.0.0",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "tailwindcss-react-native": "^1.7.10",
-    "webpack-cli": "^4.10.0",
-    "react-native-svg": "12.3.0"
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
