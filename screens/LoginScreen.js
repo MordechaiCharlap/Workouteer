@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
+import { GoogleSignInButton } from "@react-native-google-signin/google-signin";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
@@ -140,22 +141,7 @@ const LoginScreen = () => {
                 Login
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => signInGoogleAccount()}
-              className={`self-center rounded py-2 px-8 w-full border-2`}
-              style={{
-                backgroundColor: appStyle.appAzure,
-              }}
-            >
-              <Text
-                className="text-center tracking-widest font-bold text-xl"
-                style={{
-                  color: loginColor,
-                }}
-              >
-                Continue with Google
-              </Text>
-            </TouchableOpacity>
+            <GoogleSignInButton onPress={signInGoogleAccount} />
           </View>
           <View
             className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
