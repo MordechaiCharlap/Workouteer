@@ -1,16 +1,14 @@
 import React from "react";
 import { createContext, useContext } from "react";
+import * as firebase from "../services/firebase";
+import { useEffect, useState } from "react";
 import {
+  inMemoryPersistence,
+  setPersistence,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
 } from "firebase/auth";
-import * as firebase from "../services/firebase";
-import { useEffect, useState } from "react";
-import { inMemoryPersistence, setPersistence } from "firebase/auth";
 import { Alert } from "react-native";
 const AuthContext = createContext({});
 
@@ -34,28 +32,7 @@ export const AuthPrvider = ({ children }) => {
       }
     });
   }, []);
-  const signInGoogleAccount = () => {
-    signInWithRedirect(auth, GoogleAuthProvider);
-    getRedirectResult(auth)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access Google APIs.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
+  const signInGoogleAccount = () => {};
 
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
