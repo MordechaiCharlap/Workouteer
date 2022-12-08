@@ -156,7 +156,7 @@ const LoginScreen = () => {
                   color: loginColor,
                 }}
               >
-                Login
+                Continue with Google
               </Text>
             </TouchableOpacity>
           </View>
