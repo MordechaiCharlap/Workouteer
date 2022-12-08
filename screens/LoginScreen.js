@@ -17,7 +17,8 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 const LoginScreen = () => {
-  const { signInEmailPassword, initialLoading } = useAuth();
+  const { signInEmailPassword, initialLoading, signInGoogleAccount } =
+    useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -137,6 +138,22 @@ const LoginScreen = () => {
                 }}
               >
                 Login
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => signInGoogleAccount()}
+              className={`self-center rounded py-2 px-8 w-full border-2`}
+              style={{
+                backgroundColor: appStyle.appAzure,
+              }}
+            >
+              <Text
+                className="text-center tracking-widest font-bold text-xl"
+                style={{
+                  color: loginColor,
+                }}
+              >
+                Continue with Google
               </Text>
             </TouchableOpacity>
           </View>
