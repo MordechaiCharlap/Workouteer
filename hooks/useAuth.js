@@ -32,7 +32,7 @@ export const AuthPrvider = ({ children }) => {
       }
     });
   }, []);
-
+  const signInGoogleAccount = () => {};
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
       console.log("not remembering user");
