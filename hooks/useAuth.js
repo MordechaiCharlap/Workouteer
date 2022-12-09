@@ -46,11 +46,8 @@ export const AuthPrvider = ({ children }) => {
     });
   }, []);
   const signInGoogleAccount = () => {
-    WebBrowser.maybeCompleteAuthSession();
     console.log("Opening login-google func!");
-    if (response?.type === "success") {
-      const { authentication } = response;
-    }
+    promptAsync({ useProxy: false, showInRecents: true });
   };
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
