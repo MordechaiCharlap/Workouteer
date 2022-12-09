@@ -9,6 +9,7 @@
     "build": "webpack"
   },
   "dependencies": {
+    "@expo/dev-server": "^0.1.120",
     "@expo/webpack-config": "^0.17.2",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
