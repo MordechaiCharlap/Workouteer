@@ -13,11 +13,11 @@ import { Alert } from "react-native";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
-  const configauth = firebase.auth;
+  const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
   useEffect(() => {
-    onAuthStateChanged(configauth, (authUser) => {
+    onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const setUserAsync = async () => {
           setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
@@ -36,16 +36,16 @@ export const AuthPrvider = ({ children }) => {
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
       console.log("not remembering user");
-      setPersistence(configauth, inMemoryPersistence)
+      setPersistence(auth, inMemoryPersistence)
         .then(() => {
-          signInWithEmailAndPassword(configauth, email, password);
+          signInWithEmailAndPassword(auth, email, password);
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
       console.log("remembering user");
-      signInWithEmailAndPassword(configauth, email, password)
+      signInWithEmailAndPassword(auth, email, password)
         .then(async () => {
           console.log("signed in!");
         })
@@ -57,7 +57,7 @@ export const AuthPrvider = ({ children }) => {
   };
   const userSignOut = () => {
     console.log("trying to sign out");
-    signOut(configauth)
+    signOut(auth)
       .then(() => {})
       .catch((error) => {
         console.log("signed out succesfuly");
