@@ -9,14 +9,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "@react-native-firebase/auth";
 import { Alert } from "react-native";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
-
-GoogleSignin.configure({
-  webClientId:
-    "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
-});
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
@@ -39,10 +32,6 @@ export const AuthPrvider = ({ children }) => {
       }
     });
   }, []);
-  const signInGoogleAccount = async () => {
-    const userInfo = await GoogleSignin.signIn();
-    console.log(userInfo);
-  };
 
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
