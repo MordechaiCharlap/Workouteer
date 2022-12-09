@@ -142,12 +142,9 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => signInGoogleAccount()}
-              onPressIn={loginIn}
-              onPressOut={loginOut}
               className={`self-center rounded py-2 px-8 w-full border-2`}
               style={{
-                backgroundColor: loginBackground,
-                borderColor: loginBorderColor,
+                backgroundColor: appStyle.appGray,
               }}
             >
               <Text
