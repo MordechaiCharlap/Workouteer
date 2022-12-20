@@ -46,8 +46,14 @@ const FriendsScreen = ({ route }) => {
     }
   };
   //TODO
-  const openChat = (otherUser) => {
-    navigation.navigate("Chat", { otherUser: otherUser });
+  const openPrivateChat = (otherUser) => {
+    const chatPals = new Map(Object.entries(user.chatPals));
+    if (!chatPals.get(otherUser.usernameLower))
+      navigation.navigate("Chat", { otherUser: otherUser });
+    else {
+      const chat = "";
+      navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
+    }
   };
   const removeFriend = async (userRemoveId) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
@@ -133,7 +139,7 @@ const FriendsScreen = ({ route }) => {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => openChat(item)}
+                onPress={() => openPrivateChat(item)}
                 className="py-1 px-6 rounded"
                 style={{ borderColor: "#707787", borderWidth: 0.5 }}
               >
