@@ -15,8 +15,8 @@ import { Alert } from "react-native";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState();
-  const [userInfo, setUserInfo] = useState();
+  const [accessToken, setAccessToken] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -30,6 +30,7 @@ export const AuthPrvider = ({ children }) => {
     console.log("checking response");
     if (response?.type === "success") {
       const { authentication } = response;
+      setAccessToken(response.authentication.accessToken);
       console.log("got success response!");
     }
   }, [response]);
@@ -66,9 +67,13 @@ export const AuthPrvider = ({ children }) => {
     });
   }, []);
   const signInGoogleAccount = async () => {
-    console.log("Opening login-google func!");
-    if (accessToken) await getUserData();
-    else await promptAsync({ useProxy: false, showInRecents: true });
+    if (!accessToken) {
+      console.log("getting user data!");
+      await getUserData();
+    } else {
+      console.log("promptAsyncing!");
+      promptAsync({ useProxy: false, showInRecents: true });
+    }
   };
 
   const signInEmailPassword = (email, password, rememberMe) => {
