@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   Modal,
+  StyleSheet,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useState, useCallback } from "react";
@@ -283,13 +284,12 @@ const ChatsScreen = () => {
       >
         <View
           style={{ backgroundColor: appStyle.appLightBlue }}
-          className="absolute bottom-0 items-center w-full h-16"
+          className="absolute bottom-0 items-center w-full h-20"
         >
-          <Text>Are you sure you want to delete selected chats?</Text>
+          <Text className="font-bold text-xl p-1">Are you sure?</Text>
           <View className="flex-row w-10/12 justify-between">
             <TouchableOpacity
-              className="p-1 w-1/3"
-              style={{ backgroundColor: appStyle.appGray }}
+              style={styles.modalButton}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 deleteSelectedChats();
@@ -298,8 +298,7 @@ const ChatsScreen = () => {
               <Text className="text-center">Delete chats!</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="p-1 w-1/3"
-              style={{ backgroundColor: appStyle.appGray }}
+              style={styles.modalButton}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setSelectedChats([]);
@@ -313,5 +312,11 @@ const ChatsScreen = () => {
     </SafeAreaView>
   );
 };
-
+const styles = new StyleSheet.create({
+  modalButton: {
+    backgroundColor: appStyle.appGray,
+    padding: "0.25rem",
+    width: "33.33%",
+  },
+});
 export default ChatsScreen;
