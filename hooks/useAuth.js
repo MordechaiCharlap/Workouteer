@@ -9,7 +9,6 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { Alert } from "react-native";
 
@@ -24,7 +23,6 @@ export const AuthPrvider = ({ children }) => {
     webClientId:
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
-  WebBrowser.maybeCompleteAuthSession();
 
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
