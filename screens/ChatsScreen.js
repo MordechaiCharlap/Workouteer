@@ -289,6 +289,7 @@ const ChatsScreen = () => {
           <Text className="font-bold text-xl p-1">Are you sure?</Text>
           <View className="flex-row w-10/12 justify-between">
             <TouchableOpacity
+              className="w-1/3 p-1"
               style={styles.modalButton}
               onPress={() => {
                 setModalVisible(!modalVisible);
@@ -298,6 +299,7 @@ const ChatsScreen = () => {
               <Text className="text-center">Delete chats!</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              className="w-1/3 p-1"
               style={styles.modalButton}
               onPress={() => {
                 setModalVisible(!modalVisible);
@@ -315,8 +317,6 @@ const ChatsScreen = () => {
 const styles = new StyleSheet.create({
   modalButton: {
     backgroundColor: appStyle.appGray,
-    padding: "0.25rem",
-    width: "33.33%",
   },
 });
 export default ChatsScreen;
