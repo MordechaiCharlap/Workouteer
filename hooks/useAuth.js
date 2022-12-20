@@ -15,6 +15,9 @@ import { Alert } from "react-native";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
+  const [accessToken, setAccessToken] = useState();
+  const [userInfo, setUserInfo] = useState();
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -23,7 +26,26 @@ export const AuthPrvider = ({ children }) => {
     webClientId:
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
+  useEffect(() => {
+    console.log("checking response");
+    if (response?.type === "success") {
+      const { authentication } = response;
+      console.log("got success response!");
+    }
+  }, [response]);
+  const getUserData = async () => {
+    let userInfoResponse = await fetch(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
 
+    userInfoResponse.json().then((data) => {
+      setUserInfo(data);
+      console.log(data);
+    });
+  };
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -43,18 +65,12 @@ export const AuthPrvider = ({ children }) => {
       }
     });
   }, []);
-  const signInGoogleAccount = () => {
+  const signInGoogleAccount = async () => {
     console.log("Opening login-google func!");
-    promptAsync({ useProxy: false, showInRecents: true });
+    if (accessToken) await getUserData();
+    else await promptAsync({ useProxy: false, showInRecents: true });
   };
 
-  useEffect(() => {
-    console.log("checking response");
-    if (response?.type === "success") {
-      const { authentication } = response;
-      console.log("got success response!");
-    }
-  }, [response]);
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
       console.log("not remembering user");
