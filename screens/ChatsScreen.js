@@ -105,9 +105,9 @@ const ChatsScreen = () => {
       setChatsArr(chatsArrClone);
       console.log("removed chat from shown list");
       if (selectedChat.chat.isGroupChat) {
-        await firebase.deleteGroupChatForUser(user, selectedChat.chat);
+        await firebase.deleteGroupChatForUser(user, selectedChat);
       } else {
-        await firebase.deletePrivateChatForUser(user, selectedChat.chat);
+        await firebase.deletePrivateChatForUser(user, selectedChat);
       }
     }
   };
