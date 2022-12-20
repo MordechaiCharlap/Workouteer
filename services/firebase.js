@@ -489,7 +489,7 @@ export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
   });
-  await removeUserFromMembersOrDeleteChat(user, chat);
+  await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
 };
 export const deleteGroupChatForUser = async (user, chat) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
