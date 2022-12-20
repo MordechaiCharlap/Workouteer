@@ -281,14 +281,33 @@ const ChatsScreen = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View>
-          <Text>Hello World!</Text>
-          <TouchableOpacity
-            style={{ backgroundColor: appStyle.appGray }}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text>Hide Modal</Text>
-          </TouchableOpacity>
+        <View
+          style={{ backgroundColor: appStyle.appLightBlue }}
+          className="absolute bottom-0 items-center w-full h-16"
+        >
+          <Text>Are you sure you want to delete selected chats?</Text>
+          <View className="flex-row w-10/12 justify-between">
+            <TouchableOpacity
+              className="p-1 w-1/3"
+              style={{ backgroundColor: appStyle.appGray }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                deleteSelectedChats();
+              }}
+            >
+              <Text className="text-center">Delete chats!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="p-1 w-1/3"
+              style={{ backgroundColor: appStyle.appGray }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setSelectedChats([]);
+              }}
+            >
+              <Text className="text-center">Cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </SafeAreaView>
