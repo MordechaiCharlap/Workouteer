@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   Image,
+  Modal,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useState, useCallback } from "react";
@@ -27,6 +28,7 @@ import Header from "../components/Header";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const [modalVisible, setModalVisible] = useState(false);
   const [chatsArr, setChatArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
   useLayoutEffect(() => {
@@ -89,6 +91,7 @@ const ChatsScreen = () => {
       }
     }
   };
+  const deleteSelectedChatsPopup = async () => {};
   const deleteSelectedChats = async () => {
     for (var selectedChat of selectedChats) {
       if (selectedChat.chat.isGroupChat) {
@@ -218,7 +221,7 @@ const ChatsScreen = () => {
           </View>
         ) : (
           <View className="flex-row items-center h-12 justify-between">
-            <TouchableOpacity onPress={() => setSelectedChats([])}>
+            <TouchableOpacity onPress={() => deleteSelectedChatsPopup()}>
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 size={24}
