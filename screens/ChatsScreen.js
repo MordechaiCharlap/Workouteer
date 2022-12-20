@@ -30,7 +30,7 @@ const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
-  const [chatsArr, setChatArr] = useState(null);
+  const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,7 +41,7 @@ const ChatsScreen = () => {
     useCallback(() => {
       const getChats = async () => {
         console.log("getting chats");
-        setChatArr(await firebase.getChatsArrayIncludeUsers(user));
+        setChatsArr(await firebase.getChatsArrayIncludeUsers(user));
       };
       getChats();
     }, [])
@@ -96,11 +96,18 @@ const ChatsScreen = () => {
     setModalVisible(true);
   };
   const deleteSelectedChats = async () => {
+    const chatsArrClone = chatsArr.slice();
     for (var selectedChat of selectedChats) {
+      const index = chatsArrClone.findIndex(
+        (arrayItem) => arrayItem.chat.id == selectedChat.chat.id
+      );
+      chatsArrClone.splice(index, 1);
+      setChatsArr(chatsArrClone);
+      console.log("removed chat from shown list");
       if (selectedChat.chat.isGroupChat) {
-        await firebase.deleteGroupChatForUser(user, selectedChat);
+        await firebase.deleteGroupChatForUser(user, selectedChat.chat);
       } else {
-        await firebase.deletePrivateChatForUser(user, selectedChat);
+        await firebase.deletePrivateChatForUser(user, selectedChat.chat);
       }
     }
   };
