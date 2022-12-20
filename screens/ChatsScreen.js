@@ -110,6 +110,7 @@ const ChatsScreen = () => {
         await firebase.deletePrivateChatForUser(user, selectedChat);
       }
     }
+    setSelectedChats([]);
   };
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
