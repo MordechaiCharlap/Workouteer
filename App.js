@@ -5,6 +5,8 @@ import StackNavigator from "./StackNavigator";
 import { AuthPrvider } from "./hooks/useAuth";
 import { enableLatestRenderer } from "react-native-maps";
 import { initGeocoder } from "./geocoder";
+import * as WebBrowser from "expo-web-browser";
+WebBrowser.maybeCompleteAuthSession();
 enableLatestRenderer();
 initGeocoder();
 export default function App() {
