@@ -47,6 +47,14 @@ export const AuthPrvider = ({ children }) => {
     console.log("Opening login-google func!");
     promptAsync({ useProxy: false, showInRecents: true });
   };
+
+  useEffect(() => {
+    console.log("checking response");
+    if (response?.type === "success") {
+      const { authentication } = response;
+      console.log("got success response!");
+    }
+  }, [response]);
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
       console.log("not remembering user");
