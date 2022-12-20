@@ -371,6 +371,9 @@ export const getChatsArrayIncludeUsers = async (user) => {
 
   return chatsArr;
 };
+export const getChat = async (chatId) => {
+  return await getDoc(doc(db, chats, chatId));
+};
 export const getFriendsArray = async (user) => {
   const allFriendsMap = new Map(Object.entries(user.friends));
   const friendsArr = [];
