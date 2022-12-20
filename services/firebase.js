@@ -482,11 +482,16 @@ const removeUserFromMembersOrDeleteChat = async (chat) => {
 export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
-    [`chats.${chatId}`]: deleteField(),
+    [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
+  });
+  await removeUserFromMembersOrDeleteChat(user, chat);
+};
+export const deleteGroupChatForUser = async (user, chat) => {
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    [`chats.${chat.id}`]: deleteField(),
   });
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
 };
-export const deleteGroupChatForUser = async (user, chat) => {};
 export const cancelWorkout = async (user, workout) => {
   const membersMap = new Map(Object.entries(workout.members));
   await updateDoc(doc(db, "users", user.usernameLower), {
