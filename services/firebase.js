@@ -474,9 +474,11 @@ export const getPastWorkouts = async (user, now) => {
   );
   return workoutsArray;
 };
-const removeUserFromMembersOrDeleteChat = async (chat) => {
-  const memebers = new Map(Object.entries(chat.members));
-  if (memebers.size == 1) {
+const removeUserFromMembersOrDeleteChat = async (user, chat) => {
+  console.log("chat:", chat);
+  const members = new Map(Object.entries(chat.members));
+  console.log("members:", members);
+  if (members.size == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
   } else {
     await updateDoc(doc(db, "chats", chat.id), {
