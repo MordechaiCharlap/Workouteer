@@ -46,12 +46,12 @@ const FriendsScreen = ({ route }) => {
     }
   };
   //TODO
-  const openPrivateChat = (otherUser) => {
+  const openPrivateChat = async (otherUser) => {
     const chatPals = new Map(Object.entries(user.chatPals));
-    if (!chatPals.get(otherUser.usernameLower))
-      navigation.navigate("Chat", { otherUser: otherUser });
+    const chatId = chatPals.get(otherUser.usernameLower);
+    if (!chatId) navigation.navigate("Chat", { otherUser: otherUser });
     else {
-      const chat = "";
+      const chat = await firebase.getChat(chatId);
       navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
     }
   };
