@@ -17,7 +17,7 @@ const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-
+  const [message, setMessage] = useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -34,7 +34,7 @@ export const AuthPrvider = ({ children }) => {
       console.log("got success response!");
     }
   }, [response]);
-  const getUserData = async () => {
+  async function getUserData() {
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
       {
@@ -46,7 +46,8 @@ export const AuthPrvider = ({ children }) => {
       setUserInfo(data);
       console.log(data);
     });
-  };
+  }
+
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
