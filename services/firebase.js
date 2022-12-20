@@ -469,10 +469,14 @@ export const getPastWorkouts = async (user, now) => {
   );
   return workoutsArray;
 };
-const deleteChatFromDbIfNeeded = async (chat) => {
+const removeUserFromMembersOrDeleteChat = async (chat) => {
   const memebers = new Map(Object.entries(chat.members));
   if (memebers.size == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
+  } else {
+    await updateDoc(doc(db, "chats", chat.id), {
+      [`members.${user.usernameLower}`]: deleteField(),
+    });
   }
 };
 export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
@@ -480,7 +484,7 @@ export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatId}`]: deleteField(),
   });
-  await deleteChatFromDbIfNeeded(chatAndUserItem.chat);
+  await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
 };
 export const deleteGroupChatForUser = async (user, chat) => {};
 export const cancelWorkout = async (user, workout) => {
