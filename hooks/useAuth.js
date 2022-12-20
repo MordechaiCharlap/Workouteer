@@ -13,19 +13,19 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { Alert } from "react-native";
 
-const [request, response, promptAsync] = Google.useAuthRequest({
-  expoClientId:
-    "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
-  androidClientId:
-    "371037963339-mu5fa239lht3udpqghdnc792a9sda72o.apps.googleusercontent.com",
-  webClientId:
-    "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
-});
-WebBrowser.maybeCompleteAuthSession();
-
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId:
+      "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
+    androidClientId:
+      "371037963339-mu5fa239lht3udpqghdnc792a9sda72o.apps.googleusercontent.com",
+    webClientId:
+      "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
+  });
+  WebBrowser.maybeCompleteAuthSession();
+
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
