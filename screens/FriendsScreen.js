@@ -51,6 +51,7 @@ const FriendsScreen = ({ route }) => {
     const chatId = chatPals.get(otherUser.usernameLower);
     if (!chatId) navigation.navigate("Chat", { otherUser: otherUser });
     else {
+      console.log("getting old chat");
       const chat = await firebase.getChat(chatId);
       navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
     }
