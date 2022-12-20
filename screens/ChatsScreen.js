@@ -91,7 +91,9 @@ const ChatsScreen = () => {
       }
     }
   };
-  const deleteSelectedChatsPopup = async () => {};
+  const deleteSelectedChatsPopup = async () => {
+    setModalVisible(true);
+  };
   const deleteSelectedChats = async () => {
     for (var selectedChat of selectedChats) {
       if (selectedChat.chat.isGroupChat) {
@@ -221,7 +223,7 @@ const ChatsScreen = () => {
           </View>
         ) : (
           <View className="flex-row items-center h-12 justify-between">
-            <TouchableOpacity onPress={() => deleteSelectedChatsPopup()}>
+            <TouchableOpacity onPress={() => setSelectedChats([])}>
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 size={24}
@@ -235,7 +237,7 @@ const ChatsScreen = () => {
             >
               {selectedChats.length}
             </Text>
-            <TouchableOpacity onPress={() => deleteSelectedChats()}>
+            <TouchableOpacity onPress={() => deleteSelectedChatsPopup()}>
               <FontAwesomeIcon
                 icon={faTrash}
                 size={24}
@@ -271,6 +273,24 @@ const ChatsScreen = () => {
       </View>
 
       <BottomNavbar currentScreen="Chats" />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View>
+          <Text>Hello World!</Text>
+          <TouchableOpacity
+            style={{ backgroundColor: appStyle.appGray }}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text>Hide Modal</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
