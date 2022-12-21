@@ -102,7 +102,6 @@ const ChatsScreen = () => {
         (arrayItem) => arrayItem.chat.id == selectedChat.chat.id
       );
       chatsArrClone.splice(index, 1);
-      setChatsArr(chatsArrClone);
       console.log("removed chat from shown list");
       if (selectedChat.chat.isGroupChat) {
         await firebase.deleteGroupChatForUser(user, selectedChat);
@@ -110,6 +109,7 @@ const ChatsScreen = () => {
         await firebase.deletePrivateChatForUser(user, selectedChat);
       }
     }
+    setChatsArr(chatsArrClone);
     setSelectedChats([]);
   };
   const convertTimestamp = (timestamp) => {
