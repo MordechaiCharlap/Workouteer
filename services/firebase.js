@@ -307,7 +307,7 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     //He has me but I dont have him
     chatId = otherUserChatPals.get(user.usernameLower);
     await updateDoc(doc(db, `chats/${chatId}`), {
-      [`members.${user.usermameLower}`]: Timestamp.now(),
+      [`members.${user.usernameLower}`]: Timestamp.now(),
     });
   }
 
