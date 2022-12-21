@@ -286,7 +286,7 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   //This function called just when I dont have a chat already
   const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
   var chatId;
-  if (!otherUserChatPals.has(otherUser.usernameLower)) {
+  if (!otherUserChatPals.has(user.usernameLower)) {
     //chat doesnt exists
     //Create chat
     const chatRef = await addDoc(collection(db, `chats`), {
