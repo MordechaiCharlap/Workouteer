@@ -96,28 +96,20 @@ const ChatScreen = ({ route }) => {
   }, [chat]);
   const sendMessage = async () => {
     if (messageText != "") {
+      var chatData = chat;
       if (!chat) {
-        const chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
+        chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
         setUser(await firebase.updateContext(user.usernameLower));
         setChat(chatData);
-        const content = messageText;
-        setMessageText("");
-        await firebase.sendPrivateMessage(
-          user.usernameLower,
-          otherUser.usernameLower,
-          chatData,
-          content
-        );
-      } else {
-        const content = messageText;
-        setMessageText("");
-        await firebase.sendPrivateMessage(
-          user.usernameLower,
-          otherUser.usernameLower,
-          chat,
-          content
-        );
       }
+      const content = messageText;
+      setMessageText("");
+      await firebase.sendPrivateMessage(
+        user.usernameLower,
+        otherUser.usernameLower,
+        chatData,
+        content
+      );
     }
   };
   return (
