@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   Text,
@@ -57,7 +58,6 @@ const ChatScreen = ({ route }) => {
     if (chat != null && messages.length == 0) {
       const membersMap = new Map(Object.entries(chat.members));
       const joinDateTS = membersMap.get(user.usernameLower);
-      console.log("updating messages");
       var messagesClone = messages.slice();
       const q = query(
         collection(db, `chats/${chat.id}/messages`),
@@ -65,11 +65,9 @@ const ChatScreen = ({ route }) => {
         orderBy("sentAt", "asc")
       );
       return onSnapshot(q, (querySnapshot) => {
-        console.log("new change chat query");
         querySnapshot.docChanges().map((change) => {
           const messageDoc = change.doc.data();
           if (change.type === "added") {
-            console.log("adding message");
             const newMessage = {
               id: change.doc.id,
               ...messageDoc,
@@ -113,6 +111,10 @@ const ChatScreen = ({ route }) => {
         chatData,
         content
       );
+      const lastContent = await AsyncStorage.getItem(`chats/${chatData.id}`);
+      if (lastContent) console.log("last content was ", lastContent);
+      await AsyncStorage.setItem(`chats/${chatData.id}`, content);
+      console.log(content, " saved");
     }
   };
   return (
