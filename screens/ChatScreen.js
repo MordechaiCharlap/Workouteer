@@ -33,6 +33,7 @@ const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user, setUser } = useAuth();
   const [chat, setChat] = useState(route.params.chat);
+  const [joinDateTS, setJoinDateTS] = useState();
   const otherUser = route.params.otherUser;
   const db = firebase.db;
   const [messageText, setMessageText] = useState("");
@@ -55,8 +56,12 @@ const ChatScreen = ({ route }) => {
   });
   useEffect(() => {
     if (chat != null && messages.length == 0) {
-      const membersMap = new Map(Object.entries(chat.members));
-      const joinDateTS = membersMap.get(user.usernameLower);
+      if (!joinDateTS) {
+        const membersMap = new Map(Object.entries(chat.members));
+        const joinDate = membersMap.get(user.usernameLower);
+        setJoinDateTS(joinDate);
+      }
+      console.log("updating messages");
       var messagesClone = messages.slice();
       const q = query(
         collection(db, `chats/${chat.id}/messages`),
