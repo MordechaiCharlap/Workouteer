@@ -52,7 +52,7 @@ const FriendsScreen = ({ route }) => {
     if (!chatId) navigation.navigate("Chat", { otherUser: otherUser });
     else {
       console.log("getting old chat");
-      const chat = await firebase.getChat(chatId);
+      const chat = await firebase.getPrivateChat(chatId);
       navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
     }
   };
