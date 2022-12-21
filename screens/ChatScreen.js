@@ -55,10 +55,13 @@ const ChatScreen = ({ route }) => {
   });
   useEffect(() => {
     if (chat != null && messages.length == 0) {
+      const membersMap = new Map(Object.entries(chat.members));
+      const join = membersMap.get(user.usernameLower);
       var messagesClone = messages.slice();
-      console.log("Starting updating");
+      console.log("Starting updating, joinDate:", joinDateTimeStamp);
       const q = query(
         collection(db, `chats/${chat.id}/messages`),
+        where("sentAt", ">", join),
         orderBy("sentAt", "asc")
       );
       return onSnapshot(q, (querySnapshot) => {
