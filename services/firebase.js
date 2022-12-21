@@ -373,11 +373,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
 
   return chatsArr;
 };
-export const getChat = async (chatId) => {
-  const chat = await getDoc(doc(db, `chats/${chatId}`));
-  const chatWithId = { ...chat.data(), id: chat.id };
-  return chatWithId;
-};
+export const getChat = async (chatId) => {};
 export const getFriendsArray = async (user) => {
   const allFriendsMap = new Map(Object.entries(user.friends));
   const friendsArr = [];
@@ -629,3 +625,14 @@ export const getWorkout = async (workoutId) => {
   return (await getDoc(doc(db, "workouts", workoutId))).data();
 };
 export const getFriendsWorkouts = async (user) => {};
+export const getPrivateChat = async (user, otherUser) => {
+  const chatPals = new Map(Object.entries(user.chatPals));
+  const chatId = chatPals.get(otherUser.usernameLower);
+  if (!chatId) return null;
+  else {
+    console.log("getting old chat");
+    const chat = await getDoc(doc(db, `chats/${chatId}`));
+    const chatWithId = { ...chat.data(), id: chat.id };
+    return chatWithId;
+  }
+};
