@@ -112,9 +112,13 @@ const ChatScreen = ({ route }) => {
         content
       );
       const lastContent = await AsyncStorage.getItem(`chats/${chatData.id}`);
-      if (lastContent) console.log("last content was ", lastContent);
-      await AsyncStorage.setItem(`chats/${chatData.id}`, content);
-      console.log(content, " saved");
+      if (lastContent)
+        console.log("last savedChat was ", JSON.parse(lastContent));
+      await AsyncStorage.setItem(
+        `chats/${chatData.id}`,
+        JSON.stringify(chatData)
+      );
+      console.log(chatData, " saved");
     }
   };
   return (
