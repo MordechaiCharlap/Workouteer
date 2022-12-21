@@ -306,14 +306,16 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   } else {
     //He has me but I dont have him
     chatId = otherUserChatPals.get(user.usernameLower);
+    await updateDoc(doc(db, `chats/${chatId}`), {
+      [`members.${user.usermameLower}`]: Timestamp.now(),
+    });
   }
 
   await addChatConnection(user.usernameLower, otherUser.usernameLower, chatId);
   const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
+
   return {
-    messagesCount: chat.messagesCount,
-    isGroupChat: chat.isGroupChat,
-    members: chat.members,
+    ...chat,
     id: chatId,
   };
 };
