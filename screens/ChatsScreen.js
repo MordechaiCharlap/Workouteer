@@ -40,8 +40,9 @@ const ChatsScreen = () => {
   useFocusEffect(
     useCallback(() => {
       const getChats = async () => {
-        console.log("getting chats");
-        setChatsArr(await firebase.getChatsArrayIncludeUsers(user));
+        var arr = await firebase.getChatsArrayIncludeUsers(user);
+        console.log(arr);
+        setChatsArr(arr);
       };
       getChats();
     }, [])
