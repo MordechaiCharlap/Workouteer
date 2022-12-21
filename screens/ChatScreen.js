@@ -31,7 +31,7 @@ import useAuth from "../hooks/useAuth";
 const ChatScreen = ({ route }) => {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
   const db = firebase.db;
@@ -98,6 +98,7 @@ const ChatScreen = ({ route }) => {
     if (messageText != "") {
       if (!chat) {
         const chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
+        setUser(await firebase.updateContext(user.usernameLower));
         setChat(chatData);
         const content = messageText;
         setMessageText("");
