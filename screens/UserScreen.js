@@ -31,7 +31,10 @@ const UserScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
-
+  const openPrivateChat = async () => {
+    const chat = firebase.getPrivateChat(user, shownUser);
+    navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
+  };
   const removeFriend = async () => {
     setFriendshipStatus("None");
     await firebase.removeFriend(user.usernameLower, shownUser.usernameLower);
@@ -191,7 +194,7 @@ const UserScreen = ({ route }) => {
               {(shownUser.isPublic == true ||
                 friendshipStatus == "Friends") && (
                 <TouchableOpacity
-                  onPress={sendFriendRequest}
+                  onPress={() => openPrivateChat()}
                   style={style.socialButton}
                 >
                   <Text
