@@ -41,7 +41,6 @@ const ChatsScreen = () => {
     useCallback(() => {
       const getChats = async () => {
         var arr = await firebase.getChatsArrayIncludeUsers(user);
-        console.log(arr);
         setChatsArr(arr);
       };
       getChats();
