@@ -226,7 +226,7 @@ export const acceptRequest = async (userId, otherUserId) => {
   await deleteRequest(userId, otherUserId);
 };
 export const cancelFriendRequest = async (userId, otherUserId) => {
-  await deleteRequest(otherUserId.usernameLower, userId);
+  await deleteRequest(otherUserId, userId);
 };
 export const rejectRequest = async (userId, otherUserId) => {
   await deleteRequest(userId, otherUserId);
