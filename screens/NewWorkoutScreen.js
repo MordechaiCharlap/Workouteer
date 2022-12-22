@@ -128,7 +128,7 @@ const NewWorkoutScreen = () => {
               }}
               disabled={isCreateDisabled}
               className="rounded-lg shadow px-7 py-1"
-              onPress={createWorkout}
+              onPress={() => createWorkout()}
             >
               <Text
                 style={{ color: createButtonTextColor }}
