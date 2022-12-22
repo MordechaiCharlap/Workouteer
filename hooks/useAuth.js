@@ -29,9 +29,10 @@ export const AuthPrvider = ({ children }) => {
   useEffect(() => {
     console.log("checking response");
     if (response?.type === "success") {
-      const { authentication } = response;
       setAccessToken(response.authentication.accessToken);
       console.log("got success response!");
+    } else {
+      console.log("response ", response);
     }
   }, [response]);
   async function getUserData() {
@@ -42,10 +43,15 @@ export const AuthPrvider = ({ children }) => {
       }
     );
 
-    userInfoResponse.json().then((data) => {
-      setUserInfo(data);
-      console.log(data);
-    });
+    userInfoResponse
+      .json()
+      .then((data) => {
+        setUserInfo(data);
+        console.log("The DATA!: ", data);
+      })
+      .catch((e) => {
+        console.log("error:", e.message);
+      });
   }
 
   const auth = firebase.auth;
