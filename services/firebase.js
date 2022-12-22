@@ -245,14 +245,14 @@ export const rejectRequest = async (userId, otherUserId) => {
   //delete both side's end of the request
   await deleteRequest(userId, otherUserId);
 };
-const deleteRequest = async (userId, otherUserId) => {
+const deleteRequest = async (receiverId, senderId) => {
   //  user: remove receivedRequest
-  await updateDoc(doc(db, "requests", userId), {
-    [`receivedRequests.${otherUserId}`]: deleteField(),
+  await updateDoc(doc(db, "requests", receiverId), {
+    [`receivedRequests.${senderId}`]: deleteField(),
   });
   //otherUser: remove sentRequest
-  await updateDoc(doc(db, "requests", otherUserId), {
-    [`sentRequests.${userId}`]: deleteField(),
+  await updateDoc(doc(db, "requests", senderId), {
+    [`sentRequests.${receiverId}`]: deleteField(),
   });
 };
 export const removeFriend = async (userId, otherUserId) => {
