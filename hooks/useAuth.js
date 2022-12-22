@@ -32,7 +32,7 @@ export const AuthPrvider = ({ children }) => {
       setAccessToken(response.authentication.accessToken);
       console.log("got success response!");
     } else {
-      console.log("response ", response);
+      console.log("response unsuccesful:", response);
     }
   }, [response]);
   async function getUserData() {
@@ -74,12 +74,12 @@ export const AuthPrvider = ({ children }) => {
     });
   }, []);
   const signInGoogleAccount = async () => {
-    if (!accessToken) {
+    if (accessToken) {
       console.log("getting user data!");
       await getUserData();
     } else {
       console.log("promptAsyncing!");
-      promptAsync({ useProxy: false, showInRecents: true });
+      await promptAsync({ useProxy: false, showInRecents: true });
     }
   };
 
