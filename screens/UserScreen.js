@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -20,7 +20,7 @@ const UserScreen = ({ route }) => {
   const { user } = useAuth();
   const shownUser = route.params.shownUser;
   const navigation = useNavigation();
-
+  const [workoutsCount, setWorkoutsCount] = useState();
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
@@ -30,6 +30,15 @@ const UserScreen = ({ route }) => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+  useEffect(() => {
+    const workouts = new Map(Object.entries(user.workouts));
+    const now = new Date();
+    var count = 0;
+    for (var value of workouts.values()) {
+      if (value.toDate() < now) count++;
+    }
+    setWorkoutsCount(count);
   }, []);
   const openPrivateChat = async () => {
     const chat = firebase.getPrivateChat(user, shownUser);
@@ -167,7 +176,7 @@ const UserScreen = ({ route }) => {
                       style={{ fontSize: 20, color: appStyle.appGray }}
                       className="font-bold"
                     >
-                      {shownUser.workoutsCount}
+                      {workoutsCount}
                     </Text>
                     <Text style={{ fontSize: 20, color: appStyle.appGray }}>
                       Workouts
