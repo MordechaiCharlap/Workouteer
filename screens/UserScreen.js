@@ -32,7 +32,7 @@ const UserScreen = ({ route }) => {
     });
   }, []);
   useEffect(() => {
-    const workouts = new Map(Object.entries(user.workouts));
+    const workouts = new Map(Object.entries(shownUser.workouts));
     const now = new Date();
     var count = 0;
     for (var value of workouts.values()) {
