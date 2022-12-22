@@ -226,20 +226,23 @@ export const acceptRequest = async (userId, otherUserId) => {
   await deleteRequest(userId, otherUserId);
 };
 export const cancelFriendRequest = async (userId, otherUserId) => {
+  await updateDoc(doc(db, "users", otherUserId), {
+    friendRequestCount: increment(-1),
+  });
   await deleteRequest(otherUserId, userId);
 };
 export const rejectRequest = async (userId, otherUserId) => {
+  await updateDoc(doc(db, "users", userId), {
+    friendRequestCount: increment(-1),
+  });
   await deleteRequest(userId, otherUserId);
 };
 const deleteRequest = async (receiverId, senderId) => {
-  await updateDoc(doc(db, "users", receiverId), {
-    friendRequestCount: increment(-1),
-  });
-  //  user: remove receivedRequest
+  //  reveicer: remove receivedRequest
   await updateDoc(doc(db, "requests", receiverId), {
     [`receivedRequests.${senderId}`]: deleteField(),
   });
-  //otherUser: remove sentRequest
+  //sender: remove sentRequest
   await updateDoc(doc(db, "requests", senderId), {
     [`sentRequests.${receiverId}`]: deleteField(),
   });
