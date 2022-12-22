@@ -180,19 +180,7 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
     }
   }
 };
-export const cancelFriendRequest = async (user, shownUser) => {
-  const userReqRef = doc(db, "requests", user.usernameLower);
-  const shownUserReqRef = doc(db, "requests", shownUser.usernameLower);
-  await updateDoc(userReqRef, {
-    [`sentRequests.${shownUser.usernameLower}`]: deleteField(),
-  });
-  await updateDoc(shownUserReqRef, {
-    [`receivedRequests.${user.usernameLower}`]: deleteField(),
-  });
-  await updateDoc(doc(db, "users", shownUser.usernameLower), {
-    friendRequestCount: increment(-1),
-  });
-};
+
 export const sendFriendRequest = async (userId, shownUser) => {
   const userReqDoc = doc(db, "requests", userId);
   const shownUserReqDoc = doc(db, "requests", shownUser.usernameLower);
@@ -237,15 +225,16 @@ export const acceptRequest = async (userId, otherUserId) => {
   //delete both side's end of the request
   await deleteRequest(userId, otherUserId);
 };
+export const cancelFriendRequest = async (userId, otherUserId) => {
+  await deleteRequest(otherUserId.usernameLower, userId);
+};
 export const rejectRequest = async (userId, otherUserId) => {
-  //user: increment (-1) friendRequestsCount
-  await updateDoc(doc(db, "users", userId), {
-    friendRequestCount: increment(-1),
-  });
-  //delete both side's end of the request
   await deleteRequest(userId, otherUserId);
 };
 const deleteRequest = async (receiverId, senderId) => {
+  await updateDoc(doc(db, "users", receiverId), {
+    friendRequestCount: increment(-1),
+  });
   //  user: remove receivedRequest
   await updateDoc(doc(db, "requests", receiverId), {
     [`receivedRequests.${senderId}`]: deleteField(),
