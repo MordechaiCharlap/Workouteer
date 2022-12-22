@@ -52,7 +52,10 @@ const UserScreen = ({ route }) => {
   const rejectFriendRequest = async () => {};
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
-    await firebase.cancelFriendRequest(user, shownUser);
+    await firebase.cancelFriendRequest(
+      user.usernameLower,
+      shownUser.usernameLower
+    );
   };
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
