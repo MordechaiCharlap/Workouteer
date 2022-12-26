@@ -9,9 +9,7 @@ export const NotificationsProvider = ({ children }) => {
   const responseListener = useRef();
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token)
-    );
+    registerForPushNotifications().then((token) => setExpoPushToken(token));
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
@@ -51,7 +49,7 @@ export const NotificationsProvider = ({ children }) => {
       body: JSON.stringify(message),
     });
   };
-  const registerForPushNotificationsAsync = async () => {
+  const registerForPushNotifications = async () => {
     if (Device.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -83,7 +81,8 @@ export const NotificationsProvider = ({ children }) => {
   return (
     <NotificationsContext.Provider
       value={{
-        registerForPushNotificationsAsync,
+        registerForPushNotifications,
+        sendPushNotification,
       }}
     >
       {children}
