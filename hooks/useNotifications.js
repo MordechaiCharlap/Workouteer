@@ -1,4 +1,4 @@
-import { createContext, useState, useRef, useEffect } from "react";
+import { createContext, useState, useRef, useEffect, useContext } from "react";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 const NotificationsContext = createContext();
@@ -7,10 +7,38 @@ export const NotificationsProvider = ({ children }) => {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-
   useEffect(() => {
-    registerForPushNotifications().then((token) => setExpoPushToken(token));
+    const registerForPushNotifications = async () => {
+      if (Device.isDevice) {
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== "granted") {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+        if (finalStatus !== "granted") {
+          alert("Failed to get push token for push notification!");
+          return;
+        }
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        alert(token);
+        console.log("token:", token);
+        setExpoPushToken(token);
+      } else {
+        alert("Must use physical device for Push Notifications");
+      }
 
+      if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
+      }
+    };
+    registerForPushNotifications();
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -31,6 +59,7 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, []);
   const sendPushNotification = async () => {
+    console.log(expoPushToken);
     const message = {
       to: expoPushToken,
       sound: "default",
@@ -38,7 +67,6 @@ export const NotificationsProvider = ({ children }) => {
       body: "And here is the body!",
       data: { someData: "goes here" },
     };
-
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
       headers: {
@@ -48,41 +76,15 @@ export const NotificationsProvider = ({ children }) => {
       },
       body: JSON.stringify(message),
     });
+    console.log(message);
   };
-  const registerForPushNotifications = async () => {
-    if (Device.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
-      }
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-      setExpoPushToken(token);
-    } else {
-      alert("Must use physical device for Push Notifications");
-    }
 
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-  };
   return (
     <NotificationsContext.Provider
       value={{
-        registerForPushNotifications,
         sendPushNotification,
+        expoPushToken,
+        setExpoPushToken,
       }}
     >
       {children}
