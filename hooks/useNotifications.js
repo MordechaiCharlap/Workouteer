@@ -22,7 +22,6 @@ export const NotificationsProvider = ({ children }) => {
           return;
         }
         const token = (await Notifications.getExpoPushTokenAsync()).data;
-        alert(token);
         console.log("token:", token);
         setExpoPushToken(token);
       } else {
@@ -59,7 +58,6 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, []);
   const sendPushNotification = async () => {
-    console.log(expoPushToken);
     const message = {
       to: expoPushToken,
       sound: "default",
@@ -67,6 +65,7 @@ export const NotificationsProvider = ({ children }) => {
       body: "And here is the body!",
       data: { someData: "goes here" },
     };
+    alert(JSON.stringify(message));
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
       headers: {
