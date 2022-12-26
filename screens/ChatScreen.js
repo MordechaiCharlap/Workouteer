@@ -30,6 +30,7 @@ import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
 const ChatScreen = ({ route }) => {
+  const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const { user, setUser } = useAuth();
