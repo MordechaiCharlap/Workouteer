@@ -30,7 +30,7 @@ export const NotificationsProvider = ({ children }) => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-  const sendPushNotification = async (expoPushToken) => {
+  const sendPushNotification = async () => {
     const message = {
       to: expoPushToken,
       sound: "default",
