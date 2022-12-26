@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
 import { useState, useEffect } from "react";
@@ -54,7 +54,8 @@ const ChatMessage = (props) => {
   };
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
-      <View
+      <TouchableOpacity
+        onLongPress={() => {}}
         className="mt-1 p-1.5 rounded"
         style={{
           maxWidth: "90%",
@@ -89,7 +90,7 @@ const ChatMessage = (props) => {
             <></>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
