@@ -1,5 +1,5 @@
 import { SafeAreaView, View } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
@@ -12,12 +12,17 @@ import {
   faUserGroup,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import useNotifications from "../hooks/useNotifications";
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const { sendPushNotification } = useNotifications();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+  useEffect(() => {
+    sendPushNotification();
   }, []);
   const buttonStyle = {
     color: appStyle.appGray,
