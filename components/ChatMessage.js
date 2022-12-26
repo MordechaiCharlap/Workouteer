@@ -55,7 +55,9 @@ const ChatMessage = (props) => {
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
       <TouchableOpacity
-        onLongPress={() => {}}
+        onLongPress={() => {
+          props.messageSelected(props.message);
+        }}
         className="mt-1 p-1.5 rounded"
         style={{
           maxWidth: "90%",
