@@ -96,6 +96,9 @@ const ChatScreen = ({ route }) => {
       });
     }
   }, [chat]);
+  const messageSelected = (message) => {
+    console.log(message);
+  };
   const sendMessage = async () => {
     if (messageText != "") {
       var chatData = chat;
@@ -176,6 +179,7 @@ const ChatScreen = ({ route }) => {
               inverted={true}
               renderItem={({ item }) => (
                 <ChatMessage
+                  messageSelected={messageSelected}
                   chatId={chat.id}
                   message={item}
                   user={user}
