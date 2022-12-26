@@ -18,6 +18,7 @@ import { useEffect } from "react";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState("");
+  const [buttonColor, setButtonColor] = useState("white");
   const { user, setUser } = useAuth();
   const [membersMap, setMembersMap] = useState(
     new Map(Object.entries(props.workout.members))
@@ -37,6 +38,7 @@ const WorkoutComponent = (props) => {
           if (isCreator) {
             setUserMemberStatus("creator");
             setButtonText("Cancel workout");
+            setButtonColor(appStyle.appRed);
           } else {
             setUserMemberStatus("member");
             setButtonText("Leave workout");
@@ -268,6 +270,7 @@ const WorkoutComponent = (props) => {
             onPress={workoutActionButtonClicked}
             className="mx-1 h-8 rounded w-1 flex-1 justify-center"
             style={{
+              backgroundColor: buttonColor,
               borderColor: appStyle.appDarkBlue,
               borderWidth: 1,
             }}
