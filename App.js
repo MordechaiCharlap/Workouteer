@@ -8,10 +8,12 @@ import { enableLatestRenderer } from "react-native-maps";
 import { initGeocoder } from "./geocoder";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
-WebBrowser.maybeCompleteAuthSession();
-if (Platform.OS != "web") enableLatestRenderer();
-initGeocoder();
+
 export default function App() {
+  WebBrowser.maybeCompleteAuthSession();
+  if (Platform.OS != "web") enableLatestRenderer();
+  initGeocoder();
+
   return (
     <NavigationContainer>
       <AuthPrvider>
