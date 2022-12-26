@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, TouchableOpacity, Text } from "react-native";
 import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -15,7 +15,7 @@ import {
 import useNotifications from "../hooks/useNotifications";
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { sendPushNotification } = useNotifications();
+  const { expoPushToken, sendPushNotification } = useNotifications();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -68,6 +68,15 @@ const HomeScreen = () => {
             icon={faUserGroup}
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
+        </View>
+        <View className="my-5 items-center">
+          <TouchableOpacity
+            onPress={() => sendPushNotification(expoPushToken)}
+            className="p-2"
+            style={{ backgroundColor: appStyle.appGray }}
+          >
+            <Text>CheckNotifications</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <BottomNavbar currentScreen="Home" />
