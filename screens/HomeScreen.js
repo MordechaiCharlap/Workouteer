@@ -71,7 +71,7 @@ const HomeScreen = () => {
         </View>
         <View className="my-5 items-center">
           <TouchableOpacity
-            onPress={() => sendPushNotification(expoPushToken)}
+            onPress={sendPushNotification}
             className="p-2"
             style={{ backgroundColor: appStyle.appGray }}
           >
