@@ -1,5 +1,6 @@
 import { createContext } from "react";
-
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   registerForPushNotificationsAsync = async () => {
