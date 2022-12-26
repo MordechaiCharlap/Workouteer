@@ -10,11 +10,14 @@ export const NotificationsProvider = ({ children }) => {
   useEffect(() => {
     const registerForPushNotifications = async () => {
       if (Device.isDevice) {
-        var status = await Notifications.getPermissionsAsync();
-        if (status !== "granted") {
-          status = await Notifications.requestPermissionsAsync();
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== "granted") {
+          console.log("not granted");
+          const { status } = await Notifications.requestPermissionsAsync();
           finalStatus = status;
-        } else console.log("notification permission granted");
+        } else console.log("granted");
         if (finalStatus !== "granted") {
           alert("Failed to get push token for push notification!");
           return;
@@ -56,6 +59,8 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, []);
   const sendPushNotification = async () => {
+    const test = await Notifications.requestPermissionsAsync();
+    console.log(test);
     const message = {
       to: expoPushToken,
       sound: "default",
