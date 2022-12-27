@@ -18,10 +18,10 @@ const WorkoutLocation = (props) => {
     if (showMap) {
       setShowMap(false);
     } else {
+      setShowMap(true);
       setIsLoading(true);
       const latLongLocation = await geoService.getCurrentLocation();
       setMarkerCoords(latLongLocation);
-      setShowMap(true);
       setIsLoading(false);
     }
   };
@@ -55,12 +55,20 @@ const WorkoutLocation = (props) => {
         </TouchableOpacity>
       </View>
       <View className="items-center">
-        {showMap && (
-          <PinOnMap
-            defaultMarker={markerCoords}
-            saveLocation={locationPinned}
-          />
-        )}
+        {showMap &&
+          (isLoading ? (
+            <Text
+              className="text-lg ml-3 p-3"
+              style={{ backgroundColor: appStyle.appYellow }}
+            >
+              Getting your location...
+            </Text>
+          ) : (
+            <PinOnMap
+              defaultMarker={markerCoords}
+              saveLocation={locationPinned}
+            />
+          ))}
       </View>
     </View>
   );
