@@ -48,6 +48,11 @@ const WorkoutStartingTime = (props) => {
         setShow(false);
         setMode("date");
       }
+    } else if (event.type == "dismissed" && setDateChangedOnce == false) {
+      props.startingTimeChanged(null);
+      setDate(null);
+      setShow(false);
+      setMode("date");
     }
   };
   const showTrue = () => {
