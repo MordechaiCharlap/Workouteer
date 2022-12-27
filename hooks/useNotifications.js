@@ -59,13 +59,11 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, []);
   const sendPushNotification = async () => {
-    const test = await Notifications.requestPermissionsAsync();
-    console.log(test);
     const message = {
       to: expoPushToken,
       sound: "default",
-      title: "Original Title",
-      body: "And here is the body!",
+      title: "You have a message!",
+      body: "XXX: hey what up, havent seen you for so long",
       data: { someData: "goes here" },
     };
     await fetch("https://exp.host/--/api/v2/push/send", {
