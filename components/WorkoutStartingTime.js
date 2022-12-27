@@ -22,7 +22,7 @@ const WorkoutStartingTime = (props) => {
   }, []);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    Alert.alert("date changed: ", currentDate);
+    console.log("date changed: ", currentDate);
     if (event.type == "set") {
       if (mode == "date") {
         setDate(currentDate);
