@@ -17,23 +17,27 @@ const WorkoutStartingTime = (props) => {
   const [mode, setMode] = useState("date");
   useEffect(() => {
     const maximumDate = new Date();
+    console.log(maximumDate);
     maximumDate.setDate(maximumDate.getDate() + 7);
     setMaxDate(maximumDate);
   }, []);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    console.log("date changed: ", currentDate);
+    console.log(props.minDate);
+    console.log(maxDate);
     if (event.type == "set") {
       if (mode == "date") {
+        console.log("date mode");
         setDate(currentDate);
         setDateChangedOnce(true);
         setMode("time");
       } else {
+        console.log("time mode");
         if (
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
         ) {
-          Alert.alert("cant go back in time");
+          console.log("cant go back in time");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
           setShow(false);
@@ -43,7 +47,6 @@ const WorkoutStartingTime = (props) => {
           props.startingTimeChanged(currentDate);
           setShow(false);
         }
-
         setMode("date");
       }
     }
