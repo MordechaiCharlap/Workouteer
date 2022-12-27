@@ -11,7 +11,6 @@ import {
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
-import useAuth from "../hooks/useAuth";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import responsiveStyle from "../components/ResponsiveStyling";
