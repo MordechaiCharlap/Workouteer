@@ -30,7 +30,6 @@ const WorkoutStartingTime = (props) => {
       if (mode == "date") {
         console.log("date mode");
         setDate(currentDate);
-        setDateChangedOnce(true);
         setMode("time");
       } else {
         console.log("time mode");
@@ -38,29 +37,34 @@ const WorkoutStartingTime = (props) => {
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
         ) {
-          console.log("cant go back in time");
+          Alert.alert("cant go back in time");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
-          setShow(false);
         } else {
           console.log("time is ok");
+          setDateChangedOnce(true);
           setDate(currentDate);
           props.startingTimeChanged(currentDate);
-          setShow(false);
         }
+        setShow(false);
         setMode("date");
       }
+    } else if (event.type == "dismissed") {
+      setDateChangedOnce(false);
+      props.startingTimeChanged(null);
+      setShow(false);
+      setMode("date");
     }
   };
   const showTrue = () => {
     if (Platform.OS === "android") {
       setShow(true);
+      console.log("Show true");
       // for iOS, add a button that closes the picker
     }
   };
 
   const showDatepicker = () => {
-    setMode("date");
     showTrue();
   };
   const timeString = () => {
@@ -98,7 +102,7 @@ const WorkoutStartingTime = (props) => {
           minimumDate={props.minDate}
           maximumDate={maxDate}
           testID="dateTimePicker"
-          value={date}
+          value={date ? date : new Date()}
           mode={mode}
           is24Hour={true}
           minuteInterval={15}
