@@ -9,7 +9,7 @@ const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [markerCoords, setMarkerCoords] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const cancelLocation = () => {
     setLocation(null);
     props.locationChanged(null);
@@ -18,9 +18,11 @@ const WorkoutLocation = (props) => {
     if (showMap) {
       setShowMap(false);
     } else {
+      setIsLoading(true);
       const latLongLocation = await geoService.getCurrentLocation();
       setMarkerCoords(latLongLocation);
       setShowMap(true);
+      setIsLoading(false);
     }
   };
   const locationPinned = (coords) => {
