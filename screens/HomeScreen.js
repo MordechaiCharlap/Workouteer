@@ -15,14 +15,10 @@ import {
 import useNotifications from "../hooks/useNotifications";
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { expoPushToken, sendPushNotification } = useNotifications();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-  }, []);
-  useEffect(() => {
-    sendPushNotification();
   }, []);
   const buttonStyle = {
     color: appStyle.appGray,
@@ -69,7 +65,7 @@ const HomeScreen = () => {
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
         </View>
-        <View className="my-5 items-center">
+        {/* <View className="my-5 items-center">
           <TouchableOpacity
             onPress={sendPushNotification}
             className="p-2"
@@ -77,7 +73,7 @@ const HomeScreen = () => {
           >
             <Text>CheckNotifications</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
       <BottomNavbar currentScreen="Home" />
     </SafeAreaView>
