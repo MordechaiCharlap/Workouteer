@@ -24,8 +24,6 @@ const WorkoutStartingTime = (props) => {
   }, []);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    console.log(props.minDate);
-    console.log(maxDate);
     if (event.type == "set") {
       if (mode == "date") {
         console.log("date mode");
@@ -102,7 +100,7 @@ const WorkoutStartingTime = (props) => {
           minimumDate={props.minDate}
           maximumDate={maxDate}
           testID="dateTimePicker"
-          value={date ? date : new Date()}
+          value={new Date()}
           mode={mode}
           is24Hour={true}
           minuteInterval={15}
