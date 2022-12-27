@@ -22,13 +22,13 @@ const WorkoutStartingTime = (props) => {
   }, []);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    console.log("date changed");
+    Alert.alert("date changed: ", currentDate);
     if (event.type == "set") {
       if (mode == "date") {
         setDate(currentDate);
         setDateChangedOnce(true);
         setMode("time");
-      } else if (mode == "time") {
+      } else {
         if (
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
@@ -43,6 +43,8 @@ const WorkoutStartingTime = (props) => {
           props.startingTimeChanged(currentDate);
           setShow(false);
         }
+
+        setMode("date");
       }
     }
   };
