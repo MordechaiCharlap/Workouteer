@@ -15,11 +15,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthPrvider>
-        {/* <NotificationsProvider> */}
-        <TailwindProvider>
-          <StackNavigator />
-        </TailwindProvider>
-        {/* </NotificationsProvider> */}
+        <NotificationsProvider>
+          <TailwindProvider>
+            <StackNavigator />
+          </TailwindProvider>
+        </NotificationsProvider>
       </AuthPrvider>
     </NavigationContainer>
   );
