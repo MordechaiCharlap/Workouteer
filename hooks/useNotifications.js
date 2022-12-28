@@ -71,7 +71,7 @@ export const NotificationsProvider = ({ children }) => {
       sound: "default",
       title: "You have a message!",
       body: "XXX: hey what up, havent seen you for so long",
-      // data: { someData: "goes here" },
+      data: { someData: "goes here" },
     };
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
