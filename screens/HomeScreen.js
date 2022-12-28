@@ -63,7 +63,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             buttonText="FRIENDS WORKOUTS"
             style={buttonStyle}
-            navigateScreen="NewWorkout"
+            navigateScreen="FriendsWorkouts"
             icon={faUserGroup}
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />

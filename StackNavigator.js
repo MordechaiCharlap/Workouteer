@@ -23,6 +23,7 @@ import PastWorkoutsScreen from "./screens/PastWorkoutsScreen";
 import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
 import WorkoutRequestsScreen from "./screens/WorkoutRequestsScreen";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
+import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,11 @@ const StackNavigator = () => {
           <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
           <Stack.Screen name="EditData" component={EditDataScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen
+            name="FriendsWorkouts"
+            component={FriendsWorkoutsScreen}
+            options={verticalConfig}
+          />
           <Stack.Screen
             name="NewWorkout"
             component={NewWorkoutScreen}
