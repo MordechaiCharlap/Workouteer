@@ -66,13 +66,13 @@ const HomeScreen = () => {
           />
           <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
         </View>
-        <View className="my-5 items-center">
+        <View className="my-5 flex-row justify-around">
           <TouchableOpacity
             onPress={sendPushNotification}
             className="p-2"
             style={{ backgroundColor: appStyle.appGray }}
           >
-            <Text>CheckNotifications</Text>
+            <Text>Send Notofication</Text>
           </TouchableOpacity>
         </View>
       </View>
