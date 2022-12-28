@@ -18,6 +18,9 @@ export const AuthPrvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [message, setMessage] = useState();
+  const auth = firebase.auth;
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -35,6 +38,22 @@ export const AuthPrvider = ({ children }) => {
       console.log("response unsuccesful:", response);
     }
   }, [response]);
+  useEffect(() => {
+    onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        const setUserAsync = async () => {
+          setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+          console.log("state Changed, user logged in: " + authUser.email);
+          setInitialLoading(false);
+        };
+        setUserAsync();
+      } else {
+        setUser(null);
+        console.log("state Changed, user logged out");
+        setInitialLoading(false);
+      }
+    });
+  }, []);
   async function getUserData() {
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
@@ -54,25 +73,6 @@ export const AuthPrvider = ({ children }) => {
       });
   }
 
-  const auth = firebase.auth;
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        const setUserAsync = async () => {
-          setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
-          console.log("state Changed, user logged in: " + authUser.email);
-          setInitialLoading(false);
-        };
-        setUserAsync();
-      } else {
-        setUser(null);
-        console.log("state Changed, user logged out");
-        setInitialLoading(false);
-      }
-    });
-  }, []);
   const signInGoogleAccount = async () => {
     if (accessToken) {
       console.log("getting user data!");
@@ -96,12 +96,11 @@ export const AuthPrvider = ({ children }) => {
     } else {
       console.log("remembering user");
       signInWithEmailAndPassword(auth, email, password)
-        .then(async () => {
+        .then(() => {
           console.log("signed in!");
         })
         .catch((error) => {
           console.log(error);
-          Alert.alert(error.message);
         });
     }
   };
