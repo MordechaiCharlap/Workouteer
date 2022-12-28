@@ -13,7 +13,9 @@ import {
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import useNotifications from "../hooks/useNotifications";
+import useAuth from "../hooks/useAuth";
 const HomeScreen = () => {
+  const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,7 +70,13 @@ const HomeScreen = () => {
         </View>
         <View className="my-5 flex-row justify-around">
           <TouchableOpacity
-            onPress={sendPushNotification}
+            onPress={async () =>
+              await sendPushNotification(
+                user,
+                "I`m a title",
+                "and I`m the body"
+              )
+            }
             className="p-2"
             style={{ backgroundColor: appStyle.appGray }}
           >
