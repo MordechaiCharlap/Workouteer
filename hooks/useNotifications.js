@@ -4,11 +4,10 @@ import * as Notifications from "expo-notifications";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
   useEffect(() => {
-    registerForPushNotifications().then((token) => setExpoPushToken(token));
+    registerForPushNotifications();
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
@@ -19,7 +18,7 @@ export const NotificationsProvider = ({ children }) => {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
+        console.log(notification);
       });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
@@ -95,7 +94,6 @@ const registerForPushNotifications = async () => {
         lightColor: "#FF231F7C",
       });
     }
-    return token;
   } else {
     alert("Must use physical device for Push Notifications");
   }
