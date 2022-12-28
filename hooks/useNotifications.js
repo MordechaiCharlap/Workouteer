@@ -28,10 +28,11 @@ export const NotificationsProvider = ({ children }) => {
       });
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (responseListener) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
     };
   }, []);
   const sendPushNotification = async () => {
