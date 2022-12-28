@@ -74,9 +74,8 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, [user]);
   const sendPushNotification = async (user, title, body, data) => {
-    const userPushToken = "ExponentPushToken[Kj69RvHY1wZwilpLFvzBS3]";
     const message = {
-      to: userPushToken,
+      to: user.pushToken,
       sound: "default",
       title: title,
       body: body,
