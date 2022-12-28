@@ -65,13 +65,14 @@ export const NotificationsProvider = ({ children }) => {
       }
     };
   }, []);
-  const sendPushNotification = async () => {
+  const sendPushNotification = async (userId, title, body, data) => {
+    const userPushToken = "ExponentPushToken[Kj69RvHY1wZwilpLFvzBS3]";
     const message = {
-      to: expoPushToken,
+      to: userPushToken,
       sound: "default",
-      title: "You have a message!",
-      body: "XXX: hey what up, havent seen you for so long",
-      data: { someData: "goes here" },
+      title: title,
+      body: body,
+      data: data ? data : {},
     };
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
