@@ -8,7 +8,7 @@ export const NotificationsProvider = ({ children }) => {
   const [pushToken, setPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const registerForPushNotifications = async () => {
     if (Device.isDevice) {
       const { status: existingStatus } =
@@ -24,9 +24,11 @@ export const NotificationsProvider = ({ children }) => {
         return;
       }
       if (!user.pushToken) {
+        console.log("no pushToken in firestore, adding push token now");
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         const updatedUser = { ...user, pushToken: token };
         await firebase.updateUser(updatedUser);
+        setUser(await firebase.updateContext(user.usernameLower));
         setPushToken(token);
       }
 
