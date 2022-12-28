@@ -8,6 +8,7 @@ export const NotificationsProvider = ({ children }) => {
   const notificationListener = useRef();
   const responseListener = useRef();
   useEffect(() => {
+    registerForPushNotifications().then((token) => setExpoPushToken(token));
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
@@ -15,7 +16,6 @@ export const NotificationsProvider = ({ children }) => {
         shouldSetBadge: true,
       }),
     });
-    registerForPushNotifications().then((token) => setExpoPushToken(token));
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
