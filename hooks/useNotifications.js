@@ -6,6 +6,36 @@ export const NotificationsProvider = ({ children }) => {
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const registerForPushNotifications = async () => {
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        console.log("not granted");
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+      setExpoPushToken(token);
+      if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
+      }
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+  };
   useEffect(() => {
     registerForPushNotifications();
     Notifications.setNotificationHandler({
@@ -41,7 +71,7 @@ export const NotificationsProvider = ({ children }) => {
       sound: "default",
       title: "You have a message!",
       body: "XXX: hey what up, havent seen you for so long",
-      data: { someData: "goes here" },
+      // data: { someData: "goes here" },
     };
     await fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
@@ -70,32 +100,3 @@ export const NotificationsProvider = ({ children }) => {
 export default function useNotifications() {
   return useContext(NotificationsContext);
 }
-
-const registerForPushNotifications = async () => {
-  if (Device.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      console.log("not granted");
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-  } else {
-    alert("Must use physical device for Push Notifications");
-  }
-};
