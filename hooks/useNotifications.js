@@ -18,7 +18,7 @@ export const NotificationsProvider = ({ children }) => {
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log(notification);
+        console.log("notification: ", notification);
       });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
@@ -52,7 +52,7 @@ export const NotificationsProvider = ({ children }) => {
       },
       body: JSON.stringify(message),
     });
-    console.log(message);
+    console.log("message: ", message);
   };
 
   return (
@@ -80,7 +80,7 @@ const registerForPushNotifications = async () => {
       console.log("not granted");
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
-    } else console.log("granted");
+    }
     if (finalStatus !== "granted") {
       alert("Failed to get push token for push notification!");
       return;
