@@ -633,7 +633,5 @@ export const getPrivateChat = async (user, otherUser) => {
   }
 };
 export const updateUser = async (user) => {
-  await setDoc(doc(db, "users", user.usernameLower), {
-    ...user,
-  });
+  await setDoc(doc(db, "users", user.usernameLower), user);
 };
