@@ -23,7 +23,7 @@ if (Platform.OS == "web") {
       height: "100%",
       flex: 1,
       backgroundColor: appStyle.appDarkBlue,
-      borderTopColor: "white",
+      borderTopColor: appStyle.appGray,
       borderTopWidth: StatusBar.currentHeight,
       // paddingTop: StatusBar.currentHeight,
     },
