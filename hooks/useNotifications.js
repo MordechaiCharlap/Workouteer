@@ -5,7 +5,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
-  const [expoPushToken, setExpoPushToken] = useState("");
+  const [pushToken, setPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user } = useAuth();
@@ -25,7 +25,7 @@ export const NotificationsProvider = ({ children }) => {
       }
       if (!user.pushToken) {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
-        setExpoPushToken(token);
+        setPushToken(token);
       }
 
       if (Platform.OS === "android") {
@@ -96,8 +96,8 @@ export const NotificationsProvider = ({ children }) => {
     <NotificationsContext.Provider
       value={{
         sendPushNotification,
-        expoPushToken,
-        setExpoPushToken,
+        pushToken,
+        setPushToken,
       }}
     >
       {children}
