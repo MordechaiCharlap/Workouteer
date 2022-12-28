@@ -1,3 +1,4 @@
+import { white } from "colorette";
 import { Platform, StyleSheet, StatusBar } from "react-native";
 import * as appStyle from "./AppStyleSheet";
 var style;
@@ -22,7 +23,9 @@ if (Platform.OS == "web") {
       height: "100%",
       flex: 1,
       backgroundColor: appStyle.appDarkBlue,
-      paddingTop: StatusBar.currentHeight,
+      borderTopColor: "white",
+      borderTopWidth: StatusBar.currentHeight,
+      // paddingTop: StatusBar.currentHeight,
     },
     newWorkoutScrollView: {
       backgroundColor: appStyle.appGray,
