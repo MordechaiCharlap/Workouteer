@@ -21,6 +21,7 @@ import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser, faPlus } from "@fortawesome/free-solid-svg-icons";
+import useNotifications from "../hooks/useNotifications";
 const LoginScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -29,6 +30,7 @@ const LoginScreen = () => {
     });
   }, []);
   const auth = firebase.auth;
+  const { pushToken } = useNotifications();
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -128,6 +130,7 @@ const LoginScreen = () => {
           birthdate: date,
           email: email.toLowerCase(),
           id: userCredential.user.uid,
+          pushToken: pushToken,
         };
         await firebase.createUser(newUserData);
         await firebase.createUserRequestsDocs(newUserData);
