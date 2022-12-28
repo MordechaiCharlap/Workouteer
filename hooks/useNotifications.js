@@ -25,6 +25,8 @@ export const NotificationsProvider = ({ children }) => {
       }
       if (!user.pushToken) {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
+        const updatedUser = { ...user, pushToken: token };
+        await firebase.updateUser(updatedUser);
         setPushToken(token);
       }
 
@@ -41,35 +43,33 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    if (user) {
-      registerForPushNotifications();
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: true,
-        }),
+    registerForPushNotifications();
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("notification: ", notification);
       });
-      // This listener is fired whenever a notification is received while the app is foregrounded
-      notificationListener.current =
-        Notifications.addNotificationReceivedListener((notification) => {
-          console.log("notification: ", notification);
-        });
 
-      // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-      responseListener.current =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log(response);
-        });
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
-      return () => {
-        if (responseListener) {
-          Notifications.removeNotificationSubscription(
-            notificationListener.current
-          );
-        }
-      };
-    }
+    return () => {
+      if (responseListener) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+    };
   }, [user]);
   const sendPushNotification = async (user, title, body, data) => {
     const userPushToken = "ExponentPushToken[Kj69RvHY1wZwilpLFvzBS3]";
