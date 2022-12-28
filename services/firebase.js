@@ -107,12 +107,14 @@ export const checkEmail = async (email) => {
 };
 export const userDataByEmail = async (email) => {
   var userData;
+  console.log("getting data on:", email);
   const q = query(collection(db, "users"), where("email", "==", email));
   await getDocs(q).then((snapshot) => {
     snapshot.forEach((doc) => {
       userData = doc.data();
     });
   });
+  console.log(userData);
   return userData;
 };
 export const userDataById = async (userId) => {
@@ -632,6 +634,6 @@ export const getPrivateChat = async (user, otherUser) => {
 };
 export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.usernameLower), {
-    user,
+    ...user,
   });
 };
