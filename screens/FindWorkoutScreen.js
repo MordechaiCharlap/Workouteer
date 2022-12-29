@@ -21,10 +21,10 @@ import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
 const FindWorkoutScreen = () => {
   const now = new Date();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigation = useNavigation();
-  const [country, setCountry] = useState(user.country);
-  const [city, setCity] = useState(null);
+  const [country, setCountry] = useState(user.defaultCountry);
+  const [city, setCity] = useState(user.defaultCity);
   const [type, setType] = useState(0);
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [minStartingTime, setMinStartingTime] = useState(null);
@@ -85,6 +85,13 @@ const FindWorkoutScreen = () => {
     }
   };
   const showResults = async () => {
+    var updatedUser = user;
+    if (!updatedUser.defaultCountry || updatedUser.defaultCountry != country)
+      updatedUser.defaultCountry = country;
+    if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
+      updatedUser.defaultCity = city;
+    await firebase.updateUser(updatedUser);
+    setUser(await firebase.updateContext(user.usernameLower));
     const preferences = {
       country: country,
       city: city,
