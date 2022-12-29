@@ -60,42 +60,45 @@ const ChatScreen = ({ route }) => {
   useEffect(() => {
     if (chat != null && messages.length == 0) {
       const membersMap = new Map(Object.entries(chat.members));
-      const joinDateTS = membersMap.get(user.usernameLower);
-      var messagesClone = messages.slice();
-      const q = query(
-        collection(db, `chats/${chat.id}/messages`),
-        where("sentAt", ">", joinDateTS),
-        orderBy("sentAt", "asc")
-      );
-      return onSnapshot(q, (querySnapshot) => {
-        querySnapshot.docChanges().map((change) => {
-          const messageDoc = change.doc.data();
-          if (change.type === "added") {
-            const newMessage = {
-              id: change.doc.id,
-              ...messageDoc,
-            };
-            messagesClone = [newMessage, ...messagesClone];
-          } else if (change.type === "modified") {
-            const modifiedMessage = {
-              id: change.doc.id,
-              ...messageDoc,
-            };
-            var messageInserted = false;
-            for (var i = 0; i < messagesClone.length; i++) {
-              if (messagesClone[i].id == modifiedMessage.id) {
-                messagesClone[i] = modifiedMessage;
-                messageInserted = true;
-                console.log(
-                  "message replaces succesfully:" + modifiedMessage.content
-                );
-                break;
-              }
-            }
-          }
-        });
-        setMessages(messagesClone.slice());
-      });
+      console.log(membersMap);
+      const userMap = new Map(Object.entries(membersMap));
+      console.log(userMap);
+      const joinDateTS = userMap.get(user.usernameLower);
+      // var messagesClone = messages.slice();
+      // const q = query(
+      //   collection(db, `chats/${chat.id}/messages`),
+      //   where("sentAt", ">", joinDateTS),
+      //   orderBy("sentAt", "asc")
+      // );
+      // return onSnapshot(q, (querySnapshot) => {
+      //   querySnapshot.docChanges().map((change) => {
+      //     const messageDoc = change.doc.data();
+      //     if (change.type === "added") {
+      //       const newMessage = {
+      //         id: change.doc.id,
+      //         ...messageDoc,
+      //       };
+      //       messagesClone = [newMessage, ...messagesClone];
+      //     } else if (change.type === "modified") {
+      //       const modifiedMessage = {
+      //         id: change.doc.id,
+      //         ...messageDoc,
+      //       };
+      //       var messageInserted = false;
+      //       for (var i = 0; i < messagesClone.length; i++) {
+      //         if (messagesClone[i].id == modifiedMessage.id) {
+      //           messagesClone[i] = modifiedMessage;
+      //           messageInserted = true;
+      //           console.log(
+      //             "message replaces succesfully:" + modifiedMessage.content
+      //           );
+      //           break;
+      //         }
+      //       }
+      //     }
+      //   });
+      //   setMessages(messagesClone.slice());
+      // });
     }
   }, [chat]);
   const messageSelected = (message) => {
@@ -132,13 +135,16 @@ const ChatScreen = ({ route }) => {
       console.log(chatData, " saved");
     }
   };
+  const leaveChat = async () => {
+    navigation.goBack();
+  };
   return (
     <SafeAreaView style={responsiveStyle.safeAreaStyle}>
       <View
         className="flex-row items-center pb-3 pt-2"
         style={{ backgroundColor: "#333946" }}
       >
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={leaveChat}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={40}
