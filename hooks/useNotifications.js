@@ -72,7 +72,7 @@ export const NotificationsProvider = ({ children }) => {
         );
       }
     };
-  }, [user]);
+  }, []);
   const sendPushNotification = async (user, title, body, data) => {
     const message = {
       to: user.pushToken,
