@@ -1,7 +1,6 @@
 import React from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import * as firebase from "../services/firebase";
-import { useEffect, useState } from "react";
 import {
   inMemoryPersistence,
   setPersistence,
@@ -10,7 +9,6 @@ import {
   signOut,
 } from "firebase/auth";
 import * as Google from "expo-auth-session/providers/google";
-import { Alert } from "react-native";
 
 const AuthContext = createContext({});
 
