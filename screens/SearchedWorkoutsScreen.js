@@ -1,5 +1,5 @@
-import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import { SafeAreaView } from "react-native";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
