@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
@@ -12,7 +12,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
 const NavbarButton = (props) => {
+  const { chatAlertsCount } = useAlerts();
   const { user, setUser } = useAuth();
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
@@ -34,11 +36,25 @@ const NavbarButton = (props) => {
         props.screen != props.currentScreen ? style.button : style.currentButton
       }
     >
-      <FontAwesomeIcon
-        icon={getIcon()}
-        size={props.screen == "Home" ? 40 : 30}
-        color={props.screen == "Home" ? "#c60f1a" : appStyle.appDarkBlue}
-      />
+      <View>
+        <FontAwesomeIcon
+          icon={getIcon()}
+          size={props.screen == "Home" ? 40 : 30}
+          color={props.screen == "Home" ? "#c60f1a" : appStyle.appDarkBlue}
+        />
+        {props.screen == "Chats" && chatAlertsCount && chatAlertsCount != 0 && (
+          <View
+            className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
+            style={{
+              backgroundColor: appStyle.appLightBlue,
+              borderColor: appStyle.appDarkBlue,
+              borderWidth: 0.5,
+            }}
+          >
+            <Text>{chatAlertsCount}</Text>
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };
