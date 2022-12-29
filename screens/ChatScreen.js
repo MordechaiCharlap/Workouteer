@@ -29,10 +29,12 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
+import useNotifications from "../hooks/useNotifications";
 const ChatScreen = ({ route }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
+  const { sendPushNotification } = useNotifications();
   const { user, setUser } = useAuth();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
@@ -115,6 +117,7 @@ const ChatScreen = ({ route }) => {
         chatData,
         content
       );
+
       const lastContent = await AsyncStorage.getItem(`chats/${chatData.id}`);
       if (lastContent)
         console.log("last savedChat was ", JSON.parse(lastContent));
