@@ -42,7 +42,7 @@ export const AuthPrvider = ({ children }) => {
             const chat = await firebase.getChat(chatId);
             console.log(chat);
             const membersMap = new Map(Object.entries(chat.members));
-            if (membersMap.get(user.usernameLower).unreadAlert) {
+            if (membersMap.get(userData.usernameLower).unreadAlert) {
               count++;
             }
           }
