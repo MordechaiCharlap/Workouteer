@@ -17,7 +17,6 @@ const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [message, setMessage] = useState();
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -29,16 +28,8 @@ export const AuthPrvider = ({ children }) => {
     webClientId:
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
-  useEffect(() => {
-    console.log("checking response");
-    if (response?.type === "success") {
-      setAccessToken(response.authentication.accessToken);
-      console.log("got success response!");
-    } else {
-      console.log("response unsuccesful:", response);
-    }
-  }, [response]);
-  useEffect(() => {
+  const addObserver = () => {
+    console.log("observer");
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const setUserAsync = async () => {
@@ -53,7 +44,33 @@ export const AuthPrvider = ({ children }) => {
         setInitialLoading(false);
       }
     });
-  }, []);
+  };
+
+  useEffect(() => {
+    console.log("checking response");
+    if (response?.type === "success") {
+      setAccessToken(response.authentication.accessToken);
+      console.log("got success response!");
+    } else {
+      console.log("response unsuccesful:", response);
+    }
+  }, [response]);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (authUser) => {
+  //     if (authUser) {
+  //       const setUserAsync = async () => {
+  //         setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+  //         console.log("state Changed, user logged in: " + authUser.email);
+  //         setInitialLoading(false);
+  //       };
+  //       setUserAsync();
+  //     } else {
+  //       setUser(null);
+  //       console.log("state Changed, user logged out");
+  //       setInitialLoading(false);
+  //     }
+  //   });
+  // }, []);
   async function getUserData() {
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
@@ -120,6 +137,7 @@ export const AuthPrvider = ({ children }) => {
         signInEmailPassword,
         signInGoogleAccount,
         userSignOut,
+        addObserver,
         initialLoading,
       }}
     >

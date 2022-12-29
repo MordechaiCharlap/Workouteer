@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -28,7 +28,10 @@ import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user } = useAuth();
+  const { user, addObserver } = useAuth();
+  useEffect(() => {
+    addObserver();
+  }, []);
   return (
     <Stack.Navigator>
       {user ? (
