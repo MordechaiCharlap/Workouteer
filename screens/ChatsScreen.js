@@ -154,6 +154,7 @@ const ChatsScreen = () => {
               backgroundColor: appStyle.appDarkBlue,
             }}
           >
+            <View className="absolute bg-white w-3 h-3 mt-auto mb-auto top-0 bottom-0"></View>
             <View className="flex-row">
               <Image
                 source={{
