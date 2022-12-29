@@ -647,8 +647,9 @@ export const getPrivateChat = async (user, otherUser) => {
   }
 };
 export const updateUser = async (user) => {
-  await setDoc(doc(db, "users", user.usernameLower), user);
+  await setDoc(doc(db, "users", user.usernameLower), ...user);
 };
+
 export const resetUnreadAlert = async (chat, user) => {
   await updateDoc(doc(db, "chats", chat.id), {
     [`members.${user.usernameLower}.unreadAlert`]: false,
