@@ -264,10 +264,7 @@ export const removeFriend = async (userId, otherUserId) => {
 const addChatConnection = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
     [`chatPals.${otherUserId}`]: chatId,
-    [`chats.${chatId}`]: {
-      joined: Timestamp.now(),
-      unreadAlert: true,
-    },
+    [`chats.${chatId}`]: Timestamp.now(),
   });
 };
 const getSeenByMapGroupChat = (senderId, chat) => {
@@ -290,8 +287,8 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
       members: {
-        [user.usernameLower]: Timestamp.now(),
-        [otherUser.usernameLower]: Timestamp.now(),
+        [user.usernameLower]: { joinDate: Timestamp.now() },
+        [otherUser.usernameLower]: { joinDate: Timestamp.now() },
       },
       messagesCount: 0,
     });
@@ -650,7 +647,7 @@ export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.usernameLower), user);
 };
 export const resetUnreadCounter = async (chat, user) => {
-  await updateDoc(doc(db, "chats", chat.id), {
-    [`members.${user.usernameLower}.unreadAlert`]: false,
+  await updateDoc(doc(db, "users", user.usernameLower), {
+    [`chats.${chat.id}.unreadAlert`]: false,
   });
 };
