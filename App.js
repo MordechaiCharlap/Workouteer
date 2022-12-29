@@ -3,6 +3,7 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./StackNavigator";
 import { AuthPrvider } from "./hooks/useAuth";
+import { AlertsProvider } from "./hooks/useAlerts";
 import { NotificationsProvider } from "./hooks/usePushNotifications";
 import { enableLatestRenderer } from "react-native-maps";
 import { initGeocoder } from "./geocoder";
@@ -16,9 +17,11 @@ export default function App() {
     <NavigationContainer>
       <AuthPrvider>
         <NotificationsProvider>
-          <TailwindProvider>
-            <StackNavigator />
-          </TailwindProvider>
+          <AlertsProvider>
+            <TailwindProvider>
+              <StackNavigator />
+            </TailwindProvider>
+          </AlertsProvider>
         </NotificationsProvider>
       </AuthPrvider>
     </NavigationContainer>
