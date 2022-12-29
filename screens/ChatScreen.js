@@ -117,7 +117,11 @@ const ChatScreen = ({ route }) => {
         chatData,
         content
       );
-
+      await sendPushNotification(
+        otherUser,
+        "New message",
+        `${user.displayName}: ${content}`
+      );
       const lastContent = await AsyncStorage.getItem(`chats/${chatData.id}`);
       if (lastContent)
         console.log("last savedChat was ", JSON.parse(lastContent));
