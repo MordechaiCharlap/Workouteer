@@ -105,6 +105,6 @@ export const NotificationsProvider = ({ children }) => {
     </NotificationsContext.Provider>
   );
 };
-export default function useNotifications() {
+export default function usePushNotifications() {
   return useContext(NotificationsContext);
 }

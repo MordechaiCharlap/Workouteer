@@ -29,12 +29,12 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
-import useNotifications from "../hooks/useNotifications";
+import usePushNotifications from "../hooks/usePushNotifications";
 const ChatScreen = ({ route }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  const { sendPushNotification } = useNotifications();
+  const { sendPushNotification } = usePushNotifications();
   const { user, setUser } = useAuth();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
