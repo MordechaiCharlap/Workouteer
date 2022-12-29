@@ -116,7 +116,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min font-bold"
               style={{ color: appStyle.appDarkBlue }}
             >
-              {user.notificationsCount}
+              {user.notificationsCount ? user.notificationsCount : 0}
             </Text>
           </TouchableOpacity>
         </View>
