@@ -133,6 +133,13 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
+    const isUnreadAlert = (chat) => {
+      const membersMap = new Map(Object.entries(chat.members));
+      if (membersMap.get(user.usernameLower).unreadAlert) {
+        return true;
+      }
+      return false;
+    };
     const lastMessageConverter = (lastMessage) => {
       var shownText =
         (lastMessage.sender == user.usernameLower
@@ -155,18 +162,21 @@ const ChatsScreen = () => {
               backgroundColor: appStyle.appDarkBlue,
             }}
           >
-            <View className="absolute m-2 p-2 h-full aspect-square right-10 items-center justify-center">
-              <View
-                className="rounded-full h-full aspect-square items-center justify-center"
-                style={{ backgroundColor: appStyle.appNeonAzure }}
-              >
-                <FontAwesomeIcon
-                  icon={faBell}
-                  size={30}
-                  color={appStyle.appDarkBlue}
-                />
+            {isUnreadAlert(item.chat) && (
+              <View className="absolute m-2 p-2 h-full aspect-square right-10 items-center justify-center">
+                <View
+                  className="rounded-full h-full aspect-square items-center justify-center"
+                  style={{ backgroundColor: appStyle.appNeonAzure }}
+                >
+                  <FontAwesomeIcon
+                    icon={faBell}
+                    size={30}
+                    color={appStyle.appDarkBlue}
+                  />
+                </View>
               </View>
-            </View>
+            )}
+
             <View className="flex-row">
               <Image
                 source={{
