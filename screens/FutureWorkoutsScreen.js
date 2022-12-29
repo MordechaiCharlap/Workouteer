@@ -12,7 +12,6 @@ const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -21,17 +20,12 @@ const FutureWorkoutsScreen = () => {
     });
   }, []);
   useEffect(() => {
-    const setLocation = async () => {
-      const location = await geoService.getCurrentLocation();
-      setCurrentLocation(location);
-    };
     const getWorkouts = async () => {
       console.log("getting workouts");
       const workoutsArr = await firebase.getFutureWorkouts(user, now);
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
-    setLocation();
     getWorkouts();
   }, []);
 
