@@ -101,14 +101,14 @@ const ChatScreen = ({ route }) => {
   };
   const sendMessage = async () => {
     if (messageText != "") {
+      const content = messageText;
+      setMessageText("");
       var chatData = chat;
       if (!chat) {
         chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
         setUser(await firebase.updateContext(user.usernameLower));
         setChat(chatData);
       }
-      const content = messageText;
-      setMessageText("");
       await firebase.sendPrivateMessage(
         user.usernameLower,
         otherUser.usernameLower,
