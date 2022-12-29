@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import * as Google from "expo-auth-session/providers/google";
+import useAlerts from "./useAlerts";
 
 const AuthContext = createContext({});
 
@@ -17,6 +18,7 @@ export const AuthPrvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
+  const [initialChatAlertsCount, setInitialChatAlertsCount] = useState(0);
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -46,6 +48,7 @@ export const AuthPrvider = ({ children }) => {
               count++;
             }
           }
+          setInitialChatAlertsCount(count);
           console.log("unread chats: ", count);
           console.log("state Changed, user logged in: " + authUser.email);
           setInitialLoading(false);
@@ -136,6 +139,7 @@ export const AuthPrvider = ({ children }) => {
         userSignOut,
         addObserver,
         initialLoading,
+        initialChatAlertsCount,
       }}
     >
       {children}
