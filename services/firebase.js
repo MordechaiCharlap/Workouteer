@@ -357,7 +357,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
   const chatsArr = [];
   const userChatsMap = new Map(Object.entries(user.chats));
   for (var chatId of userChatsMap.keys()) {
-    var chat = await getChat();
+    var chat = await getChat(chatId);
     var chatToPush = {
       chat: {
         id: `${chatId}`,
