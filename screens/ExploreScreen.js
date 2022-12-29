@@ -2,7 +2,6 @@ import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { React, useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
-import authContext from "../context/authContext";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import responsiveStyle from "../components/ResponsiveStyling";
