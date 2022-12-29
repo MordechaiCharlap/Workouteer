@@ -32,6 +32,9 @@ const WorkoutComponent = (props) => {
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
+      if (membersCount >= 10) setButtonText("Workout is full!");
+      else if (requestsCount >= 10) setButtonText("Requests are full");
+      else setButtonText("Request to join");
     } else {
       switch (membersMap.get(user.usernameLower)) {
         case true:
@@ -62,12 +65,6 @@ const WorkoutComponent = (props) => {
     }
     setRequests(requestsCount);
     setMembers(membersCount);
-
-    if (userMemberStatus == "not") {
-      if (membersCount == 10) setButtonText("Workout is full!");
-      else if (requestsCount == 10) setButtonText("Requests are full");
-      else setButtonText("Request to join");
-    }
   }, [membersMap]);
   useEffect(() => {
     if (props.location) {
