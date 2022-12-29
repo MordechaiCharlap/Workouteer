@@ -58,6 +58,12 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
+    const resetUnread = async () => {
+      await firebase.resetUnreadAlert(chat, user);
+    };
+    resetUnread();
+  }, []);
+  useEffect(() => {
     if (chat != null && messages.length == 0) {
       const membersMap = new Map(Object.entries(chat.members));
       const joinDateTS = membersMap.get(user.usernameLower).joinDate;
