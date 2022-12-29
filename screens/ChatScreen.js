@@ -133,6 +133,7 @@ const ChatScreen = ({ route }) => {
     }
   };
   const leaveChat = async () => {
+    await firebase.resetUnreadAlert(chat, user);
     navigation.goBack();
   };
   return (
