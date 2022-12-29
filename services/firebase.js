@@ -655,3 +655,9 @@ export const resetUnreadAlert = async (chat, user) => {
     [`members.${user.usernameLower}.unreadAlert`]: false,
   });
 };
+// export const fixUpdateUserBug = async () => {
+//   const userData = (await getDoc(doc(db, "users/fasteriko"))).data();
+//   const inside = userData.user;
+//   console.log(inside);
+//   await setDoc(doc(db, "users/fasteriko"), inside);
+// };
