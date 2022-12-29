@@ -152,6 +152,8 @@ export const createUser = async (newUserData) => {
     description: "",
     isPublic: true,
     showOnline: true,
+    defaultCity: null,
+    defaultCountry: null,
   });
 };
 export const createUserRequestsDocs = async (newUserData) => {
