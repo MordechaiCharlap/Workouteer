@@ -136,7 +136,7 @@ const ChatsScreen = () => {
       var shownText =
         (lastMessage.sender == user.usernameLower
           ? "You: "
-          : `${lastMessage.sender}:`) + lastMessage.content;
+          : `${lastMessage.sender}: `) + lastMessage.content;
       if (shownText.length > 35) shownText = shownText.slice(0, 35) + "...";
       return <Text style={{ color: "#c5c6c8" }}>{shownText}</Text>;
     };
