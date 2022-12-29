@@ -70,17 +70,11 @@ const HomeScreen = () => {
         </View>
         <View className="my-5 flex-row justify-around">
           <TouchableOpacity
-            onPress={async () =>
-              await sendPushNotification(
-                user,
-                "I`m a title",
-                "and I`m the body"
-              )
-            }
+            onPress={() => {}}
             className="p-2"
             style={{ backgroundColor: appStyle.appGray }}
           >
-            <Text>Send Notofication</Text>
+            <Text>Testing button</Text>
           </TouchableOpacity>
         </View>
       </View>
