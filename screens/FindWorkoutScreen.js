@@ -48,10 +48,12 @@ const FindWorkoutScreen = () => {
     updateCountries();
   }, []);
   useEffect(() => {
-    const updateCities = async () => {
-      setCitiesArr(await firebase.getCities(country));
-    };
-    updateCities();
+    if (country != null) {
+      const updateCities = async () => {
+        setCitiesArr(await firebase.getCities(country));
+      };
+      updateCities();
+    }
   }, [country]);
   useEffect(() => {
     if (
