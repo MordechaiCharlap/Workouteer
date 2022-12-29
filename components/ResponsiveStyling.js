@@ -1,4 +1,3 @@
-import { white } from "colorette";
 import { Platform, StyleSheet, StatusBar } from "react-native";
 import * as appStyle from "./AppStyleSheet";
 var style;
