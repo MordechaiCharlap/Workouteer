@@ -264,7 +264,10 @@ export const removeFriend = async (userId, otherUserId) => {
 const addChatConnection = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
     [`chatPals.${otherUserId}`]: chatId,
-    [`chats.${chatId}`]: Timestamp.now(),
+    [`chats.${chatId}`]: {
+      joined: Timestamp.now(),
+      unreadAlert: true,
+    },
   });
 };
 const getSeenByMapGroupChat = (senderId, chat) => {
@@ -330,6 +333,14 @@ export const sendPrivateMessage = async (
     collection(db, `chats/${chat.id}/messages`),
     message
   );
+  const membersMap = new Map(Object.entries(chat.members));
+  for (var value of membersMap.values()) {
+    const valueMap = new Map(Object.entries(value));
+    valueMap.unreadAlert = true;
+  }
+  let newArray = membersMap.entries();
+
+  let newObject = Object.fromEntries(newArray);
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
@@ -339,6 +350,7 @@ export const sendPrivateMessage = async (
       id: newMessage.id,
     },
     messagesCount: increment(1),
+    members: newObject,
   });
 };
 export const getChatsArrayIncludeUsers = async (user) => {
@@ -636,4 +648,9 @@ export const getPrivateChat = async (user, otherUser) => {
 };
 export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.usernameLower), user);
+};
+export const resetUnreadCounter = async (chat, user) => {
+  await updateDoc(doc(db, "chats", chat.id), {
+    [`members.${user.usernameLower}.unreadAlert`]: false,
+  });
 };
