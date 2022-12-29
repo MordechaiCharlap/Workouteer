@@ -15,6 +15,7 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
+  faBell,
   faMagnifyingGlass,
   faPenToSquare,
   faArrowLeft,
@@ -154,7 +155,18 @@ const ChatsScreen = () => {
               backgroundColor: appStyle.appDarkBlue,
             }}
           >
-            <View className="absolute bg-white w-3 h-3 mt-auto mb-auto top-0 bottom-0"></View>
+            <View className="absolute m-2 p-2 h-full aspect-square right-10 items-center justify-center">
+              <View
+                className="rounded-full h-full aspect-square items-center justify-center"
+                style={{ backgroundColor: appStyle.appNeonAzure }}
+              >
+                <FontAwesomeIcon
+                  icon={faBell}
+                  size={30}
+                  color={appStyle.appDarkBlue}
+                />
+              </View>
+            </View>
             <View className="flex-row">
               <Image
                 source={{
