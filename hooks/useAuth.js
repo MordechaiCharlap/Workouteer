@@ -70,22 +70,6 @@ export const AuthPrvider = ({ children }) => {
       console.log("response unsuccesful:", response);
     }
   }, [response]);
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (authUser) => {
-  //     if (authUser) {
-  //       const setUserAsync = async () => {
-  //         setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
-  //         console.log("state Changed, user logged in: " + authUser.email);
-  //         setInitialLoading(false);
-  //       };
-  //       setUserAsync();
-  //     } else {
-  //       setUser(null);
-  //       console.log("state Changed, user logged out");
-  //       setInitialLoading(false);
-  //     }
-  //   });
-  // }, []);
   async function getUserData() {
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
