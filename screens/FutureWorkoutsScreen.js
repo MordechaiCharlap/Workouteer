@@ -6,7 +6,6 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
-import * as geoService from "../services/geoService";
 import LoadingAnimation from "../components/LoadingAnimation";
 const FutureWorkoutsScreen = () => {
   const { user } = useAuth();
