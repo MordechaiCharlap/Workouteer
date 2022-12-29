@@ -33,7 +33,22 @@ export const AuthPrvider = ({ children }) => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const setUserAsync = async () => {
-          setUser(await firebase.userDataByEmail(authUser.email.toLowerCase()));
+          const userData = await firebase.userDataByEmail(
+            authUser.email.toLowerCase()
+          );
+          setUser(userData);
+          const chats = new Map(Object.entries(userData.chats));
+          console.log("chats: ", chats);
+          var count = 0;
+          for (var chatId of chats.keys()) {
+            const chat = await firebase.getChat(chatId);
+            console.log(chat);
+            const membersMap = new Map(Object.entries(chat.members));
+            if (membersMap.get(user.usernameLower).unreadAlert) {
+              count++;
+            }
+          }
+          console.log("unread chats: ", count);
           console.log("state Changed, user logged in: " + authUser.email);
           setInitialLoading(false);
         };
