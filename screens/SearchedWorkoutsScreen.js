@@ -3,10 +3,6 @@ import React, { useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
-import WorkoutType from "../components/WorkoutType";
-import WorkoutStartingTime from "../components/WorkoutStartingTime";
-import { useEffect } from "react";
-import * as appStyle from "../components/AppStyleSheet";
 import { FlatList } from "react-native-gesture-handler";
 import WorkoutComponent from "../components/WorkoutComponent";
 const SearchedWorkoutsScreen = ({ route }) => {
