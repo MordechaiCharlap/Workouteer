@@ -64,41 +64,41 @@ const ChatScreen = ({ route }) => {
       const userMap = new Map(Object.entries(membersMap));
       console.log(userMap);
       const joinDateTS = userMap.get(user.usernameLower);
-      // var messagesClone = messages.slice();
-      // const q = query(
-      //   collection(db, `chats/${chat.id}/messages`),
-      //   where("sentAt", ">", joinDateTS),
-      //   orderBy("sentAt", "asc")
-      // );
-      // return onSnapshot(q, (querySnapshot) => {
-      //   querySnapshot.docChanges().map((change) => {
-      //     const messageDoc = change.doc.data();
-      //     if (change.type === "added") {
-      //       const newMessage = {
-      //         id: change.doc.id,
-      //         ...messageDoc,
-      //       };
-      //       messagesClone = [newMessage, ...messagesClone];
-      //     } else if (change.type === "modified") {
-      //       const modifiedMessage = {
-      //         id: change.doc.id,
-      //         ...messageDoc,
-      //       };
-      //       var messageInserted = false;
-      //       for (var i = 0; i < messagesClone.length; i++) {
-      //         if (messagesClone[i].id == modifiedMessage.id) {
-      //           messagesClone[i] = modifiedMessage;
-      //           messageInserted = true;
-      //           console.log(
-      //             "message replaces succesfully:" + modifiedMessage.content
-      //           );
-      //           break;
-      //         }
-      //       }
-      //     }
-      //   });
-      //   setMessages(messagesClone.slice());
-      // });
+      var messagesClone = messages.slice();
+      const q = query(
+        collection(db, `chats/${chat.id}/messages`),
+        where("sentAt", ">", joinDateTS),
+        orderBy("sentAt", "asc")
+      );
+      return onSnapshot(q, (querySnapshot) => {
+        querySnapshot.docChanges().map((change) => {
+          const messageDoc = change.doc.data();
+          if (change.type === "added") {
+            const newMessage = {
+              id: change.doc.id,
+              ...messageDoc,
+            };
+            messagesClone = [newMessage, ...messagesClone];
+          } else if (change.type === "modified") {
+            const modifiedMessage = {
+              id: change.doc.id,
+              ...messageDoc,
+            };
+            var messageInserted = false;
+            for (var i = 0; i < messagesClone.length; i++) {
+              if (messagesClone[i].id == modifiedMessage.id) {
+                messagesClone[i] = modifiedMessage;
+                messageInserted = true;
+                console.log(
+                  "message replaces succesfully:" + modifiedMessage.content
+                );
+                break;
+              }
+            }
+          }
+        });
+        setMessages(messagesClone.slice());
+      });
     }
   }, [chat]);
   const messageSelected = (message) => {
