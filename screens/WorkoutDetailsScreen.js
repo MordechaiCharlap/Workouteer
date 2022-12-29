@@ -302,9 +302,15 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View>
                         <Text
                           style={{ color: appStyle.appDarkBlue }}
+                          className="text-lg text-center"
+                        >
+                          {workout.country}, {workout.city}
+                        </Text>
+                        <Text
+                          style={{ color: appStyle.appDarkBlue }}
                           className="text-center"
                         >
-                          Location would be shown only for members.
+                          Exact location would be shown only for members.
                         </Text>
                       </View>
                     )}
@@ -313,7 +319,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
             />
           </View>
-          {!isPastWorkout && membersArray.length < 10 && (
+          {isCreator && !isPastWorkout && membersArray.length < 10 && (
             <TouchableOpacity
               className="rounded p-1 my-1"
               style={{ backgroundColor: appStyle.appNeonAzure }}
