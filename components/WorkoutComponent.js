@@ -148,7 +148,7 @@ const WorkoutComponent = (props) => {
             color: appStyle.appDarkBlue,
           }}
         >
-          {isCreator ? "Your " : props.workout.creator + "'s"}
+          {isCreator ? "Your " : props.workout.creator + "'s "}
           workout
         </Text>
       </View>
