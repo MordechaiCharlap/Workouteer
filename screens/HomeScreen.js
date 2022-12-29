@@ -1,5 +1,5 @@
 import { SafeAreaView, View, TouchableOpacity, Text } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
@@ -12,22 +12,19 @@ import {
   faUserGroup,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import useNotifications from "../hooks/useNotifications";
-import useAuth from "../hooks/useAuth";
 const HomeScreen = () => {
-  const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const { sendPushNotification } = useNotifications();
   const buttonStyle = {
     color: appStyle.appGray,
     backgroundColor: appStyle.appAzure,
     iconSize: 40,
   };
+
   return (
     <SafeAreaView style={style.safeAreaStyle}>
       <View className="flex-1 p-3">
