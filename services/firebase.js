@@ -287,8 +287,11 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
       members: {
-        [user.usernameLower]: { joinDate: Timestamp.now() },
-        [otherUser.usernameLower]: { joinDate: Timestamp.now() },
+        [user.usernameLower]: { joinDate: Timestamp.now(), unreadAlert: true },
+        [otherUser.usernameLower]: {
+          joinDate: Timestamp.now(),
+          unreadAlert: true,
+        },
       },
       messagesCount: 0,
     });
@@ -646,8 +649,8 @@ export const getPrivateChat = async (user, otherUser) => {
 export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.usernameLower), user);
 };
-export const resetUnreadCounter = async (chat, user) => {
-  await updateDoc(doc(db, "users", user.usernameLower), {
-    [`chats.${chat.id}.unreadAlert`]: false,
+export const resetUnreadAlert = async (chat, user) => {
+  await updateDoc(doc(db, "chats", chat.id), {
+    [`members.${user.usernameLower}.unreadAlert`]: false,
   });
 };
