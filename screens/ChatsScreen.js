@@ -10,7 +10,13 @@ import {
   StyleSheet,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useState, useCallback } from "react";
+import {
+  React,
+  useLayoutEffect,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -47,6 +53,44 @@ const ChatsScreen = () => {
       getChats();
     }, [])
   );
+  // useEffect(() => {
+  //   if (chatsArr != null) {
+  //     const q = query(
+  //       collection(db, `chats/${chat.id}/messages`),
+  //       where("sentAt", ">", joinDateTS),
+  //       orderBy("sentAt", "asc")
+  //     );
+  //     return onSnapshot(q, (querySnapshot) => {
+  //       querySnapshot.docChanges().map((change) => {
+  //         const messageDoc = change.doc.data();
+  //         if (change.type === "added") {
+  //           const newMessage = {
+  //             id: change.doc.id,
+  //             ...messageDoc,
+  //           };
+  //           messagesClone = [newMessage, ...messagesClone];
+  //         } else if (change.type === "modified") {
+  //           const modifiedMessage = {
+  //             id: change.doc.id,
+  //             ...messageDoc,
+  //           };
+  //           var messageInserted = false;
+  //           for (var i = 0; i < messagesClone.length; i++) {
+  //             if (messagesClone[i].id == modifiedMessage.id) {
+  //               messagesClone[i] = modifiedMessage;
+  //               messageInserted = true;
+  //               console.log(
+  //                 "message replaces succesfully:" + modifiedMessage.content
+  //               );
+  //               break;
+  //             }
+  //           }
+  //         }
+  //       });
+  //       setMessages(messagesClone.slice());
+  //     });
+  //   }
+  // }, [chat]);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
