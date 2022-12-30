@@ -1,9 +1,7 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import responsiveStyle from "../components/ResponsiveStyling";
-import * as appStyle from "../components/AppStyleSheet";
-import * as firebase from "../services/firebase";
 import Header from "../components/Header";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 const FriendsWorkoutsScreen = () => {
