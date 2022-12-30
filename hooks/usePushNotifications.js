@@ -9,6 +9,36 @@ export const NotificationsProvider = ({ children }) => {
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user, setUser } = useAuth();
+  const notificationListenerFunction = async () => {
+    console.log("registering for notifications");
+    await registerForPushNotifications();
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("notification: ", notification);
+      });
+
+    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("response: ", response);
+      });
+
+    return () => {
+      if (responseListener) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+    };
+  };
   const registerForPushNotifications = async () => {
     if (Device.isDevice) {
       const { status: existingStatus } =
@@ -45,33 +75,31 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    registerForPushNotifications();
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-      }),
-    });
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        console.log("notification: ", notification);
-      });
-
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("response: ", response);
-      });
-
-    return () => {
-      if (responseListener) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      }
-    };
+    // registerForPushNotifications();
+    // Notifications.setNotificationHandler({
+    //   handleNotification: async () => ({
+    //     shouldShowAlert: true,
+    //     shouldPlaySound: true,
+    //     shouldSetBadge: true,
+    //   }),
+    // });
+    // // This listener is fired whenever a notification is received while the app is foregrounded
+    // notificationListener.current =
+    //   Notifications.addNotificationReceivedListener((notification) => {
+    //     console.log("notification: ", notification);
+    //   });
+    // // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    // responseListener.current =
+    //   Notifications.addNotificationResponseReceivedListener((response) => {
+    //     console.log("response: ", response);
+    //   });
+    // return () => {
+    //   if (responseListener) {
+    //     Notifications.removeNotificationSubscription(
+    //       notificationListener.current
+    //     );
+    //   }
+    // };
   }, []);
   const sendPushNotification = async (user, title, body, data) => {
     const message = {
@@ -99,6 +127,7 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotification,
         pushToken,
         setPushToken,
+        notificationListenerFunction,
       }}
     >
       {children}
