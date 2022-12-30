@@ -26,11 +26,14 @@ import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
 import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
+import usePushNotifications from "./hooks/usePushNotifications";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addObserver } = useAuth();
+  const { notificationListenerFunction } = usePushNotifications();
   useEffect(() => {
     addObserver();
+    notificationListenerFunction();
   }, []);
   return (
     <Stack.Navigator>
