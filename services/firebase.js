@@ -114,7 +114,6 @@ export const userDataByEmail = async (email) => {
       userData = doc.data();
     });
   });
-  console.log(userData);
   return userData;
 };
 export const userDataById = async (userId) => {

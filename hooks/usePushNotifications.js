@@ -41,7 +41,7 @@ export const NotificationsProvider = ({ children }) => {
         });
       }
     } else {
-      alert("Must use physical device for Push Notifications");
+      // alert("Must use physical device for Push Notifications");
     }
   };
   useEffect(() => {
