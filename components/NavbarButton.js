@@ -42,16 +42,16 @@ const NavbarButton = (props) => {
           size={props.screen == "Home" ? 40 : 30}
           color={props.screen == "Home" ? "#c60f1a" : appStyle.appDarkBlue}
         />
-        {props.screen == "Chats" && chatAlertsCount != 0 && (
+        {props.screen == "Chats" && chatAlertsCount == 0 && (
           <View
             className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
             style={{
-              backgroundColor: appStyle.appLightBlue,
+              backgroundColor: appStyle.appRed,
               borderColor: appStyle.appDarkBlue,
-              borderWidth: 1,
+              borderWidth: 2,
             }}
           >
-            <Text className="text-xs">{chatAlertsCount}</Text>
+            {/* <Text className="text-xs">{chatAlertsCount}</Text> */}
           </View>
         )}
       </View>
