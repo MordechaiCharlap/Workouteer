@@ -55,6 +55,10 @@
         "android.permission.CAMERA"
       ]
     },
+    "androidStatusBar": {
+      "backgroundColor": "#8ecae6",
+      "translucent": false
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
