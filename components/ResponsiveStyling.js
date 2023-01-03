@@ -1,4 +1,5 @@
 import { Platform, StyleSheet, StatusBar } from "react-native";
+import * as Device from "expo-device";
 import * as appStyle from "./AppStyleSheet";
 var style;
 if (Platform.OS == "web") {
@@ -17,20 +18,38 @@ if (Platform.OS == "web") {
     },
   });
 } else if (Platform.OS == "android")
-  style = StyleSheet.create({
-    safeAreaStyle: {
-      height: "100%",
-      flex: 1,
-      backgroundColor: appStyle.appDarkBlue,
-      borderTopColor: appStyle.appLightBlue,
-      borderTopWidth: StatusBar.currentHeight,
-      // paddingTop: StatusBar.currentHeight,
-    },
-    newWorkoutScrollView: {
-      backgroundColor: appStyle.appGray,
-      width: "90%",
-    },
-  });
+  if (Device.isDevice) {
+    style = StyleSheet.create({
+      safeAreaStyle: {
+        height: "100%",
+        flex: 1,
+        backgroundColor: appStyle.appDarkBlue,
+        borderTopColor: appStyle.appLightBlue,
+        borderTopWidth: StatusBar.currentHeight,
+        //paddingTop: StatusBar.currentHeight,
+      },
+      newWorkoutScrollView: {
+        backgroundColor: appStyle.appGray,
+        width: "90%",
+      },
+    });
+  } else {
+    style = StyleSheet.create({
+      safeAreaStyle: {
+        height: "100%",
+        flex: 1,
+        backgroundColor: appStyle.appDarkBlue,
+        //borderTopColor: appStyle.appLightBlue,
+        //borderTopWidth: StatusBar.currentHeight,
+        // paddingTop: StatusBar.currentHeight,
+      },
+      newWorkoutScrollView: {
+        backgroundColor: appStyle.appGray,
+        width: "90%",
+      },
+    });
+  }
+
 export default style;
 
 export const ResponsiveShadow =
