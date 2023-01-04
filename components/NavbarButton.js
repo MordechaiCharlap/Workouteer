@@ -44,7 +44,7 @@ const NavbarButton = (props) => {
             props.screen == "Home" ? appStyle.appRed : appStyle.appDarkBlue
           }
         />
-        {props.screen == "Chats" && chatAlertsCount == 0 && (
+        {props.screen == "Chats" && chatAlertsCount != 0 && (
           <View
             className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
             style={{
