@@ -5,7 +5,7 @@ import * as appStyle from "./AppStyleSheet";
 import useAlerts from "../hooks/useAlerts";
 const BottomNavbar = (props) => {
   const {
-    chatAlerts,
+    chatsAlerts,
     workoutRequestsAlerts,
     workoutInvitesAlerts,
     friendRequestsAlerts,
@@ -25,7 +25,7 @@ const BottomNavbar = (props) => {
       <NavbarButton
         screen="Chats"
         currentScreen={props.currentScreen}
-        alert={chatAlerts}
+        alert={chatsAlerts}
       />
       <NavbarButton
         screen="Explore"

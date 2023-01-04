@@ -52,9 +52,7 @@ const NavbarButton = (props) => {
                 borderColor: appStyle.appDarkBlue,
                 borderWidth: 2,
               }}
-            >
-              {/* <Text className="text-xs">{chatAlertsCount}</Text> */}
-            </View>
+            ></View>
           )}
       </View>
     </TouchableOpacity>

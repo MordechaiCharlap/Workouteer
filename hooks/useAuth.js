@@ -19,10 +19,9 @@ export const AuthPrvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
-  const [initialChatAlertsCount, setInitialChatAlertsCount] = useState(0);
   const [user, setUser] = useState(null);
   const {
-    setChatAlerts,
+    setChatsAlerts,
     setWorkoutRequestsAlerts,
     setWorkoutInvitesAlerts,
     setFriendRequestsAlerts,
@@ -53,7 +52,7 @@ export const AuthPrvider = ({ children }) => {
                 userData.usernameLower
               );
               const alertsData = doc.data();
-              setChatAlerts(alertsData.chats);
+              setChatsAlerts(alertsData.chats);
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
               setWorkoutInvitesAlerts(alertsData.workoutInvites);
               setFriendRequestsAlerts(alertsData.friendRequests);
@@ -162,7 +161,6 @@ export const AuthPrvider = ({ children }) => {
         userSignOut,
         addObserver,
         initialLoading,
-        initialChatAlertsCount,
       }}
     >
       {children}

@@ -27,12 +27,14 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
+import useAlerts from "../hooks/useAlerts";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
   const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
+  const { chatsAlerts } = useAlerts();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
