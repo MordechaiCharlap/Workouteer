@@ -12,9 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-import useAlerts from "../hooks/useAlerts";
 const NavbarButton = (props) => {
-  const chatAlertsCount = 0;
   const { user, setUser } = useAuth();
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
@@ -44,18 +42,20 @@ const NavbarButton = (props) => {
             props.screen == "Home" ? appStyle.appRed : appStyle.appDarkBlue
           }
         />
-        {props.screen == "Chats" && chatAlertsCount != 0 && (
-          <View
-            className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
-            style={{
-              backgroundColor: appStyle.appRed,
-              borderColor: appStyle.appDarkBlue,
-              borderWidth: 2,
-            }}
-          >
-            {/* <Text className="text-xs">{chatAlertsCount}</Text> */}
-          </View>
-        )}
+        {props.screen != "Home" &&
+          props.alert != null &&
+          props.alert == false && (
+            <View
+              className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
+              style={{
+                backgroundColor: appStyle.appRed,
+                borderColor: appStyle.appDarkBlue,
+                borderWidth: 2,
+              }}
+            >
+              {/* <Text className="text-xs">{chatAlertsCount}</Text> */}
+            </View>
+          )}
       </View>
     </TouchableOpacity>
   );
