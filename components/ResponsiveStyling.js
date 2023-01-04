@@ -13,26 +13,13 @@ if (Platform.OS == "web") {
     },
   });
 } else if (Platform.OS == "android")
-  if (Device.isDevice) {
-    style = StyleSheet.create({
-      safeAreaStyle: {
-        height: "100%",
-        flex: 1,
-        backgroundColor: appStyle.appDarkBlue,
-        borderTopColor: appStyle.appLightBlue,
-        borderTopWidth: StatusBar.currentHeight,
-      },
-    });
-  } else {
-    style = StyleSheet.create({
-      safeAreaStyle: {
-        height: "100%",
-        flex: 1,
-        backgroundColor: appStyle.appDarkBlue,
-      },
-    });
-  }
-
+  style = StyleSheet.create({
+    safeAreaStyle: {
+      height: "100%",
+      flex: 1,
+      backgroundColor: appStyle.appDarkBlue,
+    },
+  });
 export default style;
 
 export const ResponsiveShadow =
