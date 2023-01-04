@@ -135,13 +135,6 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
-    const isUnreadAlert = (chat) => {
-      const membersMap = new Map(Object.entries(chat.members));
-      if (membersMap.get(user.usernameLower).unreadAlert) {
-        return true;
-      }
-      return false;
-    };
     const lastMessageConverter = (lastMessage) => {
       var shownText =
         (lastMessage.sender == user.usernameLower
