@@ -109,7 +109,11 @@ const ChatsScreen = () => {
       if (selectedChat.chat.isGroupChat) {
         await firebase.deleteGroupChatForUser(user, selectedChat);
       } else {
-        await firebase.deletePrivateChatForUser(user, selectedChat);
+        await firebase.deletePrivateChatForUser(
+          user,
+          selectedChat,
+          chatsAlerts[selectedChat.chat.id]
+        );
       }
     }
     setChatsArr(chatsArrClone);
