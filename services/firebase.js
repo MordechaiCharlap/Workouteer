@@ -291,10 +291,9 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
       members: {
-        [user.usernameLower]: { joinDate: Timestamp.now(), unreadAlert: true },
+        [user.usernameLower]: { joinDate: Timestamp.now() },
         [otherUser.usernameLower]: {
           joinDate: Timestamp.now(),
-          unreadAlert: true,
         },
       },
       messagesCount: 0,
@@ -340,7 +339,6 @@ export const sendPrivateMessage = async (
   const membersMap = new Map(Object.entries(chat.members));
   for (var [key, value] of membersMap) {
     if (key != userId) {
-      value.unreadAlert = true;
       addChatAlert(key, chat.id);
       membersMap.set(key, value);
       console.log("new memberObject:", membersMap);
@@ -668,11 +666,6 @@ export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.usernameLower), ...user);
 };
 
-export const resetUnreadAlert = async (chat, user) => {
-  await updateDoc(doc(db, "chats", chat.id), {
-    [`members.${user.usernameLower}.unreadAlert`]: false,
-  });
-};
 export const addChatAlert = async (userId, chatId) => {
   await updateDoc(doc(db, "alerts", userId), {
     [`chats.${chatId}`]: increment(1),
