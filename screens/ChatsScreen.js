@@ -163,17 +163,15 @@ const ChatsScreen = () => {
             }}
           >
             {isUnreadAlert(item.chat) && (
-              <View className="absolute m-2 p-2 h-full aspect-square right-10 items-center justify-center">
+              <View className="absolute h-full aspect-square right-5 top-4 items-center justify-center">
                 <View
-                  className="rounded-full h-full aspect-square items-center justify-center"
-                  style={{ backgroundColor: appStyle.appNeonAzure }}
-                >
-                  <FontAwesomeIcon
-                    icon={faBell}
-                    size={30}
-                    color={appStyle.appDarkBlue}
-                  />
-                </View>
+                  className="rounded-full h-10 aspect-square items-center justify-center"
+                  style={{
+                    backgroundColor: appStyle.appRed,
+                    borderWidth: 5,
+                    borderColor: appStyle.appDarkBlue,
+                  }}
+                ></View>
               </View>
             )}
 
