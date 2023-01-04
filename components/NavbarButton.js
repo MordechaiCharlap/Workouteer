@@ -40,7 +40,9 @@ const NavbarButton = (props) => {
         <FontAwesomeIcon
           icon={getIcon()}
           size={props.screen == "Home" ? 40 : 30}
-          color={props.screen == "Home" ? "#c60f1a" : appStyle.appDarkBlue}
+          color={
+            props.screen == "Home" ? appStyle.appRed : appStyle.appDarkBlue
+          }
         />
         {props.screen == "Chats" && chatAlertsCount == 0 && (
           <View
