@@ -47,10 +47,6 @@ export const AuthPrvider = ({ children }) => {
           unsubscribeAlertsListener = onSnapshot(
             doc(db, "alerts", userData.usernameLower),
             (doc) => {
-              console.log(
-                "Alert document updated for ",
-                userData.usernameLower
-              );
               const alertsData = doc.data();
               setChatsAlerts(alertsData.chats);
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
@@ -58,19 +54,6 @@ export const AuthPrvider = ({ children }) => {
               setFriendRequestsAlerts(alertsData.friendRequests);
             }
           );
-          // const chats = new Map(Object.entries(userData.chats));
-          // console.log("chats: ", chats);
-          // var count = 0;
-          // for (var chatId of chats.keys()) {
-          //   const chat = await firebase.getChat(chatId);
-          //   console.log(chat);
-          //   const membersMap = new Map(Object.entries(chat.members));
-          //   if (membersMap.get(userData.usernameLower).unreadAlert) {
-          //     count++;
-          //   }
-          // }
-          // setInitialChatAlertsCount(count);
-          // console.log("unread chats: ", count);
           console.log("state Changed, user logged in: " + authUser.email);
           setInitialLoading(false);
         };
