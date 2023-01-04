@@ -1,4 +1,4 @@
-import { View, View } from "react-native";
+import { View } from "react-native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import React, { useLayoutEffect } from "react";

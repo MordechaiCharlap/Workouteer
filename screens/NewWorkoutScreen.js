@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, View } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";

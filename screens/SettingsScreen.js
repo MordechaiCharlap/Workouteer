@@ -1,4 +1,4 @@
-import { View, Text, View, TouchableOpacity, Switch } from "react-native";
+import { Text, View, TouchableOpacity, Switch } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";

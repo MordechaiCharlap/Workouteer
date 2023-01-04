@@ -1,4 +1,4 @@
-import { View, View, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";

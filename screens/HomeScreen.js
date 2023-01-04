@@ -1,5 +1,5 @@
-import { View, View, TouchableOpacity, Text } from "react-native";
-import React, { useLayoutEffect, useEffect } from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";

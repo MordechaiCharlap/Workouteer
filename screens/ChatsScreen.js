@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   View,
   TouchableOpacity,
@@ -15,7 +14,6 @@ import {
   useLayoutEffect,
   useState,
   useCallback,
-  useEffect,
 } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
