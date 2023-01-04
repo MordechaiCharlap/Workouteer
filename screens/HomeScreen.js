@@ -67,16 +67,12 @@ const HomeScreen = () => {
             navigateScreen="FriendsWorkouts"
             icon={faUserGroup}
           />
-          <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
-        </View>
-        <View className="my-5 flex-row justify-around">
-          <TouchableOpacity
-            onPress={() => {}}
-            className="p-2"
-            style={{ backgroundColor: appStyle.appGray }}
-          >
-            <Text>Testing button</Text>
-          </TouchableOpacity>
+          <HomeScreenButton
+            buttonText="WORKOUT INVITES"
+            style={buttonStyle}
+            navigateScreen="FriendsWorkouts"
+            icon={faUserGroup}
+          />
         </View>
       </View>
       <BottomNavbar currentScreen="Home" />
