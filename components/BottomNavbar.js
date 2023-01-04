@@ -25,7 +25,7 @@ const BottomNavbar = (props) => {
       <NavbarButton
         screen="Chats"
         currentScreen={props.currentScreen}
-        alert={chatsAlerts.size != 0}
+        alert={Object.keys(chatsAlerts).length != 0}
       />
       <NavbarButton
         screen="Explore"
