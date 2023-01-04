@@ -48,6 +48,10 @@ export const AuthPrvider = ({ children }) => {
           unsubscribeAlertsListener = onSnapshot(
             doc(db, "alerts", userData.usernameLower),
             (doc) => {
+              console.log(
+                "Alert document updated for ",
+                userData.usernameLower
+              );
               const alertsData = doc.data();
               setChatAlerts(alertsData.chats);
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
@@ -74,6 +78,7 @@ export const AuthPrvider = ({ children }) => {
         setUserAsync();
       } else {
         setUser(null);
+        unsubscribeAlertsListener();
         console.log("state Changed, user logged out");
         setInitialLoading(false);
       }
