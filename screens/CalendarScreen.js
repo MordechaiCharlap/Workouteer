@@ -1,9 +1,9 @@
-import { View, Text,StatusBar } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
-
+import * as appStyle from "../components/AppStyleSheet";
 const CalendarScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
