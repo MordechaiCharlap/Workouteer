@@ -164,8 +164,8 @@ const ChatsScreen = () => {
               backgroundColor: appStyle.appDarkBlue,
             }}
           >
-            {isUnreadAlert(item.chat) && (
-              <View className="absolute h-full aspect-square right-5 top-4 items-center justify-center">
+            {chatsAlerts[item.chat.id] && (
+              <View className="absolute h-full aspect-square right-10 items-center justify-center">
                 <View
                   className="rounded-full h-10 aspect-square items-center justify-center"
                   style={{
@@ -173,7 +173,14 @@ const ChatsScreen = () => {
                     borderWidth: 5,
                     borderColor: appStyle.appDarkBlue,
                   }}
-                ></View>
+                >
+                  <Text
+                    className="font-semibold"
+                    style={{ color: appStyle.appDarkBlue }}
+                  >
+                    {chatsAlerts[item.chat.id]}
+                  </Text>
+                </View>
               </View>
             )}
 
