@@ -502,12 +502,19 @@ const removeUserFromMembersOrDeleteChat = async (user, chat) => {
     });
   }
 };
-export const deletePrivateChatForUser = async (user, chatAndUserItem) => {
+export const deletePrivateChatForUser = async (
+  user,
+  chatAndUserItem,
+  chatAlerts
+) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
     [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
     [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
   });
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
+  if (chatAlerts) {
+    await removeChatAlerts(user.usernameLower, chatAndUserItem.chat);
+  }
 };
 export const deleteGroupChatForUser = async (user, chat) => {
   await updateDoc(doc(db, "users", user.usernameLower), {
@@ -669,6 +676,11 @@ export const resetUnreadAlert = async (chat, user) => {
 export const addChatAlert = async (userId, chatId) => {
   await updateDoc(doc(db, "alerts", userId), {
     [`chats.${chatId}`]: increment(1),
+  });
+};
+export const removeChatAlerts = async (userId, chatId) => {
+  await updateDoc(doc(db, "alerts", userId), {
+    [`chats.${chatId}`]: deleteField(),
   });
 };
 // export const fixUpdateUserBug = async () => {
