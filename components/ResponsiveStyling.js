@@ -21,7 +21,6 @@ if (Platform.OS == "web") {
         backgroundColor: appStyle.appDarkBlue,
         borderTopColor: appStyle.appLightBlue,
         borderTopWidth: StatusBar.currentHeight,
-        //paddingTop: StatusBar.currentHeight,
       },
     });
   } else {
@@ -30,9 +29,6 @@ if (Platform.OS == "web") {
         height: "100%",
         flex: 1,
         backgroundColor: appStyle.appDarkBlue,
-        //borderTopColor: appStyle.appLightBlue,
-        //borderTopWidth: StatusBar.currentHeight,
-        // paddingTop: StatusBar.currentHeight,
       },
     });
   }
