@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  StatusBar,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -65,6 +66,10 @@ const LoginScreen = () => {
         },
       ]}
     >
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       {initialLoading ? (
         <LoadingAnimation />
       ) : (

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   Image,
+  StatusBar
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
 import { React, useLayoutEffect, useState } from "react";
@@ -148,6 +149,10 @@ const LoginScreen = () => {
         { backgroundColor: appStyle.appAzure },
       ]}
     >
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View
         className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}

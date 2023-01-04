@@ -1,4 +1,5 @@
 import {
+  StatusBar,
   Text,
   Image,
   View,
@@ -30,6 +31,10 @@ const EditDataScreen = () => {
   }, []);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View className="flex-1  p-3">
         <View className="flex-row justify-around mb-8">
           <TouchableOpacity

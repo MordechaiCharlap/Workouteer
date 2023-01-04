@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
@@ -84,6 +90,10 @@ const NewWorkoutScreen = () => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title="New workout" goBackOption={true} />
       <View
         className="flex-1 px-4"

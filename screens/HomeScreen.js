@@ -28,8 +28,8 @@ const HomeScreen = () => {
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar
-        backgroundColor={appStyle.appLightBlue}
-        barStyle="dark-content"
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1 p-3">
         <View className="flex-row justify-around my-5">

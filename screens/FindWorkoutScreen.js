@@ -1,4 +1,5 @@
 import {
+  StatusBar,
   View,
   Text,
   TouchableOpacity,
@@ -110,6 +111,10 @@ const FindWorkoutScreen = () => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <ScrollView>

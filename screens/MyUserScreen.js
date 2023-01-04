@@ -2,9 +2,9 @@ import {
   Image,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -47,6 +47,10 @@ const MyUserScreen = () => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">

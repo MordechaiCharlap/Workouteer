@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text,StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -14,6 +14,10 @@ const CalendarScreen = () => {
 
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View className="flex-1 justify-center">
         <Text className="text-4xl text-white font-bold text-center">
           Coming soon!

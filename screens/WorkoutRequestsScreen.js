@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
+  StatusBar,
 } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -57,6 +58,10 @@ const WorkoutRequestsScreen = ({ route }) => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title={"Requests"} goBackOption={true} navigate={goBack} />
       <View
         style={{ backgroundColor: appStyle.appLightBlue }}

@@ -229,6 +229,10 @@ const ChatsScreen = () => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title="Chats" />
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (

@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
+  StatusBar,
 } from "react-native";
 import {
   faStopwatch,
@@ -72,6 +73,10 @@ const WorkoutDetailsScreen = ({ route }) => {
   }, []);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title={"Details"} goBackOption={true} />
       {initalLoading ? (
         <LoadingAnimation />

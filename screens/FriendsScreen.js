@@ -1,4 +1,5 @@
 import {
+  StatusBar,
   Text,
   View,
   Image,
@@ -60,6 +61,10 @@ const FriendsScreen = ({ route }) => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View className="flex-1">
         <View className="flex-row justify-between items-center mb-3 px-3 pt-3">
           <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  StatusBar,
   Text,
   View,
   Image,
@@ -143,6 +144,10 @@ const ChatScreen = ({ route }) => {
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <View
         className="flex-row items-center pb-3 pt-2"
         style={{ backgroundColor: "#333946" }}

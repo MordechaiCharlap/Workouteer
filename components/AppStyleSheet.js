@@ -7,3 +7,7 @@ export const appGray = "#E5E5E5";
 export const appDarkBlueGrayer = "#4d5973";
 export const appNeonAzure = "#03dac6";
 export const appRed = "#de265f";
+export const statusBarStyle = {
+  backgroundColor: appLightBlue,
+  barStyle: "dark-content",
+};

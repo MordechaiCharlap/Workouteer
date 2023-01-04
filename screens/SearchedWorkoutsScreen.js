@@ -1,4 +1,5 @@
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
+import * as appStyle from "../components/AppStyleSheet";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -15,6 +16,10 @@ const SearchedWorkoutsScreen = ({ route }) => {
   }, []);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Header title="Results" goBackOption={true} />
       <FlatList
         data={workouts}
