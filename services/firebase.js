@@ -333,13 +333,17 @@ export const sendPrivateMessage = async (
     message
   );
   const membersMap = new Map(Object.entries(chat.members));
-  for (var value of membersMap.values()) {
-    const valueMap = new Map(Object.entries(value));
-    valueMap.unreadAlert = true;
+  for (var [key, value] of membersMap) {
+    if (key != userId) {
+      value.unreadAlert = true;
+      membersMap.set(key, value);
+      console.log("new memberObject:", membersMap);
+    }
   }
   let newArray = membersMap.entries();
+  console.log("new array: ", newArray);
 
-  let newObject = Object.fromEntries(newArray);
+  let newMembersObject = Object.fromEntries(newArray);
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
@@ -349,7 +353,7 @@ export const sendPrivateMessage = async (
       id: newMessage.id,
     },
     messagesCount: increment(1),
-    members: newObject,
+    members: newMembersObject,
   });
 };
 export const getChatsArrayIncludeUsers = async (user) => {
