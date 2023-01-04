@@ -15,15 +15,15 @@ initGeocoder();
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthPrvider>
-        <NotificationsProvider>
-          <AlertsProvider>
+      <AlertsProvider>
+        <AuthPrvider>
+          <NotificationsProvider>
             <TailwindProvider>
               <StackNavigator />
             </TailwindProvider>
-          </AlertsProvider>
-        </NotificationsProvider>
-      </AuthPrvider>
+          </NotificationsProvider>
+        </AuthPrvider>
+      </AlertsProvider>
     </NavigationContainer>
   );
 }
