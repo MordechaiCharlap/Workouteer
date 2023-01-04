@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   Image,
   StyleSheet,
   FlatList,
@@ -72,7 +72,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     });
   }, []);
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title={"Details"} goBackOption={true} />
       {initalLoading ? (
         <LoadingAnimation />
@@ -334,7 +334,7 @@ const WorkoutDetailsScreen = ({ route }) => {
           )}
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

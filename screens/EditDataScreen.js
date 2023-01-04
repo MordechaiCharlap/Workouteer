@@ -2,7 +2,7 @@ import {
   View,
   Text,
   Image,
-  SafeAreaView,
+  View,
   TouchableOpacity,
   StyleSheet,
   TextInput,
@@ -30,7 +30,7 @@ const EditDataScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1  p-3">
         <View className="flex-row justify-around mb-8">
           <TouchableOpacity
@@ -77,7 +77,7 @@ const EditDataScreen = () => {
           />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 export default EditDataScreen;

@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   Image,
   StyleSheet,
   FlatList,
@@ -57,7 +57,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     }
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title={"Requests"} goBackOption={true} navigate={goBack} />
       <View
         style={{ backgroundColor: appStyle.appLightBlue }}
@@ -131,7 +131,7 @@ const WorkoutRequestsScreen = ({ route }) => {
           )}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const style = StyleSheet.create({

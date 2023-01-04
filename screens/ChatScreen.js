@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   Image,
   FlatList,
   TouchableOpacity,
@@ -143,7 +143,7 @@ const ChatScreen = ({ route }) => {
     navigation.goBack();
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View
         className="flex-row items-center pb-3 pt-2"
         style={{ backgroundColor: "#333946" }}
@@ -232,7 +232,7 @@ const ChatScreen = ({ route }) => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 

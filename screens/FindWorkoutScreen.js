@@ -1,5 +1,5 @@
 import {
-  SafeAreaView,
+  View,
   View,
   Text,
   TouchableOpacity,
@@ -110,7 +110,7 @@ const FindWorkoutScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="Find workout" goBackOption={true} />
       <View className="flex-1 px-4">
         <ScrollView>
@@ -250,7 +250,7 @@ const FindWorkoutScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const StartingTimeComp = (props) => {

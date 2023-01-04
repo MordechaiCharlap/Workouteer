@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   Image,
   FlatList,
   TouchableOpacity,
@@ -60,7 +60,7 @@ const FriendsScreen = ({ route }) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <View className="flex-row justify-between items-center mb-3 px-3 pt-3">
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -156,7 +156,7 @@ const FriendsScreen = ({ route }) => {
         />
       </View>
       <BottomNavbar currentScreen="Friends" />
-    </SafeAreaView>
+    </View>
   );
 };
 

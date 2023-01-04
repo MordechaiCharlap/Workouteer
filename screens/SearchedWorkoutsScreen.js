@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { View } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -14,7 +14,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
     });
   }, []);
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="Results" goBackOption={true} />
       <FlatList
         data={workouts}
@@ -27,7 +27,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
           />
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   TouchableOpacity,
   TextInput,
   FlatList,
@@ -273,7 +273,7 @@ const ChatsScreen = () => {
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="Chats" />
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (
@@ -386,7 +386,7 @@ const ChatsScreen = () => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = new StyleSheet.create({

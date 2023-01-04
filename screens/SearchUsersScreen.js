@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  SafeAreaView,
+  View,
   StyleSheet,
   Image,
   FlatList,
@@ -80,7 +80,7 @@ const SearchUsersScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 p-2">
         <View>
           <Text
@@ -115,7 +115,7 @@ const SearchUsersScreen = () => {
       </View>
 
       <BottomNavbar currentScreen="Friends" />
-    </SafeAreaView>
+    </View>
   );
 };
 const style = StyleSheet.create({

@@ -1,5 +1,5 @@
 import {
-  SafeAreaView,
+  View,
   Text,
   TextInput,
   TouchableOpacity,
@@ -56,7 +56,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[
         responsiveStyle.safeAreaStyle,
         {
@@ -185,7 +185,7 @@ const LoginScreen = () => {
           </View>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

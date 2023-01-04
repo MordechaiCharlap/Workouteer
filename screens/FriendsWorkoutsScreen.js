@@ -1,4 +1,4 @@
-import { View, SafeAreaView } from "react-native";
+import { View, View } from "react-native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import React, { useLayoutEffect } from "react";
@@ -13,10 +13,10 @@ const FriendsWorkoutsScreen = () => {
     });
   }, []);
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="Friends workouts" goBackOption={true} />
       <View className="flex-1 px-4"></View>
-    </SafeAreaView>
+    </View>
   );
 };
 

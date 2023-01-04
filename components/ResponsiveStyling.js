@@ -11,11 +11,6 @@ if (Platform.OS == "web") {
       aspectRatio: "9/19",
       backgroundColor: appStyle.appDarkBlue,
     },
-    newWorkoutScrollView: {
-      backgroundColor: appStyle.appGray,
-      width: "90%",
-      height: 550,
-    },
   });
 } else if (Platform.OS == "android")
   if (Device.isDevice) {
@@ -28,10 +23,6 @@ if (Platform.OS == "web") {
         borderTopWidth: StatusBar.currentHeight,
         //paddingTop: StatusBar.currentHeight,
       },
-      newWorkoutScrollView: {
-        backgroundColor: appStyle.appGray,
-        width: "90%",
-      },
     });
   } else {
     style = StyleSheet.create({
@@ -42,10 +33,6 @@ if (Platform.OS == "web") {
         //borderTopColor: appStyle.appLightBlue,
         //borderTopWidth: StatusBar.currentHeight,
         // paddingTop: StatusBar.currentHeight,
-      },
-      newWorkoutScrollView: {
-        backgroundColor: appStyle.appGray,
-        width: "90%",
       },
     });
   }

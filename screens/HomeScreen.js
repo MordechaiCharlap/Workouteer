@@ -1,4 +1,4 @@
-import { SafeAreaView, View, TouchableOpacity, Text } from "react-native";
+import { View, View, TouchableOpacity, Text } from "react-native";
 import React, { useLayoutEffect, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -26,7 +26,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={style.safeAreaStyle}>
+    <View style={style.safeAreaStyle}>
       <View className="flex-1 p-3">
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
@@ -76,7 +76,7 @@ const HomeScreen = () => {
         </View>
       </View>
       <BottomNavbar currentScreen="Home" />
-    </SafeAreaView>
+    </View>
   );
 };
 

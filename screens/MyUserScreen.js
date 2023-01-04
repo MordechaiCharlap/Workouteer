@@ -1,6 +1,6 @@
 import {
   Image,
-  SafeAreaView,
+  View,
   View,
   Text,
   StyleSheet,
@@ -47,7 +47,7 @@ const MyUserScreen = () => {
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">
@@ -137,7 +137,7 @@ const MyUserScreen = () => {
         </ScrollView>
       </View>
       <BottomNavbar currentScreen="MyUser" />
-    </SafeAreaView>
+    </View>
   );
 };
 export default MyUserScreen;

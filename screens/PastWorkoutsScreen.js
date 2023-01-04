@@ -1,4 +1,4 @@
-import { View, SafeAreaView, FlatList } from "react-native";
+import { View, View, FlatList } from "react-native";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
@@ -28,7 +28,7 @@ const PastWorkoutScreen = ({ route }) => {
     getWorkouts();
   }, []);
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="Past workouts" goBackOption={true} />
       <View className="flex-1 px-4">
         {initialLoading ? (
@@ -45,7 +45,7 @@ const PastWorkoutScreen = ({ route }) => {
           />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

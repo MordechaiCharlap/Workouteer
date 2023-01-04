@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Switch,
-} from "react-native";
+import { View, Text, View, TouchableOpacity, Switch } from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
@@ -37,7 +31,7 @@ const SettingsScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 p-4">
         <Text
           className="text-center text-2xl"
@@ -109,7 +103,7 @@ const SettingsScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

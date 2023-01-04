@@ -1,5 +1,5 @@
 import {
-  SafeAreaView,
+  View,
   Text,
   TextInput,
   TouchableOpacity,
@@ -143,7 +143,7 @@ const LoginScreen = () => {
       });
   };
   return (
-    <SafeAreaView
+    <View
       style={[
         responsiveStyle.safeAreaStyle,
         { backgroundColor: appStyle.appAzure },
@@ -299,7 +299,7 @@ const LoginScreen = () => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

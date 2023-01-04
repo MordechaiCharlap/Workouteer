@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -11,13 +11,13 @@ const ChangePreferencesScreen = () => {
     });
   });
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1 justify-center">
         <Text className="text-4xl text-white font-bold text-center">
           Coming soon!
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

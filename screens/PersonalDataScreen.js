@@ -1,5 +1,5 @@
 import {
-  SafeAreaView,
+  View,
   Text,
   TextInput,
   TouchableOpacity,
@@ -53,7 +53,7 @@ const PersonalDataScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View
         className="flex-1 p-4"
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
@@ -215,7 +215,7 @@ const PersonalDataScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

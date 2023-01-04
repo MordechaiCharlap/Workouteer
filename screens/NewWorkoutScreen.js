@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, View } from "react-native";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
@@ -89,7 +83,7 @@ const NewWorkoutScreen = () => {
     navigation.goBack();
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <Header title="New workout" goBackOption={true} />
       <View
         className="flex-1 px-4"
@@ -141,7 +135,7 @@ const NewWorkoutScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

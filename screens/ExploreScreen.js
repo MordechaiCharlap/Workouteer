@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { View, Text, TouchableOpacity, View } from "react-native";
 import { React, useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -66,7 +66,7 @@ const ExploreScreen = () => {
     });
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <View className="flex-row px-3 pt-3">
           <TouchableOpacity
@@ -136,7 +136,7 @@ const ExploreScreen = () => {
         {renderOption == "Explore" && searchInputEmpty == true && <Explore />}
       </View>
       <BottomNavbar currentScreen="Explore" />
-    </SafeAreaView>
+    </View>
   );
 };
 export default ExploreScreen;

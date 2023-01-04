@@ -1,6 +1,6 @@
 import {
   Image,
-  SafeAreaView,
+  View,
   View,
   Text,
   StyleSheet,
@@ -138,7 +138,7 @@ const UserScreen = ({ route }) => {
       );
   };
   return (
-    <SafeAreaView style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle}>
       <View className="flex-1">
         <ScrollView>
           <View className="p-4">
@@ -222,7 +222,7 @@ const UserScreen = ({ route }) => {
         </ScrollView>
       </View>
       <BottomNavbar currentScreen="User" />
-    </SafeAreaView>
+    </View>
   );
 };
 const style = StyleSheet.create({
