@@ -44,7 +44,7 @@ const NavbarButton = (props) => {
         />
         {props.screen != "Home" &&
           props.alert != null &&
-          props.alert == false && (
+          props.alert == true && (
             <View
               className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
               style={{
