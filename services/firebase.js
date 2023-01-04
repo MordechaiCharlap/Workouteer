@@ -624,10 +624,11 @@ export const getWorkoutMembers = async (usersMap) => {
 
   return { members: returnedMembersArr, requesters: returnedRequestersArr };
 };
-export const requestToJoinWorkout = async (userId, workout) => {
+export const requestToJoinWorkout = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
-    [`members.${userId}`]: null,
+    [`members.${requesterId}`]: null,
   });
+  await requestToJoinWorkoutAlert(requesterId, workout);
 };
 export const cancelWorkoutRequest = async (userId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
@@ -674,6 +675,11 @@ export const addChatAlert = async (userId, chatId) => {
 export const removeChatAlerts = async (userId, chatId) => {
   await updateDoc(doc(db, "alerts", userId), {
     [`chats.${chatId}`]: deleteField(),
+  });
+};
+export const requestToJoinWorkoutAlert = async (requesterId, workout) => {
+  await updateDoc(doc(db, "alerts", workout.creator), {
+    [`workoutRequests.${workout.id}`]: requesterId,
   });
 };
 // export const fixUpdateUserBug = async () => {
