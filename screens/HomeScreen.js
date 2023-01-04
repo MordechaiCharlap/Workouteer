@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StatusBar } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -27,6 +27,10 @@ const HomeScreen = () => {
 
   return (
     <View style={style.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.appLightBlue}
+        barStyle="dark-content"
+      />
       <View className="flex-1 p-3">
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
