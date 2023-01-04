@@ -14,7 +14,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 const NavbarButton = (props) => {
-  const { chatAlertsCount } = useAlerts();
+  const chatAlertsCount = 0;
   const { user, setUser } = useAuth();
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;

@@ -7,6 +7,7 @@ import {
   Image,
   Modal,
   StyleSheet,
+  StatusBar,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useLayoutEffect, useState, useCallback } from "react";

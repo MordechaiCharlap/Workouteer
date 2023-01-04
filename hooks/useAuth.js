@@ -37,17 +37,17 @@ export const AuthPrvider = ({ children }) => {
             authUser.email.toLowerCase()
           );
           setUser(userData);
-          const chats = new Map(Object.entries(userData.chats));
-          console.log("chats: ", chats);
-          var count = 0;
-          for (var chatId of chats.keys()) {
-            const chat = await firebase.getChat(chatId);
-            console.log(chat);
-            const membersMap = new Map(Object.entries(chat.members));
-            if (membersMap.get(userData.usernameLower).unreadAlert) {
-              count++;
-            }
-          }
+          // const chats = new Map(Object.entries(userData.chats));
+          // console.log("chats: ", chats);
+          // var count = 0;
+          // for (var chatId of chats.keys()) {
+          //   const chat = await firebase.getChat(chatId);
+          //   console.log(chat);
+          //   const membersMap = new Map(Object.entries(chat.members));
+          //   if (membersMap.get(userData.usernameLower).unreadAlert) {
+          //     count++;
+          //   }
+          // }
           setInitialChatAlertsCount(count);
           console.log("unread chats: ", count);
           console.log("state Changed, user logged in: " + authUser.email);
