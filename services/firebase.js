@@ -154,8 +154,13 @@ export const createUser = async (newUserData) => {
     defaultCity: null,
     defaultCountry: null,
   });
-};
-export const createUserRequestsDocs = async (newUserData) => {
+
+  await setDoc(doc(db, "alerts", newUserData.username.toLowerCase()), {
+    chats: false,
+    friendRequests: false,
+    workoutInvites: false,
+    workoutRequests: false,
+  });
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
     receivedRequests: {},
     sentRequests: {},
