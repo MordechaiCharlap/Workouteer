@@ -30,12 +30,14 @@ import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
+import useAlerts from "../hooks/useAlerts";
 const ChatScreen = ({ route }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const { sendPushNotification } = usePushNotifications();
   const { user, setUser } = useAuth();
+  const { chatsAlerts } = useAlerts();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
   const db = firebase.db;
@@ -57,12 +59,6 @@ const ChatScreen = ({ route }) => {
       headerShown: false,
     });
   });
-  useEffect(() => {
-    const resetUnread = async () => {
-      await firebase.resetUnreadAlert(chat, user);
-    };
-    resetUnread();
-  }, []);
   useEffect(() => {
     if (chat != null && messages.length == 0) {
       const membersMap = new Map(Object.entries(chat.members));
@@ -139,7 +135,7 @@ const ChatScreen = ({ route }) => {
     }
   };
   const leaveChat = async () => {
-    await firebase.resetUnreadAlert(chat, user);
+    await firebase.removeChatAlerts(user.usernameLower, chat.id);
     navigation.goBack();
   };
   return (
