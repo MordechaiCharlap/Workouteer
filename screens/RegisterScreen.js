@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Alert,
   Image,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
 import { React, useLayoutEffect, useState } from "react";
@@ -133,7 +133,6 @@ const LoginScreen = () => {
           pushToken: pushToken,
         };
         await firebase.createUser(newUserData);
-        await firebase.createUserRequestsDocs(newUserData);
         await firebase.uploadProfileImage(username.toLowerCase(), image);
         navigation.navigate("PersonalData");
       })
