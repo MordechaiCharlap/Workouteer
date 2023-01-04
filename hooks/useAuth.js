@@ -8,9 +8,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import useAlerts from "./useAlerts";
-
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
@@ -20,6 +21,12 @@ export const AuthPrvider = ({ children }) => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [initialChatAlertsCount, setInitialChatAlertsCount] = useState(0);
   const [user, setUser] = useState(null);
+  const {
+    setChatAlerts,
+    setWorkoutRequestsAlerts,
+    setWorkoutInvitesAlerts,
+    setFriendRequestsAlerts,
+  } = useAlerts();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -30,6 +37,7 @@ export const AuthPrvider = ({ children }) => {
   });
   const addObserver = () => {
     console.log("observer");
+    var unsubscribeAlertsListener;
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const setUserAsync = async () => {
@@ -37,6 +45,16 @@ export const AuthPrvider = ({ children }) => {
             authUser.email.toLowerCase()
           );
           setUser(userData);
+          unsubscribeAlertsListener = onSnapshot(
+            doc(db, "alerts", userData.usernameLower),
+            (doc) => {
+              const alertsData = doc.data();
+              setChatAlerts(alertsData.chats);
+              setWorkoutRequestsAlerts(alertsData.workoutRequests);
+              setWorkoutInvitesAlerts(alertsData.workoutInvites);
+              setFriendRequestsAlerts(alertsData.friendRequests);
+            }
+          );
           // const chats = new Map(Object.entries(userData.chats));
           // console.log("chats: ", chats);
           // var count = 0;
@@ -48,8 +66,8 @@ export const AuthPrvider = ({ children }) => {
           //     count++;
           //   }
           // }
-          setInitialChatAlertsCount(count);
-          console.log("unread chats: ", count);
+          // setInitialChatAlertsCount(count);
+          // console.log("unread chats: ", count);
           console.log("state Changed, user logged in: " + authUser.email);
           setInitialLoading(false);
         };
