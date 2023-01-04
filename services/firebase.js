@@ -335,7 +335,13 @@ export const sendPrivateMessage = async (
   const membersMap = new Map(Object.entries(chat.members));
   for (var [key, value] of membersMap) {
     if (key != userId) {
-      value.unreadAlert = true;
+      if (!value.unreadAlert) {
+        value.unreadAlert = true;
+        addChatAlert(key, chat.id, "increment");
+      } else {
+        addChatAlert(key, chat.id, "newAlert");
+      }
+
       membersMap.set(key, value);
       console.log("new memberObject:", membersMap);
     }
@@ -659,6 +665,17 @@ export const resetUnreadAlert = async (chat, user) => {
   await updateDoc(doc(db, "chats", chat.id), {
     [`members.${user.usernameLower}.unreadAlert`]: false,
   });
+};
+export const addChatAlert = async (userId, chatId, isIncrement) => {
+  if (isIncrement == "increment") {
+    await updateDoc(doc(db, "alerts", userId), {
+      [`chats.${chatId}`]: increment(1),
+    });
+  } else {
+    await updateDoc(doc(db, "alerts", userId), {
+      [`chats.${chatId}`]: 1,
+    });
+  }
 };
 // export const fixUpdateUserBug = async () => {
 //   const userData = (await getDoc(doc(db, "users/fasteriko"))).data();
