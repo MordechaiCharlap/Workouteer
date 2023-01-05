@@ -52,6 +52,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={Object.keys(workoutRequestsAlerts).length > 0}
             alertNumber={Object.keys(workoutRequestsAlerts).length}
+            numberColor={appStyle.appGray}
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
@@ -74,6 +75,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={Object.keys(workoutInvitesAlerts).length > 0}
             alertNumber={Object.keys(workoutInvitesAlerts).length}
+            numberColor={appStyle.appGray}
             buttonText="WORKOUT INVITES"
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"
