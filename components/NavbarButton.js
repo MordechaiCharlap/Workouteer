@@ -49,7 +49,7 @@ const NavbarButton = (props) => {
 
         {props.alert != null && props.alert == true && (
           <View
-            className="absolute bg-white w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
+            className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
             style={{
               backgroundColor: appStyle.appRed,
               borderColor: appStyle.appDarkBlue,
