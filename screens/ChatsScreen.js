@@ -231,7 +231,31 @@ const ChatsScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title="Chats" />
+      <View
+        className="flex-row items-center h-10 mt-4 mb-2 justify-center"
+        style={{
+          backgroundColor: appStyle.appDarkBlue,
+        }}
+      >
+        <Text
+          className="text-4xl font-semibold"
+          style={{ color: appStyle.appGray }}
+        >
+          Chats
+        </Text>
+        {Object.keys(chatsAlerts).length > 0 && (
+          <View className="absolute right-5">
+            <AlertDot
+              number={Object.keys(chatsAlerts).length}
+              numberColor={appStyle.appDarkBlue}
+              borderWidth={2}
+              borderColor={appStyle.appDarkBlue}
+              color={appStyle.appLightBlue}
+              size={35}
+            />
+          </View>
+        )}
+      </View>
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (
           <View
