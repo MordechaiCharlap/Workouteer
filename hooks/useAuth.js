@@ -44,6 +44,8 @@ export const AuthPrvider = ({ children }) => {
             authUser.email.toLowerCase()
           );
           setUser(userData);
+
+          await firebase.removePastWorkoutsAlerts(userData.usernameLower);
           unsubscribeAlertsListener = onSnapshot(
             doc(db, "alerts", userData.usernameLower),
             (doc) => {
