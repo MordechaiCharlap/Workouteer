@@ -718,16 +718,16 @@ export const removePastOrEmptyWorkoutsAlerts = async (
   for (var [key, value] of requestAlertsMap) {
     if (value.workoutDate.toDate() < now || value.requestsCount == 0) {
       requestAlertsMap.delete(key);
+      changed++;
     }
-    changed++;
   }
   const inviteAlerts = workoutInvitesAlerts;
   const inviteAlertsMap = new Map(Object.entries(inviteAlerts));
   for (var [key, value] of inviteAlertsMap) {
     if (value.workoutDate.toDate() < now || value.invitesCount == 0) {
       inviteAlertsMap.delete(key);
+      changed++;
     }
-    changed++;
   }
   if (changed) {
     console.log(`Removed ${changed} old invites and request! enjoy your time`);
