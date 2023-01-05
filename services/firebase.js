@@ -706,11 +706,14 @@ export const removeWorkoutInviteAlert = async (requesterId, workout) => {
     [`workoutInvites.${workout.id}.requestsCount`]: increment(-1),
   });
 };
-export const removePastWorkoutsAlerts = async (userId) => {
+export const removePastOrEmptyWorkoutsAlerts = async (
+  workoutRequestsAlerts,
+  workoutInvitesAlerts,
+  userId
+) => {
   const now = new Date();
   var changed = 0;
-  const alerts = (await getDoc(doc(db, "alerts", userId))).data();
-  const requestAlerts = alerts.workoutRequests;
+  const requestAlerts = workoutRequestsAlerts;
   const requestAlertsMap = new Map(Object.entries(requestAlerts));
   for (var [key, value] of requestAlertsMap) {
     if (value.workoutDate.toDate() < now || value.requestsCount == 0) {
@@ -718,7 +721,7 @@ export const removePastWorkoutsAlerts = async (userId) => {
     }
     changed++;
   }
-  const inviteAlerts = alerts.workoutInvites;
+  const inviteAlerts = workoutInvitesAlerts;
   const inviteAlertsMap = new Map(Object.entries(inviteAlerts));
   for (var [key, value] of inviteAlertsMap) {
     if (value.workoutDate.toDate() < now || value.invitesCount == 0) {
@@ -730,7 +733,7 @@ export const removePastWorkoutsAlerts = async (userId) => {
     console.log(`Removed ${changed} old invites and request! enjoy your time`);
     const updatedRequestAlerts = Object.fromEntries(requestAlertsMap);
     const updatedInviteAlerts = Object.fromEntries(inviteAlertsMap);
-    await updateDoc(doc(db, "alerts", workout.creator), {
+    await updateDoc(doc(db, "alerts", userId), {
       workoutRequests: updatedRequestAlerts,
       workoutInvites: updatedInviteAlerts,
     });
