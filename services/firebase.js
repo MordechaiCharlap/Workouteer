@@ -339,7 +339,7 @@ export const sendPrivateMessage = async (
   const membersMap = new Map(Object.entries(chat.members));
   for (var [key, value] of membersMap) {
     if (key != userId) {
-      addChatAlert(key, chat.id);
+      await addChatAlert(key, chat.id);
       membersMap.set(key, value);
       console.log("new memberObject:", membersMap);
     }
