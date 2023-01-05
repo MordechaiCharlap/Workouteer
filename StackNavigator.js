@@ -24,17 +24,30 @@ import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
 import WorkoutRequestsScreen from "./screens/WorkoutRequestsScreen";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
-import useAuth from "./hooks/useAuth";
 import { createStackNavigator } from "@react-navigation/stack";
 import usePushNotifications from "./hooks/usePushNotifications";
+import useAuth from "./hooks/useAuth";
+import useAlerts from "./hooks/useAlerts";
+import * as firebase from "./services/firebase";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addObserver } = useAuth();
   const { notificationListenerFunction } = usePushNotifications();
+  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
   useEffect(() => {
     addObserver();
     notificationListenerFunction();
   }, []);
+  useEffect(() => {
+    const removingBadWorkoutAlerts = async () => {
+      await firebase.removePastOrEmptyWorkoutsAlerts(
+        workoutRequestsAlerts,
+        workoutInvitesAlerts
+      );
+    };
+    removingBadWorkoutAlerts();
+    //listening to invites because its updating after requests, so when invites updating request are updated already
+  }, [workoutInvitesAlerts]);
   return (
     <Stack.Navigator>
       {user ? (
