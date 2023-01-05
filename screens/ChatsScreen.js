@@ -28,6 +28,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 import useAlerts from "../hooks/useAlerts";
+import AlertDot from "../components/AlertDot";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -156,31 +157,11 @@ const ChatsScreen = () => {
           <TouchableOpacity
             onLongPress={() => chatLongClicked(item)}
             onPress={() => chatClicked(item)}
-            className="p-2 rounded"
+            className="p-2 rounded relative"
             style={{
               backgroundColor: appStyle.appDarkBlue,
             }}
           >
-            {chatsAlerts[item.chat.id] && (
-              <View className="absolute h-full aspect-square right-10 items-center justify-center">
-                <View
-                  className="rounded-full h-10 aspect-square items-center justify-center"
-                  style={{
-                    backgroundColor: appStyle.appRed,
-                    borderWidth: 5,
-                    borderColor: appStyle.appDarkBlue,
-                  }}
-                >
-                  <Text
-                    className="font-semibold"
-                    style={{ color: appStyle.appDarkBlue }}
-                  >
-                    {chatsAlerts[item.chat.id]}
-                  </Text>
-                </View>
-              </View>
-            )}
-
             <View className="flex-row">
               <Image
                 source={{
@@ -221,6 +202,18 @@ const ChatsScreen = () => {
                     size={30}
                   />
                 </View>
+              </View>
+            )}
+            {chatsAlerts[item.chat.id] && (
+              <View className="absolute top-0 bottom-0 right-7 justify-center">
+                <AlertDot
+                  number={chatsAlerts[item.chat.id]}
+                  numberColor={appStyle.appDarkBlue}
+                  borderWidth={2}
+                  borderColor={appStyle.appDarkBlue}
+                  color={appStyle.appLightBlue}
+                  size={35}
+                />
               </View>
             )}
           </TouchableOpacity>
