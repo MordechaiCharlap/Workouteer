@@ -630,23 +630,26 @@ export const requestToJoinWorkout = async (requesterId, workout) => {
   });
   await requestToJoinWorkoutAlert(requesterId, workout);
 };
-export const cancelWorkoutRequest = async (userId, workout) => {
+export const cancelWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
-    [`members.${userId}`]: deleteField(),
+    [`members.${requesterId}`]: deleteField(),
   });
+  await removeWorkoutRequestAlert(requesterId, workout);
 };
-export const acceptWorkoutRequest = async (userId, workout) => {
+export const acceptWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
-    [`members.${userId}`]: true,
+    [`members.${requesterId}`]: true,
   });
   await updateDoc(doc(db, "users", userId), {
     [`workouts.${workout.id}`]: workout.startingTime,
   });
+  await removeWorkoutRequestAlert(requesterId, workout);
 };
-export const rejectWorkoutRequest = async (userId, workout) => {
+export const rejectWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
-    [`members.${userId}`]: false,
+    [`members.${requesterId}`]: false,
   });
+  await removeWorkoutRequestAlert(requesterId, workout);
 };
 export const getWorkout = async (workoutId) => {
   return (await getDoc(doc(db, "workouts", workoutId))).data();
@@ -677,14 +680,61 @@ export const removeChatAlerts = async (userId, chatId) => {
     [`chats.${chatId}`]: deleteField(),
   });
 };
-export const requestToJoinWorkoutAlert = async (requesterId, workout) => {
+export const workoutRequestAlert = async (requesterId, workout) => {
   await updateDoc(doc(db, "alerts", workout.creator), {
-    [`workoutRequests.${workout.id}`]: requesterId,
+    [`workoutRequests.${workout.id}.requests.${requesterId}`]: Timestamp.now(),
+    [`workoutRequests.${workout.id}.workoutDate`]: workout.startingTime,
+    [`workoutRequests.${workout.id}.requestsCount`]: increment(1),
   });
 };
-// export const fixUpdateUserBug = async () => {
-//   const userData = (await getDoc(doc(db, "users/fasteriko"))).data();
-//   const inside = userData.user;
-//   console.log(inside);
-//   await setDoc(doc(db, "users/fasteriko"), inside);
-// };
+export const removeWorkoutRequestAlert = async (requesterId, workout) => {
+  await updateDoc(doc(db, "alerts", workout.creator), {
+    [`workoutRequests.${workout.id}.requests.${requesterId}`]: deleteField(),
+    [`workoutRequests.${workout.id}.requestsCount`]: increment(-1),
+  });
+};
+export const workoutInviteAlert = async (invitedId, workout) => {
+  await updateDoc(doc(db, "alerts", workout.creator), {
+    [`workoutRequests.${workout.id}.Invites.${invitedId}`]: Timestamp.now(),
+    [`workoutRequests.${workout.id}.workoutDate`]: workout.startingTime,
+    [`workoutRequests.${workout.id}.invitesCount`]: increment(1),
+  });
+};
+export const removeWorkoutInviteAlert = async (requesterId, workout) => {
+  await updateDoc(doc(db, "alerts", workout.creator), {
+    [`workoutInvites.${workout.id}.requests.${requesterId}`]: deleteField(),
+    [`workoutInvites.${workout.id}.requestsCount`]: increment(-1),
+  });
+};
+export const removePastWorkoutsAlerts = async (userId) => {
+  const now = new Date();
+  var changed = 0;
+  const alerts = (await getDoc(doc(db, "alerts", userId))).data();
+  const requestAlerts = alerts.workoutRequests;
+  const requestAlertsMap = new Map(Object.entries(requestAlerts));
+  for (var [key, value] of requestAlertsMap) {
+    if (value.workoutDate.toDate() < now || value.requestsCount == 0) {
+      requestAlertsMap.delete(key);
+    }
+    changed++;
+  }
+  const inviteAlerts = alerts.workoutInvites;
+  const inviteAlertsMap = new Map(Object.entries(inviteAlerts));
+  for (var [key, value] of inviteAlertsMap) {
+    if (value.workoutDate.toDate() < now || value.invitesCount == 0) {
+      inviteAlertsMap.delete(key);
+    }
+    changed++;
+  }
+  if (changed) {
+    console.log(`Removed ${changed} old invites and request! enjoy your time`);
+    const updatedRequestAlerts = Object.fromEntries(requestAlertsMap);
+    const updatedInviteAlerts = Object.fromEntries(inviteAlertsMap);
+    await updateDoc(doc(db, "alerts", workout.creator), {
+      workoutRequests: updatedRequestAlerts,
+      workoutInvites: updatedInviteAlerts,
+    });
+  } else {
+    console.log("No old requests/invites");
+  }
+};
