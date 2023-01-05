@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Text, StatusBar } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
@@ -11,6 +11,7 @@ import {
   faMagnifyingGlass,
   faUserGroup,
   faCalendarCheck,
+  faEnvelopeOpenText,
 } from "@fortawesome/free-solid-svg-icons";
 import useAlerts from "../hooks/useAlerts";
 const HomeScreen = () => {
@@ -20,13 +21,12 @@ const HomeScreen = () => {
       headerShown: false,
     });
   }, []);
-  const { workoutRequestsAlerts } = useAlerts();
+  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
   const buttonStyle = {
     color: appStyle.appGray,
     backgroundColor: appStyle.appAzure,
     iconSize: 40,
   };
-
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar
@@ -51,6 +51,7 @@ const HomeScreen = () => {
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
             alert={Object.keys(workoutRequestsAlerts).length > 0}
+            alertNumber={Object.keys(workoutRequestsAlerts).length}
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
@@ -71,10 +72,12 @@ const HomeScreen = () => {
             icon={faUserGroup}
           />
           <HomeScreenButton
+            alert={Object.keys(workoutInvitesAlerts).length > 0}
+            alertNumber={Object.keys(workoutInvitesAlerts).length}
             buttonText="WORKOUT INVITES"
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"
-            icon={faUserGroup}
+            icon={faEnvelopeOpenText}
           />
         </View>
       </View>
