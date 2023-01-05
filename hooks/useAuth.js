@@ -61,7 +61,7 @@ export const AuthPrvider = ({ children }) => {
         setUserAsync();
       } else {
         setUser(null);
-        unsubscribeAlertsListener();
+        if (unsubscribeAlertsListener) unsubscribeAlertsListener();
         console.log("state Changed, user logged out");
         setInitialLoading(false);
       }
