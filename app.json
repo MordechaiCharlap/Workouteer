@@ -11,6 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/pushNotificationsLogo.png"
+    },
     "scheme": "com.charlap.workouteer",
     "plugins": [
       [
@@ -30,7 +33,7 @@
         "expo-notifications",
         {
           "icon": "./assets/icon.png",
-          "color": "#ffffff",
+          "color": "#8ecae6",
           "sounds": []
         }
       ]
