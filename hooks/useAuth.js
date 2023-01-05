@@ -47,6 +47,7 @@ export const AuthPrvider = ({ children }) => {
           unsubscribeAlertsListener = onSnapshot(
             doc(db, "alerts", userData.usernameLower),
             (doc) => {
+              console.log("New alert update");
               const alertsData = doc.data();
               setChatsAlerts(alertsData.chats);
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
