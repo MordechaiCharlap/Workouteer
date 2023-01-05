@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
+import AlertDot from "./AlertDot";
+import * as appStyle from "./AppStyleSheet";
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -16,6 +19,16 @@ const HomeScreenButton = (props) => {
           style={{ backgroundColor: props.style.backgroundColor }}
           onPress={() => navigation.push(props.navigateScreen, { user: user })}
         >
+          {props.alert && (
+            <View className="absolute left-3 top-3">
+              <AlertDot
+                size={30}
+                color={appStyle.appRed}
+                borderWidth={6}
+                borderColor={appStyle.appDarkBlue}
+              />
+            </View>
+          )}
           <FontAwesomeIcon
             icon={props.icon}
             size={props.style.iconSize}
