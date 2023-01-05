@@ -35,10 +35,20 @@ const StackNavigator = () => {
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
   const [alertsChanged, setAlertsChanged] = useState(false);
+  const [notificationsListenersAdded, setNotificationsListenersAdded] =
+    useState(false);
   useEffect(() => {
     addObserver();
-    notificationListenerFunction();
   }, []);
+  useEffect(() => {
+    const addListenerAsync = async () => {
+      await notificationListenerFunction();
+    };
+    if (!notificationsListenersAdded && user != null) {
+      setNotificationsListenersAdded(true);
+      addListenerAsync(user);
+    }
+  }, [user]);
   useEffect(() => {
     const removingBadWorkoutAlerts = async () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
