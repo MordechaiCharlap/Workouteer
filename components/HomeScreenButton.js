@@ -20,12 +20,13 @@ const HomeScreenButton = (props) => {
           onPress={() => navigation.push(props.navigateScreen, { user: user })}
         >
           {props.alert && (
-            <View className="absolute left-3 top-3">
+            <View className="absolute left-2 top-2">
               <AlertDot
-                size={30}
-                color={appStyle.appRed}
-                borderWidth={6}
-                borderColor={appStyle.appDarkBlue}
+                size={35}
+                color={appStyle.appDarkBlue}
+                borderWidth={4}
+                borderColor={appStyle.appGray}
+                number={props.alertNumber}
               />
             </View>
           )}
