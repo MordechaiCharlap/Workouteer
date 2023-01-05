@@ -39,16 +39,18 @@ const StackNavigator = () => {
     notificationListenerFunction();
   }, []);
   useEffect(() => {
+    console.log("useEffectStackAlerts");
     const removingBadWorkoutAlerts = async () => {
+      console.log("removing bad alerts");
       await firebase.removePastOrEmptyWorkoutsAlerts(
         workoutRequestsAlerts,
         workoutInvitesAlerts,
         user.usernameLower
       );
     };
-    removingBadWorkoutAlerts();
+    if (user && workoutInvitesAlerts != null) removingBadWorkoutAlerts();
     //listening to invites because its updating after requests, so when invites updating request are updated already
-  }, [workoutInvitesAlerts]);
+  }, [workoutInvitesAlerts, user]);
   return (
     <Stack.Navigator>
       {user ? (
