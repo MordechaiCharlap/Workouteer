@@ -12,6 +12,7 @@ import {
   faUserGroup,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import useAlerts from "../hooks/useAlerts";
 const HomeScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -19,6 +20,7 @@ const HomeScreen = () => {
       headerShown: false,
     });
   }, []);
+  const { workoutRequestsAlerts } = useAlerts();
   const buttonStyle = {
     color: appStyle.appGray,
     backgroundColor: appStyle.appAzure,
@@ -48,6 +50,7 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
+            alert={Object.keys(workoutRequestsAlerts).length > 0}
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
