@@ -640,7 +640,7 @@ export const acceptWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`members.${requesterId}`]: true,
   });
-  await updateDoc(doc(db, "users", userId), {
+  await updateDoc(doc(db, "users", requesterId), {
     [`workouts.${workout.id}`]: workout.startingTime,
   });
   await removeWorkoutRequestAlert(requesterId, workout);
