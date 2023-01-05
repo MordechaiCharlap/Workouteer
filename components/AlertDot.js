@@ -1,9 +1,10 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
+import { appDarkBlue, appGray } from "./AppStyleSheet";
 const AlertDot = (props) => {
   return (
     <View
-      className="rounded-full"
+      className="rounded-full justify-center"
       style={{
         width: props.size,
         height: props.size,
@@ -11,7 +12,13 @@ const AlertDot = (props) => {
         borderWidth: props.borderWidth,
         borderColor: props.borderColor,
       }}
-    ></View>
+    >
+      {props.number != null && (
+        <Text className="text-center font-bold" style={{ color: appGray }}>
+          {props.number}
+        </Text>
+      )}
+    </View>
   );
 };
 
