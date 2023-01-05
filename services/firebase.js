@@ -737,7 +737,5 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       workoutRequests: updatedRequestAlerts,
       workoutInvites: updatedInviteAlerts,
     });
-  } else {
-    console.log("No old requests/invites");
   }
 };

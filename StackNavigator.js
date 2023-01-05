@@ -39,9 +39,7 @@ const StackNavigator = () => {
     notificationListenerFunction();
   }, []);
   useEffect(() => {
-    console.log("useEffectStackAlerts");
     const removingBadWorkoutAlerts = async () => {
-      console.log("removing bad alerts");
       await firebase.removePastOrEmptyWorkoutsAlerts(
         workoutRequestsAlerts,
         workoutInvitesAlerts,
