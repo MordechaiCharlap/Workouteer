@@ -42,7 +42,8 @@ const StackNavigator = () => {
     const removingBadWorkoutAlerts = async () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
         workoutRequestsAlerts,
-        workoutInvitesAlerts
+        workoutInvitesAlerts,
+        user.usernameLower
       );
     };
     removingBadWorkoutAlerts();
