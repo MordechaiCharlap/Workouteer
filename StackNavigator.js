@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -34,6 +34,7 @@ const StackNavigator = () => {
   const { user, addObserver } = useAuth();
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
+  const [alertsChanged, setAlertsChanged] = useState(false);
   useEffect(() => {
     addObserver();
     notificationListenerFunction();
@@ -46,9 +47,15 @@ const StackNavigator = () => {
         user.usernameLower
       );
     };
-    if (user && workoutInvitesAlerts != null) removingBadWorkoutAlerts();
+    if (user && alertsChanged) {
+      removingBadWorkoutAlerts();
+      setAlertsChanged(false);
+    }
     //listening to invites because its updating after requests, so when invites updating request are updated already
-  }, [workoutInvitesAlerts, user]);
+  }, [alertsChanged, user]);
+  useEffect(() => {
+    if (workoutInvitesAlerts != null) setAlertsChanged(true);
+  }, [workoutInvitesAlerts]);
   return (
     <Stack.Navigator>
       {user ? (
