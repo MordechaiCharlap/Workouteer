@@ -10,7 +10,13 @@ import {
   StatusBar,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useState, useCallback } from "react";
+import {
+  React,
+  useLayoutEffect,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -43,12 +49,13 @@ const ChatsScreen = () => {
   });
   useFocusEffect(
     useCallback(() => {
+      console.log("getting chats");
       const getChats = async () => {
         var arr = await firebase.getChatsArrayIncludeUsers(user);
         setChatsArr(arr);
       };
       getChats();
-    }, [])
+    }, [chatsAlerts])
   );
   const now = () => {
     const today = new Date();
