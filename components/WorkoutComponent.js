@@ -122,19 +122,21 @@ const WorkoutComponent = (props) => {
       className="rounded mb-5"
       style={{
         backgroundColor: appStyle.appLightBlue,
+        borderWidth: 2,
+        borderColor: appStyle.color_primary,
       }}
     >
       <View
         className="flex-row justify-between px-2"
         style={{
-          borderBottomColor: appStyle.appDarkBlue,
+          borderBottomColor: appStyle.color_primary,
           borderBottomWidth: 2,
         }}
       >
         <Text
           className="text-xl rounded-t"
           style={{
-            color: appStyle.appDarkBlue,
+            color: appStyle.color_primary,
           }}
         >
           {timeString(props.workout.startingTime.toDate())}
@@ -142,7 +144,7 @@ const WorkoutComponent = (props) => {
         <Text
           className="text-xl rounded-t"
           style={{
-            color: appStyle.appDarkBlue,
+            color: appStyle.color_primary,
           }}
         >
           {isCreator ? "Your " : props.workout.creator + "'s "}
@@ -155,13 +157,13 @@ const WorkoutComponent = (props) => {
           <FontAwesomeIcon
             icon={workoutTypes[props.workout.type].icon}
             size={45}
-            color={appStyle.appDarkBlue}
+            color={appStyle.color_primary}
           />
         </View>
         <View
           className="p-1 justify-around"
           style={{
-            borderLeftColor: appStyle.appDarkBlue,
+            borderLeftColor: appStyle.color_primary,
             borderLeftWidth: 2,
           }}
         >
@@ -169,12 +171,12 @@ const WorkoutComponent = (props) => {
             <FontAwesomeIcon
               icon={faLocationDot}
               size={30}
-              color={appStyle.appDarkBlue}
+              color={appStyle.color_primary}
             />
             <Text
               className="text-md"
               style={{
-                color: appStyle.appDarkBlue,
+                color: appStyle.color_primary,
               }}
             >
               :{" "}
@@ -187,12 +189,12 @@ const WorkoutComponent = (props) => {
             <FontAwesomeIcon
               icon={faStopwatch}
               size={30}
-              color={appStyle.appDarkBlue}
+              color={appStyle.color_primary}
             />
             <Text
               className="text-md"
               style={{
-                color: appStyle.appDarkBlue,
+                color: appStyle.color_primary,
               }}
             >
               : {props.workout.minutes} minutes
@@ -202,12 +204,12 @@ const WorkoutComponent = (props) => {
             <FontAwesomeIcon
               icon={faUserGroup}
               size={30}
-              color={appStyle.appDarkBlue}
+              color={appStyle.color_primary}
             />
             <Text
               className="text-md"
               style={{
-                color: appStyle.appDarkBlue,
+                color: appStyle.color_primary,
               }}
             >
               : {members}
@@ -217,7 +219,7 @@ const WorkoutComponent = (props) => {
       </View>
       <View
         className="flex-1 py-1 flex-row"
-        style={{ borderTopColor: appStyle.appDarkBlue, borderTopWidth: 2 }}
+        style={{ borderTopColor: appStyle.color_primary, borderTopWidth: 2 }}
       >
         <TouchableOpacity
           onPress={() =>
@@ -230,7 +232,7 @@ const WorkoutComponent = (props) => {
           }
           className="mx-1 h-8 w-1 flex-1 rounded justify-center"
           style={{
-            backgroundColor: appStyle.appDarkBlue,
+            backgroundColor: appStyle.color_primary,
           }}
         >
           {!isPastWorkout && isCreator && requests > 0 && (
@@ -238,14 +240,14 @@ const WorkoutComponent = (props) => {
               className="absolute aspect-square left-5 w-5 h-5 items-center justify-center rounded-full"
               style={{
                 borderWidth: 1,
-                borderColor: appStyle.appAzure,
-                backgroundColor: appStyle.appLightBlue,
+                borderColor: appStyle.color_primary,
+                backgroundColor: appStyle.color_bg,
               }}
             >
               <Text
                 className="font-semibold"
                 style={{
-                  color: appStyle.appDarkBlue,
+                  color: appStyle.color_primary,
                 }}
               >
                 {notificationCount}
@@ -256,7 +258,7 @@ const WorkoutComponent = (props) => {
           <Text
             className="text-center"
             style={{
-              color: appStyle.appGray,
+              color: appStyle.color_on_primary,
             }}
           >
             Details
@@ -268,14 +270,14 @@ const WorkoutComponent = (props) => {
             className="mx-1 h-8 rounded w-1 flex-1 justify-center"
             style={{
               backgroundColor: buttonColor,
-              borderColor: appStyle.appDarkBlue,
+              borderColor: appStyle.color_primary,
               borderWidth: 1,
             }}
           >
             <Text
               className="text-center"
               style={{
-                color: appStyle.appDarkBlue,
+                color: appStyle.color_primary,
               }}
             >
               {buttonText}

@@ -295,9 +295,9 @@ const style = StyleSheet.create({
     paddingHorizontal: 16,
   },
   dropdown: {
-    backgroundColor: appStyle.color_on_primary,
+    backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: "#5f6b8b",
+    borderColor: appStyle.color_on_primary,
     borderWidth: 0.5,
     borderRadius: 4,
     paddingHorizontal: 8,
@@ -306,22 +306,12 @@ const style = StyleSheet.create({
     marginRight: 5,
     color: "white",
   },
-  label: {
-    position: "absolute",
-    color: "#5f6b8b",
-    backgroundColor: appStyle.appYellow,
-    left: 22,
-    top: -10,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
   placeholderStyle: {
     color: "#5f6b8b",
     fontSize: 16,
   },
   selectedTextStyle: {
-    color: "#5f6b8b",
+    color: appStyle.color_on_primary,
     fontSize: 16,
   },
   iconStyle: {

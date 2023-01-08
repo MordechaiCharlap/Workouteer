@@ -63,7 +63,7 @@ const ChatMessage = (props) => {
           maxWidth: "90%",
           backgroundColor: isSelfMessage
             ? appStyle.color_primary_variant
-            : appStyle.color_secondary_variant,
+            : appStyle.color_bg_variant,
         }}
       >
         <Text
@@ -71,7 +71,7 @@ const ChatMessage = (props) => {
           style={{
             color: isSelfMessage
               ? appStyle.color_on_primary
-              : appStyle.color_on_secondary,
+              : appStyle.color_on_primary,
           }}
         >
           {props.message.content}
@@ -79,7 +79,9 @@ const ChatMessage = (props) => {
         <View className="flex-row items-end">
           <Text
             style={{
-              color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
+              color: isSelfMessage
+                ? appStyle.color_on_primary
+                : appStyle.color_on_primary,
             }}
           >
             {convertTimestamp(props.message.sentAt)}
@@ -89,7 +91,7 @@ const ChatMessage = (props) => {
               <FontAwesomeIcon
                 icon={checksNum == 1 ? faCheck : faCheckDouble}
                 size={15}
-                color={appStyle.appGray}
+                color={appStyle.color_on_primary}
               />
             </View>
           ) : (
