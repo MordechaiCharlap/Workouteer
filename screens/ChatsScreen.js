@@ -262,7 +262,7 @@ const ChatsScreen = () => {
         {selectedChats.length == 0 ? (
           <View
             className="rounded-xl"
-            style={{ backgroundColor: appStyle.color_primary_variant }}
+            style={{ backgroundColor: appStyle.color_darker }}
           >
             <View className="flex-row items-center h-12 p-3">
               <TouchableOpacity>

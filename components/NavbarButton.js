@@ -36,7 +36,11 @@ const NavbarButton = (props) => {
     >
       {props.screen == "Home" && (
         <View className="absolute h-max w-max items-center justify-center">
-          <FontAwesomeIcon icon={getIcon()} size={50} color={appStyle.appRed} />
+          <FontAwesomeIcon
+            icon={getIcon()}
+            size={50}
+            color={appStyle.color_bg}
+          />
         </View>
       )}
 

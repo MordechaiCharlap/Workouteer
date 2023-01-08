@@ -59,7 +59,7 @@ const SearchUsers = (props) => {
     <ScrollView>
       <View
         className="rounded-xl mt-4 p-3"
-        style={{ backgroundColor: appStyle.color_bg_variant }}
+        style={{ backgroundColor: appStyle.color_darker }}
       >
         <View className="flex-row items-center">
           <FontAwesomeIcon
@@ -71,7 +71,7 @@ const SearchUsers = (props) => {
             onChangeText={(text) => textChanged(text)}
             style={{ color: appStyle.color_on_primary }}
             placeholder="Search"
-            placeholderTextColor={appStyle.color_primary}
+            placeholderTextColor={appStyle.color_on_primary}
             className="text-xl ml-3"
           />
         </View>
