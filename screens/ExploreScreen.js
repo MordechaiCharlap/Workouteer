@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View,StatusBar } from "react-native";
+import { Text, TouchableOpacity, View, StatusBar } from "react-native";
 import { React, useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
@@ -74,7 +74,7 @@ const ExploreScreen = () => {
       <View className="flex-1">
         <View className="flex-row px-3 pt-3">
           <TouchableOpacity
-            style={{ backgroundColor: appStyle.appLightBlue }}
+            style={{ backgroundColor: appStyle.color_primary }}
             className="flex-row items-center rounded mr-3 p-2"
             onPress={() =>
               renderOption == "Friend requests"
@@ -86,38 +86,38 @@ const ExploreScreen = () => {
               <FontAwesomeIcon
                 icon={faCircleUser}
                 size={35}
-                color={appStyle.appDarkBlue}
+                color={appStyle.color_on_primary}
               />
               <View
-                style={{ backgroundColor: appStyle.appLightBlue }}
+                style={{ backgroundColor: appStyle.color_primary }}
                 className="rounded-full items-center absolute right-0 bottom-0"
               >
                 <FontAwesomeIcon
                   icon={faPlus}
                   size={13}
-                  color={appStyle.appDarkBlue}
+                  color={appStyle.color_on_primary}
                 />
               </View>
             </View>
             <Text
               className="text-2xl w-min font-bold"
-              style={{ color: appStyle.appDarkBlue }}
+              style={{ color: appStyle.color_on_primary }}
             >
               {user.friendRequestCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{ backgroundColor: appStyle.appLightBlue }}
+            style={{ backgroundColor: appStyle.color_primary }}
             className="flex-row items-center rounded p-2"
           >
             <FontAwesomeIcon
               icon={faBell}
               size={35}
-              color={appStyle.appDarkBlue}
+              color={appStyle.color_on_primary}
             />
             <Text
               className="text-2xl w-min font-bold"
-              style={{ color: appStyle.appDarkBlue }}
+              style={{ color: appStyle.color_on_primary }}
             >
               {user.notificationsCount ? user.notificationsCount : 0}
             </Text>

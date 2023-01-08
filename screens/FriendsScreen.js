@@ -76,7 +76,7 @@ const FriendsScreen = ({ route }) => {
           </TouchableOpacity>
           <Text
             className="text-2xl font-semibold pt-3"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_primary }}
           >
             Friends
           </Text>
@@ -87,21 +87,21 @@ const FriendsScreen = ({ route }) => {
 
         <View
           className="rounded-xl p-3 mx-2"
-          style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+          style={{ backgroundColor: appStyle.color_bg_variant }}
         >
           <View className="flex-row items-center">
             <TouchableOpacity onPress={searchClicked}>
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
                 size={20}
-                color={appStyle.appDarkBlue}
+                color={appStyle.color_primary}
               />
             </TouchableOpacity>
             <TextInput
               onChangeText={(text) => setSearchText(text)}
               style={{ color: appStyle.appGray }}
               placeholder="Search"
-              placeholderTextColor={appStyle.appDarkBlue}
+              placeholderTextColor={appStyle.color_primary}
               className="text-xl ml-3"
             />
           </View>
@@ -131,13 +131,13 @@ const FriendsScreen = ({ route }) => {
                 <View>
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.appGray }}
+                    style={{ color: appStyle.color_primary }}
                   >
                     {item.username}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.appGray }}
+                    style={{ color: appStyle.color_primary }}
                   >
                     {item.displayName}
                   </Text>
@@ -146,11 +146,15 @@ const FriendsScreen = ({ route }) => {
               <TouchableOpacity
                 onPress={() => openPrivateChat(item)}
                 className="py-1 px-6 rounded"
-                style={{ borderColor: "#707787", borderWidth: 0.5 }}
+                style={{
+                  backgroundColor: appStyle.color_bg,
+                  borderColor: appStyle.color_primary,
+                  borderWidth: 0.5,
+                }}
               >
                 <Text
                   className="text-lg font-semibold"
-                  style={{ color: appStyle.appGray }}
+                  style={{ color: appStyle.color_primary }}
                 >
                   Message
                 </Text>

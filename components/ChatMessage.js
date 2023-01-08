@@ -61,13 +61,17 @@ const ChatMessage = (props) => {
         className="mt-1 p-1.5 rounded"
         style={{
           maxWidth: "90%",
-          backgroundColor: isSelfMessage ? appStyle.appAzure : appStyle.appGray,
+          backgroundColor: isSelfMessage
+            ? appStyle.color_primary_variant
+            : appStyle.color_secondary_variant,
         }}
       >
         <Text
           className="text-xl"
           style={{
-            color: isSelfMessage ? appStyle.appGray : appStyle.appDarkBlue,
+            color: isSelfMessage
+              ? appStyle.color_on_primary
+              : appStyle.color_on_secondary,
           }}
         >
           {props.message.content}

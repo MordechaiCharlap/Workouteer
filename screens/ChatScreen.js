@@ -146,13 +146,13 @@ const ChatScreen = ({ route }) => {
       />
       <View
         className="flex-row items-center pb-3 pt-2"
-        style={{ backgroundColor: "#333946" }}
+        style={{ backgroundColor: appStyle.color_primary }}
       >
         <TouchableOpacity onPress={leaveChat}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={40}
-            color={appStyle.appGray}
+            color={appStyle.color_on_primary}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -167,7 +167,7 @@ const ChatScreen = ({ route }) => {
           />
           <Text
             className="text-2xl font-semibold"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_on_primary }}
           >
             {otherUser.username}
           </Text>
@@ -182,7 +182,7 @@ const ChatScreen = ({ route }) => {
           {messages == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
-              style={{ color: appStyle.appGray }}
+              style={{ color: appStyle.color_primary }}
             >
               Loading...
             </Text>
@@ -206,13 +206,19 @@ const ChatScreen = ({ route }) => {
             />
           )}
         </View>
-        <View className="flex-row p-2 items-center">
+        <View
+          className="flex-row p-2 items-center"
+          style={{ backgroundColor: appStyle.color_bg_variant }}
+        >
           <TextInput
             className="text-2xl flex-1 mr-2 rounded py-1 px-4"
             multiline={true}
             placeholder="Message"
-            placeholderTextColor={appStyle.appGray}
-            style={{ backgroundColor: "#333946", color: appStyle.appGray }}
+            placeholderTextColor={appStyle.color_primary}
+            style={{
+              backgroundColor: appStyle.color_bg,
+              color: appStyle.color_primary,
+            }}
             onChangeText={(text) => {
               setMessageText(text);
             }}
@@ -220,13 +226,13 @@ const ChatScreen = ({ route }) => {
           ></TextInput>
           <View
             className="rounded-full w-10 h-10 items-center justify-center"
-            style={{ backgroundColor: "#25c5e8" }}
+            style={{ backgroundColor: appStyle.color_bg }}
           >
             <TouchableOpacity onPress={() => sendMessage()}>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 size={25}
-                color={appStyle.appGray}
+                color={appStyle.color_primary}
               />
             </TouchableOpacity>
           </View>

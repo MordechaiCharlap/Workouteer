@@ -341,7 +341,7 @@ const ChatsScreen = () => {
         }}
       >
         <View
-          style={{ backgroundColor: appStyle.appDarkBlue }}
+          style={{ backgroundColor: appStyle.color_bg_variant }}
           className="absolute bottom-0 items-center w-full h-20"
         >
           <Text
@@ -353,7 +353,7 @@ const ChatsScreen = () => {
           <View className="flex-row w-10/12 justify-between">
             <TouchableOpacity
               className="w-1/3 p-1"
-              style={{ backgroundColor: appStyle.color_bg }}
+              style={{ backgroundColor: appStyle.color_primary }}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 deleteSelectedChats();
@@ -361,14 +361,14 @@ const ChatsScreen = () => {
             >
               <Text
                 className="text-center"
-                style={{ color: appStyle.color_primary }}
+                style={{ color: appStyle.color_on_primary }}
               >
                 Delete chats!
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="w-1/3 p-1"
-              style={{ backgroundColor: appStyle.color_bg }}
+              style={{ backgroundColor: appStyle.color_primary }}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setSelectedChats([]);
@@ -376,7 +376,7 @@ const ChatsScreen = () => {
             >
               <Text
                 className="text-center"
-                style={{ color: appStyle.color_primary }}
+                style={{ color: appStyle.color_on_primary }}
               >
                 Cancel
               </Text>

@@ -19,7 +19,10 @@ const CalendarScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1 justify-center">
-        <Text className="text-4xl text-white font-bold text-center">
+        <Text
+          style={{ color: appStyle.color_primary }}
+          className="text-4xl font-bold text-center"
+        >
           Coming soon!
         </Text>
       </View>
