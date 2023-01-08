@@ -324,14 +324,12 @@ const WorkoutDetailsScreen = ({ route }) => {
             <TouchableOpacity
               className="rounded p-1 my-1"
               style={{
-                backgroundColor: appStyle.color_bg_variant,
-                borderWidth: 1,
-                borderColor: appStyle.color_primary,
+                backgroundColor: appStyle.color_primary,
               }}
             >
               <Text
                 className="text-xl text-center font-semibold"
-                style={{ color: appStyle.color_primary }}
+                style={{ color: appStyle.color_on_primary }}
               >
                 Invite friends to join
               </Text>

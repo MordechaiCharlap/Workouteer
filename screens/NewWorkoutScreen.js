@@ -32,7 +32,9 @@ const NewWorkoutScreen = () => {
   const [description, setDescription] = useState("");
   const [isCreateDisabled, setIsCreateDisabled] = useState(true);
   const [createButtonTextColor, setCreateButtonTextColor] = useState("white");
-  const [createButtonColor, setCreateButtonColor] = useState("black");
+  const [createButtonColor, setCreateButtonColor] = useState(
+    appStyle.color_bg_variant
+  );
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, location]);
@@ -49,8 +51,8 @@ const NewWorkoutScreen = () => {
       location != null
     ) {
       setIsCreateDisabled(false);
-      setCreateButtonTextColor(appStyle.color_primary);
-      setCreateButtonColor(appStyle.color_bg);
+      setCreateButtonTextColor(appStyle.color_on_primary);
+      setCreateButtonColor(appStyle.color_primary);
     } else {
       setIsCreateDisabled(true);
       setCreateButtonTextColor("white");

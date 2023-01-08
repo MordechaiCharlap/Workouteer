@@ -41,7 +41,7 @@ const WorkoutComponent = (props) => {
           if (isCreator) {
             setUserMemberStatus("creator");
             setButtonText("Cancel workout");
-            setButtonColor(appStyle.appRed);
+            setButtonColor(appStyle.color_bg);
           } else {
             setUserMemberStatus("member");
             setButtonText("Leave workout");
