@@ -1,9 +1,8 @@
 import { Platform, StyleSheet, StatusBar } from "react-native";
-import * as Device from "expo-device";
 import * as appStyle from "./AppStyleSheet";
-var style;
+var responsiveStyle;
 if (Platform.OS == "web") {
-  style = StyleSheet.create({
+  responsiveStyle = StyleSheet.create({
     safeAreaStyle: {
       height: "100%",
       flex: 1,
@@ -13,14 +12,14 @@ if (Platform.OS == "web") {
     },
   });
 } else if (Platform.OS == "android")
-  style = StyleSheet.create({
+  responsiveStyle = StyleSheet.create({
     safeAreaStyle: {
       height: "100%",
       flex: 1,
       backgroundColor: appStyle.color_bg,
     },
   });
-export default style;
+export default responsiveStyle;
 
 export const ResponsiveShadow =
   Platform.OS == "android" ? "shadow-lg" : "shadow-sm";
