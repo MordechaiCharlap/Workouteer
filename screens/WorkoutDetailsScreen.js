@@ -41,7 +41,11 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [membersArray, setMembersArray] = useState([]);
   const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
   useFocusEffect(
     useCallback(() => {
       const getUsersData = async () => {
@@ -66,11 +70,12 @@ const WorkoutDetailsScreen = ({ route }) => {
     };
     getUsersData();
   }, []);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
+  const inviteFriends = async () => {
+    navigation.push("InviteFriends", {
+      membersArray: membersArray,
+      requestersArray: requestersArray,
     });
-  }, []);
+  };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -326,6 +331,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               style={{
                 backgroundColor: appStyle.color_primary,
               }}
+              onPress={inviteFriends}
             >
               <Text
                 className="text-xl text-center font-semibold"
