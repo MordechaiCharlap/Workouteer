@@ -7,9 +7,9 @@
     "icon": "./assets/app-icon-ios.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-screen.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#8ecae6"
     },
     "notification": {
       "icon": "./assets/push-notifications-icon.png"
@@ -49,7 +49,7 @@
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon-transparent.png",
+        "foregroundImage": "./assets/app-icon-transparent642X642.png",
         "backgroundColor": "#8ecae6"
       },
       "package": "com.charlap.workouteer",
