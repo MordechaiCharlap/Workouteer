@@ -53,21 +53,25 @@ const WorkoutType = (props) => {
           width: "47%",
           borderWidth: 1,
           borderColor:
-            type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue,
+            type.id == chosenType
+              ? appStyle.color_on_primary
+              : appStyle.color_primary,
         }}
       >
         <View
           style={{
             backgroundColor:
               type.id == chosenType
-                ? appStyle.appDarkBlue
-                : appStyle.appLightBlue,
+                ? appStyle.color_primary
+                : appStyle.color_bg,
           }}
           className={`p-4 items-center rounded-lg`}
         >
           <FontAwesomeIcon
             color={
-              type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue
+              type.id == chosenType
+                ? appStyle.color_on_primary
+                : appStyle.color_primary
             }
             icon={type.icon}
             size={iconSize}
@@ -76,7 +80,9 @@ const WorkoutType = (props) => {
             className="text-center"
             style={{
               color:
-                type.id == chosenType ? appStyle.appGray : appStyle.appDarkBlue,
+                type.id == chosenType
+                  ? appStyle.color_on_primary
+                  : appStyle.color_primary,
             }}
           >
             {type.title}
@@ -103,16 +109,16 @@ const WorkoutType = (props) => {
             borderWidth: 1,
             borderColor:
               workoutTypes[0].id == chosenType
-                ? appStyle.appGray
-                : appStyle.appDarkBlue,
+                ? appStyle.color_on_primary
+                : appStyle.color_primary,
           }}
         >
           <View
             style={{
               backgroundColor:
                 workoutTypes[0].id == chosenType
-                  ? appStyle.appDarkBlue
-                  : appStyle.appLightBlue,
+                  ? appStyle.color_primary
+                  : appStyle.color_bg,
             }}
             className={`p-4 items-center rounded-lg`}
           >
@@ -121,8 +127,8 @@ const WorkoutType = (props) => {
               style={{
                 color:
                   workoutTypes[0].id == chosenType
-                    ? appStyle.appGray
-                    : appStyle.appDarkBlue,
+                    ? appStyle.color_on_primary
+                    : appStyle.color_primary,
               }}
             >
               {workoutTypes[0].title}

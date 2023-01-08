@@ -148,8 +148,10 @@ const EditWorkoutPreferences = (props) => {
   };
   const SaveButton = () => {
     const getBackgroundColor = () => {
-      if (invalidInput) return "gray";
-      return updated == false ? appStyle.appAzure : "#28a923";
+      if (invalidInput || !changesMade) return appStyle.color_bg_variant;
+      return updated == false
+        ? appStyle.color_primary
+        : appStyle.color_bg_variant;
     };
     return (
       <TouchableOpacity
@@ -161,7 +163,7 @@ const EditWorkoutPreferences = (props) => {
       >
         <Text
           className="text-2xl text-center"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_on_primary }}
         >
           {invalidInput == true && "Invalid input"}
           {invalidInput == false && updated == true && "Updated successfuly!"}
@@ -188,7 +190,7 @@ const EditWorkoutPreferences = (props) => {
       <View className="flex-row mb-5">
         <Text
           className="text-xl font-semibold mr-2"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
           Partner's age:
         </Text>
@@ -208,7 +210,7 @@ const EditWorkoutPreferences = (props) => {
         ></TextInput>
         <Text
           className="text-xl font-semibold mx-3"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
           -
         </Text>
@@ -230,29 +232,29 @@ const EditWorkoutPreferences = (props) => {
       <View className="flex-row items-center mb-5">
         <Text
           className="text-xl font-semibold mr-2"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
           Partner's sex:
         </Text>
         <View className="flex-row items-center mr-2">
           <CheckBox
             onValueChange={(value) => setAcceptMale(value)}
-            backgroundColor={appStyle.appLightBlue}
-            valueColor={appStyle.appDarkBlue}
+            backgroundColor={appStyle.color_primary}
+            valueColor={appStyle.color_on_primary}
             value={acceptMale}
           />
-          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+          <Text className="ml-1" style={{ color: appStyle.color_primary }}>
             Male
           </Text>
         </View>
         <View className="flex-row items-center">
           <CheckBox
             onValueChange={(value) => setAcceptFemale(value)}
-            backgroundColor={appStyle.appLightBlue}
-            valueColor={appStyle.appDarkBlue}
+            backgroundColor={appStyle.color_primary}
+            valueColor={appStyle.color_on_primary}
             value={acceptFemale}
           />
-          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+          <Text className="ml-1" style={{ color: appStyle.color_primary }}>
             Female
           </Text>
         </View>
@@ -336,12 +338,13 @@ const EditProfileData = (props) => {
         onPress={saveButtonClicked}
         className="self-center py-1 px-5 w-9/12 rounded"
         style={{
-          backgroundColor: updated == false ? appStyle.appAzure : "#28a923",
+          backgroundColor:
+            updated == false ? appStyle.color_primary : color_primary,
         }}
       >
         <Text
           className="text-2xl text-center"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_on_primary }}
         >
           {updated == true && "Updated successfuly!"}
           {updated == false && changesMade == false && "No changes made"}
@@ -370,20 +373,23 @@ const EditProfileData = (props) => {
           onPress={onImageLibraryPress}
           className="absolute right-0 bottom-0 rounded-full p-2"
           style={{
-            backgroundColor: appStyle.appGray,
+            backgroundColor: appStyle.color_bg,
             borderWidth: 1,
-            borderColor: appStyle.appDarkBlue,
+            borderColor: appStyle.color_primary,
           }}
         >
           <FontAwesomeIcon
             icon={faPen}
             size={20}
-            color={appStyle.appDarkBlue}
+            color={appStyle.color_primary}
           />
         </TouchableOpacity>
       </View>
       <View className="flex-row items-center mb-5">
-        <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
+        <Text
+          className="mr-3 text-lg"
+          style={{ color: appStyle.color_primary }}
+        >
           Display name:
         </Text>
         <TextInput
@@ -398,19 +404,23 @@ const EditProfileData = (props) => {
         </TextInput>
       </View>
       <View className="mb-5">
-        <Text className="mr-3 text-lg" style={{ color: appStyle.appGray }}>
+        <Text
+          className="mr-3 text-lg"
+          style={{ color: appStyle.color_primary }}
+        >
           Description
         </Text>
         <TextInput
           style={{
             textAlignVertical: "top",
-            backgroundColor: appStyle.appLightBlue,
+            color: appStyle.color_on_primary,
+            backgroundColor: appStyle.color_bg_variant,
             borderRadius: 8,
             padding: 8,
           }}
           multiline
           placeholder="Optional text"
-          placeholderTextColor={appStyle.appDarkBlue}
+          placeholderTextColor={appStyle.color_primary}
           numberOfLines={12}
           maxLength={350}
           onChangeText={(text) => setDescription(text)}
@@ -424,16 +434,17 @@ const EditProfileData = (props) => {
 };
 const style = StyleSheet.create({
   input: {
+    backgroundColor: appStyle.color_bg_variant,
     borderWidth: 1,
-    borderColor: "#5f6b8b",
-    color: appStyle.appGray,
+    borderColor: appStyle.color_primary,
+    color: appStyle.color_on_primary,
   },
   currentTab: {
-    color: appStyle.appGray,
+    color: appStyle.color_primary,
     textDecorationLine: "underline",
   },
   otherTab: {
-    color: appStyle.appDarkBlue,
-    backgroundColor: appStyle.appLightBlue,
+    color: appStyle.color_on_primary,
+    backgroundColor: appStyle.color_primary_variant,
   },
 });

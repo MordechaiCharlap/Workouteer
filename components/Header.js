@@ -21,18 +21,25 @@ const Header = (props) => {
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={40}
-            color={props.color ? color : appGray}
+            color={props.color ? props.color : appStyle.color_primary}
           />
         </TouchableOpacity>
       ) : (
         <></>
       )}
 
-      <Text className="text-4xl font-semibold" style={{ color: appGray }}>
+      <Text
+        className="text-4xl font-semibold"
+        style={{ color: appStyle.color_primary }}
+      >
         {props.title}
       </Text>
       {props.goBackOption ? (
-        <FontAwesomeIcon icon={faChevronLeft} size={40} color={appDarkBlue} />
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          size={40}
+          color={appStyle.color_bg}
+        />
       ) : (
         <></>
       )}

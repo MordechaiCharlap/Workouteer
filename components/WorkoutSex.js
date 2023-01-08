@@ -16,11 +16,11 @@ const WorkoutSex = (props) => {
             ? setWorkoutSex("everyone")
             : setWorkoutSex(props.user.isMale == true ? "men" : "women")
         }
-        backgroundColor={appStyle.appLightBlue}
-        valueColor={appStyle.appDarkBlue}
+        backgroundColor={appStyle.color_primary}
+        valueColor={appStyle.color_on_primary}
         value={true}
       />
-      <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+      <Text className="ml-2" style={{ color: appStyle.color_primary }}>
         {props.text}
       </Text>
     </View>

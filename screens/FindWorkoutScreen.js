@@ -122,7 +122,7 @@ const FindWorkoutScreen = () => {
           <Dropdown
             style={[
               style.dropdown,
-              countryIsFocus && { borderColor: appStyle.appAzure },
+              countryIsFocus && { borderColor: appStyle.color_primary },
             ]}
             placeholder="Country"
             placeholderStyle={style.placeholderStyle}
@@ -144,7 +144,7 @@ const FindWorkoutScreen = () => {
           <Dropdown
             style={[
               style.dropdown,
-              cityIsFocus && { borderColor: appStyle.appAzure },
+              cityIsFocus && { borderColor: appStyle.color_primary },
             ]}
             placeholder="City"
             placeholderStyle={style.placeholderStyle}
@@ -167,17 +167,18 @@ const FindWorkoutScreen = () => {
             <TouchableOpacity
               onPress={() => setNoCityInformation(!noCityInformation)}
               className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
-              style={{ backgroundColor: appStyle.appLightBlue }}
+              style={{ backgroundColor: appStyle.color_primary }}
             >
-              <Text style={{ color: appStyle.appDarkBlue }}>
+              <Text style={{ color: appStyle.color_on_primary }}>
                 Can't find a certain city? Click here
               </Text>
             </TouchableOpacity>
           </View>
           <Text
-            className="mb-5"
+            className="mb-5 rounded p-1 mt-1"
             style={{
-              color: appStyle.appLightBlue,
+              color: appStyle.color_on_primary,
+              backgroundColor: appStyle.color_bg_variant,
               display: noCityInformation ? "flex" : "none",
             }}
           >
@@ -202,8 +203,9 @@ const FindWorkoutScreen = () => {
           <View className="mb-5">
             <View className="flex-row">
               <CheckBox
-                backgroundColor={appStyle.appLightBlue}
+                backgroundColor={appStyle.color_primary}
                 value={false}
+                valueColor={appStyle.color_on_primary}
                 onValueChange={(value) =>
                   value == true
                     ? user.isMale
@@ -212,7 +214,7 @@ const FindWorkoutScreen = () => {
                     : setWorkoutSex("everyone")
                 }
               />
-              <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+              <Text className="ml-2" style={{ color: appStyle.color_primary }}>
                 Show me just {user.isMale ? "men" : "women"}-only workouts
               </Text>
             </View>
@@ -220,15 +222,16 @@ const FindWorkoutScreen = () => {
           <View className="mb-5">
             <View className="flex-row">
               <CheckBox
-                backgroundColor={appStyle.appLightBlue}
+                backgroundColor={appStyle.color_primary}
                 value={false}
+                valueColor={appStyle.color_on_primary}
                 onValueChange={(value) =>
                   value == true
                     ? getCurrentLocation()
                     : setCurrentLocation(null)
                 }
               />
-              <Text className="ml-2" style={{ color: appStyle.appLightBlue }}>
+              <Text className="ml-2" style={{ color: appStyle.color_primary }}>
                 Use my location to messure distance from workout
               </Text>
             </View>
@@ -240,13 +243,17 @@ const FindWorkoutScreen = () => {
               onPress={showResults}
               style={{
                 backgroundColor: isSearchDisabled
-                  ? appStyle.appDarkBlueGrayer
-                  : appStyle.appAzure,
+                  ? appStyle.color_bg_variant
+                  : appStyle.color_primary,
               }}
             >
               <Text
                 className="text-2xl"
-                style={{ color: appStyle.appDarkBlue }}
+                style={{
+                  color: isSearchDisabled
+                    ? appStyle.color_primary
+                    : appStyle.color_on_primary,
+                }}
               >
                 Search
               </Text>
@@ -281,14 +288,14 @@ const style = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#5f6b8b",
-    color: appStyle.appGray,
+    color: appStyle.color_on_primary,
   },
-  text: { color: appStyle.appGray },
+  text: { color: appStyle.color_on_primary },
   container: {
     paddingHorizontal: 16,
   },
   dropdown: {
-    backgroundColor: appStyle.appGray,
+    backgroundColor: appStyle.color_on_primary,
     height: 50,
     borderColor: "#5f6b8b",
     borderWidth: 0.5,

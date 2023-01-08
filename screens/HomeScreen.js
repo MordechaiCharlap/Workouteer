@@ -75,7 +75,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={Object.keys(workoutInvitesAlerts).length > 0}
             alertNumber={Object.keys(workoutInvitesAlerts).length}
-            numberColor={appStyle.appGray}
+            numberColor={appStyle.color_on_primary}
             buttonText="WORKOUT INVITES"
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"

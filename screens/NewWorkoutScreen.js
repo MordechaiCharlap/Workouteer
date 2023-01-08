@@ -95,12 +95,7 @@ const NewWorkoutScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <Header title="New workout" goBackOption={true} />
-      <View
-        className="flex-1 px-4"
-        style={{
-          backgroundColor: appStyle.appDarkBlue,
-        }}
-      >
+      <View className="flex-1 px-4">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="pt-4 pb-2 rounded">
             {/* margin is inside the component after each types row */}

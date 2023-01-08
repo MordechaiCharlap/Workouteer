@@ -37,9 +37,9 @@ const WorkoutLocation = (props) => {
           <FontAwesomeIcon
             icon={faLocationDot}
             size={25}
-            color={appStyle.appGray}
+            color={appStyle.color_primary}
           />
-          <Text className="ml-1" style={{ color: appStyle.appGray }}>
+          <Text className="ml-1" style={{ color: appStyle.color_primary }}>
             Location:
           </Text>
         </View>
@@ -48,10 +48,14 @@ const WorkoutLocation = (props) => {
           onPress={location != null ? cancelLocation : setLocationClicked}
           style={{
             backgroundColor:
-              location != null ? appStyle.appNeonAzure : appStyle.appLightBlue,
+              location != null
+                ? appStyle.color_primary_variant
+                : appStyle.color_primary,
           }}
         >
-          <Text style={{ color: appStyle.appDarkBlue }}>Set location</Text>
+          <Text style={{ color: appStyle.color_on_primary }}>
+            {location == null ? "Set location" : "Click to change location"}
+          </Text>
         </TouchableOpacity>
       </View>
       <View className="items-center">
@@ -59,7 +63,7 @@ const WorkoutLocation = (props) => {
           (isLoading ? (
             <Text
               className="text-lg ml-3 p-3"
-              style={{ backgroundColor: appStyle.appYellow }}
+              style={{ backgroundColor: appStyle.color_secondary }}
             >
               Getting your location...
             </Text>

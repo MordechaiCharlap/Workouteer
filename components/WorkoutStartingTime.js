@@ -95,7 +95,9 @@ const WorkoutStartingTime = (props) => {
       >
         {!dateChangedOnce && <Text style={{ color: "#5f6b8b" }}>When?</Text>}
         {dateChangedOnce && (
-          <Text style={{ color: appStyle.appDarkBlue, textAlign: "center" }}>
+          <Text
+            style={{ color: appStyle.color_on_primary, textAlign: "center" }}
+          >
             {timeString()}
           </Text>
         )}
@@ -118,9 +120,8 @@ const WorkoutStartingTime = (props) => {
 const styles = StyleSheet.create({
   input: {
     width: 130,
-    backgroundColor: appStyle.appGray,
+    backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: appStyle.appLightBlue,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,

@@ -30,15 +30,15 @@ const PinOnMap = (props) => {
       <TouchableOpacity
         className="absolute bottom-4 rounded p-2"
         style={{
-          backgroundColor: appStyle.appLightBlue,
-          borderColor: appStyle.appDarkBlue,
+          backgroundColor: appStyle.color_bg,
+          borderColor: appStyle.color_primary,
           borderWidth: 1,
         }}
         onPress={() => saveLocation()}
       >
         <Text
           className="text-1xl font-semibold"
-          style={{ color: appStyle.appDarkBlue }}
+          style={{ color: appStyle.color_primary }}
         >
           Save location
         </Text>

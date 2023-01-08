@@ -20,7 +20,10 @@ const WorkoutMinutes = (props) => {
       return (
         <Text
           className="rounded"
-          style={[styles.label, isFocus && { color: appStyle.appLightBlue }]}
+          style={[
+            styles.label,
+            isFocus && { color: appStyle.color_on_primary },
+          ]}
         >
           Workout length (hours:minutes)
         </Text>
@@ -33,7 +36,10 @@ const WorkoutMinutes = (props) => {
     <View>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: appStyle.appAzure }]}
+        style={[
+          styles.dropdown,
+          isFocus && { borderColor: appStyle.color_on_primary },
+        ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -61,9 +67,9 @@ export default WorkoutMinutes;
 
 const styles = StyleSheet.create({
   dropdown: {
-    backgroundColor: appStyle.appGray,
+    backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: appStyle.appLightBlue,
+    borderColor: appStyle.color_primary,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -74,8 +80,8 @@ const styles = StyleSheet.create({
   },
   label: {
     position: "absolute",
-    color: appStyle.appLightBlue,
-    backgroundColor: appStyle.appDarkBlue,
+    color: appStyle.color_on_primary,
+    backgroundColor: appStyle.color_primary,
     left: 22,
     top: -10,
     zIndex: 999,
@@ -83,11 +89,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   placeholderStyle: {
-    color: appStyle.appDarkBlue,
+    color: appStyle.color_on_primary,
     fontSize: 16,
   },
   selectedTextStyle: {
-    color: appStyle.appDarkBlue,
+    color: appStyle.color_on_primary,
     fontSize: 16,
   },
   iconStyle: {

@@ -5,17 +5,17 @@ import * as appStyle from "./AppStyleSheet";
 const WorkoutDescription = (props) => {
   return (
     <View>
-      <Text style={style.label}>Details:</Text>
+      <Text style={{ color: appStyle.color_on_primary }}>Details:</Text>
       <TextInput
         style={{
           textAlignVertical: "top",
-          backgroundColor: appStyle.appLightBlue,
+          backgroundColor: appStyle.color_primary,
           borderRadius: 8,
           padding: 8,
         }}
         multiline
         placeholder="Optional text"
-        placeholderTextColor={"#72757b"}
+        placeholderTextColor={appStyle.color_bg_variant}
         numberOfLines={4}
         onChangeText={(text) => props.descChanged(text)}
       ></TextInput>
@@ -24,9 +24,3 @@ const WorkoutDescription = (props) => {
 };
 
 export default WorkoutDescription;
-
-const style = StyleSheet.create({
-  label: {
-    color: appStyle.appGray,
-  },
-});
