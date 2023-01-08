@@ -13,12 +13,10 @@ import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faMagnifyingGlass,
-  faChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import Header from "../components/Header";
 
 const FriendsScreen = ({ route }) => {
   const { user } = useAuth();
@@ -66,25 +64,7 @@ const FriendsScreen = ({ route }) => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <View className="flex-row justify-between items-center mb-3 px-3 pt-3">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              size={30}
-              color={appStyle.color_primary}
-            />
-          </TouchableOpacity>
-          <Text
-            className="text-2xl font-semibold pt-3"
-            style={{ color: appStyle.color_primary }}
-          >
-            Friends
-          </Text>
-          <View className="opacity-0">
-            <FontAwesomeIcon icon={faChevronLeft} size={30} />
-          </View>
-        </View>
-
+        <Header title="Friends" goBackOption={true} />
         <View
           className="rounded-xl p-3 mx-2"
           style={{ backgroundColor: appStyle.color_bg_variant }}
