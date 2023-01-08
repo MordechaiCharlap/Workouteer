@@ -12,7 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "notification": {
-      "icon": "./assets/pushNotificationsLogo.png"
+      "icon": "./assets/push-notifications-icon.png"
     },
     "scheme": "com.charlap.workouteer",
     "plugins": [
