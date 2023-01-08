@@ -59,13 +59,13 @@ const MyUserScreen = () => {
                 <FontAwesomeIcon
                   icon={faUserPen}
                   size={25}
-                  color={appStyle.appGray}
+                  color={appStyle.color_primary}
                 />
               </TouchableOpacity>
 
               <Text
                 className="text-3xl tracking-widest"
-                style={{ color: appStyle.appGray }}
+                style={{ color: appStyle.color_primary }}
               >
                 {user.username}
               </Text>
@@ -73,7 +73,7 @@ const MyUserScreen = () => {
                 <FontAwesomeIcon
                   icon={faGear}
                   size={25}
-                  color={appStyle.appGray}
+                  color={appStyle.color_primary}
                 />
               </TouchableOpacity>
             </View>
@@ -97,12 +97,14 @@ const MyUserScreen = () => {
                     className="items-center"
                   >
                     <Text
-                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
                       className="font-bold"
                     >
                       {workoutsCount}
                     </Text>
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                    >
                       Workouts
                     </Text>
                   </TouchableOpacity>
@@ -113,12 +115,14 @@ const MyUserScreen = () => {
                     onPress={showFriends}
                   >
                     <Text
-                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
                       className="font-bold"
                     >
                       {user.friendsCount}
                     </Text>
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                    >
                       Friends
                     </Text>
                   </TouchableOpacity>
@@ -128,12 +132,12 @@ const MyUserScreen = () => {
             <Text
               className="font-semibold text-2xl mb-5"
               style={{
-                color: appStyle.appGray,
+                color: appStyle.color_primary,
               }}
             >
               {user.displayName}
             </Text>
-            <Text style={{ color: appStyle.appGray }} className="text-lg">
+            <Text style={{ color: appStyle.color_primary }} className="text-lg">
               {user.description == "" ? "No description yet" : user.description}
             </Text>
           </View>

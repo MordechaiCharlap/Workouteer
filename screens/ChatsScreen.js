@@ -166,7 +166,7 @@ const ChatsScreen = () => {
             onPress={() => chatClicked(item)}
             className="p-2 rounded relative"
             style={{
-              backgroundColor: appStyle.appDarkBlue,
+              backgroundColor: appStyle.color_primary,
             }}
           >
             <View className="flex-row">
@@ -180,7 +180,7 @@ const ChatsScreen = () => {
                 <View className="flex-row justify-between">
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.appGray }}
+                    style={{ color: appStyle.color_on_primary }}
                   >
                     {item.user.displayName}
                   </Text>
@@ -195,7 +195,7 @@ const ChatsScreen = () => {
               <View className="absolute top-0 bottom-0 justify-center">
                 <View
                   className="rounded-lg p-1"
-                  style={{ backgroundColor: appStyle.appDarkBlue }}
+                  style={{ backgroundColor: appStyle.color_primary }}
                 >
                   <FontAwesomeIcon
                     icon={
@@ -205,7 +205,7 @@ const ChatsScreen = () => {
                         ? faCheckSquare
                         : faSquare
                     }
-                    color={appStyle.appGray}
+                    color={appStyle.color_on_primary}
                     size={30}
                   />
                 </View>
@@ -215,10 +215,10 @@ const ChatsScreen = () => {
               <View className="absolute top-0 bottom-0 right-7 justify-center">
                 <AlertDot
                   number={chatsAlerts[item.chat.id]}
-                  numberColor={appStyle.appDarkBlue}
+                  numberColor={appStyle.color_primary}
                   borderWidth={2}
-                  borderColor={appStyle.appDarkBlue}
-                  color={appStyle.appLightBlue}
+                  borderColor={appStyle.color_primary}
+                  color={appStyle.color_bg}
                   size={35}
                 />
               </View>
@@ -238,15 +238,10 @@ const ChatsScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View
-        className="flex-row items-center h-10 mt-4 mb-2 justify-center"
-        style={{
-          backgroundColor: appStyle.appDarkBlue,
-        }}
-      >
+      <View className="flex-row items-center h-10 mt-4 mb-2 justify-center">
         <Text
           className="text-4xl font-semibold"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
           Chats
         </Text>
@@ -254,10 +249,10 @@ const ChatsScreen = () => {
           <View className="absolute right-5">
             <AlertDot
               number={Object.keys(chatsAlerts).length}
-              numberColor={appStyle.appDarkBlue}
+              numberColor={appStyle.color_on_primary}
               borderWidth={2}
-              borderColor={appStyle.appDarkBlue}
-              color={appStyle.appLightBlue}
+              borderColor={appStyle.color_primary}
+              color={appStyle.color_primary}
               size={35}
             />
           </View>
@@ -274,13 +269,13 @@ const ChatsScreen = () => {
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
                   size={24}
-                  color={appStyle.appDarkBlue}
+                  color={appStyle.color_on_primary}
                 />
               </TouchableOpacity>
               <TextInput
-                style={{ color: appStyle.appGray }}
+                style={{ color: appStyle.color_on_primary }}
                 placeholder="Search"
-                placeholderTextColor={appStyle.appDarkBlue}
+                placeholderTextColor={appStyle.color_on_primary}
                 className="text-xl ml-3"
               />
             </View>
@@ -291,13 +286,13 @@ const ChatsScreen = () => {
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 size={24}
-                color={appStyle.appGray}
+                color={appStyle.color_primary}
               />
             </TouchableOpacity>
 
             <Text
               className="text-2xl font-bold ml-4"
-              style={{ color: appStyle.appGray }}
+              style={{ color: appStyle.color_primary }}
             >
               {selectedChats.length}
             </Text>
@@ -305,7 +300,7 @@ const ChatsScreen = () => {
               <FontAwesomeIcon
                 icon={faTrash}
                 size={24}
-                color={appStyle.appGray}
+                color={appStyle.color_primary}
               />
             </TouchableOpacity>
           </View>
@@ -314,7 +309,7 @@ const ChatsScreen = () => {
           {chatsArr == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
-              style={{ color: appStyle.appGray }}
+              style={{ color: appStyle.color_primary }}
             >
               Loading...
             </Text>
@@ -325,12 +320,12 @@ const ChatsScreen = () => {
           <TouchableOpacity
             onPress={showFriends}
             className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
-            style={{ backgroundColor: appStyle.appLightBlue }}
+            style={{ backgroundColor: appStyle.color_primary }}
           >
             <FontAwesomeIcon
               icon={faPenToSquare}
               size={50}
-              color={appStyle.appDarkBlue}
+              color={appStyle.color_on_primary}
             />
           </TouchableOpacity>
         </View>
@@ -346,30 +341,45 @@ const ChatsScreen = () => {
         }}
       >
         <View
-          style={{ backgroundColor: appStyle.appLightBlue }}
+          style={{ backgroundColor: appStyle.appDarkBlue }}
           className="absolute bottom-0 items-center w-full h-20"
         >
-          <Text className="font-bold text-xl p-1">Are you sure?</Text>
+          <Text
+            className="font-bold text-xl p-1"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            Are you sure?
+          </Text>
           <View className="flex-row w-10/12 justify-between">
             <TouchableOpacity
               className="w-1/3 p-1"
-              style={styles.modalButton}
+              style={{ backgroundColor: appStyle.color_bg }}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 deleteSelectedChats();
               }}
             >
-              <Text className="text-center">Delete chats!</Text>
+              <Text
+                className="text-center"
+                style={{ color: appStyle.color_primary }}
+              >
+                Delete chats!
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="w-1/3 p-1"
-              style={styles.modalButton}
+              style={{ backgroundColor: appStyle.color_bg }}
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setSelectedChats([]);
               }}
             >
-              <Text className="text-center">Cancel</Text>
+              <Text
+                className="text-center"
+                style={{ color: appStyle.color_primary }}
+              >
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -377,9 +387,4 @@ const ChatsScreen = () => {
     </View>
   );
 };
-const styles = new StyleSheet.create({
-  modalButton: {
-    backgroundColor: appStyle.appGray,
-  },
-});
 export default ChatsScreen;

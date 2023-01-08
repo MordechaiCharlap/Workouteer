@@ -1,5 +1,5 @@
 export const color_primary = "#023047";
-export const color_primary_variant = "#023047";
+export const color_primary_variant = "#011d2c";
 export const color_on_primary = "#ffffff";
 export const color_secondary = "#ffb703";
 export const color_secondary_variant = "#fb8500";

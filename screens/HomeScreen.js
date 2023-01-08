@@ -23,8 +23,8 @@ const HomeScreen = () => {
   }, []);
   const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
   const buttonStyle = {
-    color: appStyle.appGray,
-    backgroundColor: appStyle.appAzure,
+    color: appStyle.color_on_primary,
+    backgroundColor: appStyle.color_primary,
     iconSize: 40,
   };
   return (
@@ -50,9 +50,9 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
-            alert={Object.keys(workoutRequestsAlerts).length > 0}
-            alertNumber={Object.keys(workoutRequestsAlerts).length}
-            numberColor={appStyle.appGray}
+            alert={Object.keys(workoutRequestsAlerts).length >= 0}
+            alertNumber={Object.keys(workoutRequestsAlerts).length + 3}
+            numberColor={appStyle.color_on_primary}
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"

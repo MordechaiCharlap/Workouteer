@@ -2,15 +2,15 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { appDarkBlue, appGray } from "./AppStyleSheet";
 import { useNavigation } from "@react-navigation/native";
+import * as appStyle from "./AppStyleSheet";
 const Header = (props) => {
   const navigation = useNavigation();
   return (
     <View
       className="flex-row items-center h-10 mt-4 mb-2"
       style={{
-        backgroundColor: appDarkBlue,
+        backgroundColor: appStyle.color_bg,
         justifyContent: props.goBackOption ? "space-between" : "center",
       }}
     >

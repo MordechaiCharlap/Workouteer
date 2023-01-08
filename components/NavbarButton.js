@@ -44,7 +44,7 @@ const NavbarButton = (props) => {
         <FontAwesomeIcon
           icon={getIcon()}
           size={props.screen == "Home" ? 45 : 30}
-          color={appStyle.appDarkBlue}
+          color={appStyle.color_on_primary}
         />
 
         {props.alert != null && props.alert == true && (
@@ -52,7 +52,7 @@ const NavbarButton = (props) => {
             className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
             style={{
               backgroundColor: appStyle.appRed,
-              borderColor: appStyle.appDarkBlue,
+              borderColor: appStyle.color_on_primary,
               borderWidth: 2,
             }}
           ></View>
@@ -64,7 +64,7 @@ const NavbarButton = (props) => {
 const style = StyleSheet.create({
   button: {},
   currentButton: {
-    backgroundColor: appStyle.appAzure, // invisible color
+    backgroundColor: appStyle.color_primary_variant, // invisible color
   },
 });
 

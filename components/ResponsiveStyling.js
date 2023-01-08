@@ -9,7 +9,7 @@ if (Platform.OS == "web") {
       flex: 1,
       alignSelf: "center",
       aspectRatio: "9/19",
-      backgroundColor: appStyle.appDarkBlue,
+      backgroundColor: appStyle.color_bg,
     },
   });
 } else if (Platform.OS == "android")
@@ -17,7 +17,7 @@ if (Platform.OS == "web") {
     safeAreaStyle: {
       height: "100%",
       flex: 1,
-      backgroundColor: appStyle.appDarkBlue,
+      backgroundColor: appStyle.color_bg,
     },
   });
 export default style;

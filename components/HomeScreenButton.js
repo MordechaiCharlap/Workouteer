@@ -23,10 +23,11 @@ const HomeScreenButton = (props) => {
             <View className="absolute left-2 top-2">
               <AlertDot
                 size={35}
-                color={appStyle.appDarkBlue}
-                borderWidth={4}
-                borderColor={appStyle.appGray}
+                color={appStyle.color_primary_variant}
+                borderWidth={3}
+                borderColor={appStyle.color_on_primary}
                 number={props.alertNumber}
+                numberColor={props.numberColor}
               />
             </View>
           )}
