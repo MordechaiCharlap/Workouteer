@@ -39,29 +39,33 @@ const SettingsScreen = () => {
       <View className="flex-1 p-4">
         <Text
           className="text-center text-2xl"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
           Settings
         </Text>
-        <Text className="text-center" style={{ color: appStyle.appGray }}>
+        <Text className="text-center" style={{ color: appStyle.color_primary }}>
           Privacy
         </Text>
         <View
           className="flex-row justify-between items-center"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
-          <Text style={{ color: appStyle.appGray }}>Public account:</Text>
+          <Text style={{ color: appStyle.color_primary }}>Public account:</Text>
           <Switch
+            trackColor={{ false: "#767577", true: appStyle.color_primary }}
+            thumbColor={"#f4f3f4"}
             value={isPublic}
             onValueChange={() => setIsPublic((prev) => !prev)}
           />
         </View>
         <View
           className="flex-row justify-between items-center"
-          style={{ color: appStyle.appGray }}
+          style={{ color: appStyle.color_primary }}
         >
-          <Text style={{ color: appStyle.appGray }}>Online status:</Text>
+          <Text style={{ color: appStyle.color_primary }}>Online status:</Text>
           <Switch
+            trackColor={{ false: "#767577", true: appStyle.color_primary }}
+            thumbColor={"#f4f3f4"}
             value={showOnline}
             onValueChange={() => setShowOnline((prev) => !prev)}
           />
@@ -71,8 +75,8 @@ const SettingsScreen = () => {
             <Text
               className="text-center py-1 px-1"
               style={{
-                backgroundColor: appStyle.appAzure,
-                color: appStyle.appDarkBlue,
+                backgroundColor: appStyle.color_primary,
+                color: appStyle.color_on_primary,
               }}
             >
               Change password
@@ -82,8 +86,8 @@ const SettingsScreen = () => {
             <Text
               className="text-center py-1 px-1"
               style={{
-                backgroundColor: appStyle.appAzure,
-                color: appStyle.appDarkBlue,
+                backgroundColor: appStyle.color_primary,
+                color: appStyle.color_on_primary,
               }}
             >
               Log out

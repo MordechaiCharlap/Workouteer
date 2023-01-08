@@ -82,7 +82,7 @@ const UserScreen = ({ route }) => {
         >
           <Text
             className="text-center text-xl"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_primary }}
           >
             Add as a friend
           </Text>
@@ -93,7 +93,7 @@ const UserScreen = ({ route }) => {
         <TouchableOpacity onPress={removeFriend} style={style.socialButton}>
           <Text
             className="text-center text-xl"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_primary }}
           >
             Remove friend
           </Text>
@@ -107,7 +107,7 @@ const UserScreen = ({ route }) => {
         >
           <Text
             className="text-center text-xl"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_primary }}
           >
             Cancel friend request
           </Text>
@@ -151,12 +151,12 @@ const UserScreen = ({ route }) => {
                 <FontAwesomeIcon
                   icon={faChevronLeft}
                   size={30}
-                  color={appStyle.appGray}
+                  color={appStyle.color_primary}
                 />
               </TouchableOpacity>
               <Text
                 className=" text-center text-3xl tracking-widest"
-                style={{ color: appStyle.appGray }}
+                style={{ color: appStyle.color_primary }}
               >
                 {shownUser.username}
               </Text>
@@ -180,12 +180,14 @@ const UserScreen = ({ route }) => {
                     className="items-center"
                   >
                     <Text
-                      style={{ fontSize: 20, color: appStyle.appGray }}
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
                       className="font-bold"
                     >
                       {workoutsCount}
                     </Text>
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                    >
                       Workouts
                     </Text>
                   </TouchableOpacity>
@@ -195,10 +197,14 @@ const UserScreen = ({ route }) => {
                     className="items-center"
                     onPress={showOtherUserFriends}
                   >
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                    >
                       {shownUser.friendsCount}
                     </Text>
-                    <Text style={{ fontSize: 20, color: appStyle.appGray }}>
+                    <Text
+                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                    >
                       Friends
                     </Text>
                   </TouchableOpacity>
@@ -215,7 +221,7 @@ const UserScreen = ({ route }) => {
                 >
                   <Text
                     className="text-center text-xl"
-                    style={{ color: appStyle.appGray }}
+                    style={{ color: appStyle.color_primary }}
                   >
                     Send a message
                   </Text>
@@ -232,36 +238,36 @@ const UserScreen = ({ route }) => {
 const style = StyleSheet.create({
   text: {
     fontSize: 20,
-    color: appStyle.appGray,
+    color: appStyle.color_primary,
   },
   socialButton: {
     borderWidth: 1,
-    borderColor: appStyle.appGray,
+    borderColor: appStyle.color_primary,
     padding: 4,
     margin: 10,
     borderRadius: 5,
   },
   leftText: {
     fontSize: 20,
-    color: appStyle.appDarkBlue,
+    color: appStyle.color_primary,
   },
   rightText: {
     fontSize: 20,
-    color: appStyle.appGray,
+    color: appStyle.color_on_primary,
   },
   leftSocialButton: {
-    borderColor: appStyle.appGray,
+    borderColor: appStyle.color_primary,
     borderWidth: 1,
     margin: 0,
     padding: 4,
-    backgroundColor: appStyle.appGray,
+    backgroundColor: appStyle.color_primary,
   },
   rightSocialButton: {
-    borderColor: appStyle.appGray,
+    borderColor: appStyle.color_primary,
     borderWidth: 1,
     margin: 0,
     padding: 4,
-    backgroundColor: appStyle.appDarkBlue,
+    backgroundColor: appStyle.color_on_primary,
   },
 });
 export default UserScreen;

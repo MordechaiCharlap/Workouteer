@@ -40,13 +40,13 @@ const SearchUsers = (props) => {
           <View>
             <Text
               className="text-xl font-semibold tracking-wider"
-              style={{ color: appStyle.appGray }}
+              style={{ color: appStyle.color_primary }}
             >
               {searchedUser.username}
             </Text>
             <Text
               className="text-md opacity-60 tracking-wider"
-              style={{ color: appStyle.appGray }}
+              style={{ color: appStyle.color_primary }}
             >
               {searchedUser.displayName}
             </Text>
@@ -59,19 +59,19 @@ const SearchUsers = (props) => {
     <ScrollView>
       <View
         className="rounded-xl mt-4 p-3"
-        style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+        style={{ backgroundColor: appStyle.color_bg_variant }}
       >
         <View className="flex-row items-center">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             size={24}
-            color={appStyle.appDarkBlue}
+            color={appStyle.color_on_primary}
           />
           <TextInput
             onChangeText={(text) => textChanged(text)}
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_on_primary }}
             placeholder="Search"
-            placeholderTextColor={appStyle.appDarkBlue}
+            placeholderTextColor={appStyle.color_primary}
             className="text-xl ml-3"
           />
         </View>

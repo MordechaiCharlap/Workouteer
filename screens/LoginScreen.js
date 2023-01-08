@@ -29,43 +29,34 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [registerBackground, setRegisterBackground] = useState(
-    appStyle.appDarkBlue
+    appStyle.color_on_primary
   );
   const [registerColor, setRegisterColor] = useState(appStyle.appLightBlue);
 
   const [loginBackground, setLoginBackground] = useState(appStyle.appLightBlue);
-  const [loginColor, setLoginColor] = useState(appStyle.appDarkBlue);
+  const [loginColor, setLoginColor] = useState(appStyle.color_on_primary);
   const [loginBorderColor, setLoginBorderColor] = useState("transparent");
   const registerIn = () => {
     setRegisterBackground(appStyle.appLightBlue);
-    setRegisterColor(appStyle.appDarkBlue);
+    setRegisterColor(appStyle.color_on_primary);
   };
   const registerOut = () => {
-    setRegisterBackground(appStyle.appDarkBlue);
+    setRegisterBackground(appStyle.color_on_primary);
     setRegisterColor(appStyle.appLightBlue);
   };
   const loginIn = () => {
-    setLoginBackground(appStyle.appDarkBlue);
+    setLoginBackground(appStyle.color_on_primary);
     setLoginColor(appStyle.appLightBlue);
     setLoginBorderColor(appStyle.appLightBlue);
   };
   const loginOut = () => {
     setLoginBackground(appStyle.appLightBlue);
-    setLoginColor(appStyle.appDarkBlue);
+    setLoginColor(appStyle.color_on_primary);
     setLoginBorderColor("transparent");
   };
 
   return (
-    <View
-      style={[
-        responsiveStyle.safeAreaStyle,
-        {
-          backgroundColor: initialLoading
-            ? appStyle.appDarkBlue
-            : appStyle.appLightBlue,
-        },
-      ]}
-    >
+    <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -77,23 +68,23 @@ const LoginScreen = () => {
           <View
             className={`mb-5 basis-4/5 rounded-t-xl p-4  justify-between ${ResponsiveShadow}`}
             style={{
-              backgroundColor: appStyle.appDarkBlue,
+              backgroundColor: appStyle.color_primary,
               shadowColor: "#000",
             }}
           >
             <View className="my-3 items-center">
               <FontAwesomeIcon
                 icon={faCircleUser}
-                color={appStyle.appGray}
+                color={appStyle.color_on_primary}
                 size={50}
               />
               <Text
-                style={{ color: appStyle.appGray }}
+                style={{ color: appStyle.color_on_primary }}
                 className="text-2xl my-4"
               >
                 {"Welcome :)"}
               </Text>
-              <Text style={{ color: appStyle.appGray }}>
+              <Text style={{ color: appStyle.color_on_primary }}>
                 Sign in and find a partner for your next workout TODAY!
               </Text>
             </View>
@@ -116,29 +107,32 @@ const LoginScreen = () => {
               ></TextInput>
               <View className="flex-row items-center">
                 <CheckBox
-                  valueColor={appStyle.appDarkBlue}
+                  valueColor={appStyle.color_primary}
+                  backgroundColor={appStyle.color_bg}
                   value={false}
                   onValueChange={(value) => setRememberMe(value)}
                 />
-                <Text className="ml-2" style={{ color: appStyle.appGray }}>
+                <Text
+                  className="ml-2"
+                  style={{ color: appStyle.color_on_primary }}
+                >
                   Remember me!
                 </Text>
               </View>
             </View>
             <TouchableOpacity
               onPress={() => signInEmailPassword(email, password, rememberMe)}
-              onPressIn={loginIn}
-              onPressOut={loginOut}
-              className={`self-center rounded py-2 px-8 w-full border-2`}
+              className={`self-center rounded py-2 px-8 w-full`}
               style={{
-                backgroundColor: loginBackground,
-                borderColor: loginBorderColor,
+                backgroundColor: appStyle.color_primary_variant,
+                borderWidth: 0.5,
+                borderColor: appStyle.color_on_primary,
               }}
             >
               <Text
                 className="text-center tracking-widest font-bold text-xl"
                 style={{
-                  color: loginColor,
+                  color: appStyle.color_on_primary,
                 }}
               >
                 Login
@@ -148,13 +142,13 @@ const LoginScreen = () => {
               onPress={() => signInGoogleAccount()}
               className={`self-center rounded py-2 px-8 w-full border-2`}
               style={{
-                backgroundColor: appStyle.appGray,
+                backgroundColor: appStyle.color_on_primary,
               }}
             >
               <Text
                 className="text-center tracking-widest font-bold text-xl"
                 style={{
-                  color: loginColor,
+                  color: appStyle.color_primary,
                 }}
               >
                 Continue with Google
@@ -162,26 +156,23 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
           <View
-            className={`basis-1/5 rounded-b-xl justify-center p-4 ${ResponsiveShadow}`}
+            className={`basis-1/5 rounded-b-xl justify-center p-2 ${ResponsiveShadow}`}
             style={{
-              backgroundColor: appStyle.appDarkBlue,
+              backgroundColor: appStyle.color_on_primary,
               shadowColor: "#000",
             }}
           >
             <TouchableOpacity
-              onPressIn={registerIn}
-              onPressOut={registerOut}
               onPress={() => navigation.navigate("Register")}
-              className={`flex-1 rounded-b-xl justify-center border-2 ${ResponsiveShadow}`}
+              className={`flex-1 rounded-b-xl justify-center ${ResponsiveShadow}`}
               style={{
-                borderColor: appStyle.appLightBlue,
-                backgroundColor: registerBackground,
+                backgroundColor: appStyle.color_primary,
                 shadowColor: appStyle.appLightBlue,
               }}
             >
               <Text
                 className="text-center font-bold text-xl tracking-widest"
-                style={{ color: registerColor }}
+                style={{ color: appStyle.color_on_primary }}
               >
                 Register
               </Text>
@@ -196,9 +187,9 @@ const LoginScreen = () => {
 export default LoginScreen;
 const style = StyleSheet.create({
   input: {
-    backgroundColor: appStyle.appGray,
+    backgroundColor: appStyle.color_primary,
     borderWidth: 1,
     borderColor: "#5f6b8b",
-    color: appStyle.appDarkBlue,
+    color: appStyle.color_on_primary,
   },
 });

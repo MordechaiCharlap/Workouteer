@@ -2,10 +2,11 @@ import Lottie from "lottie-react-native";
 import * as appStyle from "./AppStyleSheet";
 import { View, Text, Platform } from "react-native";
 import React from "react";
+import responsiveStyle from "../components/ResponsiveStyling";
 
 const LoadingAnimation = () => {
   return (
-    <View className="flex-1">
+    <View className="flex-1" style={responsiveStyle.safeAreaStyle}>
       {Platform.OS == "android" && (
         <Lottie
           source={require("../animations/initialLoading.json")}
@@ -15,8 +16,8 @@ const LoadingAnimation = () => {
       )}
       <View className="h-1/3"></View>
       <Text
-        style={{ color: appStyle.appLightBlue }}
-        className="text-5xl font-semibold tracking-widest text-white text-center"
+        style={{ color: appStyle.color_primary }}
+        className="text-5xl font-semibold tracking-widest text-center"
       >
         Loading
       </Text>

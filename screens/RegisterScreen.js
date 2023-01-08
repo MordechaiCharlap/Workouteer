@@ -7,6 +7,7 @@ import {
   Alert,
   Image,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
 import { React, useLayoutEffect, useState } from "react";
@@ -145,14 +146,14 @@ const LoginScreen = () => {
     <View
       style={[
         responsiveStyle.safeAreaStyle,
-        { backgroundColor: appStyle.appAzure },
+        { backgroundColor: appStyle.color_bg },
       ]}
     >
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View
+      <ScrollView
         className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
       >
@@ -170,23 +171,23 @@ const LoginScreen = () => {
                   <FontAwesomeIcon
                     icon={faCircleUser}
                     size={80}
-                    color={appStyle.appGray}
+                    color={appStyle.color_on_primary}
                   />
                   <View
                     className="rounded-full items-center absolute right-0 bottom-0"
-                    style={{ backgroundColor: appStyle.appGray }}
+                    style={{ backgroundColor: appStyle.color_on_primary }}
                   >
                     <FontAwesomeIcon
                       icon={faPlus}
                       size={25}
-                      color={appStyle.appDarkBlue}
+                      color={appStyle.color_primary}
                     />
                   </View>
                 </View>
               )}
             </TouchableOpacity>
 
-            <Text style={{ color: appStyle.appGray }}>
+            <Text style={{ color: appStyle.color_on_primary }}>
               Click to add profile picture
             </Text>
           </View>
@@ -263,45 +264,51 @@ const LoginScreen = () => {
           <View>
             <View className="flex-row items-center mb-5">
               <CheckBox
-                backgroundColor={appStyle.appAzure}
-                valueColor={appStyle.appDarkBlue}
+                backgroundColor={appStyle.color_on_primary}
+                valueColor={appStyle.color_primary}
                 value={false}
                 onValueChange={setAcceptTerms}
               />
-              <Text className="ml-2" style={{ color: appStyle.appAzure }}>
+              <Text
+                className="ml-2"
+                style={{ color: appStyle.color_on_primary }}
+              >
                 {"I agree to the "}
               </Text>
               <Text
                 className="font-semibold underline"
-                style={{ color: appStyle.appAzure }}
+                style={{ color: appStyle.color_on_primary }}
               >
                 Terms and Conditions
               </Text>
             </View>
             <Text
               className="text-center mt-4 mb-2"
-              style={{ color: appStyle.appGray }}
+              style={{
+                color: appStyle.color_on_primary,
+                display: inputErrorText == "" ? "none" : "flex",
+              }}
             >
               {inputErrorText}
             </Text>
             <TouchableOpacity
               onPress={handleCreateAccount}
-              className={`flex-1 rounded p-2 justify-center border-2 ${ResponsiveShadow}`}
+              className={`flex-1 rounded p-2 justify-center border-2 ${ResponsiveShadow} mt-5 mb-10`}
               style={{
-                backgroundColor: appStyle.appAzure,
-                shadowColor: appStyle.appAzure,
+                backgroundColor: appStyle.color_bg,
+                shadowColor: appStyle.color_bg,
               }}
             >
               <Text
                 className="text-center font-bold text-xl tracking-widest"
-                style={{ color: appStyle.appDarkBlue }}
+                style={{ color: appStyle.color_primary }}
               >
                 Create Account
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -311,6 +318,7 @@ const style = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#5f6b8b",
-    color: appStyle.appGray,
+    color: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_primary,
   },
 });
