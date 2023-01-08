@@ -60,7 +60,7 @@ const SearchUsersScreen = () => {
           <View className="justify-center" style={{ flexBasis: "76%" }}>
             <Text
               className="text-xl font-semibold text-center"
-              style={{ color: appStyle.appDarkBlue }}
+              style={{ color: appStyle.color_primary }}
             >
               {searchedUser.username}
             </Text>
@@ -88,27 +88,27 @@ const SearchUsersScreen = () => {
         <View>
           <Text
             className="text-4xl font-bold text-center"
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_primary }}
           >
             Search By Username
           </Text>
           <View
             className="rounded-xl mt-4 p-3"
-            style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+            style={{ backgroundColor: appStyle.color_primary_variant }}
           >
             <View className="flex-row items-center">
               <TouchableOpacity onPress={searchClicked}>
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
                   size={24}
-                  color={appStyle.appDarkBlue}
+                  color={appStyle.color_primary}
                 />
               </TouchableOpacity>
               <TextInput
                 onChangeText={(text) => setSearchText(text)}
-                style={{ color: appStyle.appGray }}
+                style={{ color: appStyle.color_on_primary }}
                 placeholder="Search"
-                placeholderTextColor={appStyle.appDarkBlue}
+                placeholderTextColor={appStyle.color_primary}
                 className="text-xl ml-3"
               />
             </View>
@@ -123,7 +123,7 @@ const SearchUsersScreen = () => {
 };
 const style = StyleSheet.create({
   profileImg: {
-    borderColor: appStyle.appDarkBlue,
+    borderColor: appStyle.color_primary,
     borderWidth: 0.1,
     top: 0,
     bottom: 0,

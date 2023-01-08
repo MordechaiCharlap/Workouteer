@@ -268,11 +268,11 @@ const StartingTimeComp = (props) => {
   return (
     <View
       className="rounded-xl p-2 pb-4 px-4 items-center"
-      style={{ backgroundColor: appStyle.appLightBlue }}
+      style={{ backgroundColor: appStyle.color_bg }}
     >
       <Text
         className="text-xl font-semibold"
-        style={{ color: appStyle.appDarkBlue }}
+        style={{ color: appStyle.color_primary }}
       >
         {props.title}
       </Text>

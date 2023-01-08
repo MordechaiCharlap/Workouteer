@@ -155,7 +155,7 @@ const LoginScreen = () => {
       />
       <ScrollView
         className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
-        style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
+        style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}
       >
         <View className="mb-8 items-center">
           <View className="items-center">

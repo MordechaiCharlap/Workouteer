@@ -49,8 +49,8 @@ const NewWorkoutScreen = () => {
       location != null
     ) {
       setIsCreateDisabled(false);
-      setCreateButtonTextColor(appStyle.appDarkBlue);
-      setCreateButtonColor(appStyle.appLightBlue);
+      setCreateButtonTextColor(appStyle.color_primary);
+      setCreateButtonColor(appStyle.color_bg);
     } else {
       setIsCreateDisabled(true);
       setCreateButtonTextColor("white");

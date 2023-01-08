@@ -71,7 +71,7 @@ const FriendsScreen = ({ route }) => {
             <FontAwesomeIcon
               icon={faChevronLeft}
               size={30}
-              color={appStyle.appGray}
+              color={appStyle.color_primary}
             />
           </TouchableOpacity>
           <Text

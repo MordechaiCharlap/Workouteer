@@ -153,7 +153,7 @@ const ChatsScreen = () => {
           ? "You: "
           : `${lastMessage.sender}: `) + lastMessage.content;
       if (shownText.length > 35) shownText = shownText.slice(0, 35) + "...";
-      return <Text style={{ color: "#c5c6c8" }}>{shownText}</Text>;
+      return <Text style={{ color: appStyle.color_primary }}>{shownText}</Text>;
     };
     return (
       <FlatList
@@ -165,9 +165,6 @@ const ChatsScreen = () => {
             onLongPress={() => chatLongClicked(item)}
             onPress={() => chatClicked(item)}
             className="p-2 rounded relative"
-            style={{
-              backgroundColor: appStyle.color_primary,
-            }}
           >
             <View className="flex-row">
               <Image
@@ -180,11 +177,14 @@ const ChatsScreen = () => {
                 <View className="flex-row justify-between">
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_on_primary }}
+                    style={{ color: appStyle.color_primary }}
                   >
                     {item.user.displayName}
                   </Text>
-                  <Text className="mt-1" style={{ color: "#c5c6c8" }}>
+                  <Text
+                    className="mt-1"
+                    style={{ color: appStyle.color_primary }}
+                  >
                     {convertTimestamp(item.chat.lastMessage.sentAt)}
                   </Text>
                 </View>
@@ -262,7 +262,7 @@ const ChatsScreen = () => {
         {selectedChats.length == 0 ? (
           <View
             className="rounded-xl"
-            style={{ backgroundColor: appStyle.appDarkBlueGrayer }}
+            style={{ backgroundColor: appStyle.color_primary_variant }}
           >
             <View className="flex-row items-center h-12 p-3">
               <TouchableOpacity>
