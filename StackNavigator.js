@@ -24,6 +24,7 @@ import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
 import WorkoutRequestsScreen from "./screens/WorkoutRequestsScreen";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
+import InviteFriendsScreen from "./screens/InviteFriendsScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import usePushNotifications from "./hooks/usePushNotifications";
 import useAuth from "./hooks/useAuth";
@@ -130,6 +131,11 @@ const StackNavigator = () => {
             name="WorkoutRequests"
             options={horizontalConfig}
             component={WorkoutRequestsScreen}
+          />
+          <Stack.Screen
+            name="InviteFriends"
+            options={horizontalConfig}
+            component={InviteFriendsScreen}
           />
         </>
       ) : (
