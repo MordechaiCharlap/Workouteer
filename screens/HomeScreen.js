@@ -50,9 +50,8 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
-            alert={Object.keys(workoutRequestsAlerts).length >= 0}
-            alertNumber={Object.keys(workoutRequestsAlerts).length + 3}
-            numberColor={appStyle.color_on_primary}
+            alert={Object.keys(workoutRequestsAlerts).length > 0}
+            alertNumber={Object.keys(workoutRequestsAlerts).length}
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
@@ -75,7 +74,6 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={Object.keys(workoutInvitesAlerts).length > 0}
             alertNumber={Object.keys(workoutInvitesAlerts).length}
-            numberColor={appStyle.color_on_primary}
             buttonText="WORKOUT INVITES"
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"

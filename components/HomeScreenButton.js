@@ -21,14 +21,22 @@ const HomeScreenButton = (props) => {
         >
           {props.alert && (
             <View className="absolute left-2 top-2">
-              <AlertDot
-                size={35}
-                color={appStyle.color_primary_variant}
-                borderWidth={3}
-                borderColor={appStyle.color_on_primary}
-                number={props.alertNumber}
-                numberColor={props.numberColor}
-              />
+              <View
+                className="rounded-full"
+                style={{
+                  backgroundColor: appStyle.color_on_primary,
+                  padding: 1,
+                }}
+              >
+                <AlertDot
+                  size={35}
+                  color={appStyle.color_on_primary}
+                  borderColor={appStyle.color_primary}
+                  borderWidth={6}
+                  number={props.alertNumber}
+                  numberColor={appStyle.color_primary}
+                />
+              </View>
             </View>
           )}
           <FontAwesomeIcon
