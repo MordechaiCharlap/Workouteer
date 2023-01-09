@@ -590,39 +590,20 @@ export const getCities = async (country) => {
   }
   return citiesArr;
 };
-export const getWorkoutMembers = async (usersMap) => {
-  const membersArr = [];
-  const requestersArr = [];
-  const returnedRequestersArr = [];
+export const getWorkoutMembers = async (workout) => {
   const returnedMembersArr = [];
-  for (var [key, value] of usersMap) {
-    if (value == true) membersArr.push(key);
-    else if (value == null) requestersArr.push(key);
-  }
-
+  const membersArr = Object.keys(workout.members);
   const qMembers = query(
     collection(db, "users"),
     where("usernameLower", "in", membersArr)
   );
-  if (requestersArr.length > 0) {
-    const qRequesters = query(
-      collection(db, "users"),
-      where("usernameLower", "in", requestersArr)
-    );
-
-    const snapRequesters = await getDocs(qRequesters);
-    snapRequesters.forEach((doc) => {
-      returnedRequestersArr.push({ accepted: null, ...doc.data() });
-    });
-  }
-
   const snapMembers = await getDocs(qMembers);
 
   snapMembers.forEach((doc) => {
     returnedMembersArr.push(doc.data());
   });
 
-  return { members: returnedMembersArr, requesters: returnedRequestersArr };
+  return returnedMembersArr;
 };
 export const inviteFriendToWorkout = async (invitedId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
