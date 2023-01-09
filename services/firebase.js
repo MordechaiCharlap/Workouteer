@@ -588,8 +588,6 @@ export const getCities = async (country) => {
 };
 export const getWorkoutMembers = async (workout) => {
   const returnedMembersArr = [];
-  console.log(workout);
-  console.log("SGADSGDJHFDSASFSAGSDHDJHYFJFYJ");
   const membersArr = Object.keys(workout.members);
   const qMembers = query(
     collection(db, "users"),
