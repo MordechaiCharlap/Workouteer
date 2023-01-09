@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
@@ -8,13 +8,13 @@ import {
   faLocationDot,
   faStopwatch,
   faUserGroup,
-  faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { getDistance } from "geolib";
-import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { timeString } from "../services/timeFunctions";
-import { useEffect } from "react";
+import AlertDot from "../components/AlertDot";
+import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState("");
@@ -23,17 +23,16 @@ const WorkoutComponent = (props) => {
   const [membersMap, setMembersMap] = useState(
     new Map(Object.entries(props.workout.members))
   );
-  const [members, setMembers] = useState(null);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
   const [distance, setDistance] = useState(null);
-  const [requests, setRequests] = useState(0);
+  const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
     if (!membersMap.has(user.usernameLower)) {
       setUserMemberStatus("not");
-      if (membersCount >= 10) setButtonText("Workout is full!");
-      else if (requestsCount >= 10) setButtonText("Requests are full");
+      if (Object.keys(props.workout.members).length >= 10)
+        setButtonText("Workout is full!");
       else setButtonText("Request to join");
     } else {
       switch (membersMap.get(user.usernameLower)) {
@@ -57,14 +56,6 @@ const WorkoutComponent = (props) => {
           break;
       }
     }
-    var membersCount = 0;
-    var requestsCount = 0;
-    for (var value of membersMap.values()) {
-      if (value == true) membersCount++;
-      else if (value == null) requests++;
-    }
-    setRequests(requestsCount);
-    setMembers(membersCount);
   }, [membersMap]);
   useEffect(() => {
     if (props.location) {
@@ -97,11 +88,7 @@ const WorkoutComponent = (props) => {
   const workoutActionButtonClicked = async () => {
     switch (userMemberStatus) {
       case "not":
-        if (
-          buttonText != "Workout is full!" ||
-          buttonText != "Requests are full"
-        )
-          await requestToJoinWorkout();
+        if (buttonText != "Workout is full!") await requestToJoinWorkout();
         break;
       case "creator":
         await cancelWorkout();
@@ -211,7 +198,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              : {members}
+              : {Object.keys(props.workout.members).length}
             </Text>
           </View>
         </View>
@@ -234,25 +221,11 @@ const WorkoutComponent = (props) => {
             backgroundColor: appStyle.color_primary,
           }}
         >
-          {!isPastWorkout && isCreator && requests > 0 && (
-            <View
-              className="absolute aspect-square left-5 w-5 h-5 items-center justify-center rounded-full"
-              style={{
-                borderWidth: 1,
-                borderColor: appStyle.color_primary,
-                backgroundColor: appStyle.color_bg,
-              }}
-            >
-              <Text
-                className="font-semibold"
-                style={{
-                  color: appStyle.color_primary,
-                }}
-              >
-                {notificationCount}
-              </Text>
-            </View>
-          )}
+          {!isPastWorkout &&
+            isCreator &&
+            workoutRequestsAlerts.requestsCount > 0 && (
+              <AlertDot number={workoutRequestsAlerts.requestsCount} />
+            )}
 
           <Text
             className="text-center"
