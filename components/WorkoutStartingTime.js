@@ -24,14 +24,11 @@ const WorkoutStartingTime = (props) => {
   }, []);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    console.log(currentDate);
     if (event.type == "set") {
       if (mode == "date") {
-        console.log("date mode");
         setDate(currentDate);
         setMode("time");
       } else {
-        console.log("time mode");
         if (
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
@@ -40,7 +37,6 @@ const WorkoutStartingTime = (props) => {
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
         } else {
-          console.log("time is ok");
           setDateChangedOnce(true);
           setDate(currentDate);
           props.startingTimeChanged(currentDate);
@@ -62,7 +58,6 @@ const WorkoutStartingTime = (props) => {
   const showTrue = () => {
     if (Platform.OS === "android") {
       setShow(true);
-      console.log("Show true");
       // for iOS, add a button that closes the picker
     }
   };

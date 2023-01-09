@@ -4,14 +4,11 @@ import * as appStyle from "./AppStyleSheet";
 import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
-  console.log(props.friendRequests);
   const acceptRequest = async (otherUserId, index) => {
-    console.log(otherUserId);
     await firebase.acceptRequest(props.user.usernameLower, otherUserId);
     await props.deleteRequest(index);
   };
   const rejectRequest = async (otherUserId, index) => {
-    console.log(otherUserId);
     await firebase.rejectRequest(props.user.usernameLower, otherUserId);
     await props.deleteRequest(index);
   };

@@ -39,9 +39,7 @@ const MyUserScreen = () => {
     const friendsArr = [];
     for (var key of allFriendsMap.keys()) {
       var userData = await firebase.userDataById(key);
-      console.log(userData);
       friendsArr.push(userData);
-      console.log(friendsArr);
     }
     navigation.navigate("Friends", { friendsArray: friendsArr });
   };

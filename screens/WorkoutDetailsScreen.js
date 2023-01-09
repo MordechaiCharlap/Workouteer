@@ -22,24 +22,24 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import responsiveStyle from "../components/ResponsiveStyling";
-import useAuth from "../hooks/useAuth";
-import { useFocusEffect } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import LoadingAnimation from "../components/LoadingAnimation";
+import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { workoutRequestsAlerts } = useAlerts();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const workout = route.params.workout;
   const [membersArray, setMembersArray] = useState([]);
-  const [requestersArray, setRequestersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,8 +51,7 @@ const WorkoutDetailsScreen = ({ route }) => {
       const getUsersData = async () => {
         const membersMap = new Map(Object.entries(workout.members));
         const usersData = await firebase.getWorkoutMembers(membersMap);
-        setMembersArray(usersData.members);
-        setRequestersArray(usersData.requesters);
+        setMembersArray(usersData);
         setInitialLoading(false);
       };
       if (route.params.changesMade) {
@@ -64,8 +63,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     const getUsersData = async () => {
       const membersMap = new Map(Object.entries(workout.members));
       const usersData = await firebase.getWorkoutMembers(membersMap);
-      setMembersArray(usersData.members);
-      setRequestersArray(usersData.requesters);
+      setMembersArray(usersData);
       setInitialLoading(false);
     };
     getUsersData();
@@ -73,7 +71,6 @@ const WorkoutDetailsScreen = ({ route }) => {
   const inviteFriends = async () => {
     navigation.push("InviteFriends", {
       membersArray: membersArray,
-      requestersArray: requestersArray,
     });
   };
   return (
@@ -260,27 +257,29 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
               ListFooterComponent={() => (
                 <View>
-                  {isCreator && requestersArray.length > 0 && (
-                    <View className="items-center">
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate("WorkoutRequests", {
-                            requestersArray: requestersArray,
-                            workout: workout,
-                          });
-                        }}
-                        className="m-2 p-2 rounded"
-                        style={{ backgroundColor: appStyle.color_primary }}
-                      >
-                        <Text
-                          style={{ color: appStyle.color_on_primary }}
-                          className="text-lg"
+                  {isCreator &&
+                    workoutRequestsAlerts[workout.id] &&
+                    workoutRequestsAlerts[workout.id].requestsCount > 0 && (
+                      <View className="items-center">
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate("WorkoutRequests", {
+                              workout: workout,
+                            });
+                          }}
+                          className="m-2 p-2 rounded"
+                          style={{ backgroundColor: appStyle.color_primary }}
                         >
-                          Requests: {requestersArray.length}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                          <Text
+                            style={{ color: appStyle.color_on_primary }}
+                            className="text-lg"
+                          >
+                            Requests:{" "}
+                            {workoutRequestsAlerts[workout.id].requestsCount}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
 
                   <View
                     style={{

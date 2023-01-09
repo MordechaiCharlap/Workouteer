@@ -25,7 +25,6 @@ const SearchUsers = (props) => {
   };
   const renderSearchedUser = () => {
     if (searchedUser != null) {
-      console.log(searchedUser);
       return (
         <TouchableOpacity
           onPress={() => props.userClicked(searchedUser)}

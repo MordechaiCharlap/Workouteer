@@ -83,7 +83,6 @@ const WorkoutComponent = (props) => {
     setUser(await firebase.updateContext(user.usernameLower));
   };
   const requestToJoinWorkout = async () => {
-    console.log("requesting to join");
     await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
     const membersMapClone = new Map(membersMap);
     membersMapClone.set(user.usernameLower, null);

@@ -9,9 +9,7 @@ const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.usernameLower;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
   useEffect(() => {
-    console.log("Setting message:" + props.message.content);
     const seenByMe = async () => {
-      console.log("seeing message for the first time");
       await firebase.seenByMe(
         props.user.usernameLower,
         props.chatId,

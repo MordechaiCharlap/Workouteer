@@ -109,7 +109,6 @@ const EditWorkoutPreferences = (props) => {
       (acceptMale == false && acceptFemale == false)
     ) {
       setInvalidInput(true);
-      console.log("invalid input");
     } else setInvalidInput(false);
     if (
       minAge != props.user.acceptMinAge ||

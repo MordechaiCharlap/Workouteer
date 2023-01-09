@@ -341,11 +341,9 @@ export const sendPrivateMessage = async (
     if (key != userId) {
       await addChatAlert(key, chat.id);
       membersMap.set(key, value);
-      console.log("new memberObject:", membersMap);
     }
   }
   let newArray = membersMap.entries();
-  console.log("new array: ", newArray);
 
   let newMembersObject = Object.fromEntries(newArray);
   await updateDoc(doc(db, `chats/${chat.id}`), {
@@ -489,9 +487,7 @@ export const getPastWorkouts = async (user, now) => {
   return workoutsArray;
 };
 const removeUserFromMembersOrDeleteChat = async (user, chat) => {
-  console.log("chat:", chat);
   const members = new Map(Object.entries(chat.members));
-  console.log("members:", members);
   if (members.size == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
   } else {
@@ -592,6 +588,8 @@ export const getCities = async (country) => {
 };
 export const getWorkoutMembers = async (workout) => {
   const returnedMembersArr = [];
+  console.log(workout);
+  console.log("SGADSGDJHFDSASFSAGSDHDJHYFJFYJ");
   const membersArr = Object.keys(workout.members);
   const qMembers = query(
     collection(db, "users"),
