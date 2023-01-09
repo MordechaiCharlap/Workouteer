@@ -20,43 +20,36 @@ const WorkoutComponent = (props) => {
   const [buttonText, setButtonText] = useState("");
   const [buttonColor, setButtonColor] = useState("white");
   const { user, setUser } = useAuth();
-  const [membersMap, setMembersMap] = useState(
-    new Map(Object.entries(props.workout.members))
-  );
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
   const [distance, setDistance] = useState(null);
   const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
-    if (!membersMap.has(user.usernameLower)) {
+    // setUserMemberStatus( "invited" );
+    // setUserMemberStatus( "not" );
+    // setButtonText( "Workout is already full!" );
+    // setButtonText("Request to join");
+    // setUserMemberStatus( "creator" );
+    // setButtonText( "Cancel workout" );
+    // setButtonColor( appStyle.color_bg );
+    // setUserMemberStatus("member");
+    // setButtonText( "Leave workout" );
+    // setUserMemberStatus("pending");
+    // setButtonText( "Waiting.. Tap to cancel" );
+    // setUserMemberStatus("rejected");
+    // setButtonText("Request rejected");
+    if (props.workout.members[user.usernameLower] == null) {
+      if (props.workout.invites[user.usernameLower] == true) {
+        setUserMemberStatus("invited");
+      }
       setUserMemberStatus("not");
       if (Object.keys(props.workout.members).length >= 10)
-        setButtonText("Workout is full!");
+        setButtonText("Workout is already full!");
       else setButtonText("Request to join");
     } else {
-      switch (membersMap.get(user.usernameLower)) {
-        case true:
-          if (isCreator) {
-            setUserMemberStatus("creator");
-            setButtonText("Cancel workout");
-            setButtonColor(appStyle.color_bg);
-          } else {
-            setUserMemberStatus("member");
-            setButtonText("Leave workout");
-          }
-          break;
-        case null:
-          setUserMemberStatus("pending");
-          setButtonText("Waiting.. Tap to cancel");
-          break;
-        case false:
-          setUserMemberStatus("rejected");
-          setButtonText("Request rejected");
-          break;
-      }
     }
-  }, [membersMap]);
+  }, []);
   useEffect(() => {
     if (props.location) {
       const distance = getDistance(props.location, props.workout.location);
