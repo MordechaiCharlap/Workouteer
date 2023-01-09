@@ -19,7 +19,6 @@ const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { user, setUser } = useAuth();
   const [workout, setWorkout] = useState(props.workout);
-  const [buttonText, setButtonText] = useState("");
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
@@ -29,28 +28,19 @@ const WorkoutComponent = (props) => {
     if (!isPastWorkout && workout) {
       if (isCreator) {
         setUserMemberStatus("creator");
-        setButtonText("Cancel workout");
       } else if (workout.members[user.usernameLower] != null) {
         setUserMemberStatus("member");
-        setButtonText("Leave workout");
       } else if (workout.invites[user.usernameLower] != null) {
         setUserMemberStatus("invited");
-        if (Object.keys(workout.members).length >= 10)
-          setButtonText("Workout is full");
-        else setButtonText("Accept invite");
       } else if (workout.requests[user.usernameLower] != null) {
         if (workout.requests[user.usernameLower] == true) {
           setUserMemberStatus("pending");
-          setButtonText("Cancel request");
         } else {
           setUserMemberStatus("rejected");
-          setButtonText("Request rejected");
+          setWorkout(null);
         }
       } else {
         setUserMemberStatus("not");
-        if (Object.keys(workout.members).length >= 10)
-          setButtonText("Workout is full");
-        else setButtonText("Request to join");
       }
     }
   }, []);
@@ -79,31 +69,12 @@ const WorkoutComponent = (props) => {
   };
   const acceptWorkoutInvite = async () => {
     await firebase.acceptWorkoutInvite(user.usernameLower, workout);
+    setUser(await firebase.updateContext(user.usernameLower));
+    if (props.screen == "WorkoutInvites") setWorkout(null);
   };
   const rejectWorkoutInvite = async () => {
     await firebase.rejectWorkoutInvite(user.usernameLower, workout);
-    setWorkout(null);
-  };
-  const workoutActionButtonClicked = async () => {
-    if (buttonText != "Left" && buttonText != "Rejected")
-      switch (userMemberStatus) {
-        case "invited":
-          if (buttonText != "Workout is full") await acceptWorkoutInvite();
-        case "not":
-          if (buttonText != "Workout is full") await requestToJoinWorkout();
-          break;
-        case "creator":
-          await cancelWorkout();
-          break;
-        case "member":
-          await leaveWorkout();
-          break;
-        case "pending":
-          await cancelWorkoutRequest();
-          break;
-        case "rejected":
-          break;
-      }
+    if (props.screen == "WorkoutInvites") setWorkout(null);
   };
   const getWorkoutActionButtons = () => {
     switch (userMemberStatus) {
@@ -111,10 +82,10 @@ const WorkoutComponent = (props) => {
         return (
           <View className="flex-row mt-1">
             <TouchableOpacity
-              onPress={workoutActionButtonClicked}
+              onPress={acceptWorkoutInvite}
               className="mx-1 h-8 rounded flex-1 justify-center"
               style={{
-                backgroundColor: appStyle.color_bg,
+                backgroundColor: appStyle.color_success,
                 borderColor: appStyle.color_primary,
                 borderWidth: 1,
               }}
@@ -129,10 +100,10 @@ const WorkoutComponent = (props) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={workoutActionButtonClicked}
+              onPress={rejectWorkoutInvite}
               className="mx-1 h-8 rounded flex-1 justify-center"
               style={{
-                backgroundColor: appStyle.color_bg,
+                backgroundColor: appStyle.color_error,
                 borderColor: appStyle.color_primary,
                 borderWidth: 1,
               }}
@@ -147,6 +118,90 @@ const WorkoutComponent = (props) => {
               </Text>
             </TouchableOpacity>
           </View>
+        );
+      case "creator":
+        return (
+          <TouchableOpacity
+            onPress={cancelWorkout}
+            className="mx-1 h-8 rounded flex-1 justify-center"
+            style={{
+              backgroundColor: appStyle.color_bg,
+              borderColor: appStyle.color_primary,
+              borderWidth: 1,
+            }}
+          >
+            <Text
+              className="text-center"
+              style={{
+                color: appStyle.color_primary,
+              }}
+            >
+              Cancel Workout
+            </Text>
+          </TouchableOpacity>
+        );
+      case "member":
+        return (
+          <TouchableOpacity
+            onPress={leaveWorkout}
+            className="mx-1 h-8 rounded flex-1 justify-center"
+            style={{
+              backgroundColor: appStyle.color_bg,
+              borderColor: appStyle.color_primary,
+              borderWidth: 1,
+            }}
+          >
+            <Text
+              className="text-center"
+              style={{
+                color: appStyle.color_primary,
+              }}
+            >
+              Leave Workout
+            </Text>
+          </TouchableOpacity>
+        );
+      case "pending":
+        return (
+          <TouchableOpacity
+            onPress={cancelWorkoutRequest}
+            className="mx-1 h-8 rounded flex-1 justify-center"
+            style={{
+              backgroundColor: appStyle.color_bg,
+              borderColor: appStyle.color_primary,
+              borderWidth: 1,
+            }}
+          >
+            <Text
+              className="text-center"
+              style={{
+                color: appStyle.color_primary,
+              }}
+            >
+              Cancel Workout Request
+            </Text>
+          </TouchableOpacity>
+        );
+      case "not":
+        return (
+          <TouchableOpacity
+            onPress={requestToJoinWorkout}
+            className="mx-1 h-8 rounded flex-1 justify-center"
+            style={{
+              backgroundColor: appStyle.color_bg,
+              borderColor: appStyle.color_primary,
+              borderWidth: 1,
+            }}
+          >
+            <Text
+              className="text-center"
+              style={{
+                color: appStyle.color_primary,
+              }}
+            >
+              Request to join
+            </Text>
+          </TouchableOpacity>
         );
     }
   };
