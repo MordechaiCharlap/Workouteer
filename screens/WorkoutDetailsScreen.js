@@ -299,7 +299,8 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                     {route.params.userMemberStatus == "member" ||
-                    route.params.userMemberStatus == "creator" ? (
+                    route.params.userMemberStatus == "creator" ||
+                    route.params.userMemberStatus == "invited" ? (
                       <WorkoutPinnedLocation ltLng={workout.location} />
                     ) : (
                       <View>
