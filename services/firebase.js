@@ -624,11 +624,23 @@ export const getWorkoutMembers = async (usersMap) => {
 
   return { members: returnedMembersArr, requesters: returnedRequestersArr };
 };
+export const inviteFriendToWorkout = async (invitedId, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`invites.${invitedId}`]: null,
+  });
+  await workoutInviteAlert(invitedId, workout);
+};
+export const rejectWorkoutInvite = async (invitedId, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`invites.${invitedId}`]: false,
+  });
+  await removeWorkoutInviteAlert(invitedId, workout);
+};
 export const requestToJoinWorkout = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`members.${requesterId}`]: null,
   });
-  await requestToJoinWorkoutAlert(requesterId, workout);
+  await workoutRequestAlert(requesterId, workout);
 };
 export const cancelWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
@@ -694,16 +706,13 @@ export const removeWorkoutRequestAlert = async (requesterId, workout) => {
   });
 };
 export const workoutInviteAlert = async (invitedId, workout) => {
-  await updateDoc(doc(db, "alerts", workout.creator), {
-    [`workoutRequests.${workout.id}.Invites.${invitedId}`]: Timestamp.now(),
-    [`workoutRequests.${workout.id}.workoutDate`]: workout.startingTime,
-    [`workoutRequests.${workout.id}.invitesCount`]: increment(1),
+  await updateDoc(doc(db, "alerts", invitedId), {
+    [`workoutInvites.${workout.id}.workoutDate`]: workout.startingTime,
   });
 };
-export const removeWorkoutInviteAlert = async (requesterId, workout) => {
-  await updateDoc(doc(db, "alerts", workout.creator), {
-    [`workoutInvites.${workout.id}.requests.${requesterId}`]: deleteField(),
-    [`workoutInvites.${workout.id}.requestsCount`]: increment(-1),
+export const removeWorkoutInviteAlert = async (invitedId, workout) => {
+  await updateDoc(doc(db, "alerts", invitedId), {
+    [`workoutRequests.${workout.id}`]: deleteField(),
   });
 };
 export const removePastOrEmptyWorkoutsAlerts = async (
@@ -724,7 +733,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
   const inviteAlerts = workoutInvitesAlerts;
   const inviteAlertsMap = new Map(Object.entries(inviteAlerts));
   for (var [key, value] of inviteAlertsMap) {
-    if (value.workoutDate.toDate() < now || value.invitesCount == 0) {
+    if (value.workoutDate.toDate() < now) {
       inviteAlertsMap.delete(key);
       changed++;
     }
