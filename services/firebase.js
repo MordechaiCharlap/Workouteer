@@ -736,3 +736,15 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
+export const getWorkoutsByInvites = async (invitesAlerts) => {
+  //Array should look like this: [[34tt21ho,{workoutDate:2/1/2023}],[fkjs98,{workoutDate:3/1/2023}]]
+  invitesArray = Array.from(Object.entries(invitesAlerts)).sort(
+    (a, b) => a[1].workoutDate.toDate() < b[1].workoutDate.toDate()
+  );
+  const returnedWorkouts = [];
+  for (var invite of invitesArray) {
+    const workout = await getWorkout(invite[0]);
+    returnedWorkouts.push(workout);
+  }
+  return returnedWorkouts;
+};
