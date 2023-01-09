@@ -701,7 +701,7 @@ export const workoutInviteAlert = async (invitedId, workout) => {
 };
 export const removeWorkoutInviteAlert = async (invitedId, workout) => {
   await updateDoc(doc(db, "alerts", invitedId), {
-    [`workoutRequests.${workout.id}`]: deleteField(),
+    [`workoutInvites.${workout.id}`]: deleteField(),
   });
 };
 export const removePastOrEmptyWorkoutsAlerts = async (
