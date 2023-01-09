@@ -38,7 +38,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   const { workoutRequestsAlerts } = useAlerts();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
-  const workout = route.params.workout;
+  const [workout, setWorkout] = useState(route.params.workout);
   const [membersArray, setMembersArray] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useLayoutEffect(() => {
@@ -48,13 +48,12 @@ const WorkoutDetailsScreen = ({ route }) => {
   }, []);
   useFocusEffect(
     useCallback(() => {
-      const getUsersData = async () => {
-        const usersData = await firebase.getWorkoutMembers(workout);
-        setMembersArray(usersData);
-        setInitialLoading(false);
+      const getWorkout = async () => {
+        return await firebase.getWorkout(workout.id);
       };
       if (route.params.changesMade) {
-        getUsersData();
+        console.log("Updating workout details");
+        setWorkout(getWorkout());
       }
     }, [])
   );
@@ -68,6 +67,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   }, []);
   const inviteFriends = async () => {
     navigation.push("InviteFriends", {
+      workout: workout,
       membersArray: membersArray,
     });
   };
