@@ -636,6 +636,15 @@ export const rejectWorkoutInvite = async (invitedId, workout) => {
   });
   await removeWorkoutInviteAlert(invitedId, workout);
 };
+export const acceptWorkoutInvite = async (invitedId, workout) => {
+  await updateDoc(doc(db, "workouts", workout.id), {
+    [`members.${invitedId}`]: true,
+  });
+  await updateDoc(doc(db, "users", invitedId), {
+    [`workouts.${workout.id}`]: workout.startingTime,
+  });
+  await removeWorkoutInviteAlert(invitedId, workout);
+};
 export const requestToJoinWorkout = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`members.${requesterId}`]: null,
