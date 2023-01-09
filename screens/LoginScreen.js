@@ -28,33 +28,6 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [registerBackground, setRegisterBackground] = useState(
-    appStyle.color_on_primary
-  );
-  const [registerColor, setRegisterColor] = useState(appStyle.appLightBlue);
-
-  const [loginBackground, setLoginBackground] = useState(appStyle.appLightBlue);
-  const [loginColor, setLoginColor] = useState(appStyle.color_on_primary);
-  const [loginBorderColor, setLoginBorderColor] = useState("transparent");
-  const registerIn = () => {
-    setRegisterBackground(appStyle.appLightBlue);
-    setRegisterColor(appStyle.color_on_primary);
-  };
-  const registerOut = () => {
-    setRegisterBackground(appStyle.color_on_primary);
-    setRegisterColor(appStyle.appLightBlue);
-  };
-  const loginIn = () => {
-    setLoginBackground(appStyle.color_on_primary);
-    setLoginColor(appStyle.appLightBlue);
-    setLoginBorderColor(appStyle.appLightBlue);
-  };
-  const loginOut = () => {
-    setLoginBackground(appStyle.appLightBlue);
-    setLoginColor(appStyle.color_on_primary);
-    setLoginBorderColor("transparent");
-  };
-
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -124,7 +97,7 @@ const LoginScreen = () => {
               onPress={() => signInEmailPassword(email, password, rememberMe)}
               className={`self-center rounded py-2 px-8 w-full`}
               style={{
-                backgroundColor: appStyle.color_primary_variant,
+                backgroundColor: appStyle.color_primary,
                 borderWidth: 0.5,
                 borderColor: appStyle.color_on_primary,
               }}
@@ -140,7 +113,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => signInGoogleAccount()}
-              className={`self-center rounded py-2 px-8 w-full border-2`}
+              className={`self-center rounded py-2 px-8 w-full`}
               style={{
                 backgroundColor: appStyle.color_on_primary,
               }}
