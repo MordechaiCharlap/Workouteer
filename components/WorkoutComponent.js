@@ -43,8 +43,6 @@ const WorkoutComponent = (props) => {
         setUserMemberStatus("not");
       }
     }
-  }, []);
-  useEffect(() => {
     if (props.location) {
       const distance = getDistance(props.location, workout.location);
       setDistance(Math.ceil(distance / 1000));
@@ -64,7 +62,6 @@ const WorkoutComponent = (props) => {
     await firebase.requestToJoinWorkout(user.usernameLower, workout);
   };
   const cancelWorkoutRequest = async () => {
-    setButtonText("Canceled");
     await firebase.cancelWorkoutRequest(user.usernameLower, workout);
   };
   const acceptWorkoutInvite = async () => {
