@@ -76,7 +76,7 @@ const HomeScreen = () => {
             alertNumber={Object.keys(workoutInvitesAlerts).length}
             buttonText="WORKOUT INVITES"
             style={buttonStyle}
-            navigateScreen="FriendsWorkouts"
+            navigateScreen="WorkoutInvites"
             icon={faEnvelopeOpenText}
           />
         </View>
