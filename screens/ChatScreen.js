@@ -61,8 +61,9 @@ const ChatScreen = ({ route }) => {
   });
   useEffect(() => {
     if (chat != null && messages.length == 0) {
-      const membersMap = new Map(Object.entries(chat.members));
-      const joinDateTS = membersMap.get(user.usernameLower).joinDate;
+      console.log("getting messages");
+      console.log(chat);
+      const joinDateTS = chat.members[user.usernameLower].joinDate;
       var messagesClone = messages.slice();
       const q = query(
         collection(db, `chats/${chat.id}/messages`),

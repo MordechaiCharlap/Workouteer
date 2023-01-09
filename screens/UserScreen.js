@@ -40,7 +40,7 @@ const UserScreen = ({ route }) => {
     setWorkoutsCount(count);
   }, []);
   const openPrivateChat = async () => {
-    const chat = firebase.getPrivateChat(user, shownUser);
+    const chat = await firebase.getPrivateChatByUsers(user, shownUser);
     navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
   };
   const removeFriend = async () => {

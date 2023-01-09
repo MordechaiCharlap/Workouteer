@@ -313,8 +313,7 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   }
 
   await addChatConnection(user.usernameLower, otherUser.usernameLower, chatId);
-  const chat = (await getDoc(doc(db, `chats/${chatId}`))).data();
-
+  const chat = await getChat(chatId);
   return {
     ...chat,
     id: chatId,
@@ -365,7 +364,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     var chat = await getChat(chatId);
     var chatToPush = {
       chat: {
-        id: `${chatId}`,
+        id: chatId,
         ...chat,
       },
     };
@@ -656,11 +655,12 @@ export const getWorkout = async (workoutId) => {
   return { ...workoutDoc.data(), id: workoutDoc.id };
 };
 export const getFriendsWorkouts = async (user) => {};
-export const getPrivateChat = async (user, otherUser) => {
-  const chatPals = new Map(Object.entries(user.chatPals));
-  const chatId = chatPals.get(otherUser.usernameLower);
-  if (!chatId) return null;
-  else {
+export const getPrivateChatByUsers = async (user, otherUser) => {
+  const chatId = user.chatPals[otherUser.usernameLower];
+  if (!chatId) {
+    console.log("Havent found chatpal");
+    return await getOrCreatePrivateChat(user, otherUser);
+  } else {
     console.log("getting old chat");
     const chat = await getDoc(doc(db, `chats/${chatId}`));
     const chatWithId = { ...chat.data(), id: chat.id };

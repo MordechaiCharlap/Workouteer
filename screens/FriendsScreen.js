@@ -45,14 +45,8 @@ const FriendsScreen = ({ route }) => {
   };
   //TODO
   const openPrivateChat = async (otherUser) => {
-    const chatPals = new Map(Object.entries(user.chatPals));
-    const chatId = chatPals.get(otherUser.usernameLower);
-    if (!chatId) navigation.navigate("Chat", { otherUser: otherUser });
-    else {
-      console.log("getting old chat");
-      const chat = await firebase.getPrivateChat(chatId);
-      navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
-    }
+    const chat = await firebase.getPrivateChatByUsers(user, otherUser);
+    navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
   };
   const removeFriend = async (userRemoveId) => {
     await firebase.removeFriend(user.usernameLower, userRemoveId);
