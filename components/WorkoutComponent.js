@@ -18,7 +18,6 @@ import useAlerts from "../hooks/useAlerts";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const [buttonText, setButtonText] = useState("");
-  const [buttonColor, setButtonColor] = useState("white");
   const { user, setUser } = useAuth();
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
@@ -26,28 +25,32 @@ const WorkoutComponent = (props) => {
   const [distance, setDistance] = useState(null);
   const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
-    // setUserMemberStatus( "invited" );
-    // setUserMemberStatus( "not" );
-    // setButtonText( "Workout is already full!" );
-    // setButtonText("Request to join");
-    // setUserMemberStatus( "creator" );
-    // setButtonText( "Cancel workout" );
-    // setButtonColor( appStyle.color_bg );
-    // setUserMemberStatus("member");
-    // setButtonText( "Leave workout" );
-    // setUserMemberStatus("pending");
-    // setButtonText( "Waiting.. Tap to cancel" );
-    // setUserMemberStatus("rejected");
-    // setButtonText("Request rejected");
-    if (props.workout.members[user.usernameLower] == null) {
-      if (props.workout.invites[user.usernameLower] == true) {
+    if (!isPastWorkout) {
+      if (isCreator) {
+        setUserMemberStatus("creator");
+        setButtonText("Cancel workout");
+      } else if (props.workout.members[user.usernameLower] != null) {
+        setUserMemberStatus("member");
+        setButtonText("Leave workout");
+      } else if (props.workout.invites[user.usernameLower] != null) {
         setUserMemberStatus("invited");
+        if (Object.keys(props.workout.members).length >= 10)
+          setButtonText("Workout is full");
+        else setButtonText("Accept invite");
+      } else if (props.workout.requests[user.usernameLower] != null) {
+        if (props.workout.requests[user.usernameLower] == true) {
+          setUserMemberStatus("pending");
+          setButtonText("Cancel request");
+        } else {
+          setUserMemberStatus("rejected");
+          setButtonText("Request rejected");
+        }
+      } else {
+        setUserMemberStatus("not");
+        if (Object.keys(props.workout.members).length >= 10)
+          setButtonText("Workout is full");
+        else setButtonText("Request to join");
       }
-      setUserMemberStatus("not");
-      if (Object.keys(props.workout.members).length >= 10)
-        setButtonText("Workout is already full!");
-      else setButtonText("Request to join");
-    } else {
     }
   }, []);
   useEffect(() => {
@@ -57,7 +60,7 @@ const WorkoutComponent = (props) => {
     }
   }, []);
   const leaveWorkout = async () => {
-    setButtonText("Left");
+    setButtonText("Left workout");
     await firebase.leaveWorkout(user, props.workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
@@ -68,20 +71,20 @@ const WorkoutComponent = (props) => {
   };
   const requestToJoinWorkout = async () => {
     await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
-    const membersMapClone = new Map(membersMap);
-    membersMapClone.set(user.usernameLower, null);
-    setMembersMap(membersMapClone);
   };
   const cancelWorkoutRequest = async () => {
+    setButtonText("Canceled");
     await firebase.cancelWorkoutRequest(user.usernameLower, props.workout);
-    const membersMapClone = new Map(membersMap);
-    membersMapClone.delete(user.usernameLower);
-    setMembersMap(membersMapClone);
+  };
+  const acceptWorkoutInvite = async () => {
+    await firebase.acceptWorkoutInvite(user.usernameLower, props.workout);
   };
   const workoutActionButtonClicked = async () => {
     switch (userMemberStatus) {
+      case "invited":
+        if (buttonText != "Workout is full") await acceptWorkoutInvite();
       case "not":
-        if (buttonText != "Workout is full!") await requestToJoinWorkout();
+        if (buttonText != "Workout is full") await requestToJoinWorkout();
         break;
       case "creator":
         await cancelWorkout();
@@ -234,7 +237,7 @@ const WorkoutComponent = (props) => {
             onPress={workoutActionButtonClicked}
             className="mx-1 h-8 rounded w-1 flex-1 justify-center"
             style={{
-              backgroundColor: buttonColor,
+              backgroundColor: appStyle.color_bg,
               borderColor: appStyle.color_primary,
               borderWidth: 1,
             }}
