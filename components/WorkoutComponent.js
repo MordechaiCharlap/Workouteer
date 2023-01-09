@@ -63,6 +63,7 @@ const WorkoutComponent = (props) => {
   const leaveWorkout = async () => {
     await firebase.leaveWorkout(user, workout);
     setUser(await firebase.updateContext(user.usernameLower));
+    if (props.screen == "FutureWorkouts") setWorkout(null);
   };
   const cancelWorkout = async () => {
     await firebase.cancelWorkout(user, workout);
@@ -81,13 +82,10 @@ const WorkoutComponent = (props) => {
   };
   const rejectWorkoutInvite = async () => {
     await firebase.rejectWorkoutInvite(user.usernameLower, workout);
+    setWorkout(null);
   };
   const workoutActionButtonClicked = async () => {
-    if (
-      buttonText != "Cancled" &&
-      buttonText != "Left" &&
-      buttonText != "Rejected"
-    )
+    if (buttonText != "Left" && buttonText != "Rejected")
       switch (userMemberStatus) {
         case "invited":
           if (buttonText != "Workout is full") await acceptWorkoutInvite();
@@ -108,26 +106,49 @@ const WorkoutComponent = (props) => {
       }
   };
   const getWorkoutActionButtons = () => {
-    return (
-      <TouchableOpacity
-        onPress={workoutActionButtonClicked}
-        className="mx-1 h-8 rounded w-1 flex-1 justify-center"
-        style={{
-          backgroundColor: appStyle.color_bg,
-          borderColor: appStyle.color_primary,
-          borderWidth: 1,
-        }}
-      >
-        <Text
-          className="text-center"
-          style={{
-            color: appStyle.color_primary,
-          }}
-        >
-          {buttonText}
-        </Text>
-      </TouchableOpacity>
-    );
+    switch (userMemberStatus) {
+      case "invited":
+        return (
+          <View className="flex-row mt-1">
+            <TouchableOpacity
+              onPress={workoutActionButtonClicked}
+              className="mx-1 h-8 rounded flex-1 justify-center"
+              style={{
+                backgroundColor: appStyle.color_bg,
+                borderColor: appStyle.color_primary,
+                borderWidth: 1,
+              }}
+            >
+              <Text
+                className="text-center"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                Accept invite
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={workoutActionButtonClicked}
+              className="mx-1 h-8 rounded flex-1 justify-center"
+              style={{
+                backgroundColor: appStyle.color_bg,
+                borderColor: appStyle.color_primary,
+                borderWidth: 1,
+              }}
+            >
+              <Text
+                className="text-center"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                Reject invite
+              </Text>
+            </TouchableOpacity>
+          </View>
+        );
+    }
   };
   if (workout != null)
     return (
@@ -229,8 +250,12 @@ const WorkoutComponent = (props) => {
           </View>
         </View>
         <View
-          className="flex-1 py-1 flex-row"
-          style={{ borderTopColor: appStyle.color_primary, borderTopWidth: 2 }}
+          className="flex-1 py-1"
+          style={{
+            borderTopColor: appStyle.color_primary,
+            borderTopWidth: 2,
+            flexDirection: userMemberStatus == "invited" ? "column" : "row",
+          }}
         >
           <TouchableOpacity
             onPress={() =>
@@ -241,7 +266,7 @@ const WorkoutComponent = (props) => {
                 userMemberStatus: userMemberStatus,
               })
             }
-            className="mx-1 h-8 w-1 flex-1 rounded justify-center"
+            className="mx-1 h-8 flex-1 rounded justify-center"
             style={{
               backgroundColor: appStyle.color_primary,
             }}
