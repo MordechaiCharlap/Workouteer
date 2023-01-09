@@ -49,8 +49,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       const getUsersData = async () => {
-        const membersMap = new Map(Object.entries(workout.members));
-        const usersData = await firebase.getWorkoutMembers(membersMap);
+        const usersData = await firebase.getWorkoutMembers(workout);
         setMembersArray(usersData);
         setInitialLoading(false);
       };
@@ -61,8 +60,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   );
   useEffect(() => {
     const getUsersData = async () => {
-      const membersMap = new Map(Object.entries(workout.members));
-      const usersData = await firebase.getWorkoutMembers(membersMap);
+      const usersData = await firebase.getWorkoutMembers(workout);
       setMembersArray(usersData);
       setInitialLoading(false);
     };
