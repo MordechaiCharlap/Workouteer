@@ -30,6 +30,7 @@ import usePushNotifications from "./hooks/usePushNotifications";
 import useAuth from "./hooks/useAuth";
 import useAlerts from "./hooks/useAlerts";
 import * as firebase from "./services/firebase";
+import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addObserver } = useAuth();
@@ -111,6 +112,11 @@ const StackNavigator = () => {
           <Stack.Screen
             name="PastWorkouts"
             component={PastWorkoutsScreen}
+            options={verticalConfig}
+          />
+          <Stack.Screen
+            name="WorkoutInvites"
+            component={WorkoutInvitesScreen}
             options={verticalConfig}
           />
           <Stack.Screen
