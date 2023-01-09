@@ -26,7 +26,6 @@ const UserScreen = ({ route }) => {
   );
 
   useLayoutEffect(() => {
-    console.log(shownUser);
     navigation.setOptions({
       headerShown: false,
     });
@@ -211,6 +210,19 @@ const UserScreen = ({ route }) => {
                 </View>
               </View>
             </View>
+            <Text
+              className="font-semibold text-2xl mb-5"
+              style={{
+                color: appStyle.color_primary,
+              }}
+            >
+              {shownUser.displayName}
+            </Text>
+            <Text style={{ color: appStyle.color_primary }} className="text-lg">
+              {shownUser.description == ""
+                ? "No description yet"
+                : shownUser.description}
+            </Text>
             <View className="flex-row items-center self-center justify-around">
               {renderFriendshipButton()}
               {(shownUser.isPublic == true ||
