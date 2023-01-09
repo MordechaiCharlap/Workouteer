@@ -652,7 +652,8 @@ export const rejectWorkoutRequest = async (requesterId, workout) => {
   await removeWorkoutRequestAlert(requesterId, workout);
 };
 export const getWorkout = async (workoutId) => {
-  return (await getDoc(doc(db, "workouts", workoutId))).data();
+  const workoutDoc = await getDoc(doc(db, "workouts", workoutId));
+  return { ...workoutDoc.data(), id: workoutDoc.id };
 };
 export const getFriendsWorkouts = async (user) => {};
 export const getPrivateChat = async (user, otherUser) => {
@@ -738,7 +739,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
 };
 export const getWorkoutsByInvites = async (invitesAlerts) => {
   //Array should look like this: [[34tt21ho,{workoutDate:2/1/2023}],[fkjs98,{workoutDate:3/1/2023}]]
-  invitesArray = Array.from(Object.entries(invitesAlerts)).sort(
+  const invitesArray = Array.from(Object.entries(invitesAlerts)).sort(
     (a, b) => a[1].workoutDate.toDate() < b[1].workoutDate.toDate()
   );
   const returnedWorkouts = [];
