@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, StatusBar, FlatList } from "react-native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -17,14 +17,16 @@ const WorkoutInvitesScreen = () => {
   }, []);
   const [workouts, setWorkouts] = useState();
   const [initialLoading, setInitialLoading] = useState(true);
-  const { workoutInvites } = useAlerts();
+  const { workoutInvitesAlerts } = useAlerts();
   useEffect(() => {
-    const getInvitedWorkouts = async () => {
-      const workoutsArr = await firebase.getInvitedWorkouts(workoutInvites);
+    const getWorkoutsByInvites = async () => {
+      const workoutsArr = await firebase.getWorkoutsByInvites(
+        workoutInvitesAlerts
+      );
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
-    getInvitedWorkouts();
+    getWorkoutsByInvites();
   }, []);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -32,7 +34,7 @@ const WorkoutInvitesScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Friends Workouts"} goBackOption={true} />
+      <Header title={"Workout Invites"} goBackOption={true} />
       <View className="flex-1 px-4">
         {initialLoading ? (
           <LoadingAnimation />
