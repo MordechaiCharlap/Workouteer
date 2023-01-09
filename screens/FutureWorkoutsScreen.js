@@ -46,7 +46,11 @@ const FutureWorkoutsScreen = () => {
             data={workouts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <WorkoutComponent workout={item} isPastWorkout={false} />
+              <WorkoutComponent
+                workout={item}
+                isPastWorkout={false}
+                screen={"FutureWorkouts"}
+              />
             )}
           />
         )}
