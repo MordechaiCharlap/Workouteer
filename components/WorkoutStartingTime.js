@@ -19,7 +19,7 @@ const WorkoutStartingTime = (props) => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
     //workaround
-    maximumDate.setHours(maximumDate.getHours() + 2);
+    // maximumDate.setHours(maximumDate.getHours() + 2);
     setMaxDate(maximumDate);
   }, []);
   const onDateChange = (event, selectedDate) => {
