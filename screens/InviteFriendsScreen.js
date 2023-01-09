@@ -24,12 +24,10 @@ const InviteFriendsScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
-  const membersArray = route.params.membersArray;
-  const requestersArray = route.params.requestersArray;
-  const [invitedArray, setInvitedArray] = useState([]);
+  const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
-
+  const [changesMade, setChangesMade] = useState(false);
   useFocusEffect(
     useCallback(() => {
       const showFriends = async () => {
@@ -37,7 +35,6 @@ const InviteFriendsScreen = ({ route }) => {
         const friendsArr = [];
         for (var key of allFriendsMap.keys()) {
           var userData = await firebase.userDataById(key);
-          console.log(userData.usernameLower);
           friendsArr.push(userData);
         }
         setShownFriendsArray(friendsArr);
@@ -45,14 +42,90 @@ const InviteFriendsScreen = ({ route }) => {
       showFriends();
     }, [])
   );
-  const inviteFriend = async (friend) => {};
+  const goBack = () => {
+    if (changesMade) {
+      navigation.navigate("WorkoutDetails", {
+        workout: workout,
+        isCreator: true,
+        isPastWorkout: false,
+        userMemberStatus: "creator",
+        changesMade: true,
+      });
+    } else {
+      navigation.goBack();
+    }
+  };
+  const inviteFriend = async (friendId) => {
+    setChangesMade(true);
+    const workoutClone = { ...workout };
+    if (workoutClone.invites == null) {
+      workoutClone.invites = { [friendId]: true };
+    } else {
+      workoutClone.invites[friendId] = true;
+    }
+    setWorkout(workoutClone);
+    await firebase.inviteFriendToWorkout(friendId, workout);
+  };
+  const getButton = (friendId) => {
+    if (workout.invites && workout.invites[friendId] != null) {
+      return (
+        <View
+          className="py-1 px-6 rounded"
+          style={{
+            backgroundColor: appStyle.color_primary,
+          }}
+        >
+          <Text
+            className="text-lg font-semibold"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            Invited
+          </Text>
+        </View>
+      );
+    } else if (workout.members[friendId]) {
+      return (
+        <View
+          className="py-1 px-6 rounded"
+          style={{
+            backgroundColor: appStyle.color_primary,
+          }}
+        >
+          <Text
+            className="text-lg font-semibold"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            Joined
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <TouchableOpacity
+        onPress={async () => inviteFriend(friendId)}
+        className="py-1 px-6 rounded"
+        style={{
+          backgroundColor: appStyle.color_bg,
+          borderColor: appStyle.color_primary,
+          borderWidth: 0.5,
+        }}
+      >
+        <Text
+          className="text-lg font-semibold"
+          style={{ color: appStyle.color_primary }}
+        >
+          Invite
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Invite Friends"} goBackOption={true} />
+      <Header title={"Invite Friends"} goBackOption={true} navigate={goBack} />
       <View
         className="rounded-xl p-3 mx-2"
         style={{ backgroundColor: appStyle.color_bg_variant }}
@@ -81,7 +154,10 @@ const InviteFriendsScreen = ({ route }) => {
         keyExtractor={(item) => item.usernameLower}
         renderItem={({ item }) => (
           <View className="flex-row items-center mt-2">
-            <TouchableOpacity className="flex-row flex-1 items-center">
+            <TouchableOpacity
+              onPress={() => navigation.navigate("User", { shownUser: item })}
+              className="flex-row flex-1 items-center"
+            >
               <Image
                 source={{
                   uri: item.img,
@@ -103,21 +179,7 @@ const InviteFriendsScreen = ({ route }) => {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="py-1 px-6 rounded"
-              style={{
-                backgroundColor: appStyle.color_bg,
-                borderColor: appStyle.color_primary,
-                borderWidth: 0.5,
-              }}
-            >
-              <Text
-                className="text-lg font-semibold"
-                style={{ color: appStyle.color_primary }}
-              >
-                Invite
-              </Text>
-            </TouchableOpacity>
+            {getButton(item.usernameLower)}
           </View>
         )}
       />
