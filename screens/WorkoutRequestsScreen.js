@@ -43,14 +43,13 @@ const WorkoutRequestsScreen = ({ route }) => {
     setWorkout(await firebase.getWorkout(workout.id));
   };
   const goBack = () => {
-    console.log("goback function");
-    if (!changesMade) {
+    if (changesMade) {
       navigation.navigate("WorkoutDetails", {
         workout: workout,
         isCreator: true,
         isPastWorkout: false,
         userMemberStatus: "creator",
-        changesMade: "true",
+        changesMade: true,
       });
     } else {
       navigation.goBack();
