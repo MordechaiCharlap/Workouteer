@@ -17,28 +17,29 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
-  const [buttonText, setButtonText] = useState("");
   const { user, setUser } = useAuth();
+  const [workout, setWorkout] = useState(props.workout);
+  const [buttonText, setButtonText] = useState("");
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.usernameLower;
   const [distance, setDistance] = useState(null);
   const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
-    if (!isPastWorkout) {
+    if (!isPastWorkout && workout) {
       if (isCreator) {
         setUserMemberStatus("creator");
         setButtonText("Cancel workout");
-      } else if (props.workout.members[user.usernameLower] != null) {
+      } else if (workout.members[user.usernameLower] != null) {
         setUserMemberStatus("member");
         setButtonText("Leave workout");
-      } else if (props.workout.invites[user.usernameLower] != null) {
+      } else if (workout.invites[user.usernameLower] != null) {
         setUserMemberStatus("invited");
-        if (Object.keys(props.workout.members).length >= 10)
+        if (Object.keys(workout.members).length >= 10)
           setButtonText("Workout is full");
         else setButtonText("Accept invite");
-      } else if (props.workout.requests[user.usernameLower] != null) {
-        if (props.workout.requests[user.usernameLower] == true) {
+      } else if (workout.requests[user.usernameLower] != null) {
+        if (workout.requests[user.usernameLower] == true) {
           setUserMemberStatus("pending");
           setButtonText("Cancel request");
         } else {
@@ -47,7 +48,7 @@ const WorkoutComponent = (props) => {
         }
       } else {
         setUserMemberStatus("not");
-        if (Object.keys(props.workout.members).length >= 10)
+        if (Object.keys(workout.members).length >= 10)
           setButtonText("Workout is full");
         else setButtonText("Request to join");
       }
@@ -55,206 +56,215 @@ const WorkoutComponent = (props) => {
   }, []);
   useEffect(() => {
     if (props.location) {
-      const distance = getDistance(props.location, props.workout.location);
+      const distance = getDistance(props.location, workout.location);
       setDistance(Math.ceil(distance / 1000));
     }
   }, []);
   const leaveWorkout = async () => {
-    setButtonText("Left workout");
-    await firebase.leaveWorkout(user, props.workout);
+    await firebase.leaveWorkout(user, workout);
     setUser(await firebase.updateContext(user.usernameLower));
   };
   const cancelWorkout = async () => {
-    setButtonText("Canceled");
-    await firebase.cancelWorkout(user, props.workout);
+    await firebase.cancelWorkout(user, workout);
     setUser(await firebase.updateContext(user.usernameLower));
+    setWorkout(null);
   };
   const requestToJoinWorkout = async () => {
-    await firebase.requestToJoinWorkout(user.usernameLower, props.workout);
+    await firebase.requestToJoinWorkout(user.usernameLower, workout);
   };
   const cancelWorkoutRequest = async () => {
     setButtonText("Canceled");
-    await firebase.cancelWorkoutRequest(user.usernameLower, props.workout);
+    await firebase.cancelWorkoutRequest(user.usernameLower, workout);
   };
   const acceptWorkoutInvite = async () => {
-    await firebase.acceptWorkoutInvite(user.usernameLower, props.workout);
+    await firebase.acceptWorkoutInvite(user.usernameLower, workout);
+  };
+  const rejectWorkoutInvite = async () => {
+    await firebase.rejectWorkoutInvite(user.usernameLower, workout);
   };
   const workoutActionButtonClicked = async () => {
-    switch (userMemberStatus) {
-      case "invited":
-        if (buttonText != "Workout is full") await acceptWorkoutInvite();
-      case "not":
-        if (buttonText != "Workout is full") await requestToJoinWorkout();
-        break;
-      case "creator":
-        await cancelWorkout();
-        break;
-      case "member":
-        await leaveWorkout();
-        break;
-      case "pending":
-        await cancelWorkoutRequest();
-        break;
-      case "rejected":
-        break;
-    }
+    if (
+      buttonText != "Cancled" &&
+      buttonText != "Left" &&
+      buttonText != "Rejected"
+    )
+      switch (userMemberStatus) {
+        case "invited":
+          if (buttonText != "Workout is full") await acceptWorkoutInvite();
+        case "not":
+          if (buttonText != "Workout is full") await requestToJoinWorkout();
+          break;
+        case "creator":
+          await cancelWorkout();
+          break;
+        case "member":
+          await leaveWorkout();
+          break;
+        case "pending":
+          await cancelWorkoutRequest();
+          break;
+        case "rejected":
+          break;
+      }
   };
-  return (
-    <View
-      className="rounded mb-5"
-      style={{
-        backgroundColor: appStyle.appLightBlue,
-        borderWidth: 2,
-        borderColor: appStyle.color_primary,
-      }}
-    >
-      <View
-        className="flex-row justify-between px-2"
+  const getWorkoutActionButtons = () => {
+    return (
+      <TouchableOpacity
+        onPress={workoutActionButtonClicked}
+        className="mx-1 h-8 rounded w-1 flex-1 justify-center"
         style={{
-          borderBottomColor: appStyle.color_primary,
-          borderBottomWidth: 2,
+          backgroundColor: appStyle.color_bg,
+          borderColor: appStyle.color_primary,
+          borderWidth: 1,
         }}
       >
         <Text
-          className="text-xl rounded-t"
+          className="text-center"
           style={{
             color: appStyle.color_primary,
           }}
         >
-          {timeString(props.workout.startingTime.toDate())}
+          {buttonText}
         </Text>
-        <Text
-          className="text-xl rounded-t"
+      </TouchableOpacity>
+    );
+  };
+  if (workout != null)
+    return (
+      <View
+        className="rounded mb-5"
+        style={{
+          backgroundColor: appStyle.appLightBlue,
+          borderWidth: 2,
+          borderColor: appStyle.color_primary,
+        }}
+      >
+        <View
+          className="flex-row justify-between px-2"
           style={{
-            color: appStyle.color_primary,
+            borderBottomColor: appStyle.color_primary,
+            borderBottomWidth: 2,
           }}
         >
-          {isCreator ? "Your " : props.workout.creator + "'s "}
-          workout
-        </Text>
-      </View>
+          <Text
+            className="text-xl rounded-t"
+            style={{
+              color: appStyle.color_primary,
+            }}
+          >
+            {timeString(workout.startingTime.toDate())}
+          </Text>
+          <Text
+            className="text-xl rounded-t"
+            style={{
+              color: appStyle.color_primary,
+            }}
+          >
+            {isCreator ? "Your " : workout.creator + "'s "}
+            workout
+          </Text>
+        </View>
 
-      <View className="flex-row flex-1">
-        <View className="justify-around items-center aspect-square">
-          <FontAwesomeIcon
-            icon={workoutTypes[props.workout.type].icon}
-            size={45}
-            color={appStyle.color_primary}
-          />
+        <View className="flex-row flex-1">
+          <View className="justify-around items-center aspect-square">
+            <FontAwesomeIcon
+              icon={workoutTypes[workout.type].icon}
+              size={45}
+              color={appStyle.color_primary}
+            />
+          </View>
+          <View
+            className="p-1 justify-around"
+            style={{
+              borderLeftColor: appStyle.color_primary,
+              borderLeftWidth: 2,
+            }}
+          >
+            <View className="flex-row items-center my-1">
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                size={30}
+                color={appStyle.color_primary}
+              />
+              <Text
+                className="text-md"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                :{" "}
+                {distance ? "Less than " + distance + " km away" : workout.city}
+              </Text>
+            </View>
+            <View className="flex-row items-center my-1">
+              <FontAwesomeIcon
+                icon={faStopwatch}
+                size={30}
+                color={appStyle.color_primary}
+              />
+              <Text
+                className="text-md"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                : {workout.minutes} minutes
+              </Text>
+            </View>
+            <View className="flex-row items-center my-1">
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                size={30}
+                color={appStyle.color_primary}
+              />
+              <Text
+                className="text-md"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                : {Object.keys(workout.members).length}
+              </Text>
+            </View>
+          </View>
         </View>
         <View
-          className="p-1 justify-around"
-          style={{
-            borderLeftColor: appStyle.color_primary,
-            borderLeftWidth: 2,
-          }}
+          className="flex-1 py-1 flex-row"
+          style={{ borderTopColor: appStyle.color_primary, borderTopWidth: 2 }}
         >
-          <View className="flex-row items-center my-1">
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              size={30}
-              color={appStyle.color_primary}
-            />
-            <Text
-              className="text-md"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
-              :{" "}
-              {distance
-                ? "Less than " + distance + " km away"
-                : props.workout.city}
-            </Text>
-          </View>
-          <View className="flex-row items-center my-1">
-            <FontAwesomeIcon
-              icon={faStopwatch}
-              size={30}
-              color={appStyle.color_primary}
-            />
-            <Text
-              className="text-md"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
-              : {props.workout.minutes} minutes
-            </Text>
-          </View>
-          <View className="flex-row items-center my-1">
-            <FontAwesomeIcon
-              icon={faUserGroup}
-              size={30}
-              color={appStyle.color_primary}
-            />
-            <Text
-              className="text-md"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
-              : {Object.keys(props.workout.members).length}
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        className="flex-1 py-1 flex-row"
-        style={{ borderTopColor: appStyle.color_primary, borderTopWidth: 2 }}
-      >
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("WorkoutDetails", {
-              workout: props.workout,
-              isCreator: isCreator,
-              isPastWorkout: isPastWorkout,
-              userMemberStatus: userMemberStatus,
-            })
-          }
-          className="mx-1 h-8 w-1 flex-1 rounded justify-center"
-          style={{
-            backgroundColor: appStyle.color_primary,
-          }}
-        >
-          {!isPastWorkout &&
-            isCreator &&
-            workoutRequestsAlerts.requestsCount > 0 && (
-              <AlertDot number={workoutRequestsAlerts.requestsCount} />
-            )}
-
-          <Text
-            className="text-center"
-            style={{
-              color: appStyle.color_on_primary,
-            }}
-          >
-            Details
-          </Text>
-        </TouchableOpacity>
-        {!isPastWorkout && (
           <TouchableOpacity
-            onPress={workoutActionButtonClicked}
-            className="mx-1 h-8 rounded w-1 flex-1 justify-center"
+            onPress={() =>
+              navigation.navigate("WorkoutDetails", {
+                workout: workout,
+                isCreator: isCreator,
+                isPastWorkout: isPastWorkout,
+                userMemberStatus: userMemberStatus,
+              })
+            }
+            className="mx-1 h-8 w-1 flex-1 rounded justify-center"
             style={{
-              backgroundColor: appStyle.color_bg,
-              borderColor: appStyle.color_primary,
-              borderWidth: 1,
+              backgroundColor: appStyle.color_primary,
             }}
           >
+            {!isPastWorkout &&
+              isCreator &&
+              workoutRequestsAlerts.requestsCount > 0 && (
+                <AlertDot number={workoutRequestsAlerts.requestsCount} />
+              )}
+
             <Text
               className="text-center"
               style={{
-                color: appStyle.color_primary,
+                color: appStyle.color_on_primary,
               }}
             >
-              {buttonText}
+              Details
             </Text>
           </TouchableOpacity>
-        )}
+          {!isPastWorkout && getWorkoutActionButtons()}
+        </View>
       </View>
-    </View>
-  );
+    );
 };
 
 export default WorkoutComponent;
