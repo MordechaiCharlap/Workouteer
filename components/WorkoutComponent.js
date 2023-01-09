@@ -51,6 +51,7 @@ const WorkoutComponent = (props) => {
   const leaveWorkout = async () => {
     await firebase.leaveWorkout(user, workout);
     setUser(await firebase.updateContext(user.usernameLower));
+    setUserMemberStatus("not");
     if (props.screen == "FutureWorkouts") setWorkout(null);
   };
   const cancelWorkout = async () => {
@@ -60,17 +61,21 @@ const WorkoutComponent = (props) => {
   };
   const requestToJoinWorkout = async () => {
     await firebase.requestToJoinWorkout(user.usernameLower, workout);
+    setUserMemberStatus("pending");
   };
   const cancelWorkoutRequest = async () => {
     await firebase.cancelWorkoutRequest(user.usernameLower, workout);
+    setUserMemberStatus("not");
   };
   const acceptWorkoutInvite = async () => {
     await firebase.acceptWorkoutInvite(user.usernameLower, workout);
     setUser(await firebase.updateContext(user.usernameLower));
+    setUserMemberStatus("member");
     if (props.screen == "WorkoutInvites") setWorkout(null);
   };
   const rejectWorkoutInvite = async () => {
     await firebase.rejectWorkoutInvite(user.usernameLower, workout);
+    setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
   };
   const getWorkoutActionButtons = () => {
