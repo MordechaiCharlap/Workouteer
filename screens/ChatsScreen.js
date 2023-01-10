@@ -10,18 +10,11 @@ import {
   StatusBar,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import {
-  React,
-  useLayoutEffect,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
+import { React, useLayoutEffect, useState, useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
-  faBell,
   faMagnifyingGlass,
   faPenToSquare,
   faArrowLeft,
@@ -32,16 +25,18 @@ import {
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-import Header from "../components/Header";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
+import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { setScreen } = useNavbarNavigation();
+  const { chatsAlerts } = useAlerts();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
-  const { chatsAlerts } = useAlerts();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -49,6 +44,7 @@ const ChatsScreen = () => {
   });
   useFocusEffect(
     useCallback(() => {
+      setScreen("Chats");
       const getChats = async () => {
         var arr = await firebase.getChatsArrayIncludeUsers(user);
         setChatsArr(arr);

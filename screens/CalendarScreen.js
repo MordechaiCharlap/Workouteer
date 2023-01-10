@@ -1,17 +1,23 @@
 import { View, Text, StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { React, useLayoutEffect, useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import * as appStyle from "../components/AppStyleSheet";
+import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const CalendarScreen = () => {
+  const { setScreen } = useNavbarNavigation();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
-
+  useFocusEffect(
+    useCallback(() => {
+      setScreen("Calendar");
+    }, [])
+  );
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar

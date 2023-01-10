@@ -82,19 +82,19 @@ const StackNavigator = () => {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={homeNavigationOptions}
+            options={homeNavigationOptions.current}
           />
 
           <Stack.Screen
             name="MyUser"
             component={MyUserScreen}
-            options={myUserNavigationOptions}
+            options={myUserNavigationOptions.current}
           />
           <Stack.Screen name="User" component={UserScreen} />
           <Stack.Screen
             name="Explore"
             component={ExploreScreen}
-            options={exploreNavigationOptions}
+            options={exploreNavigationOptions.current}
           />
           <Stack.Screen
             name="Friends"
@@ -104,13 +104,13 @@ const StackNavigator = () => {
           <Stack.Screen
             name="Chats"
             component={ChatsScreen}
-            options={chatsNavigationOptions}
+            options={chatsNavigationOptions.current}
           />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen
             name="Calendar"
             component={CalendarScreen}
-            options={calendarNavigationOptions}
+            options={calendarNavigationOptions.current}
           />
           <Stack.Screen name="Notifications" component={NotificationsScreen} />
           <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />

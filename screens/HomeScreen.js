@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Text, StatusBar } from "react-native";
-import React, { useEffect, useLayoutEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useLayoutEffect } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
 import HomeScreenButton from "../components/HomeScreenButton";
@@ -14,19 +14,27 @@ import {
   faEnvelopeOpenText,
 } from "@fortawesome/free-solid-svg-icons";
 import useAlerts from "../hooks/useAlerts";
+import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
+  const { setScreen } = useNavbarNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
+
   const buttonStyle = {
     color: appStyle.color_on_primary,
     backgroundColor: appStyle.color_primary,
     iconSize: 40,
   };
+  useFocusEffect(
+    useCallback(() => {
+      setScreen("Home");
+    }, [])
+  );
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar

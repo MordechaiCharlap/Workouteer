@@ -6,8 +6,8 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { React, useLayoutEffect, useState, useCallback } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as firebase from "../services/firebase";
@@ -21,9 +21,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
+import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const MyUserScreen = () => {
+  const navigation = useNavigation();
   const { user } = useAuth();
-  const allFriendsMap = new Map(Object.entries(user.friends));
+  const { setScreen } = useNavbarNavigation();
+
   const [workoutsCount, setWorkoutsCount] = useState();
   useEffect(() => {
     const workouts = new Map(Object.entries(user.workouts));
@@ -34,12 +37,16 @@ const MyUserScreen = () => {
     }
     setWorkoutsCount(count);
   }, []);
-  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setScreen("MyUser");
+    }, [])
+  );
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar

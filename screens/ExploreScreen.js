@@ -1,6 +1,12 @@
 import { Text, TouchableOpacity, View, StatusBar } from "react-native";
-import { React, useLayoutEffect, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import {
+  React,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -15,12 +21,20 @@ import {
   faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
+import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const ExploreScreen = () => {
-  const { user, setUser } = useAuth();
-  const [friendRequests, setFriendRequests] = useState(null);
   const navigation = useNavigation();
+  const { user, setUser } = useAuth();
+  const { setScreen } = useNavbarNavigation();
+
+  const [friendRequests, setFriendRequests] = useState(null);
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
+  useFocusEffect(
+    useCallback(() => {
+      setScreen("Explore");
+    }, [])
+  );
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,

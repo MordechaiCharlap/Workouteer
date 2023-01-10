@@ -59,6 +59,7 @@ const ChatScreen = ({ route }) => {
       headerShown: false,
     });
   });
+
   useEffect(() => {
     if (chat != null && messages.length == 0) {
       console.log("getting messages");
