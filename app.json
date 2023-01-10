@@ -4,8 +4,8 @@
     "slug": "workouteer-rn",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icon-ios.png",
     "userInterfaceStyle": "light",
+    "icon": "./assets/app-icon-transparent.png",
     "splash": {
       "image": "./assets/splash-screen.png",
       "resizeMode": "contain",
@@ -43,13 +43,14 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "icon": "./assets/app-icon-ios.png",
       "supportsTablet": true
     },
     "android": {
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon-transparent642X642.png",
+        "foregroundImage": "./assets/adaptive-icon-android.png",
         "backgroundColor": "#8ecae6"
       },
       "package": "com.charlap.workouteer",
