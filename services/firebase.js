@@ -135,7 +135,7 @@ export const createUser = async (newUserData) => {
     id: newUserData.id,
     birthdate: newUserData.birthdate,
     email: newUserData.email,
-    uidAuth: newUserData.id,
+    uidAuth: newUserData.uidAuth,
     friendsCount: 0,
     friendRequestCount: 0,
     workouts: {},
@@ -150,10 +150,10 @@ export const createUser = async (newUserData) => {
   });
 
   await setDoc(doc(db, "alerts", newUserData.username.toLowerCase()), {
-    chats: false,
-    friendRequests: false,
-    workoutInvites: false,
-    workoutRequests: false,
+    chats: {},
+    friendRequests: {},
+    workoutInvites: {},
+    workoutRequests: {},
   });
   await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
     receivedRequests: {},

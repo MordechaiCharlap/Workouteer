@@ -194,7 +194,7 @@ const LoginScreen = () => {
           id: username.toLowerCase(),
           birthdate: date,
           email: email.toLowerCase(),
-          id: userCredential.user.uid,
+          uidAuth: userCredential.user.uid,
           pushToken: pushToken,
         };
         await firebase.createUser(newUserData);
