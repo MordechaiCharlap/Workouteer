@@ -37,7 +37,7 @@ const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
   const { sendPushNotification } = usePushNotifications();
   const { user, setUser } = useAuth();
-  const { chatsAlerts } = useAlerts();
+  const { chatsAlerts, setChatsAlerts } = useAlerts();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
   const db = firebase.db;
@@ -133,8 +133,12 @@ const ChatScreen = ({ route }) => {
     }
   };
   const leaveChat = async () => {
-    await firebase.removeChatAlerts(user.usernameLower, chat.id);
+    const chatsAlertsClone = { ...chatsAlerts };
+    delete chatsAlertsClone[`${chat.id}`];
+    setChatsAlerts(chatsAlertsClone);
+    console.log("cleaning chat alert:", chatsAlertsClone);
     navigation.goBack();
+    await firebase.removeChatAlerts(user.usernameLower, chat.id);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
