@@ -13,7 +13,13 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUserPen, faGear, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserPen,
+  faGear,
+  faPen,
+  faDumbbell,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 const MyUserScreen = () => {
@@ -35,14 +41,6 @@ const MyUserScreen = () => {
       headerShown: false,
     });
   }, []);
-  const showFriends = async () => {
-    const friendsArr = [];
-    for (var key of allFriendsMap.keys()) {
-      var userData = await firebase.userDataById(key);
-      friendsArr.push(userData);
-    }
-    navigation.navigate("Friends", { friendsArray: friendsArr });
-  };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -83,46 +81,60 @@ const MyUserScreen = () => {
                     uri: user.img,
                   }}
                   className="h-32 w-32 bg-white rounded-full mb-2 self-center"
+                  style={{
+                    borderWidth: 1,
+                    borderColor: appStyle.color_primary,
+                  }}
                 />
               </View>
 
               <View className="flex-row flex-1 justify-around">
                 <View>
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("PastWorkouts", { user: user })
-                    }
-                    className="items-center"
+                    className="items-center flex-row"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                    onPress={() => navigation.navigate("PastWorkouts")}
                   >
                     <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                      style={{ fontSize: 20, color: appStyle.color_on_primary }}
                       className="font-bold"
                     >
                       {workoutsCount}
                     </Text>
-                    <Text
+                    <FontAwesomeIcon
+                      icon={faDumbbell}
+                      size={40}
+                      color={appStyle.color_on_primary}
+                    />
+                    {/* <Text
                       style={{ fontSize: 20, color: appStyle.color_primary }}
                     >
                       Workouts
-                    </Text>
+                    </Text> */}
                   </TouchableOpacity>
                 </View>
                 <View>
                   <TouchableOpacity
-                    className="items-center"
-                    onPress={showFriends}
+                    className="items-center flex-row"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                    onPress={() => navigation.navigate("Friends")}
                   >
                     <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
+                      style={{ fontSize: 20, color: appStyle.color_on_primary }}
                       className="font-bold"
                     >
                       {user.friendsCount}
                     </Text>
-                    <Text
+                    <FontAwesomeIcon
+                      icon={faUsers}
+                      size={40}
+                      color={appStyle.color_on_primary}
+                    />
+                    {/* <Text
                       style={{ fontSize: 20, color: appStyle.color_primary }}
                     >
                       Friends
-                    </Text>
+                    </Text> */}
                   </TouchableOpacity>
                 </View>
               </View>

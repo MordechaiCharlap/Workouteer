@@ -18,7 +18,7 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 
-const FriendsScreen = ({ route }) => {
+const FriendsScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -27,7 +27,15 @@ const FriendsScreen = ({ route }) => {
     });
   }, []);
   useEffect(() => {
-    setShownFriendsArray(route.params.friendsArray);
+    const showFriends = async () => {
+      const friendsArr = [];
+      for (var key of allFriendsMap.keys()) {
+        var userData = await firebase.userDataById(key);
+        friendsArr.push(userData);
+      }
+      setShownFriendsArray(friendsArr);
+    };
+    showFriends();
   }, []);
 
   const [searchText, setSearchText] = useState("");
