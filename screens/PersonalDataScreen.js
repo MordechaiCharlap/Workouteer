@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -64,11 +64,10 @@ const PersonalDataScreen = () => {
       >
         <View className="mb-8">
           <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
-            {"Your account is created!"}
+            {"One last step"}
           </Text>
           <Text style={{ color: appStyle.appGray }}>
-            Now we need some additional information so we could help you pair
-            with the right workout buddies!
+            Before you move on we need your personal information.
           </Text>
         </View>
         <View className="flex-1">
@@ -80,14 +79,14 @@ const PersonalDataScreen = () => {
           </Text>
           <TextInput
             onChangeText={(text) => setFirstNameVal(text)}
-            className="rounded mb-5 px-3 py-1"
+            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="First Name"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <TextInput
-            onChangeText={(text) => setLastNameVal(text)}
-            className="rounded mb-5 px-3 py-1"
+            onChangeText={(text) => setFirstNameVal(text)}
+            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="Last Name"
             placeholderTextColor={"#5f6b8b"}
@@ -95,11 +94,10 @@ const PersonalDataScreen = () => {
           <View className="mb-5">
             <Dropdown
               style={[
-                style.dropdown,
+                style.input,
                 countryIsFocus && { borderColor: appStyle.appAzure },
               ]}
               placeholder="Country"
-              placeholderStyle={style.placeholderStyle}
               selectedTextStyle={style.selectedTextStyle}
               inputSearchStyle={style.inputSearchStyle}
               iconStyle={style.iconStyle}
@@ -119,7 +117,7 @@ const PersonalDataScreen = () => {
           <View className="mb-5">
             <Dropdown
               style={[
-                style.dropdown,
+                style.input,
                 isMaleIsFocus && { borderColor: appStyle.appAzure },
               ]}
               placeholder="Sex"
@@ -226,20 +224,17 @@ const PersonalDataScreen = () => {
 export default PersonalDataScreen;
 const style = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderColor: "#5f6b8b",
-    color: appStyle.appGray,
+    borderRadius: 4,
+    paddingLeft: 10,
+    height: 40,
+    borderWidth: 2,
+    borderColor: appStyle.color_bg,
+    color: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_primary,
   },
   text: { color: appStyle.appGray },
   container: {
     paddingHorizontal: 16,
-  },
-  dropdown: {
-    height: 30,
-    borderColor: "#5f6b8b",
-    borderWidth: 0.5,
-    borderRadius: 4,
-    paddingHorizontal: 8,
   },
   icon: {
     marginRight: 5,
@@ -260,7 +255,6 @@ const style = StyleSheet.create({
     fontSize: 16,
   },
   selectedTextStyle: {
-    color: "#5f6b8b",
     fontSize: 16,
   },
   iconStyle: {
