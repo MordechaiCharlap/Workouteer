@@ -47,6 +47,7 @@ const LoginScreen = () => {
   const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
   const [date, setDate] = useState(new Date());
+  const [dateStyle, setDateStyle] = useState(style.input);
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
 
@@ -55,6 +56,12 @@ const LoginScreen = () => {
     setDate(currentDate);
     setShow(false);
     setChangeOnce(true);
+    if (calculateAge(currentDate) < 16) {
+      alert("You need to be at least 16 to use this app");
+      setDateStyle(style.badInput);
+    } else {
+      setDateStyle(style.input);
+    }
   };
   const openImageLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -133,12 +140,14 @@ const LoginScreen = () => {
     }
   };
   const usernameLostFocus = () => {
-    var validRegex = /^[a-zA-Z]{6,20}$/;
-    if (email.match(validRegex)) {
+    var validRegex = /^[a-zA-Z0-9]{6,20}$/;
+    if (username.match(validRegex)) {
       console.log("good username");
       setUsernameStyle(style.input);
     } else {
-      alert("Invalid username, Only english letters, between 6-20 characters");
+      alert(
+        "Invalid username, Only english letters/numbers, between 6-20 characters"
+      );
       setUsernameStyle(style.badInput);
     }
   };
@@ -173,14 +182,14 @@ const LoginScreen = () => {
           img: image,
           username: username,
           displayName: username,
-          usernameLower: username.toLowerCase(),
+          id: username.toLowerCase(),
           birthdate: date,
           email: email.toLowerCase(),
           id: userCredential.user.uid,
           pushToken: pushToken,
         };
         await firebase.createUser(newUserData);
-        await firebase.uploadProfileImage(username.toLowerCase(), image);
+        await firebase.uploadProfileImage(newUserData.id, image);
         navigation.navigate("PersonalData");
       })
       .catch((error) => {
@@ -265,7 +274,7 @@ const LoginScreen = () => {
             ></TextInput> */}
             <TouchableOpacity
               className="rounded mb-5 px-3 h-10 justify-center"
-              style={style.input}
+              style={dateStyle}
               onPress={showDatepicker}
             >
               {!changedOnce && (
