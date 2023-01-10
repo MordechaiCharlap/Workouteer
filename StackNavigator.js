@@ -70,14 +70,14 @@ const StackNavigator = () => {
   }, [workoutInvitesAlerts]);
   return (
     <Stack.Navigator>
-      {user ? (
+      {user && user.defaultCountry != null ? (
         <>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={verticalConfig}
           />
-          <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
+
           <Stack.Screen name="MyUser" component={MyUserScreen} />
           <Stack.Screen name="User" component={UserScreen} />
           <Stack.Screen name="Explore" component={ExploreScreen} />
@@ -144,6 +144,8 @@ const StackNavigator = () => {
             component={InviteFriendsScreen}
           />
         </>
+      ) : user && user.defaultCountry == null ? (
+        <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
       ) : (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
