@@ -34,7 +34,8 @@ const PersonalDataScreen = () => {
   const [minAgeAccept, setMinAgeAccept] = useState(16);
   const [maxAgeAccept, setMaxAgeAccept] = useState(100);
   const checkIfDataValid = () => {
-    return true;
+    if (isMale && country) return true;
+    else return false;
   };
   const createAccountPressed = async () => {
     if (checkIfDataValid()) {
@@ -42,41 +43,47 @@ const PersonalDataScreen = () => {
         firstName: firstNameVal,
         lastName: lastNameVal,
         isMale: isMale,
-        country: country,
+        defaultCountry: country,
         acceptMale: isAcceptMale,
         acceptFemale: isAcceptFemale,
         acceptMinAge: minAgeAccept,
         acceptMaxAge: maxAgeAccept,
       };
       await firebase.updatePersonalData(user, newData);
-      navigation.navigate("Home");
+    } else {
+      alert("You must choose a country and gender");
     }
   };
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View
-        className="flex-1 p-4"
-        style={{ backgroundColor: appStyle.appDarkBlue, shadowColor: "#000" }}
+        className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+        style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}
       >
-        <View className="mb-8">
+        <View>
+          <View
+            className="mb-5 rounded-t"
+            style={{ backgroundColor: appStyle.color_bg }}
+          >
+            <Text className="text-center text-xl py-2 px-10">
+              Personal data
+            </Text>
+          </View>
+        </View>
+        <View className="mb-5">
           <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
             {"One last step"}
           </Text>
           <Text style={{ color: appStyle.appGray }}>
-            Before you move on we need your personal information.
+            Before you move on we need just a bit more information to make your
+            experience a bit more enjoyable
           </Text>
         </View>
         <View className="flex-1">
-          <Text
-            className="text-center text-xl mb-5 py-2"
-            style={{ backgroundColor: appStyle.appAzure }}
-          >
-            Personal data
-          </Text>
           <TextInput
             onChangeText={(text) => setFirstNameVal(text)}
             className="rounded mb-5 px-3 h-10 justify-center"
@@ -85,7 +92,7 @@ const PersonalDataScreen = () => {
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <TextInput
-            onChangeText={(text) => setFirstNameVal(text)}
+            onChangeText={(text) => setLastNameVal(text)}
             className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="Last Name"
@@ -93,12 +100,27 @@ const PersonalDataScreen = () => {
           ></TextInput>
           <View className="mb-5">
             <Dropdown
-              style={[
-                style.input,
-                countryIsFocus && { borderColor: appStyle.appAzure },
-              ]}
+              style={style.input}
+              containerStyle={{
+                borderTopWidth: 0,
+                borderBottomWidth: 2,
+                borderRightWidth: 2,
+                borderLeftWidth: 2,
+                borderColor: appStyle.color_bg,
+              }}
+              itemContainerStyle={{
+                position: "relative",
+                paddingLeft: 10,
+                height: 40,
+              }}
+              itemTextStyle={{
+                position: "absolute",
+                fontSize: 16,
+              }}
+              selectedTextStyle={{ fontSize: 16 }}
+              placeholderStyle={{ color: "#5f6b8b", fontSize: 16 }}
+              dropdownPosition="bottom"
               placeholder="Country"
-              selectedTextStyle={style.selectedTextStyle}
               inputSearchStyle={style.inputSearchStyle}
               iconStyle={style.iconStyle}
               data={[{ label: "Israel", value: "Israel" }]}
@@ -116,14 +138,27 @@ const PersonalDataScreen = () => {
           </View>
           <View className="mb-5">
             <Dropdown
-              style={[
-                style.input,
-                isMaleIsFocus && { borderColor: appStyle.appAzure },
-              ]}
+              style={style.input}
+              containerStyle={{
+                borderTopWidth: 0,
+                borderBottomWidth: 2,
+                borderRightWidth: 2,
+                borderLeftWidth: 2,
+                borderColor: appStyle.color_bg,
+              }}
+              itemContainerStyle={{
+                position: "relative",
+                paddingLeft: 10,
+                height: 40,
+              }}
+              itemTextStyle={{
+                position: "absolute",
+                fontSize: 16,
+              }}
+              selectedTextStyle={{ fontSize: 16 }}
+              placeholderStyle={{ color: "#5f6b8b", fontSize: 16 }}
+              dropdownPosition="bottom"
               placeholder="Sex"
-              placeholderStyle={style.placeholderStyle}
-              selectedTextStyle={style.selectedTextStyle}
-              inputSearchStyle={style.inputSearchStyle}
               iconStyle={style.iconStyle}
               data={[
                 { label: "Male", value: true },
@@ -142,7 +177,7 @@ const PersonalDataScreen = () => {
             />
           </View>
 
-          <View className="mb-10">
+          {/* <View className="mb-10">
             <Text
               className="text-center text-xl mb-5 py-2"
               style={{ backgroundColor: appStyle.appAzure }}
@@ -199,12 +234,12 @@ const PersonalDataScreen = () => {
                 <Text style={style.text}>Female</Text>
               </View>
             </View>
-          </View>
+          </View> */}
           <TouchableOpacity
             onPress={createAccountPressed}
             className={`justify-center py-3 ${ResponsiveShadow}`}
             style={{
-              backgroundColor: appStyle.appAzure,
+              backgroundColor: appStyle.color_bg,
               shadowColor: appStyle.appAzure,
             }}
           >
@@ -233,26 +268,18 @@ const style = StyleSheet.create({
     backgroundColor: appStyle.color_on_primary,
   },
   text: { color: appStyle.appGray },
-  container: {
-    paddingHorizontal: 16,
-  },
   icon: {
     marginRight: 5,
     color: "white",
   },
   label: {
     position: "absolute",
-    color: "#5f6b8b",
+    color: "#ffffff",
     backgroundColor: appStyle.appYellow,
     left: 22,
     top: -10,
     zIndex: 999,
-    paddingHorizontal: 8,
     fontSize: 14,
-  },
-  placeholderStyle: {
-    color: "#5f6b8b",
-    fontSize: 16,
   },
   selectedTextStyle: {
     fontSize: 16,
@@ -260,9 +287,5 @@ const style = StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
   },
 });
