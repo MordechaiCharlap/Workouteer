@@ -13,13 +13,21 @@ import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faChevronLeft,
+  faCircleUser,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import Header from "../components/Header";
+import useAlerts from "../hooks/useAlerts";
 
 const FriendsScreen = ({ route }) => {
-  const user = route.params.user;
   const navigation = useNavigation();
+
+  const user = route.params.user;
+  const isMyUser = route.params.isMyUser;
+  const { friendRequestsAlerts } = useAlerts();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -64,10 +72,54 @@ const FriendsScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1">
-        <Header title="Friends" goBackOption={true} />
+      <View className="flex-1 px-2">
         <View
-          className="rounded-xl p-3 mx-2"
+          className="flex-row items-center h-10 mt-4 mb-2"
+          style={{
+            justifyContent: "space-between",
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={40}
+              color={appStyle.color_primary}
+            />
+          </TouchableOpacity>
+          <Text
+            className="text-4xl font-semibold"
+            style={{ color: appStyle.color_primary }}
+          >
+            Friends
+          </Text>
+          {isMyUser ? (
+            <TouchableOpacity>
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                size={40}
+                color={appStyle.color_primary}
+              />
+              <View
+                style={{ backgroundColor: appStyle.color_primary }}
+                className="rounded-full items-center absolute right-0 bottom-0"
+              >
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  size={13}
+                  color={appStyle.color_bg}
+                />
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              size={40}
+              color={appStyle.color_bg}
+            />
+          )}
+        </View>
+        <View
+          className="rounded-xl p-3"
           style={{ backgroundColor: appStyle.color_bg_variant }}
         >
           <View className="flex-row items-center">

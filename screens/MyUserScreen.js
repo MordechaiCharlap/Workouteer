@@ -112,7 +112,12 @@ const MyUserScreen = () => {
                 <TouchableOpacity
                   className="items-center flex-row rounded-2xl p-3 gap-3"
                   style={{ backgroundColor: appStyle.color_primary }}
-                  onPress={() => navigation.navigate("Friends", { user: user })}
+                  onPress={() =>
+                    navigation.navigate("Friends", {
+                      user: user,
+                      isMyUser: true,
+                    })
+                  }
                 >
                   <Text
                     style={{ fontSize: 20, color: appStyle.color_on_primary }}

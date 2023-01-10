@@ -176,7 +176,9 @@ const UserScreen = ({ route }) => {
               className="items-center flex-row rounded-2xl p-3 gap-3"
               style={{ backgroundColor: appStyle.color_primary }}
               onPress={() =>
-                navigation.navigate("PastWorkouts", { user: shownUser })
+                navigation.navigate("PastWorkouts", {
+                  user: shownUser,
+                })
               }
             >
               <Text
@@ -194,7 +196,12 @@ const UserScreen = ({ route }) => {
             <TouchableOpacity
               className="items-center flex-row rounded-2xl p-3 gap-3"
               style={{ backgroundColor: appStyle.color_primary }}
-              onPress={() => navigation.navigate("Users", { user: shownUser })}
+              onPress={() =>
+                navigation.navigate("Friends", {
+                  user: shownUser,
+                  isMyUser: false,
+                })
+              }
             >
               <Text
                 style={{ fontSize: 20, color: appStyle.color_on_primary }}
