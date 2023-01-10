@@ -16,9 +16,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faUserPen,
   faGear,
-  faPen,
   faDumbbell,
-  faUsers,
+  faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
@@ -74,69 +73,52 @@ const MyUserScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row mt-6 mb-3">
-              <View>
-                <Image
-                  source={{
-                    uri: user.img,
-                  }}
-                  className="h-32 w-32 bg-white rounded-full mb-2 self-center"
-                  style={{
-                    borderWidth: 1,
-                    borderColor: appStyle.color_primary,
-                  }}
-                />
-              </View>
+            <View className="flex-row mt-6 mb-3 h-48 items-center">
+              <Image
+                source={{
+                  uri: user.img,
+                }}
+                className="h-32 w-32 bg-white rounded-full mb-2"
+                style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+              />
 
-              <View className="flex-row flex-1 justify-around">
-                <View>
-                  <TouchableOpacity
-                    className="items-center flex-row"
-                    style={{ backgroundColor: appStyle.color_primary }}
-                    onPress={() => navigation.navigate("PastWorkouts")}
+              <View className="absolute right-4 gap-3">
+                <TouchableOpacity
+                  className="items-center flex-row rounded-2xl p-3 gap-3"
+                  style={{ backgroundColor: appStyle.color_primary }}
+                  onPress={() =>
+                    navigation.navigate("PastWorkouts", { user: user })
+                  }
+                >
+                  <Text
+                    style={{ fontSize: 20, color: appStyle.color_on_primary }}
+                    className="font-bold"
                   >
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                      className="font-bold"
-                    >
-                      {workoutsCount}
-                    </Text>
-                    <FontAwesomeIcon
-                      icon={faDumbbell}
-                      size={40}
-                      color={appStyle.color_on_primary}
-                    />
-                    {/* <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                    >
-                      Workouts
-                    </Text> */}
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    className="items-center flex-row"
-                    style={{ backgroundColor: appStyle.color_primary }}
-                    onPress={() => navigation.navigate("Friends")}
+                    {workoutsCount}
+                  </Text>
+                  <FontAwesomeIcon
+                    icon={faDumbbell}
+                    size={40}
+                    color={appStyle.color_on_primary}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="items-center flex-row rounded-2xl p-3 gap-3"
+                  style={{ backgroundColor: appStyle.color_primary }}
+                  onPress={() => navigation.navigate("Friends")}
+                >
+                  <Text
+                    style={{ fontSize: 20, color: appStyle.color_on_primary }}
+                    className="font-bold"
                   >
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                      className="font-bold"
-                    >
-                      {user.friendsCount}
-                    </Text>
-                    <FontAwesomeIcon
-                      icon={faUsers}
-                      size={40}
-                      color={appStyle.color_on_primary}
-                    />
-                    {/* <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                    >
-                      Friends
-                    </Text> */}
-                  </TouchableOpacity>
-                </View>
+                    {user.friendsCount}
+                  </Text>
+                  <FontAwesomeIcon
+                    icon={faUserGroup}
+                    size={40}
+                    color={appStyle.color_on_primary}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
             <Text

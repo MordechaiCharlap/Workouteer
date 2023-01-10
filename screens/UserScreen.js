@@ -13,7 +13,11 @@ import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faUserGroup,
+  faDumbbell,
+} from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const UserScreen = ({ route }) => {
@@ -78,7 +82,7 @@ const UserScreen = ({ route }) => {
         >
           <Text
             className="text-center text-xl"
-            style={{ color: appStyle.color_primary }}
+            style={{ color: appStyle.color_on_primary }}
           >
             Add as a friend
           </Text>
@@ -139,106 +143,102 @@ const UserScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1">
-        <ScrollView>
-          <View className="p-4">
-            <View className="flex-row justify-between">
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  size={30}
-                  color={appStyle.color_primary}
-                />
-              </TouchableOpacity>
-              <Text
-                className=" text-center text-3xl tracking-widest"
-                style={{ color: appStyle.color_primary }}
-              >
-                {shownUser.username}
-              </Text>
-              <View className="opacity-0">
-                <FontAwesomeIcon icon={faChevronLeft} size={30} />
-              </View>
-            </View>
-            <View className="flex-row mt-6 mb-3">
-              <Image
-                source={{
-                  uri: shownUser.img,
-                }}
-                className="h-32 w-32 bg-white rounded-full mb-2 self-center"
-              />
-              <View className="flex-row flex-1 justify-around">
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("PastWorkouts", { user: shownUser })
-                    }
-                    className="items-center"
-                  >
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                      className="font-bold"
-                    >
-                      {workoutsCount}
-                    </Text>
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                    >
-                      Workouts
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    className="items-center"
-                    onPress={showOtherUserFriends}
-                  >
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                    >
-                      {shownUser.friendsCount}
-                    </Text>
-                    <Text
-                      style={{ fontSize: 20, color: appStyle.color_primary }}
-                    >
-                      Friends
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-            <Text
-              className="font-semibold text-2xl mb-5"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
-              {shownUser.displayName}
-            </Text>
-            <Text style={{ color: appStyle.color_primary }} className="text-lg">
-              {shownUser.description == ""
-                ? "No description yet"
-                : shownUser.description}
-            </Text>
-            <View className="flex-row items-center self-center justify-around">
-              {renderFriendshipButton()}
-              {(shownUser.isPublic == true ||
-                friendshipStatus == "Friends") && (
-                <TouchableOpacity
-                  onPress={() => openPrivateChat()}
-                  style={style.socialButton}
-                >
-                  <Text
-                    className="text-center text-xl"
-                    style={{ color: appStyle.color_primary }}
-                  >
-                    Send a message
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </View>
+      <View className="flex-1 p-4">
+        <View className="flex-row justify-between">
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={30}
+              color={appStyle.color_primary}
+            />
+          </TouchableOpacity>
+          <Text
+            className=" text-center text-3xl tracking-widest"
+            style={{ color: appStyle.color_primary }}
+          >
+            {shownUser.username}
+          </Text>
+          <View className="opacity-0">
+            <FontAwesomeIcon icon={faChevronLeft} size={30} />
           </View>
-        </ScrollView>
+        </View>
+        <View className="flex-row mt-6 mb-3 h-48 items-center">
+          <Image
+            source={{
+              uri: shownUser.img,
+            }}
+            className="h-32 w-32 bg-white rounded-full mb-2"
+            style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+          />
+
+          <View className="absolute right-4 gap-3">
+            <TouchableOpacity
+              className="items-center flex-row rounded-2xl p-3 gap-3"
+              style={{ backgroundColor: appStyle.color_primary }}
+              onPress={() =>
+                navigation.navigate("PastWorkouts", { user: shownUser })
+              }
+            >
+              <Text
+                style={{ fontSize: 20, color: appStyle.color_on_primary }}
+                className="font-bold"
+              >
+                {workoutsCount}
+              </Text>
+              <FontAwesomeIcon
+                icon={faDumbbell}
+                size={40}
+                color={appStyle.color_on_primary}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="items-center flex-row rounded-2xl p-3 gap-3"
+              style={{ backgroundColor: appStyle.color_primary }}
+              onPress={showOtherUserFriends}
+            >
+              <Text
+                style={{ fontSize: 20, color: appStyle.color_on_primary }}
+                className="font-bold"
+              >
+                {shownUser.friendsCount}
+              </Text>
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                size={40}
+                color={appStyle.color_on_primary}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Text
+          className="font-semibold text-2xl mb-5"
+          style={{
+            color: appStyle.color_primary,
+          }}
+        >
+          {shownUser.displayName}
+        </Text>
+        <Text style={{ color: appStyle.color_primary }} className="text-lg">
+          {shownUser.description == ""
+            ? "No description yet"
+            : shownUser.description}
+        </Text>
+        <View className="flex-row absolute bottom-0">
+          {renderFriendshipButton()}
+          {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
+            <TouchableOpacity
+              onPress={() => openPrivateChat()}
+              style={style.socialButton}
+            >
+              <Text
+                className="text-center text-xl"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                Send a message
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
       <BottomNavbar currentScreen="User" />
     </View>
@@ -250,23 +250,20 @@ const style = StyleSheet.create({
     color: appStyle.color_primary,
   },
   socialButton: {
-    borderWidth: 1,
-    borderColor: appStyle.color_primary,
-    padding: 4,
+    backgroundColor: appStyle.color_primary,
+    padding: 8,
     margin: 10,
     borderRadius: 5,
   },
   leftText: {
     fontSize: 20,
-    color: appStyle.color_primary,
+    color: appStyle.color_on_primary,
   },
   rightText: {
     fontSize: 20,
     color: appStyle.color_on_primary,
   },
   leftSocialButton: {
-    borderColor: appStyle.color_primary,
-    borderWidth: 1,
     margin: 0,
     padding: 4,
     backgroundColor: appStyle.color_primary,
