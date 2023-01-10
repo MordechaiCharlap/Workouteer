@@ -116,16 +116,18 @@ export const userDataById = async (userId) => {
   return userData.data();
 };
 export const updatePersonalData = async (user, newData) => {
+  console.log("Updating data");
   await updateDoc(doc(db, "users", user.id), {
+    defaultCountry: newData.defaultCountry,
     firstName: newData.firstName,
     lastName: newData.lastName,
-    displayName: newData.displayName,
     isMale: newData.isMale,
     acceptMale: newData.acceptMale,
     acceptFemale: newData.acceptFemale,
     acceptMinAge: newData.acceptMinAge,
     acceptMaxAge: newData.acceptMaxAge,
   });
+  console.log("Data updated");
 };
 export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
