@@ -109,13 +109,15 @@ export const checkUsername = async (username) => {
   else return true;
 };
 export const checkEmail = async (email) => {
-  const usersRef = collection(db, "users");
-  const q = query(usersRef, where("email", "==", email));
+  const q = query(
+    collection(db, "users"),
+    where("email", "==", email),
+    limit(1)
+  );
   const querySnapshot = await getDocs(q);
-  if (querySnapshot.size > 0) {
-    return false;
-  }
-  return true;
+  if (querySnapshot.empty) {
+    return true;
+  } else return false;
 };
 export const userDataByEmail = async (email) => {
   var userData;
