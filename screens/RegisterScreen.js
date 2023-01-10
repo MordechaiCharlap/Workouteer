@@ -32,7 +32,6 @@ const LoginScreen = () => {
   }, []);
   const auth = firebase.auth;
   const { pushToken } = usePushNotifications();
-  const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
   const [emailStyle, setEmailStyle] = useState(style.input);
   const [username, setUsername] = useState("");
@@ -56,7 +55,9 @@ const LoginScreen = () => {
     setDate(currentDate);
     setShow(false);
     setChangeOnce(true);
-    if (calculateAge(currentDate) < 16) {
+    const age = calculateAge(currentDate);
+    if (age < 16) {
+      console.log(age);
       alert("You need to be at least 16 to use this app");
       setDateStyle(style.badInput);
     } else {
@@ -95,36 +96,39 @@ const LoginScreen = () => {
   };
   const handleCreateAccount = async () => {
     setInputErrorText("");
-    if (image != null) {
-      if (confirmPasswordText != "") {
-        if (username.length >= 6) {
-          if (changedOnce) {
-            var age = calculateAge();
-            var isUserAvailable = await firebase.checkUsername(username);
-            var isEmailAvailable = await firebase.checkEmail(email);
 
-            if (age >= 16) {
-              if (isUserAvailable) {
-                if (isEmailAvailable) {
-                  if (acceptTerms) {
-                    handleLogin();
-                  } else setInputErrorText("Accept terms before going further");
-                } else setInputErrorText("email isnt available");
-              } else setInputErrorText("Username isnt available");
-            } else setInputErrorText("You need to be at least 16 years old");
-          } else setInputErrorText("Choose birthdate");
-        } else setInputErrorText("Username too small (6+ characters)");
-      } else
-        setInputErrorText(
-          "Your 'confirmed' password does not match your original password"
-        );
-    } else setInputErrorText("Upload a profile picture");
+    if (confirmPasswordText != "") {
+      if (username.length >= 6) {
+        if (changedOnce) {
+          var age = calculateAge(date);
+          var isUserAvailable = await firebase.checkUsername(
+            username.toLowerCase()
+          );
+          var isEmailAvailable = await firebase.checkEmail(
+            email.toLocaleLowerCase()
+          );
+
+          if (age >= 16) {
+            if (isUserAvailable) {
+              if (isEmailAvailable) {
+                if (acceptTerms) {
+                  handleLogin();
+                } else setInputErrorText("Accept terms before going further");
+              } else setInputErrorText("email isnt available");
+            } else setInputErrorText("Username isnt available");
+          } else setInputErrorText("You need to be at least 16 years old");
+        } else setInputErrorText("Choose birthdate");
+      } else setInputErrorText("Username too small (6+ characters)");
+    } else
+      setInputErrorText(
+        "Your 'confirmed' password does not match your original password"
+      );
   };
-  const calculateAge = () => {
+  const calculateAge = (dateToCheck) => {
     var today = new Date();
-    var age = today.getFullYear() - date.getFullYear();
-    var m = today.getMonth() - date.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
+    var age = today.getFullYear() - dateToCheck.getFullYear();
+    var m = today.getMonth() - dateToCheck.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
       age--;
     }
     return age;
@@ -179,7 +183,7 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img: image,
+          img: "gs://workouteer-54450.appspot.com/profile-pics/defaults/default-profile-image.jpg",
           username: username,
           displayName: username,
           id: username.toLowerCase(),
@@ -189,7 +193,6 @@ const LoginScreen = () => {
           pushToken: pushToken,
         };
         await firebase.createUser(newUserData);
-        await firebase.uploadProfileImage(newUserData.id, image);
         navigation.navigate("PersonalData");
       })
       .catch((error) => {
@@ -198,23 +201,18 @@ const LoginScreen = () => {
       });
   };
   return (
-    <View
-      style={[
-        responsiveStyle.safeAreaStyle,
-        { backgroundColor: appStyle.color_bg },
-      ]}
-    >
+    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <ScrollView
-        className={`flex-1 my-8 mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+      <View
+        className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
         style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}
       >
         <View className="mb-8 items-center">
           <View className="items-center">
-            <TouchableOpacity onPress={openImageLibrary} className="mb-5">
+            {/* <TouchableOpacity onPress={openImageLibrary} className="mb-5">
               {image != null && (
                 <Image
                   source={{ uri: image }}
@@ -240,10 +238,16 @@ const LoginScreen = () => {
                   </View>
                 </View>
               )}
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            <Text style={{ color: appStyle.color_on_primary }}>
+            {/* <Text style={{ color: appStyle.color_on_primary }}>
               Click to add profile picture
+            </Text> */}
+            <Text
+              className="text-3xl tracking-widest"
+              style={{ color: appStyle.color_on_primary }}
+            >
+              Register
             </Text>
           </View>
         </View>
@@ -359,7 +363,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
