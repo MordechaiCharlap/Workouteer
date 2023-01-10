@@ -7,9 +7,8 @@ import * as firebase from "../services/firebase";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
 import * as appStyle from "../components/AppStyleSheet";
-import useAuth from "../hooks/useAuth";
-const PastWorkoutScreen = () => {
-  const { user } = useAuth();
+const PastWorkoutScreen = ({ route }) => {
+  const user = route.params.user;
   const now = new Date();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
