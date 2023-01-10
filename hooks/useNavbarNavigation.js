@@ -1,13 +1,44 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 const NavbarNavigationContext = createContext({});
 
 export const NavbarNavigationProvider = ({ children }) => {
-  const [myUserNavigationOptions, setMyUserNavigationOptions] = useState();
-  const [calendarNavigationOptions, setCalendarNavigationOptions] = useState();
-  const [homeNavigationOptions, setHomeNavigationOptions] = useState();
-  const [chatsNavigationOptions, setChatsNavigationOptions] = useState();
-  const [exploreNavigationOptions, setExploreNavigationOptions] = useState();
+  const upAnimation = () => {
+    const options = {
+      animation: "slide_from_bottom",
+      animationTypeForReplace: "push",
+    };
+    return options;
+  };
+  const rightAnimation = () => {
+    const options = {
+      animation: "slide_from_right",
+      animationTypeForReplace: "push",
+    };
+    return options;
+  };
+  const leftAnimation = () => {
+    const options = {
+      animation: "slide_from_left",
+      animationTypeForReplace: "push",
+    };
+    return options;
+  };
+  const [myUserNavigationOptions, setMyUserNavigationOptions] = useState(
+    upAnimation()
+  );
+  const [calendarNavigationOptions, setCalendarNavigationOptions] = useState(
+    upAnimation()
+  );
+  const [homeNavigationOptions, setHomeNavigationOptions] = useState(
+    upAnimation()
+  );
+  const [chatsNavigationOptions, setChatsNavigationOptions] = useState(
+    upAnimation()
+  );
+  const [exploreNavigationOptions, setExploreNavigationOptions] = useState(
+    upAnimation()
+  );
   const setAnimation = (direction, screenName) => {
     var options;
 
@@ -41,27 +72,6 @@ export const NavbarNavigationProvider = ({ children }) => {
     }
   };
 
-  const upAnimation = () => {
-    const options = {
-      animation: "slide_from_bottom",
-      animationTypeForReplace: "push",
-    };
-    return options;
-  };
-  const rightAnimation = () => {
-    const options = {
-      animation: "slide_from_right",
-      animationTypeForReplace: "push",
-    };
-    return options;
-  };
-  const leftAnimation = () => {
-    const options = {
-      animation: "slide_from_left",
-      animationTypeForReplace: "push",
-    };
-    return options;
-  };
   return (
     <NavbarNavigationContext.Provider
       value={{
