@@ -7,6 +7,7 @@ import {
   getDownloadURL,
   connectStorageEmulator,
 } from "firebase/storage";
+import * as ImageManipulator from "expo-image-manipulator";
 import {
   getFirestore,
   deleteField,
@@ -36,13 +37,32 @@ export const updateContext = async (userId) => {
   return updatedDoc.data();
 };
 export const uploadProfileImage = async (userId, uri) => {
-  const blob = await fetch(uri).then((r) => r.blob());
-  const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
-  await uploadBytes(storageRef, blob).then((snapshot) => {
-    console.log("Uploaded a blob or file!");
-  });
+  if (!uri) {
+    const result = "../assets/app-icon-ios.png";
+    const manipResult = await ImageManipulator.manipulateAsync(
+      result.localUri || result.uri,
+      [{ resize: { height: 1080, width: 1080 } }],
+      {
+        compress: 0.5,
+        height: 1080,
+        width: 1080,
+        format: ImageManipulator.SaveFormat.JPEG,
+      }
+    );
+    const blob = await fetch(manipResult).then((r) => r.blob());
+    const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
+  } else {
+    const blob = await fetch(uri).then((r) => r.blob());
+    const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
 
-  return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
+    return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
+  }
 };
 export const saveProfileChanges = async (
   userId,
@@ -84,17 +104,9 @@ export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
 export const checkUsername = async (username) => {
-  const usersRef = collection(db, "users");
-  const q = query(
-    usersRef,
-    where("usernameLower", "==", username.toLowerCase())
-  );
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.size > 0) {
-    console.log("bigger than 0", querySnapshot.size);
-    return false;
-  }
-  return true;
+  const usernameRef = await getDoc(doc(db, "users", username));
+  if (usernameRef.exists()) return false;
+  else return true;
 };
 export const checkEmail = async (email) => {
   const usersRef = collection(db, "users");
