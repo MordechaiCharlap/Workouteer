@@ -188,7 +188,7 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img: "../assets/default-profile-image.jpg",
+          img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
           username: username,
           displayName: username,
           id: username.toLowerCase(),
@@ -376,12 +376,16 @@ const LoginScreen = () => {
 export default LoginScreen;
 const style = StyleSheet.create({
   input: {
+    paddingLeft: 10,
+    height: 40,
     borderWidth: 2,
     borderColor: appStyle.color_bg,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
   },
   badInput: {
+    paddingLeft: 10,
+    height: 40,
     borderWidth: 2,
     borderColor: appStyle.color_error,
     color: appStyle.color_primary,
