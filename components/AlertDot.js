@@ -15,7 +15,7 @@ const AlertDot = (props) => {
       {props.number != null && (
         <Text
           className="text-center font-bold"
-          style={{ color: props.numberColor }}
+          style={{ color: props.numberColor, fontSize: props.fontSize }}
         >
           {props.number}
         </Text>
