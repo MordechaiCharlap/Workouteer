@@ -20,8 +20,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleUser, faPlus } from "@fortawesome/free-solid-svg-icons";
+import * as defaultValues from "../services/defaultValues";
 import usePushNotifications from "../hooks/usePushNotifications";
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -188,7 +187,7 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
+          img: defaultValues.defaultProfilePic,
           username: username,
           displayName: username,
           id: username.toLowerCase(),

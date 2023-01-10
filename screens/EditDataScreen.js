@@ -19,6 +19,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import CheckBox from "../components/CheckBox";
 import useAuth from "../hooks/useAuth";
+import * as defaultValues from "../services/defaultValues";
 const EditDataScreen = () => {
   const navigation = useNavigation();
   const { user, setUser } = useAuth();
@@ -313,7 +314,7 @@ const EditProfileData = (props) => {
       props.user.id,
       displayName == null ? "" : displayName,
       description == null ? "" : description,
-      image == null ? "" : image
+      image == null ? defaultValues.defaultProfilePic : image
     );
     props.setUser(await firebase.updateContext(props.user.id));
 
@@ -323,7 +324,7 @@ const EditProfileData = (props) => {
       setChangesMade(false);
       setUpdated(false);
       props.navigation.navigate("MyUser");
-    }, 1000);
+    }, 500);
   };
 
   const saveButtonClicked = () => {
