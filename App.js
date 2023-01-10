@@ -9,6 +9,7 @@ import { enableLatestRenderer } from "react-native-maps";
 import { initGeocoder } from "./geocoder";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
+import { NavbarNavigationProvider } from "./hooks/useNavbarNavigation";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") enableLatestRenderer();
 initGeocoder();
@@ -18,9 +19,11 @@ export default function App() {
       <AlertsProvider>
         <AuthPrvider>
           <NotificationsProvider>
-            <TailwindProvider>
-              <StackNavigator />
-            </TailwindProvider>
+            <NavbarNavigationProvider>
+              <TailwindProvider>
+                <StackNavigator />
+              </TailwindProvider>
+            </NavbarNavigationProvider>
           </NotificationsProvider>
         </AuthPrvider>
       </AlertsProvider>

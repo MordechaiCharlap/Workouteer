@@ -25,15 +25,22 @@ import WorkoutRequestsScreen from "./screens/WorkoutRequestsScreen";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
 import InviteFriendsScreen from "./screens/InviteFriendsScreen";
-import { createStackNavigator } from "@react-navigation/stack";
 import usePushNotifications from "./hooks/usePushNotifications";
 import useAuth from "./hooks/useAuth";
 import useAlerts from "./hooks/useAlerts";
 import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
+import useNavbarNavigation from "./hooks/useNavbarNavigation";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addObserver } = useAuth();
+  const {
+    myUserNavigationOptions,
+    calendarNavigationOptions,
+    homeNavigationOptions,
+    chatsNavigationOptions,
+    exploreNavigationOptions,
+  } = useNavbarNavigation();
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
   const [alertsChanged, setAlertsChanged] = useState(false);
@@ -75,49 +82,77 @@ const StackNavigator = () => {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={verticalConfig}
+            options={homeNavigationOptions}
           />
 
-          <Stack.Screen name="MyUser" component={MyUserScreen} />
+          <Stack.Screen
+            name="MyUser"
+            component={MyUserScreen}
+            options={myUserNavigationOptions}
+          />
           <Stack.Screen name="User" component={UserScreen} />
-          <Stack.Screen name="Explore" component={ExploreScreen} />
-          <Stack.Screen name="Friends" component={FriendsScreen} />
-          <Stack.Screen name="Chats" component={ChatsScreen} />
+          <Stack.Screen
+            name="Explore"
+            component={ExploreScreen}
+            options={exploreNavigationOptions}
+          />
+          <Stack.Screen
+            name="Friends"
+            component={FriendsScreen}
+            options={verticalAnimation}
+          />
+          <Stack.Screen
+            name="Chats"
+            component={ChatsScreen}
+            options={chatsNavigationOptions}
+          />
           <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="Calendar" component={CalendarScreen} />
+          <Stack.Screen
+            name="Calendar"
+            component={CalendarScreen}
+            options={calendarNavigationOptions}
+          />
           <Stack.Screen name="Notifications" component={NotificationsScreen} />
           <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
-          <Stack.Screen name="EditData" component={EditDataScreen} />
-          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen
+            name="EditData"
+            component={EditDataScreen}
+            options={verticalAnimation}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={verticalAnimation}
+          />
           <Stack.Screen
             name="FriendsWorkouts"
             component={FriendsWorkoutsScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="NewWorkout"
             component={NewWorkoutScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="FindWorkout"
             component={FindWorkoutScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="FutureWorkouts"
             component={FutureWorkoutsScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="PastWorkouts"
             component={PastWorkoutsScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="WorkoutInvites"
             component={WorkoutInvitesScreen}
-            options={verticalConfig}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="ChangePreferences"
@@ -125,22 +160,22 @@ const StackNavigator = () => {
           />
           <Stack.Screen
             name="SearchedWorkouts"
-            options={horizontalConfig}
+            options={horizontalRightAnimation}
             component={SearchedWorkoutsScreen}
           />
           <Stack.Screen
             name="WorkoutDetails"
-            options={horizontalConfig}
+            options={horizontalRightAnimation}
             component={WorkoutDetailsScreen}
           />
           <Stack.Screen
             name="WorkoutRequests"
-            options={horizontalConfig}
+            options={horizontalRightAnimation}
             component={WorkoutRequestsScreen}
           />
           <Stack.Screen
             name="InviteFriends"
-            options={horizontalConfig}
+            options={horizontalRightAnimation}
             component={InviteFriendsScreen}
           />
         </>
@@ -155,16 +190,23 @@ const StackNavigator = () => {
     </Stack.Navigator>
   );
 };
-const verticalConfig = () => {
+const verticalAnimation = () => {
   const options = {
     animation: "slide_from_bottom",
     animationTypeForReplace: "push",
   };
   return options;
 };
-const horizontalConfig = () => {
+const horizontalRightAnimation = () => {
   const options = {
     animation: "slide_from_right",
+    animationTypeForReplace: "push",
+  };
+  return options;
+};
+const horizontalLeftAnimation = () => {
+  const options = {
+    animation: "slide_from_left",
     animationTypeForReplace: "push",
   };
   return options;
