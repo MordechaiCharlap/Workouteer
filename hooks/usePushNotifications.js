@@ -58,7 +58,7 @@ export const NotificationsProvider = ({ children }) => {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         const updatedUser = { ...user, pushToken: token };
         await firebase.updateUser(updatedUser);
-        setUser(await firebase.updateContext(user.usernameLower));
+        setUser(await firebase.updateContext(user.id));
         setPushToken(token);
       }
 

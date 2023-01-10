@@ -21,19 +21,19 @@ const WorkoutComponent = (props) => {
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const isPastWorkout = props.isPastWorkout;
-  const isCreator = props.workout.creator == user.usernameLower;
+  const isCreator = props.workout.creator == user.id;
   const [distance, setDistance] = useState(null);
   const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
     if (!isPastWorkout && workout) {
       if (isCreator) {
         setUserMemberStatus("creator");
-      } else if (workout.members[user.usernameLower] != null) {
+      } else if (workout.members[user.id] != null) {
         setUserMemberStatus("member");
-      } else if (workout.invites[user.usernameLower] != null) {
+      } else if (workout.invites[user.id] != null) {
         setUserMemberStatus("invited");
-      } else if (workout.requests[user.usernameLower] != null) {
-        if (workout.requests[user.usernameLower] == true) {
+      } else if (workout.requests[user.id] != null) {
+        if (workout.requests[user.id] == true) {
           setUserMemberStatus("pending");
         } else {
           setUserMemberStatus("rejected");
@@ -50,31 +50,31 @@ const WorkoutComponent = (props) => {
   }, []);
   const leaveWorkout = async () => {
     await firebase.leaveWorkout(user, workout);
-    setUser(await firebase.updateContext(user.usernameLower));
+    setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("not");
     if (props.screen == "FutureWorkouts") setWorkout(null);
   };
   const cancelWorkout = async () => {
     await firebase.cancelWorkout(user, workout);
-    setUser(await firebase.updateContext(user.usernameLower));
+    setUser(await firebase.updateContext(user.id));
     setWorkout(null);
   };
   const requestToJoinWorkout = async () => {
-    await firebase.requestToJoinWorkout(user.usernameLower, workout);
+    await firebase.requestToJoinWorkout(user.id, workout);
     setUserMemberStatus("pending");
   };
   const cancelWorkoutRequest = async () => {
-    await firebase.cancelWorkoutRequest(user.usernameLower, workout);
+    await firebase.cancelWorkoutRequest(user.id, workout);
     setUserMemberStatus("not");
   };
   const acceptWorkoutInvite = async () => {
-    await firebase.acceptWorkoutInvite(user.usernameLower, workout);
-    setUser(await firebase.updateContext(user.usernameLower));
+    await firebase.acceptWorkoutInvite(user.id, workout);
+    setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("member");
     if (props.screen == "WorkoutInvites") setWorkout(null);
   };
   const rejectWorkoutInvite = async () => {
-    await firebase.rejectWorkoutInvite(user.usernameLower, workout);
+    await firebase.rejectWorkoutInvite(user.id, workout);
     setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
   };

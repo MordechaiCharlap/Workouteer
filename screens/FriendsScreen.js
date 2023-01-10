@@ -49,7 +49,7 @@ const FriendsScreen = ({ route }) => {
     navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
   };
   const removeFriend = async (userRemoveId) => {
-    await firebase.removeFriend(user.usernameLower, userRemoveId);
+    await firebase.removeFriend(user.id, userRemoveId);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -84,7 +84,7 @@ const FriendsScreen = ({ route }) => {
           showsVerticalScrollIndicator={false}
           className="flex-1 px-4 pt-3"
           data={shownFriendsArray}
-          keyExtractor={(item) => item.usernameLower}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity

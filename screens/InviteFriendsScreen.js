@@ -151,7 +151,7 @@ const InviteFriendsScreen = ({ route }) => {
         showsVerticalScrollIndicator={false}
         className="flex-1 px-4 pt-3"
         data={shownFriendsArray}
-        keyExtractor={(item) => item.usernameLower}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View className="flex-row items-center mt-2">
             <TouchableOpacity
@@ -179,7 +179,7 @@ const InviteFriendsScreen = ({ route }) => {
                 </Text>
               </View>
             </TouchableOpacity>
-            {getButton(item.usernameLower)}
+            {getButton(item.id)}
           </View>
         )}
       />

@@ -63,7 +63,7 @@ const ChatScreen = ({ route }) => {
     if (chat != null && messages.length == 0) {
       console.log("getting messages");
       console.log(chat);
-      const joinDateTS = chat.members[user.usernameLower].joinDate;
+      const joinDateTS = chat.members[user.id].joinDate;
       var messagesClone = messages.slice();
       const q = query(
         collection(db, `chats/${chat.id}/messages`),
@@ -108,12 +108,12 @@ const ChatScreen = ({ route }) => {
       var chatData = chat;
       if (!chat) {
         chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
-        setUser(await firebase.updateContext(user.usernameLower));
+        setUser(await firebase.updateContext(user.id));
         setChat(chatData);
       }
       await firebase.sendPrivateMessage(
-        user.usernameLower,
-        otherUser.usernameLower,
+        user.id,
+        otherUser.id,
         chatData,
         content
       );
@@ -138,7 +138,7 @@ const ChatScreen = ({ route }) => {
     setChatsAlerts(chatsAlertsClone);
     console.log("cleaning chat alert:", chatsAlertsClone);
     navigation.goBack();
-    await firebase.removeChatAlerts(user.usernameLower, chat.id);
+    await firebase.removeChatAlerts(user.id, chat.id);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>

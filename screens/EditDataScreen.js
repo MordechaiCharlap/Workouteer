@@ -122,13 +122,13 @@ const EditWorkoutPreferences = (props) => {
   const savePreferencesChanges = async () => {
     setLoading(true);
     await firebase.savePreferencesChanges(
-      props.user.usernameLower,
+      props.user.id,
       Math.max(parseInt(minAge), 16).toString(),
       Math.min(parseInt(maxAge), 100).toString(),
       acceptMale,
       acceptFemale
     );
-    props.setUser(await firebase.updateContext(props.user.usernameLower));
+    props.setUser(await firebase.updateContext(props.user.id));
 
     setUpdated(true);
     setTimeout(() => {
@@ -299,7 +299,7 @@ const EditProfileData = (props) => {
         }
       );
       const uploadUrl = await firebase.uploadProfileImage(
-        props.user.usernameLower,
+        props.user.id,
         manipResult.uri
       );
       console.log("uploadUrl: " + uploadUrl);
@@ -310,12 +310,12 @@ const EditProfileData = (props) => {
     setLoading(true);
     if (displayName == "") setDisplayName(props.user.username);
     await firebase.saveProfileChanges(
-      props.user.usernameLower,
+      props.user.id,
       displayName == null ? "" : displayName,
       description == null ? "" : description,
       image == null ? "" : image
     );
-    props.setUser(await firebase.updateContext(props.user.usernameLower));
+    props.setUser(await firebase.updateContext(props.user.id));
 
     setUpdated(true);
     setTimeout(() => {

@@ -6,15 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 const ChatMessage = (props) => {
-  const isSelfMessage = props.message.sender == props.user.usernameLower;
+  const isSelfMessage = props.message.sender == props.user.id;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
   useEffect(() => {
     const seenByMe = async () => {
-      await firebase.seenByMe(
-        props.user.usernameLower,
-        props.chatId,
-        props.message.id
-      );
+      await firebase.seenByMe(props.user.id, props.chatId, props.message.id);
     };
     const seenByMap = new Map(Object.entries(props.message.seenBy));
     var seenByEveryBody = true;

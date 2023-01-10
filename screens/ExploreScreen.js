@@ -48,7 +48,7 @@ const ExploreScreen = () => {
     }
   }, [renderOption]);
   const deleteRequestFromArray = async (index) => {
-    setUser(await firebase.updateContext(user.usernameLower));
+    setUser(await firebase.updateContext(user.id));
     console.log("updated user requests: " + user.friendRequestCount);
     const array = friendRequests.slice();
     array.splice(index, 1);
@@ -58,7 +58,7 @@ const ExploreScreen = () => {
   const userClicked = async (userData) => {
     const friendshipStatus = await firebase.checkFriendShipStatus(
       user,
-      userData.usernameLower
+      userData.id
     );
     navigation.navigate("User", {
       shownUser: userData,

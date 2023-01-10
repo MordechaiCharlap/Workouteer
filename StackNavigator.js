@@ -56,7 +56,7 @@ const StackNavigator = () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
         workoutRequestsAlerts,
         workoutInvitesAlerts,
-        user.usernameLower
+        user.id
       );
     };
     if (user && alertsChanged) {

@@ -84,7 +84,7 @@ const LoginScreen = () => {
         }
       );
       const uploadUrl = await firebase.uploadProfileImage(
-        props.user.usernameLower,
+        props.user.id,
         manipResult.uri
       );
       console.log("uploadUrl: " + uploadUrl);

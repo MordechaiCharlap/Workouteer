@@ -5,11 +5,11 @@ import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
   const acceptRequest = async (otherUserId, index) => {
-    await firebase.acceptRequest(props.user.usernameLower, otherUserId);
+    await firebase.acceptRequest(props.user.id, otherUserId);
     await props.deleteRequest(index);
   };
   const rejectRequest = async (otherUserId, index) => {
-    await firebase.rejectRequest(props.user.usernameLower, otherUserId);
+    await firebase.rejectRequest(props.user.id, otherUserId);
     await props.deleteRequest(index);
   };
   if (props.friendRequests.length != 0)
@@ -18,7 +18,7 @@ const FriendRequests = (props) => {
         <FlatList
           className="px-4 pt-3"
           data={props.friendRequests}
-          keyExtractor={(item) => item.usernameLower}
+          keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
@@ -48,7 +48,7 @@ const FriendRequests = (props) => {
               </TouchableOpacity>
               <View className="flex-row">
                 <TouchableOpacity
-                  onPress={() => acceptRequest(item.usernameLower, index)}
+                  onPress={() => acceptRequest(item.id, index)}
                   className="p-1 rounded"
                   style={{ backgroundColor: appStyle.appAzure }}
                 >
@@ -60,7 +60,7 @@ const FriendRequests = (props) => {
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => rejectRequest(item.usernameLower, index)}
+                  onPress={() => rejectRequest(item.id, index)}
                   className="ml-2 p-1 rounded"
                   style={{ backgroundColor: appStyle.appGray }}
                 >

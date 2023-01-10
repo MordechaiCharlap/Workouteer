@@ -85,7 +85,7 @@ const WorkoutDetailsScreen = ({ route }) => {
           <View className="rounded flex-1">
             <FlatList
               data={membersArray}
-              keyExtractor={(item) => item.usernameLower}
+              keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
                   <View
@@ -197,7 +197,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() =>
-                    item.usernameLower == user.usernameLower
+                    item.id == user.id
                       ? {}
                       : navigation.navigate("User", { shownUser: item })
                   }
@@ -224,12 +224,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  {item.usernameLower == user.usernameLower && (
+                  {item.id == user.id && (
                     <View
                       className="rounded-lg p-1"
                       style={{
-                        marginRight:
-                          item.usernameLower == workout.creator ? 0 : 20,
+                        marginRight: item.id == workout.creator ? 0 : 20,
                         backgroundColor: appStyle.color_primary,
                       }}
                     >
@@ -243,7 +242,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                     </View>
                   )}
 
-                  {item.usernameLower == workout.creator && (
+                  {item.id == workout.creator && (
                     <Text
                       style={{ color: appStyle.color_primary }}
                       className="mr-5"

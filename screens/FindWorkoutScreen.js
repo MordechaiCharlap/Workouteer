@@ -93,7 +93,7 @@ const FindWorkoutScreen = () => {
     if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
       updatedUser.defaultCity = city;
     await firebase.updateUser(updatedUser);
-    setUser(await firebase.updateContext(user.usernameLower));
+    setUser(await firebase.updateContext(user.id));
     const preferences = {
       country: country,
       city: city,

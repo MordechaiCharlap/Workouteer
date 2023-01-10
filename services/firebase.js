@@ -116,7 +116,7 @@ export const userDataById = async (userId) => {
   return userData.data();
 };
 export const updatePersonalData = async (user, newData) => {
-  await updateDoc(doc(db, "users", user.usernameLower), {
+  await updateDoc(doc(db, "users", user.id), {
     firstName: newData.firstName,
     lastName: newData.lastName,
     displayName: newData.displayName,
@@ -132,14 +132,13 @@ export const createUser = async (newUserData) => {
     img: newUserData.img,
     username: newUserData.username,
     displayName: newUserData.displayName,
-    usernameLower: newUserData.usernameLower,
+    id: newUserData.id,
     birthdate: newUserData.birthdate,
     email: newUserData.email,
     uidAuth: newUserData.id,
     friendsCount: 0,
     friendRequestCount: 0,
     workouts: {},
-    notificationsCount: 0,
     chatPals: {},
     friends: {},
     chats: [],
@@ -166,9 +165,7 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
   if (friendsMap.has(otherUserId)) {
     return "Friends";
   } else {
-    const userReqDoc = await getDoc(
-      doc(db, "requests", userData.usernameLower)
-    );
+    const userReqDoc = await getDoc(doc(db, "requests", userData.id));
     const sentReqsMap = new Map(Object.entries(userReqDoc.data().sentRequests));
     if (sentReqsMap.has(otherUserId)) {
       return "SentRequest";
@@ -185,9 +182,9 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
 
 export const sendFriendRequest = async (userId, shownUser) => {
   const userReqDoc = doc(db, "requests", userId);
-  const shownUserReqDoc = doc(db, "requests", shownUser.usernameLower);
+  const shownUserReqDoc = doc(db, "requests", shownUser.id);
   await updateDoc(userReqDoc, {
-    [`sentRequests.${shownUser.usernameLower}`]: {
+    [`sentRequests.${shownUser.id}`]: {
       timestamp: Timestamp.now(),
     },
   });
@@ -196,14 +193,12 @@ export const sendFriendRequest = async (userId, shownUser) => {
       timestamp: Timestamp.now(),
     },
   });
-  await updateDoc(doc(db, "users", shownUser.usernameLower), {
+  await updateDoc(doc(db, "users", shownUser.id), {
     friendRequestCount: increment(1),
   });
 };
 export const getReceivedRequests = async (userData) => {
-  const userRequests = await getDoc(
-    doc(db, "requests", userData.usernameLower)
-  );
+  const userRequests = await getDoc(doc(db, "requests", userData.id));
   const receivedReqs = userRequests.data().receivedRequests;
   const receivedReqsMap = new Map(Object.entries(receivedReqs));
   return receivedReqsMap;
@@ -280,34 +275,30 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
   //This function called just when I dont have a chat already
   const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
   var chatId;
-  if (!otherUserChatPals.has(user.usernameLower)) {
+  if (!otherUserChatPals.has(user.id)) {
     //chat doesnt exists
     //Create chat
     const chatRef = await addDoc(collection(db, `chats`), {
       isGroupChat: false,
       members: {
-        [user.usernameLower]: { joinDate: Timestamp.now() },
-        [otherUser.usernameLower]: {
+        [user.id]: { joinDate: Timestamp.now() },
+        [otherUser.id]: {
           joinDate: Timestamp.now(),
         },
       },
       messagesCount: 0,
     });
     chatId = chatRef.id;
-    await addChatConnection(
-      otherUser.usernameLower,
-      user.usernameLower,
-      chatId
-    );
+    await addChatConnection(otherUser.id, user.id, chatId);
   } else {
     //He has me but I dont have him
-    chatId = otherUserChatPals.get(user.usernameLower);
+    chatId = otherUserChatPals.get(user.id);
     await updateDoc(doc(db, `chats/${chatId}`), {
-      [`members.${user.usernameLower}`]: Timestamp.now(),
+      [`members.${user.id}`]: Timestamp.now(),
     });
   }
 
-  await addChatConnection(user.usernameLower, otherUser.usernameLower, chatId);
+  await addChatConnection(user.id, otherUser.id, chatId);
   const chat = await getChat(chatId);
   return {
     ...chat,
@@ -366,7 +357,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     if (!chat.isGroupChat) {
       const members = new Map(Object.entries(chat.members));
       for (var key of members.keys()) {
-        if (key != user.usernameLower) {
+        if (key != user.id) {
           chatToPush = {
             chat: chatToPush.chat,
             user: (await getDoc(doc(db, "users", key))).data(),
@@ -486,7 +477,7 @@ const removeUserFromMembersOrDeleteChat = async (user, chat) => {
     await deleteDoc(doc(db, "chats", chat.id));
   } else {
     await updateDoc(doc(db, "chats", chat.id), {
-      [`members.${user.usernameLower}`]: deleteField(),
+      [`members.${user.id}`]: deleteField(),
     });
   }
 };
@@ -495,24 +486,24 @@ export const deletePrivateChatForUser = async (
   chatAndUserItem,
   chatAlerts
 ) => {
-  await updateDoc(doc(db, "users", user.usernameLower), {
-    [`chatPals.${chatAndUserItem.user.usernameLower}`]: deleteField(),
+  await updateDoc(doc(db, "users", user.id), {
+    [`chatPals.${chatAndUserItem.user.id}`]: deleteField(),
     [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
   });
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
   if (chatAlerts) {
-    await removeChatAlerts(user.usernameLower, chatAndUserItem.chat);
+    await removeChatAlerts(user.id, chatAndUserItem.chat);
   }
 };
 export const deleteGroupChatForUser = async (user, chat) => {
-  await updateDoc(doc(db, "users", user.usernameLower), {
+  await updateDoc(doc(db, "users", user.id), {
     [`chats.${chat.id}`]: deleteField(),
   });
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
 };
 export const cancelWorkout = async (user, workout) => {
   const membersMap = new Map(Object.entries(workout.members));
-  await updateDoc(doc(db, "users", user.usernameLower), {
+  await updateDoc(doc(db, "users", user.id), {
     [`workouts.${workout.id}`]: deleteField(),
   });
   for (var [key, value] of membersMap) {
@@ -526,9 +517,9 @@ export const cancelWorkout = async (user, workout) => {
 };
 export const leaveWorkout = async (user, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
-    [`members.${user.usernameLower}`]: deleteField(),
+    [`members.${user.id}`]: deleteField(),
   });
-  await updateDoc(doc(db, "users", user.usernameLower), {
+  await updateDoc(doc(db, "users", user.id), {
     [`workouts.${workout.id}`]: deleteField(),
   });
 };
@@ -585,7 +576,7 @@ export const getWorkoutMembers = async (workout) => {
   const membersArr = Object.keys(workout.members);
   const qMembers = query(
     collection(db, "users"),
-    where("usernameLower", "in", membersArr)
+    where("id", "in", membersArr)
   );
   const snapMembers = await getDocs(qMembers);
 
@@ -651,7 +642,7 @@ export const getWorkout = async (workoutId) => {
 };
 export const getFriendsWorkouts = async (user) => {};
 export const getPrivateChatByUsers = async (user, otherUser) => {
-  const chatId = user.chatPals[otherUser.usernameLower];
+  const chatId = user.chatPals[otherUser.id];
   if (!chatId) {
     console.log("Havent found chatpal");
     return await getOrCreatePrivateChat(user, otherUser);
@@ -663,7 +654,7 @@ export const getPrivateChatByUsers = async (user, otherUser) => {
   }
 };
 export const updateUser = async (user) => {
-  await setDoc(doc(db, "users", user.usernameLower), ...user);
+  await setDoc(doc(db, "users", user.id), ...user);
 };
 
 export const addChatAlert = async (userId, chatId) => {

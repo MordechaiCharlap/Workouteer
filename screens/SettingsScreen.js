@@ -25,8 +25,8 @@ const SettingsScreen = () => {
   }, [isPublic, showOnline]);
   const applyChanges = async () => {
     if (changesMade) {
-      await saveSettingsChanges(user.usernameLower, isPublic, showOnline);
-      setUser(await updateContext(user.usernameLower));
+      await saveSettingsChanges(user.id, isPublic, showOnline);
+      setUser(await updateContext(user.id));
       navigation.goBack();
     }
   };

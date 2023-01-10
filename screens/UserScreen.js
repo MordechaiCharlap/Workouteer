@@ -45,20 +45,17 @@ const UserScreen = ({ route }) => {
   };
   const removeFriend = async () => {
     setFriendshipStatus("None");
-    await firebase.removeFriend(user.usernameLower, shownUser.usernameLower);
+    await firebase.removeFriend(user.id, shownUser.id);
   };
   const acceptFriendRequest = async () => {};
   const rejectFriendRequest = async () => {};
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
-    await firebase.cancelFriendRequest(
-      user.usernameLower,
-      shownUser.usernameLower
-    );
+    await firebase.cancelFriendRequest(user.id, shownUser.id);
   };
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
-    await firebase.sendFriendRequest(user.usernameLower, shownUser);
+    await firebase.sendFriendRequest(user.id, shownUser);
   };
   const calculateAge = () => {
     console.log(shownUser.birthdate);

@@ -76,8 +76,8 @@ const NewWorkoutScreen = () => {
   const createWorkout = async () => {
     const cityAndCountry = await getCityAndCountry(location);
     const workout = {
-      creator: user.usernameLower,
-      members: { [user.usernameLower]: true },
+      creator: user.id,
+      members: { [user.id]: true },
       type: type,
       sex: workoutSex,
       startingTime: startingTime,
@@ -87,7 +87,7 @@ const NewWorkoutScreen = () => {
       ...cityAndCountry,
     };
     await firebase.createWorkout(workout);
-    setUser(await firebase.updateContext(user.usernameLower));
+    setUser(await firebase.updateContext(user.id));
     navigation.goBack();
   };
   return (

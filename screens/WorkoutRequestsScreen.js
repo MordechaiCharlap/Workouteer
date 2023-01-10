@@ -27,7 +27,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     });
   }, []);
   const acceptUser = async (user, index) => {
-    await firebase.acceptWorkoutRequest(user.usernameLower, workout);
+    await firebase.acceptWorkoutRequest(user.id, workout);
     const requestersClone = requestersArray.slice();
     requestersClone[index].accepted = true;
     setRequestersArray(requestersClone);
@@ -35,7 +35,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     setWorkout(await firebase.getWorkout(workout.id));
   };
   const rejectUser = async (user, index) => {
-    await firebase.rejectWorkoutRequest(user.usernameLower, workout);
+    await firebase.rejectWorkoutRequest(user.id, workout);
     const requestersClone = requestersArray.slice();
     requestersClone[index].accepted = false;
     setRequestersArray(requestersClone);
@@ -68,7 +68,7 @@ const WorkoutRequestsScreen = ({ route }) => {
       >
         <FlatList
           data={requestersArray}
-          keyExtractor={(item) => item.usernameLower}
+          keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
             <View className="p-1 flex-row items-center justify-between">
               <View className="flex-row items-center">
