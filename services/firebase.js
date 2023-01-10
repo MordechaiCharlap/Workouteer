@@ -454,11 +454,9 @@ export const getFutureWorkouts = async (user, now) => {
 };
 export const getPastWorkouts = async (user, now) => {
   const workoutsArray = [];
-  const limitDate = new Date();
-  limitDate.setDate(limitDate.getDate() - 7);
-  const userWorkouts = new Map(Object.entries(user.workouts));
-  for (var [key, value] of userWorkouts) {
-    if (value.toDate() < now && value.toDate() >= limitDate.getDate()) {
+  console.log(user.workouts);
+  for (var [key, value] of Object.entries(user.workouts)) {
+    if (value.toDate() < now) {
       workoutsArray.push({
         id: key,
         ...(await getDoc(doc(db, "workouts", key))).data(),
