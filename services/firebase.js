@@ -37,32 +37,13 @@ export const updateContext = async (userId) => {
   return updatedDoc.data();
 };
 export const uploadProfileImage = async (userId, uri) => {
-  if (!uri) {
-    const result = "../assets/app-icon-ios.png";
-    const manipResult = await ImageManipulator.manipulateAsync(
-      result.localUri || result.uri,
-      [{ resize: { height: 1080, width: 1080 } }],
-      {
-        compress: 0.5,
-        height: 1080,
-        width: 1080,
-        format: ImageManipulator.SaveFormat.JPEG,
-      }
-    );
-    const blob = await fetch(manipResult).then((r) => r.blob());
-    const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
-    await uploadBytes(storageRef, blob).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
-  } else {
-    const blob = await fetch(uri).then((r) => r.blob());
-    const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
-    await uploadBytes(storageRef, blob).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+  const blob = await fetch(uri).then((r) => r.blob());
+  const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
+  await uploadBytes(storageRef, blob).then((snapshot) => {
+    console.log("Uploaded a blob or file!");
+  });
 
-    return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
-  }
+  return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
 };
 export const saveProfileChanges = async (
   userId,
