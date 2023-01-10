@@ -171,7 +171,7 @@ const UserScreen = ({ route }) => {
             style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
           />
 
-          <View className="absolute right-4 gap-3">
+          <View className="absolute right-0 gap-3">
             <TouchableOpacity
               className="items-center flex-row rounded-2xl p-3 gap-3"
               style={{ backgroundColor: appStyle.color_primary }}
@@ -194,7 +194,7 @@ const UserScreen = ({ route }) => {
             <TouchableOpacity
               className="items-center flex-row rounded-2xl p-3 gap-3"
               style={{ backgroundColor: appStyle.color_primary }}
-              onPress={showOtherUserFriends}
+              onPress={() => navigation.navigate("Users", { user: shownUser })}
             >
               <Text
                 style={{ fontSize: 20, color: appStyle.color_on_primary }}
@@ -223,7 +223,7 @@ const UserScreen = ({ route }) => {
             ? "No description yet"
             : shownUser.description}
         </Text>
-        <View className="flex-row absolute bottom-0">
+        <View className="flex-row absolute bottom-0 right-0 left-0 justify-center p-4 gap-4">
           {renderFriendshipButton()}
           {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
             <TouchableOpacity
@@ -250,9 +250,9 @@ const style = StyleSheet.create({
     color: appStyle.color_primary,
   },
   socialButton: {
+    flexGrow: 1,
     backgroundColor: appStyle.color_primary,
     padding: 8,
-    margin: 10,
     borderRadius: 5,
   },
   leftText: {

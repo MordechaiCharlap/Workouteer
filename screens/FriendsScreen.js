@@ -15,11 +15,10 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 
-const FriendsScreen = () => {
-  const { user } = useAuth();
+const FriendsScreen = ({ route }) => {
+  const user = route.params.user;
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,7 +28,7 @@ const FriendsScreen = () => {
   useEffect(() => {
     const showFriends = async () => {
       const friendsArr = [];
-      for (var key of allFriendsMap.keys()) {
+      for (var key of Object.keys(user.friends)) {
         var userData = await firebase.userDataById(key);
         friendsArr.push(userData);
       }

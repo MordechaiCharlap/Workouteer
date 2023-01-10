@@ -20,9 +20,9 @@ import * as firebase from "../services/firebase";
 import CheckBox from "../components/CheckBox";
 import useAuth from "../hooks/useAuth";
 import * as defaultValues from "../services/defaultValues";
+import Header from "../components/Header";
 const EditDataScreen = () => {
   const navigation = useNavigation();
-  const { user, setUser } = useAuth();
   const [currentTab, setCurrentTab] = useState("ProfileData");
 
   useLayoutEffect(() => {
@@ -36,8 +36,10 @@ const EditDataScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1  p-3">
-        <View className="flex-row justify-around mb-8">
+      <Header title={"Edit personal data"} goBackOption={true} />
+      <View className="flex-1 p-4">
+        <EditProfileData navigation={navigation} />
+        {/* <View className="flex-row justify-around mb-8">
           <TouchableOpacity
             onPress={() => setCurrentTab("ProfileData")}
             className="w-1/2"
@@ -80,7 +82,7 @@ const EditDataScreen = () => {
             setUser={setUser}
             navigation={navigation}
           />
-        )}
+        )} */}
       </View>
     </View>
   );
@@ -264,15 +266,15 @@ const EditWorkoutPreferences = (props) => {
   );
 };
 const EditProfileData = (props) => {
-  const [displayName, setDisplayName] = useState(props.user.displayName);
-  const [description, setDescription] = useState(props.user.description);
-  const [image, setImage] = useState(props.user.img);
+  const { user, setUser } = useAuth();
+  const [displayName, setDisplayName] = useState(user.displayName);
+  const [description, setDescription] = useState(user.description);
+  const [image, setImage] = useState(user.img);
   useEffect(() => {
-    console.log("checking if changes were made");
     if (
-      description == props.user.description &&
-      displayName == props.user.displayName &&
-      image == props.user.img
+      description == user.description &&
+      displayName == user.displayName &&
+      image == user.img
     )
       setChangesMade(false);
     else setChangesMade(true);
@@ -300,7 +302,7 @@ const EditProfileData = (props) => {
         }
       );
       const uploadUrl = await firebase.uploadProfileImage(
-        props.user.id,
+        user.id,
         manipResult.uri
       );
       console.log("uploadUrl: " + uploadUrl);
@@ -309,14 +311,14 @@ const EditProfileData = (props) => {
   };
   const saveProfileChanges = async () => {
     setLoading(true);
-    if (displayName == "") setDisplayName(props.user.username);
+    if (displayName == "") setDisplayName(user.username);
     await firebase.saveProfileChanges(
-      props.user.id,
+      user.id,
       displayName == null ? "" : displayName,
       description == null ? "" : description,
       image == null ? defaultValues.defaultProfilePic : image
     );
-    props.setUser(await firebase.updateContext(props.user.id));
+    setUser(await firebase.updateContext(user.id));
 
     setUpdated(true);
     setTimeout(() => {
@@ -368,20 +370,21 @@ const EditProfileData = (props) => {
             uri: image,
           }}
           className="h-32 w-32 bg-white rounded-full mb-2"
+          style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
         />
         <TouchableOpacity
           onPress={onImageLibraryPress}
           className="absolute right-0 bottom-0 rounded-full p-2"
           style={{
-            backgroundColor: appStyle.color_bg,
-            borderWidth: 1,
-            borderColor: appStyle.color_primary,
+            backgroundColor: appStyle.color_primary,
+            borderColor: appStyle.color_bg,
+            borderWidth: 3,
           }}
         >
           <FontAwesomeIcon
             icon={faPen}
             size={20}
-            color={appStyle.color_primary}
+            color={appStyle.color_on_primary}
           />
         </TouchableOpacity>
       </View>
@@ -395,12 +398,12 @@ const EditProfileData = (props) => {
         <TextInput
           className="rounded text-lg flex-1 px-2"
           style={style.input}
-          placeholder={props.user.displayName}
+          placeholder={user.displayName}
           placeholderTextColor={"#5f6b8b"}
           maxLength={10}
           onChangeText={(text) => setDisplayName(text)}
         >
-          {props.user.displayName}
+          {user.displayName}
         </TextInput>
       </View>
       <View className="mb-5">
@@ -425,7 +428,7 @@ const EditProfileData = (props) => {
           maxLength={350}
           onChangeText={(text) => setDescription(text)}
         >
-          {props.user.description}
+          {user.description}
         </TextInput>
       </View>
       {SaveButton()}

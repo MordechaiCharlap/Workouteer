@@ -69,7 +69,7 @@ const SearchUsers = (props) => {
           <TextInput
             onChangeText={(text) => textChanged(text)}
             style={{ color: appStyle.color_on_primary }}
-            placeholder="Search"
+            placeholder="Search user"
             placeholderTextColor={appStyle.color_on_primary}
             className="text-xl ml-3"
           />

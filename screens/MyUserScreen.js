@@ -82,7 +82,7 @@ const MyUserScreen = () => {
                 style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
               />
 
-              <View className="absolute right-4 gap-3">
+              <View className="absolute right-0 gap-3">
                 <TouchableOpacity
                   className="items-center flex-row rounded-2xl p-3 gap-3"
                   style={{ backgroundColor: appStyle.color_primary }}
@@ -105,7 +105,7 @@ const MyUserScreen = () => {
                 <TouchableOpacity
                   className="items-center flex-row rounded-2xl p-3 gap-3"
                   style={{ backgroundColor: appStyle.color_primary }}
-                  onPress={() => navigation.navigate("Friends")}
+                  onPress={() => navigation.navigate("Friends", { user: user })}
                 >
                   <Text
                     style={{ fontSize: 20, color: appStyle.color_on_primary }}
