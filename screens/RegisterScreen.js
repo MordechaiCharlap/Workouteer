@@ -97,7 +97,7 @@ const LoginScreen = () => {
   const handleCreateAccount = async () => {
     setInputErrorText("");
 
-    if (confirmPasswordText != "") {
+    if (confirmPassword == password) {
       if (username.length >= 6) {
         if (changedOnce) {
           var age = calculateAge(date);
@@ -112,6 +112,7 @@ const LoginScreen = () => {
             if (isUserAvailable) {
               if (isEmailAvailable) {
                 if (acceptTerms) {
+                  setInputErrorText("");
                   handleLogin();
                 } else setInputErrorText("Accept terms before going further");
               } else setInputErrorText("email isnt available");
@@ -121,7 +122,10 @@ const LoginScreen = () => {
       } else setInputErrorText("Username too small (6+ characters)");
     } else
       setInputErrorText(
-        "Your 'confirmed' password does not match your original password"
+        "Your 'confirmed' password does not match your original password: ",
+        password,
+        " and ",
+        confirmPassword
       );
   };
   const calculateAge = (dateToCheck) => {
@@ -169,6 +173,7 @@ const LoginScreen = () => {
   };
   const confirmPasswordLostFocus = () => {
     if (confirmPassword == password) {
+      console.log("confirm is good");
       setConfirmPasswordStyle(style.input);
       setConfirmPasswordText("");
     } else {
@@ -183,7 +188,7 @@ const LoginScreen = () => {
         console.log("signed in!");
         console.log(userCredential.user.uid);
         const newUserData = {
-          img: "gs://workouteer-54450.appspot.com/profile-pics/defaults/default-profile-image.jpg",
+          img: "../assets/default-profile-image.jpg",
           username: username,
           displayName: username,
           id: username.toLowerCase(),
