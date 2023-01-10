@@ -38,7 +38,9 @@ const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [usernameStyle, setUsernameStyle] = useState(style.input);
   const [password, setPassword] = useState("");
+  const [passwordStyle, setPasswordStyle] = useState(style.input);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordStyle, setConfirmPasswordStyle] = useState(style.input);
   const [confirmPasswordText, setConfirmPasswordText] = useState("");
   // const [displayName, setDisplayName] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -138,6 +140,28 @@ const LoginScreen = () => {
     } else {
       alert("Invalid username, Only english letters, between 6-20 characters");
       setUsernameStyle(style.badInput);
+    }
+  };
+  const passwordLostFocus = () => {
+    var validRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+    if (password.match(validRegex)) {
+      console.log("good password");
+      setPasswordStyle(style.input);
+    } else {
+      alert(
+        "Invalid password, should be 8-20 characters, at least one number and one letter"
+      );
+      setPasswordStyle(style.badInput);
+    }
+  };
+  const confirmPasswordLostFocus = () => {
+    if (confirmPassword == password) {
+      setConfirmPasswordStyle(style.input);
+      setConfirmPasswordText("");
+    } else {
+      alert("Doesn't match password");
+      setConfirmPasswordText("Doesn't match password");
+      setConfirmPasswordStyle(style.badInput);
     }
   };
   const handleLogin = () => {
@@ -264,25 +288,20 @@ const LoginScreen = () => {
             <TextInput
               className="rounded mb-5 px-3 h-10 justify-center"
               secureTextEntry={true}
-              style={style.input}
+              style={passwordStyle}
               placeholder="Password"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setPassword(text)}
+              onBlur={passwordLostFocus}
             ></TextInput>
             <TextInput
               className="rounded mb-3 px-3 h-10 justify-center"
               secureTextEntry={true}
-              style={style.input}
+              style={confirmPasswordStyle}
               placeholder="Confirm Password"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setConfirmPassword(text)}
-              onBlur={() => {
-                if (confirmPassword != password) {
-                  setConfirmPasswordText("Not the same password");
-                } else {
-                  setConfirmPasswordText("");
-                }
-              }}
+              onBlur={confirmPasswordLostFocus}
             ></TextInput>
           </View>
           <View>
@@ -310,7 +329,6 @@ const LoginScreen = () => {
               className="text-center mt-4 mb-2"
               style={{
                 color: appStyle.color_on_primary,
-                display: inputErrorText == "" ? "none" : "flex",
               }}
             >
               {inputErrorText}
