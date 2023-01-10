@@ -161,7 +161,7 @@ const ChatsScreen = () => {
           <TouchableOpacity
             onLongPress={() => chatLongClicked(item)}
             onPress={() => chatClicked(item)}
-            className="p-2 rounded relative"
+            className=" relative"
           >
             <View className="flex-row">
               <Image
@@ -180,7 +180,7 @@ const ChatsScreen = () => {
                   </Text>
                   <Text
                     className="mt-1"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_primary, fontSize: 12 }}
                   >
                     {convertTimestamp(item.chat.lastMessage.sentAt)}
                   </Text>
@@ -209,14 +209,13 @@ const ChatsScreen = () => {
               </View>
             )}
             {chatsAlerts[item.chat.id] && (
-              <View className="absolute top-0 bottom-0 right-7 justify-center">
+              <View className="absolute top-3 bottom-0 right-0 justify-center">
                 <AlertDot
                   number={chatsAlerts[item.chat.id]}
-                  numberColor={appStyle.color_primary}
-                  borderWidth={2}
-                  borderColor={appStyle.color_primary}
-                  color={appStyle.color_bg}
-                  size={35}
+                  numberColor={appStyle.color_on_primary}
+                  color={appStyle.color_primary}
+                  fontSize={10}
+                  size={23}
                 />
               </View>
             )}
@@ -243,12 +242,10 @@ const ChatsScreen = () => {
           Chats
         </Text>
         {Object.keys(chatsAlerts).length > 0 && (
-          <View className="absolute right-5">
+          <View className="absolute right-0 mr-4">
             <AlertDot
               number={Object.keys(chatsAlerts).length}
               numberColor={appStyle.color_on_primary}
-              borderWidth={2}
-              borderColor={appStyle.color_primary}
               color={appStyle.color_primary}
               size={35}
             />
@@ -316,12 +313,12 @@ const ChatsScreen = () => {
 
           <TouchableOpacity
             onPress={showFriends}
-            className="rounded-full aspect-square w-20 items-center justify-center absolute right-0 bottom-10"
+            className="rounded-full aspect-square w-16 items-center justify-center absolute right-0 bottom-10"
             style={{ backgroundColor: appStyle.color_primary }}
           >
             <FontAwesomeIcon
               icon={faPenToSquare}
-              size={50}
+              size={40}
               color={appStyle.color_on_primary}
             />
           </TouchableOpacity>
