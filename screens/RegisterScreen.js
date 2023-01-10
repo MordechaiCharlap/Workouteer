@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useLayoutEffect, useRef, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
@@ -34,11 +34,13 @@ const LoginScreen = () => {
   const { pushToken } = usePushNotifications();
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState("");
+  const [emailStyle, setEmailStyle] = useState(style.input);
   const [username, setUsername] = useState("");
+  const [usernameStyle, setUsernameStyle] = useState(style.input);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordText, setConfirmPasswordText] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  // const [displayName, setDisplayName] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
@@ -100,7 +102,7 @@ const LoginScreen = () => {
                   } else setInputErrorText("Accept terms before going further");
                 } else setInputErrorText("email isnt available");
               } else setInputErrorText("Username isnt available");
-            } else setInputErrorText("Need to be >=16");
+            } else setInputErrorText("You need to be at least 16 years old");
           } else setInputErrorText("Choose birthdate");
         } else setInputErrorText("Username too small (6+ characters)");
       } else
@@ -118,6 +120,26 @@ const LoginScreen = () => {
     }
     return age;
   };
+  const emailLostFocus = () => {
+    var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email.match(validRegex)) {
+      console.log("good email");
+      setEmailStyle(style.input);
+    } else {
+      alert("Invalid email");
+      setEmailStyle(style.badInput);
+    }
+  };
+  const usernameLostFocus = () => {
+    var validRegex = /^[a-zA-Z]{6,20}$/;
+    if (email.match(validRegex)) {
+      console.log("good username");
+      setUsernameStyle(style.input);
+    } else {
+      alert("Invalid username, Only english letters, between 6-20 characters");
+      setUsernameStyle(style.badInput);
+    }
+  };
   const handleLogin = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
@@ -126,7 +148,7 @@ const LoginScreen = () => {
         const newUserData = {
           img: image,
           username: username,
-          displayName: displayName,
+          displayName: username,
           usernameLower: username.toLowerCase(),
           birthdate: date,
           email: email.toLowerCase(),
@@ -139,7 +161,7 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         console.log(error);
-        Alert.alert(error.message);
+        alert(error.message);
       });
   };
   return (
@@ -195,26 +217,28 @@ const LoginScreen = () => {
         <View className="flex-1 justify-between">
           <View>
             <TextInput
+              onBlur={emailLostFocus}
               className="rounded mb-5 px-3 h-10 justify-center"
-              style={style.input}
+              style={emailStyle}
               placeholder="Email"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setEmail(text)}
             ></TextInput>
             <TextInput
+              onBlur={usernameLostFocus}
               className="rounded mb-5 px-3 h-10 justify-center"
-              style={style.input}
+              style={usernameStyle}
               placeholder="Username (Must be unique)"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setUsername(text)}
             ></TextInput>
-            <TextInput
+            {/* <TextInput
               className="rounded mb-5 px-3 h-10 justify-center"
               style={style.input}
               placeholder="Display name"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setDisplayName(text)}
-            ></TextInput>
+            ></TextInput> */}
             <TouchableOpacity
               className="rounded mb-5 px-3 h-10 justify-center"
               style={style.input}
@@ -293,7 +317,7 @@ const LoginScreen = () => {
             </Text>
             <TouchableOpacity
               onPress={handleCreateAccount}
-              className={`flex-1 rounded p-2 justify-center border-2 ${ResponsiveShadow} mt-5 mb-10`}
+              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5 mb-10`}
               style={{
                 backgroundColor: appStyle.color_bg,
                 shadowColor: appStyle.color_bg,
@@ -316,8 +340,14 @@ const LoginScreen = () => {
 export default LoginScreen;
 const style = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderColor: "#5f6b8b",
+    borderWidth: 2,
+    borderColor: appStyle.color_bg,
+    color: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_primary,
+  },
+  badInput: {
+    borderWidth: 2,
+    borderColor: appStyle.color_error,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
   },
