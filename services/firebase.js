@@ -157,8 +157,9 @@ export const createUser = async (newUserData) => {
     friendRequests: {},
     workoutInvites: {},
     workoutRequests: {},
+    workoutRequestsAccepted: {},
   });
-  await setDoc(doc(db, "requests", newUserData.username.toLowerCase()), {
+  await setDoc(doc(db, "friendRequests", newUserData.username.toLowerCase()), {
     receivedRequests: {},
     sentRequests: {},
   });
@@ -168,7 +169,7 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
   if (friendsMap.has(otherUserId)) {
     return "Friends";
   } else {
-    const userReqDoc = await getDoc(doc(db, "requests", userData.id));
+    const userReqDoc = await getDoc(doc(db, "friendRequests", userData.id));
     const sentReqsMap = new Map(Object.entries(userReqDoc.data().sentRequests));
     if (sentReqsMap.has(otherUserId)) {
       return "SentRequest";
@@ -184,7 +185,7 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
 };
 export const getFriendRequests = async (userId) => {
   const returnedArray = [];
-  const userRequests = await getDoc(doc(db, "requests", userId));
+  const userRequests = await getDoc(doc(db, "friendRequests", userId));
   const receivedReqs = userRequests.data().receivedRequests;
   for (var [key, value] of Object.entries(receivedReqs)) {
     const user = await getDoc(dpc(db, "users", key));
@@ -196,8 +197,8 @@ export const getFriendRequests = async (userId) => {
   return returnedArray;
 };
 export const sendFriendRequest = async (userId, shownUser) => {
-  const userReqDoc = doc(db, "requests", userId);
-  const shownUserReqDoc = doc(db, "requests", shownUser.id);
+  const userReqDoc = doc(db, "friendRequests", userId);
+  const shownUserReqDoc = doc(db, "friendRequests", shownUser.id);
   await updateDoc(userReqDoc, {
     [`sentRequests.${shownUser.id}`]: {
       timestamp: Timestamp.now(),
@@ -246,11 +247,11 @@ export const rejectFriendRequest = async (userId, otherUserId) => {
 };
 const deleteRequest = async (receiverId, senderId) => {
   //  reveicer: remove receivedRequest
-  await updateDoc(doc(db, "requests", receiverId), {
+  await updateDoc(doc(db, "friendRequests", receiverId), {
     [`receivedRequests.${senderId}`]: deleteField(),
   });
   //sender: remove sentRequest
-  await updateDoc(doc(db, "requests", senderId), {
+  await updateDoc(doc(db, "friendRequests", senderId), {
     [`sentRequests.${receiverId}`]: deleteField(),
   });
 };
