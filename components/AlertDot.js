@@ -12,12 +12,12 @@ const AlertDot = (props) => {
         borderColor: props.borderColor,
       }}
     >
-      {props.number != null && (
+      {props.text != null && (
         <Text
           className="text-center"
-          style={{ color: props.numberColor, fontSize: props.fontSize }}
+          style={{ color: props.textColor, fontSize: props.fontSize }}
         >
-          {props.number}
+          {props.text}
         </Text>
       )}
     </View>

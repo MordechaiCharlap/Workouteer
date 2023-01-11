@@ -206,8 +206,8 @@ const ChatsScreen = () => {
             {chatsAlerts[item.chat.id] && (
               <View className="absolute top-3 bottom-0 right-0 justify-center">
                 <AlertDot
-                  number={chatsAlerts[item.chat.id]}
-                  numberColor={appStyle.color_on_primary}
+                  text={chatsAlerts[item.chat.id]}
+                  textColor={appStyle.color_on_primary}
                   color={appStyle.color_primary}
                   fontSize={10}
                   size={23}
@@ -239,8 +239,8 @@ const ChatsScreen = () => {
         {Object.keys(chatsAlerts).length > 0 && (
           <View className="absolute right-0 mr-4">
             <AlertDot
-              number={Object.keys(chatsAlerts).length}
-              numberColor={appStyle.color_on_primary}
+              text={Object.keys(chatsAlerts).length}
+              textColor={appStyle.color_on_primary}
               color={appStyle.color_primary}
               size={35}
             />

@@ -361,7 +361,7 @@ const WorkoutComponent = (props) => {
             {!isPastWorkout &&
               isCreator &&
               workoutRequestsAlerts.requestsCount > 0 && (
-                <AlertDot number={workoutRequestsAlerts.requestsCount} />
+                <AlertDot text={workoutRequestsAlerts.requestsCount} />
               )}
 
             <Text

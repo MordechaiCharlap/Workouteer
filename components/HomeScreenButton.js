@@ -33,8 +33,8 @@ const HomeScreenButton = (props) => {
                   color={appStyle.color_on_primary}
                   borderColor={appStyle.color_primary}
                   borderWidth={6}
-                  number={props.alertNumber}
-                  numberColor={appStyle.color_primary}
+                  text={props.alertNumber}
+                  textColor={appStyle.color_primary}
                 />
               </View>
             </View>

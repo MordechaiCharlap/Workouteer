@@ -140,8 +140,8 @@ const MyUserScreen = () => {
                   {user.friendRequestsCount > 0 ? (
                     <View className="absolute left-0 bottom-0">
                       <AlertDot
-                        numberColor={appStyle.color_primary}
-                        number={user.friendRequestsCount}
+                        text={user.friendRequestsCount}
+                        textColor={appStyle.color_primary}
                         color={appStyle.color_error}
                         size={20}
                       />
