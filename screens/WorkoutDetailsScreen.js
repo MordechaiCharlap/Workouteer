@@ -32,6 +32,7 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
+import AlertDot from "../components/AlertDot";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -259,12 +260,12 @@ const WorkoutDetailsScreen = ({ route }) => {
                     workoutRequestsAlerts[workout.id].requestsCount > 0 && (
                       <View className="items-center">
                         <TouchableOpacity
+                          className="m-2 py-2 px-4 rounded flex-row items-center"
                           onPress={() => {
                             navigation.navigate("WorkoutRequests", {
                               workout: workout,
                             });
                           }}
-                          className="m-2 p-2 rounded"
                           style={{ backgroundColor: appStyle.color_primary }}
                         >
                           <Text
@@ -272,8 +273,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                             className="text-lg"
                           >
                             Requests:{" "}
-                            {workoutRequestsAlerts[workout.id].requestsCount}
                           </Text>
+                          <AlertDot
+                            text={
+                              workoutRequestsAlerts[workout.id].requestsCount
+                            }
+                            color={appStyle.color_on_primary}
+                            size={20}
+                          />
                         </TouchableOpacity>
                       </View>
                     )}
