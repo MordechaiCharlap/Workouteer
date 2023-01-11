@@ -8,8 +8,13 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import React, { useLayoutEffect, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -22,11 +27,16 @@ const WorkoutRequestsScreen = ({ route }) => {
   const { user } = useAuth();
   const { sendPushNotificationsForWorkoutMembers, sendPushNotification } =
     usePushNotifications();
-
-  const [changesMade, setChangesMade] = useState(false);
-  const [workout, setWorkout] = useState(route.params.workout);
-  const [requestersArray, setRequestersArray] = useState(
-    route.params.requestersArray
+  const workout = route.params.workout;
+  const [requesters, setRequesters] = useState();
+  useFocusEffect(
+    useCallback(() => {
+      const getWorkoutRequesters = async () => {
+        const requestersArray = await firebase.getWorkoutRequesters(workout);
+        setRequesters(requestersArray);
+      };
+      getWorkoutRequesters();
+    }, [])
   );
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,11 +51,9 @@ const WorkoutRequestsScreen = ({ route }) => {
       user.id
     );
     await firebase.acceptWorkoutRequest(acceptedUser.id, workout);
-    const requestersClone = requestersArray.slice();
+    const requestersClone = requesters.slice();
     requestersClone[index].accepted = true;
-    setRequestersArray(requestersClone);
-    setChangesMade(true);
-    setWorkout(await firebase.getWorkout(workout.id));
+    setRequesters(requestersClone);
     await sendPushNotification(
       workout,
       "New Alert!",
@@ -55,24 +63,9 @@ const WorkoutRequestsScreen = ({ route }) => {
   };
   const rejectUser = async (rejectedUser, index) => {
     await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
-    const requestersClone = requestersArray.slice();
+    const requestersClone = requesters.slice();
     requestersClone[index].accepted = false;
-    setRequestersArray(requestersClone);
-    setChangesMade(true);
-    setWorkout(await firebase.getWorkout(workout.id));
-  };
-  const goBack = () => {
-    if (changesMade) {
-      navigation.navigate("WorkoutDetails", {
-        workout: workout,
-        isCreator: true,
-        isPastWorkout: false,
-        userMemberStatus: "creator",
-        changesMade: true,
-      });
-    } else {
-      navigation.goBack();
-    }
+    setRequesters(requestersClone);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -80,70 +73,76 @@ const WorkoutRequestsScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Requests"} goBackOption={true} navigate={goBack} />
+      <Header title={"Requests"} goBackOption={true} />
       <View
-        style={{ backgroundColor: appStyle.appLightBlue }}
+        style={{ backgroundColor: appStyle.color_bg }}
         className="rounded flex-1 mx-4"
       >
         <FlatList
-          data={requestersArray}
-          keyExtractor={(item) => item.id}
+          data={requesters}
+          keyExtractor={(item) => item.user.id}
           renderItem={({ item, index }) => (
             <View className="p-1 flex-row items-center justify-between">
               <View className="flex-row items-center">
                 <Image
                   className="rounded-full"
                   style={style.image}
-                  source={{ uri: item.img }}
+                  source={{ uri: item.user.img }}
                 />
                 <View className="ml-2">
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.appDarkBlue }}
+                    style={{ color: appStyle.color_primary }}
                   >
-                    {item.username}
+                    {item.user.username}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.appDarkBlue }}
+                    style={{ color: appStyle.color_primary }}
                   >
-                    {item.displayName}
+                    {item.user.displayName}
                   </Text>
                 </View>
               </View>
               {item.accepted == null ? (
-                <View className="flex-row-reverse w-40 ml-2">
+                <View className="flex-row justify-between w-40">
                   <TouchableOpacity
-                    onPress={() => acceptUser(item, index)}
-                    className="justify-center w-16 h-10 rounded ml-3"
-                    style={{ backgroundColor: appStyle.appDarkBlue }}
+                    onPress={() => acceptUser(item.user, index)}
+                    className="justify-center py-2 px-4 rounded"
+                    style={{ backgroundColor: appStyle.color_primary }}
                   >
                     <Text
                       className="text-center"
-                      style={{ color: appStyle.appGray }}
+                      style={{ color: appStyle.color_on_primary }}
                     >
                       Accept
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => rejectUser(item, index)}
-                    className="justify-center w-16 h-10 rounded"
+                    onPress={() => rejectUser(item.user, index)}
+                    className="justify-center py-2 px-4 rounded"
                     style={{
-                      borderColor: appStyle.appDarkBlue,
+                      backgroundColor: appStyle.color_bg_variant,
+                      borderColor: appStyle.color_primary,
                       borderWidth: 1,
                     }}
                   >
-                    <Text className="text-center">Reject</Text>
+                    <Text
+                      style={{ color: appStyle.color_on_primary }}
+                      className="text-center"
+                    >
+                      Reject
+                    </Text>
                   </TouchableOpacity>
                 </View>
               ) : (
                 <View
                   className="w-40 mr-2 h-10 rounded justify-center"
-                  style={{ backgroundColor: appStyle.appDarkBlue }}
+                  style={{ backgroundColor: appStyle.color_primary }}
                 >
                   <Text
                     className="text-center text-lg"
-                    style={{ color: appStyle.appGray }}
+                    style={{ color: appStyle.color_on_primary }}
                   >
                     {item.accepted == false ? "Rejected" : "Accepted"}
                   </Text>
