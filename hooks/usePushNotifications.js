@@ -76,6 +76,38 @@ export const NotificationsProvider = ({ children }) => {
       // alert("Must use physical device for Push Notifications");
     }
   };
+  const sendPushNotificationsForWorkoutMembers = async (
+    workout,
+    title,
+    body,
+    data,
+    excludeUserId
+  ) => {
+    const membersArray = await firebase.getWorkoutMembers(workout);
+    for (var user of membersArray) {
+      if (user.id == excludeUserId) continue;
+
+      if (user.pushToken) {
+        const pushNotification = {
+          to: user.pushToken,
+          sound: "default",
+          title: title,
+          body: body,
+          data: data ? data : {},
+        };
+        await fetch("https://exp.host/--/api/v2/push/send", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Accept-encoding": "gzip, deflate",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(pushNotification),
+        });
+        console.log("pushNotification: ", pushNotification);
+      }
+    }
+  };
   const sendPushNotification = async (user, title, body, data) => {
     if (user.pushToken) {
       const pushNotification = {
@@ -102,6 +134,7 @@ export const NotificationsProvider = ({ children }) => {
     <NotificationsContext.Provider
       value={{
         sendPushNotification,
+        sendPushNotificationsForWorkoutMembers,
         pushToken,
         setPushToken,
         notificationListenerFunction,
