@@ -14,8 +14,15 @@ import Header from "../components/Header";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import responsiveStyle from "../components/ResponsiveStyling";
+import useAuth from "../hooks/useAuth";
+import usePushNotifications from "../hooks/usePushNotifications";
 const WorkoutRequestsScreen = ({ route }) => {
   const navigation = useNavigation();
+
+  const { user } = useAuth();
+  const { sendPushNotificationsForWorkoutMembers, sendPushNotification } =
+    usePushNotifications();
+
   const [changesMade, setChangesMade] = useState(false);
   const [workout, setWorkout] = useState(route.params.workout);
   const [requestersArray, setRequestersArray] = useState(
@@ -26,16 +33,28 @@ const WorkoutRequestsScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
-  const acceptUser = async (user, index) => {
-    await firebase.acceptWorkoutRequest(user.id, workout);
+  const acceptUser = async (acceptedUser, index) => {
+    await sendPushNotificationsForWorkoutMembers(
+      workout,
+      "New Alert!",
+      `${acceptedUser.displayName} joined your workout`,
+      user.id
+    );
+    await firebase.acceptWorkoutRequest(acceptedUser.id, workout);
     const requestersClone = requestersArray.slice();
     requestersClone[index].accepted = true;
     setRequestersArray(requestersClone);
     setChangesMade(true);
     setWorkout(await firebase.getWorkout(workout.id));
+    await sendPushNotification(
+      workout,
+      "New Alert!",
+      `${user.displayName} accepted your request to join the workout`,
+      user.id
+    );
   };
-  const rejectUser = async (user, index) => {
-    await firebase.rejectWorkoutRequest(user.id, workout);
+  const rejectUser = async (rejectedUser, index) => {
+    await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
     const requestersClone = requestersArray.slice();
     requestersClone[index].accepted = false;
     setRequestersArray(requestersClone);
