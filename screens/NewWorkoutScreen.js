@@ -84,6 +84,8 @@ const NewWorkoutScreen = () => {
       location: location,
       description: description,
       ...cityAndCountry,
+      invites: {},
+      requests: {},
     };
     await firebase.createWorkout(workout);
     setUser(await firebase.updateContext(user.id));
