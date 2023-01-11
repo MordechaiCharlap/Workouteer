@@ -45,8 +45,8 @@ const ExploreScreen = () => {
       console.log("using effectionn <3");
       const fetchRequests = async () => {
         var friendsReqsArr = [];
-        if (user.friendRequestCount > 0) {
-          console.log("more than 0 requests: " + user.friendRequestCount);
+        if (user.friendRequestsCount > 0) {
+          console.log("more than 0 requests: " + user.friendRequestsCount);
           const friendReqs = await firebase.getReceivedRequests(user);
           for (var key of friendReqs.keys()) {
             const userData = await firebase.userDataById(key);
@@ -63,7 +63,7 @@ const ExploreScreen = () => {
   }, [renderOption]);
   const deleteRequestFromArray = async (index) => {
     setUser(await firebase.updateContext(user.id));
-    console.log("updated user requests: " + user.friendRequestCount);
+    console.log("updated user requests: " + user.friendRequestsCount);
     const array = friendRequests.slice();
     array.splice(index, 1);
     console.log("deleted item from array");
@@ -86,7 +86,7 @@ const ExploreScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <View className="flex-row px-3 pt-3">
+        {/* <View className="flex-row px-3 pt-3">
           <TouchableOpacity
             style={{ backgroundColor: appStyle.color_primary }}
             className="flex-row items-center rounded mr-3 p-2"
@@ -117,7 +117,7 @@ const ExploreScreen = () => {
               className="text-2xl w-min font-bold"
               style={{ color: appStyle.color_on_primary }}
             >
-              {user.friendRequestCount}
+              {user.friendRequestsCount}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -136,15 +136,15 @@ const ExploreScreen = () => {
               {user.notificationsCount ? user.notificationsCount : 0}
             </Text>
           </TouchableOpacity>
-        </View>
-        {renderOption == "Friend requests" && (
+        </View> */}
+        {/* {renderOption == "Friend requests" && (
           <FriendRequests
             userClicked={userClicked}
             user={user}
             friendRequests={friendRequests}
             deleteRequest={(otherUserId) => deleteRequestFromArray(otherUserId)}
           />
-        )}
+        )} */}
         {renderOption == "Explore" && (
           <SearchUsers
             userClicked={userClicked}
