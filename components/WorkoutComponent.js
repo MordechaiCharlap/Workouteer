@@ -15,15 +15,20 @@ import { timeString } from "../services/timeFunctions";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
+import usePushNotifications from "../hooks/usePushNotifications";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
+
   const { user, setUser } = useAuth();
+  const { workoutRequestsAlerts } = useAlerts();
+  const { sendPushNotification, sendPushNotificationsForWorkoutMembers } =
+    usePushNotifications();
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
+  const [distance, setDistance] = useState(null);
+
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.id;
-  const [distance, setDistance] = useState(null);
-  const { workoutRequestsAlerts } = useAlerts();
   useEffect(() => {
     if (!isPastWorkout && workout) {
       if (isCreator) {
@@ -50,17 +55,36 @@ const WorkoutComponent = (props) => {
   }, []);
   const leaveWorkout = async () => {
     await firebase.leaveWorkout(user, workout);
+
+    await sendPushNotificationsForWorkoutMembers(
+      workout,
+      "New Alert",
+      `${user.displayName} left the workout`,
+      user.id
+    );
     setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("not");
     if (props.screen == "FutureWorkouts") setWorkout(null);
   };
   const cancelWorkout = async () => {
+    await sendPushNotificationsForWorkoutMembers(
+      workout,
+      "New Alert",
+      `Your workout canceled by the creator`,
+      user.id
+    );
     await firebase.cancelWorkout(user, workout);
     setUser(await firebase.updateContext(user.id));
     setWorkout(null);
   };
   const requestToJoinWorkout = async () => {
     await firebase.requestToJoinWorkout(user.id, workout);
+    const cretorData = firebase.getUserDataById(workout.creator);
+    await sendPushNotification(
+      cretorData,
+      "New Alert",
+      `${user.displayName} wants to join your workout!`
+    );
     setUserMemberStatus("pending");
   };
   const cancelWorkoutRequest = async () => {
@@ -72,6 +96,12 @@ const WorkoutComponent = (props) => {
     setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("member");
     if (props.screen == "WorkoutInvites") setWorkout(null);
+    await sendPushNotificationsForWorkoutMembers(
+      workout,
+      "New Alert",
+      `${user.displayName} joined your workout`,
+      user.id
+    );
   };
   const rejectWorkoutInvite = async () => {
     await firebase.rejectWorkoutInvite(user.id, workout);
