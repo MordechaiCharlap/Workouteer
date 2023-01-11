@@ -135,7 +135,7 @@ const ChatScreen = ({ route }) => {
   };
   const leaveChat = async () => {
     const chatsAlertsClone = { ...chatsAlerts };
-    delete chatsAlertsClone[`${chat.id}`];
+    delete chatsAlertsClone[chat.id];
     setChatsAlerts(chatsAlertsClone);
     console.log("cleaning chat alert:", chatsAlertsClone);
     navigation.goBack();
