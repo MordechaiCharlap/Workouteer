@@ -20,23 +20,14 @@ const HomeScreenButton = (props) => {
           onPress={() => navigation.push(props.navigateScreen, { user: user })}
         >
           {props.alert && (
-            <View className="absolute left-2 top-2">
-              <View
-                className="rounded-full"
-                style={{
-                  backgroundColor: appStyle.color_on_primary,
-                  padding: 1,
-                }}
-              >
-                <AlertDot
-                  size={35}
-                  color={appStyle.color_on_primary}
-                  borderColor={appStyle.color_primary}
-                  borderWidth={6}
-                  text={props.alertNumber}
-                  textColor={appStyle.color_primary}
-                />
-              </View>
+            <View className="absolute left-3 top-3">
+              <AlertDot
+                size={26}
+                color={appStyle.color_on_primary}
+                borderColor={appStyle.color_primary}
+                text={props.alertNumber}
+                textColor={appStyle.color_primary}
+              />
             </View>
           )}
           <FontAwesomeIcon
