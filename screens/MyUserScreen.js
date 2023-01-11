@@ -22,10 +22,13 @@ import {
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
+import useAlerts from "../hooks/useAlerts";
+import AlertDot from "../components/AlertDot";
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
+  const { friendRequestsAlerts, setFriendRequestsAlerts } = useAlerts();
 
   const [workoutsCount, setWorkoutsCount] = useState();
   useEffect(() => {
@@ -44,6 +47,13 @@ const MyUserScreen = () => {
   }, []);
   useFocusEffect(
     useCallback(() => {
+      const cleanFriendRequestsAlerts = async () => {
+        await firebase.removeAllFriendRequestAlerts();
+      };
+      if (Object.keys(friendRequestsAlerts).length > 0) {
+        setFriendRequestsAlerts({});
+        cleanFriendRequestsAlerts();
+      }
       setScreen("MyUser");
     }, [])
   );
@@ -98,8 +108,7 @@ const MyUserScreen = () => {
                   }
                 >
                   <Text
-                    style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                    className="font-bold"
+                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
                   >
                     {workoutsCount}
                   </Text>
@@ -120,8 +129,7 @@ const MyUserScreen = () => {
                   }
                 >
                   <Text
-                    style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                    className="font-bold"
+                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
                   >
                     {user.friendsCount}
                   </Text>
@@ -130,6 +138,18 @@ const MyUserScreen = () => {
                     size={40}
                     color={appStyle.color_on_primary}
                   />
+                  {user.friendRequestsCount > 0 ? (
+                    <View className="absolute left-0 bottom-0">
+                      <AlertDot
+                        numberColor={appStyle.color_primary}
+                        number={user.friendRequestsCount}
+                        color={appStyle.color_error}
+                        size={20}
+                      />
+                    </View>
+                  ) : (
+                    <></>
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
