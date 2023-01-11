@@ -32,10 +32,9 @@ const MyUserScreen = () => {
 
   const [workoutsCount, setWorkoutsCount] = useState();
   useEffect(() => {
-    const workouts = new Map(Object.entries(user.workouts));
     const now = new Date();
     var count = 0;
-    for (var value of workouts.values()) {
+    for (var value of Object.values(user.workouts)) {
       if (value.toDate() < now) count++;
     }
     setWorkoutsCount(count);
