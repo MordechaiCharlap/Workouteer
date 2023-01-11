@@ -36,6 +36,9 @@ export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
 };
+export const getUserDataById = async (userId) => {
+  return await updateContext(userId);
+};
 export const uploadProfileImage = async (userId, uri) => {
   const blob = await fetch(uri).then((r) => r.blob());
   const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
@@ -137,7 +140,7 @@ export const createUser = async (newUserData) => {
     email: newUserData.email,
     uidAuth: newUserData.uidAuth,
     friendsCount: 0,
-    friendRequestCount: 0,
+    friendRequestsCount: 0,
     workouts: {},
     chatPals: {},
     friends: {},
@@ -179,7 +182,19 @@ export const checkFriendShipStatus = async (userData, otherUserId) => {
     }
   }
 };
-
+export const getFriendRequests = async (userId) => {
+  const returnedArray = [];
+  const userRequests = await getDoc(doc(db, "requests", userId));
+  const receivedReqs = userRequests.data().receivedRequests;
+  for (var [key, value] of Object.entries(receivedReqs)) {
+    const user = await getDoc(dpc(db, "users", key));
+    returnedArray.push({ user: user.data(), timestamp: value });
+  }
+  returnedArray.sort((a, b) => {
+    a.timestamp - b.timestamp;
+  });
+  return returnedArray;
+};
 export const sendFriendRequest = async (userId, shownUser) => {
   const userReqDoc = doc(db, "requests", userId);
   const shownUserReqDoc = doc(db, "requests", shownUser.id);
@@ -194,20 +209,15 @@ export const sendFriendRequest = async (userId, shownUser) => {
     },
   });
   await updateDoc(doc(db, "users", shownUser.id), {
-    friendRequestCount: increment(1),
+    friendRequestsCount: increment(1),
   });
-};
-export const getReceivedRequests = async (userData) => {
-  const userRequests = await getDoc(doc(db, "requests", userData.id));
-  const receivedReqs = userRequests.data().receivedRequests;
-  const receivedReqsMap = new Map(Object.entries(receivedReqs));
-  return receivedReqsMap;
+  await friendRequestAlert(userId, shownUser.id);
 };
 export const acceptRequest = async (userId, otherUserId) => {
   //user: friendsCount++ && add other to friendsList && increment (-1) friendRequestsCount
   await updateDoc(doc(db, "users", userId), {
     friendsCount: increment(1),
-    friendRequestCount: increment(-1),
+    friendRequestsCount: increment(-1),
     [`friends.${otherUserId}`]: {
       timestamp: Timestamp.now(),
     },
@@ -224,13 +234,13 @@ export const acceptRequest = async (userId, otherUserId) => {
 };
 export const cancelFriendRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "users", otherUserId), {
-    friendRequestCount: increment(-1),
+    friendRequestsCount: increment(-1),
   });
   await deleteRequest(otherUserId, userId);
 };
 export const rejectRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "users", userId), {
-    friendRequestCount: increment(-1),
+    friendRequestsCount: increment(-1),
   });
   await deleteRequest(userId, otherUserId);
 };
@@ -688,6 +698,34 @@ export const removeWorkoutInviteAlert = async (invitedId, workout) => {
     [`workoutInvites.${workout.id}`]: deleteField(),
   });
 };
+
+export const friendRequestAlert = async (senderId, receiverId) => {
+  await updateDoc(doc(db, "alerts", receiverId), {
+    [`friendRequests.${senderId}`]: Timestamp.now(),
+  });
+};
+export const removeFriendRequestAlert = async (senderId, receiverId) => {
+  await updateDoc(doc(db, "alerts", receiverId), {
+    [`friendRequests.${senderId}`]: deleteField(),
+  });
+};
+export const removeAllFriendRequestAlerts = async (userId) => {
+  await updateDoc(doc(db, "alerts", userId), {
+    friendRequests: {},
+  });
+};
+export const getWorkoutsByInvites = async (invitesAlerts) => {
+  //Array should look like this: [[34tt21ho,{workoutDate:2/1/2023}],[fkjs98,{workoutDate:3/1/2023}]]
+  const invitesArray = Array.from(Object.entries(invitesAlerts)).sort(
+    (a, b) => a[1].workoutDate.toDate() < b[1].workoutDate.toDate()
+  );
+  const returnedWorkouts = [];
+  for (var invite of invitesArray) {
+    const workout = await getWorkout(invite[0]);
+    returnedWorkouts.push(workout);
+  }
+  return returnedWorkouts;
+};
 export const removePastOrEmptyWorkoutsAlerts = async (
   workoutRequestsAlerts,
   workoutInvitesAlerts,
@@ -720,16 +758,4 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       workoutInvites: updatedInviteAlerts,
     });
   }
-};
-export const getWorkoutsByInvites = async (invitesAlerts) => {
-  //Array should look like this: [[34tt21ho,{workoutDate:2/1/2023}],[fkjs98,{workoutDate:3/1/2023}]]
-  const invitesArray = Array.from(Object.entries(invitesAlerts)).sort(
-    (a, b) => a[1].workoutDate.toDate() < b[1].workoutDate.toDate()
-  );
-  const returnedWorkouts = [];
-  for (var invite of invitesArray) {
-    const workout = await getWorkout(invite[0]);
-    returnedWorkouts.push(workout);
-  }
-  return returnedWorkouts;
 };
