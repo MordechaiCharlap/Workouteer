@@ -345,6 +345,7 @@ const WorkoutComponent = (props) => {
           }}
         >
           <TouchableOpacity
+            className="mx-1 h-8 flex-1 rounded justify-center flex-row items-center"
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: workout,
@@ -353,25 +354,29 @@ const WorkoutComponent = (props) => {
                 userMemberStatus: userMemberStatus,
               })
             }
-            className="mx-1 h-8 flex-1 rounded justify-center"
             style={{
               backgroundColor: appStyle.color_primary,
             }}
           >
-            {!isPastWorkout &&
-              isCreator &&
-              workoutRequestsAlerts.requestsCount > 0 && (
-                <AlertDot text={workoutRequestsAlerts.requestsCount} />
-              )}
-
             <Text
-              className="text-center"
               style={{
                 color: appStyle.color_on_primary,
               }}
             >
               Details
             </Text>
+            {!isPastWorkout &&
+              isCreator &&
+              workoutRequestsAlerts[workout.id] &&
+              workoutRequestsAlerts[workout.id].requestsCount > 0 && (
+                <View className="ml-5">
+                  <AlertDot
+                    text={workoutRequestsAlerts[workout.id].requestsCount}
+                    color={appStyle.color_on_primary}
+                    size={20}
+                  />
+                </View>
+              )}
           </TouchableOpacity>
           {!isPastWorkout && getWorkoutActionButtons()}
         </View>
