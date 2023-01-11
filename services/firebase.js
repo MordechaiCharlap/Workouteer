@@ -238,6 +238,7 @@ export const cancelFriendRequest = async (userId, otherUserId) => {
     friendRequestsCount: increment(-1),
   });
   await deleteRequest(otherUserId, userId);
+  await removeFriendRequestAlert(userId, otherUserId);
 };
 export const rejectFriendRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "users", userId), {
@@ -702,7 +703,8 @@ export const removeWorkoutInviteAlert = async (invitedId, workout) => {
 };
 export const workoutRequestAcceptedAlert = async (requesterId, workout) => {
   await updateDoc(doc(db, "alerts", requesterId), {
-    [`workoutRequestsAccepted.${workout.id}`]: Timestamp.now(),
+    [`workoutRequestsAccepted.${workout.id}.acceptedDate`]: Timestamp.now(),
+    [`workoutRequestsAccepted.${workout.id}.workoutDate`]: workout.startingTime,
   });
 };
 export const removeAllWorkoutRequestAcceptedAlerts = async (userId) => {
@@ -739,34 +741,39 @@ export const getWorkoutsByInvites = async (invitesAlerts) => {
 };
 export const removePastOrEmptyWorkoutsAlerts = async (
   workoutRequestsAlerts,
+  workoutRequestsAcceptedAlerts,
   workoutInvitesAlerts,
   userId
 ) => {
   const now = new Date();
   var changed = 0;
   const requestAlerts = workoutRequestsAlerts;
-  const requestAlertsMap = new Map(Object.entries(requestAlerts));
-  for (var [key, value] of requestAlertsMap) {
+  for (var [key, value] of Object.entries(requestAlerts)) {
     if (value.workoutDate.toDate() < now || value.requestsCount == 0) {
-      requestAlertsMap.delete(key);
+      delete requestAlerts[key];
+      changed++;
+    }
+  }
+  const requestAcceptedAlerts = workoutRequestsAcceptedAlerts;
+  for (var [key, value] of Object.entries(requestAcceptedAlerts)) {
+    if (value.workoutDate.toDate() < now) {
+      delete requestAcceptedAlerts[key];
       changed++;
     }
   }
   const inviteAlerts = workoutInvitesAlerts;
-  const inviteAlertsMap = new Map(Object.entries(inviteAlerts));
-  for (var [key, value] of inviteAlertsMap) {
+  for (var [key, value] of Object.entries(inviteAlerts)) {
     if (value.workoutDate.toDate() < now) {
-      inviteAlertsMap.delete(key);
+      delete inviteAlerts[key];
       changed++;
     }
   }
   if (changed) {
     console.log(`Removed ${changed} old invites and request! enjoy your time`);
-    const updatedRequestAlerts = Object.fromEntries(requestAlertsMap);
-    const updatedInviteAlerts = Object.fromEntries(inviteAlertsMap);
     await updateDoc(doc(db, "alerts", userId), {
-      workoutRequests: updatedRequestAlerts,
-      workoutInvites: updatedInviteAlerts,
+      workoutRequests: requestAlerts,
+      workoutRequestsAccepted: requestAcceptedAlerts,
+      workoutInvites: inviteAlerts,
     });
   }
 };

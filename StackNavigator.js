@@ -43,7 +43,11 @@ const StackNavigator = () => {
     exploreNavigationOptions,
   } = useNavbarNavigation();
   const { notificationListenerFunction } = usePushNotifications();
-  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
+  const {
+    workoutRequestsAlerts,
+    workoutRequestsAcceptedAlerts,
+    workoutInvitesAlerts,
+  } = useAlerts();
   const [alertsChanged, setAlertsChanged] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
@@ -63,6 +67,7 @@ const StackNavigator = () => {
     const removingBadWorkoutAlerts = async () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
         workoutRequestsAlerts,
+        workoutRequestsAcceptedAlerts,
         workoutInvitesAlerts,
         user.id
       );
