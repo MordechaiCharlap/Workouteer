@@ -637,6 +637,7 @@ export const acceptWorkoutRequest = async (requesterId, workout) => {
   await updateDoc(doc(db, "users", requesterId), {
     [`workouts.${workout.id}`]: workout.startingTime,
   });
+  await workoutRequestAcceptedAlert(requesterId, workout);
   await removeWorkoutRequestAlert(requesterId, workout);
 };
 export const rejectWorkoutRequest = async (requesterId, workout) => {
