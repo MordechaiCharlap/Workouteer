@@ -6,8 +6,8 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useLayoutEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
@@ -20,9 +20,12 @@ import CheckBox from "../components/CheckBox";
 import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
 const FindWorkoutScreen = () => {
-  const now = new Date();
-  const { user, setUser } = useAuth();
   const navigation = useNavigation();
+
+  const { user, setUser } = useAuth();
+
+  const now = new Date();
+
   const [country, setCountry] = useState(user.defaultCountry);
   const [city, setCity] = useState(user.defaultCity);
   const [type, setType] = useState(0);
@@ -41,6 +44,15 @@ const FindWorkoutScreen = () => {
       headerShown: false,
     });
   }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setType(0);
+      setCity(user.defaultCity);
+      setCountry(user.defaultCountry);
+      setMinStartingTime(null);
+      setMaxStartingTime(null);
+    }, [])
+  );
   useEffect(() => {
     const updateCountries = async () => {
       setCountriesArr(await firebase.getCountries());
@@ -60,7 +72,8 @@ const FindWorkoutScreen = () => {
       type == null ||
       minStartingTime == null ||
       maxStartingTime == null ||
-      city == null
+      city == null ||
+      country == null
     ) {
       setIsSearchDisabled(true);
       console.log("cant search");
