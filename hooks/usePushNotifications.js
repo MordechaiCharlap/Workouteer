@@ -56,10 +56,12 @@ export const NotificationsProvider = ({ children }) => {
       if (!user.pushToken) {
         console.log("no pushToken in firestore, adding push token now");
         const token = (await Notifications.getExpoPushTokenAsync()).data;
-        const updatedUser = { ...user, pushToken: token };
-        await firebase.updateUser(updatedUser);
-        setUser(await firebase.updateContext(user.id));
-        setPushToken(token);
+        if (token) {
+          const updatedUser = { ...user, pushToken: token };
+          await firebase.updateUser(updatedUser);
+          setUser(await firebase.updateContext(user.id));
+          setPushToken(token);
+        }
       }
 
       if (Platform.OS === "android") {
@@ -74,51 +76,26 @@ export const NotificationsProvider = ({ children }) => {
       // alert("Must use physical device for Push Notifications");
     }
   };
-  useEffect(() => {
-    // registerForPushNotifications();
-    // Notifications.setNotificationHandler({
-    //   handleNotification: async () => ({
-    //     shouldShowAlert: true,
-    //     shouldPlaySound: true,
-    //     shouldSetBadge: true,
-    //   }),
-    // });
-    // // This listener is fired whenever a notification is received while the app is foregrounded
-    // notificationListener.current =
-    //   Notifications.addNotificationReceivedListener((notification) => {
-    //     console.log("notification: ", notification);
-    //   });
-    // // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    // responseListener.current =
-    //   Notifications.addNotificationResponseReceivedListener((response) => {
-    //     console.log("response: ", response);
-    //   });
-    // return () => {
-    //   if (responseListener) {
-    //     Notifications.removeNotificationSubscription(
-    //       notificationListener.current
-    //     );
-    //   }
-    // };
-  }, []);
   const sendPushNotification = async (user, title, body, data) => {
-    const message = {
-      to: user.pushToken,
-      sound: "default",
-      title: title,
-      body: body,
-      data: data ? data : {},
-    };
-    await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Accept-encoding": "gzip, deflate",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
-    });
-    console.log("message: ", message);
+    if (user.pushToken) {
+      const pushNotification = {
+        to: user.pushToken,
+        sound: "default",
+        title: title,
+        body: body,
+        data: data ? data : {},
+      };
+      await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Accept-encoding": "gzip, deflate",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pushNotification),
+      });
+      console.log("pushNotification: ", pushNotification);
+    }
   };
 
   return (
