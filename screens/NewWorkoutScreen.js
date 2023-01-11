@@ -23,7 +23,6 @@ const NewWorkoutScreen = () => {
   const { user, setUser } = useAuth();
   const navigation = useNavigation();
   const now = new Date();
-  // now.setHours(now.getHours() + 2);
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);

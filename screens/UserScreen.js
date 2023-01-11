@@ -181,10 +181,7 @@ const UserScreen = ({ route }) => {
                 })
               }
             >
-              <Text
-                style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                className="font-bold"
-              >
+              <Text style={{ fontSize: 30, color: appStyle.color_on_primary }}>
                 {workoutsCount}
               </Text>
               <FontAwesomeIcon
@@ -203,10 +200,7 @@ const UserScreen = ({ route }) => {
                 })
               }
             >
-              <Text
-                style={{ fontSize: 20, color: appStyle.color_on_primary }}
-                className="font-bold"
-              >
+              <Text style={{ fontSize: 30, color: appStyle.color_on_primary }}>
                 {shownUser.friendsCount}
               </Text>
               <FontAwesomeIcon
