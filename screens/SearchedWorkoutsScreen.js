@@ -14,6 +14,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
       headerShown: false,
     });
   }, []);
+
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -22,6 +23,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
       />
       <Header title="Results" goBackOption={true} />
       <FlatList
+        className="px-2"
         data={workouts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
