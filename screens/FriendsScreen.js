@@ -21,7 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAlerts from "../hooks/useAlerts";
-
+import AlertDot from "../components/AlertDot";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
 
@@ -74,7 +74,7 @@ const FriendsScreen = ({ route }) => {
       />
       <View className="flex-1 px-2">
         <View
-          className="flex-row items-center h-10 mt-4 mb-2"
+          className="flex-row items-center mt-4 mb-4"
           style={{
             justifyContent: "space-between",
           }}
@@ -92,30 +92,44 @@ const FriendsScreen = ({ route }) => {
           >
             Friends
           </Text>
-          {isMyUser ? (
-            <TouchableOpacity>
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                size={40}
+          <FontAwesomeIcon
+            icon={faCircleUser}
+            size={40}
+            color={appStyle.color_bg}
+          />
+          {isMyUser && user.friendRequestsCount >= 0 && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FriendRequests")}
+              className="flex-row p-2 items-center rounded-xl absolute right-0"
+              style={{ backgroundColor: appStyle.color_primary }}
+            >
+              <AlertDot
+                number={5}
+                numberColor={appStyle.color_bg}
+                fontSize={25}
+                borderColor={appStyle.color_bg}
+                borderWidth={1}
+                size={43}
                 color={appStyle.color_primary}
               />
-              <View
-                style={{ backgroundColor: appStyle.color_primary }}
-                className="rounded-full items-center absolute right-0 bottom-0"
-              >
+              <View className="ml-2">
                 <FontAwesomeIcon
-                  icon={faPlus}
-                  size={13}
+                  icon={faCircleUser}
+                  size={40}
                   color={appStyle.color_bg}
                 />
+                <View
+                  style={{ backgroundColor: appStyle.color_bg }}
+                  className="rounded-full items-center absolute right-0 bottom-0"
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    size={13}
+                    color={appStyle.color_primary}
+                  />
+                </View>
               </View>
             </TouchableOpacity>
-          ) : (
-            <FontAwesomeIcon
-              icon={faCircleUser}
-              size={40}
-              color={appStyle.color_bg}
-            />
           )}
         </View>
         <View
@@ -195,6 +209,20 @@ const FriendsScreen = ({ route }) => {
             </View>
           )}
         />
+        <View
+          className="items-center"
+          style={{ backgroundColor: appStyle.color_bg }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Explore")}
+            className="m-3 py-3 px-8"
+            style={{ backgroundColor: appStyle.color_primary }}
+          >
+            <Text style={{ color: appStyle.color_on_primary }}>
+              Search for a friend
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <BottomNavbar currentScreen="Friends" />
     </View>
