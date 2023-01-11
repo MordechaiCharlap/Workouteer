@@ -699,7 +699,16 @@ export const removeWorkoutInviteAlert = async (invitedId, workout) => {
     [`workoutInvites.${workout.id}`]: deleteField(),
   });
 };
-
+export const workoutRequestAcceptedAlert = async (requesterId, workout) => {
+  await updateDoc(doc(db, "alerts", requesterId), {
+    [`workoutRequestsAccepted.${workout.id}`]: Timestamp.now(),
+  });
+};
+export const removeAllWorkoutRequestAcceptedAlerts = async (userId) => {
+  await updateDoc(doc(db, "alerts", userId), {
+    workoutRequestsAccepted: {},
+  });
+};
 export const friendRequestAlert = async (senderId, receiverId) => {
   await updateDoc(doc(db, "alerts", receiverId), {
     [`friendRequests.${senderId}`]: Timestamp.now(),

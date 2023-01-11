@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 const AlertsContext = createContext({});
 export const AlertsProvider = ({ children }) => {
-  const [chatsAlerts, setChatsAlerts] = useState(false);
-  const [workoutRequestsAlerts, setWorkoutRequestsAlerts] = useState(false);
-  const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState(false);
-  const [friendRequestsAlerts, setFriendRequestsAlerts] = useState(false);
+  const [chatsAlerts, setChatsAlerts] = useState({});
+  const [workoutRequestsAlerts, setWorkoutRequestsAlerts] = useState({});
+  const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
+  const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
+  const [workoutRequestsAcceptedAlerts, setWorkoutRequestsAcceptedAlerts] =
+    useState({});
   return (
     <AlertsContext.Provider
       value={{
@@ -16,6 +18,8 @@ export const AlertsProvider = ({ children }) => {
         setWorkoutInvitesAlerts,
         friendRequestsAlerts,
         setFriendRequestsAlerts,
+        workoutRequestsAcceptedAlerts,
+        setWorkoutRequestsAcceptedAlerts,
       }}
     >
       {children}

@@ -17,7 +17,11 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { workoutRequestsAlerts, workoutInvitesAlerts } = useAlerts();
+  const {
+    workoutRequestsAlerts,
+    workoutRequestsAcceptedAlerts,
+    workoutInvitesAlerts,
+  } = useAlerts();
   const { setScreen } = useNavbarNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -58,8 +62,14 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
-            alert={Object.keys(workoutRequestsAlerts).length > 0}
-            alertNumber={Object.keys(workoutRequestsAlerts).length}
+            alert={
+              Object.keys(workoutRequestsAlerts).length > 0 ||
+              Object.keys(workoutRequestsAcceptedAlerts).length > 0
+            }
+            alertNumber={
+              Object.keys(workoutRequestsAlerts).length +
+              Object.keys(workoutRequestsAcceptedAlerts).length
+            }
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}
             navigateScreen="FutureWorkouts"

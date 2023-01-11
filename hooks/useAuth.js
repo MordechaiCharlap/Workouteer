@@ -25,6 +25,7 @@ export const AuthPrvider = ({ children }) => {
     setWorkoutRequestsAlerts,
     setWorkoutInvitesAlerts,
     setFriendRequestsAlerts,
+    setWorkoutRequestsAcceptedAlerts,
   } = useAlerts();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -52,6 +53,9 @@ export const AuthPrvider = ({ children }) => {
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
               setWorkoutInvitesAlerts(alertsData.workoutInvites);
               setFriendRequestsAlerts(alertsData.friendRequests);
+              setWorkoutRequestsAcceptedAlerts(
+                alertsData.workoutRequestsAccepted
+              );
             }
           );
           console.log("state Changed, user logged in: " + authUser.email);

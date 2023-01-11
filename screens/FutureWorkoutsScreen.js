@@ -1,19 +1,32 @@
 import { View, FlatList, StatusBar } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
+import useAlerts from "../hooks/useAlerts";
 const FutureWorkoutsScreen = () => {
+  const navigation = useNavigation();
+
   const { user } = useAuth();
+  const {
+    workoutRequestsAcceptedAlerts,
+    workoutRequestsAlerts,
+    setWorkoutRequestsAcceptedAlerts,
+  } = useAlerts();
   const now = new Date();
+  const [newWorkouts, setNewWorkouts] = useState(workoutRequestsAcceptedAlerts);
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
-  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -28,7 +41,17 @@ const FutureWorkoutsScreen = () => {
     };
     getWorkouts();
   }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      const removeAllWorkoutRequestAcceptedAlerts = async () => {
+        await firebase.removeAllWorkoutRequestAcceptedAlerts(user.id);
+      };
+      if (Object.keys(workoutRequestsAcceptedAlerts).length > 0) {
+        setWorkoutRequestsAcceptedAlerts({});
+        removeAllWorkoutRequestAcceptedAlerts();
+      }
+    }, [])
+  );
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
