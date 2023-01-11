@@ -213,7 +213,7 @@ export const sendFriendRequest = async (userId, shownUser) => {
   });
   await friendRequestAlert(userId, shownUser.id);
 };
-export const acceptRequest = async (userId, otherUserId) => {
+export const acceptFriendRequest = async (userId, otherUserId) => {
   //user: friendsCount++ && add other to friendsList && increment (-1) friendRequestsCount
   await updateDoc(doc(db, "users", userId), {
     friendsCount: increment(1),
@@ -238,7 +238,7 @@ export const cancelFriendRequest = async (userId, otherUserId) => {
   });
   await deleteRequest(otherUserId, userId);
 };
-export const rejectRequest = async (userId, otherUserId) => {
+export const rejectFriendRequest = async (userId, otherUserId) => {
   await updateDoc(doc(db, "users", userId), {
     friendRequestsCount: increment(-1),
   });
