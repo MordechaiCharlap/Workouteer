@@ -31,6 +31,7 @@ import useAlerts from "./hooks/useAlerts";
 import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
+import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addObserver } = useAuth();
@@ -177,6 +178,11 @@ const StackNavigator = () => {
             name="InviteFriends"
             options={horizontalRightAnimation}
             component={InviteFriendsScreen}
+          />
+          <Stack.Screen
+            name="FriendRequests"
+            options={verticalAnimation}
+            component={FriendRequestsScreen}
           />
         </>
       ) : user && user.defaultCountry == null ? (
