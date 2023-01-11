@@ -596,6 +596,18 @@ export const getWorkoutMembers = async (workout) => {
 
   return returnedMembersArr;
 };
+export const getWorkoutRequesters = async (workout) => {
+  const requestersArray = [];
+  for (var [key, value] of Object.entries(workout.requests)) {
+    if (value == true) {
+      requestersArray.push({
+        user: await getUserDataById(key),
+        accepted: null,
+      });
+    }
+  }
+  return requestersArray;
+};
 export const inviteFriendToWorkout = async (invitedId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`invites.${invitedId}`]: true,
