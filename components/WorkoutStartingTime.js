@@ -18,8 +18,6 @@ const WorkoutStartingTime = (props) => {
   useEffect(() => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
-    //workaround
-    // maximumDate.setHours(maximumDate.getHours() + 2);
     setMaxDate(maximumDate);
   }, []);
   const onDateChange = (event, selectedDate) => {
@@ -88,7 +86,9 @@ const WorkoutStartingTime = (props) => {
         className="rounded px-3 h-10 justify-center items-center"
         onPress={showDatepicker}
       >
-        {!dateChangedOnce && <Text style={{ color: "#5f6b8b" }}>When?</Text>}
+        {!dateChangedOnce && (
+          <Text style={{ color: appStyle.color_on_primary }}>When?</Text>
+        )}
         {dateChangedOnce && (
           <Text
             style={{ color: appStyle.color_on_primary, textAlign: "center" }}
