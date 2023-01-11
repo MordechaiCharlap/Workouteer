@@ -14,17 +14,15 @@ import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useAlerts from "../hooks/useAlerts";
+import AlertDot from "../components/AlertDot";
 const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
-  const {
-    workoutRequestsAcceptedAlerts,
-    workoutRequestsAlerts,
-    setWorkoutRequestsAcceptedAlerts,
-  } = useAlerts();
+  const { workoutRequestsAcceptedAlerts, setWorkoutRequestsAcceptedAlerts } =
+    useAlerts();
   const now = new Date();
-  const [newWorkouts, setNewWorkouts] = useState(workoutRequestsAcceptedAlerts);
+  const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   useLayoutEffect(() => {
@@ -32,23 +30,34 @@ const FutureWorkoutsScreen = () => {
       headerShown: false,
     });
   }, []);
-  useEffect(() => {
-    const getWorkouts = async () => {
-      console.log("getting workouts");
-      const workoutsArr = await firebase.getFutureWorkouts(user, now);
-      setWorkouts(workoutsArr);
-      setInitialLoading(false);
-    };
-    getWorkouts();
-  }, []);
   useFocusEffect(
     useCallback(() => {
+      const getWorkouts = async () => {
+        console.log("getting workouts");
+        const workoutsArr = await firebase.getFutureWorkouts(user, now);
+        setWorkouts(workoutsArr);
+        setInitialLoading(false);
+      };
       const removeAllWorkoutRequestAcceptedAlerts = async () => {
         await firebase.removeAllWorkoutRequestAcceptedAlerts(user.id);
       };
+      getWorkouts();
       if (Object.keys(workoutRequestsAcceptedAlerts).length > 0) {
+        const mockNewWorkouts = {
+          jf5yxRrQI7EuS2bkvLZT: {
+            workoutDate: new Date(),
+            acceptedDate: new Date(),
+          },
+          jf5yxRrQI7E12uS2bkvLZT: {
+            workoutDate: new Date(),
+            acceptedDate: new Date(),
+          },
+        };
+        setNewWorkouts(workoutRequestsAcceptedAlerts);
         setWorkoutRequestsAcceptedAlerts({});
         removeAllWorkoutRequestAcceptedAlerts();
+      } else {
+        setNewWorkouts({});
       }
     }, [])
   );
@@ -69,11 +78,28 @@ const FutureWorkoutsScreen = () => {
             data={workouts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <WorkoutComponent
-                workout={item}
-                isPastWorkout={false}
-                screen={"FutureWorkouts"}
-              />
+              <View>
+                <WorkoutComponent
+                  workout={item}
+                  isPastWorkout={false}
+                  screen={"FutureWorkouts"}
+                />
+                {newWorkouts[item.id] != null ? (
+                  <View className="absolute left-0 top-7">
+                    <AlertDot
+                      text="new!"
+                      textColor={appStyle.color_on_primary}
+                      borderWidth={5}
+                      borderColor={appStyle.color_bg}
+                      fontSize={20}
+                      size={65}
+                      color={appStyle.color_primary}
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </View>
             )}
           />
         )}
