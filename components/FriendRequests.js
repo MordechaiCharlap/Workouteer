@@ -4,12 +4,12 @@ import * as appStyle from "./AppStyleSheet";
 import * as firebase from "../services/firebase";
 
 const FriendRequests = (props) => {
-  const acceptRequest = async (otherUserId, index) => {
-    await firebase.acceptRequest(props.user.id, otherUserId);
+  const acceptFriendRequest = async (otherUserId, index) => {
+    await firebase.acceptFriendRequest(props.user.id, otherUserId);
     await props.deleteRequest(index);
   };
-  const rejectRequest = async (otherUserId, index) => {
-    await firebase.rejectRequest(props.user.id, otherUserId);
+  const rejectFriendRequest = async (otherUserId, index) => {
+    await firebase.rejectFriendRequest(props.user.id, otherUserId);
     await props.deleteRequest(index);
   };
   if (props.friendRequests.length != 0)
@@ -48,7 +48,7 @@ const FriendRequests = (props) => {
               </TouchableOpacity>
               <View className="flex-row">
                 <TouchableOpacity
-                  onPress={() => acceptRequest(item.id, index)}
+                  onPress={() => acceptFriendRequest(item.id, index)}
                   className="p-1 rounded"
                   style={{ backgroundColor: appStyle.appAzure }}
                 >
@@ -60,7 +60,7 @@ const FriendRequests = (props) => {
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => rejectRequest(item.id, index)}
+                  onPress={() => rejectFriendRequest(item.id, index)}
                   className="ml-2 p-1 rounded"
                   style={{ backgroundColor: appStyle.appGray }}
                 >
