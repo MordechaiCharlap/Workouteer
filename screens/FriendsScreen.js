@@ -104,9 +104,9 @@ const FriendsScreen = ({ route }) => {
               style={{ backgroundColor: appStyle.color_primary }}
             >
               <AlertDot
-                number={5}
+                number={user.friendRequestsCount}
                 numberColor={appStyle.color_bg}
-                fontSize={25}
+                fontSize={17}
                 borderColor={appStyle.color_bg}
                 borderWidth={1}
                 size={43}
