@@ -14,17 +14,17 @@ import React, {
 } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
-import useAuth from "../hooks/useAuth";
 import BottomNavbar from "../components/BottomNavbar";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
-import AlertDot from "../components/AlertDot";
+import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
   const [friendRequests, setFriendRequests] = useState();
   const { user, setUser } = useAuth();
-
+  const { sendPushNotification } = useAlerts();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -39,14 +39,19 @@ const FriendRequestsScreen = () => {
       setArray();
     }, [])
   );
-  const acceptRequest = async (otherUserId, index) => {
+  const acceptFriendRequest = async (otherUser, index) => {
     removeRequestFromArray(index);
-    await firebase.acceptRequest(user.id, otherUserId);
+    await sendPushNotification(
+      otherUser,
+      "You've got a new friend!",
+      `You and ${user.displayName} are now friends :),`
+    );
+    await firebase.acceptFriendRequest(user.id, otherUser.id);
     setUser(await firebase.updateContext(user.id));
   };
-  const rejectRequest = async (otherUserId, index) => {
+  const rejectFriendRequest = async (otherUser, index) => {
     removeRequestFromArray(index);
-    await firebase.rejectRequest(user.id, otherUserId);
+    await firebase.rejectFriendRequest(user.id, otherUser.id);
     setUser(await firebase.updateContext(user.id));
   };
   const removeRequestFromArray = (index) => {
@@ -100,7 +105,7 @@ const FriendRequestsScreen = () => {
                 </TouchableOpacity>
                 <View className="flex-row">
                   <TouchableOpacity
-                    onPress={async () => acceptRequest(item.user.id, index)}
+                    onPress={async () => acceptFriendRequest(item.user, index)}
                     className="p-1 rounded"
                     style={{ backgroundColor: appStyle.appAzure }}
                   >
@@ -112,7 +117,7 @@ const FriendRequestsScreen = () => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={async () => rejectRequest(item.user.id, index)}
+                    onPress={async () => rejectFriendRequest(item.user, index)}
                     className="ml-2 p-1 rounded"
                     style={{ backgroundColor: appStyle.appGray }}
                   >

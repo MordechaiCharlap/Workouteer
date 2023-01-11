@@ -20,10 +20,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import useAlerts from "../hooks/useAlerts";
 const UserScreen = ({ route }) => {
-  const { user } = useAuth();
-  const shownUser = route.params.shownUser;
   const navigation = useNavigation();
+
+  const { user, setUser } = useAuth();
+  const { sendPushNotification } = useAlerts();
+
+  const shownUser = route.params.shownUser;
   const [workoutsCount, setWorkoutsCount] = useState();
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
@@ -50,8 +54,17 @@ const UserScreen = ({ route }) => {
   const removeFriend = async () => {
     setFriendshipStatus("None");
     await firebase.removeFriend(user.id, shownUser.id);
+    setUser(await firebase.updateContext(user.id));
   };
-  const acceptFriendRequest = async () => {};
+  const acceptFriendRequest = async () => {
+    await firebase.acceptFriendRequest(user.id, shownUser.id);
+    await sendPushNotification(
+      shownUser,
+      "You've got a new friend!",
+      `You and ${user.displayName} are now friends :),`
+    );
+    setUser(await firebase.updateContext(user.id));
+  };
   const rejectFriendRequest = async () => {};
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
@@ -60,6 +73,11 @@ const UserScreen = ({ route }) => {
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
     await firebase.sendFriendRequest(user.id, shownUser);
+    await sendPushNotification(
+      shownUser,
+      "New Friend Request!",
+      `${user.displayName} wants to be your friend :)`
+    );
   };
   const calculateAge = () => {
     console.log(shownUser.birthdate);
@@ -72,7 +90,6 @@ const UserScreen = ({ route }) => {
     }
     return age;
   };
-  const showOtherUserFriends = () => {};
   const renderFriendshipButton = () => {
     if (friendshipStatus == "None")
       return (
