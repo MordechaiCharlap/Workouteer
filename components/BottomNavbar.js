@@ -15,19 +15,19 @@ const BottomNavbar = (props) => {
       className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display}`}
       style={{ backgroundColor: appStyle.color_primary }}
     >
-      <NavbarButton screen="MyUser" currentScreen={props.currentScreen} />
+      <NavbarButton
+        screen="MyUser"
+        currentScreen={props.currentScreen}
+        alert={Object.keys(friendRequestsAlerts).length > 0}
+      />
       <NavbarButton screen="Calendar" currentScreen={props.currentScreen} />
       <NavbarButton screen="Home" currentScreen={props.currentScreen} />
       <NavbarButton
         screen="Chats"
         currentScreen={props.currentScreen}
-        alert={Object.keys(chatsAlerts).length != 0}
+        alert={Object.keys(chatsAlerts).length > 0}
       />
-      <NavbarButton
-        screen="Explore"
-        currentScreen={props.currentScreen}
-        alert={friendRequestsAlerts}
-      />
+      <NavbarButton screen="Explore" currentScreen={props.currentScreen} />
     </View>
   );
 };
