@@ -47,6 +47,12 @@ const LoginScreen = () => {
         case " auth/wrong-password":
           setErrorText("Wrong password");
           break;
+        case "auth/invalid-email":
+          setErrorText("Invalid-email");
+          break;
+        case " auth/invalid-email":
+          setErrorText("Invalid-email");
+          break;
       }
     }
   }, [authErrorCode]);
