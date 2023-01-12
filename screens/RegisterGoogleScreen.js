@@ -18,6 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import * as defaultValues from "../services/defaultValues";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAuth from "../hooks/useAuth";
+import LoadingAnimation from "../components/LoadingAnimation";
 const RegisterGoogleScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -26,7 +27,8 @@ const RegisterGoogleScreen = () => {
     });
   }, []);
   const { pushToken } = usePushNotifications();
-  const { googleUserInfo, setUser } = useAuth();
+  const { googleUserInfo, setUser, initialLoading } = useAuth();
+
   const [username, setUsername] = useState("");
   const [usernameStyle, setUsernameStyle] = useState(style.input);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -191,148 +193,157 @@ const RegisterGoogleScreen = () => {
   };
   return (
     <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
-      <View
-        className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
-        style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}
-      >
-        <View className="mb-8 items-center">
-          <View className="items-center">
-            <Text
-              className="text-3xl tracking-widest"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              Register
-            </Text>
-          </View>
-        </View>
-        <View className="flex-1 justify-between">
-          <View>
-            <TextInput
-              onBlur={usernameLostFocus}
-              className="rounded mb-5 px-3 h-10 justify-center"
-              style={usernameStyle}
-              placeholder="Username (Must be unique)"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setUsername(text)}
-            ></TextInput>
-            {Platform.OS == "android" ? (
-              <View>
-                <TouchableOpacity
-                  className="rounded mb-5 px-3 h-10 justify-center"
-                  style={dateStyle}
-                  onPress={showDatepicker}
-                >
-                  {!changedOnce && (
-                    <Text style={{ color: "#5f6b8b" }}>
-                      birthdate (works only on Android)
-                    </Text>
-                  )}
-                  {changedOnce && (
-                    <Text style={{ color: "#5f6b8b" }}>
-                      {date.toDateString()}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-                {show && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="date"
-                    onChange={onDateChange}
-                  />
-                )}
-              </View>
-            ) : (
+      {initialLoading ? (
+        <LoadingAnimation />
+      ) : (
+        <View>
+          <StatusBar
+            backgroundColor={appStyle.statusBarStyle.backgroundColor}
+            barStyle={appStyle.statusBarStyle.barStyle}
+          />
+          <View
+            className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+            style={{
+              backgroundColor: appStyle.color_primary,
+              shadowColor: "#000",
+            }}
+          >
+            <View className="mb-8 items-center">
               <View className="items-center">
                 <Text
-                  className="mr-2"
+                  className="text-3xl tracking-widest"
                   style={{ color: appStyle.color_on_primary }}
                 >
-                  Birthdate
+                  Register
                 </Text>
-                <View className="flex-row w-full items-center justify-between">
-                  <TextInput
-                    onBlur={(text) => dayLostFocus(text)}
-                    maxLength={2}
-                    className="text-center w-20"
-                    placeholderTextColor={"#5f6b8b"}
-                    placeholder="Day dd"
-                    style={dayStyle}
-                    onChangeText={(text) => setDay(text)}
-                  ></TextInput>
-                  <TextInput
-                    onBlur={(text) => monthLostFocus(text)}
-                    maxLength={2}
-                    className="text-center w-20"
-                    placeholderTextColor={"#5f6b8b"}
-                    placeholder="Month mm"
-                    style={monthStyle}
-                    onChangeText={(text) => setMonth(text)}
-                  ></TextInput>
-                  <TextInput
-                    onBlur={(text) => yearLostFocus(text)}
-                    maxLength={4}
-                    className="text-center w-20"
-                    placeholderTextColor={"#5f6b8b"}
-                    placeholder="Year yyyy"
-                    style={yearStyle}
-                    onChangeText={(text) => setYear(text)}
-                  ></TextInput>
-                </View>
               </View>
-            )}
-          </View>
-          <View>
-            <View className="flex-row items-center mb-5">
-              <CheckBox
-                backgroundColor={appStyle.color_on_primary}
-                valueColor={appStyle.color_primary}
-                value={false}
-                onValueChange={setAcceptTerms}
-              />
-              <Text
-                className="ml-2"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                {"I agree to the "}
-              </Text>
-              <Text
-                className="font-semibold underline"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                Terms and Conditions
-              </Text>
             </View>
-            <Text
-              className="text-center mt-4 mb-2"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {inputErrorText}
-            </Text>
-            <TouchableOpacity
-              onPress={handleCreateAccount}
-              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5 mb-10`}
-              style={{
-                backgroundColor: appStyle.color_bg,
-                shadowColor: appStyle.color_bg,
-              }}
-            >
-              <Text
-                className="text-center font-bold text-xl tracking-widest"
-                style={{ color: appStyle.color_primary }}
-              >
-                {loading ? "Loading" : "Create Account"}
-              </Text>
-            </TouchableOpacity>
+            <View className="flex-1 justify-between">
+              <View>
+                <TextInput
+                  onBlur={usernameLostFocus}
+                  className="rounded mb-5 px-3 h-10 justify-center"
+                  style={usernameStyle}
+                  placeholder="Username (Must be unique)"
+                  placeholderTextColor={"#5f6b8b"}
+                  onChangeText={(text) => setUsername(text)}
+                ></TextInput>
+                {Platform.OS == "android" ? (
+                  <View>
+                    <TouchableOpacity
+                      className="rounded mb-5 px-3 h-10 justify-center"
+                      style={dateStyle}
+                      onPress={showDatepicker}
+                    >
+                      {!changedOnce && (
+                        <Text style={{ color: "#5f6b8b" }}>
+                          birthdate (works only on Android)
+                        </Text>
+                      )}
+                      {changedOnce && (
+                        <Text style={{ color: "#5f6b8b" }}>
+                          {date.toDateString()}
+                        </Text>
+                      )}
+                    </TouchableOpacity>
+                    {show && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode="date"
+                        onChange={onDateChange}
+                      />
+                    )}
+                  </View>
+                ) : (
+                  <View className="items-center">
+                    <Text
+                      className="mb-3 text-xl font-semibold"
+                      style={{ color: appStyle.color_on_primary }}
+                    >
+                      Birthdate
+                    </Text>
+                    <View className="flex-row w-full items-center justify-between mb-5">
+                      <TextInput
+                        onBlur={(text) => dayLostFocus(text)}
+                        maxLength={2}
+                        className="text-center w-20"
+                        placeholderTextColor={"#5f6b8b"}
+                        placeholder="Day dd"
+                        style={dayStyle}
+                        onChangeText={(text) => setDay(text)}
+                      ></TextInput>
+                      <TextInput
+                        onBlur={(text) => monthLostFocus(text)}
+                        maxLength={2}
+                        className="text-center w-20"
+                        placeholderTextColor={"#5f6b8b"}
+                        placeholder="Month mm"
+                        style={monthStyle}
+                        onChangeText={(text) => setMonth(text)}
+                      ></TextInput>
+                      <TextInput
+                        onBlur={(text) => yearLostFocus(text)}
+                        maxLength={4}
+                        className="text-center w-20"
+                        placeholderTextColor={"#5f6b8b"}
+                        placeholder="Year yyyy"
+                        style={yearStyle}
+                        onChangeText={(text) => setYear(text)}
+                      ></TextInput>
+                    </View>
+                  </View>
+                )}
+              </View>
+              <View>
+                <CheckBox
+                  backgroundColor={appStyle.color_bg}
+                  valueColor={appStyle.color_primary}
+                  value={false}
+                  onValueChange={setAcceptTerms}
+                />
+                <View className="flex-row items-center mb-5 mt-2">
+                  <Text
+                    className="ml-2"
+                    style={{ color: appStyle.color_on_primary }}
+                  >
+                    {"I agree to the "}
+                  </Text>
+                  <Text
+                    className="underline"
+                    style={{ color: appStyle.color_on_primary }}
+                  >
+                    Terms and Conditions
+                  </Text>
+                </View>
+                <Text
+                  className="text-center mt-4 mb-2"
+                  style={{
+                    color: appStyle.color_on_primary,
+                  }}
+                >
+                  {inputErrorText}
+                </Text>
+                <TouchableOpacity
+                  onPress={handleCreateAccount}
+                  className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5 mb-10`}
+                  style={{
+                    backgroundColor: appStyle.color_bg,
+                    shadowColor: appStyle.color_bg,
+                  }}
+                >
+                  <Text
+                    className="text-center font-bold text-xl tracking-widest"
+                    style={{ color: appStyle.color_primary }}
+                  >
+                    {loading ? "Loading" : "Create Account"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

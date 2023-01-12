@@ -39,8 +39,8 @@ export const AuthPrvider = ({ children }) => {
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
   const addAuthObserver = () => {
-    console.log("observer");
     if (!googleUserInfo) {
+      console.log("auth observer");
       onAuthStateChanged(auth, (authUser) => {
         if (authUser) {
           const setUserAsync = async () => {
@@ -105,7 +105,13 @@ export const AuthPrvider = ({ children }) => {
     await promptAsync({ useProxy: false, showInRecents: true });
   };
   const setGoogleUserAsync = async () => {
-    if (!firebase.checkIfEmailAvailable(googleUserInfo.email.toLowerCase())) {
+    setInitialLoading(true);
+    if (
+      !(await firebase.checkIfEmailAvailable(
+        googleUserInfo.email.toLowerCase()
+      ))
+    ) {
+      console.log("existing user");
       const userData = await firebase.userDataByEmail(
         googleUserInfo.email.toLowerCase()
       );
@@ -122,6 +128,7 @@ export const AuthPrvider = ({ children }) => {
         "google user logged in: " + googleUserInfo.email.toLowerCase()
       );
     } else {
+      console.log("new user=>google register");
       //do nothing, it would go to register by default because of the StackNavigator conditioning
     }
     setInitialLoading(false);
