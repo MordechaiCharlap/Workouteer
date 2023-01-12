@@ -76,7 +76,7 @@ const NewWorkoutScreen = () => {
     const cityAndCountry = await getCityAndCountry(location);
     const workout = {
       creator: user.id,
-      members: { [user.id]: true },
+      members: { [user.id]: user.img },
       type: type,
       sex: workoutSex,
       startingTime: startingTime,
