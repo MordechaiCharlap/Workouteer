@@ -66,7 +66,7 @@ const FriendRequestsScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <Header title={"Friend Requests"} goBackOption={true} />
-      <View className="flex-1">
+      <View className="flex-1 px-2">
         {user.friendRequestsCount > 0 ? (
           <FlatList
             data={friendRequests}
@@ -74,10 +74,13 @@ const FriendRequestsScreen = () => {
             renderItem={({ item, index }) => (
               <View className="flex-row items-center mt-2">
                 <TouchableOpacity
-                  onPress={() =>
+                  onPress={async () =>
                     navigation.navigate("User", {
-                      user: item.user,
-                      isMyUser: false,
+                      shownUser: item.user,
+                      friendshipStatus: await firebase.checkFriendShipStatus(
+                        user,
+                        item.user.id
+                      ),
                     })
                   }
                   className="flex-row flex-1 items-center"
@@ -91,13 +94,13 @@ const FriendRequestsScreen = () => {
                   <View>
                     <Text
                       className="text-xl font-semibold tracking-wider"
-                      style={{ color: appStyle.appGray }}
+                      style={{ color: appStyle.color_primary }}
                     >
                       {item.user.username}
                     </Text>
                     <Text
                       className="text-md opacity-60 tracking-wider"
-                      style={{ color: appStyle.appGray }}
+                      style={{ color: appStyle.color_primary }}
                     >
                       {item.user.displayName}
                     </Text>
@@ -106,22 +109,28 @@ const FriendRequestsScreen = () => {
                 <View className="flex-row">
                   <TouchableOpacity
                     onPress={async () => acceptFriendRequest(item.user, index)}
-                    className="p-1 rounded"
-                    style={{ backgroundColor: appStyle.appAzure }}
+                    className="py-1 px-2 rounded"
+                    style={{ backgroundColor: appStyle.color_primary }}
                   >
                     <Text
-                      className="text-2xl"
-                      style={{ color: appStyle.appGray }}
+                      className="text-xl"
+                      style={{ color: appStyle.color_on_primary }}
                     >
                       Accept
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={async () => rejectFriendRequest(item.user, index)}
-                    className="ml-2 p-1 rounded"
-                    style={{ backgroundColor: appStyle.appGray }}
+                    className="ml-2 py-1 px-2 rounded"
+                    style={{
+                      borderWidth: 1,
+                      borderColor: appStyle.color_primary,
+                    }}
                   >
-                    <Text className="text-2xl" style={{ color: "black" }}>
+                    <Text
+                      className="text-xl"
+                      style={{ color: appStyle.color_primary }}
+                    >
                       Reject
                     </Text>
                   </TouchableOpacity>

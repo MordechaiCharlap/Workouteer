@@ -5,7 +5,6 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Modal,
   StatusBar,
 } from "react-native";
 import {
@@ -72,6 +71,15 @@ const WorkoutDetailsScreen = ({ route }) => {
       membersArray: membersArray,
     });
   };
+  const calculateAge = (dateToCheck) => {
+    var today = new Date();
+    var age = today.getFullYear() - dateToCheck.getFullYear();
+    var m = today.getMonth() - dateToCheck.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
+      age--;
+    }
+    return age;
+  };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -89,34 +97,32 @@ const WorkoutDetailsScreen = ({ route }) => {
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
-                  <View
-                    className="flex-row justify-between"
-                    style={{
-                      borderBottomColor: appStyle.color_primary,
-                      borderBottomWidth: 2,
-                    }}
-                  >
-                    <Text
-                      className="text-xl m-1"
-                      style={{ color: appStyle.color_primary }}
+                  <View className="flex-row justify-between">
+                    <View
+                      className="mb-2 px-2 rounded"
+                      style={{ backgroundColor: appStyle.color_primary }}
                     >
-                      Date: {timeString(workout.startingTime.toDate())}
-                    </Text>
-                    <Text
-                      className="text-xl m-1"
-                      style={{ color: appStyle.color_primary }}
+                      <Text
+                        className="text-xl m-1"
+                        style={{ color: appStyle.color_on_primary }}
+                      >
+                        {timeString(workout.startingTime.toDate())}
+                      </Text>
+                    </View>
+                    <View
+                      className="mb-2 px-2 rounded"
+                      style={{ backgroundColor: appStyle.color_primary }}
                     >
-                      {workout.city}
-                    </Text>
+                      <Text
+                        className="text-xl m-1"
+                        style={{ color: appStyle.color_on_primary }}
+                      >
+                        {workout.city}
+                      </Text>
+                    </View>
                   </View>
                   <View className="flex-row flex-1">
-                    <View
-                      className="aspect-square p-2"
-                      style={{
-                        borderRightColor: appStyle.color_primary,
-                        borderRightWidth: 2,
-                      }}
-                    >
+                    <View className="aspect-square p-2">
                       <FontAwesomeIcon
                         icon={workoutTypes[workout.type].icon}
                         size={120}
@@ -162,24 +168,23 @@ const WorkoutDetailsScreen = ({ route }) => {
                     </View>
                   </View>
                   {workout.description != "" && (
-                    <View
-                      style={{
-                        borderTopColor: appStyle.color_primary,
-                        borderTopWidth: 2,
-                      }}
-                    >
-                      <Text>Description: {workout.description}</Text>
+                    <View>
+                      <View
+                        className="my-2 p-2 rounded-xl"
+                        style={{ backgroundColor: appStyle.color_primary }}
+                      >
+                        <Text
+                          className="text-xl"
+                          style={{ color: appStyle.color_on_primary }}
+                        >
+                          {workout.description}
+                        </Text>
+                      </View>
                     </View>
                   )}
 
                   <View>
-                    <View
-                      className="p-2 flex-row justify-center items-center"
-                      style={{
-                        borderTopColor: appStyle.color_primary,
-                        borderTopWidth: 2,
-                      }}
-                    >
+                    <View className="p-2 flex-row justify-center items-center">
                       <FontAwesomeIcon
                         icon={faUserGroup}
                         size={30}
@@ -197,10 +202,14 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  onPress={() =>
+                  onPress={async () =>
                     item.id == user.id
-                      ? {}
-                      : navigation.navigate("User", { shownUser: item })
+                      ? navigation.navigate("MyUser")
+                      : navigation.navigate("User", {
+                          shownUser: item,
+                          friendshipStatus:
+                            await firebase.checkFriendShipStatus(user, item.id),
+                        })
                   }
                   className="p-1 flex-row items-center justify-between"
                 >
@@ -215,13 +224,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className="text-xl font-semibold tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
-                        {item.username}
+                        {item.displayName}
                       </Text>
                       <Text
                         className="text-md opacity-60 tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
-                        {item.displayName}
+                        {item.firstName},{" "}
+                        {calculateAge(item.birthdate.toDate())}
                       </Text>
                     </View>
                   </View>
@@ -285,12 +295,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </View>
                     )}
 
-                  <View
-                    style={{
-                      borderTopColor: appStyle.color_primary,
-                      borderTopWidth: 2,
-                    }}
-                  >
+                  <View>
                     <View className="flex-row items-center p-2 justify-center">
                       <FontAwesomeIcon
                         icon={faLocationDot}

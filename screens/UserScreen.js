@@ -17,21 +17,28 @@ import {
   faChevronLeft,
   faUserGroup,
   faDumbbell,
+  faPaperPlane,
+  faUserMinus,
+  faUserPlus,
+  faUserXmark,
+  faCheck,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
-import useAlerts from "../hooks/useAlerts";
+import usePushNotifications from "../hooks/usePushNotifications";
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const { user, setUser } = useAuth();
-  const { sendPushNotification } = useAlerts();
+  const { sendPushNotification } = usePushNotifications();
 
   const shownUser = route.params.shownUser;
   const [workoutsCount, setWorkoutsCount] = useState();
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
+  console.log(friendshipStatus);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,6 +64,7 @@ const UserScreen = ({ route }) => {
     setUser(await firebase.updateContext(user.id));
   };
   const acceptFriendRequest = async () => {
+    setFriendshipStatus("Friends");
     await firebase.acceptFriendRequest(user.id, shownUser.id);
     await sendPushNotification(
       shownUser,
@@ -65,7 +73,10 @@ const UserScreen = ({ route }) => {
     );
     setUser(await firebase.updateContext(user.id));
   };
-  const rejectFriendRequest = async () => {};
+  const rejectFriendRequest = async () => {
+    setFriendshipStatus("None");
+    await firebase.rejectFriendRequest(user.id, shownUser.id);
+  };
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
     await firebase.cancelFriendRequest(user.id, shownUser.id);
@@ -94,62 +105,93 @@ const UserScreen = ({ route }) => {
     if (friendshipStatus == "None")
       return (
         <TouchableOpacity
+          className="flex-row items-center justify-center"
           onPress={sendFriendRequest}
           style={style.socialButton}
         >
           <Text
-            className="text-center text-xl"
+            className="text-center text-xl mr-2"
             style={{ color: appStyle.color_on_primary }}
           >
-            Add as a friend
+            Friend request
           </Text>
+          <FontAwesomeIcon
+            icon={faUserPlus}
+            size={20}
+            color={appStyle.color_on_primary}
+          />
         </TouchableOpacity>
       );
     else if (friendshipStatus == "Friends")
       return (
-        <TouchableOpacity onPress={removeFriend} style={style.socialButton}>
+        <TouchableOpacity
+          className="flex-row items-center justify-center"
+          onPress={removeFriend}
+          style={style.socialButton}
+        >
           <Text
-            className="text-center text-xl"
-            style={{ color: appStyle.color_primary }}
+            className="text-center text-xl mr-2"
+            style={{ color: appStyle.color_on_primary }}
           >
             Remove friend
           </Text>
+          <FontAwesomeIcon
+            icon={faUserXmark}
+            size={20}
+            color={appStyle.color_on_primary}
+          />
         </TouchableOpacity>
       );
     else if (friendshipStatus == "SentRequest")
       return (
         <TouchableOpacity
+          className="flex-row items-center justify-center"
           onPress={cancelFriendRequest}
           style={style.socialButton}
         >
           <Text
-            className="text-center text-xl"
-            style={{ color: appStyle.color_primary }}
+            className="text-center text-xl mr-2"
+            style={{ color: appStyle.color_on_primary }}
           >
-            Cancel friend request
+            Cancel request
           </Text>
+          <FontAwesomeIcon
+            icon={faUserMinus}
+            size={20}
+            color={appStyle.color_on_primary}
+          />
         </TouchableOpacity>
       );
     else if (friendshipStatus == "ReceivedRequest")
       return (
-        <View className="flex-row items-center">
+        <View className="flex-row items-center justify-center">
           <TouchableOpacity
-            className="rounded-l"
-            onPress={rejectFriendRequest}
+            className="rounded-l-lg flex-row items-center justify-center"
+            onPress={acceptFriendRequest}
             style={style.leftSocialButton}
           >
-            <Text className="text-center text-xl" style={style.leftText}>
+            <Text className="text-xl mr-2" style={style.leftText}>
               Accept
             </Text>
+            <FontAwesomeIcon
+              icon={faCheck}
+              size={20}
+              color={appStyle.color_on_primary}
+            />
           </TouchableOpacity>
           <TouchableOpacity
-            className="rounded-r"
-            onPress={acceptFriendRequest}
+            className="rounded-r-lg flex-row items-center justify-center"
+            onPress={rejectFriendRequest}
             style={style.rightSocialButton}
           >
-            <Text className="text-center text-xl" style={style.rightText}>
+            <Text className="text-xl mr-2" style={style.rightText}>
               Reject
             </Text>
+            <FontAwesomeIcon
+              icon={faX}
+              size={20}
+              color={appStyle.color_primary}
+            />
           </TouchableOpacity>
         </View>
       );
@@ -228,14 +270,17 @@ const UserScreen = ({ route }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <Text
-          className="font-semibold text-2xl mb-5"
-          style={{
-            color: appStyle.color_primary,
-          }}
-        >
-          {shownUser.displayName}
-        </Text>
+        <View className="flex-row">
+          <Text
+            className="px-4 py-2 rounded-xl text-3xl"
+            style={{
+              color: appStyle.color_on_primary,
+              backgroundColor: appStyle.color_primary,
+            }}
+          >
+            {user.firstName}, {calculateAge(user.birthdate.toDate())}
+          </Text>
+        </View>
         <Text style={{ color: appStyle.color_primary }} className="text-lg">
           {shownUser.description == ""
             ? "No description yet"
@@ -245,15 +290,21 @@ const UserScreen = ({ route }) => {
           {renderFriendshipButton()}
           {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
             <TouchableOpacity
+              className="flex-row items-center justify-center"
               onPress={() => openPrivateChat()}
               style={style.socialButton}
             >
               <Text
-                className="text-center text-xl"
+                className="text-center text-xl mr-2"
                 style={{ color: appStyle.color_on_primary }}
               >
-                Send a message
+                Message
               </Text>
+              <FontAwesomeIcon
+                icon={faPaperPlane}
+                size={20}
+                color={appStyle.color_on_primary}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -279,19 +330,27 @@ const style = StyleSheet.create({
   },
   rightText: {
     fontSize: 20,
-    color: appStyle.color_on_primary,
+    color: appStyle.color_primary,
   },
   leftSocialButton: {
-    margin: 0,
-    padding: 4,
+    flexGrow: 1,
     backgroundColor: appStyle.color_primary,
+    padding: 8,
+    borderLeftRadius: 5,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
   },
   rightSocialButton: {
+    flexGrow: 1,
+    backgroundColor: appStyle.color_primary,
+    padding: 8,
+    borderRightRadius: 5,
+    backgroundColor: appStyle.color_bg,
     borderColor: appStyle.color_primary,
-    borderWidth: 1,
-    margin: 0,
-    padding: 4,
-    backgroundColor: appStyle.color_on_primary,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
   },
 });
 export default UserScreen;

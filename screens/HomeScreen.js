@@ -45,7 +45,7 @@ const HomeScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 p-3 justify-around">
+      <View className="flex-1 p-3 justify-center">
         <View className="flex-row justify-around my-5">
           <HomeScreenButton
             buttonText="FIND A WORKOUT"

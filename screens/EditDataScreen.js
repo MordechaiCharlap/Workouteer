@@ -341,7 +341,7 @@ const EditProfileData = (props) => {
         className="self-center py-1 px-5 w-9/12 rounded"
         style={{
           backgroundColor:
-            updated == false ? appStyle.color_primary : color_primary,
+            updated == false ? appStyle.color_primary : appStyle.color_primary,
         }}
       >
         <Text

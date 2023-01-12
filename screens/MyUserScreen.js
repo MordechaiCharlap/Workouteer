@@ -44,10 +44,19 @@ const MyUserScreen = () => {
       headerShown: false,
     });
   }, []);
+  const calculateAge = (dateToCheck) => {
+    var today = new Date();
+    var age = today.getFullYear() - dateToCheck.getFullYear();
+    var m = today.getMonth() - dateToCheck.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
+      age--;
+    }
+    return age;
+  };
   useFocusEffect(
     useCallback(() => {
       const cleanFriendRequestsAlerts = async () => {
-        await firebase.removeAllFriendRequestAlerts();
+        await firebase.removeAllFriendRequestAlerts(user.id);
       };
       if (Object.keys(friendRequestsAlerts).length > 0) {
         setFriendRequestsAlerts({});
@@ -78,7 +87,7 @@ const MyUserScreen = () => {
                 className="text-3xl tracking-widest"
                 style={{ color: appStyle.color_primary }}
               >
-                {user.username}
+                {user.displayName}
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                 <FontAwesomeIcon
@@ -142,7 +151,7 @@ const MyUserScreen = () => {
                       <AlertDot
                         text={user.friendRequestsCount}
                         textColor={appStyle.color_primary}
-                        color={appStyle.color_error}
+                        color={appStyle.color_bg}
                         size={20}
                       />
                     </View>
@@ -152,14 +161,17 @@ const MyUserScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Text
-              className="font-semibold text-2xl mb-5"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
-              {user.displayName}
-            </Text>
+            <View className="flex-row">
+              <Text
+                className="px-4 py-2 rounded-xl text-3xl"
+                style={{
+                  color: appStyle.color_on_primary,
+                  backgroundColor: appStyle.color_primary,
+                }}
+              >
+                {user.firstName}, {calculateAge(user.birthdate.toDate())}
+              </Text>
+            </View>
             <Text style={{ color: appStyle.color_primary }} className="text-lg">
               {user.description == "" ? "No description yet" : user.description}
             </Text>

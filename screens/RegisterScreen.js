@@ -5,7 +5,6 @@ import {
   View,
   StyleSheet,
   Alert,
-  DeviceEventEmitter,
   Image,
   StatusBar,
   Platform,
