@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -66,6 +66,18 @@ const WorkoutComponent = (props) => {
     setUserMemberStatus("not");
     if (props.screen == "FutureWorkouts") setWorkout(null);
   };
+  const renderMembersPics = () => {
+    const picsArr = Object.values(workout.members);
+    console.log(picsArr);
+    const imageList = picsArr.map((imgUri) => (
+      <Image
+        key={imgUri}
+        source={{ uri: imgUri }}
+        className="w-6 h-6 rounded-full bg-white"
+      />
+    ));
+    return <View className="flex-row items-center">{imageList}</View>;
+  };
   const cancelWorkout = async () => {
     await sendPushNotificationsForWorkoutMembers(
       workout,
@@ -92,7 +104,7 @@ const WorkoutComponent = (props) => {
     setUserMemberStatus("not");
   };
   const acceptWorkoutInvite = async () => {
-    await firebase.acceptWorkoutInvite(user.id, workout);
+    await firebase.acceptWorkoutInvite(user, workout);
     setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("member");
     if (props.screen == "WorkoutInvites") setWorkout(null);
