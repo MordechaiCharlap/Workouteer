@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -29,7 +29,11 @@ const Header = (props) => {
       )}
 
       <Text
-        className="text-4xl font-semibold"
+        className={
+          Platform.OS == "web"
+            ? "text-2xl font-semibold"
+            : "text-4xl font-semibold"
+        }
         style={{ color: appStyle.color_primary }}
       >
         {props.title}
