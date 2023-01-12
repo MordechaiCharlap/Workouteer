@@ -6,7 +6,7 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -17,17 +17,39 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 const LoginScreen = () => {
-  const { signInEmailPassword, initialLoading, signInGoogleAccount } =
-    useAuth();
+  const {
+    signInEmailPassword,
+    initialLoading,
+    signInGoogleAccount,
+    authErrorCode,
+  } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorText, setErrorText] = useState("");
+
+  const loginEmailPassword = () => {
+    signInEmailPassword(email, password, rememberMe);
+  };
+  useEffect(() => {
+    if (authErrorCode) {
+      switch (authErrorCode) {
+        case "auth/wrong-password":
+          setErrorText("Wrong password");
+          break;
+        case " auth/wrong-password":
+          setErrorText("Wrong password");
+          break;
+      }
+    }
+  }, [authErrorCode]);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -40,7 +62,7 @@ const LoginScreen = () => {
         <View className="flex-1 justify-center">
           <View className="mx-6">
             <View
-              className={`mb-5 rounded-t-xl p-3 justify-between ${ResponsiveShadow}`}
+              className={`mb-3 rounded-t-xl p-3 justify-between ${ResponsiveShadow}`}
               style={{
                 backgroundColor: appStyle.color_primary,
                 shadowColor: "#000",
@@ -93,9 +115,15 @@ const LoginScreen = () => {
                     Remember me!
                   </Text>
                 </View>
+                <Text
+                  className="text-center my-2 text-lg"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  {errorText}
+                </Text>
               </View>
               <TouchableOpacity
-                onPress={() => signInEmailPassword(email, password, rememberMe)}
+                onPress={() => loginEmailPassword(email, password, rememberMe)}
                 className={`self-center rounded py-2 px-8 w-full mb-3`}
                 style={{
                   backgroundColor: appStyle.color_bg,
@@ -112,13 +140,13 @@ const LoginScreen = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => signInGoogleAccount()}
-                className={`self-center rounded py-2 px-8 w-full`}
+                className={`self-center rounded py-2 w-full items-center`}
                 style={{
                   backgroundColor: appStyle.color_on_primary,
                 }}
               >
                 <Text
-                  className="text-center tracking-widest font-bold text-xl"
+                  className="tracking-widest font-bold text-xl"
                   style={{
                     color: appStyle.color_primary,
                   }}
