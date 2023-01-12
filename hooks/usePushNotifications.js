@@ -1,5 +1,5 @@
 import { createContext, useState, useRef, useEffect, useContext } from "react";
-import * as Device from "expo-device";
+import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
@@ -40,7 +40,7 @@ export const NotificationsProvider = ({ children }) => {
     };
   };
   const registerForPushNotifications = async () => {
-    if (Device.isDevice) {
+    if (Platform.OS == "android") {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -50,7 +50,6 @@ export const NotificationsProvider = ({ children }) => {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
         return;
       }
       if (!user.pushToken) {

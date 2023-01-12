@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   StatusBar,
+  Platform,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -25,8 +26,6 @@ const PersonalDataScreen = () => {
   }, []);
   const [isMale, setIsMale] = useState(null);
   const [country, setCountry] = useState(null);
-  const [isMaleIsFocus, setIsMaleIsFocus] = useState(false);
-  const [countryIsFocus, setCountryIsFocus] = useState(false);
   const [firstNameVal, setFirstNameVal] = useState("");
   const [lastNameVal, setLastNameVal] = useState("");
   const [isAcceptMale, setAcceptMale] = useState(true);
@@ -34,7 +33,7 @@ const PersonalDataScreen = () => {
   const [minAgeAccept, setMinAgeAccept] = useState(16);
   const [maxAgeAccept, setMaxAgeAccept] = useState(100);
   const checkIfDataValid = () => {
-    if (isMale && country) return true;
+    if (isMale && country && firstNameVal.length > 1) return true;
     else return false;
   };
   const createAccountPressed = async () => {
@@ -51,7 +50,10 @@ const PersonalDataScreen = () => {
       };
       await firebase.updatePersonalData(user, newData);
     } else {
-      alert("You must choose a country and gender");
+      if (Platform.OS != "web")
+        alert(
+          "You must choose a country, gender, and fill out your first name"
+        );
     }
   };
   return (
@@ -86,9 +88,9 @@ const PersonalDataScreen = () => {
         <View className="flex-1">
           <TextInput
             onChangeText={(text) => setFirstNameVal(text)}
-            className="rounded mb-5 px-3 h-10 justify-center"
             style={style.input}
             placeholder="First Name"
+            className="rounded mb-5 px-3 h-10 justify-center"
             placeholderTextColor={"#5f6b8b"}
           ></TextInput>
           <TextInput
@@ -128,11 +130,8 @@ const PersonalDataScreen = () => {
               labelField="label"
               valueField="value"
               value={country}
-              onFocus={() => setCountryIsFocus(true)}
-              onBlur={() => setCountryIsFocus(false)}
               onChange={(item) => {
                 setCountry(item.value);
-                setCountryIsFocus(false);
               }}
             />
           </View>
@@ -168,11 +167,8 @@ const PersonalDataScreen = () => {
               labelField="label"
               valueField="value"
               value={isMale}
-              onFocus={() => setIsMaleIsFocus(true)}
-              onBlur={() => setIsMaleIsFocus(false)}
               onChange={(item) => {
                 setIsMale(item.value);
-                setIsMaleIsFocus(false);
               }}
             />
           </View>

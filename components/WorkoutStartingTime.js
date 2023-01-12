@@ -31,7 +31,7 @@ const WorkoutStartingTime = (props) => {
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
         ) {
-          Alert.alert("cant go back in time");
+          if (Platform.OS != "web") Alert.alert("cant go back in time");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
         } else {

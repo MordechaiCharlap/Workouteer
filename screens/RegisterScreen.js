@@ -5,8 +5,10 @@ import {
   View,
   StyleSheet,
   Alert,
+  DeviceEventEmitter,
   Image,
   StatusBar,
+  Platform,
   ScrollView,
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
@@ -22,7 +24,7 @@ import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as defaultValues from "../services/defaultValues";
 import usePushNotifications from "../hooks/usePushNotifications";
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,7 +59,8 @@ const LoginScreen = () => {
     const age = calculateAge(currentDate);
     if (age < 16) {
       console.log(age);
-      alert("You need to be at least 16 to use this app");
+      if (Platform.OS != "web")
+        alert("You need to be at least 16 to use this app");
       setDateStyle(style.badInput);
     } else {
       setDateStyle(style.input);
@@ -142,7 +145,7 @@ const LoginScreen = () => {
       console.log("good email");
       setEmailStyle(style.input);
     } else {
-      alert("Invalid email");
+      if (Platform.OS != "web") alert("Invalid email");
       setEmailStyle(style.badInput);
     }
   };
@@ -152,9 +155,10 @@ const LoginScreen = () => {
       console.log("good username");
       setUsernameStyle(style.input);
     } else {
-      alert(
-        "Invalid username, Only english letters/numbers, between 6-20 characters"
-      );
+      if (Platform.OS != "web")
+        alert(
+          "Invalid username, Only english letters/numbers, between 6-20 characters"
+        );
       setUsernameStyle(style.badInput);
     }
   };
@@ -164,9 +168,10 @@ const LoginScreen = () => {
       console.log("good password");
       setPasswordStyle(style.input);
     } else {
-      alert(
-        "Invalid password, should be 8-20 characters, at least one number and one letter"
-      );
+      if (Platform.OS != "web")
+        alert(
+          "Invalid password, should be 8-20 characters, at least one number and one letter"
+        );
       setPasswordStyle(style.badInput);
     }
   };
@@ -176,7 +181,7 @@ const LoginScreen = () => {
       setConfirmPasswordStyle(style.input);
       setConfirmPasswordText("");
     } else {
-      alert("Doesn't match password");
+      if (Platform.OS != "web") alert("Doesn't match password");
       setConfirmPasswordText("Doesn't match password");
       setConfirmPasswordStyle(style.badInput);
     }
@@ -201,7 +206,7 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert(error.message);
+        if (Platform.OS != "web") alert(error.message);
       });
   };
   return (
@@ -372,7 +377,7 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 const style = StyleSheet.create({
   input: {
     paddingLeft: 10,
