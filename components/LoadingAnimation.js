@@ -6,7 +6,7 @@ import responsiveStyle from "../components/ResponsiveStyling";
 
 const LoadingAnimation = () => {
   return (
-    <View className="flex-1" style={responsiveStyle.safeAreaStyle}>
+    <View className="flex-1">
       {Platform.OS == "android" && (
         <Lottie
           source={require("../animations/initialLoading.json")}
