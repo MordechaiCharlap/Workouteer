@@ -7,9 +7,15 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
+import {
+  React,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import BottomNavbar from "../components/BottomNavbar";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -44,7 +50,6 @@ const FriendsScreen = ({ route }) => {
     };
     showFriends();
   }, []);
-
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
 
@@ -219,7 +224,7 @@ const FriendsScreen = ({ route }) => {
             style={{ backgroundColor: appStyle.color_primary }}
           >
             <Text style={{ color: appStyle.color_on_primary }}>
-              Search for a friend
+              Add a new friend
             </Text>
           </TouchableOpacity>
         </View>
