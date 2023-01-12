@@ -11,7 +11,6 @@ import BottomNavbar from "../components/BottomNavbar";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import responsiveStyle from "../components/ResponsiveStyling";
-import FriendRequests from "../components/FriendRequests";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

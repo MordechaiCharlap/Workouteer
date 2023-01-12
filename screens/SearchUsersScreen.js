@@ -43,7 +43,7 @@ const SearchUsersScreen = () => {
         <TouchableOpacity
           onPress={() => userClicked(searchedUser)}
           style={{
-            backgroundColor: appStyle.appLightBlue,
+            backgroundColor: appStyle.color_bg,
             marginTop: 1,
           }}
           className={`p-2 h-16 flex-row ${ResponsiveShadow}`}

@@ -96,7 +96,7 @@ const SettingsScreen = () => {
         </View>
       </View>
       <View
-        style={{ backgroundColor: appStyle.appAzure }}
+        style={{ backgroundColor: appStyle.color_primary }}
         className="h-16 p-2 justify-center items-center"
       >
         <TouchableOpacity
@@ -105,7 +105,7 @@ const SettingsScreen = () => {
         >
           <Text
             className="text-xl text-center"
-            style={{ color: appStyle.appDarkBlue }}
+            style={{ color: appStyle.color_primary }}
           >
             {changesMade == false ? "No changes were made" : "Apply changes"}
           </Text>

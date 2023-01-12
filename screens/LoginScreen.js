@@ -160,7 +160,7 @@ const LoginScreen = () => {
               className={`flex-1 rounded-b-xl justify-center p-3 ${ResponsiveShadow}`}
               style={{
                 backgroundColor: appStyle.color_primary,
-                shadowColor: appStyle.appLightBlue,
+                shadowColor: appStyle.color_bg,
               }}
             >
               <Text

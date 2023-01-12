@@ -159,7 +159,7 @@ const style = StyleSheet.create({
     width: 60,
     height: 60,
     borderWidth: 0.8,
-    borderColor: appStyle.appDarkBlue,
+    borderColor: appStyle.color_primary,
   },
   map: {
     width: 300,

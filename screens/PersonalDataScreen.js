@@ -77,10 +77,13 @@ const PersonalDataScreen = () => {
           </View>
         </View>
         <View className="mb-5">
-          <Text style={{ color: appStyle.appGray }} className="text-2xl mb-4">
+          <Text
+            style={{ color: appStyle.color_on_primary }}
+            className="text-2xl mb-4"
+          >
             {"One last step"}
           </Text>
-          <Text style={{ color: appStyle.appGray }}>
+          <Text style={{ color: appStyle.color_on_primary }}>
             Before you move on we need just a bit more information to make your
             experience a bit more enjoyable
           </Text>
@@ -176,7 +179,7 @@ const PersonalDataScreen = () => {
           {/* <View className="mb-10">
             <Text
               className="text-center text-xl mb-5 py-2"
-              style={{ backgroundColor: appStyle.appAzure }}
+              style={{ backgroundColor: appStyle.color_parimary }}
             >
               Workout preferences
             </Text>
@@ -214,8 +217,8 @@ const PersonalDataScreen = () => {
               <View className="flex-row mr-5 items-center">
                 <CheckBox
                   onValueChange={(value) => setAcceptMale(value)}
-                  backgroundColor={appStyle.appAzure}
-                  valueColor={appStyle.appDarkBlue}
+                  backgroundColor={appStyle.color_parimary}
+                  valueColor={appStyle.color_parimary}
                   value={true}
                 />
                 <Text style={style.text}>Male</Text>
@@ -223,8 +226,8 @@ const PersonalDataScreen = () => {
               <View className="flex-row items-center">
                 <CheckBox
                   onValueChange={(value) => setAcceptFemale(value)}
-                  backgroundColor={appStyle.appAzure}
-                  valueColor={appStyle.appDarkBlue}
+                  backgroundColor={appStyle.color_parimary}
+                  valueColor={appStyle.color_parimary}
                   value={true}
                 />
                 <Text style={style.text}>Female</Text>
@@ -236,12 +239,12 @@ const PersonalDataScreen = () => {
             className={`justify-center py-3 ${ResponsiveShadow}`}
             style={{
               backgroundColor: appStyle.color_bg,
-              shadowColor: appStyle.appAzure,
+              shadowColor: appStyle.color_primary,
             }}
           >
             <Text
               className="text-center font-bold text-xl tracking-widest"
-              style={{ color: appStyle.appDarkBlue }}
+              style={{ color: appStyle.color_primary }}
             >
               Create Account
             </Text>
@@ -263,7 +266,7 @@ const style = StyleSheet.create({
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
   },
-  text: { color: appStyle.appGray },
+  text: { color: appStyle.color_on_primary },
   icon: {
     marginRight: 5,
     color: "white",
@@ -271,7 +274,7 @@ const style = StyleSheet.create({
   label: {
     position: "absolute",
     color: "#ffffff",
-    backgroundColor: appStyle.appYellow,
+    backgroundColor: appStyle.color_primary,
     left: 22,
     top: -10,
     zIndex: 999,

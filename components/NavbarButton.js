@@ -55,7 +55,7 @@ const NavbarButton = (props) => {
           <View
             className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
             style={{
-              backgroundColor: appStyle.appRed,
+              backgroundColor: appStyle.color_error,
               borderColor: appStyle.color_on_primary,
               borderWidth: 2,
             }}

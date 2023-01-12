@@ -140,7 +140,7 @@ const InviteFriendsScreen = ({ route }) => {
           </TouchableOpacity>
           <TextInput
             onChangeText={(text) => setSearchText(text)}
-            style={{ color: appStyle.appGray }}
+            style={{ color: appStyle.color_on_primary }}
             placeholder="Search"
             placeholderTextColor={appStyle.color_primary}
             className="text-xl ml-3"
