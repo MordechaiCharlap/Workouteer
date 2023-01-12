@@ -59,7 +59,6 @@ const ChatScreen = ({ route }) => {
       headerShown: false,
     });
   });
-
   useEffect(() => {
     if (chat != null && messages.length == 0) {
       console.log("getting messages");
@@ -108,15 +107,15 @@ const ChatScreen = ({ route }) => {
       setMessageText("");
       var chatData = chat;
       if (!chat) {
-        chatData = await firebase.getOrCreatePrivateChat(user, otherUser);
+        chatData = await firebase.createNewPrivateChat(user, otherUser);
         setUser(await firebase.updateContext(user.id));
         setChat(chatData);
       }
       await firebase.sendPrivateMessage(
         user.id,
         otherUser.id,
-        chatData,
-        content
+        content,
+        chatData
       );
       await sendPushNotification(
         otherUser,
@@ -159,7 +158,15 @@ const ChatScreen = ({ route }) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("User", { shownUser: otherUser })}
+          onPress={async () =>
+            navigation.navigate("User", {
+              shownUser: otherUser,
+              friendshipStatus: await firebase.checkFriendShipStatus(
+                user,
+                otherUser.id
+              ),
+            })
+          }
           className="flex-row flex-1 items-center"
         >
           <Image

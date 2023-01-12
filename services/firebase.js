@@ -278,45 +278,59 @@ const getSeenByMapGroupChat = (senderId, chat) => {
 
   return seenByMap;
 };
+export const getPrivateChatByUsers = async (user, otherUser) => {
+  const chatId = user.chatPals[otherUser.id];
+  if (!chatId) {
+    console.log("Havent found chatpal");
+    return await getOrCreatePrivateChat(user, otherUser);
+  } else {
+    console.log("getting old chat");
+    const chat = await getDoc(doc(db, `chats/${chatId}`));
+    const chatWithId = { ...chat.data(), id: chat.id };
+    return chatWithId;
+  }
+};
 export const getOrCreatePrivateChat = async (user, otherUser) => {
   //This function called just when I dont have a chat already
-  const otherUserChatPals = new Map(Object.entries(otherUser.chatPals));
-  var chatId;
-  if (!otherUserChatPals.has(user.id)) {
+  const chatId = otherUser.chats[user.id];
+  if (!chatId) {
+    //do nothing
     //chat doesnt exists
-    //Create chat
-    const chatRef = await addDoc(collection(db, `chats`), {
-      isGroupChat: false,
-      members: {
-        [user.id]: { joinDate: Timestamp.now() },
-        [otherUser.id]: {
-          joinDate: Timestamp.now(),
-        },
-      },
-      messagesCount: 0,
-    });
-    chatId = chatRef.id;
-    await addChatConnection(otherUser.id, user.id, chatId);
+    //return null and wait for the first message to create it
+    return null;
   } else {
     //He has me but I dont have him
     chatId = otherUserChatPals.get(user.id);
     await updateDoc(doc(db, `chats/${chatId}`), {
       [`members.${user.id}`]: Timestamp.now(),
     });
+    await addChatConnection(user.id, otherUser.id, chatId);
+    const chat = await getChat(chatId);
+    return {
+      ...chat,
+      id: chatId,
+    };
   }
-
-  await addChatConnection(user.id, otherUser.id, chatId);
-  const chat = await getChat(chatId);
-  return {
-    ...chat,
-    id: chatId,
-  };
+};
+export const createNewPrivateChat = async () => {
+  const chatRef = await addDoc(collection(db, `chats`), {
+    isGroupChat: false,
+    members: {
+      [user.id]: { joinDate: Timestamp.now() },
+      [otherUser.id]: {
+        joinDate: Timestamp.now(),
+      },
+    },
+    messagesCount: 0,
+  });
+  chatId = chatRef.id;
+  await addChatConnection(otherUser.id, user.id, chatId);
 };
 export const sendPrivateMessage = async (
   userId,
   otherUserId,
-  chat,
-  content
+  content,
+  chat
 ) => {
   const message = {
     content: content,
@@ -659,18 +673,7 @@ export const getWorkout = async (workoutId) => {
   return { ...workoutDoc.data(), id: workoutDoc.id };
 };
 export const getFriendsWorkouts = async (user) => {};
-export const getPrivateChatByUsers = async (user, otherUser) => {
-  const chatId = user.chatPals[otherUser.id];
-  if (!chatId) {
-    console.log("Havent found chatpal");
-    return await getOrCreatePrivateChat(user, otherUser);
-  } else {
-    console.log("getting old chat");
-    const chat = await getDoc(doc(db, `chats/${chatId}`));
-    const chatWithId = { ...chat.data(), id: chat.id };
-    return chatWithId;
-  }
-};
+
 export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.id), { ...user });
 };
