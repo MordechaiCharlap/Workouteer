@@ -92,14 +92,14 @@ export const checkUsername = async (username) => {
   if (usernameRef.exists()) return false;
   else return true;
 };
-export const checkEmail = async (email) => {
+export const checkIfEmailAvailable = async (email) => {
   const q = query(
     collection(db, "users"),
     where("email", "==", email),
     limit(1)
   );
   const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty) {
+  if (querySnapshot.empty()) {
     return true;
   } else return false;
 };
@@ -344,16 +344,11 @@ export const sendPrivateMessage = async (
     collection(db, `chats/${chat.id}/messages`),
     message
   );
-  const membersMap = new Map(Object.entries(chat.members));
-  for (var [key, value] of membersMap) {
+  for (var key of Object.keys(chat.members)) {
     if (key != userId) {
       await addChatAlert(key, chat.id);
-      membersMap.set(key, value);
     }
   }
-  let newArray = membersMap.entries();
-
-  let newMembersObject = Object.fromEntries(newArray);
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
@@ -363,7 +358,6 @@ export const sendPrivateMessage = async (
       id: newMessage.id,
     },
     messagesCount: increment(1),
-    members: newMembersObject,
   });
 };
 export const getChatsArrayIncludeUsers = async (user) => {
