@@ -8,17 +8,10 @@ export const color_bg = "#8ecae6";
 export const color_lighter = "rgba(255, 255, 255, 0.5)";
 export const color_darker = "rgba(2,48,71, 0.8)";
 export const color_bg_variant = "#1e688b";
-export const color_success = "#17d918";
+export const color_success = "#3cd70d";
 export const color_error = "#d9171c";
-export const appLightBlue = "#8ecae6";
-export const appAzure = "#219ebc";
-export const appDarkBlue = "#14213D";
-export const appOrange = "#fb8500";
-export const appYellow = "#ffb703";
-export const appGray = "#E5E5E5";
-export const appDarkBlueGrayer = "#4d5973";
-export const appNeonAzure = "#03dac6";
-export const appRed = "#de265f";
+export const color_male = "#369ac6";
+export const color_female = "#e0379f";
 export const statusBarStyle = {
   backgroundColor: color_bg_variant,
   barStyle: "light-content",
