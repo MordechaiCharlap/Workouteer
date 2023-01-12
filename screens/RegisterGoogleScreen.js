@@ -35,7 +35,6 @@ const RegisterGoogleScreen = () => {
   const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
   const [date, setDate] = useState(new Date());
-
   const [dateStyle, setDateStyle] = useState(style.input);
 
   const [day, setDay] = useState();
@@ -184,11 +183,10 @@ const RegisterGoogleScreen = () => {
         pushToken: pushToken,
       };
     }
-    await firebase.createUser(newUserData);
+
     setLoading(true);
-    setTimeout(() => {
-      setUser(firebase.getUserDataById(username));
-    }, 2000);
+    await firebase.createUser(newUserData);
+    setUser(await firebase.getUserDataById(username.toLowerCase()));
     setLoading(false);
   };
   return (

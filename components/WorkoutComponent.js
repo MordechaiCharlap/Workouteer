@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -274,14 +274,14 @@ const WorkoutComponent = (props) => {
         }}
       >
         <View
-          className="flex-row justify-between px-2"
+          className="flex-row items-center justify-between px-2"
           style={{
             borderBottomColor: appStyle.color_primary,
             borderBottomWidth: 2,
           }}
         >
           <Text
-            className="text-xl rounded-t"
+            className={Platform.OS != "web" ? "text-xl" : "rounded-t"}
             style={{
               color: appStyle.color_primary,
             }}
@@ -289,7 +289,7 @@ const WorkoutComponent = (props) => {
             {timeString(workout.startingTime.toDate())}
           </Text>
           <Text
-            className="text-xl rounded-t"
+            className={Platform.OS != "web" ? "text-xl" : "rounded-t"}
             style={{
               color: appStyle.color_primary,
             }}

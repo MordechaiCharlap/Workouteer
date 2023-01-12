@@ -140,7 +140,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                           color={appStyle.color_primary}
                         />
                         <Text
-                          className="text-lg font-semibold"
+                          className={
+                            Platform.OS != "web"
+                              ? "text-lg font-semibold"
+                              : "text-sm font-semibold"
+                          }
                           style={{
                             color: appStyle.color_primary,
                           }}
@@ -160,7 +164,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                           color={appStyle.color_primary}
                         />
                         <Text
-                          className="text-lg font-semibold"
+                          className={
+                            Platform.OS != "web"
+                              ? "text-lg font-semibold"
+                              : "text-sm font-semibold"
+                          }
                           style={{
                             color: appStyle.color_primary,
                           }}
@@ -177,7 +185,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         style={{ backgroundColor: appStyle.color_primary }}
                       >
                         <Text
-                          className="text-xl"
+                          className={Platform.OS != "web" ? "text-xl" : ""}
                           style={{ color: appStyle.color_on_primary }}
                         >
                           {workout.description}
@@ -306,24 +314,24 @@ const WorkoutDetailsScreen = ({ route }) => {
                     )}
 
                   <View>
-                    <View className="flex-row items-center p-2 justify-center">
-                      <FontAwesomeIcon
-                        icon={faLocationDot}
-                        size={30}
-                        color={appStyle.color_primary}
-                      />
-                      <Text
-                        className="text-lg"
-                        style={{ color: appStyle.color_primary }}
-                      >
-                        Exact location
-                      </Text>
-                    </View>
                     {Platform.OS != "web" &&
                     (route.params.userMemberStatus == "member" ||
                       route.params.userMemberStatus == "creator" ||
                       route.params.userMemberStatus == "invited") ? (
-                      <WorkoutPinnedLocation ltLng={workout.location} />
+                      <View className="flex-row items-center p-2 justify-center">
+                        <Text
+                          className="text-lg"
+                          style={{ color: appStyle.color_primary }}
+                        >
+                          Exact location
+                        </Text>
+                        <FontAwesomeIcon
+                          icon={faLocationDot}
+                          size={30}
+                          color={appStyle.color_primary}
+                        />
+                        <WorkoutPinnedLocation ltLng={workout.location} />
+                      </View>
                     ) : (
                       <View>
                         <Text
@@ -331,7 +339,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                             color: appStyle.color_on_primary,
                             backgroundColor: appStyle.color_primary,
                           }}
-                          className="text-center py-3 px-4 m-2"
+                          className={
+                            Platform.OS != "web"
+                              ? "text-center py-3 px-4"
+                              : "text-center text-sm py-2 px-3"
+                          }
                         >
                           {
                             "Only workout members that are using portable device (not PC) can see location on map"
