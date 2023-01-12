@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      }
+    ],
+    "public": "web-build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**/*.@(jpg|jpeg|gif|htmk|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
