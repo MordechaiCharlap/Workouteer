@@ -53,6 +53,7 @@ const WorkoutDetailsScreen = ({ route }) => {
         return await firebase.getWorkout(workout.id);
       };
       if (route.params.changesMade) {
+        setInitialLoading(true);
         console.log("Updating workout details");
         setWorkout(getWorkout());
       }
@@ -65,7 +66,7 @@ const WorkoutDetailsScreen = ({ route }) => {
       setInitialLoading(false);
     };
     getUsersData();
-  }, []);
+  }, [workout]);
   const inviteFriends = async () => {
     navigation.push("InviteFriends", {
       workout: workout,
@@ -218,7 +219,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                   <View className="flex-row items-center">
                     <Image
                       className="rounded-full"
-                      style={style.image}
+                      style={[
+                        style.image,
+                        {
+                          borderColor: item.isMale
+                            ? appStyle.color_male
+                            : appStyle.color_female,
+                        },
+                      ]}
                       source={{ uri: item.img }}
                     />
                     <View className="ml-2">
@@ -403,7 +411,7 @@ const style = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    borderWidth: 0.8,
+    borderWidth: 2,
     borderColor: appStyle.color_primary,
   },
   map: {
