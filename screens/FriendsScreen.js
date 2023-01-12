@@ -24,6 +24,7 @@ import {
   faChevronLeft,
   faCircleUser,
   faPlus,
+  faUserClock,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAlerts from "../hooks/useAlerts";
@@ -102,7 +103,7 @@ const FriendsScreen = ({ route }) => {
             size={40}
             color={appStyle.color_bg}
           />
-          {isMyUser && user.friendRequestsCount >= 0 && (
+          {isMyUser && user.friendRequestsCount > 0 && (
             <TouchableOpacity
               onPress={() => navigation.navigate("FriendRequests")}
               className="flex-row p-2 items-center rounded-xl absolute right-0"
@@ -119,20 +120,10 @@ const FriendsScreen = ({ route }) => {
               />
               <View className="ml-2">
                 <FontAwesomeIcon
-                  icon={faCircleUser}
+                  icon={faUserClock}
                   size={40}
                   color={appStyle.color_bg}
                 />
-                <View
-                  style={{ backgroundColor: appStyle.color_bg }}
-                  className="rounded-full items-center absolute right-0 bottom-0"
-                >
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size={13}
-                    color={appStyle.color_primary}
-                  />
-                </View>
               </View>
             </TouchableOpacity>
           )}
