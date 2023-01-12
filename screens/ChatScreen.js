@@ -17,8 +17,13 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, { useLayoutEffect, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -132,13 +137,19 @@ const ChatScreen = ({ route }) => {
       // console.log(chatData, " saved");
     }
   };
+  useFocusEffect(
+    useCallback(() => {
+      return () => leaveChat();
+    }, [])
+  );
   const leaveChat = async () => {
-    const chatsAlertsClone = { ...chatsAlerts };
-    delete chatsAlertsClone[chat.id];
-    setChatsAlerts(chatsAlertsClone);
-    console.log("cleaning chat alert:", chatsAlertsClone);
-    navigation.goBack();
-    await firebase.removeChatAlerts(user.id, chat.id);
+    if (chat) {
+      const chatsAlertsClone = { ...chatsAlerts };
+      delete chatsAlertsClone[chat.id];
+      setChatsAlerts(chatsAlertsClone);
+      console.log("cleaning chat alert:", chatsAlertsClone);
+      await firebase.removeChatAlerts(user.id, chat.id);
+    }
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -150,7 +161,7 @@ const ChatScreen = ({ route }) => {
         className="flex-row items-center pb-3 pt-2"
         style={{ backgroundColor: appStyle.color_primary }}
       >
-        <TouchableOpacity onPress={leaveChat}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={40}
