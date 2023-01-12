@@ -5,7 +5,6 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Modal,
   StatusBar,
 } from "react-native";
 import React, {
@@ -50,7 +49,7 @@ const WorkoutRequestsScreen = ({ route }) => {
       `${acceptedUser.displayName} joined your workout`,
       user.id
     );
-    await firebase.acceptWorkoutRequest(acceptedUser.id, workout);
+    await firebase.acceptWorkoutRequest(acceptedUser, workout);
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = true;
     setRequesters(requestersClone);
