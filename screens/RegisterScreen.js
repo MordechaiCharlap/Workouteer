@@ -105,7 +105,7 @@ const RegisterScreen = () => {
           var isUserAvailable = await firebase.checkUsername(
             username.toLowerCase()
           );
-          var isEmailAvailable = await firebase.checkEmail(
+          var isEmailAvailable = await firebase.checkIfEmailAvailable(
             email.toLocaleLowerCase()
           );
 
