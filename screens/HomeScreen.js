@@ -17,11 +17,8 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const {
-    workoutRequestsAlerts,
-    workoutRequestsAcceptedAlerts,
-    workoutInvitesAlerts,
-  } = useAlerts();
+  const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
+    useAlerts();
   const { setScreen } = useNavbarNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,11 +61,11 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={
               Object.keys(workoutRequestsAlerts).length > 0 ||
-              Object.keys(workoutRequestsAcceptedAlerts).length > 0
+              Object.keys(newWorkoutsAlerts).length > 0
             }
             alertNumber={
               Object.keys(workoutRequestsAlerts).length +
-              Object.keys(workoutRequestsAcceptedAlerts).length
+              Object.keys(newWorkoutsAlerts).length
             }
             buttonText="FUTURE WORKOUTS"
             style={buttonStyle}

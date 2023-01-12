@@ -5,8 +5,7 @@ export const AlertsProvider = ({ children }) => {
   const [workoutRequestsAlerts, setWorkoutRequestsAlerts] = useState({});
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
-  const [workoutRequestsAcceptedAlerts, setWorkoutRequestsAcceptedAlerts] =
-    useState({});
+  const [newWorkoutsAlerts, setnewWorkoutsAlerts] = useState({});
   return (
     <AlertsContext.Provider
       value={{
@@ -18,8 +17,8 @@ export const AlertsProvider = ({ children }) => {
         setWorkoutInvitesAlerts,
         friendRequestsAlerts,
         setFriendRequestsAlerts,
-        workoutRequestsAcceptedAlerts,
-        setWorkoutRequestsAcceptedAlerts,
+        newWorkoutsAlerts,
+        setnewWorkoutsAlerts,
       }}
     >
       {children}

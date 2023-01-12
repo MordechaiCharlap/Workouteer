@@ -19,8 +19,7 @@ const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
-  const { workoutRequestsAcceptedAlerts, setWorkoutRequestsAcceptedAlerts } =
-    useAlerts();
+  const { newWorkoutsAlerts, setnewWorkoutsAlerts } = useAlerts();
   const now = new Date();
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
@@ -42,19 +41,9 @@ const FutureWorkoutsScreen = () => {
         await firebase.removeAllWorkoutRequestAcceptedAlerts(user.id);
       };
       getWorkouts();
-      if (Object.keys(workoutRequestsAcceptedAlerts).length > 0) {
-        const mockNewWorkouts = {
-          jf5yxRrQI7EuS2bkvLZT: {
-            workoutDate: new Date(),
-            acceptedDate: new Date(),
-          },
-          jf5yxRrQI7E12uS2bkvLZT: {
-            workoutDate: new Date(),
-            acceptedDate: new Date(),
-          },
-        };
-        setNewWorkouts(workoutRequestsAcceptedAlerts);
-        setWorkoutRequestsAcceptedAlerts({});
+      if (Object.keys(newWorkoutsAlerts).length > 0) {
+        setNewWorkouts(newWorkoutsAlerts);
+        setnewWorkoutsAlerts({});
         removeAllWorkoutRequestAcceptedAlerts();
       } else {
         setNewWorkouts({});
@@ -85,14 +74,14 @@ const FutureWorkoutsScreen = () => {
                   screen={"FutureWorkouts"}
                 />
                 {newWorkouts[item.id] != null ? (
-                  <View className="absolute left-0 top-7">
+                  <View className="absolute left-0 top-6">
                     <AlertDot
                       text="new!"
                       textColor={appStyle.color_on_primary}
                       borderWidth={5}
                       borderColor={appStyle.color_bg}
                       fontSize={20}
-                      size={65}
+                      size={60}
                       color={appStyle.color_primary}
                     />
                   </View>
