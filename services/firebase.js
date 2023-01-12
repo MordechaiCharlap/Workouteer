@@ -158,7 +158,7 @@ export const createUser = async (newUserData) => {
     friendRequests: {},
     workoutInvites: {},
     workoutRequests: {},
-    workoutRequestsAccepted: {},
+    newWorkouts: {},
   });
   await setDoc(doc(db, "friendRequests", newUserData.username.toLowerCase()), {
     receivedRequests: {},
@@ -578,17 +578,11 @@ export const getCities = async (country) => {
 };
 export const getWorkoutMembers = async (workout) => {
   const returnedMembersArr = [];
-  const membersArr = Object.keys(workout.members);
-  const qMembers = query(
-    collection(db, "users"),
-    where("id", "in", membersArr)
-  );
-  const snapMembers = await getDocs(qMembers);
-
-  snapMembers.forEach((doc) => {
-    returnedMembersArr.push(doc.data());
-  });
-
+  returnedMembersArr.push(await getUserDataById(workout.creator));
+  for (var key of Object.keys(workout.members)) {
+    if (key != workout.creator)
+      returnedMembersArr.push(await getUserDataById(key));
+  }
   return returnedMembersArr;
 };
 export const getWorkoutRequesters = async (workout) => {
@@ -623,7 +617,8 @@ export const acceptWorkoutInvite = async (invited, workout) => {
   await updateDoc(doc(db, "users", invited.id), {
     [`workouts.${workout.id}`]: workout.startingTime,
   });
-  await removeWorkoutInviteAlert(invited.id, workout);
+  const accepted = true;
+  await removeWorkoutInviteAlert(invited.id, workout, accepted);
 };
 export const requestToJoinWorkout = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
@@ -692,20 +687,30 @@ export const workoutInviteAlert = async (invitedId, workout) => {
     [`workoutInvites.${workout.id}.workoutDate`]: workout.startingTime,
   });
 };
-export const removeWorkoutInviteAlert = async (invitedId, workout) => {
+export const removeWorkoutInviteAlert = async (
+  invitedId,
+  workout,
+  accepted
+) => {
+  if (accepted != null) {
+    await updateDoc(doc(db, "alerts", invitedId), {
+      [`newWorkouts.${workout.id}.dateAdded`]: Timestamp.now(),
+      [`newWorkouts.${workout.id}.workoutDate`]: workout.startingTime,
+    });
+  }
   await updateDoc(doc(db, "alerts", invitedId), {
     [`workoutInvites.${workout.id}`]: deleteField(),
   });
 };
 export const workoutRequestAcceptedAlert = async (requesterId, workout) => {
   await updateDoc(doc(db, "alerts", requesterId), {
-    [`workoutRequestsAccepted.${workout.id}.acceptedDate`]: Timestamp.now(),
-    [`workoutRequestsAccepted.${workout.id}.workoutDate`]: workout.startingTime,
+    [`newWorkouts.${workout.id}.dateAdded`]: Timestamp.now(),
+    [`newWorkouts.${workout.id}.workoutDate`]: workout.startingTime,
   });
 };
 export const removeAllWorkoutRequestAcceptedAlerts = async (userId) => {
   await updateDoc(doc(db, "alerts", userId), {
-    workoutRequestsAccepted: {},
+    newWorkouts: {},
   });
 };
 export const friendRequestAlert = async (senderId, receiverId) => {
@@ -737,7 +742,7 @@ export const getWorkoutsByInvites = async (invitesAlerts) => {
 };
 export const removePastOrEmptyWorkoutsAlerts = async (
   workoutRequestsAlerts,
-  workoutRequestsAcceptedAlerts,
+  newWorkoutsAlerts,
   workoutInvitesAlerts,
   userId
 ) => {
@@ -750,7 +755,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       changed++;
     }
   }
-  const requestAcceptedAlerts = workoutRequestsAcceptedAlerts;
+  const requestAcceptedAlerts = newWorkoutsAlerts;
   for (var [key, value] of Object.entries(requestAcceptedAlerts)) {
     if (value.workoutDate.toDate() < now) {
       delete requestAcceptedAlerts[key];
@@ -768,7 +773,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     console.log(`Removed ${changed} old invites and request! enjoy your time`);
     await updateDoc(doc(db, "alerts", userId), {
       workoutRequests: requestAlerts,
-      workoutRequestsAccepted: requestAcceptedAlerts,
+      newWorkouts: requestAcceptedAlerts,
       workoutInvites: inviteAlerts,
     });
   }
