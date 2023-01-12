@@ -99,7 +99,7 @@ export const checkIfEmailAvailable = async (email) => {
     limit(1)
   );
   const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty()) {
+  if (querySnapshot.size == 0) {
     return true;
   } else return false;
 };
