@@ -47,7 +47,7 @@ const ExploreScreen = () => {
         var friendsReqsArr = [];
         if (user.friendRequestsCount > 0) {
           console.log("more than 0 requests: " + user.friendRequestsCount);
-          const friendReqs = await firebase.getReceivedRequests(user);
+          const friendReqs = await firebase.getFriendRequests(user);
           for (var key of friendReqs.keys()) {
             const userData = await firebase.userDataById(key);
             friendsReqsArr.push(userData);
