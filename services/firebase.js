@@ -270,10 +270,9 @@ const addChatConnection = async (userId, otherUserId, chatId) => {
 };
 const getSeenByMapGroupChat = (senderId, chat) => {
   console.log(chat);
-  const chatMembers = new Map(Object.entries(chat.members));
-  const seenByMap = new Map();
-  for (var memberId of chatMembers.keys()) {
-    if (memberId != senderId) seenByMap.set(memberId.toString(), false);
+  var seenByMap = new Map();
+  for (var key of Object.keys(chat.members)) {
+    if (key != senderId) seenByMap.set(key, false);
   }
 
   return seenByMap;
@@ -362,8 +361,7 @@ export const sendPrivateMessage = async (
 };
 export const getChatsArrayIncludeUsers = async (user) => {
   const chatsArr = [];
-  const userChatsMap = new Map(Object.entries(user.chats));
-  for (var chatId of userChatsMap.keys()) {
+  for (var chatId of Object.keys(user.chats)) {
     var chat = await getChat(chatId);
     var chatToPush = {
       chat: {
@@ -372,8 +370,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
       },
     };
     if (!chat.isGroupChat) {
-      const members = new Map(Object.entries(chat.members));
-      for (var key of members.keys()) {
+      for (var key of Object.keys(chat.members)) {
         if (key != user.id) {
           chatToPush = {
             chat: chatToPush.chat,
@@ -391,9 +388,8 @@ export const getChat = async (chatId) => {
   return (await getDoc(doc(db, "chats", `${chatId}`))).data();
 };
 export const getFriendsArray = async (user) => {
-  const allFriendsMap = new Map(Object.entries(user.friends));
   const friendsArr = [];
-  for (var key of allFriendsMap.keys()) {
+  for (var key of Object.keys(user.friends)) {
     var userData = await userDataById(key);
     friendsArr.push(userData);
   }
@@ -435,8 +431,7 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
       [`names.${country}`]: true,
     });
   } else {
-    const citiesMap = new Map(Object.entries(countryDoc.data().cities));
-    if (!citiesMap.has(city)) {
+    if (!countryDoc.data().cities[city]) {
       await updateDoc(doc(db, "countriesData", safeCountryString), {
         [`cities.${city}`]: {},
       });
@@ -453,8 +448,7 @@ export const createWorkout = async (workout) => {
 };
 export const getFutureWorkouts = async (user, now) => {
   const workoutsArray = [];
-  const userWorkouts = new Map(Object.entries(user.workouts));
-  for (var [key, value] of userWorkouts) {
+  for (var [key, value] of Object.entries(user.workouts)) {
     if (value.toDate() > now) {
       console.log("Found workout");
       workoutsArray.push({
@@ -487,8 +481,7 @@ export const getPastWorkouts = async (user, now) => {
   return workoutsArray;
 };
 const removeUserFromMembersOrDeleteChat = async (user, chat) => {
-  const members = new Map(Object.entries(chat.members));
-  if (members.size == 1) {
+  if (Object.keys(chat.members).length == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
   } else {
     await updateDoc(doc(db, "chats", chat.id), {
@@ -517,11 +510,10 @@ export const deleteGroupChatForUser = async (user, chat) => {
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
 };
 export const cancelWorkout = async (user, workout) => {
-  const membersMap = new Map(Object.entries(workout.members));
   await updateDoc(doc(db, "users", user.id), {
     [`workouts.${workout.id}`]: deleteField(),
   });
-  for (var [key, value] of membersMap) {
+  for (var [key, value] of Object.entries(workout.members)) {
     if (value == true) {
       await updateDoc(doc(db, "users", key), {
         [`workouts.${workout.id}`]: deleteField(),
@@ -567,8 +559,7 @@ export const getWorkoutResults = async (preferences) => {
 export const getCountries = async () => {
   const countriesArr = [];
   const countriesDoc = await getDoc(doc(db, "countriesData", "countries"));
-  const countriesMap = new Map(Object.entries(countriesDoc.data().names));
-  for (var key of countriesMap.keys()) {
+  for (var key of Object.keys(countriesDoc.data().names)) {
     countriesArr.push({ label: key, value: key });
   }
   return countriesArr;
@@ -579,8 +570,7 @@ export const getCities = async (country) => {
   const safeCountryString = country.replace(/\s/g, "-");
   const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
   if (countryDoc.exists()) {
-    const citiesMap = new Map(Object.entries(countryDoc.data().cities));
-    for (var key of citiesMap.keys()) {
+    for (var key of Object.keys(countryDoc.data().cities)) {
       citiesArr.push({ label: key, value: key });
     }
   }
