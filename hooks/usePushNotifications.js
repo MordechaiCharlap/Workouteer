@@ -10,37 +10,39 @@ export const NotificationsProvider = ({ children }) => {
   const responseListener = useRef();
   const { user, setUser } = useAuth();
   const notificationListenerFunction = async () => {
-    console.log("registering for notifications");
-    await registerForPushNotifications();
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-      }),
-    });
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        console.log("notification: ", notification);
+    if (Platform.OS != "web") {
+      console.log("registering for notifications");
+      await registerForPushNotifications();
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: true,
+        }),
       });
+      // This listener is fired whenever a notification is received while the app is foregrounded
+      notificationListener.current =
+        Notifications.addNotificationReceivedListener((notification) => {
+          console.log("notification: ", notification);
+        });
 
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("response: ", response);
-      });
+      // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+      responseListener.current =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          console.log("response: ", response);
+        });
 
-    return () => {
-      if (responseListener) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      }
-    };
+      return () => {
+        if (responseListener) {
+          Notifications.removeNotificationSubscription(
+            notificationListener.current
+          );
+        }
+      };
+    }
   };
   const registerForPushNotifications = async () => {
-    if (Platform.OS == "android") {
+    if (Platform.OS != "web") {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -72,7 +74,7 @@ export const NotificationsProvider = ({ children }) => {
         });
       }
     } else {
-      // alert("Must use physical device for Push Notifications");
+      // Must use physical device for Push Notifications
     }
   };
   const sendPushNotificationsForWorkoutMembers = async (
@@ -82,10 +84,35 @@ export const NotificationsProvider = ({ children }) => {
     data,
     excludeUserId
   ) => {
-    const membersArray = await firebase.getWorkoutMembers(workout);
-    for (var user of membersArray) {
-      if (user.id == excludeUserId) continue;
+    if (Platform.OS != "web") {
+      const membersArray = await firebase.getWorkoutMembers(workout);
+      for (var user of membersArray) {
+        if (user.id == excludeUserId) continue;
 
+        if (user.pushToken) {
+          const pushNotification = {
+            to: user.pushToken,
+            sound: "default",
+            title: title,
+            body: body,
+            data: data ? data : {},
+          };
+          await fetch("https://exp.host/--/api/v2/push/send", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Accept-encoding": "gzip, deflate",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(pushNotification),
+          });
+          console.log("pushNotification: ", pushNotification);
+        }
+      }
+    }
+  };
+  const sendPushNotification = async (user, title, body, data) => {
+    if (Platform.OS != "web") {
       if (user.pushToken) {
         const pushNotification = {
           to: user.pushToken,
@@ -105,27 +132,6 @@ export const NotificationsProvider = ({ children }) => {
         });
         console.log("pushNotification: ", pushNotification);
       }
-    }
-  };
-  const sendPushNotification = async (user, title, body, data) => {
-    if (user.pushToken) {
-      const pushNotification = {
-        to: user.pushToken,
-        sound: "default",
-        title: title,
-        body: body,
-        data: data ? data : {},
-      };
-      await fetch("https://exp.host/--/api/v2/push/send", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Accept-encoding": "gzip, deflate",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pushNotification),
-      });
-      console.log("pushNotification: ", pushNotification);
     }
   };
 

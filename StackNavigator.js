@@ -33,6 +33,7 @@ import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 import RegisterGoogleScreen from "./screens/RegisterGoogleScreen";
+import { Platform } from "react-native";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
@@ -66,7 +67,7 @@ const StackNavigator = () => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
     };
-    if (!notificationsListenersAdded && user != null) {
+    if (!notificationsListenersAdded && user != null && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
       addListenerAsync(user);
     }
