@@ -32,9 +32,11 @@ import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
+import RegisterGoogleScreen from "./screens/RegisterGoogleScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user, addObserver } = useAuth();
+  const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
+    useAuth();
   const {
     myUserNavigationOptions,
     calendarNavigationOptions,
@@ -52,8 +54,14 @@ const StackNavigator = () => {
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
   useEffect(() => {
-    addObserver();
+    addAuthObserver();
   }, []);
+
+  useEffect(() => {
+    if (googleUserInfo) {
+      setGoogleUserAsync();
+    }
+  }, [googleUserInfo]);
   useEffect(() => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
@@ -190,6 +198,11 @@ const StackNavigator = () => {
             component={FriendRequestsScreen}
           />
         </>
+      ) : !user && googleUserInfo != null ? (
+        <Stack.Screen
+          name="RegisterGoogleScreen"
+          component={RegisterGoogleScreen}
+        />
       ) : user && user.defaultCountry == null ? (
         <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
       ) : (

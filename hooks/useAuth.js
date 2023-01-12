@@ -15,11 +15,14 @@ import useAlerts from "./useAlerts";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  // const [accessToken, setAccessToken] = useState(null);
+  const [googleUserInfo, setGoogleUserInfo] = useState(null);
+  const [unsubscribeAlertListener, setUnsubscribeAlertListener] = useState();
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
+  const [authErrorCode, setAuthErrorCode] = useState();
   const [user, setUser] = useState(null);
+  var unsubscribe = null;
   const {
     setChatsAlerts,
     setWorkoutRequestsAlerts,
@@ -35,19 +38,17 @@ export const AuthPrvider = ({ children }) => {
     webClientId:
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
-  const addObserver = () => {
+  const addAuthObserver = () => {
     console.log("observer");
-    var unsubscribeAlertsListener;
-    onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        const setUserAsync = async () => {
-          const userData = await firebase.userDataByEmail(
-            authUser.email.toLowerCase()
-          );
-          setUser(userData);
-          unsubscribeAlertsListener = onSnapshot(
-            doc(db, "alerts", userData.id),
-            (doc) => {
+    if (!googleUserInfo) {
+      onAuthStateChanged(auth, (authUser) => {
+        if (authUser) {
+          const setUserAsync = async () => {
+            const userData = await firebase.userDataByEmail(
+              authUser.email.toLowerCase()
+            );
+            setUser(userData);
+            unsubscribe = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
               const alertsData = doc.data();
               setChatsAlerts(alertsData.chats);
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
@@ -56,64 +57,91 @@ export const AuthPrvider = ({ children }) => {
               setWorkoutRequestsAcceptedAlerts(
                 alertsData.workoutRequestsAccepted
               );
-            }
-          );
-          console.log("state Changed, user logged in: " + authUser.email);
+            });
+            console.log(
+              "state Changed, user logged in: " + authUser.email.toLowerCase()
+            );
+            setInitialLoading(false);
+          };
+          setUserAsync();
+        } else {
+          setUser(null);
+          if (unsubscribe) unsubscribe();
+          console.log("state Changed, user logged out");
           setInitialLoading(false);
-        };
-        setUserAsync();
-      } else {
-        setUser(null);
-        if (unsubscribeAlertsListener) unsubscribeAlertsListener();
-        console.log("state Changed, user logged out");
-        setInitialLoading(false);
-      }
-    });
+        }
+      });
+    }
   };
 
   useEffect(() => {
+    const getUserData = async (accessToken) => {
+      let userInfoResponse = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      userInfoResponse
+        .json()
+        .then((data) => {
+          setGoogleUserInfo(data);
+        })
+        .catch((e) => {
+          console.log("error:", e.message);
+        });
+    };
     if (response?.type === "success") {
-      setAccessToken(response.authentication.accessToken);
+      console.log("success");
+      getUserData(response.authentication.accessToken);
+    } else {
+      console.log("response not successfull");
     }
   }, [response]);
-  async function getUserData() {
-    let userInfoResponse = await fetch(
-      "https://www.googleapis.com/userinfo/v2/me",
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-
-    userInfoResponse
-      .json()
-      .then((data) => {
-        setUserInfo(data);
-        console.log("The DATA!: ", data);
-      })
-      .catch((e) => {
-        console.log("error:", e.message);
-      });
-  }
 
   const signInGoogleAccount = async () => {
-    if (accessToken) {
-      console.log("getting user data!");
-      await getUserData();
-    } else {
-      console.log("promptAsyncing!");
-      await promptAsync({ useProxy: false, showInRecents: true });
-    }
+    console.log("promptAsyncing!");
+    await promptAsync({ useProxy: false, showInRecents: true });
   };
-
+  const setGoogleUserAsync = async () => {
+    if (!firebase.checkEmail(googleUserInfo.email.toLowerCase())) {
+      const userData = await firebase.userDataByEmail(
+        googleUserInfo.email.toLowerCase()
+      );
+      setUser(userData);
+      unsubscribe = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
+        const alertsData = doc.data();
+        setChatsAlerts(alertsData.chats);
+        setWorkoutRequestsAlerts(alertsData.workoutRequests);
+        setWorkoutInvitesAlerts(alertsData.workoutInvites);
+        setFriendRequestsAlerts(alertsData.friendRequests);
+        setWorkoutRequestsAcceptedAlerts(alertsData.workoutRequestsAccepted);
+      });
+      console.log(
+        "google user logged in: " + googleUserInfo.email.toLowerCase()
+      );
+    }
+    setInitialLoading(false);
+  };
   const signInEmailPassword = (email, password, rememberMe) => {
     if (!rememberMe) {
       console.log("not remembering user");
       setPersistence(auth, inMemoryPersistence)
         .then(() => {
-          signInWithEmailAndPassword(auth, email, password);
+          signInWithEmailAndPassword(auth, email, password)
+            .then()
+            .catch((error) => {
+              const errorCode = error.code;
+              console.log("error code: ", errorCode);
+              const errorMessage = error.message;
+              console.log("error message: ", errorMessage);
+            });
         })
         .catch((error) => {
-          console.log(error);
+          const errorCode = error.code;
+          console.log("error code: ", errorCode);
+          setAuthErrorCode(errorCode);
         });
     } else {
       console.log("remembering user");
@@ -122,28 +150,36 @@ export const AuthPrvider = ({ children }) => {
           console.log("signed in!");
         })
         .catch((error) => {
-          console.log(error);
+          return false;
         });
     }
   };
   const userSignOut = () => {
-    console.log("trying to sign out");
-    signOut(auth)
-      .then(() => {})
-      .catch((error) => {
-        console.log("signed out succesfuly");
-      });
+    setInitialLoading(true);
+    if (googleUserInfo) {
+      if (unsubscribe) unsubscribe();
+      setUnsubscribeAlertListener(null);
+      setGoogleUserInfo(null);
+      setUser( null );
+      setInitialLoading( false );
+    } else
+      signOut(auth)
+        .then(() => {})
+        .catch((error) => {});
   };
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        googleUserInfo,
         signInEmailPassword,
         signInGoogleAccount,
+        setGoogleUserAsync,
         userSignOut,
-        addObserver,
+        addAuthObserver,
         initialLoading,
+        authErrorCode,
       }}
     >
       {children}
