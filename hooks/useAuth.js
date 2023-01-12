@@ -105,7 +105,7 @@ export const AuthPrvider = ({ children }) => {
     await promptAsync({ useProxy: false, showInRecents: true });
   };
   const setGoogleUserAsync = async () => {
-    if (!firebase.checkEmail(googleUserInfo.email.toLowerCase())) {
+    if (!firebase.checkIfEmailAvailable(googleUserInfo.email.toLowerCase())) {
       const userData = await firebase.userDataByEmail(
         googleUserInfo.email.toLowerCase()
       );
@@ -121,6 +121,8 @@ export const AuthPrvider = ({ children }) => {
       console.log(
         "google user logged in: " + googleUserInfo.email.toLowerCase()
       );
+    } else {
+      //do nothing, it would go to register by default because of the StackNavigator conditioning
     }
     setInitialLoading(false);
   };
@@ -160,8 +162,8 @@ export const AuthPrvider = ({ children }) => {
       if (unsubscribe) unsubscribe();
       setUnsubscribeAlertListener(null);
       setGoogleUserInfo(null);
-      setUser( null );
-      setInitialLoading( false );
+      setUser(null);
+      setInitialLoading(false);
     } else
       signOut(auth)
         .then(() => {})
