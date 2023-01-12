@@ -221,7 +221,7 @@ const ChatsScreen = () => {
   };
   const showFriends = async () => {
     const friendsArr = await firebase.getFriendsArray(user);
-    navigation.navigate("Friends", { friendsArray: friendsArr });
+    navigation.navigate("Friends", { user: user, isMyUser: true });
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>

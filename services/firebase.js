@@ -312,7 +312,7 @@ export const getOrCreatePrivateChat = async (user, otherUser) => {
     };
   }
 };
-export const createNewPrivateChat = async () => {
+export const createNewPrivateChat = async (user, otherUser) => {
   const chatRef = await addDoc(collection(db, `chats`), {
     isGroupChat: false,
     members: {
@@ -323,8 +323,10 @@ export const createNewPrivateChat = async () => {
     },
     messagesCount: 0,
   });
-  chatId = chatRef.id;
-  await addChatConnection(otherUser.id, user.id, chatId);
+  await addChatConnection(otherUser.id, user.id, chatRef.id);
+  await addChatConnection(user.id, otherUser.id, chatRef.id);
+  return { id: chatRef.id, ...(await getChat(chatRef.id)) };
+  // return { id: chatRef.id, ...chatRef.data() };
 };
 export const sendPrivateMessage = async (
   userId,
