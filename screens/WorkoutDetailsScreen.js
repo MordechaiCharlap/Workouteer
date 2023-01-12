@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from "react-native";
 import {
   faStopwatch,
@@ -93,6 +94,7 @@ const WorkoutDetailsScreen = ({ route }) => {
         <View className="flex-1 mx-4">
           <View className="rounded flex-1">
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={membersArray}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
@@ -306,26 +308,26 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className="text-lg"
                         style={{ color: appStyle.color_primary }}
                       >
-                        Location
+                        Exact location
                       </Text>
                     </View>
-                    {route.params.userMemberStatus == "member" ||
-                    route.params.userMemberStatus == "creator" ||
-                    route.params.userMemberStatus == "invited" ? (
+                    {Platform.OS != "web" &&
+                    (route.params.userMemberStatus == "member" ||
+                      route.params.userMemberStatus == "creator" ||
+                      route.params.userMemberStatus == "invited") ? (
                       <WorkoutPinnedLocation ltLng={workout.location} />
                     ) : (
                       <View>
                         <Text
-                          style={{ color: appStyle.color_primary }}
-                          className="text-lg text-center"
+                          style={{
+                            color: appStyle.color_on_primary,
+                            backgroundColor: appStyle.color_primary,
+                          }}
+                          className="text-center py-3 px-4 m-2"
                         >
-                          {workout.country}, {workout.city}
-                        </Text>
-                        <Text
-                          style={{ color: appStyle.color_primary }}
-                          className="text-center"
-                        >
-                          Exact location would be shown only for members.
+                          {
+                            "Only workout members that are using portable device (not PC) can see location on map"
+                          }
                         </Text>
                       </View>
                     )}

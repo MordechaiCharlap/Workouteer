@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -67,11 +67,13 @@ const WorkoutLocation = (props) => {
             >
               Getting your location...
             </Text>
-          ) : (
+          ) : Platform.OS != "web" ? (
             <PinOnMap
               defaultMarker={markerCoords}
               saveLocation={locationPinned}
             />
+          ) : (
+            <Text>{"Can't use maps on web, try from your smartphone :)"}</Text>
           ))}
       </View>
     </View>
