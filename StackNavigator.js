@@ -120,14 +120,26 @@ const StackNavigator = () => {
             component={ChatsScreen}
             options={chatsNavigationOptions.current}
           />
-          <Stack.Screen name="Chat" component={ChatScreen} />
+          <Stack.Screen
+            name="Chat"
+            component={ChatScreen}
+            options={verticalAnimation}
+          />
           <Stack.Screen
             name="Calendar"
             component={CalendarScreen}
             options={calendarNavigationOptions.current}
           />
-          <Stack.Screen name="Notifications" component={NotificationsScreen} />
-          <Stack.Screen name="SearchUsers" component={SearchUsersScreen} />
+          <Stack.Screen
+            name="Notifications"
+            component={NotificationsScreen}
+            options={verticalAnimation}
+          />
+          <Stack.Screen
+            name="SearchUsers"
+            component={SearchUsersScreen}
+            options={verticalAnimation}
+          />
           <Stack.Screen
             name="EditData"
             component={EditDataScreen}
@@ -171,44 +183,58 @@ const StackNavigator = () => {
           <Stack.Screen
             name="ChangePreferences"
             component={ChangePreferencesScreen}
+            options={verticalAnimation}
           />
           <Stack.Screen
             name="SearchedWorkouts"
-            options={horizontalRightAnimation}
             component={SearchedWorkoutsScreen}
+            options={horizontalRightAnimation}
           />
           <Stack.Screen
             name="WorkoutDetails"
-            options={horizontalRightAnimation}
             component={WorkoutDetailsScreen}
+            options={horizontalRightAnimation}
           />
           <Stack.Screen
             name="WorkoutRequests"
-            options={horizontalRightAnimation}
             component={WorkoutRequestsScreen}
+            options={horizontalRightAnimation}
           />
           <Stack.Screen
             name="InviteFriends"
-            options={horizontalRightAnimation}
             component={InviteFriendsScreen}
+            options={horizontalRightAnimation}
           />
           <Stack.Screen
             name="FriendRequests"
-            options={verticalAnimation}
             component={FriendRequestsScreen}
+            options={verticalAnimation}
           />
         </>
       ) : !user && googleUserInfo != null ? (
         <Stack.Screen
           name="RegisterGoogleScreen"
           component={RegisterGoogleScreen}
+          options={horizontalLeftAnimation}
         />
       ) : user && user.defaultCountry == null ? (
-        <Stack.Screen name="PersonalData" component={PersonalDataScreen} />
+        <Stack.Screen
+          name="PersonalData"
+          component={PersonalDataScreen}
+          options={horizontalLeftAnimation}
+        />
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={verticalAnimation}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={horizontalLeftAnimation}
+          />
         </>
       )}
     </Stack.Navigator>
