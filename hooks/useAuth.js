@@ -28,7 +28,7 @@ export const AuthPrvider = ({ children }) => {
     setWorkoutRequestsAlerts,
     setWorkoutInvitesAlerts,
     setFriendRequestsAlerts,
-    setWorkoutRequestsAcceptedAlerts,
+    setnewWorkoutsAlerts,
   } = useAlerts();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -54,9 +54,7 @@ export const AuthPrvider = ({ children }) => {
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
               setWorkoutInvitesAlerts(alertsData.workoutInvites);
               setFriendRequestsAlerts(alertsData.friendRequests);
-              setWorkoutRequestsAcceptedAlerts(
-                alertsData.workoutRequestsAccepted
-              );
+              setnewWorkoutsAlerts(alertsData.newWorkouts);
             });
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
@@ -122,7 +120,7 @@ export const AuthPrvider = ({ children }) => {
         setWorkoutRequestsAlerts(alertsData.workoutRequests);
         setWorkoutInvitesAlerts(alertsData.workoutInvites);
         setFriendRequestsAlerts(alertsData.friendRequests);
-        setWorkoutRequestsAcceptedAlerts(alertsData.workoutRequestsAccepted);
+        setnewWorkoutsAlerts(alertsData.newWorkouts);
       });
       console.log(
         "google user logged in: " + googleUserInfo.email.toLowerCase()
