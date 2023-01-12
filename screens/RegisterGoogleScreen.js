@@ -193,6 +193,10 @@ const RegisterGoogleScreen = () => {
   };
   return (
     <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       {initialLoading ? (
         <LoadingAnimation />
       ) : (
