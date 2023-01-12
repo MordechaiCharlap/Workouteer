@@ -26,8 +26,10 @@ const WorkoutRequestsScreen = ({ route }) => {
   const { user } = useAuth();
   const { sendPushNotificationsForWorkoutMembers, sendPushNotification } =
     usePushNotifications();
+
   const workout = route.params.workout;
   const [requesters, setRequesters] = useState();
+  const [buttonLoading, setButtonLoading] = useState(false);
   useFocusEffect(
     useCallback(() => {
       const getWorkoutRequesters = async () => {
@@ -43,6 +45,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     });
   }, []);
   const acceptUser = async (acceptedUser, index) => {
+    setButtonLoading("accept");
     await sendPushNotificationsForWorkoutMembers(
       workout,
       "New Alert!",
@@ -59,12 +62,15 @@ const WorkoutRequestsScreen = ({ route }) => {
       `${user.displayName} accepted your request to join the workout`,
       user.id
     );
+    setButtonLoading(false);
   };
   const rejectUser = async (rejectedUser, index) => {
+    setButtonLoading("reject");
     await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = false;
     setRequesters(requestersClone);
+    setButtonLoading(false);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -114,7 +120,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                       className="text-center"
                       style={{ color: appStyle.color_on_primary }}
                     >
-                      Accept
+                      {buttonLoading == "accept" ? "Loading" : "Accept"}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -130,7 +136,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                       style={{ color: appStyle.color_on_primary }}
                       className="text-center"
                     >
-                      Reject
+                      {buttonLoading == "reject" ? "Loading" : "Reject"}
                     </Text>
                   </TouchableOpacity>
                 </View>

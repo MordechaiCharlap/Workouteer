@@ -26,7 +26,7 @@ const WorkoutComponent = (props) => {
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const [distance, setDistance] = useState(null);
-
+  const [buttonLoading, setButtonLoading] = useState(false);
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.id;
   useEffect(() => {
@@ -54,6 +54,7 @@ const WorkoutComponent = (props) => {
     }
   }, []);
   const leaveWorkout = async () => {
+    setButtonLoading(true);
     await firebase.leaveWorkout(user, workout);
 
     await sendPushNotificationsForWorkoutMembers(
@@ -65,6 +66,7 @@ const WorkoutComponent = (props) => {
     setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("not");
     if (props.screen == "FutureWorkouts") setWorkout(null);
+    setButtonLoading(false);
   };
   const renderMembersPics = () => {
     const picsArr = Object.values(workout.members);
@@ -79,6 +81,7 @@ const WorkoutComponent = (props) => {
     return <View className="flex-row items-center">{imageList}</View>;
   };
   const cancelWorkout = async () => {
+    setButtonLoading(true);
     await sendPushNotificationsForWorkoutMembers(
       workout,
       "New Alert",
@@ -88,8 +91,10 @@ const WorkoutComponent = (props) => {
     await firebase.cancelWorkout(user, workout);
     setUser(await firebase.updateContext(user.id));
     setWorkout(null);
+    setButtonLoading(false);
   };
   const requestToJoinWorkout = async () => {
+    setButtonLoading(true);
     await firebase.requestToJoinWorkout(user.id, workout);
     const cretorData = firebase.getUserDataById(workout.creator);
     await sendPushNotification(
@@ -98,12 +103,16 @@ const WorkoutComponent = (props) => {
       `${user.displayName} wants to join your workout!`
     );
     setUserMemberStatus("pending");
+    setButtonLoading(false);
   };
   const cancelWorkoutRequest = async () => {
+    setButtonLoading(true);
     await firebase.cancelWorkoutRequest(user.id, workout);
     setUserMemberStatus("not");
+    setButtonLoading(false);
   };
   const acceptWorkoutInvite = async () => {
+    setButtonLoading("acceptLoading");
     await firebase.acceptWorkoutInvite(user, workout);
     setUser(await firebase.updateContext(user.id));
     setUserMemberStatus("member");
@@ -114,11 +123,14 @@ const WorkoutComponent = (props) => {
       `${user.displayName} joined your workout`,
       user.id
     );
+    setButtonLoading(false);
   };
   const rejectWorkoutInvite = async () => {
+    setButtonLoading("rejectLoading");
     await firebase.rejectWorkoutInvite(user.id, workout);
     setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
+    setButtonLoading(false);
   };
   const getWorkoutActionButtons = () => {
     switch (userMemberStatus) {
@@ -129,36 +141,38 @@ const WorkoutComponent = (props) => {
               onPress={acceptWorkoutInvite}
               className="mx-1 h-8 rounded flex-1 justify-center"
               style={{
-                backgroundColor: appStyle.color_success,
-                borderColor: appStyle.color_primary,
-                borderWidth: 1,
+                backgroundColor: appStyle.color_bg_variant,
               }}
             >
               <Text
-                className="text-center"
+                className="text-center font-semibold"
                 style={{
-                  color: appStyle.color_primary,
+                  color: appStyle.color_on_primary,
                 }}
               >
-                Accept invite
+                {buttonLoading == "acceptLoading"
+                  ? "Loading..."
+                  : "Accept invite"}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={rejectWorkoutInvite}
               className="mx-1 h-8 rounded flex-1 justify-center"
               style={{
-                backgroundColor: appStyle.color_error,
+                backgroundColor: appStyle.color_bg,
                 borderColor: appStyle.color_primary,
                 borderWidth: 1,
               }}
             >
               <Text
-                className="text-center"
+                className="text-center font-semibold"
                 style={{
                   color: appStyle.color_primary,
                 }}
               >
-                Reject invite
+                {buttonLoading == "rejectLoading"
+                  ? "Loading..."
+                  : "Reject invite"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -180,7 +194,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              Cancel Workout
+              {buttonLoading ? "Loading..." : "Cancel Workout"}
             </Text>
           </TouchableOpacity>
         );
@@ -201,7 +215,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              Leave Workout
+              {buttonLoading ? "Loading..." : "Leave Workout"}
             </Text>
           </TouchableOpacity>
         );
@@ -222,7 +236,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              Cancel Workout Request
+              {buttonLoading ? "Loading..." : "Cancel Workout Request"}
             </Text>
           </TouchableOpacity>
         );
@@ -243,7 +257,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              Request to join
+              {buttonLoading ? "Loading..." : "Request to join"}
             </Text>
           </TouchableOpacity>
         );
@@ -254,7 +268,7 @@ const WorkoutComponent = (props) => {
       <View
         className="rounded mb-5"
         style={{
-          backgroundColor: appStyle.appLightBlue,
+          backgroundColor: appStyle.color_bg,
           borderWidth: 2,
           borderColor: appStyle.color_primary,
         }}
@@ -285,8 +299,8 @@ const WorkoutComponent = (props) => {
           </Text>
         </View>
 
-        <View className="flex-row flex-1">
-          <View className="justify-around items-center aspect-square">
+        <View className="flex-row h-28">
+          <View className="justify-center items-center aspect-square">
             <FontAwesomeIcon
               icon={workoutTypes[workout.type].icon}
               size={45}

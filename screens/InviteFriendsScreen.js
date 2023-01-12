@@ -28,6 +28,7 @@ const InviteFriendsScreen = ({ route }) => {
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
   const [changesMade, setChangesMade] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   useFocusEffect(
     useCallback(() => {
       const showFriends = async () => {
@@ -56,6 +57,7 @@ const InviteFriendsScreen = ({ route }) => {
     }
   };
   const inviteFriend = async (friendId) => {
+    setButtonLoading(friendId);
     setChangesMade(true);
     const workoutClone = { ...workout };
     if (workoutClone.invites == null) {
@@ -63,8 +65,9 @@ const InviteFriendsScreen = ({ route }) => {
     } else {
       workoutClone.invites[friendId] = true;
     }
-    setWorkout(workoutClone);
     await firebase.inviteFriendToWorkout(friendId, workout);
+    setWorkout(workoutClone);
+    setButtonLoading(false);
   };
   const getButton = (friendId) => {
     if (workout.invites && workout.invites[friendId] != null) {
@@ -72,12 +75,16 @@ const InviteFriendsScreen = ({ route }) => {
         <View
           className="py-1 px-6 rounded"
           style={{
-            backgroundColor: appStyle.color_primary,
+            backgroundColor: appStyle.color_bg_variant,
+            borderWidth: 0.8,
+            borderColor: appStyle.color_primary,
           }}
         >
           <Text
             className="text-lg font-semibold"
-            style={{ color: appStyle.color_on_primary }}
+            style={{
+              color: appStyle.color_on_primary,
+            }}
           >
             Invited
           </Text>
@@ -114,7 +121,7 @@ const InviteFriendsScreen = ({ route }) => {
           className="text-lg font-semibold"
           style={{ color: appStyle.color_primary }}
         >
-          Invite
+          {buttonLoading == friendId ? "Loading" : "Invite"}
         </Text>
       </TouchableOpacity>
     );
