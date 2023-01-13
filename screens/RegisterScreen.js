@@ -20,6 +20,8 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as defaultValues from "../services/defaultValues";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAuth from "../hooks/useAuth";
 const RegisterScreen = () => {
@@ -38,6 +40,7 @@ const RegisterScreen = () => {
   const [usernameStyle, setUsernameStyle] = useState(style.input);
   const [password, setPassword] = useState("");
   const [passwordStyle, setPasswordStyle] = useState(style.input);
+  const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordStyle, setConfirmPasswordStyle] = useState(style.input);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -261,7 +264,7 @@ const RegisterScreen = () => {
           <View>
             <TextInput
               onBlur={emailLostFocus}
-              className="justify-center"
+              className="justify-center mb-5"
               style={emailStyle}
               placeholder="Email"
               placeholderTextColor={"#5f6b8b"}
@@ -269,14 +272,14 @@ const RegisterScreen = () => {
             ></TextInput>
             <TextInput
               onBlur={usernameLostFocus}
-              className="justify-center"
+              className="justify-center mb-5"
               style={usernameStyle}
-              placeholder="Username (Must be unique)"
+              placeholder="Username (6+ English characters/numbers)"
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setUsername(text)}
             ></TextInput>
             {Platform.OS != "web" ? (
-              <View>
+              <View className="mb-5">
                 <TouchableOpacity
                   className="justify-center"
                   style={dateStyle}
@@ -301,7 +304,7 @@ const RegisterScreen = () => {
                 )}
               </View>
             ) : (
-              <View className="items-center">
+              <View className="items-center mb-5">
                 <Text
                   className="mb-3 text-xl font-semibold"
                   style={{ color: appStyle.color_on_primary }}
@@ -339,7 +342,7 @@ const RegisterScreen = () => {
                 </View>
               </View>
             )}
-            <View>
+            <View className="mb-5">
               <Dropdown
                 style={style.input}
                 containerStyle={{
@@ -378,15 +381,38 @@ const RegisterScreen = () => {
             </View>
             {!googleUserInfo && (
               <View>
-                <TextInput
-                  className="justify-center"
-                  secureTextEntry={true}
-                  style={passwordStyle}
-                  placeholder="Password"
-                  placeholderTextColor={"#5f6b8b"}
-                  onChangeText={(text) => setPassword(text)}
-                  onBlur={passwordLostFocus}
-                ></TextInput>
+                <View className="mb-5">
+                  <TextInput
+                    className="justify-center"
+                    secureTextEntry={!showPassword}
+                    style={passwordStyle}
+                    placeholder="Password"
+                    placeholderTextColor={"#5f6b8b"}
+                    onChangeText={(text) => setPassword(text)}
+                    onBlur={passwordLostFocus}
+                  ></TextInput>
+                  <View className="absolute right-3 top-0 bottom-0 justify-center">
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    >
+                      {showPassword ? (
+                        <FontAwesomeIcon
+                          icon={faEyeSlash}
+                          size={25}
+                          color={appStyle.color_primary}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          size={25}
+                          color={appStyle.color_primary}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                </View>
                 <TextInput
                   className="justify-center"
                   secureTextEntry={true}
@@ -459,8 +485,7 @@ const style = StyleSheet.create({
     borderColor: appStyle.color_bg,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
-    borderRadius: 5,
-    marginBottom: 20,
+    borderRadius: 4,
     paddingHorizontal: 5,
   },
   badInput: {
@@ -470,8 +495,7 @@ const style = StyleSheet.create({
     borderColor: appStyle.color_error,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
-    borderRadius: 5,
-    marginBottom: 5,
+    borderRadius: 4,
     paddingHorizontal: 5,
   },
   text: { color: appStyle.color_on_primary },
