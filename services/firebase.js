@@ -118,6 +118,7 @@ export const userDataById = async (userId) => {
   var userData = await getDoc(doc(db, "users", userId));
   return userData.data();
 };
+//depricated since there is no more personalData register-screen
 export const updatePersonalData = async (user, newData) => {
   await updateDoc(doc(db, "users", user.id), {
     defaultCountry: newData.defaultCountry,
@@ -132,14 +133,7 @@ export const updatePersonalData = async (user, newData) => {
 };
 export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
-    img: newUserData.img,
-    username: newUserData.username,
-    displayName: newUserData.displayName,
-    id: newUserData.id,
-    birthdate: newUserData.birthdate,
-    email: newUserData.email,
-    uidAuth: newUserData.uidAuth ? newUserData.uidAuth : null,
-    pushToken: newUserData.pushToken ? newUserData.pushToken : null,
+    ...newUserData,
     friendsCount: 0,
     friendRequestsCount: 0,
     workouts: {},

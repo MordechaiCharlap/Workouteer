@@ -248,7 +248,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className="text-md opacity-60 tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
-                        {item.firstName},{" "}
+                        {item.displayName},{" "}
                         {calculateAge(item.birthdate.toDate())}
                       </Text>
                     </View>
