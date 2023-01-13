@@ -15,7 +15,7 @@ const HomeScreenButton = (props) => {
         <View className={`items-center justify-center w-36 h-36`}></View>
       ) : (
         <TouchableOpacity
-          className={`items-center justify-center rounded-lg w-36 h-36`}
+          className={`items-center justify-center rounded-lg w-36 h-36 p-2`}
           style={{ backgroundColor: props.style.backgroundColor }}
           onPress={() => navigation.push(props.navigateScreen, { user: user })}
         >
@@ -37,7 +37,7 @@ const HomeScreenButton = (props) => {
           />
           <Text
             style={{ color: props.style.color }}
-            className="font-bold text-center text-2xl"
+            className="font-bold text-center text-xl"
           >
             {props.buttonText}
           </Text>
