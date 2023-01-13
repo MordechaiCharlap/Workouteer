@@ -169,7 +169,7 @@ const MyUserScreen = () => {
                   backgroundColor: appStyle.color_primary,
                 }}
               >
-                {user.firstName}, {calculateAge(user.birthdate.toDate())}
+                {user.displayName}, {calculateAge(user.birthdate.toDate())}
               </Text>
             </View>
             <Text style={{ color: appStyle.color_primary }} className="text-lg">
