@@ -8,7 +8,6 @@ import {
   Platform,
 } from "react-native";
 import { React, useLayoutEffect, useState } from "react";
-import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
@@ -176,64 +175,6 @@ const PersonalDataScreen = () => {
             />
           </View>
 
-          {/* <View className="mb-10">
-            <Text
-              className="text-center text-xl mb-5 py-2"
-              style={{ backgroundColor: appStyle.color_parimary }}
-            >
-              Workout preferences
-            </Text>
-
-            <View className="mb-5">
-              <View className="flex-row w-1/2 items-center">
-                <Text className="font-semibold mr-5" style={style.text}>
-                  Partner's age:
-                </Text>
-                <Text style={style.text}>From</Text>
-                <TextInput
-                  onChangeText={(text) => setMinAgeAccept(text)}
-                  className="rounded w-1/2 text-center"
-                  style={style.input}
-                  placeholder="Minimum age"
-                  placeholderTextColor={"#5f6b8b"}
-                  value={16}
-                ></TextInput>
-                <Text style={style.text}>to</Text>
-                <TextInput
-                  onChangeText={(text) => setMaxAgeAccept(text)}
-                  className="rounded w-1/2 text-center"
-                  style={style.input}
-                  placeholder="Maximum age"
-                  placeholderTextColor={"#5f6b8b"}
-                  value={100}
-                ></TextInput>
-              </View>
-            </View>
-
-            <View className="flex-row items-center">
-              <Text className="font-semibold mr-5" style={style.text}>
-                Partner's sex:
-              </Text>
-              <View className="flex-row mr-5 items-center">
-                <CheckBox
-                  onValueChange={(value) => setAcceptMale(value)}
-                  backgroundColor={appStyle.color_parimary}
-                  valueColor={appStyle.color_parimary}
-                  value={true}
-                />
-                <Text style={style.text}>Male</Text>
-              </View>
-              <View className="flex-row items-center">
-                <CheckBox
-                  onValueChange={(value) => setAcceptFemale(value)}
-                  backgroundColor={appStyle.color_parimary}
-                  valueColor={appStyle.color_parimary}
-                  value={true}
-                />
-                <Text style={style.text}>Female</Text>
-              </View>
-            </View>
-          </View> */}
           <TouchableOpacity
             onPress={createAccountPressed}
             className={`justify-center py-3 ${ResponsiveShadow}`}
