@@ -11,15 +11,12 @@ import {
   ScrollView,
 } from "react-native";
 import { React, useLayoutEffect, useRef, useState } from "react";
-import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import * as defaultValues from "../services/defaultValues";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAuth from "../hooks/useAuth";
 import SexDropdown from "../components/Register/sexDropdown";
@@ -28,6 +25,8 @@ import BirthdayWebInput from "../components/Register/BirthdayWebInput";
 import EmailInput from "../components/Register/EmailInput";
 import UsernameInput from "../components/Register/UsernameInput";
 import Password from "../components/Register/Password";
+import ConfirmPassword from "../components/Register/ConfirmPassword";
+import TermsAndConditionsCB from "../components/Register/TermsAndConditionsCB";
 const RegisterScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -37,94 +36,27 @@ const RegisterScreen = () => {
   }, []);
   const { googleUserInfo, setUser } = useAuth();
   const { pushToken } = usePushNotifications();
-  const [isMale, setIsMale] = useState(null);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-
-  const [password, setPassword] = useState("");
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordStyle, setConfirmPasswordStyle] = useState(style.input);
+  const [isMale, setIsMale] = useState();
+  const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [inputErrorText, setInputErrorText] = useState("");
+  const [inputErrorText, setInputErrorText] = useState();
   //Datepicker state
   const [date, setDate] = useState(new Date());
-
-  //web date
-
   //loading state
   const [loading, setLoading] = useState(false);
 
-  const handleCreateAccount = async () => {
-    if (!loading) {
-      setLoading(true);
-      setInputErrorText("");
-      if (isMale != null) {
-        if (username.length >= 6) {
-          if (isRegexUsername(username)) {
-            if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
-              var age;
-              if (Platform.OS == "web") {
-                if (checkWebDate()) {
-                  const dateToCheck = new Date(
-                    year,
-                    month - 1,
-                    day,
-                    0,
-                    0,
-                    0,
-                    0
-                  );
-                  age = calculateAge(dateToCheck);
-                  var isUserAvailable = await firebase.checkUsername(
-                    username.toLowerCase()
-                  );
-                  if (age >= 16) {
-                    setDate(dateToCheck);
-                    if (isUserAvailable) {
-                      if (acceptTerms) {
-                        setInputErrorText("");
-                        await handleLogin(dateToCheck);
-                      } else
-                        setInputErrorText("Accept terms before going further");
-                    } else setInputErrorText("Username isnt available");
-                  } else
-                    setInputErrorText("You need to be at least 16 years old");
-                } else {
-                  setInputErrorText("Fill out the date correctly (dd/mm/yyyy)");
-                }
-              } else {
-                age = calculateAge(date);
-                var isUserAvailable = await firebase.checkUsername(
-                  username.toLowerCase()
-                );
-                if (age >= 16) {
-                  if (isUserAvailable) {
-                    if (acceptTerms) {
-                      setInputErrorText("");
-                      await handleLogin();
-                    } else
-                      setInputErrorText("Accept terms before going further");
-                  } else setInputErrorText("Username isnt available");
-                } else
-                  setInputErrorText("You need to be at least 16 years old");
-              }
-            } else setInputErrorText("Choose birthdate");
-          } else
-            setInputErrorText("Username must be english characters/numbers");
-        } else setInputErrorText("Username too small (6+ characters)");
-      } else setInputErrorText("Choose sex");
-      setLoading(false);
-    }
-  };
-  const handleLogin = async (webDate) => {
+  const createAccountClicked = () => {};
+
+  const handleLogin = async () => {
     const newUserData = {
       img: defaultValues.defaultProfilePic,
       username: username,
       displayName: username,
       id: username.toLowerCase(),
-      birthdate: webDate ? webDate : date,
+      birthdate: date,
       email: email,
       pushToken: pushToken,
       isMale: isMale,
@@ -132,29 +64,6 @@ const RegisterScreen = () => {
     await firebase.createUser(newUserData);
     setUser(await firebase.getUserDataById(username.toLowerCase()));
     setLoading(false);
-  };
-
-  const passwordLostFocus = () => {
-    var validRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
-    if (password.match(validRegex)) {
-      console.log("good password");
-      setPasswordStyle(style.input);
-    } else {
-      if (Platform.OS != "web")
-        alert(
-          "Invalid password, should be 8-20 characters, at least one number and one letter"
-        );
-      setPasswordStyle(style.badInput);
-    }
-  };
-  const confirmPasswordLostFocus = () => {
-    if (confirmPassword == password) {
-      console.log("confirm is good");
-      setConfirmPasswordStyle(style.input);
-    } else {
-      if (Platform.OS != "web") alert("Doesn't match password");
-      setConfirmPasswordStyle(style.badInput);
-    }
   };
 
   return (
@@ -182,54 +91,31 @@ const RegisterScreen = () => {
             <EmailInput style={style} />
             <UsernameInput style={style} />
             {Platform.OS != "web" ? (
-              <View className="mb-5">
+              <View style={style.inputContainer}>
                 <BirthdayDatePicker style={style} />
               </View>
             ) : (
-              <View className="items-center mb-5">
+              <View style={style.inputContainer}>
                 <BirthdayWebInput style={style} />
               </View>
             )}
-            <View className="mb-5">
+            <View style={style.inputContainer}>
               <SexDropdown style={style.input} valueChanged={setIsMale} />
             </View>
             {!googleUserInfo && (
               <View>
-                <View className="mb-5">
+                <View style={style.inputContainer}>
                   <Password style={style} />
                 </View>
-                <TextInput
-                  className="justify-center mb-5"
-                  secureTextEntry={true}
-                  style={confirmPasswordStyle}
-                  placeholder="Confirm Password"
-                  placeholderTextColor={"#5f6b8b"}
-                  onChangeText={(text) => setConfirmPassword(text)}
-                  onBlur={confirmPasswordLostFocus}
-                ></TextInput>
+                <View style={style.inputContainer}>
+                  <ConfirmPassword style={style} />
+                </View>
               </View>
             )}
           </View>
           <View>
-            <View className="flex-row items-center mb-5">
-              <CheckBox
-                backgroundColor={appStyle.color_on_primary}
-                valueColor={appStyle.color_primary}
-                value={false}
-                onValueChange={setAcceptTerms}
-              />
-              <Text
-                className="ml-2"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                {"I agree to the "}
-              </Text>
-              <Text
-                className="font-semibold underline"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                Terms and Conditions
-              </Text>
+            <View style={style.inputContainer}>
+              <TermsAndConditionsCB />
             </View>
             <Text
               className="text-center mt-4 mb-2"
@@ -240,7 +126,7 @@ const RegisterScreen = () => {
               {inputErrorText}
             </Text>
             <TouchableOpacity
-              onPress={handleCreateAccount}
+              onPress={createAccountClicked}
               className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
               style={{
                 backgroundColor: appStyle.color_bg,
@@ -283,6 +169,7 @@ const style = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 5,
   },
+  inputContainer: { marginBottom: 15 },
   text: { color: appStyle.color_on_primary },
   label: {
     position: "absolute",
