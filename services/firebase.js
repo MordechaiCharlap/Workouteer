@@ -84,11 +84,13 @@ export const savePreferencesChanges = async (
 export const saveSettingsChanges = async (
   userId,
   newIsPublic,
-  newShowOnline
+  newShowOnline,
+  language
 ) => {
   await updateDoc(doc(db, "users", userId), {
     isPublic: newIsPublic,
     showOnline: newShowOnline,
+    language: language,
   });
 };
 export const searchUser = async (text) => {
