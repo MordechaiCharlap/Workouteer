@@ -161,6 +161,7 @@ const RegisterGoogleScreen = () => {
     }
   };
   const handleLogin = async (webDate) => {
+    setLoading(true);
     var newUserData;
     if (Platform.OS == "web") {
       newUserData = {
@@ -184,7 +185,6 @@ const RegisterGoogleScreen = () => {
       };
     }
 
-    setLoading(true);
     await firebase.createUser(newUserData);
     setUser(await firebase.getUserDataById(username.toLowerCase()));
     setLoading(false);
@@ -230,7 +230,7 @@ const RegisterGoogleScreen = () => {
                   placeholderTextColor={"#5f6b8b"}
                   onChangeText={(text) => setUsername(text)}
                 ></TextInput>
-                {Platform.OS == "android" ? (
+                {Platform.OS != "web" ? (
                   <View>
                     <TouchableOpacity
                       className="rounded mb-5 px-3 h-10 justify-center"
@@ -238,9 +238,7 @@ const RegisterGoogleScreen = () => {
                       onPress={showDatepicker}
                     >
                       {!changedOnce && (
-                        <Text style={{ color: "#5f6b8b" }}>
-                          birthdate (works only on Android)
-                        </Text>
+                        <Text style={{ color: "#5f6b8b" }}>Birthdate</Text>
                       )}
                       {changedOnce && (
                         <Text style={{ color: "#5f6b8b" }}>
