@@ -89,7 +89,7 @@ const StackNavigator = () => {
   }, [workoutInvitesAlerts]);
   return (
     <Stack.Navigator>
-      {user && user.defaultCountry != null ? (
+      {user ? (
         <>
           <Stack.Screen
             name="Home"
