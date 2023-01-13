@@ -31,7 +31,7 @@ const RegisterScreen = () => {
       headerShown: false,
     });
   }, []);
-  const { googleUserInfo } = useAuth();
+  const { googleUserInfo, setUser } = useAuth();
   const { pushToken } = usePushNotifications();
   const [isMale, setIsMale] = useState(null);
   const [email, setEmail] = useState("");
@@ -93,52 +93,83 @@ const RegisterScreen = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
-    setInputErrorText("");
-    if (isMale != null) {
-      if (username.length >= 6) {
-        if (isRegexUsername(username)) {
-          if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
-            var age;
-            if (Platform.OS == "web") {
-              if (checkWebDate()) {
-                const dateToCheck = new Date(year, month - 1, day, 0, 0, 0, 0);
-                age = calculateAge(dateToCheck);
+    if (!loading) {
+      setLoading(true);
+      setInputErrorText("");
+      if (isMale != null) {
+        if (username.length >= 6) {
+          if (isRegexUsername(username)) {
+            if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
+              var age;
+              if (Platform.OS == "web") {
+                if (checkWebDate()) {
+                  const dateToCheck = new Date(
+                    year,
+                    month - 1,
+                    day,
+                    0,
+                    0,
+                    0,
+                    0
+                  );
+                  age = calculateAge(dateToCheck);
+                  var isUserAvailable = await firebase.checkUsername(
+                    username.toLowerCase()
+                  );
+                  if (age >= 16) {
+                    setDate(dateToCheck);
+                    if (isUserAvailable) {
+                      if (acceptTerms) {
+                        setInputErrorText("");
+                        await handleLogin(dateToCheck);
+                      } else
+                        setInputErrorText("Accept terms before going further");
+                    } else setInputErrorText("Username isnt available");
+                  } else
+                    setInputErrorText("You need to be at least 16 years old");
+                } else {
+                  setInputErrorText("Fill out the date correctly (dd/mm/yyyy)");
+                }
+              } else {
+                age = calculateAge(date);
                 var isUserAvailable = await firebase.checkUsername(
                   username.toLowerCase()
                 );
                 if (age >= 16) {
-                  setDate(dateToCheck);
                   if (isUserAvailable) {
                     if (acceptTerms) {
                       setInputErrorText("");
-                      await handleLogin(dateToCheck);
+                      await handleLogin();
                     } else
                       setInputErrorText("Accept terms before going further");
                   } else setInputErrorText("Username isnt available");
                 } else
                   setInputErrorText("You need to be at least 16 years old");
-              } else {
-                setInputErrorText("Fill out the date correctly (dd/mm/yyyy)");
               }
-            } else {
-              age = calculateAge(date);
-              var isUserAvailable = await firebase.checkUsername(
-                username.toLowerCase()
-              );
-              if (age >= 16) {
-                if (isUserAvailable) {
-                  if (acceptTerms) {
-                    setInputErrorText("");
-                    await handleLogin();
-                  } else setInputErrorText("Accept terms before going further");
-                } else setInputErrorText("Username isnt available");
-              } else setInputErrorText("You need to be at least 16 years old");
-            }
-          } else setInputErrorText("Choose birthdate");
-        } else setInputErrorText("Username must be english characters/numbers");
-      } else setInputErrorText("Username too small (6+ characters)");
-    } else setInputErrorText("Choose sex");
+            } else setInputErrorText("Choose birthdate");
+          } else
+            setInputErrorText("Username must be english characters/numbers");
+        } else setInputErrorText("Username too small (6+ characters)");
+      } else setInputErrorText("Choose sex");
+      setLoading(false);
+    }
   };
+  const handleLogin = async (webDate) => {
+    const newUserData = {
+      img: defaultValues.defaultProfilePic,
+      username: username,
+      displayName: username,
+      id: username.toLowerCase(),
+      birthdate: webDate ? webDate : date,
+      email: email,
+      pushToken: pushToken,
+      isMale: isMale,
+    };
+    await firebase.createUser(newUserData);
+    setUser(await firebase.getUserDataById(username.toLowerCase()));
+    setLoading(false);
+  };
+
   const calculateAge = (dateToCheck) => {
     var today = new Date();
     var age = today.getFullYear() - dateToCheck.getFullYear();
@@ -222,22 +253,6 @@ const RegisterScreen = () => {
       if (Platform.OS != "web") alert("Doesn't match password");
       setConfirmPasswordStyle(style.badInput);
     }
-  };
-  const handleLogin = async (webDate) => {
-    setLoading(true);
-    const newUserData = {
-      img: defaultValues.defaultProfilePic,
-      username: username,
-      displayName: username,
-      id: username.toLowerCase(),
-      birthdate: webDate ? webDate : date,
-      email: email,
-      pushToken: pushToken,
-      isMale: isMale,
-    };
-    await firebase.createUser(newUserData);
-    setUser(await firebase.getUserDataById(username.toLowerCase()));
-    setLoading(false);
   };
 
   return (
@@ -414,7 +429,7 @@ const RegisterScreen = () => {
                   </View>
                 </View>
                 <TextInput
-                  className="justify-center"
+                  className="justify-center mb-5"
                   secureTextEntry={true}
                   style={confirmPasswordStyle}
                   placeholder="Confirm Password"
@@ -466,7 +481,7 @@ const RegisterScreen = () => {
                 className="text-center font-bold text-xl tracking-widest"
                 style={{ color: appStyle.color_primary }}
               >
-                {loading ? "Loading..." : "Create Account"}
+                {loading ? "Loading" : "Create Account"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -483,9 +498,9 @@ const style = StyleSheet.create({
     height: 40,
     borderWidth: 2,
     borderColor: appStyle.color_bg,
+    borderRadius: 4,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
-    borderRadius: 4,
     paddingHorizontal: 5,
   },
   badInput: {
