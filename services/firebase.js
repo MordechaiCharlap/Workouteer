@@ -1,13 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  connectStorageEmulator,
-} from "firebase/storage";
-import * as ImageManipulator from "expo-image-manipulator";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getFirestore,
   deleteField,
@@ -28,6 +21,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
+import { NativeModules, Platform } from "react-native";
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
@@ -35,6 +29,19 @@ export const storage = getStorage(firebaseApp);
 export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
+};
+const getLanguage = () => {
+  var language;
+  if (Platform.OS == "android")
+    language = NativeModules.I18nManager.localeIdentifier;
+  else if (Platform.OS == "ios") {
+    language =
+      NativeModules.SettingsManager.settings.AppleLocale ||
+      NativeModules.SettingsManager.settings.AppleLanguages[0];
+  } else language = "en";
+  if (language == "he" || language == "he-IL" || language == "heb")
+    return "hebrew";
+  else return "english";
 };
 export const getUserDataById = async (userId) => {
   return await updateContext(userId);
@@ -141,6 +148,7 @@ export const createUser = async (newUserData) => {
     friends: {},
     chats: [],
     description: "",
+    language: getLanguage(),
     isPublic: true,
     showOnline: true,
     defaultCity: null,
