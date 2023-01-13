@@ -1,4 +1,11 @@
-import { Text, View, TouchableOpacity, Switch, StatusBar } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Switch,
+  StatusBar,
+  Modal,
+} from "react-native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
@@ -10,6 +17,7 @@ const SettingsScreen = () => {
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
+  const [language, setLanguage] = useState(user.language);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,13 +27,19 @@ const SettingsScreen = () => {
 
   useEffect(() => {
     console.log("useEffecting settings");
-    if (user.isPublic != isPublic || user.showOnline != showOnline)
+    if (
+      user.isPublic != isPublic ||
+      user.showOnline != showOnline ||
+      language != user.language
+    ) {
       setChangesMade(true);
-    else setChangesMade(false);
-  }, [isPublic, showOnline]);
+    } else {
+      setChangesMade(false);
+    }
+  }, [isPublic, showOnline, language]);
   const applyChanges = async () => {
     if (changesMade) {
-      await saveSettingsChanges(user.id, isPublic, showOnline);
+      await saveSettingsChanges(user.id, isPublic, showOnline, language);
       setUser(await updateContext(user.id));
       navigation.goBack();
     }
@@ -47,7 +61,7 @@ const SettingsScreen = () => {
           Privacy
         </Text>
         <View
-          className="flex-row justify-between items-center"
+          className="flex-row justify-between items-center h-10"
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>Public account:</Text>
@@ -59,7 +73,7 @@ const SettingsScreen = () => {
           />
         </View>
         <View
-          className="flex-row justify-between items-center"
+          className="flex-row justify-between items-center h-10"
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>Online status:</Text>
@@ -70,7 +84,57 @@ const SettingsScreen = () => {
             onValueChange={() => setShowOnline((prev) => !prev)}
           />
         </View>
-        <View className="flex-row items-center justify-around">
+        <View
+          className="flex-row justify-between items-center h-10"
+          style={{ color: appStyle.color_primary }}
+        >
+          <Text style={{ color: appStyle.color_primary }}>
+            Choose language:
+          </Text>
+          <View className="flex-row gap-2">
+            <TouchableOpacity
+              disabled={language == "hebrew"}
+              onPress={() => setLanguage("hebrew")}
+              style={{
+                backgroundColor:
+                  language == "hebrew"
+                    ? appStyle.color_lighter
+                    : appStyle.color_primary,
+              }}
+              className="py-1 px-2"
+            >
+              <Text
+                style={{
+                  color:
+                    language == "hebrew" ? "gray" : appStyle.color_on_primary,
+                }}
+              >
+                עברית
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              disabled={language == "english"}
+              onPress={() => setLanguage("english")}
+              style={{
+                backgroundColor:
+                  language == "english"
+                    ? appStyle.color_lighter
+                    : appStyle.color_primary,
+              }}
+              className="py-1 px-2"
+            >
+              <Text
+                style={{
+                  color:
+                    language == "english" ? "gray" : appStyle.color_on_primary,
+                }}
+              >
+                English
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="flex-row items-center justify-around mt-5">
           <TouchableOpacity className="w-5/12">
             <Text
               className="text-center py-1 px-1"
