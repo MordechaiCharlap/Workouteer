@@ -261,7 +261,7 @@ const RegisterScreen = () => {
           <View>
             <TextInput
               onBlur={emailLostFocus}
-              className="rounded mb-5 px-3 h-10 justify-center"
+              className="justify-center"
               style={emailStyle}
               placeholder="Email"
               placeholderTextColor={"#5f6b8b"}
@@ -269,7 +269,7 @@ const RegisterScreen = () => {
             ></TextInput>
             <TextInput
               onBlur={usernameLostFocus}
-              className="rounded mb-5 px-3 h-10 justify-center"
+              className="justify-center"
               style={usernameStyle}
               placeholder="Username (Must be unique)"
               placeholderTextColor={"#5f6b8b"}
@@ -278,7 +278,7 @@ const RegisterScreen = () => {
             {Platform.OS != "web" ? (
               <View>
                 <TouchableOpacity
-                  className="rounded mb-5 px-3 h-10 justify-center"
+                  className="justify-center"
                   style={dateStyle}
                   onPress={showDatepicker}
                 >
@@ -301,14 +301,14 @@ const RegisterScreen = () => {
                 )}
               </View>
             ) : (
-              <View className="items-center mb-5">
+              <View className="items-center">
                 <Text
                   className="mb-3 text-xl font-semibold"
                   style={{ color: appStyle.color_on_primary }}
                 >
                   Birthdate
                 </Text>
-                <View className="flex-row w-full items-center justify-between mb-5">
+                <View className="flex-row w-full items-center justify-between">
                   <TextInput
                     onBlur={(text) => dayLostFocus(text)}
                     maxLength={2}
@@ -339,7 +339,7 @@ const RegisterScreen = () => {
                 </View>
               </View>
             )}
-            <View className="mb-5">
+            <View>
               <Dropdown
                 style={style.input}
                 containerStyle={{
@@ -379,7 +379,7 @@ const RegisterScreen = () => {
             {!googleUserInfo && (
               <View>
                 <TextInput
-                  className="rounded mb-5 px-3 h-10 justify-center"
+                  className="justify-center"
                   secureTextEntry={true}
                   style={passwordStyle}
                   placeholder="Password"
@@ -388,7 +388,7 @@ const RegisterScreen = () => {
                   onBlur={passwordLostFocus}
                 ></TextInput>
                 <TextInput
-                  className="rounded mb-3 px-3 h-10 justify-center"
+                  className="justify-center"
                   secureTextEntry={true}
                   style={confirmPasswordStyle}
                   placeholder="Confirm Password"
@@ -459,6 +459,9 @@ const style = StyleSheet.create({
     borderColor: appStyle.color_bg,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 5,
   },
   badInput: {
     paddingLeft: 10,
@@ -467,6 +470,9 @@ const style = StyleSheet.create({
     borderColor: appStyle.color_error,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
+    borderRadius: 5,
+    marginBottom: 5,
+    paddingHorizontal: 5,
   },
   text: { color: appStyle.color_on_primary },
   icon: {
