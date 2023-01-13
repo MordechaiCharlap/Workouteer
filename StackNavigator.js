@@ -8,7 +8,6 @@ import FriendsScreen from "./screens/FriendsScreen";
 import CalendarScreen from "./screens/CalendarScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatsScreen from "./screens/ChatsScreen";
-import PersonalDataScreen from "./screens/PersonalDataScreen";
 import ChangePreferencesScreen from "./screens/ChangePreferencesScreen";
 import SearchUsersScreen from "./screens/SearchUsersScreen";
 import UserScreen from "./screens/UserScreen";
@@ -32,7 +31,6 @@ import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
-import RegisterGoogleScreen from "./screens/RegisterGoogleScreen";
 import { Platform } from "react-native";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -210,19 +208,6 @@ const StackNavigator = () => {
           />
         </>
       ) : (
-        //   !user && googleUserInfo != null ? (
-        //   <Stack.Screen
-        //     name="RegisterGoogleScreen"
-        //     component={RegisterGoogleScreen}
-        //     options={horizontalLeftAnimation}
-        //   />
-        // ) : user && user.defaultCountry == null ? (
-        //   <Stack.Screen
-        //     name="PersonalData"
-        //     component={PersonalDataScreen}
-        //     options={horizontalLeftAnimation}
-        //   />
-        //     ) :
         <>
           <Stack.Screen
             name="Login"
