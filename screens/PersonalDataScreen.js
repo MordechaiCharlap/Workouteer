@@ -33,7 +33,7 @@ const PersonalDataScreen = () => {
   const [minAgeAccept, setMinAgeAccept] = useState(16);
   const [maxAgeAccept, setMaxAgeAccept] = useState(100);
   const checkIfDataValid = () => {
-    if (isMale && country && firstNameVal.length > 1) return true;
+    if (isMale != null && country) return true;
     else return false;
   };
   const createAccountPressed = async () => {
