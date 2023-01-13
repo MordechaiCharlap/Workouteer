@@ -209,19 +209,20 @@ const StackNavigator = () => {
             options={verticalAnimation}
           />
         </>
-      ) : !user && googleUserInfo != null ? (
-        <Stack.Screen
-          name="RegisterGoogleScreen"
-          component={RegisterGoogleScreen}
-          options={horizontalLeftAnimation}
-        />
-      ) : user && user.defaultCountry == null ? (
-        <Stack.Screen
-          name="PersonalData"
-          component={PersonalDataScreen}
-          options={horizontalLeftAnimation}
-        />
       ) : (
+        //   !user && googleUserInfo != null ? (
+        //   <Stack.Screen
+        //     name="RegisterGoogleScreen"
+        //     component={RegisterGoogleScreen}
+        //     options={horizontalLeftAnimation}
+        //   />
+        // ) : user && user.defaultCountry == null ? (
+        //   <Stack.Screen
+        //     name="PersonalData"
+        //     component={PersonalDataScreen}
+        //     options={horizontalLeftAnimation}
+        //   />
+        //     ) :
         <>
           <Stack.Screen
             name="Login"
