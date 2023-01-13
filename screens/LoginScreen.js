@@ -26,6 +26,7 @@ const LoginScreen = () => {
     initialLoading,
     signInGoogleAccount,
     authErrorCode,
+    loginLoading,
   } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -39,9 +40,8 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorText, setErrorText] = useState("");
-
   const loginEmailPassword = () => {
-    signInEmailPassword(email, password, rememberMe);
+    signInEmailPassword(email, password, rememberMe).then(() => {});
   };
   useEffect(() => {
     if (authErrorCode) {
@@ -157,7 +157,7 @@ const LoginScreen = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => loginEmailPassword(email, password, rememberMe)}
+                onPress={loginEmailPassword}
                 className={`self-center rounded py-2 px-8 w-full mb-3`}
                 style={{
                   backgroundColor: appStyle.color_bg,
@@ -169,7 +169,7 @@ const LoginScreen = () => {
                     color: appStyle.color_primary,
                   }}
                 >
-                  Login
+                  {loginLoading == true ? "Loading" : "Login"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
