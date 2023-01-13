@@ -17,10 +17,10 @@ const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   // const [accessToken, setAccessToken] = useState(null);
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
-  const [unsubscribeAlertListener, setUnsubscribeAlertListener] = useState();
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
+  const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
   var unsubscribe = null;
   const {
@@ -60,6 +60,7 @@ export const AuthPrvider = ({ children }) => {
               "state Changed, user logged in: " + authUser.email.toLowerCase()
             );
             setInitialLoading(false);
+            setLoginLoading(false);
           };
           setUserAsync();
         } else {
@@ -132,9 +133,10 @@ export const AuthPrvider = ({ children }) => {
     setInitialLoading(false);
   };
   const signInEmailPassword = (email, password, rememberMe) => {
+    setLoginLoading(true);
     if (!rememberMe) {
       console.log("not remembering user");
-      setPersistence(auth, inMemoryPersistence)
+      return setPersistence(auth, inMemoryPersistence)
         .then(() => {
           signInWithEmailAndPassword(auth, email, password)
             .then()
@@ -143,12 +145,11 @@ export const AuthPrvider = ({ children }) => {
               console.log("error code: ", errorCode);
               const errorMessage = error.message;
               console.log("error message: ", errorMessage);
+              setAuthErrorCode(errorCode);
             });
         })
         .catch((error) => {
-          const errorCode = error.code;
-          console.log("error code: ", errorCode);
-          setAuthErrorCode(errorCode);
+          setLoginLoading(false);
         });
     } else {
       console.log("remembering user");
@@ -156,16 +157,14 @@ export const AuthPrvider = ({ children }) => {
         .then(() => {
           console.log("signed in!");
         })
-        .catch((error) => {
-          return false;
-        });
+        .catch((error) => {});
     }
+    setLoginLoading(false);
   };
   const userSignOut = () => {
     setInitialLoading(true);
     if (googleUserInfo) {
       if (unsubscribe) unsubscribe();
-      setUnsubscribeAlertListener(null);
       setGoogleUserInfo(null);
       setUser(null);
       setInitialLoading(false);
@@ -186,6 +185,7 @@ export const AuthPrvider = ({ children }) => {
         userSignOut,
         addAuthObserver,
         initialLoading,
+        loginLoading,
         authErrorCode,
       }}
     >
