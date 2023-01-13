@@ -64,7 +64,7 @@
       "translucent": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/app-icon-ios.png"
     },
     "extra": {
       "eas": {
