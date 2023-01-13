@@ -159,7 +159,7 @@ const LoginScreen = () => {
               </View>
               <TouchableOpacity
                 onPress={loginEmailPassword}
-                className={`self-center rounded py-2 px-8 w-full mb-3`}
+                className={`self-center py-2 px-8 w-full mb-3`}
                 style={{
                   backgroundColor: appStyle.color_bg,
                 }}
@@ -175,7 +175,7 @@ const LoginScreen = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => signInGoogleAccount()}
-                className={`self-center rounded py-2 w-full items-center`}
+                className={`self-center py-2 w-full items-center`}
                 style={{
                   backgroundColor: appStyle.color_on_primary,
                 }}
