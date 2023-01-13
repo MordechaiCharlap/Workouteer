@@ -300,7 +300,7 @@ const ChatsScreen = () => {
               className="text-center text-xl font-semibold m-4"
               style={{ color: appStyle.color_primary }}
             >
-              Loading...
+              Loading
             </Text>
           ) : (
             chatsList()

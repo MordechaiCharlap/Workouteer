@@ -41,7 +41,8 @@ const LoginScreen = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorText, setErrorText] = useState("");
   const loginEmailPassword = () => {
-    signInEmailPassword(email, password, rememberMe).then(() => {});
+    if (!loginLoading)
+      signInEmailPassword(email, password, rememberMe).then(() => {});
   };
   useEffect(() => {
     if (authErrorCode) {

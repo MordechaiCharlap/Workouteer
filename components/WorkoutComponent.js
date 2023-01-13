@@ -150,9 +150,7 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_on_primary,
                 }}
               >
-                {buttonLoading == "acceptLoading"
-                  ? "Loading..."
-                  : "Accept invite"}
+                {buttonLoading == "acceptLoading" ? "Loading" : "Accept invite"}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -170,9 +168,7 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_primary,
                 }}
               >
-                {buttonLoading == "rejectLoading"
-                  ? "Loading..."
-                  : "Reject invite"}
+                {buttonLoading == "rejectLoading" ? "Loading" : "Reject invite"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -194,7 +190,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading..." : "Cancel Workout"}
+              {buttonLoading ? "Loading" : "Cancel Workout"}
             </Text>
           </TouchableOpacity>
         );
@@ -215,7 +211,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading..." : "Leave Workout"}
+              {buttonLoading ? "Loading" : "Leave Workout"}
             </Text>
           </TouchableOpacity>
         );
@@ -236,7 +232,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading..." : "Cancel Workout Request"}
+              {buttonLoading ? "Loading" : "Cancel Workout Request"}
             </Text>
           </TouchableOpacity>
         );
@@ -257,7 +253,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading..." : "Request to join"}
+              {buttonLoading ? "Loading" : "Request to join"}
             </Text>
           </TouchableOpacity>
         );
