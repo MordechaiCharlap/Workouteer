@@ -40,8 +40,6 @@ const RegisterScreen = () => {
   const [passwordStyle, setPasswordStyle] = useState(style.input);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordStyle, setConfirmPasswordStyle] = useState(style.input);
-  const [confirmPasswordText, setConfirmPasswordText] = useState("");
-  // const [displayName, setDisplayName] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState("");
   //Datepicker state
@@ -49,6 +47,13 @@ const RegisterScreen = () => {
   const [dateStyle, setDateStyle] = useState(style.input);
   const [show, setShow] = useState(false);
   const [changedOnce, setChangeOnce] = useState(false);
+  //web date
+  const [day, setDay] = useState();
+  const [dayStyle, setDayStyle] = useState(style.input);
+  const [month, setMonth] = useState();
+  const [monthStyle, setMonthStyle] = useState(style.input);
+  const [year, setYear] = useState();
+  const [yearStyle, setYearStyle] = useState(style.input);
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -65,69 +70,63 @@ const RegisterScreen = () => {
       setDateStyle(style.input);
     }
   };
-  const openImageLibrary = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.5,
-    });
 
-    if (!result.cancelled) {
-      const manipResult = await ImageManipulator.manipulateAsync(
-        result.localUri || result.uri,
-        [{ resize: { height: 1080, width: 1080 } }],
-        {
-          compress: 0.5,
-          height: 1080,
-          width: 1080,
-          format: ImageManipulator.SaveFormat.JPEG,
-        }
-      );
-      const uploadUrl = await firebase.uploadProfileImage(
-        props.user.id,
-        manipResult.uri
-      );
-      console.log("uploadUrl: " + uploadUrl);
-      setImage(uploadUrl);
-    }
+  const checkWebDate = () => {
+    if (
+      day.length == 2 &&
+      !isNaN(day) &&
+      month.length == 2 &&
+      !isNaN(month) &&
+      year.length == 4 &&
+      !isNaN(year)
+    )
+      return true;
+    console.log("not a good web date");
+    return false;
   };
+
   const showDatepicker = () => {
     setShow(true);
   };
   const handleCreateAccount = async () => {
     setInputErrorText("");
-
-    if (confirmPassword == password) {
-      if (username.length >= 6) {
-        if (changedOnce) {
-          var age = calculateAge(date);
+    if (username.length >= 6) {
+      if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
+        var age;
+        if (Platform.OS == "web") {
+          if (checkWebDate()) {
+            const dateToCheck = new Date(year, month - 1, day, 0, 0, 0, 0);
+            console.log(dateToCheck);
+            age = calculateAge(dateToCheck);
+            var isUserAvailable = await firebase.checkUsername(
+              username.toLowerCase()
+            );
+            if (age >= 16) {
+              setDate(dateToCheck);
+              if (isUserAvailable) {
+                if (acceptTerms) {
+                  setInputErrorText("");
+                  await handleLogin(dateToCheck);
+                } else setInputErrorText("Accept terms before going further");
+              } else setInputErrorText("Username isnt available");
+            } else setInputErrorText("You need to be at least 16 years old");
+          }
+        } else {
+          age = calculateAge(date);
           var isUserAvailable = await firebase.checkUsername(
             username.toLowerCase()
           );
-          var isEmailAvailable = await firebase.checkIfEmailAvailable(
-            email.toLocaleLowerCase()
-          );
-
           if (age >= 16) {
             if (isUserAvailable) {
-              if (isEmailAvailable) {
-                if (acceptTerms) {
-                  setInputErrorText("");
-                  handleLogin();
-                } else setInputErrorText("Accept terms before going further");
-              } else setInputErrorText("email isnt available");
+              if (acceptTerms) {
+                setInputErrorText("");
+                await handleLogin();
+              } else setInputErrorText("Accept terms before going further");
             } else setInputErrorText("Username isnt available");
           } else setInputErrorText("You need to be at least 16 years old");
-        } else setInputErrorText("Choose birthdate");
-      } else setInputErrorText("Username too small (6+ characters)");
-    } else
-      setInputErrorText(
-        "Your 'confirmed' password does not match your original password: ",
-        password,
-        " and ",
-        confirmPassword
-      );
+        }
+      } else setInputErrorText("Choose birthdate");
+    } else setInputErrorText("Username too small (6+ characters)");
   };
   const calculateAge = (dateToCheck) => {
     var today = new Date();
@@ -136,7 +135,33 @@ const RegisterScreen = () => {
     if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
       age--;
     }
+    console.log(age);
     return age;
+  };
+
+  const dayLostFocus = () => {
+    var validRegex = /[0-9]{2}/;
+    if (day.match(validRegex)) {
+      setDayStyle(style.input);
+    } else {
+      setDayStyle(style.badInput);
+    }
+  };
+  const monthLostFocus = () => {
+    var validRegex = /[0-9]{2}/;
+    if (month.match(validRegex)) {
+      setMonthStyle(style.input);
+    } else {
+      setMonthStyle(style.badInput);
+    }
+  };
+  const yearLostFocus = () => {
+    var validRegex = /[0-9]{2}/;
+    if (year.match(validRegex)) {
+      setYearStyle(style.input);
+    } else {
+      setYearStyle(style.badInput);
+    }
   };
   const emailLostFocus = () => {
     var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -178,36 +203,36 @@ const RegisterScreen = () => {
     if (confirmPassword == password) {
       console.log("confirm is good");
       setConfirmPasswordStyle(style.input);
-      setConfirmPasswordText("");
     } else {
       if (Platform.OS != "web") alert("Doesn't match password");
-      setConfirmPasswordText("Doesn't match password");
       setConfirmPasswordStyle(style.badInput);
     }
   };
-  const handleLogin = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
-        console.log("signed in!");
-        console.log(userCredential.user.uid);
-        const newUserData = {
-          img: defaultValues.defaultProfilePic,
-          username: username,
-          displayName: username,
-          id: username.toLowerCase(),
-          birthdate: date,
-          email: email.toLowerCase(),
-          uidAuth: userCredential.user.uid,
-          pushToken: pushToken,
-        };
-        await firebase.createUser(newUserData);
-        navigation.navigate("PersonalData");
-      })
-      .catch((error) => {
-        console.log(error);
-        if (Platform.OS != "web") alert(error.message);
-      });
+  const handleLogin = async (webDate) => {
+    var newUserData;
+    if (Platform.OS == "web") {
+      newUserData = {
+        img: defaultValues.defaultProfilePic,
+        username: username,
+        displayName: username,
+        id: username.toLowerCase(),
+        birthdate: webDate,
+        email: email,
+        pushToken: pushToken,
+      };
+    } else {
+      newUserData = {
+        img: defaultValues.defaultProfilePic,
+        username: username,
+        displayName: username,
+        id: username.toLowerCase(),
+        birthdate: date,
+        email: email,
+        pushToken: pushToken,
+      };
+    }
   };
+
   return (
     <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -220,37 +245,6 @@ const RegisterScreen = () => {
       >
         <View className="mb-8 items-center">
           <View className="items-center">
-            {/* <TouchableOpacity onPress={openImageLibrary} className="mb-5">
-              {image != null && (
-                <Image
-                  source={{ uri: image }}
-                  className="w-28 h-28 bg-white aspect-square rounded-full"
-                ></Image>
-              )}
-              {image == null && (
-                <View>
-                  <FontAwesomeIcon
-                    icon={faCircleUser}
-                    size={80}
-                    color={appStyle.color_on_primary}
-                  />
-                  <View
-                    className="rounded-full items-center absolute right-0 bottom-0"
-                    style={{ backgroundColor: appStyle.color_on_primary }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      size={25}
-                      color={appStyle.color_primary}
-                    />
-                  </View>
-                </View>
-              )}
-            </TouchableOpacity> */}
-
-            {/* <Text style={{ color: appStyle.color_on_primary }}>
-              Click to add profile picture
-            </Text> */}
             <Text
               className="text-3xl tracking-widest"
               style={{ color: appStyle.color_on_primary }}
@@ -277,34 +271,69 @@ const RegisterScreen = () => {
               placeholderTextColor={"#5f6b8b"}
               onChangeText={(text) => setUsername(text)}
             ></TextInput>
-            {/* <TextInput
-              className="rounded mb-5 px-3 h-10 justify-center"
-              style={style.input}
-              placeholder="Display name"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setDisplayName(text)}
-            ></TextInput> */}
-            <TouchableOpacity
-              className="rounded mb-5 px-3 h-10 justify-center"
-              style={dateStyle}
-              onPress={showDatepicker}
-            >
-              {!changedOnce && (
-                <Text style={{ color: "#5f6b8b" }}>
-                  birthdate (works only on Android)
+            {Platform.OS != "web" ? (
+              <View>
+                <TouchableOpacity
+                  className="rounded mb-5 px-3 h-10 justify-center"
+                  style={dateStyle}
+                  onPress={showDatepicker}
+                >
+                  {!changedOnce && (
+                    <Text style={{ color: "#5f6b8b" }}>Birthdate</Text>
+                  )}
+                  {changedOnce && (
+                    <Text style={{ color: "#5f6b8b" }}>
+                      {date.toDateString()}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode="date"
+                    onChange={onDateChange}
+                  />
+                )}
+              </View>
+            ) : (
+              <View className="items-center">
+                <Text
+                  className="mb-3 text-xl font-semibold"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  Birthdate
                 </Text>
-              )}
-              {changedOnce && (
-                <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
-              )}
-            </TouchableOpacity>
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode="date"
-                onChange={onDateChange}
-              />
+                <View className="flex-row w-full items-center justify-between mb-5">
+                  <TextInput
+                    onBlur={(text) => dayLostFocus(text)}
+                    maxLength={2}
+                    className="text-center w-20"
+                    placeholderTextColor={"#5f6b8b"}
+                    placeholder="Day dd"
+                    style={dayStyle}
+                    onChangeText={(text) => setDay(text)}
+                  ></TextInput>
+                  <TextInput
+                    onBlur={(text) => monthLostFocus(text)}
+                    maxLength={2}
+                    className="text-center w-20"
+                    placeholderTextColor={"#5f6b8b"}
+                    placeholder="Month mm"
+                    style={monthStyle}
+                    onChangeText={(text) => setMonth(text)}
+                  ></TextInput>
+                  <TextInput
+                    onBlur={(text) => yearLostFocus(text)}
+                    maxLength={4}
+                    className="text-center w-20"
+                    placeholderTextColor={"#5f6b8b"}
+                    placeholder="Year yyyy"
+                    style={yearStyle}
+                    onChangeText={(text) => setYear(text)}
+                  ></TextInput>
+                </View>
+              </View>
             )}
             <TextInput
               className="rounded mb-5 px-3 h-10 justify-center"
