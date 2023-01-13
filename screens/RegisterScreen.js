@@ -10,19 +10,18 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import * as ImageManipulator from "expo-image-manipulator";
+import { Dropdown } from "react-native-element-dropdown";
 import { React, useLayoutEffect, useRef, useState } from "react";
-import * as ImagePicker from "expo-image-picker";
 import CheckBox from "../components/CheckBox";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as firebase from "../services/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as defaultValues from "../services/defaultValues";
 import usePushNotifications from "../hooks/usePushNotifications";
+import useAuth from "../hooks/useAuth";
 const RegisterScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -30,8 +29,9 @@ const RegisterScreen = () => {
       headerShown: false,
     });
   }, []);
-  const auth = firebase.auth;
+  const { googleUserInfo } = useAuth();
   const { pushToken } = usePushNotifications();
+  const [isMale, setIsMale] = useState(null);
   const [email, setEmail] = useState("");
   const [emailStyle, setEmailStyle] = useState(style.input);
   const [username, setUsername] = useState("");
@@ -54,7 +54,8 @@ const RegisterScreen = () => {
   const [monthStyle, setMonthStyle] = useState(style.input);
   const [year, setYear] = useState();
   const [yearStyle, setYearStyle] = useState(style.input);
-
+  //loading state
+  const [loading, setLoading] = useState(false);
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
@@ -90,43 +91,50 @@ const RegisterScreen = () => {
   };
   const handleCreateAccount = async () => {
     setInputErrorText("");
-    if (username.length >= 6) {
-      if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
-        var age;
-        if (Platform.OS == "web") {
-          if (checkWebDate()) {
-            const dateToCheck = new Date(year, month - 1, day, 0, 0, 0, 0);
-            console.log(dateToCheck);
-            age = calculateAge(dateToCheck);
-            var isUserAvailable = await firebase.checkUsername(
-              username.toLowerCase()
-            );
-            if (age >= 16) {
-              setDate(dateToCheck);
-              if (isUserAvailable) {
-                if (acceptTerms) {
-                  setInputErrorText("");
-                  await handleLogin(dateToCheck);
-                } else setInputErrorText("Accept terms before going further");
-              } else setInputErrorText("Username isnt available");
-            } else setInputErrorText("You need to be at least 16 years old");
-          }
-        } else {
-          age = calculateAge(date);
-          var isUserAvailable = await firebase.checkUsername(
-            username.toLowerCase()
-          );
-          if (age >= 16) {
-            if (isUserAvailable) {
-              if (acceptTerms) {
-                setInputErrorText("");
-                await handleLogin();
-              } else setInputErrorText("Accept terms before going further");
-            } else setInputErrorText("Username isnt available");
-          } else setInputErrorText("You need to be at least 16 years old");
-        }
-      } else setInputErrorText("Choose birthdate");
-    } else setInputErrorText("Username too small (6+ characters)");
+    if (isMale != null) {
+      if (username.length >= 6) {
+        if (isRegexUsername(username)) {
+          if ((Platform.OS != "web" && changedOnce) || Platform.OS == "web") {
+            var age;
+            if (Platform.OS == "web") {
+              if (checkWebDate()) {
+                const dateToCheck = new Date(year, month - 1, day, 0, 0, 0, 0);
+                age = calculateAge(dateToCheck);
+                var isUserAvailable = await firebase.checkUsername(
+                  username.toLowerCase()
+                );
+                if (age >= 16) {
+                  setDate(dateToCheck);
+                  if (isUserAvailable) {
+                    if (acceptTerms) {
+                      setInputErrorText("");
+                      await handleLogin(dateToCheck);
+                    } else
+                      setInputErrorText("Accept terms before going further");
+                  } else setInputErrorText("Username isnt available");
+                } else
+                  setInputErrorText("You need to be at least 16 years old");
+              } else {
+                setInputErrorText("Fill out the date correctly (dd/mm/yyyy)");
+              }
+            } else {
+              age = calculateAge(date);
+              var isUserAvailable = await firebase.checkUsername(
+                username.toLowerCase()
+              );
+              if (age >= 16) {
+                if (isUserAvailable) {
+                  if (acceptTerms) {
+                    setInputErrorText("");
+                    await handleLogin();
+                  } else setInputErrorText("Accept terms before going further");
+                } else setInputErrorText("Username isnt available");
+              } else setInputErrorText("You need to be at least 16 years old");
+            }
+          } else setInputErrorText("Choose birthdate");
+        } else setInputErrorText("Username must be english characters/numbers");
+      } else setInputErrorText("Username too small (6+ characters)");
+    } else setInputErrorText("Choose sex");
   };
   const calculateAge = (dateToCheck) => {
     var today = new Date();
@@ -173,10 +181,14 @@ const RegisterScreen = () => {
       setEmailStyle(style.badInput);
     }
   };
-  const usernameLostFocus = () => {
+  const isRegexUsername = (text) => {
     var validRegex = /^[a-zA-Z0-9]{6,20}$/;
-    if (username.match(validRegex)) {
-      console.log("good username");
+    if (text.match(validRegex)) {
+      return true;
+    } else return false;
+  };
+  const usernameLostFocus = () => {
+    if (isRegexUsername(username)) {
       setUsernameStyle(style.input);
     } else {
       if (Platform.OS != "web")
@@ -209,28 +221,20 @@ const RegisterScreen = () => {
     }
   };
   const handleLogin = async (webDate) => {
-    var newUserData;
-    if (Platform.OS == "web") {
-      newUserData = {
-        img: defaultValues.defaultProfilePic,
-        username: username,
-        displayName: username,
-        id: username.toLowerCase(),
-        birthdate: webDate,
-        email: email,
-        pushToken: pushToken,
-      };
-    } else {
-      newUserData = {
-        img: defaultValues.defaultProfilePic,
-        username: username,
-        displayName: username,
-        id: username.toLowerCase(),
-        birthdate: date,
-        email: email,
-        pushToken: pushToken,
-      };
-    }
+    setLoading(true);
+    const newUserData = {
+      img: defaultValues.defaultProfilePic,
+      username: username,
+      displayName: username,
+      id: username.toLowerCase(),
+      birthdate: webDate ? webDate : date,
+      email: email,
+      pushToken: pushToken,
+      isMale: isMale,
+    };
+    await firebase.createUser(newUserData);
+    setUser(await firebase.getUserDataById(username.toLowerCase()));
+    setLoading(false);
   };
 
   return (
@@ -297,7 +301,7 @@ const RegisterScreen = () => {
                 )}
               </View>
             ) : (
-              <View className="items-center">
+              <View className="items-center mb-5">
                 <Text
                   className="mb-3 text-xl font-semibold"
                   style={{ color: appStyle.color_on_primary }}
@@ -335,24 +339,65 @@ const RegisterScreen = () => {
                 </View>
               </View>
             )}
-            <TextInput
-              className="rounded mb-5 px-3 h-10 justify-center"
-              secureTextEntry={true}
-              style={passwordStyle}
-              placeholder="Password"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setPassword(text)}
-              onBlur={passwordLostFocus}
-            ></TextInput>
-            <TextInput
-              className="rounded mb-3 px-3 h-10 justify-center"
-              secureTextEntry={true}
-              style={confirmPasswordStyle}
-              placeholder="Confirm Password"
-              placeholderTextColor={"#5f6b8b"}
-              onChangeText={(text) => setConfirmPassword(text)}
-              onBlur={confirmPasswordLostFocus}
-            ></TextInput>
+            <View className="mb-5">
+              <Dropdown
+                style={style.input}
+                containerStyle={{
+                  borderTopWidth: 0,
+                  borderBottomWidth: 2,
+                  borderRightWidth: 2,
+                  borderLeftWidth: 2,
+                  borderColor: appStyle.color_bg,
+                }}
+                itemContainerStyle={{
+                  position: "relative",
+                  paddingLeft: 10,
+                  height: 40,
+                }}
+                itemTextStyle={{
+                  position: "absolute",
+                  fontSize: 16,
+                }}
+                selectedTextStyle={{ fontSize: 16 }}
+                placeholderStyle={{ color: "#5f6b8b", fontSize: 16 }}
+                dropdownPosition="bottom"
+                placeholder="Sex"
+                iconStyle={style.iconStyle}
+                data={[
+                  { label: "Male", value: true },
+                  { label: "Female", value: false },
+                ]}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                value={isMale}
+                onChange={(item) => {
+                  setIsMale(item.value);
+                }}
+              />
+            </View>
+            {!googleUserInfo && (
+              <View>
+                <TextInput
+                  className="rounded mb-5 px-3 h-10 justify-center"
+                  secureTextEntry={true}
+                  style={passwordStyle}
+                  placeholder="Password"
+                  placeholderTextColor={"#5f6b8b"}
+                  onChangeText={(text) => setPassword(text)}
+                  onBlur={passwordLostFocus}
+                ></TextInput>
+                <TextInput
+                  className="rounded mb-3 px-3 h-10 justify-center"
+                  secureTextEntry={true}
+                  style={confirmPasswordStyle}
+                  placeholder="Confirm Password"
+                  placeholderTextColor={"#5f6b8b"}
+                  onChangeText={(text) => setConfirmPassword(text)}
+                  onBlur={confirmPasswordLostFocus}
+                ></TextInput>
+              </View>
+            )}
           </View>
           <View>
             <View className="flex-row items-center mb-5">
@@ -385,7 +430,7 @@ const RegisterScreen = () => {
             </Text>
             <TouchableOpacity
               onPress={handleCreateAccount}
-              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5 mb-10`}
+              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
               style={{
                 backgroundColor: appStyle.color_bg,
                 shadowColor: appStyle.color_bg,
@@ -395,7 +440,7 @@ const RegisterScreen = () => {
                 className="text-center font-bold text-xl tracking-widest"
                 style={{ color: appStyle.color_primary }}
               >
-                Create Account
+                {loading ? "Loading..." : "Create Account"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -422,5 +467,26 @@ const style = StyleSheet.create({
     borderColor: appStyle.color_error,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
+  },
+  text: { color: appStyle.color_on_primary },
+  icon: {
+    marginRight: 5,
+    color: "white",
+  },
+  label: {
+    position: "absolute",
+    color: "#ffffff",
+    backgroundColor: appStyle.color_primary,
+    left: 22,
+    top: -10,
+    zIndex: 999,
+    fontSize: 14,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
   },
 });
