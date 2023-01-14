@@ -1,57 +1,68 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../AppStyleSheet";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
-  const [dayStyle, setDayStyle] = useState(props.style.input);
+  const [dayStyle, setDayStyle] = useState(style.input);
   const [month, setMonth] = useState();
-  const [monthStyle, setMonthStyle] = useState(props.style.input);
+  const [monthStyle, setMonthStyle] = useState(style.input);
   const [year, setYear] = useState();
-  const [yearStyle, setYearStyle] = useState(props.style.input);
+  const [yearStyle, setYearStyle] = useState(style.input);
   const [error, setError] = useState(null);
 
-  const dayLostFocus = (dayInput) => {
+  const handleDayChanged = (dayInput) => {
     var validRegex = /[0-9]{2}/;
     if (
       dayInput.match(validRegex) &&
       parseInt(dayInput) >= 1 &&
       parseInt(dayInput) <= 31
     ) {
-      setDayStyle(props.style.input);
+      setDayStyle(style.input);
       setDay(dayInput);
-      checkDate();
     } else {
-      setDayStyle(props.style.badInput);
+      setDayStyle(style.badInput);
       setDay(null);
     }
   };
-  const monthLostFocus = (monthInput) => {
+  const handleMonthChanged = (monthInput) => {
     var validRegex = /[0-9]{2}/;
     if (
       monthInput.match(validRegex) &&
       parseInt(monthInput) >= 1 &&
       parseInt(monthInput) <= 12
     ) {
-      setMonthStyle(props.style.input);
+      setMonthStyle(style.input);
       setMonth(monthInput);
-      checkDate();
     } else {
-      setMonthStyle(props.style.badInput);
+      setMonthStyle(style.badInput);
       setMonth(null);
     }
   };
-  const yearLostFocus = (yearInput) => {
+  const handleYearChanged = (yearInput) => {
     var validRegex = /[0-9]{4}/;
-    if (yearInput.match(validRegex) && yearInput(monthInput) >= 1900) {
-      setYearStyle(props.style.input);
+    if (yearInput.match(validRegex) && yearInput >= 1900) {
+      setYearStyle(style.input);
       setYear(yearInput);
-      checkDate();
     } else {
-      setYearStyle(props.style.badInput);
+      setYearStyle(style.badInput);
       setYear(null);
     }
   };
-  const checkDate = () => {};
+  useEffect(() => {
+    if (day && month && year) {
+      const date = new Date(year, month, day, 0, 0, 0, 0);
+      console.log(`${day}/${month}/${year}`);
+      if (calculateAge(date) >= 16) {
+        console.log("old enough");
+        setError(null);
+        props.valueChanged(date);
+      } else {
+        setError("You need to be at least 16 to register");
+        console.log("too little");
+        props.valueChanged(null);
+      }
+    }
+  }, [day, month, year]);
   const calculateAge = (dateToCheck) => {
     var today = new Date();
     var age = today.getFullYear() - dateToCheck.getFullYear();
@@ -64,41 +75,68 @@ const BirthdayWebInput = (props) => {
   };
 
   return (
-    <View className="gap-1" style={props.style.inputContainer}>
-      <Text
-        className="mb-3 text-xl font-semibold"
-        style={{ color: appStyle.color_on_primary }}
+    <View style={props.style.inputContainer}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
-        Birthdate
-      </Text>
-      <View className="flex-row w-full items-center justify-between">
+        <Text
+          style={{
+            color: appStyle.color_on_primary,
+          }}
+        >
+          {"Birthdate: "}
+        </Text>
         <TextInput
-          onBlur={(text) => dayLostFocus(text)}
+          onChangeText={(text) => handleDayChanged(text)}
           maxLength={2}
-          className="text-center  w-20"
           placeholderTextColor={"#5f6b8b"}
-          placeholder="Day dd"
-          style={dayStyle}
+          placeholder="dd"
+          style={[dayStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
-          onBlur={(text) => monthLostFocus(text)}
+          onChangeText={(text) => handleMonthChanged(text)}
           maxLength={2}
-          className="text-center w-20"
           placeholderTextColor={"#5f6b8b"}
-          placeholder="Month mm"
-          style={monthStyle}
+          placeholder="mm"
+          style={[monthStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
-          onBlur={(text) => yearLostFocus(text)}
+          onChangeText={(text) => handleYearChanged(text)}
           maxLength={4}
-          className="text-center w-20"
+          className="text-center"
           placeholderTextColor={"#5f6b8b"}
-          placeholder="Year yyyy"
-          style={yearStyle}
+          placeholder="yyyy"
+          style={[yearStyle, { width: "12ch", textAlign: "center" }]}
         ></TextInput>
       </View>
+      <Text style={{ color: appStyle.color_error }}>{error}</Text>
     </View>
   );
 };
 
 export default BirthdayWebInput;
+
+const style = StyleSheet.create({
+  input: {
+    height: 40,
+    borderWidth: 2,
+    borderColor: appStyle.color_bg,
+    borderRadius: 4,
+    color: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_primary,
+    justifyContent: "center",
+  },
+  badInput: {
+    height: 40,
+    borderWidth: 2,
+    borderColor: appStyle.color_error,
+    color: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_primary,
+    borderRadius: 4,
+    justifyContent: "center",
+  },
+});
