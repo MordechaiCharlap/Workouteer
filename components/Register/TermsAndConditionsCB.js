@@ -9,19 +9,29 @@ const TermsAndConditionsCB = (props) => {
   };
   return (
     <View style={props.style.inputContainer}>
-      <View className="flex-row items-center">
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <CheckBox
           backgroundColor={appStyle.color_on_primary}
           valueColor={appStyle.color_primary}
           value={false}
           onValueChange={handleValueChanged}
         />
-        <Text className="ml-2" style={{ color: appStyle.color_on_primary }}>
+        <Text style={{ color: appStyle.color_on_primary }}>
           {"I agree to the "}
         </Text>
         <Text
           className="font-semibold underline"
-          style={{ color: appStyle.color_on_primary }}
+          style={{
+            color: appStyle.color_on_primary,
+            fontWeight: 600,
+            textDecorationLine: "underline",
+          }}
         >
           Terms and Conditions
         </Text>
