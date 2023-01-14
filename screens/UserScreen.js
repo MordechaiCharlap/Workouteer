@@ -278,7 +278,8 @@ const UserScreen = ({ route }) => {
               backgroundColor: appStyle.color_primary,
             }}
           >
-            {user.displayName}, {calculateAge(user.birthdate.toDate())}
+            {shownUser.displayName},{" "}
+            {calculateAge(shownUser.birthdate.toDate())}
           </Text>
         </View>
         <Text style={{ color: appStyle.color_primary }} className="text-lg">
