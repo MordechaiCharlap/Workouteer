@@ -4,7 +4,7 @@ export const getCurrentLocation = async () => {
 
   if (status !== "granted") {
     console.log("Permission to access location was denied");
-    return;
+    return null;
   }
   const location = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.Highest,

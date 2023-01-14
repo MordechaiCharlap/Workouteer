@@ -21,7 +21,8 @@ const WorkoutLocation = (props) => {
       setShowMap(true);
       setIsLoading(true);
       const latLongLocation = await geoService.getCurrentLocation();
-      setMarkerCoords(latLongLocation);
+      if (latLongLocation != null) setMarkerCoords(latLongLocation);
+      else setShowMap(false);
       setIsLoading(false);
     }
   };
