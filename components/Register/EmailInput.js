@@ -1,29 +1,42 @@
-import { TextInput } from "react-native";
-import React, { useState } from "react";
+import { TextInput, View, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import * as appStyle from "../AppStyleSheet";
 
 const EmailInput = (props) => {
-  const [email, setEmail] = useState();
   const [emailStyle, setEmailStyle] = useState(props.style.input);
-
-  const emailLostFocus = () => {
-    var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email.match(validRegex)) {
-      console.log("good email");
+  const [error, setError] = useState(null);
+  const handleChangdText = (text) => {
+    const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      text
+    );
+    if (validEmail) {
       setEmailStyle(props.style.input);
+      setError(null);
+      props.valueChanged(text);
     } else {
       setEmailStyle(props.style.badInput);
+      setError("Not a valid email");
+      props.valueChanged(null);
     }
   };
 
   return (
-    <TextInput
-      onBlur={emailLostFocus}
-      className="justify-center mb-5"
-      style={emailStyle}
-      placeholder="Email"
-      placeholderTextColor={"#5f6b8b"}
-      onChangeText={(text) => setEmail(text)}
-    ></TextInput>
+    <View style={props.style.inputContainer}>
+      <TextInput
+        style={emailStyle}
+        placeholder="Email"
+        placeholderTextColor={"#5f6b8b"}
+        onChangeText={(text) => handleChangdText(text)}
+      ></TextInput>
+      <Text
+        style={{
+          color: appStyle.color_error,
+          display: error ? "flex" : "none",
+        }}
+      >
+        {error}
+      </Text>
+    </View>
   );
 };
 
