@@ -1,6 +1,6 @@
 import { View, Text, TextInput } from "react-native";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import * as appStyle from "../AppStyleSheet";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
   const [dayStyle, setDayStyle] = useState(props.style.input);
@@ -8,32 +8,50 @@ const BirthdayWebInput = (props) => {
   const [monthStyle, setMonthStyle] = useState(props.style.input);
   const [year, setYear] = useState();
   const [yearStyle, setYearStyle] = useState(props.style.input);
+  const [error, setError] = useState(null);
 
-  const dayLostFocus = () => {
+  const dayLostFocus = (dayInput) => {
     var validRegex = /[0-9]{2}/;
-    if (day.match(validRegex)) {
+    if (
+      dayInput.match(validRegex) &&
+      parseInt(dayInput) >= 1 &&
+      parseInt(dayInput) <= 31
+    ) {
       setDayStyle(props.style.input);
+      setDay(dayInput);
+      checkDate();
     } else {
       setDayStyle(props.style.badInput);
+      setDay(null);
     }
   };
-  const monthLostFocus = () => {
+  const monthLostFocus = (monthInput) => {
     var validRegex = /[0-9]{2}/;
-    if (month.match(validRegex)) {
+    if (
+      monthInput.match(validRegex) &&
+      parseInt(monthInput) >= 1 &&
+      parseInt(monthInput) <= 12
+    ) {
       setMonthStyle(props.style.input);
+      setMonth(monthInput);
+      checkDate();
     } else {
       setMonthStyle(props.style.badInput);
+      setMonth(null);
     }
   };
-  const yearLostFocus = () => {
-    var validRegex = /[0-9]{2}/;
-    if (year.match(validRegex)) {
+  const yearLostFocus = (yearInput) => {
+    var validRegex = /[0-9]{4}/;
+    if (yearInput.match(validRegex) && yearInput(monthInput) >= 1900) {
       setYearStyle(props.style.input);
+      setYear(yearInput);
+      checkDate();
     } else {
       setYearStyle(props.style.badInput);
+      setYear(null);
     }
   };
-
+  const checkDate = () => {};
   const calculateAge = (dateToCheck) => {
     var today = new Date();
     var age = today.getFullYear() - dateToCheck.getFullYear();
@@ -45,22 +63,8 @@ const BirthdayWebInput = (props) => {
     return age;
   };
 
-  const checkWebDate = () => {
-    if (
-      day.length == 2 &&
-      !isNaN(day) &&
-      month.length == 2 &&
-      !isNaN(month) &&
-      year.length == 4 &&
-      !isNaN(year)
-    )
-      return true;
-    console.log("not a good web date");
-    return false;
-  };
-
   return (
-    <View>
+    <View className="gap-1" style={props.style.inputContainer}>
       <Text
         className="mb-3 text-xl font-semibold"
         style={{ color: appStyle.color_on_primary }}
@@ -71,11 +75,10 @@ const BirthdayWebInput = (props) => {
         <TextInput
           onBlur={(text) => dayLostFocus(text)}
           maxLength={2}
-          className="text-center w-20"
+          className="text-center  w-20"
           placeholderTextColor={"#5f6b8b"}
           placeholder="Day dd"
           style={dayStyle}
-          onChangeText={(text) => setDay(text)}
         ></TextInput>
         <TextInput
           onBlur={(text) => monthLostFocus(text)}
@@ -84,7 +87,6 @@ const BirthdayWebInput = (props) => {
           placeholderTextColor={"#5f6b8b"}
           placeholder="Month mm"
           style={monthStyle}
-          onChangeText={(text) => setMonth(text)}
         ></TextInput>
         <TextInput
           onBlur={(text) => yearLostFocus(text)}
@@ -93,7 +95,6 @@ const BirthdayWebInput = (props) => {
           placeholderTextColor={"#5f6b8b"}
           placeholder="Year yyyy"
           style={yearStyle}
-          onChangeText={(text) => setYear(text)}
         ></TextInput>
       </View>
     </View>
