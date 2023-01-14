@@ -41,7 +41,16 @@ const LoginScreen = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorText, setErrorText] = useState("");
   const loginEmailPassword = () => {
-    if (!loginLoading) signInEmailPassword(email, password, rememberMe);
+    if (!loginLoading) {
+      setErrorText("");
+      if (password == "" || email == "")
+        setErrorText("You have to fill both fields");
+      else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+        setErrorText("Invalid-email");
+      else if (!/^[a-zA-Z0-9]{6,20}$/.test(password))
+        setErrorText("Invalid-password");
+      else if (!loginLoading) signInEmailPassword(email, password, rememberMe);
+    }
   };
   useEffect(() => {
     if (authErrorCode) {
@@ -151,7 +160,7 @@ const LoginScreen = () => {
                 </View>
                 <Text
                   className="text-center my-2 text-lg"
-                  style={{ color: appStyle.color_on_primary }}
+                  style={{ color: appStyle.color_error }}
                 >
                   {errorText}
                 </Text>
