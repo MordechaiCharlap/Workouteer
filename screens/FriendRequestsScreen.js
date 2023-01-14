@@ -19,12 +19,12 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
-import useAlerts from "../hooks/useAlerts";
+import usePushNotifications from "../hooks/usePushNotifications";
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
   const [friendRequests, setFriendRequests] = useState();
   const { user, setUser } = useAuth();
-  const { sendPushNotification } = useAlerts();
+  const { sendPushNotification } = usePushNotifications();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
