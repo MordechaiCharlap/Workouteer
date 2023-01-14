@@ -146,7 +146,7 @@ const SettingsScreen = () => {
               Change password
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => userSignOut()} className="w-5/12">
+          <TouchableOpacity onPress={userSignOut} className="w-5/12">
             <Text
               className="text-center py-1 px-1"
               style={{
