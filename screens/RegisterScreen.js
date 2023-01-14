@@ -10,7 +10,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { React, useLayoutEffect, useRef, useState } from "react";
+import { React, useLayoutEffect, useEffect, useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -35,7 +35,7 @@ const RegisterScreen = () => {
       headerShown: false,
     });
   }, []);
-  const { googleUserInfo, setUser } = useAuth();
+  const { googleUserInfo, setUser, createUserEmailAndPassword } = useAuth();
   const { pushToken } = usePushNotifications();
   const [isMale, setIsMale] = useState();
   const [email, setEmail] = useState();
@@ -44,27 +44,64 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState();
+  const [sexError, setSexError] = useState(null);
+  const [termsCBError, setTermsCBError] = useState(null);
   //Datepicker state
   const [date, setDate] = useState(new Date());
   //loading state
   const [loading, setLoading] = useState(false);
 
-  const createAccountClicked = () => {};
+  useEffect(() => {
+    if (acceptTerms) setTermsCBError(null);
+  }, [acceptTerms]);
+  const checkIfValidData = () => {
+    if (
+      isMale == null ||
+      !acceptTerms ||
+      !email ||
+      !username ||
+      !password ||
+      !confirmPassword ||
+      !date
+    ) {
+      console.log(acceptTerms);
+      setInputErrorText(
+        "You have to fill all fields according to instructions"
+      );
+      if (isMale == null) setSexError("You have to choose gender");
+      else setSexError(null);
+      if (!acceptTerms)
+        setTermsCBError("You have to agree in order to register");
+      else setTermsCBError(null);
+
+      return false;
+    } else return true;
+  };
+  const createAccountClicked = async () => {
+    setLoading(true);
+    if (checkIfValidData())
+      if (!(await firebase.checkIfEmailAvailable(email))) {
+        setInputErrorText("Email is already used");
+      } else if (
+        !(await firebase.checkIfUsernameAvailable(username.toLowerCase()))
+      )
+        setInputErrorText("Username is taken");
+      else await handleLogin();
+    setLoading(false);
+  };
 
   const handleLogin = async () => {
     const newUserData = {
       img: defaultValues.defaultProfilePic,
-      username: username,
       displayName: username,
       id: username.toLowerCase(),
       birthdate: date,
-      email: email,
+      email: email.toLowerCase(),
       pushToken: pushToken,
       isMale: isMale,
     };
     await firebase.createUser(newUserData);
-    setUser(await firebase.getUserDataById(username.toLowerCase()));
-    setLoading(false);
+    createUserEmailAndPassword(email, password);
   };
 
   return (
@@ -90,69 +127,56 @@ const RegisterScreen = () => {
             </Text>
           </View>
         </View>
-        <View>
-          {!googleUserInfo && (
-            <View style={style.inputContainer}>
-              <EmailInput style={style} valueChanged={setEmail} />
-            </View>
-          )}
-          <View style={style.inputContainer}>
-            <UsernameInput style={style} valueChanged={setUsername} />
-          </View>
+        {!googleUserInfo && (
+          <EmailInput style={style} valueChanged={setEmail} />
+        )}
+        <UsernameInput style={style} valueChanged={setUsername} />
+        {Platform.OS != "web" ? (
+          <BirthdayDatePicker style={style} valueChanged={setDate} />
+        ) : (
+          <BirthdayWebInput style={style} valueChanged={setDate} />
+        )}
+        <SexDropdown style={style} valueChanged={setIsMale} error={sexError} />
+        {!googleUserInfo && (
+          <>
+            <Password style={style} valueChanged={setPassword} />
+            <ConfirmPassword
+              style={style}
+              valueChanged={setConfirmPassword}
+              password={password}
+            />
+          </>
+        )}
+        <TermsAndConditionsCB
+          style={style}
+          valueChanged={setAcceptTerms}
+          setError={setTermsCBError}
+          error={termsCBError}
+        />
 
-          <View style={style.inputContainer}>
-            {Platform.OS != "web" ? (
-              <BirthdayDatePicker style={style} valueChanged={setDate} />
-            ) : (
-              <BirthdayWebInput style={style} valueChanged={setDate} />
-            )}
-          </View>
-          <View style={style.inputContainer}>
-            <SexDropdown style={style} valueChanged={setIsMale} />
-          </View>
-          {!googleUserInfo && (
-            <View>
-              <View style={style.inputContainer}>
-                <Password style={style} valueChanged={setPassword} />
-              </View>
-              <View className="bg-white" style={style.inputContainer}>
-                <ConfirmPassword
-                  style={style}
-                  valueChanged={setConfirmPassword}
-                  password={password}
-                />
-              </View>
-            </View>
-          )}
-        </View>
-        <View>
-          <View style={style.inputContainer}>
-            <TermsAndConditionsCB valueChanged={setAcceptTerms} />
-          </View>
-          {/* <Text
-              className="text-center mt-4 mb-2"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {inputErrorText}
-            </Text> */}
-          <TouchableOpacity
-            onPress={createAccountClicked}
-            className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
-            style={{
-              backgroundColor: appStyle.color_bg,
-              shadowColor: appStyle.color_bg,
-            }}
+        <TouchableOpacity
+          onPress={createAccountClicked}
+          className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
+          style={{
+            backgroundColor: appStyle.color_bg,
+            shadowColor: appStyle.color_bg,
+          }}
+        >
+          <Text
+            className="text-center font-bold text-xl tracking-widest"
+            style={{ color: appStyle.color_primary }}
           >
-            <Text
-              className="text-center font-bold text-xl tracking-widest"
-              style={{ color: appStyle.color_primary }}
-            >
-              {loading ? "Loading" : "Create Account"}
-            </Text>
-          </TouchableOpacity>
-        </View>
+            {loading ? "Loading" : "Create Account"}
+          </Text>
+        </TouchableOpacity>
+        <Text
+          className="text-center"
+          style={{
+            color: appStyle.color_error,
+          }}
+        >
+          {inputErrorText}
+        </Text>
       </View>
     </View>
   );
@@ -169,6 +193,7 @@ const style = StyleSheet.create({
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
     paddingHorizontal: 5,
+    justifyContent: "center",
   },
   badInput: {
     paddingLeft: 10,
@@ -179,8 +204,12 @@ const style = StyleSheet.create({
     backgroundColor: appStyle.color_on_primary,
     borderRadius: 4,
     paddingHorizontal: 5,
+    justifyContent: "center",
   },
-  inputContainer: { marginBottom: 5 },
+  inputError: {
+    color: appStyle.color_on_primary,
+  },
+  inputContainer: { marginBottom: 10 },
   text: { color: appStyle.color_on_primary },
   label: {
     position: "absolute",
