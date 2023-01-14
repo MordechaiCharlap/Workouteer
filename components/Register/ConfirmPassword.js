@@ -12,14 +12,18 @@ const ConfirmPassword = (props) => {
   const [error, setError] = useState(null);
 
   const handleChangdText = (text) => {
-    if (text == props.password) {
-      setConfirmPasswordStyle(props.style.input);
-      setError(null);
-      props.valueChanged(true);
+    if (props.password != null) {
+      if (text == props.password) {
+        setConfirmPasswordStyle(props.style.input);
+        setError(null);
+        props.valueChanged(true);
+      } else {
+        setConfirmPasswordStyle(props.style.badInput);
+        setError("Text doesn't match your initial password");
+        props.valueChanged(null);
+      }
     } else {
-      setConfirmPasswordStyle(props.style.badInput);
-      setError("Text doesn't match your initial password");
-      props.valueChanged(null);
+      setError("Fill out the first password and then come back");
     }
   };
 
