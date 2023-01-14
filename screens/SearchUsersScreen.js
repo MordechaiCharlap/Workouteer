@@ -62,7 +62,7 @@ const SearchUsersScreen = () => {
               className="text-xl font-semibold text-center"
               style={{ color: appStyle.color_primary }}
             >
-              {searchedUser.username}
+              {searchedUser.id}
             </Text>
           </View>
         </TouchableOpacity>

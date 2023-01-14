@@ -190,7 +190,7 @@ const ChatScreen = ({ route }) => {
             className="text-2xl font-semibold"
             style={{ color: appStyle.color_on_primary }}
           >
-            {otherUser.username}
+            {otherUser.id}
           </Text>
         </TouchableOpacity>
       </View>

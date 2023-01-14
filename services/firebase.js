@@ -141,7 +141,7 @@ export const updatePersonalData = async (user, newData) => {
   });
 };
 export const createUser = async (newUserData) => {
-  await setDoc(doc(db, "users", newUserData.username.toLowerCase()), {
+  await setDoc(doc(db, "users", newUserData.id), {
     ...newUserData,
     friendsCount: 0,
     friendRequestsCount: 0,
@@ -157,14 +157,14 @@ export const createUser = async (newUserData) => {
     defaultCountry: null,
   });
 
-  await setDoc(doc(db, "alerts", newUserData.username.toLowerCase()), {
+  await setDoc(doc(db, "alerts", newUserData.id), {
     chats: {},
     friendRequests: {},
     workoutInvites: {},
     workoutRequests: {},
     newWorkouts: {},
   });
-  await setDoc(doc(db, "friendRequests", newUserData.username.toLowerCase()), {
+  await setDoc(doc(db, "friendRequests", newUserData.id), {
     receivedRequests: {},
     sentRequests: {},
   });

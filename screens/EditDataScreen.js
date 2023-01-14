@@ -93,7 +93,7 @@ const EditProfileData = (props) => {
   };
   const saveProfileChanges = async () => {
     setLoading(true);
-    if (displayName == "") setDisplayName(user.username);
+    if (displayName == "") setDisplayName(user.id);
     await firebase.saveProfileChanges(
       user.id,
       displayName == null ? "" : displayName,

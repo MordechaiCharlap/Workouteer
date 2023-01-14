@@ -215,7 +215,7 @@ const UserScreen = ({ route }) => {
             className=" text-center text-3xl tracking-widest"
             style={{ color: appStyle.color_primary }}
           >
-            {shownUser.username}
+            {shownUser.id}
           </Text>
           <View className="opacity-0">
             <FontAwesomeIcon icon={faChevronLeft} size={30} />

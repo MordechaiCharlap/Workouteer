@@ -96,7 +96,7 @@ const FriendRequestsScreen = () => {
                       className="text-xl font-semibold tracking-wider"
                       style={{ color: appStyle.color_primary }}
                     >
-                      {item.user.username}
+                      {item.user.id}
                     </Text>
                     <Text
                       className="text-md opacity-60 tracking-wider"

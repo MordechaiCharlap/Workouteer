@@ -176,7 +176,7 @@ const FriendsScreen = ({ route }) => {
                     className="text-xl font-semibold tracking-wider"
                     style={{ color: appStyle.color_primary }}
                   >
-                    {item.username}
+                    {item.id}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
