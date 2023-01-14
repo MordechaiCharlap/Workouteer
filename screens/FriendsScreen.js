@@ -29,12 +29,13 @@ import {
 import * as firebase from "../services/firebase";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
+import useAuth from "../hooks/useAuth";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
 
-  const user = route.params.user;
+  const { user } = useAuth();
+  shownUser = route.parmas.user;
   const isMyUser = route.params.isMyUser;
-  const { friendRequestsAlerts } = useAlerts();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -43,7 +44,9 @@ const FriendsScreen = ({ route }) => {
   useEffect(() => {
     const showFriends = async () => {
       const friendsArr = [];
-      for (var key of Object.keys(user.friends)) {
+      for (var key of Object.keys(
+        isMyUser ? user.friends : shownUser.friends
+      )) {
         var userData = await firebase.userDataById(key);
         friendsArr.push(userData);
       }
@@ -68,9 +71,6 @@ const FriendsScreen = ({ route }) => {
   const openPrivateChat = async (otherUser) => {
     const chat = await firebase.getPrivateChatByUsers(user, otherUser);
     navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
-  };
-  const removeFriend = async (userRemoveId) => {
-    await firebase.removeFriend(user.id, userRemoveId);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
