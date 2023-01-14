@@ -13,7 +13,6 @@ const TermsAndConditionsCB = (props) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
         }}
       >
         <CheckBox
@@ -22,7 +21,7 @@ const TermsAndConditionsCB = (props) => {
           value={false}
           onValueChange={handleValueChanged}
         />
-        <Text style={{ color: appStyle.color_on_primary }}>
+        <Text style={{ color: appStyle.color_on_primary, marginLeft: 5 }}>
           {"I agree to the "}
         </Text>
         <TouchableOpacity>
