@@ -60,10 +60,10 @@ const RegisterScreen = () => {
     if (
       isMale == null ||
       !acceptTerms ||
-      !email ||
+      (!googleUserInfo && !email) ||
       !username ||
-      !password ||
-      !confirmPassword ||
+      (!googleUserInfo && !password) ||
+      (!googleUserInfo && !confirmPassword) ||
       !date
     ) {
       setInputErrorText("You have to fill all fields correctly");
@@ -114,7 +114,7 @@ const RegisterScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      {loginLoading ? (
+      {loginLoading || loading ? (
         <LoadingAnimation />
       ) : (
         <>
