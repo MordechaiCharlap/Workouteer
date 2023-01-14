@@ -66,9 +66,7 @@ const RegisterScreen = () => {
       !confirmPassword ||
       !date
     ) {
-      setInputErrorText(
-        "You have to fill all fields according to instructions"
-      );
+      setInputErrorText("You have to fill all fields correctly");
       if (isMale == null) setSexError("You have to choose gender");
       else setSexError(null);
       if (!acceptTerms)
@@ -222,6 +220,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 5,
     justifyContent: "center",
   },
+
   inputError: {
     color: appStyle.color_on_primary,
   },
