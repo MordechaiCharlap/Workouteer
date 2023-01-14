@@ -54,19 +54,18 @@ const WorkoutComponent = (props) => {
     }
   }, []);
   const leaveWorkout = async () => {
-    setButtonLoading(true);
-    await firebase.leaveWorkout(user, workout);
+    const workoutRef = workout;
+    if (props.screen == "FutureWorkouts") setWorkout(null);
+    else setUserMemberStatus("not");
+    await firebase.leaveWorkout(user, workoutRef);
 
     await sendPushNotificationsForWorkoutMembers(
-      workout,
+      workoutRef,
       "New Alert",
       `${user.displayName} left the workout`,
       user.id
     );
     setUser(await firebase.updateContext(user.id));
-    setUserMemberStatus("not");
-    if (props.screen == "FutureWorkouts") setWorkout(null);
-    setButtonLoading(false);
   };
   const renderMembersPics = () => {
     const picsArr = Object.values(workout.members);
@@ -81,20 +80,19 @@ const WorkoutComponent = (props) => {
     return <View className="flex-row items-center">{imageList}</View>;
   };
   const cancelWorkout = async () => {
-    setButtonLoading(true);
+    const workoutRef = workout;
+    setWorkout(null);
     await sendPushNotificationsForWorkoutMembers(
-      workout,
+      workoutRef,
       "New Alert",
       `Your workout canceled by the creator`,
       user.id
     );
-    await firebase.cancelWorkout(user, workout);
+    await firebase.cancelWorkout(user, workoutRef);
     setUser(await firebase.updateContext(user.id));
-    setWorkout(null);
-    setButtonLoading(false);
   };
   const requestToJoinWorkout = async () => {
-    setButtonLoading(true);
+    setUserMemberStatus("pending");
     await firebase.requestToJoinWorkout(user.id, workout);
     const cretorData = firebase.getUserDataById(workout.creator);
     await sendPushNotification(
@@ -102,35 +100,29 @@ const WorkoutComponent = (props) => {
       "New Alert",
       `${user.displayName} wants to join your workout!`
     );
-    setUserMemberStatus("pending");
-    setButtonLoading(false);
   };
   const cancelWorkoutRequest = async () => {
-    setButtonLoading(true);
-    await firebase.cancelWorkoutRequest(user.id, workout);
     setUserMemberStatus("not");
-    setButtonLoading(false);
+    await firebase.cancelWorkoutRequest(user.id, workout);
   };
   const acceptWorkoutInvite = async () => {
-    setButtonLoading("acceptLoading");
-    await firebase.acceptWorkoutInvite(user, workout);
-    setUser(await firebase.updateContext(user.id));
-    setUserMemberStatus("member");
+    const workoutRef = workout;
     if (props.screen == "WorkoutInvites") setWorkout(null);
+    setUserMemberStatus("member");
+    await firebase.acceptWorkoutInvite(user, workoutRef);
+    setUser(await firebase.updateContext(user.id));
     await sendPushNotificationsForWorkoutMembers(
-      workout,
+      workoutRef,
       "New Alert",
       `${user.displayName} joined your workout`,
       user.id
     );
-    setButtonLoading(false);
   };
   const rejectWorkoutInvite = async () => {
-    setButtonLoading("rejectLoading");
-    await firebase.rejectWorkoutInvite(user.id, workout);
     setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
-    setButtonLoading(false);
+    const workoutRef = workout;
+    await firebase.rejectWorkoutInvite(user.id, workoutRef);
   };
   const getWorkoutActionButtons = () => {
     switch (userMemberStatus) {
