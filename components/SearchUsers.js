@@ -41,7 +41,7 @@ const SearchUsers = (props) => {
               className="text-xl font-semibold tracking-wider"
               style={{ color: appStyle.color_primary }}
             >
-              {searchedUser.username}
+              {searchedUser.id}
             </Text>
             <Text
               className="text-md opacity-60 tracking-wider"
