@@ -30,7 +30,7 @@ const BirthdayDatePicker = (props) => {
     } else {
       setDateStyle(props.style.input);
       setError(null);
-      props.valueChanged(date);
+      props.valueChanged(currentDate);
     }
   };
 
