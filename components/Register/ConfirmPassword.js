@@ -28,7 +28,7 @@ const ConfirmPassword = (props) => {
   };
 
   return (
-    <View className="gap-1" style={props.style.inputContainer}>
+    <View style={props.style.inputContainer}>
       <View>
         <TextInput
           secureTextEntry={!showConfirmPassword}
@@ -40,7 +40,15 @@ const ConfirmPassword = (props) => {
           }}
         ></TextInput>
 
-        <View className="absolute right-3 top-0 bottom-0 justify-center">
+        <View
+          style={{
+            position: "absolute",
+            right: 12,
+            top: 0,
+            bottom: 0,
+            justifyContent: "center",
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
               setShowConfirmPassword(!showConfirmPassword);

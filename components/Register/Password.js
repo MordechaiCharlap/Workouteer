@@ -22,7 +22,7 @@ const Password = (props) => {
   };
 
   return (
-    <View className="gap-1" style={props.style.inputContainer}>
+    <View style={props.style.inputContainer}>
       <View>
         <TextInput
           secureTextEntry={!showPassword}
@@ -31,7 +31,15 @@ const Password = (props) => {
           placeholderTextColor={"#5f6b8b"}
           onChangeText={(text) => handleChangedText(text)}
         ></TextInput>
-        <View className="absolute right-3 top-0 bottom-0 justify-center">
+        <View
+          style={{
+            position: "absolute",
+            right: 12,
+            top: 0,
+            bottom: 0,
+            justifyContent: "center",
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
               setShowPassword(!showPassword);
