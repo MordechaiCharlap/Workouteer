@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import CheckBox from "../CheckBox";
 import * as appStyle from "../AppStyleSheet";
@@ -25,16 +25,18 @@ const TermsAndConditionsCB = (props) => {
         <Text style={{ color: appStyle.color_on_primary }}>
           {"I agree to the "}
         </Text>
-        <Text
-          className="font-semibold underline"
-          style={{
-            color: appStyle.color_on_primary,
-            fontWeight: 600,
-            textDecorationLine: "underline",
-          }}
-        >
-          Terms and Conditions
-        </Text>
+        <TouchableOpacity>
+          <Text
+            className={Platform.OS != "web" ? "font-semibold underline" : ""}
+            style={{
+              color: appStyle.color_on_primary,
+              textDecorationLine: "underline",
+              fontWeight: Platform.OS != "web" ? "" : 500,
+            }}
+          >
+            Terms and Conditions
+          </Text>
+        </TouchableOpacity>
       </View>
       <Text
         style={{
