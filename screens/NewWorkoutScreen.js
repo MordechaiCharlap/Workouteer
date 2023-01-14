@@ -20,8 +20,9 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
 const NewWorkoutScreen = () => {
-  const { user, setUser } = useAuth();
   const navigation = useNavigation();
+
+  const { user, setUser } = useAuth();
   const now = new Date();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -73,6 +74,8 @@ const NewWorkoutScreen = () => {
     return arr;
   };
   const createWorkout = async () => {
+    navigation.goBack();
+    setIsCreateDisabled(true);
     const cityAndCountry = await getCityAndCountry(location);
     const workout = {
       creator: user.id,
@@ -89,7 +92,6 @@ const NewWorkoutScreen = () => {
     };
     await firebase.createWorkout(workout);
     setUser(await firebase.updateContext(user.id));
-    navigation.goBack();
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
