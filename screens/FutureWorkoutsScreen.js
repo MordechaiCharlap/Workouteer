@@ -19,7 +19,7 @@ const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
-  const { newWorkoutsAlerts, setnewWorkoutsAlerts } = useAlerts();
+  const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const now = new Date();
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
@@ -43,7 +43,7 @@ const FutureWorkoutsScreen = () => {
       getWorkouts();
       if (Object.keys(newWorkoutsAlerts).length > 0) {
         setNewWorkouts(newWorkoutsAlerts);
-        setnewWorkoutsAlerts({});
+        setNewWorkoutsAlerts({});
         removeAllWorkoutRequestAcceptedAlerts();
       } else {
         setNewWorkouts({});

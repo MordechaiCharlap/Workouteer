@@ -29,7 +29,7 @@ export const AuthPrvider = ({ children }) => {
     setWorkoutRequestsAlerts,
     setWorkoutInvitesAlerts,
     setFriendRequestsAlerts,
-    setnewWorkoutsAlerts,
+    setNewWorkoutsAlerts,
   } = useAlerts();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -56,7 +56,7 @@ export const AuthPrvider = ({ children }) => {
               setWorkoutRequestsAlerts(alertsData.workoutRequests);
               setWorkoutInvitesAlerts(alertsData.workoutInvites);
               setFriendRequestsAlerts(alertsData.friendRequests);
-              setnewWorkoutsAlerts(alertsData.newWorkouts);
+              setNewWorkoutsAlerts(alertsData.newWorkouts);
             });
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
@@ -132,7 +132,7 @@ export const AuthPrvider = ({ children }) => {
         setWorkoutRequestsAlerts(alertsData.workoutRequests);
         setWorkoutInvitesAlerts(alertsData.workoutInvites);
         setFriendRequestsAlerts(alertsData.friendRequests);
-        setnewWorkoutsAlerts(alertsData.newWorkouts);
+        setNewWorkoutsAlerts(alertsData.newWorkouts);
       });
       console.log(
         "google user logged in: " + googleUserInfo.email.toLowerCase()
@@ -154,9 +154,8 @@ export const AuthPrvider = ({ children }) => {
             .catch((error) => {
               const errorCode = error.code;
               console.log("error code: ", errorCode);
-              const errorMessage = error.message;
-              console.log("error message: ", errorMessage);
               setAuthErrorCode(errorCode);
+              setLoginLoading(false);
             });
         })
         .catch((error) => {
