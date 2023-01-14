@@ -207,18 +207,19 @@ const StackNavigator = () => {
             options={verticalAnimation}
           />
         </>
-      ) : googleUserInfo ? (
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
-          options={horizontalLeftAnimation}
-        />
       ) : (
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={verticalAnimation}
-        />
+        <>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={verticalAnimation}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={horizontalLeftAnimation}
+          />
+        </>
       )}
     </Stack.Navigator>
   );

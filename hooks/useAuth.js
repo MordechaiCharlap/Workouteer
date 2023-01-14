@@ -13,9 +13,11 @@ import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import useAlerts from "./useAlerts";
+import { useNavigation } from "@react-navigation/native";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
+  const navigation = useNavigation();
   // const [accessToken, setAccessToken] = useState(null);
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
   const auth = firebase.auth;
@@ -94,6 +96,7 @@ export const AuthPrvider = ({ children }) => {
         });
     };
     if (response?.type === "success") {
+      setInitialLoading(true);
       console.log("success");
       getUserData(response.authentication.accessToken);
     } else {
@@ -115,7 +118,6 @@ export const AuthPrvider = ({ children }) => {
       });
   };
   const setGoogleUserAsync = async () => {
-    setInitialLoading(true);
     if (
       !(await firebase.checkIfEmailAvailable(
         googleUserInfo.email.toLowerCase()
@@ -138,8 +140,7 @@ export const AuthPrvider = ({ children }) => {
         "google user logged in: " + googleUserInfo.email.toLowerCase()
       );
     } else {
-      console.log("new user=>google register");
-      //do nothing, it would go to register by default because of the StackNavigator conditioning
+      navigation.navigate("Register");
     }
     setInitialLoading(false);
   };

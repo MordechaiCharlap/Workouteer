@@ -21,6 +21,8 @@ import {
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 const LoginScreen = () => {
+  const navigation = useNavigation();
+
   const {
     signInEmailPassword,
     initialLoading,
@@ -28,7 +30,7 @@ const LoginScreen = () => {
     authErrorCode,
     loginLoading,
   } = useAuth();
-  const navigation = useNavigation();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
