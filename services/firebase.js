@@ -96,7 +96,7 @@ export const saveSettingsChanges = async (
 export const searchUser = async (text) => {
   return await getDoc(doc(db, "users", text.toLowerCase()));
 };
-export const checkUsername = async (username) => {
+export const checkIfUsernameAvailable = async (username) => {
   const usernameRef = await getDoc(doc(db, "users", username));
   if (usernameRef.exists()) return false;
   else return true;
