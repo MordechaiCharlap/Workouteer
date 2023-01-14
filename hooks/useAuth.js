@@ -45,6 +45,7 @@ export const AuthPrvider = ({ children }) => {
       onAuthStateChanged(auth, (authUser) => {
         if (authUser) {
           const setUserAsync = async () => {
+            setLoginLoading(true);
             const userData = await firebase.userDataByEmail(
               authUser.email.toLowerCase()
             );
@@ -104,12 +105,9 @@ export const AuthPrvider = ({ children }) => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
   };
-  const createUserEmailAndPassword = async (email, password) => {
+  const createUserEmailAndPassword = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-      })
+      .then()
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
