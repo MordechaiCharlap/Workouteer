@@ -28,6 +28,7 @@ import UsernameInput from "../components/register/UsernameInput";
 import Password from "../components/register/Password";
 import ConfirmPassword from "../components/register/ConfirmPassword";
 import TermsAndConditionsCB from "../components/register/TermsAndConditionsCB";
+import LoadingAnimation from "../components/LoadingAnimation";
 const RegisterScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -35,7 +36,8 @@ const RegisterScreen = () => {
       headerShown: false,
     });
   }, []);
-  const { googleUserInfo, setUser, createUserEmailAndPassword } = useAuth();
+  const { googleUserInfo, loginLoading, createUserEmailAndPassword } =
+    useAuth();
   const { pushToken } = usePushNotifications();
   const [isMale, setIsMale] = useState();
   const [email, setEmail] = useState();
@@ -64,7 +66,6 @@ const RegisterScreen = () => {
       !confirmPassword ||
       !date
     ) {
-      console.log(acceptTerms);
       setInputErrorText(
         "You have to fill all fields according to instructions"
       );
@@ -74,23 +75,28 @@ const RegisterScreen = () => {
         setTermsCBError("You have to agree in order to register");
       else setTermsCBError(null);
 
+      setLoading(false);
       return false;
-    } else return true;
+    } else {
+      setInputErrorText(null);
+      return true;
+    }
   };
   const createAccountClicked = async () => {
     setLoading(true);
     if (checkIfValidData())
       if (!(await firebase.checkIfEmailAvailable(email))) {
         setInputErrorText("Email is already used");
+        setLoading(false);
       } else if (
         !(await firebase.checkIfUsernameAvailable(username.toLowerCase()))
-      )
+      ) {
         setInputErrorText("Username is taken");
-      else await handleLogin();
-    setLoading(false);
+        setLoading(false);
+      } else await handleRegister();
   };
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     const newUserData = {
       img: defaultValues.defaultProfilePic,
       displayName: username,
@@ -110,74 +116,84 @@ const RegisterScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View
-        className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
-        style={{
-          backgroundColor: appStyle.color_primary,
-          shadowColor: "#000",
-        }}
-      >
-        <View className="mb-8 items-center">
-          <View className="items-center">
-            <Text
-              className="text-3xl tracking-widest"
-              style={{ color: appStyle.color_on_primary }}
+      {loginLoading ? (
+        <LoadingAnimation />
+      ) : (
+        <>
+          <View
+            className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+            style={{
+              backgroundColor: appStyle.color_primary,
+              shadowColor: "#000",
+            }}
+          >
+            <View className="mb-8 items-center">
+              <View className="items-center">
+                <Text
+                  className="text-3xl tracking-widest"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  Register
+                </Text>
+              </View>
+            </View>
+            {!googleUserInfo && (
+              <EmailInput style={style} valueChanged={setEmail} />
+            )}
+            <UsernameInput style={style} valueChanged={setUsername} />
+            {Platform.OS != "web" ? (
+              <BirthdayDatePicker style={style} valueChanged={setDate} />
+            ) : (
+              <BirthdayWebInput style={style} valueChanged={setDate} />
+            )}
+            <SexDropdown
+              style={style}
+              valueChanged={setIsMale}
+              error={sexError}
+            />
+            {!googleUserInfo && (
+              <>
+                <Password style={style} valueChanged={setPassword} />
+                <ConfirmPassword
+                  style={style}
+                  valueChanged={setConfirmPassword}
+                  password={password}
+                />
+              </>
+            )}
+            <TermsAndConditionsCB
+              style={style}
+              valueChanged={setAcceptTerms}
+              setError={setTermsCBError}
+              error={termsCBError}
+            />
+
+            <TouchableOpacity
+              onPress={createAccountClicked}
+              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
+              style={{
+                backgroundColor: appStyle.color_bg,
+                shadowColor: appStyle.color_bg,
+              }}
             >
-              Register
+              <Text
+                className="text-center font-bold text-xl tracking-widest"
+                style={{ color: appStyle.color_primary }}
+              >
+                {loading ? "Loading" : "Create Account"}
+              </Text>
+            </TouchableOpacity>
+            <Text
+              className="text-center"
+              style={{
+                color: appStyle.color_error,
+              }}
+            >
+              {inputErrorText}
             </Text>
           </View>
-        </View>
-        {!googleUserInfo && (
-          <EmailInput style={style} valueChanged={setEmail} />
-        )}
-        <UsernameInput style={style} valueChanged={setUsername} />
-        {Platform.OS != "web" ? (
-          <BirthdayDatePicker style={style} valueChanged={setDate} />
-        ) : (
-          <BirthdayWebInput style={style} valueChanged={setDate} />
-        )}
-        <SexDropdown style={style} valueChanged={setIsMale} error={sexError} />
-        {!googleUserInfo && (
-          <>
-            <Password style={style} valueChanged={setPassword} />
-            <ConfirmPassword
-              style={style}
-              valueChanged={setConfirmPassword}
-              password={password}
-            />
-          </>
-        )}
-        <TermsAndConditionsCB
-          style={style}
-          valueChanged={setAcceptTerms}
-          setError={setTermsCBError}
-          error={termsCBError}
-        />
-
-        <TouchableOpacity
-          onPress={createAccountClicked}
-          className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
-          style={{
-            backgroundColor: appStyle.color_bg,
-            shadowColor: appStyle.color_bg,
-          }}
-        >
-          <Text
-            className="text-center font-bold text-xl tracking-widest"
-            style={{ color: appStyle.color_primary }}
-          >
-            {loading ? "Loading" : "Create Account"}
-          </Text>
-        </TouchableOpacity>
-        <Text
-          className="text-center"
-          style={{
-            color: appStyle.color_error,
-          }}
-        >
-          {inputErrorText}
-        </Text>
-      </View>
+        </>
+      )}
     </View>
   );
 };
