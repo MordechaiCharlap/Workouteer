@@ -236,14 +236,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className="text-xl font-semibold tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
+                        {calculateAge(item.birthdate.toDate())},{" "}
                         {item.displayName}
                       </Text>
                       <Text
                         className="text-md opacity-60 tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
-                        {item.displayName},{" "}
-                        {calculateAge(item.birthdate.toDate())}
+                        {item.id}
                       </Text>
                     </View>
                   </View>
