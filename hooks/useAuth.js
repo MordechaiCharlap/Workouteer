@@ -52,7 +52,6 @@ export const AuthPrvider = ({ children }) => {
             const userData = await firebase.userDataByEmail(
               authUser.email.toLowerCase()
             );
-            setUser(userData);
             console.log("Listening to alerts");
             unsubscribeAlerts = onSnapshot(
               doc(db, "alerts", userData.id),
@@ -70,12 +69,12 @@ export const AuthPrvider = ({ children }) => {
               doc(db, "users", userData.id),
               (doc) => {
                 setUser(doc.data());
+                if (initialLoading) setInitialLoading(false);
               }
             );
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
             );
-            setInitialLoading(false);
             setLoginLoading(false);
           };
           setUserAsync();
@@ -142,7 +141,6 @@ export const AuthPrvider = ({ children }) => {
       const userData = await firebase.userDataByEmail(
         googleUserInfo.email.toLowerCase()
       );
-      setUser(userData);
       console.log("Listening to alerts");
       unsubscribeAlerts = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
         const alertsData = doc.data();
@@ -155,14 +153,16 @@ export const AuthPrvider = ({ children }) => {
       console.log("Listening to user");
       unsubscribeUser = onSnapshot(doc(db, "users", userData.id), (doc) => {
         setUser(doc.data());
+        if (initialLoading) setInitialLoading(false);
       });
       console.log(
         "google user logged in: " + googleUserInfo.email.toLowerCase()
       );
     } else {
       navigation.navigate("Register");
+
+      setInitialLoading(false);
     }
-    setInitialLoading(false);
   };
   const signInEmailPassword = (email, password, rememberMe) => {
     setLoginLoading(true);
