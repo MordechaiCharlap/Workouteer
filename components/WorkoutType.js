@@ -48,9 +48,9 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="rounded-lg mb-5"
+        className="rounded-lg mb-3"
         style={{
-          width: "47%",
+          width: "48%",
           borderWidth: 1,
           borderColor:
             type.id == chosenType
@@ -65,7 +65,7 @@ const WorkoutType = (props) => {
                 ? appStyle.color_primary
                 : appStyle.color_bg,
           }}
-          className={`p-4 items-center rounded-lg`}
+          className={`py-4 px-2 items-center rounded-lg`}
         >
           <FontAwesomeIcon
             color={
