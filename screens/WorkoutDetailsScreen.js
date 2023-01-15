@@ -33,44 +33,40 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
+import { onSnapshot, doc } from "firebase/firestore";
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
+  const db = firebase.db;
   const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
   const isPastWorkout = route.params.isPastWorkout;
   const isCreator = route.params.isCreator;
   const [workout, setWorkout] = useState(route.params.workout);
-  const [membersArray, setMembersArray] = useState([]);
+  const [members, setMembers] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
-  useFocusEffect(
-    useCallback(() => {
-      const getWorkout = async () => {
-        return await firebase.getWorkout(workout.id);
-      };
-      if (route.params.changesMade) {
-        setInitialLoading(true);
-        console.log("Updating workout details");
-        setWorkout(getWorkout());
-      }
-    }, [])
-  );
   useEffect(() => {
-    const getUsersData = async () => {
-      const usersData = await firebase.getWorkoutMembers(workout);
-      setMembersArray(usersData);
+    return onSnapshot(doc(db, "workouts", workout.id), (doc) => {
+      setInitialLoading(true);
+      setWorkout(doc.data());
       setInitialLoading(false);
+    });
+  }, []);
+  useEffect(() => {
+    const getMembers = async () => {
+      const membersArray = await firebase.getWorkoutMembers(workout);
+      setMembers(membersArray);
     };
-    getUsersData();
+    getMembers();
   }, [workout]);
   const inviteFriends = async () => {
     navigation.push("InviteFriends", {
       workout: workout,
-      membersArray: membersArray,
+      membersArray: members,
     });
   };
   const calculateAge = (dateToCheck) => {
@@ -96,7 +92,7 @@ const WorkoutDetailsScreen = ({ route }) => {
           <View className="rounded flex-1">
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={membersArray}
+              data={members}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
@@ -358,7 +354,7 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
             />
           </View>
-          {isCreator && !isPastWorkout && membersArray.length < 10 && (
+          {isCreator && !isPastWorkout && members.length < 10 && (
             <TouchableOpacity
               className="rounded p-1 my-1"
               style={{
