@@ -33,8 +33,7 @@ const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
-
-  const shownUser = route.parmas.user;
+  const shownUser = route.params.user;
   const isMyUser = route.params.isMyUser;
   useLayoutEffect(() => {
     navigation.setOptions({
