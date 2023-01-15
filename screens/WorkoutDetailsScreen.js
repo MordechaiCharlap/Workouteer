@@ -318,18 +318,20 @@ const WorkoutDetailsScreen = ({ route }) => {
                     (route.params.userMemberStatus == "member" ||
                       route.params.userMemberStatus == "creator" ||
                       route.params.userMemberStatus == "invited") ? (
-                      <View className="flex-row items-center p-2 justify-center">
-                        <Text
-                          className="text-lg"
-                          style={{ color: appStyle.color_primary }}
-                        >
-                          Exact location
-                        </Text>
-                        <FontAwesomeIcon
-                          icon={faLocationDot}
-                          size={30}
-                          color={appStyle.color_primary}
-                        />
+                      <View>
+                        <View className="flex-row items-center p-2 justify-center">
+                          <Text
+                            className="text-lg"
+                            style={{ color: appStyle.color_primary }}
+                          >
+                            Exact location
+                          </Text>
+                          <FontAwesomeIcon
+                            icon={faLocationDot}
+                            size={30}
+                            color={appStyle.color_primary}
+                          />
+                        </View>
                         <WorkoutPinnedLocation ltLng={workout.location} />
                       </View>
                     ) : (
