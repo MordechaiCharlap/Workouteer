@@ -30,6 +30,7 @@ const WorkoutRequestsScreen = ({ route }) => {
   const workout = route.params.workout;
   const [requesters, setRequesters] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [changesMade, setchangesMade] = useState(false);
   useFocusEffect(
     useCallback(() => {
       const getWorkoutRequesters = async () => {
@@ -45,6 +46,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     });
   }, []);
   const acceptUser = async (acceptedUser, index) => {
+    setchangesMade(true);
     setButtonLoading("accept");
     await sendPushNotificationsForWorkoutMembers(
       workout,
@@ -65,6 +67,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     setButtonLoading(false);
   };
   const rejectUser = async (rejectedUser, index) => {
+    setchangesMade(true);
     setButtonLoading("reject");
     await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
     const requestersClone = requesters.slice();
@@ -72,13 +75,18 @@ const WorkoutRequestsScreen = ({ route }) => {
     setRequesters(requestersClone);
     setButtonLoading(false);
   };
+  const goBack = () => {};
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Requests"} goBackOption={true} />
+      <Header
+        title={"Requests"}
+        goBackOption={true}
+        navigate={changesMade ? goBack : null}
+      />
       <View
         style={{ backgroundColor: appStyle.color_bg }}
         className="rounded flex-1 mx-4"
