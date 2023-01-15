@@ -50,19 +50,17 @@ const WorkoutDetailsScreen = ({ route }) => {
     });
   }, []);
   useEffect(() => {
+    const getMembersAndSetWorkout = async (workoutData) => {
+      const membersArray = await firebase.getWorkoutMembers(workoutData);
+      setMembers(membersArray);
+      setWorkout(workoutData);
+      setInitialLoading(false);
+    };
     return onSnapshot(doc(db, "workouts", workout.id), (doc) => {
       setInitialLoading(true);
-      setWorkout(doc.data());
-      setInitialLoading(false);
+      getMembersAndSetWorkout({ id: doc.id, ...doc.data() });
     });
   }, []);
-  useEffect(() => {
-    const getMembers = async () => {
-      const membersArray = await firebase.getWorkoutMembers(workout);
-      setMembers(membersArray);
-    };
-    getMembers();
-  }, [workout]);
   const inviteFriends = async () => {
     navigation.push("InviteFriends", {
       workout: workout,
