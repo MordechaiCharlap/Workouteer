@@ -106,7 +106,7 @@ const FindWorkoutScreen = () => {
     if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
       updatedUser.defaultCity = city;
     await firebase.updateUser(updatedUser);
-    // setUser(await firebase.updateContext(user.id));
+    setUser(await firebase.updateContext(user.id));
     const preferences = {
       country: country,
       city: city,
@@ -129,7 +129,7 @@ const FindWorkoutScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <Header title="Find workout" goBackOption={true} />
-      <View className="flex-1 px-4">
+      <View className="flex-1 px-2">
         <ScrollView>
           <WorkoutType typeSelected={setType} everythingOption={true} />
           <Dropdown
@@ -252,7 +252,7 @@ const FindWorkoutScreen = () => {
           <View className="items-center">
             <TouchableOpacity
               disabled={isSearchDisabled}
-              className="px-2 py-1 mb-5"
+              className="px-2 py-1"
               onPress={showResults}
               style={{
                 backgroundColor: isSearchDisabled
