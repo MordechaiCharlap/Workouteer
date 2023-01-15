@@ -27,7 +27,6 @@ const InviteFriendsScreen = ({ route }) => {
   const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
-  const [changesMade, setChangesMade] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   useFocusEffect(
     useCallback(() => {
@@ -43,22 +42,9 @@ const InviteFriendsScreen = ({ route }) => {
       showFriends();
     }, [])
   );
-  const goBack = () => {
-    if (changesMade) {
-      navigation.navigate("WorkoutDetails", {
-        workout: workout,
-        isCreator: true,
-        isPastWorkout: false,
-        userMemberStatus: "creator",
-        changesMade: true,
-      });
-    } else {
-      navigation.goBack();
-    }
-  };
   const inviteFriend = async (friendId) => {
+    console.log(friendId);
     setButtonLoading(friendId);
-    setChangesMade(true);
     const workoutClone = { ...workout };
     if (workoutClone.invites == null) {
       workoutClone.invites = { [friendId]: true };
@@ -73,7 +59,7 @@ const InviteFriendsScreen = ({ route }) => {
     if (workout.invites && workout.invites[friendId] != null) {
       return (
         <View
-          className="py-1 px-6 rounded"
+          className="py-1 w-28 rounded"
           style={{
             backgroundColor: appStyle.color_bg_variant,
             borderWidth: 0.8,
@@ -81,7 +67,7 @@ const InviteFriendsScreen = ({ route }) => {
           }}
         >
           <Text
-            className="text-lg font-semibold"
+            className="text-lg text-center font-semibold"
             style={{
               color: appStyle.color_on_primary,
             }}
@@ -93,13 +79,13 @@ const InviteFriendsScreen = ({ route }) => {
     } else if (workout.members[friendId]) {
       return (
         <View
-          className="py-1 px-6 rounded"
+          className="py-1 w-28 rounded"
           style={{
             backgroundColor: appStyle.color_primary,
           }}
         >
           <Text
-            className="text-lg font-semibold"
+            className="text-lg text-center font-semibold"
             style={{ color: appStyle.color_on_primary }}
           >
             Joined
@@ -110,7 +96,7 @@ const InviteFriendsScreen = ({ route }) => {
     return (
       <TouchableOpacity
         onPress={async () => inviteFriend(friendId)}
-        className="py-1 px-6 rounded"
+        className="py-1 w-28 rounded"
         style={{
           backgroundColor: appStyle.color_bg,
           borderColor: appStyle.color_primary,
@@ -118,7 +104,7 @@ const InviteFriendsScreen = ({ route }) => {
         }}
       >
         <Text
-          className="text-lg font-semibold"
+          className="text-lg text-center font-semibold"
           style={{ color: appStyle.color_primary }}
         >
           {buttonLoading == friendId ? "Loading" : "Invite"}
@@ -132,7 +118,7 @@ const InviteFriendsScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Invite Friends"} goBackOption={true} navigate={goBack} />
+      <Header title={"Invite Friends"} goBackOption={true} />
       <View
         className="rounded-xl p-3 mx-2"
         style={{ backgroundColor: appStyle.color_bg_variant }}
@@ -159,36 +145,40 @@ const InviteFriendsScreen = ({ route }) => {
         className="flex-1 px-4 pt-3"
         data={shownFriendsArray}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="flex-row items-center mt-2">
-            <TouchableOpacity
-              onPress={() => navigation.navigate("User", { shownUser: item })}
-              className="flex-row flex-1 items-center"
-            >
-              <Image
-                source={{
-                  uri: item.img,
-                }}
-                className="h-14 w-14 bg-white rounded-full mr-4"
-              />
-              <View>
-                <Text
-                  className="text-xl font-semibold tracking-wider"
-                  style={{ color: appStyle.color_primary }}
-                >
-                  {item.id}
-                </Text>
-                <Text
-                  className="text-md opacity-60 tracking-wider"
-                  style={{ color: appStyle.color_primary }}
-                >
-                  {item.displayName}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            {getButton(item.id)}
-          </View>
-        )}
+        renderItem={({ item }) =>
+          workout.requests[item.id] != true ? (
+            <View className="flex-row items-center mt-2">
+              <TouchableOpacity
+                onPress={() => navigation.navigate("User", { shownUser: item })}
+                className="flex-row flex-1 items-center"
+              >
+                <Image
+                  source={{
+                    uri: item.img,
+                  }}
+                  className="h-14 w-14 bg-white rounded-full mr-4"
+                />
+                <View>
+                  <Text
+                    className="text-xl font-semibold tracking-wider"
+                    style={{ color: appStyle.color_primary }}
+                  >
+                    {item.id}
+                  </Text>
+                  <Text
+                    className="text-md opacity-60 tracking-wider"
+                    style={{ color: appStyle.color_primary }}
+                  >
+                    {item.displayName}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              {getButton(item.id)}
+            </View>
+          ) : (
+            <></>
+          )
+        }
       />
     </View>
   );
