@@ -10,19 +10,19 @@ const ChatMessage = (props) => {
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
   useEffect(() => {
     const seenByMe = async () => {
-      await firebase.seenByMe(props.user.id, props.chatId, props.message.id);
+      if (!isSelfMessage)
+        await firebase.seenByMe(props.user.id, props.chatId, props.message.id);
     };
-    const seenByMap = new Map(Object.entries(props.message.seenBy));
-    var seenByEveryBody = true;
-    for (var value of seenByMap.values()) {
+    var seenByEverybody = true;
+    for (var value of Object.values(props.message.seenBy)) {
       if (value == false) {
-        seenByEveryBody = false;
+        seenByEverybody = false;
         break;
       }
     }
-    if (isSelfMessage && seenByEveryBody == true) {
+    if (isSelfMessage && seenByEverybody == true) {
       setChecksNum(2);
-    } else if (!isSelfMessage && !seenByEveryBody) {
+    } else if (!isSelfMessage && !seenByEverybody) {
       seenByMe();
     }
   }, [props.message.seenBy]);
