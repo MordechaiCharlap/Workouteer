@@ -200,7 +200,7 @@ const EditProfileData = (props) => {
           style={style.input}
           placeholder={user.displayName}
           placeholderTextColor={"#5f6b8b"}
-          maxLength={10}
+          maxLength={20}
           onChangeText={(text) => setDisplayName(text)}
           value={displayName}
         />
