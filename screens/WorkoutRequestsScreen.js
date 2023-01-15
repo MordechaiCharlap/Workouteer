@@ -82,11 +82,7 @@ const WorkoutRequestsScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header
-        title={"Requests"}
-        goBackOption={true}
-        navigate={changesMade ? goBack : null}
-      />
+      <Header title={"Requests"} goBackOption={true} />
       <View
         style={{ backgroundColor: appStyle.color_bg }}
         className="rounded flex-1 mx-4"
