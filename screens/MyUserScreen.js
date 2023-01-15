@@ -87,7 +87,7 @@ const MyUserScreen = () => {
                 className="text-3xl tracking-widest"
                 style={{ color: appStyle.color_primary }}
               >
-                {user.displayName}
+                {user.id}
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                 <FontAwesomeIcon
