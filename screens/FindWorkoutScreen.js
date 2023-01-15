@@ -252,7 +252,7 @@ const FindWorkoutScreen = () => {
           <View className="items-center">
             <TouchableOpacity
               disabled={isSearchDisabled}
-              className="px-2 py-1"
+              className="px-2 py-1 mb-5"
               onPress={showResults}
               style={{
                 backgroundColor: isSearchDisabled
