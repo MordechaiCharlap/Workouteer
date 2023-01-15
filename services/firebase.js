@@ -339,7 +339,7 @@ export const sendPrivateMessage = async (
 ) => {
   const message = {
     content: content,
-    seenBy: { [otherUserId]: false },
+    seenBy: { userId: true, [otherUserId]: false },
     sender: userId,
     sentAt: Timestamp.now(),
   };
