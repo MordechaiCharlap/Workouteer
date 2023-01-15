@@ -25,7 +25,8 @@ export const AuthPrvider = ({ children }) => {
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
-  var unsubscribe = null;
+  var unsubscribeAlerts = null;
+  var unsubscribeUser = null;
   const {
     setChatsAlerts,
     setWorkoutRequestsAlerts,
@@ -52,14 +53,23 @@ export const AuthPrvider = ({ children }) => {
               authUser.email.toLowerCase()
             );
             setUser(userData);
-            unsubscribe = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
-              const alertsData = doc.data();
-              setChatsAlerts(alertsData.chats);
-              setWorkoutRequestsAlerts(alertsData.workoutRequests);
-              setWorkoutInvitesAlerts(alertsData.workoutInvites);
-              setFriendRequestsAlerts(alertsData.friendRequests);
-              setNewWorkoutsAlerts(alertsData.newWorkouts);
-            });
+            unsubscribeAlerts = onSnapshot(
+              doc(db, "alerts", userData.id),
+              (doc) => {
+                const alertsData = doc.data();
+                setChatsAlerts(alertsData.chats);
+                setWorkoutRequestsAlerts(alertsData.workoutRequests);
+                setWorkoutInvitesAlerts(alertsData.workoutInvites);
+                setFriendRequestsAlerts(alertsData.friendRequests);
+                setNewWorkoutsAlerts(alertsData.newWorkouts);
+              }
+            );
+            unsubscribeUser = onSnapshot(
+              doc(db, "users", userData.id),
+              (doc) => {
+                setUser(doc.data());
+              }
+            );
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
             );
@@ -69,7 +79,7 @@ export const AuthPrvider = ({ children }) => {
           setUserAsync();
         } else {
           setUser(null);
-          if (unsubscribe) unsubscribe();
+          if (unsubscribeAlerts) unsubscribeAlerts();
           console.log("state Changed, user logged out");
           setInitialLoading(false);
         }
@@ -128,7 +138,7 @@ export const AuthPrvider = ({ children }) => {
         googleUserInfo.email.toLowerCase()
       );
       setUser(userData);
-      unsubscribe = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
+      unsubscribeAlerts = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
         const alertsData = doc.data();
         setChatsAlerts(alertsData.chats);
         setWorkoutRequestsAlerts(alertsData.workoutRequests);
@@ -175,7 +185,7 @@ export const AuthPrvider = ({ children }) => {
   const userSignOut = () => {
     setInitialLoading(true);
     if (googleUserInfo) {
-      if (unsubscribe) unsubscribe();
+      if (unsubscribeAlerts) unsubscribeAlerts();
       setGoogleUserInfo(null);
       setUser(null);
       setInitialLoading(false);
