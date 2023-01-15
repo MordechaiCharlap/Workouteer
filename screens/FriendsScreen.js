@@ -27,14 +27,14 @@ import {
   faUserClock,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
-  shownUser = route.parmas.user;
+
+  const shownUser = route.parmas.user;
   const isMyUser = route.params.isMyUser;
   useLayoutEffect(() => {
     navigation.setOptions({
