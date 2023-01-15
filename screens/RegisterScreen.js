@@ -81,17 +81,19 @@ const RegisterScreen = () => {
     }
   };
   const createAccountClicked = async () => {
-    setLoading(true);
-    if (checkIfValidData())
-      if (!(await firebase.checkIfEmailAvailable(email))) {
-        setInputErrorText("Email is already used");
-        setLoading(false);
-      } else if (
-        !(await firebase.checkIfUsernameAvailable(username.toLowerCase()))
-      ) {
-        setInputErrorText("Username is taken");
-        setLoading(false);
-      } else await handleRegister();
+    if (!loading) {
+      setLoading(true);
+      if (checkIfValidData())
+        if (!(await firebase.checkIfEmailAvailable(email))) {
+          setInputErrorText("Email is already used");
+          setLoading(false);
+        } else if (
+          !(await firebase.checkIfUsernameAvailable(username.toLowerCase()))
+        ) {
+          setInputErrorText("Username is taken");
+          setLoading(false);
+        } else await handleRegister();
+    }
   };
 
   const handleRegister = async () => {
@@ -114,7 +116,7 @@ const RegisterScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      {loginLoading || loading ? (
+      {loginLoading ? (
         <LoadingAnimation />
       ) : (
         <>
