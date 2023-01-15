@@ -29,8 +29,6 @@ const WorkoutRequestsScreen = ({ route }) => {
 
   const workout = route.params.workout;
   const [requesters, setRequesters] = useState();
-  const [buttonLoading, setButtonLoading] = useState(false);
-  const [changesMade, setchangesMade] = useState(false);
   useFocusEffect(
     useCallback(() => {
       const getWorkoutRequesters = async () => {
@@ -46,36 +44,29 @@ const WorkoutRequestsScreen = ({ route }) => {
     });
   }, []);
   const acceptUser = async (acceptedUser, index) => {
-    setchangesMade(true);
-    setButtonLoading("accept");
+    const requestersClone = requesters.slice();
+    requestersClone[index].accepted = true;
+    setRequesters(requestersClone);
+    await firebase.acceptWorkoutRequest(acceptedUser, workout);
     await sendPushNotificationsForWorkoutMembers(
       workout,
       "New Alert!",
       `${acceptedUser.displayName} joined your workout`,
       user.id
     );
-    await firebase.acceptWorkoutRequest(acceptedUser, workout);
-    const requestersClone = requesters.slice();
-    requestersClone[index].accepted = true;
-    setRequesters(requestersClone);
     await sendPushNotification(
       workout,
       "New Alert!",
       `${user.displayName} accepted your request to join the workout`,
       user.id
     );
-    setButtonLoading(false);
   };
   const rejectUser = async (rejectedUser, index) => {
-    setchangesMade(true);
-    setButtonLoading("reject");
-    await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = false;
     setRequesters(requestersClone);
-    setButtonLoading(false);
+    await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
   };
-  const goBack = () => {};
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -85,7 +76,7 @@ const WorkoutRequestsScreen = ({ route }) => {
       <Header title={"Requests"} goBackOption={true} />
       <View
         style={{ backgroundColor: appStyle.color_bg }}
-        className="rounded flex-1 mx-4"
+        className="rounded flex-1"
       >
         <FlatList
           data={requesters}
@@ -100,13 +91,13 @@ const WorkoutRequestsScreen = ({ route }) => {
                 />
                 <View className="ml-2">
                   <Text
-                    className="text-xl font-semibold tracking-wider"
+                    className="text-xl font-semibold"
                     style={{ color: appStyle.color_primary }}
                   >
                     {item.user.id}
                   </Text>
                   <Text
-                    className="text-md opacity-60 tracking-wider"
+                    className="text-md opacity-60"
                     style={{ color: appStyle.color_primary }}
                   >
                     {item.user.displayName}
@@ -114,7 +105,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                 </View>
               </View>
               {item.accepted == null ? (
-                <View className="flex-row justify-between w-40">
+                <View className="flex-row">
                   <TouchableOpacity
                     onPress={() => acceptUser(item.user, index)}
                     className="justify-center py-2 px-4 rounded"
@@ -124,12 +115,12 @@ const WorkoutRequestsScreen = ({ route }) => {
                       className="text-center"
                       style={{ color: appStyle.color_on_primary }}
                     >
-                      {buttonLoading == "accept" ? "Loading" : "Accept"}
+                      Accept
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => rejectUser(item.user, index)}
-                    className="justify-center py-2 px-4 rounded"
+                    className="justify-center py-2 px-4 rounded ml-2"
                     style={{
                       backgroundColor: appStyle.color_bg_variant,
                       borderColor: appStyle.color_primary,
@@ -140,17 +131,21 @@ const WorkoutRequestsScreen = ({ route }) => {
                       style={{ color: appStyle.color_on_primary }}
                       className="text-center"
                     >
-                      {buttonLoading == "reject" ? "Loading" : "Reject"}
+                      Reject
                     </Text>
                   </TouchableOpacity>
                 </View>
               ) : (
                 <View
-                  className="w-40 mr-2 h-10 rounded justify-center"
-                  style={{ backgroundColor: appStyle.color_primary }}
+                  className="rounded justify-center py-2 px-4"
+                  style={{
+                    backgroundColor: "#228B22",
+                    borderColor: "#87CEEB",
+                    borderWidth: 1,
+                  }}
                 >
                   <Text
-                    className="text-center text-lg"
+                    className="text-center"
                     style={{ color: appStyle.color_on_primary }}
                   >
                     {item.accepted == false ? "Rejected" : "Accepted"}
