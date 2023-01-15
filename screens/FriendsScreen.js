@@ -92,7 +92,11 @@ const FriendsScreen = ({ route }) => {
             />
           </TouchableOpacity>
           <Text
-            className="text-4xl font-semibold"
+            className={
+              Platform.OS == "web"
+                ? "text-2xl font-semibold"
+                : "text-4xl font-semibold"
+            }
             style={{ color: appStyle.color_primary }}
           >
             Friends
