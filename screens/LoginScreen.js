@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   StatusBar,
+  Image,
 } from "react-native";
 import { React, useEffect, useLayoutEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -68,6 +69,18 @@ const LoginScreen = () => {
           break;
         case " auth/invalid-email":
           setErrorText("Invalid-email");
+          break;
+        case "auth/user-not-found":
+          setErrorText("User doesn't exists");
+          break;
+        case " auth/user-not-found":
+          setErrorText("User doesn't exists");
+          break;
+        case "auth/too-many-requests":
+          setErrorText("Too many tries, try again later");
+          break;
+        case " auth/too-many-requests":
+          setErrorText("Too many tries, try again later");
           break;
       }
     }
