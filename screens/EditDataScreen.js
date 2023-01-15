@@ -100,7 +100,7 @@ const EditProfileData = (props) => {
       description == null ? "" : description,
       image == null ? defaultValues.defaultProfilePic : image
     );
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
 
     setUpdated(true);
     setTimeout(() => {
@@ -278,7 +278,7 @@ const EditWorkoutPreferences = (props) => {
       acceptMale,
       acceptFemale
     );
-    props.setUser(await firebase.updateContext(props.user.id));
+    // props.setUser(await firebase.updateContext(props.user.id));
 
     setUpdated(true);
     setTimeout(() => {

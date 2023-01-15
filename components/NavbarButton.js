@@ -23,7 +23,7 @@ const NavbarButton = (props) => {
   };
   const navigation = useNavigation();
   const navigate = async () => {
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
     navigation.navigate(props.screen);
   };
   return (

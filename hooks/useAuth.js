@@ -53,6 +53,7 @@ export const AuthPrvider = ({ children }) => {
               authUser.email.toLowerCase()
             );
             setUser(userData);
+            console.log("Listening to alerts");
             unsubscribeAlerts = onSnapshot(
               doc(db, "alerts", userData.id),
               (doc) => {
@@ -64,6 +65,7 @@ export const AuthPrvider = ({ children }) => {
                 setNewWorkoutsAlerts(alertsData.newWorkouts);
               }
             );
+            console.log("Listening to user");
             unsubscribeUser = onSnapshot(
               doc(db, "users", userData.id),
               (doc) => {
@@ -78,8 +80,11 @@ export const AuthPrvider = ({ children }) => {
           };
           setUserAsync();
         } else {
-          setUser(null);
           if (unsubscribeAlerts) unsubscribeAlerts();
+          console.log("Stops listening to alerts");
+          if (unsubscribeUser) unsubscribeUser();
+          console.log("Stops listening to user");
+          setUser(null);
           console.log("state Changed, user logged out");
           setInitialLoading(false);
         }
@@ -138,6 +143,7 @@ export const AuthPrvider = ({ children }) => {
         googleUserInfo.email.toLowerCase()
       );
       setUser(userData);
+      console.log("Listening to alerts");
       unsubscribeAlerts = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
         const alertsData = doc.data();
         setChatsAlerts(alertsData.chats);
@@ -145,6 +151,10 @@ export const AuthPrvider = ({ children }) => {
         setWorkoutInvitesAlerts(alertsData.workoutInvites);
         setFriendRequestsAlerts(alertsData.friendRequests);
         setNewWorkoutsAlerts(alertsData.newWorkouts);
+      });
+      console.log("Listening to user");
+      unsubscribeUser = onSnapshot(doc(db, "users", userData.id), (doc) => {
+        setUser(doc.data());
       });
       console.log(
         "google user logged in: " + googleUserInfo.email.toLowerCase()
@@ -186,6 +196,9 @@ export const AuthPrvider = ({ children }) => {
     setInitialLoading(true);
     if (googleUserInfo) {
       if (unsubscribeAlerts) unsubscribeAlerts();
+      console.log("Stops listening to alerts");
+      if (unsubscribeUser) unsubscribeUser();
+      console.log("Stops listening to user");
       setGoogleUserInfo(null);
       setUser(null);
       setInitialLoading(false);

@@ -113,7 +113,7 @@ const ChatScreen = ({ route }) => {
       var chatData = chat;
       if (!chat) {
         chatData = await firebase.createNewPrivateChat(user, otherUser);
-        setUser(await firebase.updateContext(user.id));
+        // setUser(await firebase.updateContext(user.id));
         setChat(chatData);
       }
       await firebase.sendPrivateMessage(

@@ -65,7 +65,7 @@ const WorkoutComponent = (props) => {
       `${user.displayName} left the workout`,
       user.id
     );
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const renderMembersPics = () => {
     const picsArr = Object.values(workout.members);
@@ -89,7 +89,7 @@ const WorkoutComponent = (props) => {
       user.id
     );
     await firebase.cancelWorkout(user, workoutRef);
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const requestToJoinWorkout = async () => {
     setUserMemberStatus("pending");
@@ -110,7 +110,7 @@ const WorkoutComponent = (props) => {
     if (props.screen == "WorkoutInvites") setWorkout(null);
     setUserMemberStatus("member");
     await firebase.acceptWorkoutInvite(user, workoutRef);
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
     await sendPushNotificationsForWorkoutMembers(
       workoutRef,
       "New Alert",

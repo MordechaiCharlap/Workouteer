@@ -47,12 +47,12 @@ const FriendRequestsScreen = () => {
       `You and ${user.displayName} are now friends :),`
     );
     await firebase.acceptFriendRequest(user.id, otherUser.id);
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const rejectFriendRequest = async (otherUser, index) => {
     removeRequestFromArray(index);
     await firebase.rejectFriendRequest(user.id, otherUser.id);
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const removeRequestFromArray = (index) => {
     const requestsClone = [...friendRequests];

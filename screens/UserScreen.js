@@ -61,7 +61,7 @@ const UserScreen = ({ route }) => {
   const removeFriend = async () => {
     setFriendshipStatus("None");
     await firebase.removeFriend(user.id, shownUser.id);
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const acceptFriendRequest = async () => {
     setFriendshipStatus("Friends");
@@ -71,7 +71,7 @@ const UserScreen = ({ route }) => {
       "You've got a new friend!",
       `You and ${user.displayName} are now friends :),`
     );
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
   };
   const rejectFriendRequest = async () => {
     setFriendshipStatus("None");

@@ -60,7 +60,7 @@ export const NotificationsProvider = ({ children }) => {
         if (token) {
           const updatedUser = { ...user, pushToken: token };
           await firebase.updateUser(updatedUser);
-          setUser(await firebase.updateContext(user.id));
+          // setUser(await firebase.updateContext(user.id));
           setPushToken(token);
         }
       }

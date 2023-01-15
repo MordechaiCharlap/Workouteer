@@ -41,7 +41,7 @@ const ExploreScreen = () => {
   }, []);
   useEffect(() => {}, []);
   const deleteRequestFromArray = async (index) => {
-    setUser(await firebase.updateContext(user.id));
+    // setUser(await firebase.updateContext(user.id));
     console.log("updated user requests: " + user.friendRequestsCount);
     const array = friendRequests.slice();
     array.splice(index, 1);

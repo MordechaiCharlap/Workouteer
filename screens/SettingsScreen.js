@@ -41,7 +41,7 @@ const SettingsScreen = () => {
   const applyChanges = async () => {
     if (changesMade) {
       await saveSettingsChanges(user.id, isPublic, showOnline, language);
-      setUser(await updateContext(user.id));
+      // setUser(await updateContext(user.id));
       navigation.goBack();
     }
   };
