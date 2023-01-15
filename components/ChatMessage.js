@@ -52,7 +52,9 @@ const ChatMessage = (props) => {
         onLongPress={() => {
           props.messageSelected(props.message);
         }}
-        className="mt-1 p-1.5 rounded"
+        className={`mt-1 p-1.5 rounded-b-2xl ${
+          isSelfMessage ? "rounded-tr-2xl" : "rounded-tl-2xl"
+        }`}
         style={{
           maxWidth: "90%",
           backgroundColor: isSelfMessage
