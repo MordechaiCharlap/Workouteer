@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { saveSettingsChanges, updateContext } from "../services/firebase";
+import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 const SettingsScreen = () => {
   const { user, setUser, userSignOut } = useAuth();
@@ -51,12 +52,7 @@ const SettingsScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1 p-4">
-        <Text
-          className="text-center text-2xl"
-          style={{ color: appStyle.color_primary }}
-        >
-          Settings
-        </Text>
+        <Header title={"Settings"} goBackOption={true} />
         <Text className="text-center" style={{ color: appStyle.color_primary }}>
           Privacy
         </Text>
