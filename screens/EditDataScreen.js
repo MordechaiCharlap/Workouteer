@@ -202,9 +202,8 @@ const EditProfileData = (props) => {
           placeholderTextColor={"#5f6b8b"}
           maxLength={10}
           onChangeText={(text) => setDisplayName(text)}
-        >
-          {user.displayName}
-        </TextInput>
+          value={displayName}
+        />
       </View>
       <View className="mb-5">
         <Text
@@ -222,14 +221,15 @@ const EditProfileData = (props) => {
             padding: 8,
           }}
           multiline
+          spellCheck={false}
+          autoCorrect={false}
           placeholder="Optional text"
           placeholderTextColor={appStyle.color_primary}
           numberOfLines={12}
           maxLength={350}
           onChangeText={(text) => setDescription(text)}
-        >
-          {user.description}
-        </TextInput>
+          value={description}
+        />
       </View>
       {SaveButton()}
     </View>
