@@ -53,7 +53,9 @@ const ChatMessage = (props) => {
           props.messageSelected(props.message);
         }}
         className={`mt-1 p-1.5 rounded-b-2xl ${
-          isSelfMessage ? "rounded-tr-2xl" : "rounded-tl-2xl"
+          isSelfMessage
+            ? "rounded-tr-2xl rounded-tl"
+            : "rounded-tl-2xl rounded-tr"
         }`}
         style={{
           maxWidth: "90%",
