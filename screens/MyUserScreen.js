@@ -172,9 +172,19 @@ const MyUserScreen = () => {
                 {user.displayName}, {calculateAge(user.birthdate.toDate())}
               </Text>
             </View>
-            <Text style={{ color: appStyle.color_primary }} className="text-lg">
-              {user.description == "" ? "No description yet" : user.description}
-            </Text>
+            <View
+              className="rounded-xl p-4 mt-2"
+              style={{ backgroundColor: appStyle.color_primary }}
+            >
+              <Text
+                style={{ color: appStyle.color_on_primary }}
+                className="text-lg"
+              >
+                {user.description == ""
+                  ? "No description yet"
+                  : user.description}
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </View>
