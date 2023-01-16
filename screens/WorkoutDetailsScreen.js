@@ -94,20 +94,20 @@ const WorkoutDetailsScreen = ({ route }) => {
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
-                  <View className="flex-row justify-between">
+                  <View className="flex-row items-center justify-between">
                     <View
-                      className="mb-2 px-2 rounded"
+                      className="p-2 rounded"
                       style={{ backgroundColor: appStyle.color_primary }}
                     >
                       <Text
-                        className="text-xl m-1"
+                        className="text-lg"
                         style={{ color: appStyle.color_on_primary }}
                       >
                         {timeString(workout.startingTime.toDate())}
                       </Text>
                     </View>
                     <View
-                      className="rounded-full p-2 mb-2"
+                      className="rounded-full p-2"
                       style={{ backgroundColor: appStyle.color_primary }}
                     >
                       <FontAwesomeIcon
@@ -117,11 +117,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                       />
                     </View>
                     <View
-                      className="mb-2 px-2 rounded"
+                      className="p-2 rounded"
                       style={{ backgroundColor: appStyle.color_primary }}
                     >
                       <Text
-                        className="text-xl m-1"
+                        className="text-lg"
                         style={{ color: appStyle.color_on_primary }}
                       >
                         {workout.city}
@@ -129,55 +129,55 @@ const WorkoutDetailsScreen = ({ route }) => {
                     </View>
                   </View>
 
-                  {workout.description != "" && (
-                    <View
-                      className="p-3 rounded-xl"
-                      style={{ backgroundColor: appStyle.color_primary }}
-                    >
-                      <View className="flex-row items-center justify-between">
-                        <View className="flex-row items-center">
-                          <FontAwesomeIcon
-                            icon={faVenusMars}
-                            size={25}
-                            color={appStyle.color_on_primary}
-                          />
-                          <Text
-                            className={
-                              Platform.OS != "web"
-                                ? "text-md font-semibold ml-1"
-                                : "text-sm font-semibold"
-                            }
-                            style={{
-                              color: appStyle.color_on_primary,
-                            }}
-                          >
-                            {workout.sex == "everyone"
-                              ? "For everyone"
-                              : workout.sex == "men"
-                              ? "Men only"
-                              : "Women only"}
-                          </Text>
-                        </View>
-                        <View className="flex-row items-center">
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            size={25}
-                            color={appStyle.color_on_primary}
-                          />
-                          <Text
-                            className={
-                              Platform.OS != "web"
-                                ? "text-md font-semibold ml-1"
-                                : "text-sm font-semibold ml-1"
-                            }
-                            style={{
-                              color: appStyle.color_on_primary,
-                            }}
-                          >
-                            {workout.minutes} minutes
-                          </Text>
-                        </View>
+                  <View
+                    className="p-3 rounded-xl mt-2"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                  >
+                    <View className="flex-row items-center justify-between">
+                      <View className="flex-row items-center">
+                        <FontAwesomeIcon
+                          icon={faVenusMars}
+                          size={25}
+                          color={appStyle.color_on_primary}
+                        />
+                        <Text
+                          className={
+                            Platform.OS != "web"
+                              ? "text-md font-semibold ml-1"
+                              : "text-sm font-semibold"
+                          }
+                          style={{
+                            color: appStyle.color_on_primary,
+                          }}
+                        >
+                          {workout.sex == "everyone"
+                            ? "For everyone"
+                            : workout.sex == "men"
+                            ? "Men only"
+                            : "Women only"}
+                        </Text>
                       </View>
+                      <View className="flex-row items-center">
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size={25}
+                          color={appStyle.color_on_primary}
+                        />
+                        <Text
+                          className={
+                            Platform.OS != "web"
+                              ? "text-md font-semibold ml-1"
+                              : "text-sm font-semibold ml-1"
+                          }
+                          style={{
+                            color: appStyle.color_on_primary,
+                          }}
+                        >
+                          {workout.minutes} minutes
+                        </Text>
+                      </View>
+                    </View>
+                    {workout.description != "" && (
                       <Text
                         className={
                           Platform.OS != "web" ? "text-sm mt-1" : "mt-1"
@@ -186,8 +186,8 @@ const WorkoutDetailsScreen = ({ route }) => {
                       >
                         {workout.description}
                       </Text>
-                    </View>
-                  )}
+                    )}
+                  </View>
                   <View>
                     {Platform.OS != "web" &&
                     (workout.members[user.id] != null ||
@@ -384,7 +384,7 @@ const WorkoutPinnedLocation = (props) => {
         <Marker coordinate={props.ltLng} />
       </MapView>
       <TouchableOpacity
-        className="bottom-4 rounded p-2 absolute"
+        className="bottom-4 rounded py-2 px-6 absolute"
         style={{
           backgroundColor: appStyle.color_primary,
           borderColor: appStyle.color_bg,
