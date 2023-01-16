@@ -156,7 +156,7 @@ const ChatsScreen = () => {
           <TouchableOpacity
             onLongPress={() => chatLongClicked(item)}
             onPress={() => chatClicked(item)}
-            className="relative mb-2"
+            className="relative mb-4"
           >
             <View className="flex-row">
               <Image
