@@ -309,9 +309,8 @@ const WorkoutDetailsScreen = ({ route }) => {
 
                   <View>
                     {Platform.OS != "web" &&
-                    (route.params.userMemberStatus == "member" ||
-                      route.params.userMemberStatus == "creator" ||
-                      route.params.userMemberStatus == "invited") ? (
+                    (workout.members[user.id] != null ||
+                      workout.invites[user.id] != null) ? (
                       <View>
                         <View className="flex-row items-center p-2 justify-center">
                           <Text
