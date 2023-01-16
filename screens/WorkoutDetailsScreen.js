@@ -94,38 +94,44 @@ const WorkoutDetailsScreen = ({ route }) => {
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
-                  <View className="flex-row items-center justify-between">
-                    <View
-                      className="p-2 rounded"
-                      style={{ backgroundColor: appStyle.color_primary }}
-                    >
-                      <Text
-                        className="text-lg"
-                        style={{ color: appStyle.color_on_primary }}
+                  <View className="flex-row items-center ">
+                    <View className="w-1 flex-1">
+                      <View
+                        className="p-2 rounded"
+                        style={{ backgroundColor: appStyle.color_primary }}
                       >
-                        {timeString(workout.startingTime.toDate())}
-                      </Text>
+                        <Text
+                          className="text-md font-semibold"
+                          style={{ color: appStyle.color_on_primary }}
+                        >
+                          {timeString(workout.startingTime.toDate())}
+                        </Text>
+                      </View>
                     </View>
-                    <View
-                      className="rounded-full p-2"
-                      style={{ backgroundColor: appStyle.color_primary }}
-                    >
-                      <FontAwesomeIcon
-                        icon={workoutTypes[workout.type].icon}
-                        size={25}
-                        color={appStyle.color_on_primary}
-                      />
-                    </View>
-                    <View
-                      className="p-2 rounded"
-                      style={{ backgroundColor: appStyle.color_primary }}
-                    >
-                      <Text
-                        className="text-lg"
-                        style={{ color: appStyle.color_on_primary }}
+                    <View>
+                      <View
+                        className="rounded-full p-2 mx-2"
+                        style={{ backgroundColor: appStyle.color_primary }}
                       >
-                        {workout.city}
-                      </Text>
+                        <FontAwesomeIcon
+                          icon={workoutTypes[workout.type].icon}
+                          size={25}
+                          color={appStyle.color_on_primary}
+                        />
+                      </View>
+                    </View>
+                    <View className="w-1 flex-1">
+                      <View
+                        className="p-2 rounded"
+                        style={{ backgroundColor: appStyle.color_primary }}
+                      >
+                        <Text
+                          className="text-md text-right font-semibold"
+                          style={{ color: appStyle.color_on_primary }}
+                        >
+                          {workout.city}
+                        </Text>
+                      </View>
                     </View>
                   </View>
 
