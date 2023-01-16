@@ -15,6 +15,8 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
+  faCheck,
+  faDoubleCheck,
   faMagnifyingGlass,
   faPenToSquare,
   faArrowLeft,
@@ -140,11 +142,22 @@ const ChatsScreen = () => {
     }
   };
   const chatsList = () => {
-    const lastMessageConverter = (lastMessage) => {
-      var shownText =
-        (lastMessage.sender == user.id ? "You: " : `${lastMessage.sender}: `) +
-        lastMessage.content;
-      if (shownText.length > 35) shownText = shownText.slice(0, 35) + "...";
+    const lastMessageConverter = (lastMessage, isAlert, isMyMessage) => {
+      var shownText = lastMessage.content;
+      switch (isAlert) {
+        case true:
+          if (shownText.length > 40)
+            shownText = shownText.slice(0, 40).trim() + "...";
+          break;
+        case false:
+          if (isMyMessage) {
+            if (shownText.length > 42)
+              shownText = shownText.slice(0, 42).trim() + "...";
+          } else {
+            if (shownText.length > 44)
+              shownText = shownText.slice(0, 44).trim() + "...";
+          }
+      }
       return <Text style={{ color: appStyle.color_primary }}>{shownText}</Text>;
     };
     return (
@@ -156,7 +169,7 @@ const ChatsScreen = () => {
           <TouchableOpacity
             onLongPress={() => chatLongClicked(item)}
             onPress={() => chatClicked(item)}
-            className="relative mb-4"
+            className="relative my-3"
           >
             <View className="flex-row">
               <Image
@@ -180,7 +193,47 @@ const ChatsScreen = () => {
                     {convertTimestamp(item.chat.lastMessage.sentAt)}
                   </Text>
                 </View>
-                {lastMessageConverter(item.chat.lastMessage)}
+                <View className="flex-row items-center justify-between">
+                  <View className="flex-row items-center">
+                    {item.chat.lastMessage.sender == user.id &&
+                      (Object.values(item.chat.lastMessage.seenBy).every(
+                        (value) => value == true
+                      ) ? (
+                        <View className="mr-0.5">
+                          <FontAwesomeIcon
+                            icon={faDoubleCheck}
+                            color={appStyle.color_bg_variant}
+                            size={15}
+                          />
+                        </View>
+                      ) : (
+                        <View className="mr-0.5">
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            color={appStyle.color_bg_variant}
+                            size={15}
+                          />
+                        </View>
+                      ))}
+                    {lastMessageConverter(
+                      item.chat.lastMessage,
+                      chatsAlerts[item.chat.id] != null,
+                      item.chat.lastMessage.sender == user.id
+                    )}
+                  </View>
+
+                  {chatsAlerts[item.chat.id] && (
+                    <View>
+                      <AlertDot
+                        text={chatsAlerts[item.chat.id]}
+                        textColor={appStyle.color_on_primary}
+                        color={appStyle.color_primary}
+                        fontSize={10}
+                        size={23}
+                      />
+                    </View>
+                  )}
+                </View>
               </View>
             </View>
             {selectedChats.length > 0 && (
@@ -201,17 +254,6 @@ const ChatsScreen = () => {
                     size={30}
                   />
                 </View>
-              </View>
-            )}
-            {chatsAlerts[item.chat.id] && (
-              <View className="absolute top-3 bottom-0 right-0 justify-center">
-                <AlertDot
-                  text={chatsAlerts[item.chat.id]}
-                  textColor={appStyle.color_on_primary}
-                  color={appStyle.color_primary}
-                  fontSize={10}
-                  size={23}
-                />
               </View>
             )}
           </TouchableOpacity>
