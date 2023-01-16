@@ -150,9 +150,12 @@ const MyUserScreen = () => {
                     <View className="absolute left-0 bottom-0">
                       <AlertDot
                         text={user.friendRequestsCount}
+                        color={appStyle.color_on_primary}
+                        borderColor={appStyle.color_primary}
                         textColor={appStyle.color_primary}
-                        color={appStyle.color_bg}
-                        size={20}
+                        borderWidth={1.5}
+                        fontSize={10}
+                        size={23}
                       />
                     </View>
                   ) : (
