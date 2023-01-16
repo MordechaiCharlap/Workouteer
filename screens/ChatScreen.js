@@ -234,6 +234,7 @@ const ChatScreen = ({ route }) => {
           <TextInput
             className="text-2xl flex-1 mr-2 rounded py-1 px-4"
             multiline={true}
+            showsVerticalScrollIndicator={false}
             placeholder="Message"
             placeholderTextColor={appStyle.color_primary}
             style={{
