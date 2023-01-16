@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import {
-  faStopwatch,
+  faClock,
   faUserGroup,
   faLocationDot,
   faVenusMars,
@@ -107,6 +107,16 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                     <View
+                      className="rounded-full p-2 mb-2"
+                      style={{ backgroundColor: appStyle.color_primary }}
+                    >
+                      <FontAwesomeIcon
+                        icon={workoutTypes[workout.type].icon}
+                        size={25}
+                        color={appStyle.color_on_primary}
+                      />
+                    </View>
+                    <View
                       className="mb-2 px-2 rounded"
                       style={{ backgroundColor: appStyle.color_primary }}
                     >
@@ -118,85 +128,104 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  <View className="flex-row flex-1">
-                    <View className="aspect-square p-2">
-                      <FontAwesomeIcon
-                        icon={workoutTypes[workout.type].icon}
-                        size={120}
-                        color={appStyle.color_primary}
-                      />
-                    </View>
-                    <View className="px-2 pl-5 flex-1 justify-evenly">
-                      <View className="flex-row items-center">
-                        <FontAwesomeIcon
-                          icon={faVenusMars}
-                          size={40}
-                          color={appStyle.color_primary}
-                        />
-                        <Text
-                          className={
-                            Platform.OS != "web"
-                              ? "text-lg font-semibold"
-                              : "text-sm font-semibold"
-                          }
-                          style={{
-                            color: appStyle.color_primary,
-                          }}
-                        >
-                          :
-                          {workout.sex == "everyone"
-                            ? " For everyone"
-                            : workout.sex == "men"
-                            ? " Men only"
-                            : " Women only"}
-                        </Text>
-                      </View>
-                      <View className="flex-row items-center">
-                        <FontAwesomeIcon
-                          icon={faStopwatch}
-                          size={40}
-                          color={appStyle.color_primary}
-                        />
-                        <Text
-                          className={
-                            Platform.OS != "web"
-                              ? "text-lg font-semibold"
-                              : "text-sm font-semibold"
-                          }
-                          style={{
-                            color: appStyle.color_primary,
-                          }}
-                        >
-                          : {workout.minutes} minutes
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
+
                   {workout.description != "" && (
-                    <View>
-                      <View
-                        className="my-2 p-2 rounded-xl"
-                        style={{ backgroundColor: appStyle.color_primary }}
-                      >
-                        <Text
-                          className={Platform.OS != "web" ? "text-xl" : ""}
-                          style={{ color: appStyle.color_on_primary }}
-                        >
-                          {workout.description}
-                        </Text>
+                    <View
+                      className="p-3 rounded-xl"
+                      style={{ backgroundColor: appStyle.color_primary }}
+                    >
+                      <View className="flex-row items-center justify-between">
+                        <View className="flex-row items-center">
+                          <FontAwesomeIcon
+                            icon={faVenusMars}
+                            size={25}
+                            color={appStyle.color_on_primary}
+                          />
+                          <Text
+                            className={
+                              Platform.OS != "web"
+                                ? "text-md font-semibold ml-1"
+                                : "text-sm font-semibold"
+                            }
+                            style={{
+                              color: appStyle.color_on_primary,
+                            }}
+                          >
+                            {workout.sex == "everyone"
+                              ? "For everyone"
+                              : workout.sex == "men"
+                              ? "Men only"
+                              : "Women only"}
+                          </Text>
+                        </View>
+                        <View className="flex-row items-center">
+                          <FontAwesomeIcon
+                            icon={faClock}
+                            size={25}
+                            color={appStyle.color_on_primary}
+                          />
+                          <Text
+                            className={
+                              Platform.OS != "web"
+                                ? "text-md font-semibold ml-1"
+                                : "text-sm font-semibold ml-1"
+                            }
+                            style={{
+                              color: appStyle.color_on_primary,
+                            }}
+                          >
+                            {workout.minutes} minutes
+                          </Text>
+                        </View>
                       </View>
+                      <Text
+                        className={
+                          Platform.OS != "web" ? "text-sm mt-1" : "mt-1"
+                        }
+                        style={{ color: appStyle.color_on_primary }}
+                      >
+                        {workout.description}
+                      </Text>
                     </View>
                   )}
-
                   <View>
-                    <View className="p-2 flex-row justify-center items-center">
+                    {Platform.OS != "web" &&
+                    (workout.members[user.id] != null ||
+                      workout.invites[user.id] != null) ? (
+                      <View>
+                        <View className="mt-2 items-center justify-center">
+                          <WorkoutPinnedLocation ltLng={workout.location} />
+                        </View>
+                      </View>
+                    ) : (
+                      <View>
+                        <Text
+                          style={{
+                            color: appStyle.color_on_primary,
+                            backgroundColor: appStyle.color_primary,
+                          }}
+                          className={
+                            Platform.OS != "web"
+                              ? "text-center py-3 px-4"
+                              : "text-center text-sm py-2 px-3"
+                          }
+                        >
+                          {
+                            "Only workout members that are using portable device (not PC) can see location on map"
+                          }
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View>
+                    <View className="flex-row justify-center items-center">
                       <FontAwesomeIcon
                         icon={faUserGroup}
                         size={30}
                         color={appStyle.color_primary}
                       />
                       <Text
-                        className="text-lg"
+                        className="text-md"
                         style={{ color: appStyle.color_primary }}
                       >
                         Members
@@ -233,14 +262,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                     />
                     <View className="ml-2">
                       <Text
-                        className="text-xl font-semibold tracking-wider"
+                        className="text-md font-semibold tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
                         {calculateAge(item.birthdate.toDate())},{" "}
                         {item.displayName}
                       </Text>
                       <Text
-                        className="text-md opacity-60 tracking-wider"
+                        className="text-sm opacity-60 tracking-wider"
                         style={{ color: appStyle.color_primary }}
                       >
                         {item.id}
@@ -306,47 +335,6 @@ const WorkoutDetailsScreen = ({ route }) => {
                         </TouchableOpacity>
                       </View>
                     )}
-
-                  <View>
-                    {Platform.OS != "web" &&
-                    (workout.members[user.id] != null ||
-                      workout.invites[user.id] != null) ? (
-                      <View>
-                        <View className="flex-row items-center p-2 justify-center">
-                          <Text
-                            className="text-lg"
-                            style={{ color: appStyle.color_primary }}
-                          >
-                            Exact location
-                          </Text>
-                          <FontAwesomeIcon
-                            icon={faLocationDot}
-                            size={30}
-                            color={appStyle.color_primary}
-                          />
-                        </View>
-                        <WorkoutPinnedLocation ltLng={workout.location} />
-                      </View>
-                    ) : (
-                      <View>
-                        <Text
-                          style={{
-                            color: appStyle.color_on_primary,
-                            backgroundColor: appStyle.color_primary,
-                          }}
-                          className={
-                            Platform.OS != "web"
-                              ? "text-center py-3 px-4"
-                              : "text-center text-sm py-2 px-3"
-                          }
-                        >
-                          {
-                            "Only workout members that are using portable device (not PC) can see location on map"
-                          }
-                        </Text>
-                      </View>
-                    )}
-                  </View>
                 </View>
               )}
             />
@@ -376,41 +364,41 @@ const WorkoutDetailsScreen = ({ route }) => {
 const WorkoutPinnedLocation = (props) => {
   const showDirections = () => {};
   return (
-    <View className="items-center mb-3">
-      <View
-        className="items-center"
-        style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+    <View
+      className="items-center justify-center p-2 rounded-lg w-full aspect-square"
+      style={{
+        backgroundColor: appStyle.color_primary,
+      }}
+    >
+      <MapView
+        style={style.map}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        initialRegion={{
+          latitude: props.ltLng.latitude,
+          longitude: props.ltLng.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
       >
-        <MapView
-          style={style.map}
-          provider={PROVIDER_GOOGLE}
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: props.ltLng.latitude,
-            longitude: props.ltLng.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
+        <Marker coordinate={props.ltLng} />
+      </MapView>
+      <TouchableOpacity
+        className="bottom-4 rounded p-2 absolute"
+        style={{
+          backgroundColor: appStyle.color_primary,
+          borderColor: appStyle.color_bg,
+          borderWidth: 1,
+        }}
+        onPress={() => showDirections()}
+      >
+        <Text
+          className="text-1xl font-semibold"
+          style={{ color: appStyle.color_on_primary }}
         >
-          <Marker coordinate={props.ltLng} />
-        </MapView>
-        <TouchableOpacity
-          className="bottom-4 rounded p-2 absolute"
-          style={{
-            backgroundColor: appStyle.color_bg,
-            borderColor: appStyle.color_primary,
-            borderWidth: 1,
-          }}
-          onPress={() => showDirections()}
-        >
-          <Text
-            className="text-1xl font-semibold"
-            style={{ color: appStyle.color_primary }}
-          >
-            Directions
-          </Text>
-        </TouchableOpacity>
-      </View>
+          Directions
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -418,12 +406,11 @@ const style = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    borderWidth: 2,
-    borderColor: appStyle.color_primary,
+    borderWidth: 1.5,
   },
   map: {
-    width: 300,
-    height: 300,
+    width: "100%",
+    height: "100%",
   },
 });
 
