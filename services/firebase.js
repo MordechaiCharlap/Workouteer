@@ -385,7 +385,9 @@ export const getChatsArrayIncludeUsers = async (user) => {
     }
     chatsArr.push(chatToPush);
   }
-
+  chatsArr.sort(
+    (a, b) => b.chat.lastMessage.sentAt - a.chat.lastMessage.sentAt
+  );
   return chatsArr;
 };
 export const getChat = async (chatId) => {
