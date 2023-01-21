@@ -128,7 +128,7 @@ const LoginScreen = () => {
                   placeholderTextColor={"#5f6b8b"}
                   onChangeText={(text) => setEmail(text)}
                 ></TextInput>
-                <View className="bg-gray-500 mb-5">
+                <View className="mb-5">
                   <TextInput
                     className="rounded px-3 py-1"
                     secureTextEntry={!showPassword}
@@ -137,27 +137,29 @@ const LoginScreen = () => {
                     placeholderTextColor={"#5f6b8b"}
                     onChangeText={(text) => setPassword(text)}
                   ></TextInput>
-                  <View className="absolute right-3 top-0 bottom-0 justify-center">
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    >
-                      {showPassword ? (
-                        <FontAwesomeIcon
-                          icon={faEyeSlash}
-                          size={25}
-                          color={appStyle.color_primary}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          size={25}
-                          color={appStyle.color_primary}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  </View>
+                  {password != "" && (
+                    <View className="absolute right-3 top-0 bottom-0 justify-center">
+                      <TouchableOpacity
+                        onPress={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      >
+                        {showPassword ? (
+                          <FontAwesomeIcon
+                            icon={faEyeSlash}
+                            size={25}
+                            color={appStyle.color_primary}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            size={25}
+                            color={appStyle.color_primary}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  )}
                 </View>
                 <View className="flex-row items-center mb-5">
                   <CheckBox
