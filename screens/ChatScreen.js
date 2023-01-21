@@ -65,7 +65,18 @@ const ChatScreen = ({ route }) => {
     });
   });
   useEffect(() => {
-    if (chat != null && messages.length == 0) {
+    if (!chat) {
+      const createChat = async () => {
+        const newChat = await firebase.createNewPrivateChat(user, otherUser);
+        setChat(newChat);
+        await firebase.addChatConnection(otherUser.id, user.id, newChat.id);
+        await firebase.addChatConnection(user.id, otherUser.id, newChat.id);
+      };
+      createChat();
+    }
+  }, [chat]);
+  useEffect(() => {
+    if (chat && messages.length == 0) {
       console.log("getting messages");
       console.log(chat);
       const joinDateTS = chat.members[user.id].joinDate;
@@ -110,18 +121,7 @@ const ChatScreen = ({ route }) => {
     if (messageText != "") {
       const content = messageText;
       setMessageText("");
-      var chatData = chat;
-      if (!chat) {
-        chatData = await firebase.createNewPrivateChat(user, otherUser);
-        // setUser(await firebase.updateContext(user.id));
-        setChat(chatData);
-      }
-      await firebase.sendPrivateMessage(
-        user.id,
-        otherUser.id,
-        content,
-        chatData
-      );
+      await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
       await sendPushNotification(
         otherUser,
         "New message",
