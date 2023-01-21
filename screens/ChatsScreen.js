@@ -165,99 +165,101 @@ const ChatsScreen = () => {
         data={chatsArr}
         className="mt-2"
         keyExtractor={(item) => item.chat.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onLongPress={() => chatLongClicked(item)}
-            onPress={() => chatClicked(item)}
-            className="relative my-3"
-          >
-            <View className="flex-row">
-              <Image
-                source={{
-                  uri: item.user.img,
-                }}
-                className="h-14 w-14 bg-white rounded-full mr-4"
-              />
-              <View className="flex-1">
-                <View className="flex-row justify-between">
-                  <Text
-                    className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_primary }}
-                  >
-                    {item.user.displayName}
-                  </Text>
-                  <Text
-                    className="mt-1"
-                    style={{ color: appStyle.color_primary, fontSize: 12 }}
-                  >
-                    {convertTimestamp(item.chat.lastMessage.sentAt)}
-                  </Text>
-                </View>
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-row items-center">
-                    {item.chat.lastMessage.sender == user.id &&
-                      (Object.values(item.chat.lastMessage.seenBy).every(
-                        (value) => value == true
-                      ) ? (
-                        <View className="mr-0.5">
-                          <FontAwesomeIcon
-                            icon={faDoubleCheck}
-                            color={appStyle.color_bg_variant}
-                            size={15}
-                          />
-                        </View>
-                      ) : (
-                        <View className="mr-0.5">
-                          <FontAwesomeIcon
-                            icon={faCheck}
-                            color={appStyle.color_bg_variant}
-                            size={15}
-                          />
-                        </View>
-                      ))}
-                    {lastMessageConverter(
-                      item.chat.lastMessage,
-                      chatsAlerts[item.chat.id] != null,
-                      item.chat.lastMessage.sender == user.id
+        renderItem={({ item }) =>
+          item.chat.messagesCount > 0 && (
+            <TouchableOpacity
+              onLongPress={() => chatLongClicked(item)}
+              onPress={() => chatClicked(item)}
+              className="relative my-3"
+            >
+              <View className="flex-row">
+                <Image
+                  source={{
+                    uri: item.user.img,
+                  }}
+                  className="h-14 w-14 bg-white rounded-full mr-4"
+                />
+                <View className="flex-1">
+                  <View className="flex-row justify-between">
+                    <Text
+                      className="text-xl font-semibold tracking-wider"
+                      style={{ color: appStyle.color_primary }}
+                    >
+                      {item.user.displayName}
+                    </Text>
+                    <Text
+                      className="mt-1"
+                      style={{ color: appStyle.color_primary, fontSize: 12 }}
+                    >
+                      {convertTimestamp(item.chat.lastMessage.sentAt)}
+                    </Text>
+                  </View>
+                  <View className="flex-row items-center justify-between">
+                    <View className="flex-row items-center">
+                      {item.chat.lastMessage.sender == user.id &&
+                        (Object.values(item.chat.lastMessage.seenBy).every(
+                          (value) => value == true
+                        ) ? (
+                          <View className="mr-0.5">
+                            <FontAwesomeIcon
+                              icon={faDoubleCheck}
+                              color={appStyle.color_bg_variant}
+                              size={15}
+                            />
+                          </View>
+                        ) : (
+                          <View className="mr-0.5">
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              color={appStyle.color_bg_variant}
+                              size={15}
+                            />
+                          </View>
+                        ))}
+                      {lastMessageConverter(
+                        item.chat.lastMessage,
+                        chatsAlerts[item.chat.id] != null,
+                        item.chat.lastMessage.sender == user.id
+                      )}
+                    </View>
+
+                    {chatsAlerts[item.chat.id] && (
+                      <View>
+                        <AlertDot
+                          text={chatsAlerts[item.chat.id]}
+                          textColor={appStyle.color_on_primary}
+                          color={appStyle.color_primary}
+                          fontSize={10}
+                          size={23}
+                        />
+                      </View>
                     )}
                   </View>
-
-                  {chatsAlerts[item.chat.id] && (
-                    <View>
-                      <AlertDot
-                        text={chatsAlerts[item.chat.id]}
-                        textColor={appStyle.color_on_primary}
-                        color={appStyle.color_primary}
-                        fontSize={10}
-                        size={23}
-                      />
-                    </View>
-                  )}
                 </View>
               </View>
-            </View>
-            {selectedChats.length > 0 && (
-              <View className="absolute top-0 bottom-0 justify-center">
-                <View
-                  className="rounded-lg p-1"
-                  style={{ backgroundColor: appStyle.color_primary }}
-                >
-                  <FontAwesomeIcon
-                    icon={
-                      selectedChats.some(
-                        (selectedItem) => selectedItem.chat.id == item.chat.id
-                      )
-                        ? faCheckSquare
-                        : faSquare
-                    }
-                    color={appStyle.color_on_primary}
-                    size={30}
-                  />
+              {selectedChats.length > 0 && (
+                <View className="absolute top-0 bottom-0 justify-center">
+                  <View
+                    className="rounded-lg p-1"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                  >
+                    <FontAwesomeIcon
+                      icon={
+                        selectedChats.some(
+                          (selectedItem) => selectedItem.chat.id == item.chat.id
+                        )
+                          ? faCheckSquare
+                          : faSquare
+                      }
+                      color={appStyle.color_on_primary}
+                      size={30}
+                    />
+                  </View>
                 </View>
-              </View>
-            )}
-          </TouchableOpacity>
-        )}
+              )}
+            </TouchableOpacity>
+          )
+        }
       />
     );
   };
