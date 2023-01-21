@@ -266,7 +266,7 @@ export const removeFriend = async (userId, otherUserId) => {
     [`friends.${userId}`]: deleteField(),
   });
 };
-const addChatConnection = async (userId, otherUserId, chatId) => {
+export const addChatConnection = async (userId, otherUserId, chatId) => {
   await updateDoc(doc(db, "users", userId), {
     [`chatPals.${otherUserId}`]: chatId,
     [`chats.${chatId}`]: Timestamp.now(),
@@ -282,32 +282,12 @@ const getSeenByMapGroupChat = (senderId, chat) => {
   return seenByMap;
 };
 export const getPrivateChatByUsers = async (user, otherUser) => {
-  const chatId = user.chatPals[otherUser.id];
+  const chatId = user.chatPals[otherUser.id] || otherUser.chatPals[user.id];
   if (!chatId) {
-    console.log("Havent found chatpal");
-    return await getOrCreatePrivateChat(user, otherUser);
+    console.log("Havent found chatpal, return new ");
+    return;
   } else {
     console.log("getting old chat");
-    const chat = await getDoc(doc(db, `chats/${chatId}`));
-    const chatWithId = { ...chat.data(), id: chat.id };
-    return chatWithId;
-  }
-};
-export const getOrCreatePrivateChat = async (user, otherUser) => {
-  //This function called just when I dont have a chat already
-  const chatId = otherUser.chats[user.id];
-  if (!chatId) {
-    //do nothing
-    //chat doesnt exists
-    //return null and wait for the first message to create it
-    return null;
-  } else {
-    //He has me but I dont have him
-    chatId = otherUserChatPals.get(user.id);
-    await updateDoc(doc(db, `chats/${chatId}`), {
-      [`members.${user.id}`]: Timestamp.now(),
-    });
-    await addChatConnection(user.id, otherUser.id, chatId);
     const chat = await getChat(chatId);
     return {
       ...chat,
@@ -326,8 +306,6 @@ export const createNewPrivateChat = async (user, otherUser) => {
     },
     messagesCount: 0,
   });
-  await addChatConnection(otherUser.id, user.id, chatRef.id);
-  await addChatConnection(user.id, otherUser.id, chatRef.id);
   return { id: chatRef.id, ...(await getChat(chatRef.id)) };
   // return { id: chatRef.id, ...chatRef.data() };
 };
@@ -506,7 +484,6 @@ export const deletePrivateChatForUser = async (
 ) => {
   await updateDoc(doc(db, "users", user.id), {
     [`chatPals.${chatAndUserItem.user.id}`]: deleteField(),
-    [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
   });
   await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
   if (chatAlerts) {
