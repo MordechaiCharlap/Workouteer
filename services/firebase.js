@@ -148,13 +148,14 @@ export const createUser = async (newUserData) => {
     workouts: {},
     chatPals: {},
     friends: {},
-    chats: [],
+    chats: {},
     description: "",
     language: getLanguage(),
     isPublic: true,
     showOnline: true,
     defaultCity: null,
     defaultCountry: null,
+    isOnline: true,
   });
 
   await setDoc(doc(db, "alerts", newUserData.id), {
