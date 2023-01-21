@@ -468,7 +468,7 @@ export const getPastWorkouts = async (user, now) => {
   );
   return workoutsArray;
 };
-const removeUserFromMembersOrDeleteChat = async (user, chat) => {
+const removeUserFromMembersOrDeleteGroupChat = async (user, chat) => {
   if (Object.keys(chat.members).length == 1) {
     await deleteDoc(doc(db, "chats", chat.id));
   } else {
@@ -483,9 +483,12 @@ export const deletePrivateChatForUser = async (
   chatAlerts
 ) => {
   await updateDoc(doc(db, "users", user.id), {
-    [`chatPals.${chatAndUserItem.user.id}`]: deleteField(),
+    [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
   });
-  await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
+  //getting messages just after joinDate which is leaving date basically
+  await updateDoc(doc(db, "chats", chatAndUserItem.chat.id), {
+    [`members.${user.id}.joinDate`]: Timestamp.now(),
+  });
   if (chatAlerts) {
     await removeChatAlerts(user.id, chatAndUserItem.chat);
   }
@@ -494,7 +497,7 @@ export const deleteGroupChatForUser = async (user, chat) => {
   await updateDoc(doc(db, "users", user.id), {
     [`chats.${chat.id}`]: deleteField(),
   });
-  await removeUserFromMembersOrDeleteChat(user, chatAndUserItem.chat);
+  await removeUserFromMembersOrDeleteGroupChat(user, chatAndUserItem.chat);
 };
 export const cancelWorkout = async (user, workout) => {
   await updateDoc(doc(db, "users", user.id), {
