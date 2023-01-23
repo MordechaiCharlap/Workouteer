@@ -5,6 +5,7 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import BottomNavbar from "../components/BottomNavbar";
 import * as appStyle from "../components/AppStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
+import Calendar from "../components/Calendar";
 const CalendarScreen = () => {
   const { setScreen } = useNavbarNavigation();
   const navigation = useNavigation();
@@ -24,13 +25,8 @@ const CalendarScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 justify-center">
-        <Text
-          style={{ color: appStyle.color_primary }}
-          className="text-4xl font-bold text-center"
-        >
-          Coming soon!
-        </Text>
+      <View className="flex-1">
+        <Calendar />
       </View>
       <BottomNavbar currentScreen="Calendar" />
     </View>
