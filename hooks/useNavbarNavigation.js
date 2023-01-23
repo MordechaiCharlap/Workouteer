@@ -37,7 +37,7 @@ export const NavbarNavigationProvider = ({ children }) => {
         chatsNavigationOptions.current = rightAnimation();
         exploreNavigationOptions.current = rightAnimation();
         break;
-      case "Calendar":
+      case "Leaderboard":
         myUserNavigationOptions.current = leftAnimation();
         homeNavigationOptions.current = rightAnimation();
         chatsNavigationOptions.current = rightAnimation();
@@ -63,38 +63,6 @@ export const NavbarNavigationProvider = ({ children }) => {
         break;
     }
   };
-  // const setAnimation = (direction, screenName) => {
-  //   var options;
-
-  //   switch (direction) {
-  //     case "up":
-  //       options = upAnimation();
-  //       break;
-  //     case "left":
-  //       options = leftAnimation();
-  //       break;
-  //     case "right":
-  //       options = rightAnimation();
-  //       break;
-  //   }
-  //   switch (screenName) {
-  //     case "MyUser":
-  //       setMyUserNavigationOptions(options);
-  //       break;
-  //     case "Calendar":
-  //       setleaderboardNavigationOptions(options);
-  //       break;
-  //     case "Home":
-  //       setHomeNavigationOptions(options);
-  //       break;
-  //     case "Chats":
-  //       setChatsNavigationOptions(options);
-  //       break;
-  //     case "Explore":
-  //       setExploreNavigationOptions(options);
-  //       break;
-  //   }
-  // };
 
   return (
     <NavbarNavigationContext.Provider
