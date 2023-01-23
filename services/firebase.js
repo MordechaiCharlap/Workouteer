@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
-const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
