@@ -4,12 +4,7 @@ import NavbarButton from "./NavbarButton";
 import * as appStyle from "./AppStyleSheet";
 import useAlerts from "../hooks/useAlerts";
 const BottomNavbar = (props) => {
-  const {
-    chatsAlerts,
-    workoutRequestsAlerts,
-    workoutInvitesAlerts,
-    friendRequestsAlerts,
-  } = useAlerts();
+  const { chatsAlerts, friendRequestsAlerts } = useAlerts();
   return (
     <View
       className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display}`}
@@ -20,7 +15,8 @@ const BottomNavbar = (props) => {
         currentScreen={props.currentScreen}
         alert={Object.keys(friendRequestsAlerts).length > 0}
       />
-      <NavbarButton screen="Calendar" currentScreen={props.currentScreen} />
+      {/* <NavbarButton screen="Calendar" currentScreen={props.currentScreen} /> */}
+      <NavbarButton screen="Leaderboard" currentScreen={props.currentScreen} />
       <NavbarButton screen="Home" currentScreen={props.currentScreen} />
       <NavbarButton
         screen="Chats"

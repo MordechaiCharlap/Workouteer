@@ -32,13 +32,14 @@ import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 import { Platform } from "react-native";
+import LeaderboardScreen from "./screens/LeaderboardScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
     useAuth();
   const {
     myUserNavigationOptions,
-    calendarNavigationOptions,
+    leaderboardNavigationOptions,
     homeNavigationOptions,
     chatsNavigationOptions,
     exploreNavigationOptions,
@@ -121,10 +122,15 @@ const StackNavigator = () => {
             component={ChatScreen}
             options={verticalAnimation}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Calendar"
             component={CalendarScreen}
-            options={calendarNavigationOptions.current}
+            options={leaderboardNavigationOptions.current}
+          /> */}
+          <Stack.Screen
+            name="Leaderboard"
+            component={LeaderboardScreen}
+            options={leaderboardNavigationOptions.current}
           />
           <Stack.Screen
             name="Notifications"

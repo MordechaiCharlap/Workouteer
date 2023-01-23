@@ -9,14 +9,15 @@ import {
   faDumbbell,
   faComments,
   faGlobe,
+  faRankingStar,
 } from "@fortawesome/free-solid-svg-icons";
-import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 const NavbarButton = (props) => {
   const { user, setUser } = useAuth();
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
-    if (props.screen == "Calendar") return faCalendarDays;
+    if (props.screen == "Leaderboard") return faRankingStar;
+    // if (props.screen == "Calendar") return faCalendarDays;
     if (props.screen == "Home") return faDumbbell;
     if (props.screen == "Chats") return faComments;
     if (props.screen == "Explore") return faGlobe;
