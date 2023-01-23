@@ -13,7 +13,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 const NavbarButton = (props) => {
-  const { user, setUser } = useAuth();
+  const navigation = useNavigation();
+  const navigate = async () => {
+    // setUser(await firebase.updateContext(user.id));
+    navigation.navigate(props.screen);
+  };
   const getIcon = () => {
     if (props.screen == "MyUser") return faCircleUser;
     if (props.screen == "Leaderboard") return faRankingStar;
@@ -22,11 +26,7 @@ const NavbarButton = (props) => {
     if (props.screen == "Chats") return faComments;
     if (props.screen == "Explore") return faGlobe;
   };
-  const navigation = useNavigation();
-  const navigate = async () => {
-    // setUser(await firebase.updateContext(user.id));
-    navigation.navigate(props.screen);
-  };
+
   return (
     <TouchableOpacity
       className="flex-grow w-1 items-center justify-center"
