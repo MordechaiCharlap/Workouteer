@@ -25,14 +25,14 @@ export const NavbarNavigationProvider = ({ children }) => {
     return options;
   };
   const myUserNavigationOptions = useRef(upAnimation());
-  const calendarNavigationOptions = useRef(upAnimation());
+  const leaderboardNavigationOptions = useRef(upAnimation());
   const homeNavigationOptions = useRef(upAnimation());
   const chatsNavigationOptions = useRef(upAnimation());
   const exploreNavigationOptions = useRef(upAnimation());
   const setScreen = (screenName) => {
     switch (screenName) {
       case "MyUser":
-        calendarNavigationOptions.current = rightAnimation();
+        leaderboardNavigationOptions.current = rightAnimation();
         homeNavigationOptions.current = rightAnimation();
         chatsNavigationOptions.current = rightAnimation();
         exploreNavigationOptions.current = rightAnimation();
@@ -45,19 +45,19 @@ export const NavbarNavigationProvider = ({ children }) => {
         break;
       case "Home":
         myUserNavigationOptions.current = leftAnimation();
-        calendarNavigationOptions.current = leftAnimation();
+        leaderboardNavigationOptions.current = leftAnimation();
         chatsNavigationOptions.current = rightAnimation();
         exploreNavigationOptions.current = rightAnimation();
         break;
       case "Chats":
         myUserNavigationOptions.current = leftAnimation();
-        calendarNavigationOptions.current = leftAnimation();
+        leaderboardNavigationOptions.current = leftAnimation();
         homeNavigationOptions.current = leftAnimation();
         exploreNavigationOptions.current = rightAnimation();
         break;
       case "Explore":
         myUserNavigationOptions.current = leftAnimation();
-        calendarNavigationOptions.current = leftAnimation();
+        leaderboardNavigationOptions.current = leftAnimation();
         homeNavigationOptions.current = leftAnimation();
         chatsNavigationOptions.current = leftAnimation();
         break;
@@ -82,7 +82,7 @@ export const NavbarNavigationProvider = ({ children }) => {
   //       setMyUserNavigationOptions(options);
   //       break;
   //     case "Calendar":
-  //       setCalendarNavigationOptions(options);
+  //       setleaderboardNavigationOptions(options);
   //       break;
   //     case "Home":
   //       setHomeNavigationOptions(options);
@@ -100,7 +100,7 @@ export const NavbarNavigationProvider = ({ children }) => {
     <NavbarNavigationContext.Provider
       value={{
         myUserNavigationOptions,
-        calendarNavigationOptions,
+        leaderboardNavigationOptions,
         homeNavigationOptions,
         chatsNavigationOptions,
         exploreNavigationOptions,
