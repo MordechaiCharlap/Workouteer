@@ -774,6 +774,15 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
+export const convertLastSundayToId = (lastSunday) => {
+  const lastSundayCollectionId =
+    lastSunday.getDate() +
+    "-" +
+    (lastSunday.getMonth() + 1) +
+    "-" +
+    lastSunday.getFullYear();
+  return lastSundayCollectionId;
+};
 export const addPoints = async (user, pointsNumer) => {
   const startingTime = user.leaderboard.startingTime.toDate();
   const date = new Date();
@@ -796,17 +805,14 @@ export const addPoints = async (user, pointsNumer) => {
   }
 };
 const getNewLeaderboard = async (user, pointsNumer, lastSunday) => {
-  const lastSundayCollectionId =
-    lastSunday.getDate() +
-    "-" +
-    (lastSunday.getMonth() + 1) +
-    "-" +
-    lastSunday.getFullYear();
-  console.log(lastSundayCollectionId);
+  const lastSundayCollectionId = convertLastSundayToId(lastSunday);
   const q = query(
     collection(db, `leaderboards/${user.rank}/${lastSundayCollectionId}`),
-    where(usersCount < 50),
-    orderBy(startingTime),
+    where("usersCount", "<", 50),
     limit(1)
   );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.size != 0) {
+    console.log(querySnapshot.docs[0].data());
+  }
 };
