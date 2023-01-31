@@ -157,7 +157,8 @@ export const createUser = async (newUserData) => {
     defaultCountry: null,
     isOnline: true,
     achievements: {},
-    league: 1,
+    rank: 1,
+    leaderboard: {},
   });
 
   await setDoc(doc(db, "alerts", newUserData.id), {
