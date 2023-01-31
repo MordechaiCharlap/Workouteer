@@ -6,14 +6,9 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from "react-native";
-import {
-  React,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { React, useEffect, useLayoutEffect, useState } from "react";
 import BottomNavbar from "../components/BottomNavbar";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -23,7 +18,6 @@ import {
   faMagnifyingGlass,
   faChevronLeft,
   faCircleUser,
-  faPlus,
   faUserClock,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
