@@ -774,23 +774,21 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
-export const convertLastSundayToId = () => {
+export const getLastWeekId = () => {
   const date = new Date();
   const lastSunday = new Date();
   lastSunday.setDate(date.getDate() - date.getDay());
-  const lastSundayCollectionId =
-    lastSunday.getDate() +
-    "-" +
-    (lastSunday.getMonth() + 1) +
-    "-" +
-    lastSunday.getFullYear();
-  return lastSundayCollectionId;
+  const weekId = `
+    ${lastSunday.getDate()}-${
+    lastSunday.getMonth() + 1
+  }-${lastSunday.getFullYear()}`;
+  console.log(weekId);
+  return weekId;
 };
 export const addPoints = async (user, pointsNumber) => {
-  lastSunday.setDate(date.getDate() - date.getDay());
   if (
     user.leaderboard.weekId != null &&
-    user.leaderboard.weekId == convertLastSundayToId()
+    user.leaderboard.weekId == getLastWeekId()
   ) {
     await updateDoc(
       doc(
@@ -806,22 +804,33 @@ export const addPoints = async (user, pointsNumber) => {
   }
 };
 const getNewLeaderboard = async (user, pointsNumber) => {
-  const lastSundayCollectionId = convertLastSundayToId();
+  const lastWeekId = getLastWeekId();
+  var leaderboardId = "";
+  console.log("query");
   const q = query(
-    collection(db, `leaderboards/${user.rank}/${lastSundayCollectionId}`),
+    collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
     where("usersCount", "<", 50),
     limit(1)
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot.size != 0) {
+    leaderboardId = querySnapshot.docs[0].id;
     await updateDoc(
-      doc(
-        db,
-        `leaderboards/${user.rank}/${lastSundayCollectionId}/${querySnapshot.docs[0].id}`
-      ),
+      doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
       {
         [`users.${user.id}.points`]: pointsNumber,
       }
     );
+  } else {
+    console.log("creating leaderboard");
+    const newLeaderboard = await addDoc(
+      doc(db, `leaderboards/${user.rank}/${lastWeekId}`)
+    );
+    leaderboardId = newLeaderboard.id;
   }
+  console.log("updating user leaderboard");
+  await updateDoc(doc(db, "users", user.id), {
+    "leaderboard.id": leaderboardId,
+    weekId: lastWeekId,
+  });
 };
