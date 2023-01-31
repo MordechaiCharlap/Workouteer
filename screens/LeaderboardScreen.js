@@ -39,7 +39,21 @@ const LeaderboardScreen = () => {
     }, [])
   );
   useEffect(() => {
-    const fetchLeaderboard = async () => {};
+    const fetchLeaderboard = async () => {
+      const startingTime = user.leaderboard.startingTime.toDate();
+
+      const date = new Date();
+      const lastSunday = new Date();
+      lastSunday.setDate(date.getDate() - date.getDay());
+      console.log(lastSunday);
+      if (
+        startingTime != null &&
+        startingTime.getFullYear() === lastSunday.getFullYear() &&
+        startingTime.getMonth() === lastSunday.getMonth() &&
+        startingTime.getDate() === lastSunday.getDate()
+      ) {
+      }
+    };
     fetchLeaderboard();
   }, []);
   return (
