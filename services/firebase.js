@@ -774,7 +774,10 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
-export const convertLastSundayToId = (lastSunday) => {
+export const convertLastSundayToId = () => {
+  const date = new Date();
+  const lastSunday = new Date();
+  lastSunday.setDate(date.getDate() - date.getDay());
   const lastSundayCollectionId =
     lastSunday.getDate() +
     "-" +
@@ -783,29 +786,27 @@ export const convertLastSundayToId = (lastSunday) => {
     lastSunday.getFullYear();
   return lastSundayCollectionId;
 };
-export const addPoints = async (user, pointsNumer) => {
-  const startingTime = user.leaderboard.startingTime.toDate();
-  const date = new Date();
-  const lastSunday = new Date();
+export const addPoints = async (user, pointsNumber) => {
   lastSunday.setDate(date.getDate() - date.getDay());
   if (
-    startingTime != null &&
-    startingTime.getFullYear() === lastSunday.getFullYear() &&
-    startingTime.getMonth() === lastSunday.getMonth() &&
-    startingTime.getDate() === lastSunday.getDate()
+    user.leaderboard.weekId != null &&
+    user.leaderboard.weekId == convertLastSundayToId()
   ) {
     await updateDoc(
-      doc(db, `leaderboards/${user.rank}/${user.leaderboard.id}`),
+      doc(
+        db,
+        `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+      ),
       {
-        [`${user.id}.points`]: increment(pointsNumer),
+        [`${user.id}.points`]: increment(pointsNumber),
       }
     );
   } else {
-    await getNewLeaderboard(user, pointsNumer, lastSunday);
+    await getNewLeaderboard(user, pointsNumber);
   }
 };
-const getNewLeaderboard = async (user, pointsNumber, lastSunday) => {
-  const lastSundayCollectionId = convertLastSundayToId(lastSunday);
+const getNewLeaderboard = async (user, pointsNumber) => {
+  const lastSundayCollectionId = convertLastSundayToId();
   const q = query(
     collection(db, `leaderboards/${user.rank}/${lastSundayCollectionId}`),
     where("usersCount", "<", 50),
