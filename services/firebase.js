@@ -436,8 +436,8 @@ export const createWorkout = async (workout) => {
     [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
   });
   await updateDoc(doc(db, "alerts", workout.creator), {
-    [`newWorkouts.${workout.id}.dateAdded`]: Timestamp.now(),
-    [`newWorkouts.${workout.id}.workoutDate`]: workout.startingTime,
+    [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
+    [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
 };
 export const getFutureWorkouts = async (user, now) => {
@@ -804,7 +804,7 @@ export const addPoints = async (user, pointsNumer) => {
     await getNewLeaderboard(user, pointsNumer, lastSunday);
   }
 };
-const getNewLeaderboard = async (user, pointsNumer, lastSunday) => {
+const getNewLeaderboard = async (user, pointsNumber, lastSunday) => {
   const lastSundayCollectionId = convertLastSundayToId(lastSunday);
   const q = query(
     collection(db, `leaderboards/${user.rank}/${lastSundayCollectionId}`),
@@ -813,6 +813,14 @@ const getNewLeaderboard = async (user, pointsNumer, lastSunday) => {
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot.size != 0) {
-    console.log(querySnapshot.docs[0].data());
+    await updateDoc(
+      doc(
+        db,
+        `leaderboards/${user.rank}/${lastSundayCollectionId}/${querySnapshot.docs[0].id}`
+      ),
+      {
+        [`users.${user.id}.points`]: pointsNumber,
+      }
+    );
   }
 };
