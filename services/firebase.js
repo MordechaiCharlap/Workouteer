@@ -778,8 +778,7 @@ export const getLastWeekId = () => {
   const date = new Date();
   const lastSunday = new Date();
   lastSunday.setDate(date.getDate() - date.getDay());
-  const weekId = `
-    ${lastSunday.getDate()}-${
+  const weekId = `${lastSunday.getDate()}-${
     lastSunday.getMonth() + 1
   }-${lastSunday.getFullYear()}`;
   console.log(weekId);
@@ -790,15 +789,9 @@ export const addPoints = async (user, pointsNumber) => {
     user.leaderboard.weekId != null &&
     user.leaderboard.weekId == getLastWeekId()
   ) {
-    await updateDoc(
-      doc(
-        db,
-        `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
-      ),
-      {
-        [user.id]: increment(pointsNumber),
-      }
-    );
+    await updateDoc(doc(db, `users`, user.id), {
+      [`leaderboard.points`]: increment(pointsNumber),
+    });
   } else {
     await getNewLeaderboard(user, pointsNumber);
   }
@@ -818,7 +811,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     await updateDoc(
       doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
       {
-        [`users.${user.id}`]: pointsNumber,
+        [`users.${user.id}`]: true,
         usersCount: increment(1),
       }
     );
@@ -827,7 +820,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     const newLeaderboard = await addDoc(
       collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
       {
-        users: { [user.id]: pointsNumber },
+        users: { [user.id]: true },
         usersCount: increment(1),
       }
     );
@@ -837,5 +830,6 @@ const getNewLeaderboard = async (user, pointsNumber) => {
   await updateDoc(doc(db, "users", user.id), {
     ["leaderboard.id"]: leaderboardId,
     ["leaderboard.weekId"]: lastWeekId,
+    ["leaderboard.points"]: pointsNumber,
   });
 };
