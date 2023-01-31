@@ -91,7 +91,7 @@ const NewWorkoutScreen = () => {
       requests: {},
     };
     await firebase.createWorkout(workout);
-    // setUser(await firebase.updateContext(user.id));
+    await firebase.addPoints(user, 10);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
