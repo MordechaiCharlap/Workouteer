@@ -1,4 +1,11 @@
-import { View, Text, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StatusBar,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {
   React,
@@ -13,7 +20,6 @@ import * as appStyle from "../components/AppStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
-import { FlatList } from "react-native-gesture-handler";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -25,7 +31,7 @@ const LeaderboardScreen = () => {
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
 
-  const [leaderboardList, setLeaderboardList] = useState([]);
+  const [leaderboardList, setLeaderboardList] = useState([user]);
   const rank = user.rank == 1 ? "Bronze" : "Silver";
   useFocusEffect(
     useCallback(() => {
@@ -42,9 +48,7 @@ const LeaderboardScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1">
-        <Header title={rank + " league"} />
-      </View>
+      <Header title={rank + " league"} />
       <FlatList
         data={leaderboardList}
         keyExtractor={(item) => item.id}
