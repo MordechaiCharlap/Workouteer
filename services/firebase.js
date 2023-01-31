@@ -835,7 +835,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
   }
   console.log("updating user leaderboard");
   await updateDoc(doc(db, "users", user.id), {
-    "leaderboard.id": leaderboardId,
-    weekId: lastWeekId,
+    ["leaderboard.id"]: leaderboardId,
+    ["leaderboard.weekId"]: lastWeekId,
   });
 };
