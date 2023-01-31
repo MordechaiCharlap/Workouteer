@@ -796,7 +796,7 @@ export const addPoints = async (user, pointsNumber) => {
         `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
       ),
       {
-        [`${user.id}.points`]: increment(pointsNumber),
+        [user.id]: increment(pointsNumber),
       }
     );
   } else {
@@ -818,13 +818,18 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     await updateDoc(
       doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
       {
-        [`users.${user.id}.points`]: pointsNumber,
+        [`users.${user.id}`]: pointsNumber,
+        usersCount: increment(1),
       }
     );
   } else {
     console.log("creating leaderboard");
     const newLeaderboard = await addDoc(
-      doc(db, `leaderboards/${user.rank}/${lastWeekId}`)
+      collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
+      {
+        users: { [user.id]: pointsNumber },
+        usersCount: increment(1),
+      }
     );
     leaderboardId = newLeaderboard.id;
   }
