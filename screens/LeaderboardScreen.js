@@ -20,7 +20,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
-import { db } from "../services/firebase";
+import * as firebase from "../services/firebase";
 import { getDoc } from "firebase/firestore";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
@@ -41,26 +41,7 @@ const LeaderboardScreen = () => {
   );
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      if (user.leaderboard.id == null || user.leaderboard.points == 0) return;
-      const startingTime = user.leaderboard.startingTime.toDate();
-
-      const date = new Date();
-      const lastSunday = new Date();
-      lastSunday.setDate(date.getDate() - date.getDay());
-      console.log(lastSunday);
-      if (
-        startingTime != null &&
-        startingTime.getFullYear() === lastSunday.getFullYear() &&
-        startingTime.getMonth() === lastSunday.getMonth() &&
-        startingTime.getDate() === lastSunday.getDate()
-      ) {
-        const leaderboardList = await getDoc(
-          doc(db, `leaderboards/${user.rank}/${user.leaderboard.id}`)
-        );
-        setLeaderboardList(leaderboardList);
-      } else {
-        return;
-      }
+      if (user.leaderboard.weekId != firebase.getLastWeekId()) return;
     };
     fetchLeaderboard();
   }, []);
