@@ -158,7 +158,9 @@ export const createUser = async (newUserData) => {
     isOnline: true,
     achievements: {},
     rank: 1,
-    leaderboard: {},
+    leaderboard: {
+      points: 0,
+    },
   });
 
   await setDoc(doc(db, "alerts", newUserData.id), {
@@ -771,4 +773,40 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       workoutInvites: inviteAlerts,
     });
   }
+};
+export const addPoints = async (user, pointsNumer) => {
+  const startingTime = user.leaderboard.startingTime.toDate();
+  const date = new Date();
+  const lastSunday = new Date();
+  lastSunday.setDate(date.getDate() - date.getDay());
+  if (
+    startingTime != null &&
+    startingTime.getFullYear() === lastSunday.getFullYear() &&
+    startingTime.getMonth() === lastSunday.getMonth() &&
+    startingTime.getDate() === lastSunday.getDate()
+  ) {
+    await updateDoc(
+      doc(db, `leaderboards/${user.rank}/${user.leaderboard.id}`),
+      {
+        [`${user.id}.points`]: increment(pointsNumer),
+      }
+    );
+  } else {
+    await getNewLeaderboard(user, pointsNumer, lastSunday);
+  }
+};
+const getNewLeaderboard = async (user, pointsNumer, lastSunday) => {
+  const lastSundayCollectionId =
+    lastSunday.getDate() +
+    "-" +
+    (lastSunday.getMonth() + 1) +
+    "-" +
+    lastSunday.getFullYear();
+  console.log(lastSundayCollectionId);
+  const q = query(
+    collection(db, `leaderboards/${user.rank}/${lastSundayCollectionId}`),
+    where(usersCount < 50),
+    orderBy(startingTime),
+    limit(1)
+  );
 };
