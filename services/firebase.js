@@ -433,7 +433,11 @@ export const createWorkout = async (workout) => {
 
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
-    [`workouts.${newWorkoutRef.id}`]: [workout.startingTime, workout.minutes],
+    [`workouts.${newWorkoutRef.id}`]: [
+      workout.startingTime,
+      workout.minutes,
+      false,
+    ],
   });
   await updateDoc(doc(db, "alerts", workout.creator), {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
