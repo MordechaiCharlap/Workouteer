@@ -48,11 +48,14 @@ const HomeScreen = () => {
     for (var [key, value] of Object.entries(user.workouts)) {
       if (
         new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-        value[0].toDate() < now
+        value[0].toDate() > now
+        //should be <now but just for testing
       ) {
+        console.log("found current workout");
         return await firebase.getWorkout(key);
       }
     }
+    console.log("havent current workout");
   };
   useFocusEffect(
     useCallback(() => {
