@@ -15,6 +15,25 @@ const WorkoutMinutes = (props) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
+  const handleMinutesChange = (item) => {
+    if (
+      new Date(props.workoutDate.getTime() + item.value * 60000) >
+      props.closestWorkout
+    ) {
+      if (Platform.OS != "web")
+        Alert.alert(
+          "This workout is getting into another one of your workouts time"
+        );
+      props.minutesSelected(null);
+      setValue(null);
+    } else {
+      props.minutesSelected(item.value);
+      setValue(item.value);
+    }
+
+    setIsFocus(false);
+  };
+
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -54,9 +73,7 @@ const WorkoutMinutes = (props) => {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          props.minutesSelected(item.value);
-          setValue(item.value);
-          setIsFocus(false);
+          handleMinutesChange(item);
         }}
       />
     </View>
