@@ -46,8 +46,8 @@ const HomeScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 p-3 justify-center">
-        <View className="flex-row justify-around my-5">
+      <View className="flex-1 p-3 px-7 justify-center">
+        <View className="flex-row justify-between my-5">
           <HomeScreenButton
             buttonText={languageService[user.language].findWorkout}
             style={buttonStyle}
@@ -61,7 +61,7 @@ const HomeScreen = () => {
             icon={faPlus}
           />
         </View>
-        <View className="flex-row justify-around my-5">
+        <View className="flex-row justify-between my-5">
           <HomeScreenButton
             alert={
               Object.keys(workoutRequestsAlerts).length > 0 ||
@@ -83,7 +83,7 @@ const HomeScreen = () => {
             icon={faCalendarCheck}
           />
         </View>
-        <View className="flex-row justify-around my-5">
+        <View className="flex-row justify-between my-5">
           <HomeScreenButton
             buttonText={languageService[user.language].friendsWorkouts}
             style={buttonStyle}
@@ -99,7 +99,18 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: appStyle.color_success,
+            borderWidth: 2,
+            borderColor: appStyle.color_primary,
+          }}
+          className="rounded"
+        >
+          <Text>Confirm workout</Text>
+        </TouchableOpacity>
       </View>
+
       <BottomNavbar currentScreen="Home" />
     </View>
   );
