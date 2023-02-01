@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import { React, useState } from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import { React, useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import * as appStyle from "./AppStyleSheet";
 const data = [
@@ -14,18 +14,26 @@ const data = [
 const WorkoutMinutes = (props) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
+  useEffect(() => {
+    if (value == false) setValue(null);
+  }, [value]);
+  useEffect(() => {
+    setValue(null);
+  }, [props.workoutDate]);
   const handleMinutesChange = (item) => {
     if (
+      props.closestWorkoutDate != null &&
       new Date(props.workoutDate.getTime() + item.value * 60000) >
-      props.closestWorkout
+        props.closestWorkoutDate
     ) {
       if (Platform.OS != "web")
         Alert.alert(
-          "This workout is getting into another one of your workouts time"
+          "This workout getting into another one of your workouts time"
         );
       props.minutesSelected(null);
-      setValue(null);
+      console.log("Setting value to null");
+      setValue(false);
+      console.log(value);
     } else {
       props.minutesSelected(item.value);
       setValue(item.value);
