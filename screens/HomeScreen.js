@@ -1,5 +1,10 @@
 import { View, TouchableOpacity, Text, StatusBar } from "react-native";
-import React, { useCallback, useEffect, useLayoutEffect } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
@@ -17,13 +22,16 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
+import * as firebase from "../services/firebase";
 const HomeScreen = () => {
   const navigation = useNavigation();
-
-  const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
-    useAlerts();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
+  const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
+    useAlerts();
+
+  const [currentWorkout, setCurrentWorkout] = useState();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -35,9 +43,38 @@ const HomeScreen = () => {
     backgroundColor: appStyle.color_primary,
     iconSize: 40,
   };
+  const checkIfCurrentWorkout = async (now) => {
+    console.log("checking if theres current workout");
+    for (var [key, value] of Object.entries(user.workouts)) {
+      if (
+        new Date(value[0].toDate().getTime() + value[1] * 6000) > now &&
+        value[0].toDate() < now
+      ) {
+        return await firebase.getWorkout(key);
+      }
+    }
+  };
   useFocusEffect(
     useCallback(() => {
       setScreen("Home");
+      const initialCheckCurrentWorkout = async () => {
+        const now = new Date();
+        const currentWorkoutReturned = await checkIfCurrentWorkout(now);
+        if (!currentWorkoutReturned) {
+          const interval = setInterval(async () => {
+            const now = new Date();
+            const currentWorkoutReturned = await checkIfCurrentWorkout(now);
+            if (currentWorkoutReturned != null) {
+              setCurrentWorkout(currentWorkoutReturned);
+              clearInterval(interval);
+            } else setCurrentWorkout(null);
+          }, 60000);
+          return () => clearInterval(interval);
+        } else {
+          setCurrentWorkout(currentWorkoutReturned);
+        }
+      };
+      initialCheckCurrentWorkout();
     }, [])
   );
   return (
