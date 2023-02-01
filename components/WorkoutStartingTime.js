@@ -12,7 +12,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
-
   const [maxDate, setMaxDate] = useState();
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -23,19 +22,25 @@ const WorkoutStartingTime = (props) => {
     maximumDate.setDate(maximumDate.getDate() + 7);
     setMaxDate(maximumDate);
   }, []);
-  const checkIfDateAvailable = (dateToCheck) => {
+  const checkIfDateAvailableAndReturnClosestWorkout = (dateToCheck) => {
     console.log("Checking if date taken");
+    var closestWorkoutDate = null;
     for (var value of Object.values(user.workouts)) {
       if (
-        value[0].toDate() < dateToCheck &&
-        new Date(value[0].toDate().getTime() + value[1] * 60000) > dateToCheck
+        new Date(value[0].toDate().getTime() + value[1] * 60000) >
+          dateToCheck &&
+        value[0].toDate() < dateToCheck
       ) {
         console.log("Date taken");
         return false;
-      }
+      } else if (
+        value[0].toDate() > dateToCheck &&
+        (closestWorkoutDate == null || closestWorkoutDate > value[0].toDate())
+      )
+        closestWorkoutDate = value[0].toDate();
     }
     console.log("Date available");
-    return true;
+    return closestWorkoutDate;
   };
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -51,15 +56,20 @@ const WorkoutStartingTime = (props) => {
           if (Platform.OS != "web") Alert.alert("Can't go back in time");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
-        } else if (!checkIfDateAvailable(currentDate)) {
-          if (Platform.OS != "web")
-            Alert.alert("You already have a workout in this date");
-          setDateChangedOnce(false);
-          props.startingTimeChanged(null);
         } else {
-          setDateChangedOnce(true);
-          setDate(currentDate);
-          props.startingTimeChanged(currentDate);
+          const closestWorkout =
+            checkIfDateAvailableAndReturnClosestWorkout(currentDate);
+          if (isDateAvailable(currentDate) == false) {
+            if (Platform.OS != "web")
+              Alert.alert("You already have a workout in this date");
+            setDateChangedOnce(false);
+            props.startingTimeChanged(null);
+          } else {
+            setDateChangedOnce(true);
+            setDate(currentDate);
+            props.startingTimeChanged(currentDate);
+            props.setClosestWorkoutDate(closestWorkout);
+          }
         }
         setShow(false);
         setMode("date");
@@ -67,7 +77,7 @@ const WorkoutStartingTime = (props) => {
     } else if (event.type == "dismissed" && !dateChangedOnce) {
       console.log("dismissed in the middle");
       props.startingTimeChanged(null);
-      setDate(null);
+      setDate(new Date());
       setShow(false);
       setMode("date");
     } else if (event.type == "dismissed" && dateChangedOnce) {
