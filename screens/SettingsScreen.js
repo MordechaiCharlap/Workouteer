@@ -10,9 +10,11 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
-import { saveSettingsChanges, updateContext } from "../services/firebase";
+import { saveSettingsChanges } from "../services/firebase";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faBug } from "@fortawesome/free-solid-svg-icons";
 const SettingsScreen = () => {
   const { user, setUser, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
@@ -41,7 +43,6 @@ const SettingsScreen = () => {
   const applyChanges = async () => {
     if (changesMade) {
       await saveSettingsChanges(user.id, isPublic, showOnline, language);
-      // setUser(await updateContext(user.id));
       navigation.goBack();
     }
   };
@@ -130,7 +131,7 @@ const SettingsScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View className="flex-row items-center justify-around mt-5">
+        <View className="flex-row items-center justify-between mt-5">
           <TouchableOpacity className="w-5/12">
             <Text
               className="text-center py-1 px-1"
@@ -153,6 +154,28 @@ const SettingsScreen = () => {
               Log out
             </Text>
           </TouchableOpacity>
+        </View>
+        <View className="absolute bottom-8 right-0 left-0 items-center">
+          <TouchableOpacity
+            style={{
+              backgroundColor: appStyle.color_primary,
+            }}
+            className="items-center rounded-xl p-3"
+          >
+            <FontAwesomeIcon
+              color={appStyle.color_on_primary}
+              icon={faBug}
+              size={30}
+            />
+          </TouchableOpacity>
+          <Text
+            className="text-lg text-center font-semibold"
+            style={{
+              color: appStyle.color_primary,
+            }}
+          >
+            Report a bug or just suggest new features!
+          </Text>
         </View>
       </View>
       <View
