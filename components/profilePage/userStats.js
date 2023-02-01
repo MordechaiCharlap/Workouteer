@@ -7,7 +7,7 @@ import {
   faDumbbell,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../AppStyleSheet";
-const userStats = (props) => {
+const UserStats = (props) => {
   const iconSize = 30;
   const iconColor = appStyle.color_primary;
   return (
@@ -17,4 +17,4 @@ const userStats = (props) => {
   );
 };
 
-export default userStats;
+export default UserStats;
