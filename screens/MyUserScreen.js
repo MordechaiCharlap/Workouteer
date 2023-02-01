@@ -36,7 +36,7 @@ const MyUserScreen = () => {
     const now = new Date();
     var count = 0;
     for (var value of Object.values(user.workouts)) {
-      if (value.toDate() < now) count++;
+      if (value[0].toDate() < now) count++;
     }
     setWorkoutsCount(count);
   }, []);

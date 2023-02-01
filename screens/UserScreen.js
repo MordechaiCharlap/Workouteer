@@ -46,11 +46,10 @@ const UserScreen = ({ route }) => {
     });
   }, []);
   useEffect(() => {
-    const workouts = new Map(Object.entries(shownUser.workouts));
     const now = new Date();
     var count = 0;
-    for (var value of workouts.values()) {
-      if (value.toDate() < now) count++;
+    for (var value of Object.values(user.workouts)) {
+      if (value[0].toDate() < now) count++;
     }
     setWorkoutsCount(count);
   }, []);

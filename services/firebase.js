@@ -443,7 +443,7 @@ export const createWorkout = async (workout) => {
 export const getFutureWorkouts = async (user, now) => {
   const workoutsArray = [];
   for (var [key, value] of Object.entries(user.workouts)) {
-    if (value.toDate() > now) {
+    if (value[0].toDate() > now) {
       console.log("Found workout");
       workoutsArray.push({
         id: key,
@@ -461,7 +461,7 @@ export const getPastWorkouts = async (user, now) => {
   const workoutsArray = [];
   console.log(user.workouts);
   for (var [key, value] of Object.entries(user.workouts)) {
-    if (value.toDate() < now) {
+    if (value[0].toDate() < now) {
       workoutsArray.push({
         id: key,
         ...(await getDoc(doc(db, "workouts", key))).data(),
