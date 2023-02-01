@@ -79,8 +79,14 @@ const LeaderboardScreen = () => {
           <FlatList
             data={leaderboardList}
             keyExtractor={(item) => item[0]}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TouchableOpacity className="flex-row flex-1 items-center mt-2">
+                <Text
+                  className="text-4xl font-bold w-10 text-center"
+                  style={{ color: appStyle.color_primary }}
+                >
+                  {index + 1}
+                </Text>
                 <Image
                   source={{
                     uri: item[1].img,
@@ -101,6 +107,12 @@ const LeaderboardScreen = () => {
                     {item[0]}
                   </Text>
                 </View>
+                <Text
+                  className="absolute right-3 my-auto text-2xl"
+                  style={{ color: appStyle.color_primary }}
+                >
+                  {item[1].points}XP
+                </Text>
               </TouchableOpacity>
             )}
           />
