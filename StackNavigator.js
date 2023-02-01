@@ -59,6 +59,13 @@ const StackNavigator = () => {
       setGoogleUserAsync();
     }
   }, [googleUserInfo]);
+
+  const calculateStreak = () => {
+    // const now = new Date();
+    // for (var workout of Object.entries(user.workouts)) {
+    // }
+  };
+
   useEffect(() => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
@@ -66,6 +73,9 @@ const StackNavigator = () => {
     if (!notificationsListenersAdded && user != null && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
       addListenerAsync(user);
+    }
+    if (user) {
+      calculateStreak();
     }
   }, [user]);
   useEffect(() => {
