@@ -63,7 +63,8 @@ const HomeScreen = () => {
         if (!currentWorkoutReturned) {
           const lastQuarter = now.getMinutes() % 15;
           console.log(lastQuarter);
-          var nextCheck = new Date(now.getTime() + (15 - lastQuarter) * 60000);
+          //16 so there wont be bug checking 16:15:89 workout at 16:15:75. prefer to check at 16:16:XX to make sure
+          var nextCheck = new Date(now.getTime() + (16 - lastQuarter) * 60000);
           console.log(now);
           console.log(nextCheck);
           const interval = setInterval(async () => {
@@ -73,7 +74,6 @@ const HomeScreen = () => {
               const currentWorkoutReturned = await checkIfCurrentWorkout(now);
               if (currentWorkoutReturned != null) {
                 setCurrentWorkout(currentWorkoutReturned);
-                clearInterval(interval);
               } else setCurrentWorkout(null);
             }
           }, 60000);
