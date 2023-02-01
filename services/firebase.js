@@ -789,9 +789,17 @@ export const addPoints = async (user, pointsNumber) => {
     user.leaderboard.weekId != null &&
     user.leaderboard.weekId == getLastWeekId()
   ) {
-    await updateDoc(doc(db, `users`, user.id), {
-      [`leaderboard.points`]: increment(pointsNumber),
-    });
+    const lastWeekId = getLastWeekId();
+    await updateDoc(
+      doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
+      {
+        [`users.${user.id}`]: {
+          displayName: user.displayName,
+          img: user.img,
+          points: increment(pointsNumber),
+        },
+      }
+    );
   } else {
     await getNewLeaderboard(user, pointsNumber);
   }
@@ -811,7 +819,11 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     await updateDoc(
       doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
       {
-        [`users.${user.id}`]: true,
+        [`users.${user.id}`]: {
+          displayName: user.displayName,
+          img: user.img,
+          points: pointsNumber,
+        },
         usersCount: increment(1),
       }
     );
@@ -820,7 +832,11 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     const newLeaderboard = await addDoc(
       collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
       {
-        users: { [user.id]: true },
+        [`users.${user.id}`]: {
+          displayName: user.displayName,
+          img: user.img,
+          points: pointsNumber,
+        },
         usersCount: increment(1),
       }
     );
