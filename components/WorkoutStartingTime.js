@@ -59,7 +59,7 @@ const WorkoutStartingTime = (props) => {
         } else {
           const closestWorkout =
             checkIfDateAvailableAndReturnClosestWorkout(currentDate);
-          if (isDateAvailable(currentDate) == false) {
+          if (closestWorkout == false) {
             if (Platform.OS != "web")
               Alert.alert("You already have a workout in this date");
             setDateChangedOnce(false);
