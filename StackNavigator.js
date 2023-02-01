@@ -61,8 +61,9 @@ const StackNavigator = () => {
   }, [googleUserInfo]);
 
   const calculateStreak = () => {
-    // const now = new Date();
-    // for (var workout of Object.entries(user.workouts)) {
+    const now = new Date();
+    // for ( var workout of Object.entries( user.workouts ) ) {
+    //   if(workout.startingTime)
     // }
   };
 
