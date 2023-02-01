@@ -428,13 +428,12 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
     }
   }
 };
-export const createWorkout = async (workout, points) => {
+export const createWorkout = async (workout) => {
   await addCountryAndCityToDbIfNeeded(workout.country, workout.city);
 
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
-    totalPoints: increment(points),
-    [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
+    [`workouts.${newWorkoutRef.id}`]: [workout.startingTime, workout.minutes],
   });
   await updateDoc(doc(db, "alerts", workout.creator), {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
