@@ -21,7 +21,7 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, query } from "firebase/firestore";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -42,6 +42,13 @@ const LeaderboardScreen = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       if (user.leaderboard.weekId != firebase.getLastWeekId()) return;
+      const leaderboardData = await getDoc(
+        doc(
+          firebase.db,
+          `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+        )
+      );
+      const q = query(firebase.db);
     };
     fetchLeaderboard();
   }, []);
