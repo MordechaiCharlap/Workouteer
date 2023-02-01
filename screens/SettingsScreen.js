@@ -29,7 +29,6 @@ const SettingsScreen = () => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffecting settings");
     if (
       user.isPublic != isPublic ||
       user.showOnline != showOnline ||
