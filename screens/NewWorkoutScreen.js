@@ -90,8 +90,9 @@ const NewWorkoutScreen = () => {
       invites: {},
       requests: {},
     };
-    await firebase.createWorkout(workout);
-    await firebase.addPoints(user, 10);
+    const points = 10;
+    await firebase.createWorkout(workout, points);
+    await firebase.addLeaderboardPoints(user, points);
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
