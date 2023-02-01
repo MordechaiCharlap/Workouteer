@@ -98,7 +98,7 @@ const MyUserScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row mt-6 mb-3 h-48 items-center">
+            <View className="flex-row mt-6 h-48 items-center">
               <Image
                 source={{
                   uri: user.img,
