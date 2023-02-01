@@ -428,11 +428,12 @@ export const addCountryAndCityToDbIfNeeded = async (country, city) => {
     }
   }
 };
-export const createWorkout = async (workout) => {
+export const createWorkout = async (workout, points) => {
   await addCountryAndCityToDbIfNeeded(workout.country, workout.city);
 
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
+    totalPoints: increment(points),
     [`workouts.${newWorkoutRef.id}`]: workout.startingTime,
   });
   await updateDoc(doc(db, "alerts", workout.creator), {
@@ -784,10 +785,7 @@ export const getLastWeekId = () => {
   console.log(weekId);
   return weekId;
 };
-export const addPoints = async (user, pointsNumber) => {
-  await updateDoc(doc(db, `users/${user.id}`), {
-    totalPoints: increment(pointsNumber),
-  });
+export const addLeaderboardPoints = async (user, pointsNumber) => {
   if (
     user.leaderboard.weekId != null &&
     user.leaderboard.weekId == getLastWeekId()
@@ -798,11 +796,9 @@ export const addPoints = async (user, pointsNumber) => {
         `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
       ),
       {
-        [`users.${user.id}`]: {
-          displayName: user.displayName,
-          img: user.img,
-          points: increment(pointsNumber),
-        },
+        [`users.${user.id}.points`]: increment(pointsNumber),
+        [`users.${user.id}.displayName`]: user.displayName,
+        [`users.${user.id}.img`]: user.img,
       }
     );
   } else {
