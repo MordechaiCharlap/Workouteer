@@ -81,9 +81,24 @@ const LeaderboardScreen = () => {
             data={leaderboardList}
             keyExtractor={(item) => item[0]}
             renderItem={({ item, index }) => (
-              <TouchableOpacity className="flex-row flex-1 items-center mt-2">
+              <TouchableOpacity
+                onPress={async () =>
+                  item[0] == user.id
+                    ? navigation.navigate("MyUser")
+                    : navigation.navigate("User", {
+                        shownUser: await firebase.getUserDataById(item[0]),
+                        friendshipStatus: await firebase.checkFriendShipStatus(
+                          user,
+                          item[0]
+                        ),
+                      })
+                }
+                className="flex-row flex-1 items-center mt-2"
+              >
                 <Text
-                  className="text-4xl font-bold w-12 text-center"
+                  className={`text-4xl w-12 text-center ${
+                    index < 3 ? "font-bold" : ""
+                  }`}
                   style={{ color: appStyle.color_primary }}
                 >
                   {index + 1}
