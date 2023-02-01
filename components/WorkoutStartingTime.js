@@ -9,7 +9,10 @@ import {
 import { React, useEffect, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import useAuth from "../hooks/useAuth";
 const WorkoutStartingTime = (props) => {
+  const { user } = useAuth();
+
   const [maxDate, setMaxDate] = useState();
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -20,6 +23,20 @@ const WorkoutStartingTime = (props) => {
     maximumDate.setDate(maximumDate.getDate() + 7);
     setMaxDate(maximumDate);
   }, []);
+  const checkIfDateAvailable = (dateToCheck) => {
+    console.log("Checking if date taken");
+    for (var value of Object.values(user.workouts)) {
+      if (
+        value[0].toDate() < dateToCheck &&
+        new Date(value[0].toDate().getTime() + value[1] * 60000) > dateToCheck
+      ) {
+        console.log("Date taken");
+        return false;
+      }
+    }
+    console.log("Date available");
+    return true;
+  };
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (event.type == "set") {
@@ -32,6 +49,11 @@ const WorkoutStartingTime = (props) => {
           currentDate.getTime() < props.minDate.getTime()
         ) {
           if (Platform.OS != "web") Alert.alert("Can't go back in time");
+          setDateChangedOnce(false);
+          props.startingTimeChanged(null);
+        } else if (!checkIfDateAvailable(currentDate)) {
+          if (Platform.OS != "web")
+            Alert.alert("You already have a workout in this date");
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
         } else {
