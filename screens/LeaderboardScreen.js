@@ -83,7 +83,7 @@ const LeaderboardScreen = () => {
             renderItem={({ item, index }) => (
               <TouchableOpacity className="flex-row flex-1 items-center mt-2">
                 <Text
-                  className="text-4xl font-bold w-10 text-center"
+                  className="text-4xl font-bold w-12 text-center"
                   style={{ color: appStyle.color_primary }}
                 >
                   {index + 1}
@@ -94,7 +94,13 @@ const LeaderboardScreen = () => {
                   }}
                   className="h-14 w-14 bg-white rounded-full mr-4"
                 />
-                <View>
+                <Text
+                  className="text-2xl font-semibold tracking-wider"
+                  style={{ color: appStyle.color_primary }}
+                >
+                  {item[1].displayName}
+                </Text>
+                {/* <View>
                   <Text
                     className="text-xl font-semibold tracking-wider"
                     style={{ color: appStyle.color_primary }}
@@ -107,7 +113,7 @@ const LeaderboardScreen = () => {
                   >
                     {item[0]}
                   </Text>
-                </View>
+                </View> */}
                 <Text
                   className="absolute right-3 my-auto text-2xl"
                   style={{ color: appStyle.color_primary }}
