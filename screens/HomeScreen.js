@@ -47,7 +47,7 @@ const HomeScreen = () => {
     console.log("checking if theres current workout");
     for (var [key, value] of Object.entries(user.workouts)) {
       if (
-        new Date(value[0].toDate().getTime() + value[1] * 6000) > now &&
+        new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
         value[0].toDate() < now
       ) {
         return await firebase.getWorkout(key);
@@ -61,13 +61,21 @@ const HomeScreen = () => {
         const now = new Date();
         const currentWorkoutReturned = await checkIfCurrentWorkout(now);
         if (!currentWorkoutReturned) {
+          const lastQuarter = now.getMinutes() % 15;
+          console.log(lastQuarter);
+          var nextCheck = new Date(now.getTime() + (15 - lastQuarter) * 60000);
+          console.log(now);
+          console.log(nextCheck);
           const interval = setInterval(async () => {
             const now = new Date();
-            const currentWorkoutReturned = await checkIfCurrentWorkout(now);
-            if (currentWorkoutReturned != null) {
-              setCurrentWorkout(currentWorkoutReturned);
-              clearInterval(interval);
-            } else setCurrentWorkout(null);
+            if (now > nextCheck) {
+              nextCheck = new Date(nextCheck.getTime() + 15 * 60000);
+              const currentWorkoutReturned = await checkIfCurrentWorkout(now);
+              if (currentWorkoutReturned != null) {
+                setCurrentWorkout(currentWorkoutReturned);
+                clearInterval(interval);
+              } else setCurrentWorkout(null);
+            }
           }, 60000);
           return () => clearInterval(interval);
         } else {
