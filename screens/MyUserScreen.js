@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
+import UserStats from "../components/profilePage/UserStats";
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -164,6 +165,11 @@ const MyUserScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
+            <UserStats
+              workouts={user.workouts}
+              totalPoints={user.points}
+              rank={user.rank}
+            />
             <View className="flex-row">
               <Text
                 className="px-4 py-2 rounded-xl text-3xl"
