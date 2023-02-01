@@ -32,7 +32,7 @@ const LeaderboardScreen = () => {
 
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
-  const [leaderboardList, setLeaderboardList] = useState();
+  const [leaderboardList, setLeaderboardList] = useState([]);
   const rank = user.rank == 1 ? "Bronze" : "Silver";
   useFocusEffect(
     useCallback(() => {
@@ -41,7 +41,8 @@ const LeaderboardScreen = () => {
   );
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      if (user.leaderboard.weekId != firebase.getLastWeekId()) return;
+      if (user.leaderboard.weekId != firebase.getLastWeekId())
+        setLeaderboardList();
       const leaderboardData = (
         await getDoc(
           doc(
