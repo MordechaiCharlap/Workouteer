@@ -42,13 +42,18 @@ const LeaderboardScreen = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       if (user.leaderboard.weekId != firebase.getLastWeekId()) return;
-      const leaderboardData = await getDoc(
-        doc(
-          firebase.db,
-          `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+      const leaderboardData = (
+        await getDoc(
+          doc(
+            firebase.db,
+            `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+          )
         )
+      ).data();
+      const usersArray = Array.from(Object.entries(leaderboardData.users)).sort(
+        (a, b) => a[1].points < b[1].points
       );
-      const q = query(firebase.db);
+      setLeaderboardList(usersArray);
     };
     fetchLeaderboard();
   }, []);
@@ -73,12 +78,12 @@ const LeaderboardScreen = () => {
         ) : (
           <FlatList
             data={leaderboardList}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item[0]}
             renderItem={({ item }) => (
               <TouchableOpacity className="flex-row flex-1 items-center mt-2">
                 <Image
                   source={{
-                    uri: item.img,
+                    uri: item[1].img,
                   }}
                   className="h-14 w-14 bg-white rounded-full mr-4"
                 />
@@ -87,13 +92,13 @@ const LeaderboardScreen = () => {
                     className="text-xl font-semibold tracking-wider"
                     style={{ color: appStyle.color_primary }}
                   >
-                    {item.id}
+                    {item[1].displayName}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
                     style={{ color: appStyle.color_primary }}
                   >
-                    {item.displayName}
+                    {item[0]}
                   </Text>
                 </View>
               </TouchableOpacity>
