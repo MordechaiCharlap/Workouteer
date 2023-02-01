@@ -35,6 +35,7 @@ const NewWorkoutScreen = () => {
   const [createButtonColor, setCreateButtonColor] = useState(
     appStyle.color_bg_variant
   );
+  const [closestWorkoutDate, setClosestWorkoutDate] = useState(null);
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, location]);
@@ -107,6 +108,7 @@ const NewWorkoutScreen = () => {
           </View>
           <View className="pb-2 rounded mb-5 flex-row justify-between">
             <WorkoutStartingTime
+              setClosestWorkoutDate={setClosestWorkoutDate}
               startingTimeChanged={setStartingTime}
               minDate={now}
             />
@@ -116,9 +118,16 @@ const NewWorkoutScreen = () => {
               text={"Open for both genders"}
             />
           </View>
-          <View className="pb-2 rounded mb-5">
-            <WorkoutMinutes minutesSelected={setMinutes} />
-          </View>
+          {startingTime != null && (
+            <View className="pb-2 rounded mb-5">
+              <WorkoutMinutes
+                minutesSelected={setMinutes}
+                workoutDate={startingTime}
+                closestWorkoutDate={closestWorkoutDate}
+              />
+            </View>
+          )}
+
           <View className="pb-2 rounded mb-5">
             <WorkoutDescription descChanged={setDescription} />
           </View>
