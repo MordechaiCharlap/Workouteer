@@ -782,7 +782,6 @@ export const getLastWeekId = () => {
   const weekId = `${lastSunday.getDate()}-${
     lastSunday.getMonth() + 1
   }-${lastSunday.getFullYear()}`;
-  console.log(weekId);
   return weekId;
 };
 export const addLeaderboardPoints = async (user, pointsNumber) => {
