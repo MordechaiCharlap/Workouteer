@@ -44,6 +44,7 @@ const StackNavigator = () => {
     chatsNavigationOptions,
     exploreNavigationOptions,
   } = useNavbarNavigation();
+
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
@@ -60,14 +61,23 @@ const StackNavigator = () => {
     }
   }, [googleUserInfo]);
 
-  const calculateStreak = () => {
-    const now = new Date();
-    // for ( var workout of Object.entries( user.workouts ) ) {
-    //   if(workout.startingTime)
-    // }
-  };
-
   useEffect(() => {
+    const resetStreakIfNeeded = async () => {
+      var yasterday = new Date();
+      yasterday.setDate(new Date(yasterday).getDate() - 1);
+      yasterday.setHours(0);
+      yasterday.setMinutes(0);
+      console.log(yasterday);
+      if (
+        user.streak != 0 &&
+        user.lastConfirmedWorkoutDate.toDate() < yasterday
+      ) {
+        console.log("Resetting streak");
+        const updatedUser = { ...user };
+        updatedUser.streak = 0;
+        await firebase.updateUser(updatedUser);
+      }
+    };
     const addListenerAsync = async () => {
       await notificationListenerFunction();
     };
@@ -76,7 +86,7 @@ const StackNavigator = () => {
       addListenerAsync(user);
     }
     if (user) {
-      calculateStreak();
+      resetStreakIfNeeded();
     }
   }, [user]);
   useEffect(() => {
@@ -92,11 +102,11 @@ const StackNavigator = () => {
       removingBadWorkoutAlerts();
       setAlertsChanged(false);
     }
-    //listening to invites because its updating after requests, so when invites updating request are updated already
   }, [alertsChanged, user]);
   useEffect(() => {
     if (workoutInvitesAlerts != null) setAlertsChanged(true);
   }, [workoutInvitesAlerts]);
+  //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
     <Stack.Navigator>
       {user ? (
