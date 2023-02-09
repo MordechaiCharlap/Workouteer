@@ -165,11 +165,7 @@ const MyUserScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <UserStats
-              workouts={user.workouts}
-              totalPoints={user.totalPoints}
-              rank={user.rank}
-            />
+            <UserStats />
             <View className="flex-row">
               <Text
                 className="px-4 py-2 rounded-xl text-3xl"
