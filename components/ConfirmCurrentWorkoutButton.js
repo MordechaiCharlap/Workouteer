@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { workoutTypes } from "./WorkoutType";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -6,25 +6,42 @@ import * as appStyle from "../components/AppStyleSheet";
 import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, increment, updateDoc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
+import { getCurrentLocation } from "../services/geoService";
+import { getDistance } from "geolib";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const confirmationPoints = 15;
+  const confirmWorkoutLocation = async () => {
+    const currentLocation = await getCurrentLocation();
+    const distance = getDistance(
+      props.currentWorkout.location,
+      currentLocation
+    );
+    console.log("distance:", distance);
+    return distance;
+  };
   const confirmWorkout = async () => {
     setLoading(true);
-    const newWorkoutArray = [
-      props.currentWorkout.startingTime.toDate(),
-      props.currentWorkout.minutes,
-      true,
-    ];
-    await updateDoc(doc(db, `users/${user.id}`), {
-      [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
-      totalPoints: increment(confirmationPoints),
-    });
-    await addLeaderboardPoints(user, confirmationPoints);
+    if ((await confirmWorkoutLocation()) < 100) {
+      const newWorkoutArray = [
+        props.currentWorkout.startingTime.toDate(),
+        props.currentWorkout.minutes,
+        true,
+      ];
+      await updateDoc(doc(db, `users/${user.id}`), {
+        [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
+        totalPoints: increment(confirmationPoints),
+      });
+      await addLeaderboardPoints(user, confirmationPoints);
 
-    setConfirmed(true);
+      setConfirmed(true);
+      console.log("Close enough");
+    } else {
+      Alert.alert("You are not in the right location. get closer");
+    }
+
     setLoading(false);
   };
   return (
