@@ -99,12 +99,12 @@ const MyUserScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row mt-6 h-48 items-center">
+            <View className="flex-row h-48 items-center">
               <Image
                 source={{
                   uri: user.img,
                 }}
-                className="h-32 w-32 bg-white rounded-full mb-2"
+                className="h-32 w-32 bg-white rounded-full"
                 style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
               />
 
@@ -178,7 +178,7 @@ const MyUserScreen = () => {
               </Text>
             </View>
             <View
-              className="rounded-xl p-4 mt-2"
+              className="rounded-xl p-4"
               style={{ backgroundColor: appStyle.color_primary }}
             >
               <Text

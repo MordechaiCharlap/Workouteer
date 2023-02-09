@@ -220,12 +220,12 @@ const UserScreen = ({ route }) => {
             <FontAwesomeIcon icon={faChevronLeft} size={30} />
           </View>
         </View>
-        <View className="flex-row mt-6 h-48 items-center">
+        <View className="flex-row h-48 items-center">
           <Image
             source={{
               uri: shownUser.img,
             }}
-            className="h-32 w-32 bg-white rounded-full mb-2"
+            className="h-32 w-32 bg-white rounded-full"
             style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
           />
 
