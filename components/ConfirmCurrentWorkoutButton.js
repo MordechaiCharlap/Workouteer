@@ -25,7 +25,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
     <View className="w-2/3">
       <TouchableOpacity
         onPress={!loading && !confirmed ? async () => confirmWorkout() : {}}
-        className="rounded-full p-2 flex-row items-center w-full justify-evenly"
+        className="rounded-full p-2 flex-row items-center w-full"
         style={{
           borderWidth: 2,
           borderColor: appStyle.color_on_primary,
@@ -46,7 +46,10 @@ const ConfirmCurrentWorkoutButton = (props) => {
             color={appStyle.color_on_primary}
           />
         </View>
-        <Text style={{ color: appStyle.color_on_primary }}>
+        <Text
+          className="text-center flex-grow"
+          style={{ color: appStyle.color_on_primary }}
+        >
           {loading
             ? "Loading"
             : !loading && !confirmed
