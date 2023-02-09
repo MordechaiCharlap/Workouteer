@@ -63,7 +63,27 @@ const WorkoutsStats = (props) => {
       );
     };
     return (
-      <View className="flex-row-reverse justify-around" style={{ height: 160 }}>
+      <View
+        className="flex-row-reverse justify-around rounded"
+        style={{
+          height: 160,
+          borderWidth: 1,
+          borderColor: appStyle.color_primary,
+        }}
+      >
+        <View
+          className="absolute right-0 left-0 flex-row items-center gap-x-1 px-1"
+          style={{ top: 10 }}
+        >
+          <View
+            style={{
+              backgroundColor: appStyle.color_primary_variant,
+              height: 1,
+              flexGrow: 1,
+            }}
+          />
+          <Text>{highestPoints}</Text>
+        </View>
         {renderColumn(0)}
         {renderColumn(1)}
         {renderColumn(2)}
