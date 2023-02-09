@@ -6,20 +6,23 @@ import * as appStyle from "../AppStyleSheet";
 const UserStats = (props) => {
   const iconSize = 30;
   const iconColor = appStyle.color_primary;
+  const renderStat = (icon, data) => {
+    return (
+      <View className="flex-row">
+        <FontAwesomeIcon icon={icon} size={iconSize} color={iconColor} />
+        <Text>{data}</Text>
+      </View>
+    );
+  };
+  const renderWorkoutsStat = (icon, data) => {};
   return (
     <View
       className="flex-row items-center rounded-2xl"
       style={{ borderWidth: 1, borderColor: appStyle.color_bg_variant }}
     >
-      <View>
-        <FontAwesomeIcon icon={faFire} size={iconSize} color={iconColor} />
-      </View>
-      <View>
-        <FontAwesomeIcon icon={faDumbbell} size={iconSize} color={iconColor} />
-      </View>
-      <View>
-        <FontAwesomeIcon icon={faBolt} size={iconSize} color={iconColor} />
-      </View>
+      {renderStat(faBolt, props.totalPoints)}
+      {renderStat(faFire, props.rank)}
+      {renderWorkoutsStat(faDumbbell, props.workouts)}
     </View>
   );
 };
