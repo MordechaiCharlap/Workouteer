@@ -27,30 +27,35 @@ const WorkoutsStats = (props) => {
         const index = now.getDate() - workout[0].toDate().getDate();
       }
     }
-    const dayStyle = {
-      backgroundColor: appStyle.color_on_primary,
+    const renderColumn = (index) => {
+      return (
+        <View className="self-end items-center">
+          <View
+            className="h-10 w-4"
+            style={{ backgroundColor: appStyle.color_primary }}
+          ></View>
+          <Text
+            className="text-center"
+            style={{ fontSize: 10, color: appStyle.color_primary }}
+          >
+            {weekdays[index]}
+          </Text>
+        </View>
+      );
     };
-    const dayClassName = "h-10 w-4 self-end";
     return (
-      <View className="flex-row-reverse justify-between">
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
-        <View className={dayClassName} style={dayStyle}></View>
+      <View className="flex-row-reverse justify-around h-40">
+        {renderColumn(0)}
+        {renderColumn(1)}
+        {renderColumn(2)}
+        {renderColumn(3)}
+        {renderColumn(4)}
+        {renderColumn(5)}
+        {renderColumn(6)}
       </View>
     );
   };
-  return (
-    <View
-      className="h-32 rounded"
-      style={{ backgroundColor: appStyle.color_primary }}
-    >
-      {renderStats()}
-    </View>
-  );
+  return <View className="h-32 rounded">{renderStats()}</View>;
 };
 
 export default WorkoutsStats;
