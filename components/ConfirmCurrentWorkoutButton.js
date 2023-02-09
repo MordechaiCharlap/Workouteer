@@ -3,9 +3,11 @@ import { workoutTypes } from "./WorkoutType";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../components/AppStyleSheet";
-import { db } from "../services/firebase";
+import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import useAuth from "../hooks/useAuth";
 const ConfirmCurrentWorkoutButton = (props) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const confirmWorkout = async () => {
@@ -15,9 +17,10 @@ const ConfirmCurrentWorkoutButton = (props) => {
       props.currentWorkout.minutes,
       true,
     ];
-    await updateDoc(doc(db, `users/${props.userId}`), {
+    await updateDoc(doc(db, `users/${user.id}`), {
       [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
     });
+    await addLeaderboardPoints(user, 15);
     setConfirmed(true);
     setLoading(false);
   };
