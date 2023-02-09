@@ -23,6 +23,8 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { workoutTypes } from "../components/WorkoutType";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const { setScreen } = useNavbarNavigation();
@@ -52,7 +54,8 @@ const HomeScreen = () => {
         //should be <now but just for testing
       ) {
         console.log("found current workout");
-        return await firebase.getWorkout(key);
+        const workout = await firebase.getWorkout(key);
+        return workout;
       }
     }
     console.log("havent current workout");
@@ -147,16 +150,24 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: appStyle.color_success,
-            borderWidth: 2,
-            borderColor: appStyle.color_primary,
-          }}
-          className="rounded"
-        >
-          <Text>Confirm workout</Text>
-        </TouchableOpacity>
+
+        {currentWorkout != null && (
+          <View className="absolute bottom-0 right-0 left-0 mx-0 items-center mb-3">
+            <TouchableOpacity
+              className="rounded-full p-2 flex-row"
+              style={{
+                backgroundColor: appStyle.color_bg_variant,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={workoutTypes[currentWorkout.type].icon}
+                size={30}
+                color={"black"}
+              />
+              <Text>Confirm workout to get points</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <BottomNavbar currentScreen="Home" />
