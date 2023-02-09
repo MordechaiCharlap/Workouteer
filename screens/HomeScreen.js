@@ -151,14 +151,15 @@ const HomeScreen = () => {
           />
         </View>
 
-        {currentWorkout != null && (
-          <View className="absolute bottom-1 right-0 left-0 mx-0 items-center">
-            <ConfirmCurrentWorkoutButton
-              currentWorkout={currentWorkout}
-              userId={user.id}
-            />
-          </View>
-        )}
+        {currentWorkout != null &&
+          user.workouts[currentWorkout.id][2] == false && (
+            <View className="absolute bottom-1 right-0 left-0 mx-0 items-center">
+              <ConfirmCurrentWorkoutButton
+                currentWorkout={currentWorkout}
+                userId={user.id}
+              />
+            </View>
+          )}
       </View>
 
       <BottomNavbar currentScreen="Home" />
