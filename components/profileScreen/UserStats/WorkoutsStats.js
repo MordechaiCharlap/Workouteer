@@ -1,7 +1,9 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import * as appStyle from "../../AppStyleSheet";
+import { isSameDay } from "../../../services/timeFunctions";
 const WorkoutsStats = (props) => {
+  const week = [];
   const weekdays = [
     "Sunday",
     "Monday",
@@ -13,32 +15,37 @@ const WorkoutsStats = (props) => {
   ];
   const renderStats = () => {
     console.log("rendering workouts");
-    const week = [];
     const now = new Date();
     const weekAgo = new Date();
     weekAgo.setDate(now.getDate() - 6);
+    weekAgo.setHours(0, 0, 0, 0);
     for (var i = 0; i < 7; i++) {
       var tempDate = new Date();
       tempDate.setDate(tempDate.getDate() - i);
-      week.push(weekdays[tempDate.getDay()]);
+      week.push({
+        dayName: weekdays[tempDate.getDay()],
+        dayIndex: tempDate.getDay(),
+      });
     }
+    const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     for (var workout of Object.values(props.workouts)) {
       if (workout[0].toDate() >= weekAgo && workout[2] == true) {
-        const index = now.getDate() - workout[0].toDate().getDate();
+        weekWorkoutMinutes[workout[0].toDate().getDay()] += workout[1];
       }
     }
+    console.log(weekWorkoutMinutes);
     const renderColumn = (index) => {
       return (
         <View className="self-end items-center">
           <View
-            className="h-10 w-4"
+            className="h-1 w-4"
             style={{ backgroundColor: appStyle.color_primary }}
           ></View>
           <Text
             className="text-center"
             style={{ fontSize: 10, color: appStyle.color_primary }}
           >
-            {weekdays[index]}
+            {week[index].dayName + weekWorkoutMinutes[week[index].dayIndex]}
           </Text>
         </View>
       );
