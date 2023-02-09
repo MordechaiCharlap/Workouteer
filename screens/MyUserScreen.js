@@ -167,7 +167,7 @@ const MyUserScreen = () => {
             </View>
             <UserStats
               workouts={user.workouts}
-              totalPoints={user.points}
+              totalPoints={user.totalPoints}
               rank={user.rank}
             />
             <View className="flex-row">
