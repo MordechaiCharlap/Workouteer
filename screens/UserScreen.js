@@ -201,7 +201,7 @@ const UserScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 p-4">
+      <View className="flex-1 p-4 gap-y-6">
         <View className="flex-row justify-between">
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
