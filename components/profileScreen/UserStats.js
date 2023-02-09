@@ -23,9 +23,9 @@ const UserStats = () => {
   };
   const renderStreak = () => {};
   return (
-    <View className="bg-purple-400">
+    <View>
       <View
-        className="flex-row items-center justify-evenly"
+        className="flex-row items-center justify-evenly rounded"
         style={{ borderWidth: 2, borderColor: appStyle.color_primary }}
       >
         {renderStat(faBolt, user.totalPoints)}
