@@ -28,25 +28,29 @@ const WorkoutsStats = (props) => {
       }
     }
     const dayStyle = {
-      backgroundColor: appStyle.color_primary,
-      height: 50,
-      width: 30,
+      backgroundColor: appStyle.color_on_primary,
     };
+    const dayClassName = "h-10 w-4 self-end";
     return (
-      <View className="flex-row-reverse gap-x-3 justify-between">
-        <View style={dayStyle}>
-          <Text>Today</Text>
-        </View>
-        <View style={dayStyle}></View>
-        <View style={dayStyle}></View>
-        <View style={dayStyle}></View>
-        <View style={dayStyle}></View>
-        <View style={dayStyle}></View>
-        <View style={dayStyle}></View>
+      <View className="flex-row-reverse justify-between">
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
+        <View className={dayClassName} style={dayStyle}></View>
       </View>
     );
   };
-  return renderStats();
+  return (
+    <View
+      className="h-32 rounded"
+      style={{ backgroundColor: appStyle.color_primary }}
+    >
+      {renderStats()}
+    </View>
+  );
 };
 
 export default WorkoutsStats;
