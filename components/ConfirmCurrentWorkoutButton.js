@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../components/AppStyleSheet";
 import { db, addLeaderboardPoints } from "../services/firebase";
-import { doc, increment, updateDoc } from "firebase/firestore";
+import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
@@ -30,10 +30,25 @@ const ConfirmCurrentWorkoutButton = (props) => {
         props.currentWorkout.minutes,
         true,
       ];
-      await updateDoc(doc(db, `users/${user.id}`), {
-        [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
-        totalPoints: increment(confirmationPoints),
-      });
+      const now = new Date();
+
+      if (
+        user.lastConfirmedWorkoutDate &&
+        user.lastConfirmedWorkoutDate.toDate().toDateString() ==
+          now.toDateString()
+      )
+        await updateDoc(doc(db, `users/${user.id}`), {
+          lastConfirmedWorkoutDate: Timestamp.now(),
+          [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
+          totalPoints: increment(confirmationPoints),
+        });
+      else
+        await updateDoc(doc(db, `users/${user.id}`), {
+          lastConfirmedWorkoutDate: Timestamp.now(),
+          [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
+          streak: increment(1),
+          totalPoints: increment(confirmationPoints),
+        });
       await addLeaderboardPoints(user, confirmationPoints);
 
       setConfirmed(true);
