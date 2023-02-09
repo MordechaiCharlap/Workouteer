@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../components/AppStyleSheet";
 import { db, addLeaderboardPoints } from "../services/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, increment, updateDoc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
+  const confirmationPoints = 15;
   const confirmWorkout = async () => {
     setLoading(true);
     const newWorkoutArray = [
@@ -19,8 +20,10 @@ const ConfirmCurrentWorkoutButton = (props) => {
     ];
     await updateDoc(doc(db, `users/${user.id}`), {
       [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
+      totalPoints: increment(confirmationPoints),
     });
-    await addLeaderboardPoints(user, 15);
+    await addLeaderboardPoints(user, confirmationPoints);
+
     setConfirmed(true);
     setLoading(false);
   };
