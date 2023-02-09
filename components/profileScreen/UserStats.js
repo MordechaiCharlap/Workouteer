@@ -23,7 +23,7 @@ const UserStats = () => {
   };
   const renderStreak = () => {};
   return (
-    <View className="gap-y-2">
+    <View className="bg-purple-400">
       <View
         className="flex-row items-center justify-evenly"
         style={{ borderWidth: 2, borderColor: appStyle.color_primary }}
@@ -33,7 +33,9 @@ const UserStats = () => {
         {renderStat(faFire, user.rank)}
         {renderStreak()}
       </View>
-      <WorkoutsStats workouts={user.workouts} />
+      <View className="h-40">
+        <WorkoutsStats workouts={user.workouts} />
+      </View>
     </View>
   );
 };
