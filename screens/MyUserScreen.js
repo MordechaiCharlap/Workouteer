@@ -24,7 +24,7 @@ import { useEffect } from "react";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
-import UserStats from "../components/profilePage/UserStats";
+import UserStats from "../components/profileScreen/UserStats";
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -36,7 +36,7 @@ const MyUserScreen = () => {
     const now = new Date();
     var count = 0;
     for (var value of Object.values(user.workouts)) {
-      if (value[0].toDate() < now) count++;
+      if (value[0].toDate() < now && value[2]) count++;
     }
     setWorkoutsCount(count);
   }, []);
