@@ -28,30 +28,42 @@ const WorkoutsStats = (props) => {
       });
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
+    var highestPoints = 0;
     for (var workout of Object.values(props.workouts)) {
       if (workout[0].toDate() >= weekAgo && workout[2] == true) {
         weekWorkoutMinutes[workout[0].toDate().getDay()] += workout[1];
+        if (weekWorkoutMinutes[workout[0].toDate().getDay()] > highestPoints)
+          highestPoints = weekWorkoutMinutes[workout[0].toDate().getDay()];
       }
     }
-    console.log(weekWorkoutMinutes);
+    const pointHeight = 120 / highestPoints;
+    console.log(pointHeight);
     const renderColumn = (index) => {
       return (
         <View className="self-end items-center">
           <View
+            className="w-4"
+            style={{
+              backgroundColor: appStyle.color_primary,
+              height: pointHeight * weekWorkoutMinutes[week[index].dayIndex],
+            }}
+          ></View>
+          <View
             className="h-1 w-4"
             style={{ backgroundColor: appStyle.color_primary }}
           ></View>
+
           <Text
             className="text-center"
             style={{ fontSize: 10, color: appStyle.color_primary }}
           >
-            {week[index].dayName + weekWorkoutMinutes[week[index].dayIndex]}
+            {week[index].dayName}
           </Text>
         </View>
       );
     };
     return (
-      <View className="flex-row-reverse justify-around h-40">
+      <View className="flex-row-reverse justify-around" style={{ height: 160 }}>
         {renderColumn(0)}
         {renderColumn(1)}
         {renderColumn(2)}
