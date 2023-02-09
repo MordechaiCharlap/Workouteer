@@ -65,8 +65,7 @@ const StackNavigator = () => {
     const resetStreakIfNeeded = async () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
-      yasterday.setHours(0);
-      yasterday.setMinutes(0);
+      yasterday.setHours(0, 0, 0, 0);
       console.log(yasterday);
       if (
         user.streak != 0 &&
