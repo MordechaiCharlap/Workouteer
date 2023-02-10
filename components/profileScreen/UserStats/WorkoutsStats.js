@@ -37,10 +37,15 @@ const WorkoutsStats = (props) => {
       }
     }
     const pointHeight = 120 / highestPoints;
-    console.log(pointHeight);
     const renderColumn = (index) => {
       return (
         <View className="self-end items-center">
+          <Text
+            className="text-center"
+            style={{ fontSize: 10, color: appStyle.color_primary }}
+          >
+            {weekWorkoutMinutes[week[index].dayIndex]}
+          </Text>
           <View
             className="w-4"
             style={{
@@ -83,7 +88,7 @@ const WorkoutsStats = (props) => {
               color: appStyle.color_primary,
             }}
           >
-            Weekly workout stats
+            Weekly exercise duration statistics
           </Text>
           <View
             className="flex-row-reverse justify-between rounded px-2"
@@ -91,7 +96,7 @@ const WorkoutsStats = (props) => {
               height: 160,
             }}
           >
-            <View
+            {/* <View
               className="absolute bottom-0 right-0 left-0 flex-row items-center gap-x-1 px-1 mx-1"
               style={{
                 height: 140,
@@ -105,7 +110,7 @@ const WorkoutsStats = (props) => {
               >
                 {highestPoints}
               </Text>
-            </View>
+            </View> */}
             {renderColumn(0)}
             {renderColumn(1)}
             {renderColumn(2)}
