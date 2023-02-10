@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { React, useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
+import languageService from "../services/languageService";
 import * as appStyle from "./AppStyleSheet";
 const data = [
   { label: "0:30", value: 30 },
@@ -75,7 +76,9 @@ const WorkoutMinutes = (props) => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? "Workout time period" : "..."}
+        placeholder={
+          !isFocus ? languageService[props.language].workoutTimePeiod : "..."
+        }
         searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
