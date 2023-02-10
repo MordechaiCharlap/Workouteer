@@ -49,13 +49,20 @@ const WorkoutsStats = (props) => {
             }}
           ></View>
           <View
-            className="h-1 w-4"
-            style={{ backgroundColor: appStyle.color_primary }}
+            className="w-4"
+            style={{
+              backgroundColor: appStyle.color_primary,
+              height: 5,
+            }}
           ></View>
 
           <Text
             className="text-center"
-            style={{ fontSize: 10, color: appStyle.color_primary }}
+            style={{
+              fontSize: 10,
+              color: appStyle.color_primary,
+              height: 15,
+            }}
           >
             {week[index].dayName}
           </Text>
@@ -63,34 +70,51 @@ const WorkoutsStats = (props) => {
       );
     };
     return (
-      <View
-        className="flex-row-reverse justify-around rounded"
-        style={{
-          height: 160,
-          borderWidth: 1,
-          borderColor: appStyle.color_primary,
-        }}
-      >
+      <View style={{ height: 180 }}>
         <View
-          className="absolute right-0 left-0 flex-row items-center gap-x-1 px-1"
-          style={{ top: 10 }}
+          style={{
+            borderWidth: 1,
+            borderColor: appStyle.color_primary,
+          }}
         >
-          <View
+          <Text
+            className="text-center"
             style={{
-              backgroundColor: appStyle.color_primary_variant,
-              height: 1,
-              flexGrow: 1,
+              color: appStyle.color_primary,
             }}
-          />
-          <Text>{highestPoints}</Text>
+          >
+            Weekly workout stats
+          </Text>
+          <View
+            className="flex-row-reverse justify-between rounded px-2"
+            style={{
+              height: 160,
+            }}
+          >
+            <View
+              className="absolute bottom-0 right-0 left-0 flex-row items-center gap-x-1 px-1 mx-1"
+              style={{
+                height: 140,
+                borderColor: appStyle.color_primary,
+                borderTopWidth: 0.5,
+              }}
+            >
+              <Text
+                className="absolute top-0 right-0"
+                style={{ fontSize: 10, color: appStyle.color_primary }}
+              >
+                {highestPoints}
+              </Text>
+            </View>
+            {renderColumn(0)}
+            {renderColumn(1)}
+            {renderColumn(2)}
+            {renderColumn(3)}
+            {renderColumn(4)}
+            {renderColumn(5)}
+            {renderColumn(6)}
+          </View>
         </View>
-        {renderColumn(0)}
-        {renderColumn(1)}
-        {renderColumn(2)}
-        {renderColumn(3)}
-        {renderColumn(4)}
-        {renderColumn(5)}
-        {renderColumn(6)}
       </View>
     );
   };
