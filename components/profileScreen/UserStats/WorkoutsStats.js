@@ -1,18 +1,12 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
 import * as appStyle from "../../AppStyleSheet";
-import { isSameDay } from "../../../services/timeFunctions";
+import languageService from "../../../services/languageService";
+import useAuth from "../../../hooks/useAuth";
 const WorkoutsStats = (props) => {
+  const { user } = useAuth();
   const week = [];
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const weekdays = languageService[user.language].weekDays;
   const renderStats = () => {
     console.log("rendering workouts");
     const now = new Date();
@@ -89,10 +83,12 @@ const WorkoutsStats = (props) => {
               color: appStyle.color_primary,
             }}
           >
-            Weekly exercise duration statistics
+            {languageService[user.language].weeklyStatisticsChart}
           </Text>
           <View
-            className="flex-row-reverse justify-between rounded px-2"
+            className={`justify-between rounded px-2 ${
+              user.language == "hebrew" ? "flex-row" : "flex-row-reverse"
+            }`}
             style={{
               height: 160,
             }}
