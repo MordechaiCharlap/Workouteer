@@ -8,7 +8,7 @@ const Calendar = (props) => {
   const today = new Date();
   return (
     <View>
-      <Text>Today is {weekdays[today.getDay()]}</Text>
+      <Text>{weekdays[today.getDay()]}</Text>
       <View>
         <View className="flex-row"></View>
       </View>
