@@ -1,16 +1,10 @@
 import { View, Text } from "react-native";
 import React from "react";
-
+import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 const Calendar = (props) => {
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const { user } = useAuth();
+  const weekdays = languageService[user.language].weekDays;
   const today = new Date();
   return (
     <View>
