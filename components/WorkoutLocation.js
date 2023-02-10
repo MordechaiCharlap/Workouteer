@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";
 import PinOnMap from "./PinOnMap";
+import languageService from "../services/languageService";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
@@ -33,15 +34,23 @@ const WorkoutLocation = (props) => {
   };
   return (
     <View>
-      <View className="flex-row items-center mb-5">
-        <View className="flex-row items-center">
+      <View
+        className={`items-center mb-5 gap-x-1 ${
+          props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+        }`}
+      >
+        <View
+          className={`items-center gap-x-1 ${
+            props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          }`}
+        >
           <FontAwesomeIcon
             icon={faLocationDot}
             size={25}
             color={appStyle.color_primary}
           />
-          <Text className="ml-1" style={{ color: appStyle.color_primary }}>
-            Location:
+          <Text style={{ color: appStyle.color_primary }}>
+            {languageService[props.language].location}:
           </Text>
         </View>
         <TouchableOpacity
@@ -55,7 +64,9 @@ const WorkoutLocation = (props) => {
           }}
         >
           <Text style={{ color: appStyle.color_on_primary }}>
-            {location == null ? "Set location" : "Click to change location"}
+            {location == null
+              ? languageService[props.language].setLocation
+              : languageService[props.language].clickToChangeLocation}
           </Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +77,7 @@ const WorkoutLocation = (props) => {
               className="text-lg ml-3 p-3"
               style={{ backgroundColor: appStyle.color_secondary }}
             >
-              Getting your location...
+              {languageService[props.language].gettingCurrentLocation}
             </Text>
           ) : Platform.OS != "web" ? (
             <PinOnMap
@@ -74,7 +85,7 @@ const WorkoutLocation = (props) => {
               saveLocation={locationPinned}
             />
           ) : (
-            <Text>{"Can't use maps on web, try from your smartphone :)"}</Text>
+            <Text>{languageService[props.language].webMapsError}</Text>
           ))}
       </View>
     </View>
