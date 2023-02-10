@@ -19,6 +19,7 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
+import languageService from "../services/languageService";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
 
@@ -147,7 +148,7 @@ const NewWorkoutScreen = () => {
                 style={{ color: createButtonTextColor }}
                 className="text-center text-2xl font-semibold"
               >
-                Create
+                {languageService[user.language].createWorkout}
               </Text>
             </TouchableOpacity>
           </View>
