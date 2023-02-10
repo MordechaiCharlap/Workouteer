@@ -25,6 +25,7 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import UserStats from "../components/profileScreen/UserStats";
+import NameAndAge from "../components/profileScreen/NameAndAge";
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -108,9 +109,9 @@ const MyUserScreen = () => {
                 style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
               />
 
-              <View className="absolute right-0 gap-3">
+              <View className="absolute right-0 gap-y-3">
                 <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-3"
+                  className="items-center flex-row rounded-2xl p-3 gap-x-3"
                   style={{ backgroundColor: appStyle.color_primary }}
                   onPress={() =>
                     navigation.navigate("PastWorkouts", { user: user })
@@ -128,7 +129,7 @@ const MyUserScreen = () => {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-3"
+                  className="items-center flex-row rounded-2xl p-3 gap-x-3"
                   style={{ backgroundColor: appStyle.color_primary }}
                   onPress={() =>
                     navigation.navigate("Friends", {
@@ -165,18 +166,11 @@ const MyUserScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
+            <NameAndAge
+              name={user.displayName}
+              age={calculateAge(user.birthdate.toDate())}
+            />
             <UserStats />
-            <View className="flex-row">
-              <Text
-                className="px-4 py-2 rounded-xl text-3xl"
-                style={{
-                  color: appStyle.color_on_primary,
-                  backgroundColor: appStyle.color_primary,
-                }}
-              >
-                {user.displayName}, {calculateAge(user.birthdate.toDate())}
-              </Text>
-            </View>
             <View
               className="rounded-xl p-4"
               style={{ backgroundColor: appStyle.color_primary }}
