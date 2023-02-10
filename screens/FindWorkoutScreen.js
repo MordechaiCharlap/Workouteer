@@ -19,10 +19,11 @@ import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";
 import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
+import languageService from "../services/languageService";
 const FindWorkoutScreen = () => {
   const navigation = useNavigation();
 
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   const now = new Date();
 
@@ -106,7 +107,6 @@ const FindWorkoutScreen = () => {
     if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
       updatedUser.defaultCity = city;
     await firebase.updateUser(updatedUser);
-    setUser(await firebase.updateContext(user.id));
     const preferences = {
       country: country,
       city: city,
@@ -128,10 +128,17 @@ const FindWorkoutScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title="Find workout" goBackOption={true} />
+      <Header
+        title={languageService[user.language].findWorkout}
+        goBackOption={true}
+      />
       <View className="flex-1 px-2">
         <ScrollView>
-          <WorkoutType typeSelected={setType} everythingOption={true} />
+          <WorkoutType
+            language={user.language}
+            typeSelected={setType}
+            everythingOption={true}
+          />
           <Dropdown
             style={[
               style.dropdown,

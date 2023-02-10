@@ -8,7 +8,10 @@ import Header from "../components/Header";
 import LoadingAnimation from "../components/LoadingAnimation";
 import * as firebase from "../services/firebase";
 import useAlerts from "../hooks/useAlerts";
+import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 const WorkoutInvitesScreen = () => {
+  const { user } = useAuth();
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,7 +37,10 @@ const WorkoutInvitesScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Workout Invites"} goBackOption={true} />
+      <Header
+        title={languageService[user.language].workoutInvites}
+        goBackOption={true}
+      />
       <View className="flex-1 px-4">
         {initialLoading ? (
           <LoadingAnimation />

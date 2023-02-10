@@ -15,6 +15,7 @@ import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
+import languageService from "../services/languageService";
 const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
 
@@ -56,7 +57,10 @@ const FutureWorkoutsScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title="Future workouts" goBackOption={true} />
+      <Header
+        title={languageService[user.language].futureWorkouts}
+        goBackOption={true}
+      />
       <View className="flex-1 px-4">
         {initialLoading ? (
           <LoadingAnimation />

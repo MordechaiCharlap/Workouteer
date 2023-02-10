@@ -7,6 +7,7 @@ import * as firebase from "../services/firebase";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
 import * as appStyle from "../components/AppStyleSheet";
+import languageService from "../services/languageService";
 const PastWorkoutScreen = ({ route }) => {
   const user = route.params.user;
   const now = new Date();
@@ -34,7 +35,10 @@ const PastWorkoutScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title="Past workouts" goBackOption={true} />
+      <Header
+        title={languageService[user.language].pastWorkouts}
+        goBackOption={true}
+      />
       <View className="flex-1 px-4">
         {initialLoading ? (
           <LoadingAnimation />

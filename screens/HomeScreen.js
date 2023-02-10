@@ -97,13 +97,13 @@ const HomeScreen = () => {
       <View className="flex-1 p-3 px-7 justify-center">
         <View className="flex-row justify-between my-5">
           <HomeScreenButton
-            buttonText={languageService[user.language].findWorkout}
+            buttonText={languageService[user.language].findWorkoutHomeBtn}
             style={buttonStyle}
             navigateScreen="FindWorkout"
             icon={faMagnifyingGlass}
           />
           <HomeScreenButton
-            buttonText={languageService[user.language].createWorkout}
+            buttonText={languageService[user.language].createWorkoutHomeBtn}
             style={buttonStyle}
             navigateScreen="NewWorkout"
             icon={faPlus}
@@ -119,13 +119,13 @@ const HomeScreen = () => {
               Object.keys(workoutRequestsAlerts).length +
               Object.keys(newWorkoutsAlerts).length
             }
-            buttonText={languageService[user.language].futureWorkouts}
+            buttonText={languageService[user.language].futureWorkoutsHomeBtn}
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
             icon={faClock}
           />
           <HomeScreenButton
-            buttonText={languageService[user.language].pastWorkouts}
+            buttonText={languageService[user.language].pastWorkoutsHomeBtn}
             style={buttonStyle}
             navigateScreen="PastWorkouts"
             icon={faCalendarCheck}
@@ -133,7 +133,7 @@ const HomeScreen = () => {
         </View>
         <View className="flex-row justify-between my-5">
           <HomeScreenButton
-            buttonText={languageService[user.language].friendsWorkouts}
+            buttonText={languageService[user.language].friendsWorkoutsHomeBtn}
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"
             icon={faUserGroup}
@@ -141,7 +141,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             alert={Object.keys(workoutInvitesAlerts).length > 0}
             alertNumber={Object.keys(workoutInvitesAlerts).length}
-            buttonText={languageService[user.language].workoutInvites}
+            buttonText={languageService[user.language].workoutInvitesHomeBtn}
             style={buttonStyle}
             navigateScreen="WorkoutInvites"
             icon={faEnvelopeOpenText}
