@@ -100,12 +100,15 @@ const NewWorkoutScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title="New workout" goBackOption={true} />
+      <Header
+        title={languageService[user.language].newWorkout}
+        goBackOption={true}
+      />
       <View className="flex-1 px-2">
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="pb-2 rounded">
             {/* margin is inside the component after each types row */}
-            <WorkoutType typeSelected={setType} />
+            <WorkoutType language={user.language} typeSelected={setType} />
           </View>
           <View className="pb-2 rounded mb-5 flex-row justify-between">
             <WorkoutStartingTime
@@ -123,6 +126,7 @@ const NewWorkoutScreen = () => {
           {startingTime != null && (
             <View className="pb-2 rounded mb-5">
               <WorkoutMinutes
+                language={user.language}
                 minutesSelected={setMinutes}
                 workoutDate={startingTime}
                 closestWorkoutDate={closestWorkoutDate}
@@ -131,10 +135,16 @@ const NewWorkoutScreen = () => {
           )}
 
           <View className="pb-2 rounded mb-5">
-            <WorkoutDescription descChanged={setDescription} />
+            <WorkoutDescription
+              language={user.language}
+              descChanged={setDescription}
+            />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutLocation locationChanged={setLocation} />
+            <WorkoutLocation
+              language={user.language}
+              locationChanged={setLocation}
+            />
           </View>
           <View className="items-center mb-5">
             <TouchableOpacity
