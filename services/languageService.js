@@ -7,6 +7,17 @@ const languageService = {
     futureWorkouts: "FUTURE WORKOUTS",
     friendsWorkouts: "FRIENDS WORKOUTS",
     workoutInvites: "WORKOUT INVITES",
+    noDescriptionYet: "No description yet",
+    weeklyStatisticsChart: "Last week exercise duration (minutes)",
+    weekDays: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
   },
   hebrew: {
     login: "התחבר",
@@ -16,6 +27,9 @@ const languageService = {
     futureWorkouts: "אימונים עתידיים",
     friendsWorkouts: "אימונים של חברים",
     workoutInvites: "הזמנות לאימונים",
+    noDescriptionYet: "אין תיאור עדיין",
+    weeklyStatisticsChart: "זמן אימון בשבוע האחרון (דקות)",
+    weekDays: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
   },
 };
 export default languageService;
