@@ -1,12 +1,13 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React from "react";
 import * as appStyle from "./AppStyleSheet";
+import languageService from "../services/languageService";
 
 const WorkoutDescription = (props) => {
   return (
     <View>
       <Text style={{ color: appStyle.color_primary, fontSize: 15 }}>
-        Details:
+        {languageService[props.language].details}:
       </Text>
       <TextInput
         style={{
@@ -18,7 +19,7 @@ const WorkoutDescription = (props) => {
         }}
         autoCorrect={false}
         multiline
-        placeholder="Optional text"
+        placeholder={languageService[props.language].optionalText}
         placeholderTextColor={appStyle.color_lighter}
         numberOfLines={4}
         onChangeText={(text) => props.descChanged(text)}
