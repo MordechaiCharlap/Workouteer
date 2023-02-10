@@ -15,6 +15,7 @@ import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
+import languageService from "../services/languageService";
 const SettingsScreen = () => {
   const { user, setUser, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
@@ -52,15 +53,20 @@ const SettingsScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1 p-4">
-        <Header title={"Settings"} goBackOption={true} />
+        <Header
+          title={languageService[user.language].settings}
+          goBackOption={true}
+        />
         <Text className="text-center" style={{ color: appStyle.color_primary }}>
-          Privacy
+          {languageService[user.language].privacy}
         </Text>
         <View
           className="flex-row justify-between items-center h-10"
           style={{ color: appStyle.color_primary }}
         >
-          <Text style={{ color: appStyle.color_primary }}>Public account:</Text>
+          <Text style={{ color: appStyle.color_primary }}>
+            {languageService[user.language].publicAccount}:
+          </Text>
           <Switch
             trackColor={{ false: "#767577", true: appStyle.color_primary }}
             thumbColor={"#f4f3f4"}
@@ -72,7 +78,9 @@ const SettingsScreen = () => {
           className="flex-row justify-between items-center h-10"
           style={{ color: appStyle.color_primary }}
         >
-          <Text style={{ color: appStyle.color_primary }}>Online status:</Text>
+          <Text style={{ color: appStyle.color_primary }}>
+            {languageService[user.language].showOnlineStatus}:
+          </Text>
           <Switch
             trackColor={{ false: "#767577", true: appStyle.color_primary }}
             thumbColor={"#f4f3f4"}
@@ -85,9 +93,9 @@ const SettingsScreen = () => {
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>
-            Choose language:
+            {languageService[user.language].chooseLanguage}:
           </Text>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-x-2">
             <TouchableOpacity
               disabled={language == "hebrew"}
               onPress={() => setLanguage("hebrew")}
@@ -139,7 +147,7 @@ const SettingsScreen = () => {
                 color: appStyle.color_on_primary,
               }}
             >
-              Change password
+              {languageService[user.language].changePassword}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={userSignOut} className="w-5/12">
@@ -150,7 +158,7 @@ const SettingsScreen = () => {
                 color: appStyle.color_on_primary,
               }}
             >
-              Log out
+              {languageService[user.language].logOut}
             </Text>
           </TouchableOpacity>
         </View>
@@ -173,7 +181,7 @@ const SettingsScreen = () => {
               color: appStyle.color_primary,
             }}
           >
-            Report a bug or just suggest new features!
+            {languageService[user.language].reportABug}
           </Text>
         </View>
       </View>
@@ -189,7 +197,9 @@ const SettingsScreen = () => {
             className="text-xl text-center"
             style={{ color: appStyle.color_primary }}
           >
-            {changesMade == false ? "No changes were made" : "Apply changes"}
+            {changesMade == false
+              ? languageService[user.language].noChangesWereMade
+              : languageService[user.language].applyChanges}
           </Text>
         </TouchableOpacity>
       </View>
