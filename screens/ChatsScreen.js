@@ -30,6 +30,7 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
+import languageService from "../services/languageService";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -278,7 +279,7 @@ const ChatsScreen = () => {
           className="text-4xl font-semibold"
           style={{ color: appStyle.color_primary }}
         >
-          Chats
+          {languageService[user.language].chats}
         </Text>
         {Object.keys(chatsAlerts).length > 0 && (
           <View className="absolute right-0 mr-4">
