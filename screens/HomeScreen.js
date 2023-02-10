@@ -48,12 +48,9 @@ const HomeScreen = () => {
     console.log("checking if theres current workout");
     for (var [key, value] of Object.entries(user.workouts)) {
       if (
-        !(
-          new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-          value[0].toDate() < now &&
-          !value[2]
-        )
-        //should be <now but just for testing
+        new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
+        value[0].toDate() < now &&
+        !value[2]
       ) {
         console.log("found current workout");
         const workout = await firebase.getWorkout(key);
