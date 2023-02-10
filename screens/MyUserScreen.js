@@ -26,6 +26,7 @@ import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import UserStats from "../components/profileScreen/UserStats";
 import NameAndAge from "../components/profileScreen/NameAndAge";
+import languageService from "../services/languageService";
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -184,7 +185,7 @@ const MyUserScreen = () => {
                 className="text-lg"
               >
                 {user.description == ""
-                  ? "No description yet"
+                  ? languageService[user.language].noDescriptionYet
                   : user.description}
               </Text>
             </View>
