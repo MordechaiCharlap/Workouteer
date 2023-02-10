@@ -77,6 +77,7 @@ const WorkoutsStats = (props) => {
     return (
       <View style={{ height: 180 }}>
         <View
+          className="rounded-xl"
           style={{
             borderWidth: 1,
             borderColor: appStyle.color_primary,
