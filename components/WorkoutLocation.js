@@ -54,7 +54,7 @@ const WorkoutLocation = (props) => {
           </Text>
         </View>
         <TouchableOpacity
-          className="rounded justify-center p-1 ml-5"
+          className="rounded justify-center p-1"
           onPress={location != null ? cancelLocation : setLocationClicked}
           style={{
             backgroundColor:
@@ -74,7 +74,7 @@ const WorkoutLocation = (props) => {
         {showMap &&
           (isLoading ? (
             <Text
-              className="text-lg ml-3 p-3"
+              className="text-lg p-3"
               style={{ backgroundColor: appStyle.color_secondary }}
             >
               {languageService[props.language].gettingCurrentLocation}
