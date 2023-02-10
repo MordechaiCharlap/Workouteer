@@ -24,35 +24,33 @@ const SearchUsers = (props) => {
     }
   };
   const renderSearchedUser = () => {
-    if (searchedUser != null) {
-      return (
-        <TouchableOpacity
-          onPress={() => props.userClicked(searchedUser)}
-          className="flex-row items-center mt-2"
-        >
-          <Image
-            source={{
-              uri: searchedUser.img,
-            }}
-            className="h-14 w-14 bg-white rounded-full mr-4"
-          />
-          <View>
-            <Text
-              className="text-xl font-semibold tracking-wider"
-              style={{ color: appStyle.color_primary }}
-            >
-              {searchedUser.id}
-            </Text>
-            <Text
-              className="text-md opacity-60 tracking-wider"
-              style={{ color: appStyle.color_primary }}
-            >
-              {searchedUser.displayName}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
+    return (
+      <TouchableOpacity
+        onPress={() => props.userClicked(searchedUser)}
+        className="flex-row items-center mt-2"
+      >
+        <Image
+          source={{
+            uri: searchedUser.img,
+          }}
+          className="h-14 w-14 bg-white rounded-full mr-4"
+        />
+        <View>
+          <Text
+            className="text-xl font-semibold tracking-wider"
+            style={{ color: appStyle.color_primary }}
+          >
+            {searchedUser.id}
+          </Text>
+          <Text
+            className="text-md opacity-60 tracking-wider"
+            style={{ color: appStyle.color_primary }}
+          >
+            {searchedUser.displayName}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
   };
   return (
     <ScrollView>
@@ -69,13 +67,13 @@ const SearchUsers = (props) => {
           <TextInput
             onChangeText={(text) => textChanged(text)}
             style={{ color: appStyle.color_on_primary }}
-            placeholder="Search user"
+            placeholder={languageService[props.language].searchUser}
             placeholderTextColor={appStyle.color_on_primary}
             className="text-xl ml-3"
           />
         </View>
       </View>
-      {renderSearchedUser()}
+      {searchedUser != null && renderSearchedUser()}
     </ScrollView>
   );
 };
