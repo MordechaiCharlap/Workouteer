@@ -9,20 +9,24 @@ const WorkoutSex = (props) => {
     props.sexChanged(workoutSex);
   }, [workoutSex]);
   return (
-    <View className="flex-row items-center">
-      <CheckBox
-        onValueChange={(value) =>
-          value == true
-            ? setWorkoutSex("everyone")
-            : setWorkoutSex(props.user.isMale == true ? "men" : "women")
-        }
-        backgroundColor={appStyle.color_primary}
-        valueColor={appStyle.color_on_primary}
-        value={true}
-      />
-      <Text className="ml-2" style={{ color: appStyle.color_primary }}>
-        {props.text}
-      </Text>
+    <View
+      className={`items-center gap-x-2 ${
+        props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+      }`}
+    >
+      <View>
+        <CheckBox
+          onValueChange={(value) =>
+            value == true
+              ? setWorkoutSex("everyone")
+              : setWorkoutSex(props.isMale == true ? "men" : "women")
+          }
+          backgroundColor={appStyle.color_primary}
+          valueColor={appStyle.color_on_primary}
+          value={true}
+        />
+      </View>
+      <Text style={{ color: appStyle.color_primary }}>{props.text}</Text>
     </View>
   );
 };
