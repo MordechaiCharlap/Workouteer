@@ -114,9 +114,10 @@ const NewWorkoutScreen = () => {
               minDate={now}
             />
             <WorkoutSex
-              user={user}
+              isMale={user.isMale}
+              language={user.language}
               sexChanged={setWorkoutSex}
-              text={"Open for both genders"}
+              text={languageService[user.language].openForEveryone}
             />
           </View>
           {startingTime != null && (
