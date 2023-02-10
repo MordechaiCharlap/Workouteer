@@ -6,30 +6,25 @@ import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { faPersonBiking } from "@fortawesome/free-solid-svg-icons";
-
+import languageService from "../services/languageService";
 export const workoutTypes = [
   {
     id: 0,
-    title: "Everything",
   },
   {
     id: 1,
-    title: "Resistance Training",
     icon: faDumbbell,
   },
   {
     id: 2,
-    title: "Walking",
     icon: faPersonWalking,
   },
   {
     id: 3,
-    title: "Running",
     icon: faPersonRunning,
   },
   {
     id: 4,
-    title: "Biking",
     icon: faPersonBiking,
   },
 ];
@@ -85,7 +80,7 @@ const WorkoutType = (props) => {
                   : appStyle.color_primary,
             }}
           >
-            {type.title}
+            {languageService[props.language].workoutTypes[type.id]}
           </Text>
         </View>
       </TouchableOpacity>
@@ -131,7 +126,7 @@ const WorkoutType = (props) => {
                     : appStyle.color_primary,
               }}
             >
-              {workoutTypes[0].title}
+              {languageService[props.language].workoutTypes[0]}
             </Text>
           </View>
         </TouchableOpacity>
