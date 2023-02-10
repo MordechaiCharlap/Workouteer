@@ -25,8 +25,8 @@ const UserStats = () => {
   return (
     <View className="gap-y-2">
       <View
-        className="flex-row items-center justify-evenly rounded"
-        style={{ borderWidth: 2, borderColor: appStyle.color_primary }}
+        className="flex-row items-center justify-evenly rounded-full"
+        style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
       >
         {renderStat(faBolt, user.totalPoints)}
         {renderStat(faRankingStar, user.rank)}
