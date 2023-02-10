@@ -61,7 +61,9 @@ const SettingsScreen = () => {
           {languageService[user.language].privacy}
         </Text>
         <View
-          className="flex-row justify-between items-center h-10"
+          className={`justify-between items-center h-10 ${
+            user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          }`}
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>
@@ -75,7 +77,9 @@ const SettingsScreen = () => {
           />
         </View>
         <View
-          className="flex-row justify-between items-center h-10"
+          className={`justify-between items-center h-10 ${
+            user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          }`}
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>
@@ -89,7 +93,9 @@ const SettingsScreen = () => {
           />
         </View>
         <View
-          className="flex-row justify-between items-center h-10"
+          className={`justify-between items-center h-10 ${
+            user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          }`}
           style={{ color: appStyle.color_primary }}
         >
           <Text style={{ color: appStyle.color_primary }}>
