@@ -75,7 +75,7 @@ const MyUserScreen = () => {
       />
       <View className="flex-1">
         <ScrollView>
-          <View className="p-4 gap-y-6">
+          <View className="p-4 gap-y-4">
             <View className="flex-row items-center justify-between">
               <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
                 <FontAwesomeIcon
@@ -166,11 +166,15 @@ const MyUserScreen = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <NameAndAge
-              name={user.displayName}
-              age={calculateAge(user.birthdate.toDate())}
-            />
-            <UserStats />
+            <View>
+              <NameAndAge
+                name={user.displayName}
+                age={calculateAge(user.birthdate.toDate())}
+              />
+            </View>
+            <View>
+              <UserStats />
+            </View>
             <View
               className="rounded-xl p-4"
               style={{ backgroundColor: appStyle.color_primary }}
