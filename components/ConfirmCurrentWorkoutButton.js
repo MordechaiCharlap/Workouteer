@@ -8,6 +8,7 @@ import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -84,16 +85,22 @@ const ConfirmCurrentWorkoutButton = (props) => {
             color={appStyle.color_on_primary}
           />
         </View>
-        <Text
-          className="text-center flex-grow"
-          style={{ color: appStyle.color_on_primary }}
-        >
-          {loading
-            ? "Loading"
-            : !loading && !confirmed
-            ? "Confirm workout to get points"
-            : "Workout confirmed"}
-        </Text>
+        <View className="flex-row flex-grow justify-center items-center">
+          <Text style={{ color: appStyle.color_on_primary }}>
+            {loading
+              ? "Loading"
+              : !loading && !confirmed
+              ? "Confirm workout to get points"
+              : "Workout confirmed"}
+          </Text>
+          {!loading && confirmed && (
+            <FontAwesomeIcon
+              icon={faCheck}
+              size={15}
+              color={appStyle.color_on_primary}
+            />
+          )}
+        </View>
       </TouchableOpacity>
     </View>
   );
