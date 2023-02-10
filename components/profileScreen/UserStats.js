@@ -23,17 +23,17 @@ const UserStats = () => {
   };
   const renderStreak = () => {};
   return (
-    <View>
+    <View className="gap-y-2">
       <View
         className="flex-row items-center justify-evenly rounded"
         style={{ borderWidth: 2, borderColor: appStyle.color_primary }}
       >
         {renderStat(faBolt, user.totalPoints)}
         {renderStat(faRankingStar, user.rank)}
-        {renderStat(faFire, user.rank)}
+        {renderStat(faFire, user.streak)}
         {renderStreak()}
       </View>
-      <View className="h-40">
+      <View style={{ height: 180 }}>
         <WorkoutsStats workouts={user.workouts} />
       </View>
     </View>
