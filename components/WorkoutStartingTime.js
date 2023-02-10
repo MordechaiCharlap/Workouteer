@@ -10,6 +10,7 @@ import { React, useEffect, useState } from "react";
 import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
+import languageService from "../services/languageService";
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
@@ -119,7 +120,9 @@ const WorkoutStartingTime = (props) => {
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
-          <Text style={{ color: appStyle.color_on_primary }}>When?</Text>
+          <Text style={{ color: appStyle.color_on_primary }}>
+            {languageService[user.language].when}
+          </Text>
         )}
         {dateChangedOnce && (
           <Text
