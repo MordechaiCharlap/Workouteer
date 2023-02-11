@@ -7,23 +7,25 @@ const BottomNavbar = (props) => {
   const { chatsAlerts, friendRequestsAlerts } = useAlerts();
   return (
     <View
-      className={`flex-row flex-grow-0 shrink-0 h-12 justify-around ${props.display}`}
-      style={{ backgroundColor: appStyle.color_primary }}
+      className={`flex-row flex-grow-0 shrink-0 justify-around`}
+      style={{
+        backgroundColor: appStyle.color_primary,
+        height: props.height,
+        borderTopWidth: 1,
+        borderTopColor: appStyle.color_bg_variant,
+      }}
     >
       <NavbarButton
         screen="MyUser"
-        currentScreen={props.currentScreen}
         alert={Object.keys(friendRequestsAlerts).length > 0}
       />
-      {/* <NavbarButton screen="Calendar" currentScreen={props.currentScreen} /> */}
-      <NavbarButton screen="Leaderboard" currentScreen={props.currentScreen} />
-      <NavbarButton screen="Home" currentScreen={props.currentScreen} />
+      <NavbarButton screen="Leaderboard" />
+      <NavbarButton screen="Home" />
       <NavbarButton
         screen="Chats"
-        currentScreen={props.currentScreen}
         alert={Object.keys(chatsAlerts).length > 0}
       />
-      <NavbarButton screen="Explore" currentScreen={props.currentScreen} />
+      <NavbarButton screen="Explore" />
     </View>
   );
 };
