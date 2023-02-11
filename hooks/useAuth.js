@@ -74,6 +74,9 @@ export const AuthPrvider = ({ children }) => {
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
             );
+            setTimeout(() => {
+              setLoginLoading(false);
+            }, 5000);
           };
           setUserAsync();
         } else {
