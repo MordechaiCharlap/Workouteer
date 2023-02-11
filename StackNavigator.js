@@ -37,13 +37,8 @@ import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { useNavigationState } from "@react-navigation/native";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const {
-    user,
-    addAuthObserver,
-    googleUserInfo,
-    setGoogleUserAsync,
-    initialLoading,
-  } = useAuth();
+  const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
+    useAuth();
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -58,27 +53,9 @@ const StackNavigator = () => {
   const [alertsChanged, setAlertsChanged] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  const [stackRendering, setStackRendering] = useState(true);
-  useNavigationState((state) => {
-    const dontShowNavbar = ["Chat", "Login", "Register"];
-    const navbarScreens = ["MyUser", "Leaderboard", "Home", "Chats", "Explore"];
-    if (state != null && !stackRendering) {
-      const screenName = state.routes[state.index].name;
-      if (dontShowNavbar.includes(screenName)) {
-        setShowNavbar(false);
-      } else {
-        if (navbarScreens.includes(screenName)) {
-          setCurrentScreen(state.routes[state.index].name);
-        }
-        setShowNavbar(true);
-      }
-    } else {
-      console.log("something was null");
-    }
-  });
+
   useEffect(() => {
     addAuthObserver();
-    setStackRendering(false);
     console.log("StackRendered");
   }, []);
 
