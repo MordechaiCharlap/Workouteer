@@ -114,7 +114,6 @@ export const checkIfEmailAvailable = async (email) => {
 };
 export const userDataByEmail = async (email) => {
   var userData;
-  console.log("getting data on:", email);
   const q = query(collection(db, "users"), where("email", "==", email));
   await getDocs(q).then((snapshot) => {
     snapshot.forEach((doc) => {
@@ -157,10 +156,12 @@ export const createUser = async (newUserData) => {
     defaultCountry: null,
     isOnline: true,
     achievements: {},
-    rank: 1,
+    league: 0,
     leaderboard: {
       points: 0,
     },
+    streak: 0,
+    totalPoints: 0,
   });
 
   await setDoc(doc(db, "alerts", newUserData.id), {
@@ -290,10 +291,8 @@ const getSeenByMapGroupChat = (senderId, chat) => {
 export const getPrivateChatByUsers = async (user, otherUser) => {
   const chatId = user.chatPals[otherUser.id] || otherUser.chatPals[user.id];
   if (!chatId) {
-    console.log("Havent found chatpal, return new ");
     return;
   } else {
-    console.log("getting old chat");
     const chat = await getChat(chatId);
     return {
       ...chat,
@@ -392,7 +391,6 @@ export const seenByMe = async (userId, chatId, messageId) => {
 };
 export const getFirstPageMessages = async (chatId) => {
   const messagesArr = [];
-  console.log("chatId=>" + chatId);
   const messagesRef = collection(db, `chats/${chatId}/messages`);
   const q = query(messagesRef, orderBy("sentAt", "desc"), limit(25));
   const querySnapshot = await getDocs(q);
@@ -448,7 +446,6 @@ export const getFutureWorkouts = async (user, now) => {
   const workoutsArray = [];
   for (var [key, value] of Object.entries(user.workouts)) {
     if (value[0].toDate() > now) {
-      console.log("Found workout");
       workoutsArray.push({
         id: key,
         ...(await getDoc(doc(db, "workouts", key))).data(),
@@ -463,7 +460,6 @@ export const getFutureWorkouts = async (user, now) => {
 };
 export const getPastWorkouts = async (user, now) => {
   const workoutsArray = [];
-  console.log(user.workouts);
   for (var [key, value] of Object.entries(user.workouts)) {
     if (value[0].toDate() < now) {
       workoutsArray.push({
@@ -810,7 +806,6 @@ export const addLeaderboardPoints = async (user, pointsNumber) => {
 const getNewLeaderboard = async (user, pointsNumber) => {
   const lastWeekId = getLastWeekId();
   var leaderboardId = "";
-  console.log("query");
   const q = query(
     collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
     where("usersCount", "<", 50),
@@ -831,7 +826,6 @@ const getNewLeaderboard = async (user, pointsNumber) => {
       }
     );
   } else {
-    console.log("creating leaderboard");
     const newLeaderboard = await addDoc(
       collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
       {
@@ -847,7 +841,6 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     );
     leaderboardId = newLeaderboard.id;
   }
-  console.log("updating user leaderboard");
   await updateDoc(doc(db, "users", user.id), {
     ["leaderboard.id"]: leaderboardId,
     ["leaderboard.weekId"]: lastWeekId,
