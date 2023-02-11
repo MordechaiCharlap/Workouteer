@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Platform } from "react-native";
+import { View, Platform, Text } from "react-native";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
