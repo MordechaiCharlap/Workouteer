@@ -1,9 +1,15 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 const NavbarDisplayContext = createContext({});
 
 export const NavbarDisplayProvider = ({ children }) => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [currentScreen, setCurrentScreen] = useState();
+  useEffect(() => {
+    const navbarScreens = ["MyUser", "Leaderboard", "Home", "Chats", "Explore"];
+    const dontShowNavbar = ["Chat", "Login", "Register"];
+    if (dontShowNavbar.includes(currentScreen)) setShowNavbar(false);
+    else setShowNavbar(true);
+  }, [currentScreen]);
   return (
     <NavbarDisplayContext.Provider
       value={{ showNavbar, setShowNavbar, currentScreen, setCurrentScreen }}
