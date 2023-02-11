@@ -1,5 +1,5 @@
 import { View, Text, StatusBar, FlatList } from "react-native";
-import React, { useLayoutEffect, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -13,11 +13,6 @@ import useAuth from "../hooks/useAuth";
 const WorkoutInvitesScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const [workouts, setWorkouts] = useState();
   const [initialLoading, setInitialLoading] = useState(true);
   const { workoutInvitesAlerts } = useAlerts();

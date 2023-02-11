@@ -10,7 +10,7 @@ import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
@@ -40,11 +40,6 @@ const NewWorkoutScreen = () => {
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, location]);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const checkIfCanAddWorkout = () => {
     if (
       type != null &&

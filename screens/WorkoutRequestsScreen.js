@@ -7,12 +7,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import React, {
-  useLayoutEffect,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as appStyle from "../components/AppStyleSheet";
@@ -38,11 +33,6 @@ const WorkoutRequestsScreen = ({ route }) => {
       getWorkoutRequesters();
     }, [])
   );
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const acceptUser = async (acceptedUser, index) => {
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = true;

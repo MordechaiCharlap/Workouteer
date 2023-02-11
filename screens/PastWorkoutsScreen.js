@@ -1,5 +1,5 @@
 import { View, FlatList, StatusBar } from "react-native";
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
@@ -14,16 +14,9 @@ const PastWorkoutScreen = ({ route }) => {
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useEffect(() => {
     const getWorkouts = async () => {
-      console.log("getting workouts");
       const workoutsArr = await firebase.getPastWorkouts(user, now);
-      console.log(workoutsArr);
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };

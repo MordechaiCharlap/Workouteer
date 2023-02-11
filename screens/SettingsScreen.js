@@ -6,7 +6,7 @@ import {
   StatusBar,
   Modal,
 } from "react-native";
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -23,12 +23,6 @@ const SettingsScreen = () => {
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const [language, setLanguage] = useState(user.language);
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
   useEffect(() => {
     if (
       user.isPublic != isPublic ||

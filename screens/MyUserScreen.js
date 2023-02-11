@@ -6,9 +6,8 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { React, useLayoutEffect, useState, useCallback } from "react";
+import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
@@ -41,11 +40,6 @@ const MyUserScreen = () => {
       if (value[0].toDate() < now && value[2]) count++;
     }
     setWorkoutsCount(count);
-  }, []);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
   }, []);
   const calculateAge = (dateToCheck) => {
     var today = new Date();
@@ -192,7 +186,6 @@ const MyUserScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <BottomNavbar currentScreen="MyUser" />
     </View>
   );
 };

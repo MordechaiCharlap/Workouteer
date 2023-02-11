@@ -10,9 +10,9 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { React, useLayoutEffect, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -29,13 +29,9 @@ import Password from "../components/registerScreen/Password";
 import ConfirmPassword from "../components/registerScreen/ConfirmPassword";
 import TermsAndConditionsCB from "../components/registerScreen/TermsAndConditionsCB";
 import LoadingAnimation from "../components/LoadingAnimation";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const RegisterScreen = () => {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const { googleUserInfo, loginLoading, createUserEmailAndPassword } =
     useAuth();
   const { pushToken } = usePushNotifications();
@@ -52,7 +48,6 @@ const RegisterScreen = () => {
   const [date, setDate] = useState(new Date());
   //loading state
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     if (acceptTerms) setTermsCBError(null);
   }, [acceptTerms]);

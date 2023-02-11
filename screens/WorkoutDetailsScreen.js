@@ -16,12 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { workoutTypes } from "../components/WorkoutType";
-import React, {
-  useLayoutEffect,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import responsiveStyle from "../components/ResponsiveStyling";
@@ -44,11 +39,6 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [workout, setWorkout] = useState(route.params.workout);
   const [members, setMembers] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useEffect(() => {
     const getMembersAndSetWorkout = async (workoutData) => {
       const membersArray = await firebase.getWorkoutMembers(workoutData);
@@ -62,7 +52,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     });
   }, []);
   const inviteFriends = async () => {
-    navigation.push("InviteFriends", {
+    navigation.navigate("InviteFriends", {
       workout: workout,
       membersArray: members,
     });

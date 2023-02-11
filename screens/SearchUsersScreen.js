@@ -7,8 +7,7 @@ import {
   TextInput,
   StatusBar,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
-import BottomNavbar from "../components/BottomNavbar";
+import { React, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -23,12 +22,6 @@ const SearchUsersScreen = () => {
   const [searchedUser, setSearchedUser] = useState(null);
   useEffect(() => {}, []);
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
   const searchClicked = async () => {
     if (searchText != "") {
       const docRef = await firebase.searchUser(searchText);
@@ -38,7 +31,6 @@ const SearchUsersScreen = () => {
 
   const renderSearchedUser = () => {
     if (searchedUser != null) {
-      console.log(searchedUser);
       return (
         <TouchableOpacity
           onPress={() => userClicked(searchedUser)}
@@ -116,8 +108,6 @@ const SearchUsersScreen = () => {
           {renderSearchedUser()}
         </View>
       </View>
-
-      <BottomNavbar currentScreen="Friends" />
     </View>
   );
 };

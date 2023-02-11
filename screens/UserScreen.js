@@ -7,9 +7,8 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import BottomNavbar from "../components/BottomNavbar";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -29,8 +28,7 @@ import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
-
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { sendPushNotification } = usePushNotifications();
 
   const shownUser = route.params.shownUser;
@@ -38,13 +36,7 @@ const UserScreen = ({ route }) => {
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
-  console.log(friendshipStatus);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useEffect(() => {
     const now = new Date();
     var count = 0;
@@ -60,7 +52,6 @@ const UserScreen = ({ route }) => {
   const removeFriend = async () => {
     setFriendshipStatus("None");
     await firebase.removeFriend(user.id, shownUser.id);
-    // setUser(await firebase.updateContext(user.id));
   };
   const acceptFriendRequest = async () => {
     setFriendshipStatus("Friends");
@@ -70,7 +61,6 @@ const UserScreen = ({ route }) => {
       "You've got a new friend!",
       `You and ${user.displayName} are now friends :),`
     );
-    // setUser(await firebase.updateContext(user.id));
   };
   const rejectFriendRequest = async () => {
     setFriendshipStatus("None");
@@ -90,7 +80,6 @@ const UserScreen = ({ route }) => {
     );
   };
   const calculateAge = () => {
-    console.log(shownUser.birthdate);
     const birthdate = shownUser.birthdate.toDate();
     var today = new Date();
     var age = today.getFullYear() - birthdate.getFullYear();
@@ -309,7 +298,6 @@ const UserScreen = ({ route }) => {
           )}
         </View>
       </View>
-      <BottomNavbar currentScreen="User" />
     </View>
   );
 };

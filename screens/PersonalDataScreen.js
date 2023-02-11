@@ -7,7 +7,7 @@ import {
   StatusBar,
   Platform,
 } from "react-native";
-import { React, useLayoutEffect, useState } from "react";
+import { React, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
@@ -18,11 +18,6 @@ import useAuth from "../hooks/useAuth";
 const PersonalDataScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const [isMale, setIsMale] = useState(null);
   const [country, setCountry] = useState(null);
   const [firstNameVal, setFirstNameVal] = useState("");
