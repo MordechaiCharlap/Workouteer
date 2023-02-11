@@ -69,7 +69,6 @@ const WorkoutComponent = (props) => {
   };
   const renderMembersPics = () => {
     const picsArr = Object.values(workout.members);
-    console.log(picsArr);
     const imageList = picsArr.map((imgUri) => (
       <Image
         key={imgUri}

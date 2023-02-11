@@ -51,14 +51,11 @@ const BirthdayWebInput = (props) => {
   useEffect(() => {
     if (day && month && year) {
       const date = new Date(year, month, day, 0, 0, 0, 0);
-      console.log(`${day}/${month}/${year}`);
       if (calculateAge(date) >= 16) {
-        console.log("old enough");
         setError(null);
         props.valueChanged(date);
       } else {
         setError("You need to be at least 16 to register");
-        console.log("too little");
         props.valueChanged(null);
       }
     }
@@ -70,7 +67,6 @@ const BirthdayWebInput = (props) => {
     if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
       age--;
     }
-    console.log(age);
     return age;
   };
 

@@ -24,7 +24,6 @@ const WorkoutStartingTime = (props) => {
     setMaxDate(maximumDate);
   }, []);
   const checkIfDateAvailableAndReturnClosestWorkout = (dateToCheck) => {
-    console.log("Checking if date taken");
     var closestWorkoutDate = null;
     for (var value of Object.values(user.workouts)) {
       if (
@@ -32,7 +31,6 @@ const WorkoutStartingTime = (props) => {
           dateToCheck &&
         value[0].toDate() < dateToCheck
       ) {
-        console.log("Date taken");
         return false;
       } else if (
         value[0].toDate() > dateToCheck &&
@@ -40,7 +38,6 @@ const WorkoutStartingTime = (props) => {
       )
         closestWorkoutDate = value[0].toDate();
     }
-    console.log("Date available");
     return closestWorkoutDate;
   };
   const onDateChange = (event, selectedDate) => {
@@ -76,7 +73,6 @@ const WorkoutStartingTime = (props) => {
         setMode("date");
       }
     } else if (event.type == "dismissed" && !dateChangedOnce) {
-      console.log("dismissed in the middle");
       props.startingTimeChanged(null);
       setDate(new Date());
       setShow(false);

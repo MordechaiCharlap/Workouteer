@@ -8,7 +8,6 @@ const WorkoutsStats = (props) => {
   const week = [];
   const weekdays = languageService[user.language].weekDays;
   const renderStats = () => {
-    console.log("rendering workouts");
     const now = new Date();
     const weekAgo = new Date();
     weekAgo.setDate(now.getDate() - 6);
@@ -30,7 +29,7 @@ const WorkoutsStats = (props) => {
           highestPoints = weekWorkoutMinutes[workout[0].toDate().getDay()];
       }
     }
-    const pointHeight = 120 / highestPoints;
+    const pointHeight = highestPoints != 0 ? 120 / highestPoints : 0;
     const renderColumn = (index) => {
       return (
         <View className="self-end items-center">

@@ -20,7 +20,6 @@ const ConfirmCurrentWorkoutButton = (props) => {
       props.currentWorkout.location,
       currentLocation
     );
-    console.log("distance:", distance);
     return distance;
   };
   const confirmWorkout = async () => {
@@ -53,7 +52,6 @@ const ConfirmCurrentWorkoutButton = (props) => {
       await addLeaderboardPoints(user, confirmationPoints);
 
       setConfirmed(true);
-      console.log("Close enough");
     } else {
       Alert.alert("You are not in the right location. get closer");
     }

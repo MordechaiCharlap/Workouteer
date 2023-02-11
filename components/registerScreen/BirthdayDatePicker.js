@@ -41,7 +41,6 @@ const BirthdayDatePicker = (props) => {
     if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
       age--;
     }
-    console.log(age);
     return age;
   };
 

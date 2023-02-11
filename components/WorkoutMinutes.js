@@ -32,9 +32,7 @@ const WorkoutMinutes = (props) => {
           "This workout getting into another one of your workouts time"
         );
       props.minutesSelected(null);
-      console.log("Setting value to null");
       setValue(false);
-      console.log(value);
     } else {
       props.minutesSelected(item.value);
       setValue(item.value);
