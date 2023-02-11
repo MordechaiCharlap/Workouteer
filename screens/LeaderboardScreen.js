@@ -38,7 +38,7 @@ const LeaderboardScreen = () => {
         await getDoc(
           doc(
             firebase.db,
-            `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+            `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
           )
         )
       ).data();
@@ -56,7 +56,7 @@ const LeaderboardScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <Header title={leagues[user.rank] + " league"} />
+        <Header title={leagues[user.league] + " league"} />
         {leaderboardList == null ? (
           <Text
             className="text-center font-semibold text-lg"

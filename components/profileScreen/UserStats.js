@@ -30,7 +30,7 @@ const UserStats = () => {
         style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
       >
         {renderStat(faBolt, user.totalPoints)}
-        {renderStat(faRankingStar, leagues[user.rank])}
+        {renderStat(faRankingStar, leagues[user.league])}
         {renderStat(faFire, user.streak)}
         {renderStreak()}
       </View>

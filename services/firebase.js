@@ -791,7 +791,7 @@ export const addLeaderboardPoints = async (user, pointsNumber) => {
     await updateDoc(
       doc(
         db,
-        `leaderboards/${user.rank}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+        `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
       ),
       {
         [`users.${user.id}.points`]: increment(pointsNumber),
@@ -807,7 +807,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
   const lastWeekId = getLastWeekId();
   var leaderboardId = "";
   const q = query(
-    collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
+    collection(db, `leaderboards/${user.league}/${lastWeekId}`),
     where("usersCount", "<", 50),
     limit(1)
   );
@@ -815,7 +815,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
   if (querySnapshot.size != 0) {
     leaderboardId = querySnapshot.docs[0].id;
     await updateDoc(
-      doc(db, `leaderboards/${user.rank}/${lastWeekId}/${leaderboardId}`),
+      doc(db, `leaderboards/${user.league}/${lastWeekId}/${leaderboardId}`),
       {
         [`users.${user.id}`]: {
           displayName: user.displayName,
@@ -827,7 +827,7 @@ const getNewLeaderboard = async (user, pointsNumber) => {
     );
   } else {
     const newLeaderboard = await addDoc(
-      collection(db, `leaderboards/${user.rank}/${lastWeekId}`),
+      collection(db, `leaderboards/${user.league}/${lastWeekId}`),
       {
         users: {
           [user.id]: {
