@@ -5,35 +5,33 @@ import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCircleUser,
-  faCalendarDays,
   faDumbbell,
   faComments,
   faGlobe,
   faRankingStar,
 } from "@fortawesome/free-solid-svg-icons";
-import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const NavbarButton = (props) => {
   const navigation = useNavigation();
-  const navigate = async () => {
-    // setUser(await firebase.updateContext(user.id));
-    navigation.navigate(props.screen);
-  };
+  const { currentScreen } = useNavbarDisplay();
   const getIcon = () => {
-    if (props.screen == "MyUser") return faCircleUser;
-    if (props.screen == "Leaderboard") return faRankingStar;
-    // if (props.screen == "Calendar") return faCalendarDays;
-    if (props.screen == "Home") return faDumbbell;
-    if (props.screen == "Chats") return faComments;
-    if (props.screen == "Explore") return faGlobe;
+    const icons = {
+      MyUser: faCircleUser,
+      Leaderboard: faRankingStar,
+      Home: faDumbbell,
+      Chats: faComments,
+      Explore: faGlobe,
+    };
+    return icons[props.screen];
   };
 
   return (
     <TouchableOpacity
       className="flex-grow w-1 items-center justify-center"
-      onPress={() => (props.screen != props.currentScreen ? navigate() : {})}
-      style={
-        props.screen != props.currentScreen ? style.button : style.currentButton
-      }
+      onPress={() => {
+        navigation.navigate(props.screen);
+      }}
+      style={props.screen != currentScreen ? style.button : style.currentButton}
     >
       {props.screen == "Home" && (
         <View className="absolute h-max w-max items-center justify-center">
