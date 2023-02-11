@@ -146,10 +146,14 @@ const ChatScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <View
         className="flex-row items-center"
-        style={{ backgroundColor: appStyle.color_primary_variant, height: 70 }}
+        style={{
+          backgroundColor: appStyle.color_primary,
+          height: 70,
+          borderBottomColor: appStyle.color_bg,
+          borderBottomWidth: 0.5,
+        }}
       >
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon
@@ -183,97 +187,56 @@ const ChatScreen = ({ route }) => {
             {otherUser.displayName}
           </Text>
         </TouchableOpacity>
-      </KeyboardAvoidingView>
-      <View className="bg-white border-8 border-red-600 flex-1">
-        <FlatList
-          className="flex-1 p-2 "
+      </View>
+      <FlatList
+        className="p-2"
+        showsVerticalScrollIndicator={false}
+        extraData={true}
+        data={messages}
+        keyExtractor={(item) => item.id}
+        inverted={true}
+        renderItem={({ item }) => (
+          <ChatMessage
+            messageSelected={messageSelected}
+            chatId={chat.id}
+            message={item}
+            user={user}
+            currentDay={currentDay}
+          />
+        )}
+      />
+      <View
+        className="flex-row p-2 items-center"
+        style={{ backgroundColor: appStyle.color_bg_variant }}
+      >
+        <TextInput
+          className="text-2xl flex-1 mr-2 rounded py-1 px-4"
+          multiline={true}
           showsVerticalScrollIndicator={false}
-          extraData={true}
-          data={messages}
-          keyExtractor={(item) => item.id}
-          inverted={true}
-          renderItem={({ item }) => (
-            <ChatMessage
-              messageSelected={messageSelected}
-              chatId={chat.id}
-              message={item}
-              user={user}
-              currentDay={currentDay}
-            />
-          )}
-        />
-
+          placeholder="Message"
+          placeholderTextColor={appStyle.color_primary}
+          style={{
+            backgroundColor: appStyle.color_bg,
+            color: appStyle.color_primary,
+          }}
+          onChangeText={(text) => {
+            setMessageText(text);
+          }}
+          value={messageText}
+        ></TextInput>
         <View
-          className="flex-row p-2 items-center"
-          style={{ backgroundColor: appStyle.color_bg_variant }}
+          className="rounded-full w-10 h-10 items-center justify-center"
+          style={{ backgroundColor: appStyle.color_bg }}
         >
-          <TextInput
-            className="text-2xl flex-1 mr-2 rounded py-1 px-4"
-            multiline={true}
-            showsVerticalScrollIndicator={false}
-            placeholder="Message"
-            placeholderTextColor={appStyle.color_primary}
-            style={{
-              backgroundColor: appStyle.color_bg,
-              color: appStyle.color_primary,
-            }}
-            onChangeText={(text) => {
-              setMessageText(text);
-            }}
-            value={messageText}
-          ></TextInput>
-          <View
-            className="rounded-full w-10 h-10 items-center justify-center"
-            style={{ backgroundColor: appStyle.color_bg }}
-          >
-            <TouchableOpacity onPress={() => sendMessage()}>
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => sendMessage()}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              size={25}
+              color={appStyle.color_primary}
+            />
+          </TouchableOpacity>
         </View>
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex-row items-center absolute"
-        style={{ backgroundColor: appStyle.color_primary, height: 70 }}
-      >
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            size={40}
-            color={appStyle.color_on_primary}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={async () =>
-            navigation.navigate("User", {
-              shownUser: otherUser,
-              friendshipStatus: await firebase.checkFriendShipStatus(
-                user,
-                otherUser.id
-              ),
-            })
-          }
-          className="flex-row flex-1 items-center"
-        >
-          <Image
-            source={{
-              uri: otherUser.img,
-            }}
-            className="h-14 w-14 bg-white rounded-full mr-4"
-          />
-          <Text
-            className="text-2xl font-semibold"
-            style={{ color: appStyle.color_on_primary }}
-          >
-            {otherUser.displayName}
-          </Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
     </View>
   );
 };
