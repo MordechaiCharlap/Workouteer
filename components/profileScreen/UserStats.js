@@ -9,6 +9,7 @@ import {
 import * as appStyle from "../AppStyleSheet";
 import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
+import { leagues } from "../../services/defaultValues";
 const UserStats = () => {
   const { user } = useAuth();
   const iconSize = 30;
@@ -29,7 +30,7 @@ const UserStats = () => {
         style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
       >
         {renderStat(faBolt, user.totalPoints)}
-        {renderStat(faRankingStar, user.rank)}
+        {renderStat(faRankingStar, leagues[user.rank])}
         {renderStat(faFire, user.streak)}
         {renderStreak()}
       </View>
