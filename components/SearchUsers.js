@@ -11,6 +11,7 @@ import { React, useState } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import languageService from "../services/languageService";
 import * as firebase from "../services/firebase";
 const SearchUsers = (props) => {
   const [searchedUser, setSearchedUser] = useState(null);
@@ -58,7 +59,11 @@ const SearchUsers = (props) => {
         className="rounded-xl mt-4 p-3"
         style={{ backgroundColor: appStyle.color_darker }}
       >
-        <View className="flex-row items-center">
+        <View
+          className={`items-center gap-x-3 ${
+            props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          }`}
+        >
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             size={24}
@@ -69,7 +74,7 @@ const SearchUsers = (props) => {
             style={{ color: appStyle.color_on_primary }}
             placeholder={languageService[props.language].searchUser}
             placeholderTextColor={appStyle.color_on_primary}
-            className="text-xl ml-3"
+            className="text-xl"
           />
         </View>
       </View>
