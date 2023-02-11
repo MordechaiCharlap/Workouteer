@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { View, Platform } from "react-native";
+import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ExploreScreen from "./screens/ExploreScreen";
 import FriendsScreen from "./screens/FriendsScreen";
-import CalendarScreen from "./screens/CalendarScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatsScreen from "./screens/ChatsScreen";
 import ChangePreferencesScreen from "./screens/ChangePreferencesScreen";
@@ -31,12 +32,18 @@ import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
-import { Platform } from "react-native";
 import LeaderboardScreen from "./screens/LeaderboardScreen";
+import useNavbarDisplay from "./hooks/useNavbarDisplay";
+import { useNavigationState } from "@react-navigation/native";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
-    useAuth();
+  const {
+    user,
+    addAuthObserver,
+    googleUserInfo,
+    setGoogleUserAsync,
+    initialLoading,
+  } = useAuth();
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -44,15 +51,35 @@ const StackNavigator = () => {
     chatsNavigationOptions,
     exploreNavigationOptions,
   } = useNavbarNavigation();
-
+  const { showNavbar, setShowNavbar, setCurrentScreen } = useNavbarDisplay();
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const [alertsChanged, setAlertsChanged] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
+  const [stackRendering, setStackRendering] = useState(true);
+  useNavigationState((state) => {
+    const dontShowNavbar = ["Chat", "Login", "Register"];
+    const navbarScreens = ["MyUser", "Leaderboard", "Home", "Chats", "Explore"];
+    if (state != null && !stackRendering) {
+      const screenName = state.routes[state.index].name;
+      if (dontShowNavbar.includes(screenName)) {
+        setShowNavbar(false);
+      } else {
+        if (navbarScreens.includes(screenName)) {
+          setCurrentScreen(state.routes[state.index].name);
+        }
+        setShowNavbar(true);
+      }
+    } else {
+      console.log("something was null");
+    }
+  });
   useEffect(() => {
     addAuthObserver();
+    setStackRendering(false);
+    console.log("StackRendered");
   }, []);
 
   useEffect(() => {
@@ -66,12 +93,10 @@ const StackNavigator = () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
       yasterday.setHours(0, 0, 0, 0);
-      console.log(yasterday);
       if (
         user.streak != 0 &&
         user.lastConfirmedWorkoutDate.toDate() < yasterday
       ) {
-        console.log("Resetting streak");
         const updatedUser = { ...user };
         updatedUser.streak = 0;
         await firebase.updateUser(updatedUser);
@@ -107,151 +132,163 @@ const StackNavigator = () => {
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
-    <Stack.Navigator>
-      {user ? (
-        <>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={homeNavigationOptions.current}
-          />
+    <View style={{ flex: 1 }}>
+      <Stack.Navigator screenOptions={{ headerShown: true }}>
+        {user ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={homeNavigationOptions.current}
+            />
 
-          <Stack.Screen
-            name="MyUser"
-            component={MyUserScreen}
-            options={myUserNavigationOptions.current}
-          />
-          <Stack.Screen name="User" component={UserScreen} />
-          <Stack.Screen
-            name="Explore"
-            component={ExploreScreen}
-            options={exploreNavigationOptions.current}
-          />
-          <Stack.Screen
-            name="Friends"
-            component={FriendsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="Chats"
-            component={ChatsScreen}
-            options={chatsNavigationOptions.current}
-          />
-          <Stack.Screen
-            name="Chat"
-            component={ChatScreen}
-            options={verticalAnimation}
-          />
-          {/* <Stack.Screen
+            <Stack.Screen
+              name="MyUser"
+              component={MyUserScreen}
+              options={myUserNavigationOptions.current}
+            />
+            <Stack.Screen
+              name="User"
+              component={UserScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="Explore"
+              component={ExploreScreen}
+              options={exploreNavigationOptions.current}
+            />
+            <Stack.Screen
+              name="Friends"
+              component={FriendsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="Chats"
+              component={ChatsScreen}
+              options={chatsNavigationOptions.current}
+            />
+            <Stack.Screen
+              name="Chat"
+              component={ChatScreen}
+              options={verticalAnimation}
+            />
+            {/* <Stack.Screen
             name="Calendar"
             component={CalendarScreen}
             options={leaderboardNavigationOptions.current}
           /> */}
-          <Stack.Screen
-            name="Leaderboard"
-            component={LeaderboardScreen}
-            options={leaderboardNavigationOptions.current}
-          />
-          <Stack.Screen
-            name="Notifications"
-            component={NotificationsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="SearchUsers"
-            component={SearchUsersScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="EditData"
-            component={EditDataScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="Settings"
-            component={SettingsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="FriendsWorkouts"
-            component={FriendsWorkoutsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="NewWorkout"
-            component={NewWorkoutScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="FindWorkout"
-            component={FindWorkoutScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="FutureWorkouts"
-            component={FutureWorkoutsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="PastWorkouts"
-            component={PastWorkoutsScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="WorkoutInvites"
-            component={WorkoutInvitesScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="ChangePreferences"
-            component={ChangePreferencesScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="SearchedWorkouts"
-            component={SearchedWorkoutsScreen}
-            options={horizontalRightAnimation}
-          />
-          <Stack.Screen
-            name="WorkoutDetails"
-            component={WorkoutDetailsScreen}
-            options={horizontalRightAnimation}
-          />
-          <Stack.Screen
-            name="WorkoutRequests"
-            component={WorkoutRequestsScreen}
-            options={horizontalRightAnimation}
-          />
-          <Stack.Screen
-            name="InviteFriends"
-            component={InviteFriendsScreen}
-            options={horizontalRightAnimation}
-          />
-          <Stack.Screen
-            name="FriendRequests"
-            component={FriendRequestsScreen}
-            options={verticalAnimation}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={verticalAnimation}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={horizontalLeftAnimation}
-          />
-        </>
+            <Stack.Screen
+              name="Leaderboard"
+              component={LeaderboardScreen}
+              options={leaderboardNavigationOptions.current}
+            />
+            <Stack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="SearchUsers"
+              component={SearchUsersScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="EditData"
+              component={EditDataScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={SettingsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="FriendsWorkouts"
+              component={FriendsWorkoutsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="NewWorkout"
+              component={NewWorkoutScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="FindWorkout"
+              component={FindWorkoutScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="FutureWorkouts"
+              component={FutureWorkoutsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="PastWorkouts"
+              component={PastWorkoutsScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="WorkoutInvites"
+              component={WorkoutInvitesScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="ChangePreferences"
+              component={ChangePreferencesScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="SearchedWorkouts"
+              component={SearchedWorkoutsScreen}
+              options={horizontalRightAnimation}
+            />
+            <Stack.Screen
+              name="WorkoutDetails"
+              component={WorkoutDetailsScreen}
+              options={horizontalRightAnimation}
+            />
+            <Stack.Screen
+              name="WorkoutRequests"
+              component={WorkoutRequestsScreen}
+              options={horizontalRightAnimation}
+            />
+            <Stack.Screen
+              name="InviteFriends"
+              component={InviteFriendsScreen}
+              options={horizontalRightAnimation}
+            />
+            <Stack.Screen
+              name="FriendRequests"
+              component={FriendRequestsScreen}
+              options={verticalAnimation}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={horizontalLeftAnimation}
+            />
+          </>
+        )}
+      </Stack.Navigator>
+      {showNavbar && (
+        <View>
+          <BottomNavbar height={50} />
+        </View>
       )}
-    </Stack.Navigator>
+    </View>
   );
 };
 const verticalAnimation = () => {
   const options = {
+    headerShown: false,
     animation: "slide_from_bottom",
     animationTypeForReplace: "push",
   };
@@ -259,6 +296,7 @@ const verticalAnimation = () => {
 };
 const horizontalRightAnimation = () => {
   const options = {
+    headerShown: false,
     animation: "slide_from_right",
     animationTypeForReplace: "push",
   };
@@ -266,6 +304,7 @@ const horizontalRightAnimation = () => {
 };
 const horizontalLeftAnimation = () => {
   const options = {
+    headerShown: false,
     animation: "slide_from_left",
     animationTypeForReplace: "push",
   };
