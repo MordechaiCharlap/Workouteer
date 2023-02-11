@@ -32,12 +32,13 @@ import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-
+import { languageService } from "../services/languageService";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Chat");
+      return () => leaveChat();
     }, [])
   );
   const [selectedMessages, setSelectedMessages] = useState([]);
@@ -131,11 +132,6 @@ const ChatScreen = ({ route }) => {
       // console.log(chatData, " saved");
     }
   };
-  useFocusEffect(
-    useCallback(() => {
-      return () => leaveChat();
-    }, [])
-  );
   const leaveChat = async () => {
     if (chat) {
       const chatsAlertsClone = { ...chatsAlerts };
@@ -150,9 +146,10 @@ const ChatScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View
-        className="flex-row items-center pb-3 pt-2"
-        style={{ backgroundColor: appStyle.color_primary }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-row items-center"
+        style={{ backgroundColor: appStyle.color_primary_variant, height: 70 }}
       >
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesomeIcon
@@ -186,40 +183,26 @@ const ChatScreen = ({ route }) => {
             {otherUser.displayName}
           </Text>
         </TouchableOpacity>
-      </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "android" ? "padding" : "height"}
-        className="flex-1"
-        keyboardVerticalOffset={0}
-      >
-        <View className="flex-1">
-          {messages == null ? (
-            <Text
-              className="text-center text-xl font-semibold m-4"
-              style={{ color: appStyle.color_primary }}
-            >
-              Loading
-            </Text>
-          ) : (
-            <FlatList
-              className="p-2"
-              showsVerticalScrollIndicator={false}
-              extraData={true}
-              data={messages}
-              keyExtractor={(item) => item.id}
-              inverted={true}
-              renderItem={({ item }) => (
-                <ChatMessage
-                  messageSelected={messageSelected}
-                  chatId={chat.id}
-                  message={item}
-                  user={user}
-                  currentDay={currentDay}
-                />
-              )}
+      </KeyboardAvoidingView>
+      <View className="bg-white border-8 border-red-600 flex-1">
+        <FlatList
+          className="flex-1 p-2 "
+          showsVerticalScrollIndicator={false}
+          extraData={true}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          inverted={true}
+          renderItem={({ item }) => (
+            <ChatMessage
+              messageSelected={messageSelected}
+              chatId={chat.id}
+              message={item}
+              user={user}
+              currentDay={currentDay}
             />
           )}
-        </View>
+        />
+
         <View
           className="flex-row p-2 items-center"
           style={{ backgroundColor: appStyle.color_bg_variant }}
@@ -252,6 +235,44 @@ const ChatScreen = ({ route }) => {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-row items-center absolute"
+        style={{ backgroundColor: appStyle.color_primary, height: 70 }}
+      >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            size={40}
+            color={appStyle.color_on_primary}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={async () =>
+            navigation.navigate("User", {
+              shownUser: otherUser,
+              friendshipStatus: await firebase.checkFriendShipStatus(
+                user,
+                otherUser.id
+              ),
+            })
+          }
+          className="flex-row flex-1 items-center"
+        >
+          <Image
+            source={{
+              uri: otherUser.img,
+            }}
+            className="h-14 w-14 bg-white rounded-full mr-4"
+          />
+          <Text
+            className="text-2xl font-semibold"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            {otherUser.displayName}
+          </Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
