@@ -57,6 +57,11 @@ const languageService = {
     applyChanges: "Apply changes",
     search: "Search",
     searchUser: "Search user",
+    editPersonalData: "Edit personal data",
+    displayName: "Display name",
+    description: "Description",
+    changesSavedSuccessfully: "Changes applied",
+    loading: "Loading",
   },
   hebrew: {
     login: "התחבר",
@@ -100,9 +105,14 @@ const languageService = {
     logOut: "התנתקות",
     reportABug: "דווח על באג או הצע פיצ'ר חדש שתרצה לראות פה! :)",
     noChangesWereMade: "לא נצפו שינויים",
-    applyChanges: "שמירת השינויים",
+    applyChanges: "שמירה",
     search: "חיפוש",
     searchUser: "חיפוש משתמש",
+    editPersonalData: "עריכת מידע אישי",
+    displayName: "כינוי",
+    description: "תיאור",
+    changesSaved: "השינויים עודכנו",
+    loading: "טוען",
   },
 };
 export default languageService;
