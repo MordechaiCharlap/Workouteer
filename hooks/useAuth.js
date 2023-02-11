@@ -18,7 +18,6 @@ const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
   const navigation = useNavigation();
-  // const [accessToken, setAccessToken] = useState(null);
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
   const auth = firebase.auth;
   const [initialLoading, setInitialLoading] = useState(true);
@@ -75,7 +74,6 @@ export const AuthPrvider = ({ children }) => {
             console.log(
               "state Changed, user logged in: " + authUser.email.toLowerCase()
             );
-            setLoginLoading(false);
           };
           setUserAsync();
         } else {
