@@ -5,6 +5,7 @@ const NavbarNavigationContext = createContext({});
 export const NavbarNavigationProvider = ({ children }) => {
   const upAnimation = () => {
     const options = {
+      headerShown: false,
       animation: "slide_from_bottom",
       animationTypeForReplace: "push",
     };
@@ -12,6 +13,7 @@ export const NavbarNavigationProvider = ({ children }) => {
   };
   const rightAnimation = () => {
     const options = {
+      headerShown: false,
       animation: "slide_from_right",
       animationTypeForReplace: "push",
     };
@@ -19,6 +21,7 @@ export const NavbarNavigationProvider = ({ children }) => {
   };
   const leftAnimation = () => {
     const options = {
+      headerShown: false,
       animation: "slide_from_left",
       animationTypeForReplace: "push",
     };
