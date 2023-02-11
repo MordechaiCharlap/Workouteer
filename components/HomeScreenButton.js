@@ -17,7 +17,9 @@ const HomeScreenButton = (props) => {
         <TouchableOpacity
           className={`items-center justify-center rounded-lg w-36 h-36 p-2`}
           style={{ backgroundColor: props.style.backgroundColor }}
-          onPress={() => navigation.push(props.navigateScreen, { user: user })}
+          onPress={() =>
+            navigation.navigate(props.navigateScreen, { user: user })
+          }
         >
           {props.alert && (
             <View className="absolute left-3 top-3">
