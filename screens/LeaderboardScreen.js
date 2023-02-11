@@ -7,33 +7,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import {
-  React,
-  useLayoutEffect,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
-import BottomNavbar from "../components/BottomNavbar";
 import * as appStyle from "../components/AppStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
-import { doc, getDoc, getDocs, query } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import { leagues } from "../services/defaultValues";
+
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
-
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
   const [leaderboardList, setLeaderboardList] = useState([]);
-  const rank = user.rank == 1 ? "Bronze" : "Silver";
   useFocusEffect(
     useCallback(() => {
       setScreen("Leaderboard");
@@ -42,6 +30,8 @@ const LeaderboardScreen = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       if (user.leaderboard.weekId != firebase.getLastWeekId()) {
+        console.log("No leaderboard");
+        setLeaderboardList();
         return;
       }
       const leaderboardData = (
@@ -66,7 +56,7 @@ const LeaderboardScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <Header title={rank + " league"} />
+        <Header title={leagues[user.rank] + " league"} />
         {leaderboardList == null ? (
           <Text
             className="text-center font-semibold text-lg"
@@ -141,7 +131,6 @@ const LeaderboardScreen = () => {
           />
         )}
       </View>
-      <BottomNavbar currentScreen="Leaderboard" />
     </View>
   );
 };
