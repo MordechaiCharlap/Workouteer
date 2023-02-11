@@ -7,8 +7,8 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { React, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { React, useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -26,8 +26,12 @@ import {
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const { user } = useAuth();
   const { sendPushNotification } = usePushNotifications();
 
@@ -36,7 +40,11 @@ const UserScreen = ({ route }) => {
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
-
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("User");
+    }, [])
+  );
   useEffect(() => {
     const now = new Date();
     var count = 0;

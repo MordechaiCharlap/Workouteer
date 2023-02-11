@@ -32,6 +32,8 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const RegisterScreen = () => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const { googleUserInfo, loginLoading, createUserEmailAndPassword } =
     useAuth();
   const { pushToken } = usePushNotifications();
@@ -48,6 +50,11 @@ const RegisterScreen = () => {
   const [date, setDate] = useState(new Date());
   //loading state
   const [loading, setLoading] = useState(false);
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Register");
+    }, [])
+  );
   useEffect(() => {
     if (acceptTerms) setTermsCBError(null);
   }, [acceptTerms]);

@@ -6,8 +6,8 @@ import {
   StatusBar,
   Modal,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { saveSettingsChanges } from "../services/firebase";
@@ -16,13 +16,18 @@ import useAuth from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const SettingsScreen = () => {
+    const { setCurrentScreen } = useNavbarDisplay();
+
   const { user, setUser, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const [language, setLanguage] = useState(user.language);
   const navigation = useNavigation();
+  useFocusEffect(useCallback(()=>{setCurrentScreen("Settings")},[]))
   useEffect(() => {
     if (
       user.isPublic != isPublic ||

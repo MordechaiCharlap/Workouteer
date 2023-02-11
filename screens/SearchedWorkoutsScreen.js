@@ -1,11 +1,20 @@
 import { View, StatusBar } from "react-native";
 import * as appStyle from "../components/AppStyleSheet";
-import React from "react";
+import React, { useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import { FlatList } from "react-native-gesture-handler";
 import WorkoutComponent from "../components/WorkoutComponent";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import { useFocusEffect } from "@react-navigation/native";
+
 const SearchedWorkoutsScreen = ({ route }) => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("SearchedWorkouts");
+    }, [])
+  );
   const workouts = route.params.workouts;
   return (
     <View style={responsiveStyle.safeAreaStyle}>

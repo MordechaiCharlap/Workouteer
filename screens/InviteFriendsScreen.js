@@ -16,8 +16,12 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const { user } = useAuth();
   const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
@@ -25,6 +29,7 @@ const InviteFriendsScreen = ({ route }) => {
   const [buttonLoading, setButtonLoading] = useState(false);
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("InviteFriends");
       const showFriends = async () => {
         const allFriendsMap = new Map(Object.entries(user.friends));
         const friendsArr = [];

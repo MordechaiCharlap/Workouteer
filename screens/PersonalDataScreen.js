@@ -7,15 +7,23 @@ import {
   StatusBar,
   Platform,
 } from "react-native";
-import { React, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { React, useCallback, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const PersonalDataScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("PersonalData");
+    }, [])
+  );
   const { user } = useAuth();
   const navigation = useNavigation();
   const [isMale, setIsMale] = useState(null);

@@ -14,13 +14,17 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
   const [friendRequests, setFriendRequests] = useState();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { sendPushNotification } = usePushNotifications();
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("FriendRequests");
       const setArray = async () => {
         const requestsArray = await firebase.getFriendRequests(user.id);
         setFriendRequests(requestsArray);
@@ -36,12 +40,10 @@ const FriendRequestsScreen = () => {
       `You and ${user.displayName} are now friends :),`
     );
     await firebase.acceptFriendRequest(user.id, otherUser.id);
-    // setUser(await firebase.updateContext(user.id));
   };
   const rejectFriendRequest = async (otherUser, index) => {
     removeRequestFromArray(index);
     await firebase.rejectFriendRequest(user.id, otherUser.id);
-    // setUser(await firebase.updateContext(user.id));
   };
   const removeRequestFromArray = (index) => {
     const requestsClone = [...friendRequests];

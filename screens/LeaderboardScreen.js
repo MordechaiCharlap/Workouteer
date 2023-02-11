@@ -16,14 +16,17 @@ import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { leagues } from "../services/defaultValues";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
   const [leaderboardList, setLeaderboardList] = useState([]);
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("Leaderboard");
       setScreen("Leaderboard");
     }, [])
   );

@@ -1,6 +1,6 @@
 import { View, Text, StatusBar, FlatList } from "react-native";
-import React, {useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import WorkoutComponent from "../components/WorkoutComponent";
@@ -10,12 +10,19 @@ import * as firebase from "../services/firebase";
 import useAlerts from "../hooks/useAlerts";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const WorkoutInvitesScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
-  const navigation = useNavigation();
   const [workouts, setWorkouts] = useState();
   const [initialLoading, setInitialLoading] = useState(true);
   const { workoutInvitesAlerts } = useAlerts();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("WorkoutInvites");
+    }, [])
+  );
   useEffect(() => {
     const getWorkoutsByInvites = async () => {
       const workoutsArr = await firebase.getWorkoutsByInvites(

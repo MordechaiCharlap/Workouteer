@@ -15,8 +15,11 @@ import * as firebase from "../services/firebase";
 import responsiveStyle from "../components/ResponsiveStyling";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const WorkoutRequestsScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
   const { sendPushNotificationsForWorkoutMembers, sendPushNotification } =
@@ -26,6 +29,7 @@ const WorkoutRequestsScreen = ({ route }) => {
   const [requesters, setRequesters] = useState();
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("WorkoutRequests");
       const getWorkoutRequesters = async () => {
         const requestersArray = await firebase.getWorkoutRequesters(workout);
         setRequesters(requestersArray);

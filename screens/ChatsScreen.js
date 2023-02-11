@@ -32,6 +32,7 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 const ChatsScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
@@ -41,6 +42,7 @@ const ChatsScreen = () => {
   const [selectedChats, setSelectedChats] = useState([]);
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("Chats");
       setScreen("Chats");
       const getChats = async () => {
         var arr = await firebase.getChatsArrayIncludeUsers(user);

@@ -8,7 +8,7 @@ import {
   TextInput,
   Platform,
 } from "react-native";
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -22,9 +22,15 @@ import {
 import * as firebase from "../services/firebase";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
-
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Friends");
+    }, [])
+  );
   const { user } = useAuth();
   const shownUser = route.params.user;
   const isMyUser = route.params.isMyUser;

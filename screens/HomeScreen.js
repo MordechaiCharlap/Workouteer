@@ -18,7 +18,9 @@ import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const HomeScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
@@ -49,6 +51,7 @@ const HomeScreen = () => {
   };
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("Home");
       setScreen("Home");
       const initialCheckCurrentWorkout = async () => {
         const now = new Date();

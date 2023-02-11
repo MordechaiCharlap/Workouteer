@@ -7,9 +7,10 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Calendar from "../components/Calendar";
 const CalendarScreen = () => {
   const { setScreen } = useNavbarNavigation();
-  const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("ChangePreferences");
       setScreen("Calendar");
     }, [])
   );

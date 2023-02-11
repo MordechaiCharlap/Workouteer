@@ -7,8 +7,8 @@ import {
   TextInput,
   StatusBar,
 } from "react-native";
-import { React, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { React, useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
@@ -16,11 +16,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const SearchUsersScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const { user } = useAuth();
   const [searchText, setSearchText] = useState("");
   const [searchedUser, setSearchedUser] = useState(null);
-  useEffect(() => {}, []);
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("SearchUsers");
+    }, [])
+  );
   const navigation = useNavigation();
   const searchClicked = async () => {
     if (searchText != "") {

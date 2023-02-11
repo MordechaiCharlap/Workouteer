@@ -11,8 +11,11 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
@@ -22,7 +25,8 @@ const FutureWorkoutsScreen = () => {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useFocusEffect(
-    useCallback(() => {
+    useCallback( () => {
+      setCurrentScreen("FutureWorkouts");
       const getWorkouts = async () => {
         console.log("getting workouts");
         const workoutsArr = await firebase.getFutureWorkouts(user, now);

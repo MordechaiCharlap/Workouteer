@@ -23,8 +23,13 @@ import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const LoginScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Login");
+    }, [])
+  );
   const navigation = useNavigation();
-  const { setShowNavbar } = useNavbarDisplay();
   const {
     signInEmailPassword,
     initialLoading,
@@ -49,11 +54,7 @@ const LoginScreen = () => {
       else if (!loginLoading) signInEmailPassword(email, password, rememberMe);
     }
   };
-  useFocusEffect(
-    useCallback(() => {
-      setShowNavbar(false);
-    }, [])
-  );
+
   useEffect(() => {
     if (authErrorCode) {
       switch (authErrorCode) {

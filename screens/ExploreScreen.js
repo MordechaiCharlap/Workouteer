@@ -8,17 +8,21 @@ import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const ExploreScreen = () => {
-  const navigation = useNavigation();
-  const { user } = useAuth();
+  const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
 
-  const [friendRequests, setFriendRequests] = useState(null);
+  const navigation = useNavigation();
+  const { user } = useAuth();
+
   const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
   useFocusEffect(
     useCallback(() => {
       setScreen("Explore");
+      setCurrentScreen("Explore");
     }, [])
   );
   const userClicked = async (userData) => {

@@ -2,9 +2,14 @@ import { View, Text, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
-
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const ChangePreferencesScreen = () => {
-  const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("ChangePreferences");
+    }, [])
+  );
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar

@@ -8,10 +8,10 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,15 @@ import useAuth from "../hooks/useAuth";
 import * as defaultValues from "../services/defaultValues";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const EditDataScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Chat");
+    }, [])
+  );
   const navigation = useNavigation();
   const { user } = useAuth();
   return (

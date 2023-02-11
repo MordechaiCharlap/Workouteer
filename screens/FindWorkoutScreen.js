@@ -20,7 +20,11 @@ import CheckBox from "../components/CheckBox";
 import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const FindWorkoutScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const navigation = useNavigation();
 
   const { user } = useAuth();
@@ -42,6 +46,7 @@ const FindWorkoutScreen = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("FindWorkout");
       setType(0);
       setCity(user.defaultCity);
       setCountry(user.defaultCountry);

@@ -31,7 +31,15 @@ import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAlerts from "../hooks/useAlerts";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const ChatScreen = ({ route }) => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Chat");
+    }, [])
+  );
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();

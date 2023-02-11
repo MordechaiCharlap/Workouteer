@@ -1,14 +1,21 @@
 import { View, StatusBar } from "react-native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useCallback } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import * as appStyle from "../components/AppStyleSheet";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const FriendsWorkoutsScreen = () => {
   const { user } = useAuth();
-  const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("FriendsWorkouts");
+    }, [])
+  );
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar

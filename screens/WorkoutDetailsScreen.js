@@ -29,7 +29,15 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import { onSnapshot, doc } from "firebase/firestore";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const WorkoutDetailsScreen = ({ route }) => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("WorkoutDetails");
+    }, [])
+  );
   const navigation = useNavigation();
   const db = firebase.db;
   const { user } = useAuth();

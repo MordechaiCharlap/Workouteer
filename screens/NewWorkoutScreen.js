@@ -10,19 +10,21 @@ import WorkoutMinutes from "../components/WorkoutMinutes";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import responsiveStyle from "../components/ResponsiveStyling";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
-
+  const { setCurrentScreen } = useNavbarDisplay();
   const { user, setUser } = useAuth();
   const now = new Date();
   const [type, setType] = useState(null);
@@ -37,6 +39,11 @@ const NewWorkoutScreen = () => {
     appStyle.color_bg_variant
   );
   const [closestWorkoutDate, setClosestWorkoutDate] = useState(null);
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("NewWorkout");
+    }, [])
+  );
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, location]);

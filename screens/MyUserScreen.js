@@ -26,8 +26,12 @@ import AlertDot from "../components/AlertDot";
 import UserStats from "../components/profileScreen/UserStats";
 import NameAndAge from "../components/profileScreen/NameAndAge";
 import languageService from "../services/languageService";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+
 const MyUserScreen = () => {
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
+
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
   const { friendRequestsAlerts, setFriendRequestsAlerts } = useAlerts();
@@ -52,6 +56,9 @@ const MyUserScreen = () => {
   };
   useFocusEffect(
     useCallback(() => {
+      setCurrentScreen("MyUser");
+      setScreen("MyUser");
+
       const cleanFriendRequestsAlerts = async () => {
         await firebase.removeAllFriendRequestAlerts(user.id);
       };
@@ -59,7 +66,6 @@ const MyUserScreen = () => {
         setFriendRequestsAlerts({});
         cleanFriendRequestsAlerts();
       }
-      setScreen("MyUser");
     }, [])
   );
   return (
