@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
@@ -40,11 +40,6 @@ const FindWorkoutScreen = () => {
   const [countriesArr, setCountriesArr] = useState([]);
   const [citiesArr, setCitiesArr] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useFocusEffect(
     useCallback(() => {
       setType(0);
@@ -77,11 +72,8 @@ const FindWorkoutScreen = () => {
       country == null
     ) {
       setIsSearchDisabled(true);
-      console.log("cant search");
     } else {
       setIsSearchDisabled(false);
-
-      console.log("can search");
     }
   }, [type, minStartingTime, maxStartingTime, city, country]);
   const getCurrentLocation = async () => {

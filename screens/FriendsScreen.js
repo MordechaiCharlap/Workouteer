@@ -8,8 +8,7 @@ import {
   TextInput,
   Platform,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
-import BottomNavbar from "../components/BottomNavbar";
+import { React, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -29,11 +28,6 @@ const FriendsScreen = ({ route }) => {
   const { user } = useAuth();
   const shownUser = route.params.user;
   const isMyUser = route.params.isMyUser;
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useEffect(() => {
     const showFriends = async () => {
       const friendsArr = [];
@@ -217,7 +211,6 @@ const FriendsScreen = ({ route }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <BottomNavbar currentScreen="Friends" />
     </View>
   );
 };

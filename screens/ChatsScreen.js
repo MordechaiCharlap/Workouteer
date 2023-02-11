@@ -10,9 +10,8 @@ import {
   StatusBar,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect, useState, useCallback } from "react";
+import { React, useState, useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
-import BottomNavbar from "../components/BottomNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCheck,
@@ -30,21 +29,16 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 const ChatsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
   const { chatsAlerts } = useAlerts();
-
   const [modalVisible, setModalVisible] = useState(false);
   const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
   useFocusEffect(
     useCallback(() => {
       setScreen("Chats");
@@ -109,7 +103,6 @@ const ChatsScreen = () => {
         (arrayItem) => arrayItem.chat.id == selectedChat.chat.id
       );
       chatsArrClone.splice(index, 1);
-      console.log("removed chat from shown list");
       if (selectedChat.chat.isGroupChat) {
         await firebase.deleteGroupChatForUser(user, selectedChat);
       } else {
@@ -364,8 +357,6 @@ const ChatsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <BottomNavbar currentScreen="Chats" />
       <Modal
         animationType="slide"
         transparent={true}

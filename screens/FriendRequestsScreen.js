@@ -6,15 +6,9 @@ import {
   Image,
   StatusBar,
 } from "react-native";
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useState } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
-import BottomNavbar from "../components/BottomNavbar";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import Header from "../components/Header";
@@ -25,11 +19,6 @@ const FriendRequestsScreen = () => {
   const [friendRequests, setFriendRequests] = useState();
   const { user, setUser } = useAuth();
   const { sendPushNotification } = usePushNotifications();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   useFocusEffect(
     useCallback(() => {
       const setArray = async () => {
@@ -153,8 +142,6 @@ const FriendRequestsScreen = () => {
           </View>
         )}
       </View>
-
-      <BottomNavbar />
     </View>
   );
 };

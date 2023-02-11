@@ -7,7 +7,7 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -19,11 +19,6 @@ import useAuth from "../hooks/useAuth";
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
   const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
@@ -43,7 +38,6 @@ const InviteFriendsScreen = ({ route }) => {
     }, [])
   );
   const inviteFriend = async (friendId) => {
-    console.log(friendId);
     setButtonLoading(friendId);
     const workoutClone = { ...workout };
     if (workoutClone.invites == null) {

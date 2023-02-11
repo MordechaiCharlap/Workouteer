@@ -1,15 +1,10 @@
 import { View, Text, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { React, useLayoutEffect } from "react";
+import { React } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 
 const ChangePreferencesScreen = () => {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar

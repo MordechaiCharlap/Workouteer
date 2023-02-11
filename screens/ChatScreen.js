@@ -17,12 +17,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, {
-  useLayoutEffect,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -59,11 +54,6 @@ const ChatScreen = ({ route }) => {
     };
   };
   const currentDay = now();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
   useEffect(() => {
     if (!chat) {
       const createChat = async () => {
@@ -77,8 +67,6 @@ const ChatScreen = ({ route }) => {
   }, [chat]);
   useEffect(() => {
     if (chat && messages.length == 0) {
-      console.log("getting messages");
-      console.log(chat);
       const joinDateTS = chat.members[user.id].joinDate;
       var messagesClone = messages.slice();
       const q = query(
@@ -114,9 +102,7 @@ const ChatScreen = ({ route }) => {
       });
     }
   }, [chat]);
-  const messageSelected = (message) => {
-    console.log(message);
-  };
+  const messageSelected = (message) => {};
   const sendMessage = async () => {
     if (messageText != "") {
       const content = messageText;
@@ -147,7 +133,6 @@ const ChatScreen = ({ route }) => {
       const chatsAlertsClone = { ...chatsAlerts };
       delete chatsAlertsClone[chat.id];
       setChatsAlerts(chatsAlertsClone);
-      console.log("cleaning chat alert:", chatsAlertsClone);
       await firebase.removeChatAlerts(user.id, chat.id);
     }
   };

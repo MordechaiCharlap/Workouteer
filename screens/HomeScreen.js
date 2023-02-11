@@ -1,12 +1,6 @@
-import { View, TouchableOpacity, Text, StatusBar } from "react-native";
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { View, StatusBar } from "react-native";
+import React, { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import BottomNavbar from "../components/BottomNavbar";
 import style from "../components/ResponsiveStyling";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../components/AppStyleSheet";
@@ -25,19 +19,12 @@ import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 const HomeScreen = () => {
-  const navigation = useNavigation();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
 
   const [currentWorkout, setCurrentWorkout] = useState();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
 
   const buttonStyle = {
     color: appStyle.color_on_primary,
@@ -157,8 +144,6 @@ const HomeScreen = () => {
           </View>
         )}
       </View>
-
-      <BottomNavbar currentScreen="Home" />
     </View>
   );
 };

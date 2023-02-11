@@ -1,10 +1,5 @@
 import { View, FlatList, StatusBar } from "react-native";
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
@@ -25,11 +20,7 @@ const FutureWorkoutsScreen = () => {
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+
   useFocusEffect(
     useCallback(() => {
       const getWorkouts = async () => {

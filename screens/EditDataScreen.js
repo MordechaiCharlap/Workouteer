@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import { useNavigation } from "@react-navigation/native";
@@ -21,23 +21,22 @@ import CheckBox from "../components/CheckBox";
 import useAuth from "../hooks/useAuth";
 import * as defaultValues from "../services/defaultValues";
 import Header from "../components/Header";
+import languageService from "../services/languageService";
 const EditDataScreen = () => {
   const navigation = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+  const { user } = useAuth();
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Edit personal data"} goBackOption={true} />
+      <Header
+        title={languageService[user.language].editPersonalData}
+        goBackOption={true}
+      />
       <View className="flex-1 p-4">
-        <EditProfileData navigation={navigation} />
+        <EditProfileData navigation={navigation} user={user} />
       </View>
     </View>
   );
@@ -45,7 +44,7 @@ const EditDataScreen = () => {
 export default EditDataScreen;
 
 const EditProfileData = (props) => {
-  const { user, setUser } = useAuth();
+  const user = props.user;
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
   const [image, setImage] = useState(user.img);
@@ -86,7 +85,6 @@ const EditProfileData = (props) => {
         user.id,
         manipResult.uri
       );
-      console.log("uploadUrl: " + uploadUrl);
       setImage(uploadUrl);
     }
     setImageLoading(false);
@@ -100,7 +98,6 @@ const EditProfileData = (props) => {
       description == null ? "" : description,
       image == null ? defaultValues.defaultProfilePic : image
     );
-    // setUser(await firebase.updateContext(user.id));
 
     setUpdated(true);
     setTimeout(() => {
@@ -130,16 +127,18 @@ const EditProfileData = (props) => {
           className="text-2xl text-center"
           style={{ color: appStyle.color_on_primary }}
         >
-          {updated == true && "Updated successfuly!"}
-          {updated == false && changesMade == false && "No changes made"}
+          {updated == true && languageService[user.language].changesSaved}
+          {updated == false &&
+            changesMade == false &&
+            languageService[user.language].noChangesWereMade}
           {updated == false &&
             changesMade == true &&
             isLoading == false &&
-            "Save Changes"}
+            languageService[user.language].applyChanges}
           {updated == false &&
             changesMade == true &&
             isLoading == true &&
-            "Loading"}
+            languageService[user.language].loading}
         </Text>
       </TouchableOpacity>
     );
@@ -160,7 +159,7 @@ const EditProfileData = (props) => {
               className="text-xl font-bold"
               style={{ color: appStyle.color_primary }}
             >
-              Loading
+              {languageService[user.language].loading}
             </Text>
           </View>
         ) : (
@@ -188,12 +187,13 @@ const EditProfileData = (props) => {
           />
         </TouchableOpacity>
       </View>
-      <View className="flex-row items-center mb-5">
-        <Text
-          className="mr-3 text-lg"
-          style={{ color: appStyle.color_primary }}
-        >
-          Display name:
+      <View
+        className={`items-center mb-5 gap-x-3 ${
+          user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+        }`}
+      >
+        <Text className="text-lg" style={{ color: appStyle.color_primary }}>
+          {languageService[user.language].displayName}:
         </Text>
         <TextInput
           className="rounded text-lg flex-1 px-2"
@@ -206,11 +206,8 @@ const EditProfileData = (props) => {
         />
       </View>
       <View className="mb-5">
-        <Text
-          className="mr-3 text-lg"
-          style={{ color: appStyle.color_primary }}
-        >
-          Description
+        <Text className="text-lg" style={{ color: appStyle.color_primary }}>
+          {languageService[user.language].description}:
         </Text>
         <TextInput
           style={{
@@ -219,6 +216,8 @@ const EditProfileData = (props) => {
             backgroundColor: appStyle.color_bg_variant,
             borderRadius: 8,
             padding: 8,
+            borderWidth: 1,
+            borderColor: appStyle.color_primary,
           }}
           multiline
           spellCheck={false}
