@@ -22,6 +22,8 @@ import {
   faTrash,
   faSquare,
   faCheckSquare,
+  faCheckCircle,
+  faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -234,20 +236,23 @@ const ChatsScreen = () => {
                 </View>
               </View>
               {selectedChats.length > 0 && (
-                <View className="absolute top-0 bottom-0 justify-center">
+                <View className="absolute top-0 bottom-0 justify-center right-0">
                   <View
-                    className="rounded-lg p-1"
-                    style={{ backgroundColor: appStyle.color_primary }}
+                    className="rounded-full"
+                    style={{
+                      backgroundColor: appStyle.color_on_primary,
+                      padding: 1,
+                    }}
                   >
                     <FontAwesomeIcon
                       icon={
                         selectedChats.some(
                           (selectedItem) => selectedItem.chat.id == item.chat.id
                         )
-                          ? faCheckSquare
-                          : faSquare
+                          ? faCheckCircle
+                          : faCircle
                       }
-                      color={appStyle.color_on_primary}
+                      color={appStyle.color_primary}
                       size={30}
                     />
                   </View>
