@@ -157,9 +157,7 @@ export const createUser = async (newUserData) => {
     isOnline: true,
     achievements: {},
     league: 0,
-    leaderboard: {
-      points: 0,
-    },
+    leaderboard: {},
     streak: 0,
     totalPoints: 0,
   });
