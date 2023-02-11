@@ -7,9 +7,9 @@ import {
   StatusBar,
   Image,
 } from "react-native";
-import { React, useEffect, useLayoutEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import responsiveStyle from "../components/ResponsiveStyling";
 import { ResponsiveShadow } from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
@@ -21,9 +21,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const LoginScreen = () => {
   const navigation = useNavigation();
-
+  const { setShowNavbar } = useNavbarDisplay();
   const {
     signInEmailPassword,
     initialLoading,
@@ -31,13 +32,6 @@ const LoginScreen = () => {
     authErrorCode,
     loginLoading,
   } = useAuth();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,6 +49,11 @@ const LoginScreen = () => {
       else if (!loginLoading) signInEmailPassword(email, password, rememberMe);
     }
   };
+  useFocusEffect(
+    useCallback(() => {
+      setShowNavbar(false);
+    }, [])
+  );
   useEffect(() => {
     if (authErrorCode) {
       switch (authErrorCode) {
