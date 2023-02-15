@@ -5,7 +5,10 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  Image,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  useWindowDimensions,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -23,6 +26,7 @@ import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const LoginScreen = () => {
+  const windowHeight = useWindowDimensions().height;
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
@@ -86,7 +90,12 @@ const LoginScreen = () => {
     }
   }, [authErrorCode]);
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View
+      style={[
+        responsiveStyle.safeAreaStyle,
+        { minHeight: Math.round(windowHeight) },
+      ]}
+    >
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -119,69 +128,73 @@ const LoginScreen = () => {
                   Sign in and find a partner for your next workout TODAY!
                 </Text>
               </View>
-              <View>
-                {/* focus:border-sky-500 focus:border-2 */}
-                <TextInput
-                  className="rounded mb-5 px-3 py-1 focus:"
-                  style={style.input}
-                  placeholder="Email"
-                  placeholderTextColor={"#5f6b8b"}
-                  onChangeText={(text) => setEmail(text)}
-                ></TextInput>
-                <View className="mb-5">
+              <KeyboardAvoidingView
+                behavior={Platform.OS == "android" ? null : "padding"}
+                enabled={true}
+              >
+                <ScrollView scrollEnabled={false}>
                   <TextInput
-                    className="rounded px-3 py-1"
-                    secureTextEntry={!showPassword}
+                    className="rounded mb-5 px-3 py-1 focus:"
                     style={style.input}
-                    placeholder="Password"
+                    placeholder="Email"
                     placeholderTextColor={"#5f6b8b"}
-                    onChangeText={(text) => setPassword(text)}
+                    onChangeText={(text) => setEmail(text)}
                   ></TextInput>
-                  {password != "" && (
-                    <View className="absolute right-3 top-0 bottom-0 justify-center">
-                      <TouchableOpacity
-                        onPress={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      >
-                        {showPassword ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            size={25}
-                            color={appStyle.color_primary}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            size={25}
-                            color={appStyle.color_primary}
-                          />
-                        )}
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                </View>
-                <View className="flex-row items-center mb-5">
-                  <CheckBox
-                    valueColor={appStyle.color_primary}
-                    backgroundColor={appStyle.color_bg}
-                    value={false}
-                    onValueChange={(value) => setRememberMe(value)}
-                  />
+                  <View className="mb-5">
+                    <TextInput
+                      className="rounded px-3 py-1"
+                      secureTextEntry={!showPassword}
+                      style={style.input}
+                      placeholder="Password"
+                      placeholderTextColor={"#5f6b8b"}
+                      onChangeText={(text) => setPassword(text)}
+                    ></TextInput>
+                    {password != "" && (
+                      <View className="absolute right-3 top-0 bottom-0 justify-center">
+                        <TouchableOpacity
+                          onPress={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                        >
+                          {showPassword ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              size={25}
+                              color={appStyle.color_primary}
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              size={25}
+                              color={appStyle.color_primary}
+                            />
+                          )}
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </View>
+                  <View className="flex-row items-center mb-5">
+                    <CheckBox
+                      valueColor={appStyle.color_primary}
+                      backgroundColor={appStyle.color_bg}
+                      value={false}
+                      onValueChange={(value) => setRememberMe(value)}
+                    />
+                    <Text
+                      className="ml-2"
+                      style={{ color: appStyle.color_on_primary }}
+                    >
+                      Remember me!
+                    </Text>
+                  </View>
                   <Text
-                    className="ml-2"
-                    style={{ color: appStyle.color_on_primary }}
+                    className="text-center my-2 text-lg"
+                    style={{ color: appStyle.color_error }}
                   >
-                    Remember me!
+                    {errorText}
                   </Text>
-                </View>
-                <Text
-                  className="text-center my-2 text-lg"
-                  style={{ color: appStyle.color_error }}
-                >
-                  {errorText}
-                </Text>
-              </View>
+                </ScrollView>
+              </KeyboardAvoidingView>
               <TouchableOpacity
                 onPress={loginEmailPassword}
                 className={`self-center py-2 px-8 w-full mb-3`}
