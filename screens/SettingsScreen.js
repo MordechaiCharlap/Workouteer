@@ -17,9 +17,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-
+import { doc, updateDoc } from "@firebase/firestore";
+import { db } from "../services/firebase";
 const SettingsScreen = () => {
-    const { setCurrentScreen } = useNavbarDisplay();
+  const { setCurrentScreen } = useNavbarDisplay();
 
   const { user, setUser, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
@@ -27,7 +28,17 @@ const SettingsScreen = () => {
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const [language, setLanguage] = useState(user.language);
   const navigation = useNavigation();
-  useFocusEffect(useCallback(()=>{setCurrentScreen("Settings")},[]))
+  const signOut = async () => {
+    await updateDoc(doc(db, "users", user.id), {
+      pushToken: null,
+    });
+    userSignOut();
+  };
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Settings");
+    }, [])
+  );
   useEffect(() => {
     if (
       user.isPublic != isPublic ||
@@ -155,7 +166,7 @@ const SettingsScreen = () => {
               {languageService[user.language].changePassword}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={userSignOut} className="w-5/12">
+          <TouchableOpacity onPress={signOut} className="w-5/12">
             <Text
               className="text-center py-1 px-1"
               style={{
