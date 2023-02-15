@@ -9,7 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import useAlerts from "./useAlerts";
