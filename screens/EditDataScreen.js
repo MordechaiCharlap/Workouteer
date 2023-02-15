@@ -156,53 +156,55 @@ const EditProfileData = (props) => {
   };
   return (
     <View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "android" ? null : "padding"}
-        enabled={true}
-      >
-        <ScrollView>
-          <View className="mb-5 self-center">
-            {imageLoading ? (
-              <View
-                className="h-32 w-32 rounded-full mb-2 items-center justify-center"
-                style={{
-                  borderWidth: 1,
-                  borderColor: appStyle.color_primary,
-                  backgroundColor: appStyle.color_bg,
-                }}
-              >
-                <Text
-                  className="text-xl font-bold"
-                  style={{ color: appStyle.color_primary }}
-                >
-                  {languageService[user.language].loading}
-                </Text>
-              </View>
-            ) : (
-              <Image
-                source={{
-                  uri: image,
-                }}
-                className="h-32 w-32 bg-white rounded-full mb-2"
-                style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
-              />
-            )}
-            <TouchableOpacity
-              onPress={onImageLibraryPress}
-              className="absolute right-0 bottom-0 rounded-full p-2"
+      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
+        <View className="mb-5 self-center">
+          {imageLoading ? (
+            <View
+              className="h-32 w-32 rounded-full mb-2 items-center justify-center"
               style={{
-                backgroundColor: appStyle.color_primary,
-                borderColor: appStyle.color_bg,
-                borderWidth: 3,
+                borderWidth: 1,
+                borderColor: appStyle.color_primary,
+                backgroundColor: appStyle.color_bg,
               }}
             >
-              <FontAwesomeIcon
-                icon={faPen}
-                size={20}
-                color={appStyle.color_on_primary}
-              />
-            </TouchableOpacity>
-          </View>
+              <Text
+                className="text-xl font-bold"
+                style={{ color: appStyle.color_primary }}
+              >
+                {languageService[user.language].loading}
+              </Text>
+            </View>
+          ) : (
+            <Image
+              source={{
+                uri: image,
+              }}
+              className="h-32 w-32 bg-white rounded-full mb-2"
+              style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+            />
+          )}
+          <TouchableOpacity
+            onPress={onImageLibraryPress}
+            className="absolute right-0 bottom-0 rounded-full p-2"
+            style={{
+              backgroundColor: appStyle.color_primary,
+              borderColor: appStyle.color_bg,
+              borderWidth: 3,
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faPen}
+              size={20}
+              color={appStyle.color_on_primary}
+            />
+          </TouchableOpacity>
+        </View>
+        <KeyboardAvoidingView
+          className="flex-1"
+          behavior={Platform.OS == "android" ? "padding" : "padding"}
+          enabled={true}
+          keyboardVerticalOffset={-200}
+        >
           <View
             className={`items-center mb-5 gap-x-3 ${
               user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
@@ -247,8 +249,8 @@ const EditProfileData = (props) => {
             />
           </View>
           {SaveButton()}
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };
