@@ -47,6 +47,9 @@
       "supportsTablet": true
     },
     "android": {
+      "config": {
+        "googleMaps": { "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ" }
+      },
       "googleServicesFile": "./google-services.json",
       "googleMaps": { "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ" },
       "softwareKeyboardLayoutMode": "resize",
