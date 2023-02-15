@@ -188,55 +188,62 @@ const ChatScreen = ({ route }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        className="p-2"
-        showsVerticalScrollIndicator={false}
-        extraData={true}
-        data={messages}
-        keyExtractor={(item) => item.id}
-        inverted={true}
-        renderItem={({ item }) => (
-          <ChatMessage
-            messageSelected={messageSelected}
-            chatId={chat.id}
-            message={item}
-            user={user}
-            currentDay={currentDay}
-          />
-        )}
-      />
-      <View
-        className="flex-row p-2 items-center"
-        style={{ backgroundColor: appStyle.color_bg_variant }}
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS == "android" ? null : "padding"}
+        enabled={false}
+        keyboardVerticalOffset={-200}
       >
-        <TextInput
-          className="text-2xl flex-1 mr-2 rounded py-1 px-4"
-          multiline={true}
+        <FlatList
+          className="p-2"
           showsVerticalScrollIndicator={false}
-          placeholder="Message"
-          placeholderTextColor={appStyle.color_primary}
-          style={{
-            backgroundColor: appStyle.color_bg,
-            color: appStyle.color_primary,
-          }}
-          onChangeText={(text) => {
-            setMessageText(text);
-          }}
-          value={messageText}
-        ></TextInput>
-        <View
-          className="rounded-full w-10 h-10 items-center justify-center"
-          style={{ backgroundColor: appStyle.color_bg }}
-        >
-          <TouchableOpacity onPress={() => sendMessage()}>
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              size={25}
-              color={appStyle.color_primary}
+          extraData={true}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          inverted={true}
+          renderItem={({ item }) => (
+            <ChatMessage
+              messageSelected={messageSelected}
+              chatId={chat.id}
+              message={item}
+              user={user}
+              currentDay={currentDay}
             />
-          </TouchableOpacity>
+          )}
+        />
+        <View
+          className="flex-row p-2 items-center"
+          style={{ backgroundColor: appStyle.color_bg_variant }}
+        >
+          <TextInput
+            className="text-2xl flex-1 mr-2 rounded py-1 px-4"
+            multiline={true}
+            showsVerticalScrollIndicator={false}
+            placeholder="Message"
+            placeholderTextColor={appStyle.color_primary}
+            style={{
+              backgroundColor: appStyle.color_bg,
+              color: appStyle.color_primary,
+            }}
+            onChangeText={(text) => {
+              setMessageText(text);
+            }}
+            value={messageText}
+          ></TextInput>
+          <View
+            className="rounded-full w-10 h-10 items-center justify-center"
+            style={{ backgroundColor: appStyle.color_bg }}
+          >
+            <TouchableOpacity onPress={() => sendMessage()}>
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                size={25}
+                color={appStyle.color_primary}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
