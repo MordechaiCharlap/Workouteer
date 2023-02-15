@@ -9,6 +9,7 @@ import {
   StatusBar,
   Platform,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
 
@@ -113,7 +114,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
+    <View style={responsiveStyle.safeAreaStyle} className="justify-center">
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -121,80 +122,85 @@ const RegisterScreen = () => {
       {loginLoading ? (
         <LoadingAnimation />
       ) : (
-        <>
-          <View
-            className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+        <View
+          className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+          style={{
+            backgroundColor: appStyle.color_primary,
+            shadowColor: "#000",
+          }}
+        >
+          <View className="mb-8 items-center">
+            <View className="items-center">
+              <Text
+                className="text-3xl tracking-widest"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                Register
+              </Text>
+            </View>
+          </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "android" ? "padding" : "padding"}
+            enabled={true}
+          >
+            <ScrollView>
+              {!googleUserInfo && (
+                <EmailInput style={style} valueChanged={setEmail} />
+              )}
+              <UsernameInput style={style} valueChanged={setUsername} />
+              {Platform.OS != "web" ? (
+                <BirthdayDatePicker style={style} valueChanged={setDate} />
+              ) : (
+                <BirthdayWebInput style={style} valueChanged={setDate} />
+              )}
+              <SexDropdown
+                style={style}
+                valueChanged={setIsMale}
+                error={sexError}
+              />
+              {!googleUserInfo && (
+                <>
+                  <Password style={style} valueChanged={setPassword} />
+                  <ConfirmPassword
+                    style={style}
+                    valueChanged={setConfirmPassword}
+                    password={password}
+                  />
+                </>
+              )}
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <TermsAndConditionsCB
+            style={style}
+            valueChanged={setAcceptTerms}
+            setError={setTermsCBError}
+            error={termsCBError}
+          />
+
+          <TouchableOpacity
+            onPress={createAccountClicked}
+            className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
             style={{
-              backgroundColor: appStyle.color_primary,
-              shadowColor: "#000",
+              backgroundColor: appStyle.color_bg,
+              shadowColor: appStyle.color_bg,
             }}
           >
-            <View className="mb-8 items-center">
-              <View className="items-center">
-                <Text
-                  className="text-3xl tracking-widest"
-                  style={{ color: appStyle.color_on_primary }}
-                >
-                  Register
-                </Text>
-              </View>
-            </View>
-            {!googleUserInfo && (
-              <EmailInput style={style} valueChanged={setEmail} />
-            )}
-            <UsernameInput style={style} valueChanged={setUsername} />
-            {Platform.OS != "web" ? (
-              <BirthdayDatePicker style={style} valueChanged={setDate} />
-            ) : (
-              <BirthdayWebInput style={style} valueChanged={setDate} />
-            )}
-            <SexDropdown
-              style={style}
-              valueChanged={setIsMale}
-              error={sexError}
-            />
-            {!googleUserInfo && (
-              <>
-                <Password style={style} valueChanged={setPassword} />
-                <ConfirmPassword
-                  style={style}
-                  valueChanged={setConfirmPassword}
-                  password={password}
-                />
-              </>
-            )}
-            <TermsAndConditionsCB
-              style={style}
-              valueChanged={setAcceptTerms}
-              setError={setTermsCBError}
-              error={termsCBError}
-            />
-
-            <TouchableOpacity
-              onPress={createAccountClicked}
-              className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
-              style={{
-                backgroundColor: appStyle.color_bg,
-                shadowColor: appStyle.color_bg,
-              }}
-            >
-              <Text
-                className="text-center font-bold text-xl tracking-widest"
-                style={{ color: appStyle.color_primary }}
-              >
-                {loading ? "Loading" : "Create Account"}
-              </Text>
-            </TouchableOpacity>
             <Text
-              className="text-center"
-              style={{
-                color: appStyle.color_error,
-              }}
+              className="text-center font-bold text-xl tracking-widest"
+              style={{ color: appStyle.color_primary }}
             >
-              {inputErrorText}
+              {loading ? "Loading" : "Create Account"}
             </Text>
-          </View>
-        </>
+          </TouchableOpacity>
+          <Text
+            className="text-center"
+            style={{
+              color: appStyle.color_error,
+            }}
+          >
+            {inputErrorText}
+          </Text>
+        </View>
       )}
     </View>
   );
