@@ -54,15 +54,11 @@ export const NotificationsProvider = ({ children }) => {
       if (finalStatus !== "granted") {
         return;
       }
-      if (!user.pushToken) {
-        console.log("no pushToken in firestore, adding push token now");
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
-        if (token) {
-          const updatedUser = { ...user, pushToken: token };
-          await firebase.updateUser(updatedUser);
-          // setUser(await firebase.updateContext(user.id));
-          setPushToken(token);
-        }
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
+      if (token && token != user.token) {
+        const updatedUser = { ...user, pushToken: token };
+        await firebase.updateUser(updatedUser);
+        setPushToken(token);
       }
 
       if (Platform.OS === "android") {
