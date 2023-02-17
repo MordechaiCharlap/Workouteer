@@ -358,7 +358,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
       for (var key of Object.keys(chat.members)) {
         if (key != user.id) {
           chatToPush = {
-            chat: chatToPush.chat,
+            ...chatToPush,
             user: (await getDoc(doc(db, "users", key))).data(),
           };
         }
@@ -366,6 +366,7 @@ export const getChatsArrayIncludeUsers = async (user) => {
     }
     chatsArr.push(chatToPush);
   }
+  console.log(chatsArr);
   chatsArr.sort(
     (a, b) => b.chat.lastMessage.sentAt - a.chat.lastMessage.sentAt
   );
@@ -771,6 +772,22 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       workoutInvites: inviteAlerts,
     });
   }
+};
+export const removeUnconfirmedOldWorkouts = async (user) => {
+  const now = new Date();
+  const userWorkouts = user.workouts;
+  for (const [key, value] of Object.entries(user.workouts)) {
+    if (
+      new Date(value[0].toDate().getTime() + value[1] * 60000) < now &&
+      !value[2]
+    ) {
+      delete userWorkouts[key];
+      await deleteDoc(doc(db, `workouts/${key}`));
+      console.log("Removed unconfirmed workout " + key);
+    }
+  }
+  user.workouts = userWorkouts;
+  await updateUser(user);
 };
 export const getLastWeekId = () => {
   const date = new Date();
