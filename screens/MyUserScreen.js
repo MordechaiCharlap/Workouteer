@@ -38,10 +38,9 @@ const MyUserScreen = () => {
 
   const [workoutsCount, setWorkoutsCount] = useState();
   useEffect(() => {
-    const now = new Date();
     var count = 0;
     for (var value of Object.values(user.workouts)) {
-      if (value[0].toDate() < now && value[2]) count++;
+      if (value[2]) count++;
     }
     setWorkoutsCount(count);
   }, []);
