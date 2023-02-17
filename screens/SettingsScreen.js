@@ -29,6 +29,7 @@ const SettingsScreen = () => {
   const [language, setLanguage] = useState(user.language);
   const navigation = useNavigation();
   const signOut = async () => {
+    console.log("Signing out");
     await updateDoc(doc(db, "users", user.id), {
       pushToken: null,
     });
