@@ -66,6 +66,9 @@ const StackNavigator = () => {
   }, [googleUserInfo]);
 
   useEffect(() => {
+    const removeUnconfirmedOldWorkouts = async () => {
+      await firebase.removeUnconfirmedOldWorkouts(user);
+    };
     const resetStreakIfNeeded = async () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
@@ -87,6 +90,7 @@ const StackNavigator = () => {
       addListenerAsync(user);
     }
     if (user) {
+      removeUnconfirmedOldWorkouts();
       resetStreakIfNeeded();
     }
   }, [user]);
