@@ -189,7 +189,12 @@ export const AuthPrvider = ({ children }) => {
         .then(() => {
           console.log("signed in!");
         })
-        .catch((error) => {});
+        .catch((error) => {
+          const errorCode = error.code;
+          console.log("error code: ", errorCode);
+          setAuthErrorCode(errorCode);
+          setLoginLoading(false);
+        });
     }
     setLoginLoading(false);
   };
