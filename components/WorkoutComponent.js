@@ -85,6 +85,7 @@ const WorkoutComponent = (props) => {
       workoutRef,
       "New Alert",
       `Your workout canceled by the creator`,
+      null,
       user.id
     );
     await firebase.cancelWorkout(user, workoutRef);
@@ -114,6 +115,7 @@ const WorkoutComponent = (props) => {
       workoutRef,
       "New Alert",
       `${user.displayName} joined your workout`,
+      null,
       user.id
     );
   };
