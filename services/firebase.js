@@ -630,14 +630,10 @@ export const cancelWorkoutRequest = async (requesterId, workout) => {
   });
   await removeWorkoutRequestAlert(requesterId, workout);
 };
-export const acceptWorkoutRequest = async (
-  requester,
-  workout,
-  scheduledNotificationId
-) => {
+export const acceptWorkoutRequest = async (requester, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`requests.${requester.id}`]: deleteField(),
-    [`members.${requester.id}`]: scheduledNotificationId,
+    [`members.${requester.id}`]: {},
   });
   await updateDoc(doc(db, "users", requester.id), {
     [`workouts.${workout.id}`]: workout.startingTime,
