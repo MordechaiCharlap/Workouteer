@@ -1,4 +1,5 @@
 import { createContext, useState, useRef, useEffect, useContext } from "react";
+import * as Device from "expo-device";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import * as firebase from "../services/firebase";
@@ -42,7 +43,7 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   const registerForPushNotifications = async () => {
-    if (Platform.OS != "web") {
+    if (Platform.OS != "web" && Device.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -52,8 +53,10 @@ export const NotificationsProvider = ({ children }) => {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
+        console.log("Notification permission not granted");
         return;
       }
+      console.log("Notification permission granted");
       const token = (await Notifications.getExpoPushTokenAsync()).data;
       console.log(token);
       if (token && token != user.token) {
@@ -61,17 +64,16 @@ export const NotificationsProvider = ({ children }) => {
         await firebase.updateUser(updatedUser);
         setPushToken(token);
       }
-
-      if (Platform.OS === "android") {
-        Notifications.setNotificationChannelAsync("default", {
-          name: "default",
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: "#FF231F7C",
-        });
-      }
     } else {
       // Must use physical device for Push Notifications
+    }
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
     }
   };
   const sendPushNotificationsForWorkoutMembers = async (
