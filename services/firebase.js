@@ -633,7 +633,7 @@ export const cancelWorkoutRequest = async (requesterId, workout) => {
 export const acceptWorkoutRequest = async (requester, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`requests.${requester.id}`]: deleteField(),
-    [`members.${requester.id}`]: {},
+    [`members.${requester.id}`]: null,
   });
   await updateDoc(doc(db, "users", requester.id), {
     [`workouts.${workout.id}`]: workout.startingTime,
