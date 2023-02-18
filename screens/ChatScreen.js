@@ -195,6 +195,7 @@ const ChatScreen = ({ route }) => {
         keyboardVerticalOffset={-200}
       >
         <FlatList
+          contentContainerStyle={{ justifyContent: "flex-end", flexGrow: 1 }}
           className="p-2"
           showsVerticalScrollIndicator={false}
           extraData={true}
