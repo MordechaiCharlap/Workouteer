@@ -21,11 +21,13 @@ import useAuth from "../hooks/useAuth";
 import WorkoutSex from "../components/WorkoutSex";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import usePushNotifications from "../hooks/usePushNotifications";
 
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, setUser } = useAuth();
+  const { schedulePushNotification } = usePushNotifications();
   const now = new Date();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -78,12 +80,17 @@ const NewWorkoutScreen = () => {
     return arr;
   };
   const createWorkout = async () => {
-    navigation.goBack();
     setIsCreateDisabled(true);
+    navigation.goBack();
+    const scheduledNotificationId = await schedulePushNotification(
+      startingTime,
+      "Workout session started!",
+      "Don't forget to confirm your workout to get your points :)"
+    );
     const cityAndCountry = await getCityAndCountry(location);
     const workout = {
       creator: user.id,
-      members: { [user.id]: user.img },
+      members: { [user.id]: scheduledNotificationId },
       type: type,
       sex: workoutSex,
       startingTime: startingTime,
