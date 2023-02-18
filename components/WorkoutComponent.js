@@ -63,9 +63,9 @@ const WorkoutComponent = (props) => {
       workoutRef,
       "New Alert",
       `${user.displayName} left the workout`,
+      null,
       user.id
     );
-    // setUser(await firebase.updateContext(user.id));
   };
   const renderMembersPics = () => {
     const picsArr = Object.values(workout.members);
