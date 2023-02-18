@@ -12,11 +12,13 @@ import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import usePushNotifications from "../hooks/usePushNotifications";
+import { doc, updateDoc } from "firebase/firestore";
 
 const FutureWorkoutsScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-
+  const { schedulePushNotification } = usePushNotifications();
   const { user } = useAuth();
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const now = new Date();
@@ -25,7 +27,7 @@ const FutureWorkoutsScreen = () => {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useFocusEffect(
-    useCallback( () => {
+    useCallback(() => {
       setCurrentScreen("FutureWorkouts");
       const getWorkouts = async () => {
         console.log("getting workouts");
@@ -39,6 +41,7 @@ const FutureWorkoutsScreen = () => {
       getWorkouts();
       if (Object.keys(newWorkoutsAlerts).length > 0) {
         setNewWorkouts(newWorkoutsAlerts);
+        scheduleNotificationsForNewWorkouts(newWorkoutsAlerts);
         setNewWorkoutsAlerts({});
         removeAllWorkoutRequestAcceptedAlerts();
       } else {
@@ -46,6 +49,25 @@ const FutureWorkoutsScreen = () => {
       }
     }, [])
   );
+  useEffect(() => {
+    const scheduleNotificationsForNewWorkouts = async () => {
+      if (Object.keys(newWorkouts).length > 0) {
+        for (var workout of workouts) {
+          if (workout.members[user.id] == null) {
+            const scheduledNotificationId = await schedulePushNotification(
+              workout.startingTime,
+              "Workout session started!",
+              "Don't forget to confirm your workout to get your points :)"
+            );
+            await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
+              [`members.${user.id}`]: scheduledNotificationId,
+            });
+          }
+        }
+      }
+    };
+    scheduleNotificationsForNewWorkouts();
+  }, [workouts]);
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
