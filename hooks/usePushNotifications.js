@@ -43,6 +43,14 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   const registerForPushNotifications = async () => {
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
     if (Platform.OS != "web") {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -66,14 +74,6 @@ export const NotificationsProvider = ({ children }) => {
       }
     } else {
       // Must use physical device for Push Notifications
-    }
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
     }
   };
   const sendPushNotificationsForWorkoutMembers = async (
@@ -107,6 +107,18 @@ export const NotificationsProvider = ({ children }) => {
         console.log("pushNotification: ", pushNotification);
       }
     }
+  };
+  const schedulePushNotification = async () => {
+    const pushNotification = {
+      sound: "default",
+      title: "test",
+      body: "testBody",
+    };
+    const trigger = new Date(Date.now() + 0.5 * 60 * 1000);
+    await Notifications.scheduleNotificationAsync({
+      content: { ...pushNotification },
+      trigger,
+    });
   };
   const sendPushNotification = async (user, title, body, data) => {
     if (user.pushToken) {
