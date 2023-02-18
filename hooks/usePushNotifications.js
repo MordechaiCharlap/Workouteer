@@ -122,6 +122,10 @@ export const NotificationsProvider = ({ children }) => {
       });
     return scheduledNotificationId;
   };
+  const cancelScheduledPushNotification = async (identifier) => {
+    if (identifier != null)
+      await Notifications.cancelScheduledNotificationAsync(identifier);
+  };
   const sendPushNotification = async (user, title, body, data) => {
     if (user.pushToken) {
       const pushNotification = {
@@ -153,6 +157,7 @@ export const NotificationsProvider = ({ children }) => {
         setPushToken,
         notificationListenerFunction,
         schedulePushNotification,
+        cancelScheduledPushNotification,
       }}
     >
       {children}
