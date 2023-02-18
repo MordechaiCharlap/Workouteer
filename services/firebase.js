@@ -366,7 +366,6 @@ export const getChatsArrayIncludeUsers = async (user) => {
     }
     chatsArr.push(chatToPush);
   }
-  console.log(chatsArr);
   chatsArr.sort(
     (a, b) => b.chat.lastMessage.sentAt - a.chat.lastMessage.sentAt
   );
