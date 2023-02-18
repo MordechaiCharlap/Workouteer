@@ -16,6 +16,7 @@ import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import usePushNotifications from "../hooks/usePushNotifications";
+import { deleteField, doc, updateDoc } from "firebase/firestore";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
 
@@ -83,17 +84,30 @@ const WorkoutComponent = (props) => {
     return <View className="flex-row items-center">{imageList}</View>;
   };
   const cancelWorkout = async () => {
-    const workoutRef = workout;
+    var workoutRef = workout;
     setWorkout(null);
-    await sendPushNotificationsForWorkoutMembers(
-      workoutRef,
-      "New Alert",
-      `Your workout canceled by the creator`,
-      null,
-      user.id
-    );
-    await firebase.cancelWorkout(user, workoutRef);
-    await cancelScheduledPushNotification(workout.members[user.id]);
+    if (Object.entries(workoutRef.members).size > 1) {
+      for (var member of Object.keys(workoutRef.members)) {
+        if (member != user.id) {
+          workoutRef.creator = member;
+          break;
+        }
+      }
+      await sendPushNotificationsForWorkoutMembers(
+        workoutRef,
+        "New Alert",
+        `The workout creator left the workout, the new workout cretor is ${workoutRef.creator}`,
+        null,
+        user.id
+      );
+      await updateDoc(doc(firebase.db, `workouts/${workoutRef.id}`), {
+        creator: workoutRef.creator,
+        [`members.${user.id}`]: deleteField(),
+      });
+    } else {
+      await firebase.cancelWorkout(user, workoutRef);
+    }
+    await cancelScheduledPushNotification(workoutRef.members[user.id]);
   };
   const requestToJoinWorkout = async () => {
     setUserMemberStatus("pending");
