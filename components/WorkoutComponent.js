@@ -25,6 +25,7 @@ const WorkoutComponent = (props) => {
     sendPushNotification,
     sendPushNotificationsForWorkoutMembers,
     schedulePushNotification,
+    cancelScheduledPushNotification,
   } = usePushNotifications();
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
@@ -61,7 +62,7 @@ const WorkoutComponent = (props) => {
     if (props.screen == "FutureWorkouts") setWorkout(null);
     else setUserMemberStatus("not");
     await firebase.leaveWorkout(user, workoutRef);
-
+    await cancelScheduledPushNotification(workout.members[user.id]);
     await sendPushNotificationsForWorkoutMembers(
       workoutRef,
       "New Alert",
@@ -92,7 +93,7 @@ const WorkoutComponent = (props) => {
       user.id
     );
     await firebase.cancelWorkout(user, workoutRef);
-    // setUser(await firebase.updateContext(user.id));
+    await cancelScheduledPushNotification(workout.members[user.id]);
   };
   const requestToJoinWorkout = async () => {
     setUserMemberStatus("pending");
