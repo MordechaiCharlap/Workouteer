@@ -108,17 +108,19 @@ export const NotificationsProvider = ({ children }) => {
       }
     }
   };
-  const schedulePushNotification = async () => {
+  const schedulePushNotification = async (trigger, title, body, data) => {
     const pushNotification = {
       sound: "default",
-      title: "test",
-      body: "testBody",
+      title: title,
+      body: body,
+      data: data ? data : {},
     };
-    const trigger = new Date(Date.now() + 0.5 * 60 * 1000);
-    await Notifications.scheduleNotificationAsync({
-      content: { ...pushNotification },
-      trigger,
-    });
+    const scheduledNotificationId =
+      await Notifications.scheduleNotificationAsync({
+        content: { ...pushNotification },
+        trigger,
+      });
+    return scheduledNotificationId;
   };
   const sendPushNotification = async (user, title, body, data) => {
     if (user.pushToken) {
@@ -150,6 +152,7 @@ export const NotificationsProvider = ({ children }) => {
         pushToken,
         setPushToken,
         notificationListenerFunction,
+        schedulePushNotification,
       }}
     >
       {children}
