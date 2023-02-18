@@ -19,10 +19,13 @@ import usePushNotifications from "../hooks/usePushNotifications";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
 
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
-  const { sendPushNotification, sendPushNotificationsForWorkoutMembers } =
-    usePushNotifications();
+  const {
+    sendPushNotification,
+    sendPushNotificationsForWorkoutMembers,
+    schedulePushNotification,
+  } = usePushNotifications();
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const [distance, setDistance] = useState(null);
@@ -109,8 +112,17 @@ const WorkoutComponent = (props) => {
     const workoutRef = workout;
     if (props.screen == "WorkoutInvites") setWorkout(null);
     setUserMemberStatus("member");
-    await firebase.acceptWorkoutInvite(user, workoutRef);
-    // setUser(await firebase.updateContext(user.id));
+
+    const scheduledNotificationId = await schedulePushNotification(
+      startingTime,
+      "Workout session started!",
+      "Don't forget to confirm your workout to get your points :)"
+    );
+    await firebase.acceptWorkoutInvite(
+      user,
+      workoutRef,
+      scheduledNotificationId
+    );
     await sendPushNotificationsForWorkoutMembers(
       workoutRef,
       "New Alert",
