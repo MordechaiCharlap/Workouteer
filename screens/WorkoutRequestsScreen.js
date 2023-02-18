@@ -41,13 +41,14 @@ const WorkoutRequestsScreen = ({ route }) => {
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = true;
     setRequesters(requestersClone);
-    await firebase.acceptWorkoutRequest(acceptedUser, workout);
     await sendPushNotificationsForWorkoutMembers(
       workout,
       "New Alert!",
       `${acceptedUser.displayName} joined your workout`,
+      null,
       user.id
     );
+    await firebase.acceptWorkoutRequest(acceptedUser, workout);
     await sendPushNotification(
       workout,
       "New Alert!",
