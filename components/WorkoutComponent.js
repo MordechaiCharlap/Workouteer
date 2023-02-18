@@ -96,7 +96,7 @@ const WorkoutComponent = (props) => {
       await sendPushNotificationsForWorkoutMembers(
         workoutRef,
         "New Alert",
-        `The workout creator left the workout, the new workout cretor is ${workoutRef.creator}`,
+        `The workout creator left the workout, the new workout manager is ${workoutRef.creator}`,
         null,
         user.id
       );
