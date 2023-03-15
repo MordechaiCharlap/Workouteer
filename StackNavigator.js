@@ -69,6 +69,7 @@ const StackNavigator = () => {
     const removeUnconfirmedOldWorkouts = async () => {
       await firebase.removeUnconfirmedOldWorkouts(user);
     };
+    const updateLeaderboard = async () => {};
     const resetStreakIfNeeded = async () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
@@ -90,6 +91,8 @@ const StackNavigator = () => {
       addListenerAsync(user);
     }
     if (user) {
+      if (firebase.getLastWeekId() != user.leaderboard.weekId) {
+      }
       removeUnconfirmedOldWorkouts();
       resetStreakIfNeeded();
     }
