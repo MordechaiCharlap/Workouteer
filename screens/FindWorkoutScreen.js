@@ -180,14 +180,16 @@ const FindWorkoutScreen = () => {
               setCityIsFocus(false);
             }}
           />
-          <View className="flex-row">
+          <View
+            className={`flex-row${user.language == "hebrew" ? "-reverse" : ""}`}
+          >
             <TouchableOpacity
               onPress={() => setNoCityInformation(!noCityInformation)}
               className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
               style={{ backgroundColor: appStyle.color_primary }}
             >
               <Text style={{ color: appStyle.color_on_primary }}>
-                Can't find a certain city? Click here
+                {languageService[user.language].cantFindCityClickHere}
               </Text>
             </TouchableOpacity>
           </View>
@@ -199,8 +201,7 @@ const FindWorkoutScreen = () => {
               display: noCityInformation ? "flex" : "none",
             }}
           >
-            If The city you're looking for doesn't appear here, it's because no
-            workout has been created there yet. Be the first!
+            {languageService[user.language].cantFindCityExplenation}
           </Text>
 
           <View className="flex-row justify-around mb-5">
@@ -218,7 +219,11 @@ const FindWorkoutScreen = () => {
             )}
           </View>
           <View className="mb-5">
-            <View className="flex-row">
+            <View
+              className={`flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <CheckBox
                 backgroundColor={appStyle.color_primary}
                 value={false}
@@ -231,7 +236,8 @@ const FindWorkoutScreen = () => {
                     : setWorkoutSex("everyone")
                 }
               />
-              <Text className="ml-2" style={{ color: appStyle.color_primary }}>
+              <View className="w-2" />
+              <Text style={{ color: appStyle.color_primary }}>
                 {user.isMale
                   ? languageService[user.language].showMenOnlyWorkouts
                   : languageService[user.language].showWomenOnlyWorkouts}
@@ -239,7 +245,11 @@ const FindWorkoutScreen = () => {
             </View>
           </View>
           <View className="mb-5">
-            <View className="flex-row">
+            <View
+              className={`flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <CheckBox
                 backgroundColor={appStyle.color_primary}
                 value={false}
@@ -250,7 +260,8 @@ const FindWorkoutScreen = () => {
                     : setCurrentLocation(null)
                 }
               />
-              <Text className="ml-2" style={{ color: appStyle.color_primary }}>
+              <View className="w-2" />
+              <Text style={{ color: appStyle.color_primary }}>
                 {
                   languageService[user.language]
                     .useLocationToMessureDistanceFromWorkout
