@@ -206,7 +206,7 @@ const FindWorkoutScreen = () => {
           <View className="flex-row justify-around mb-5">
             <StartingTimeComp
               minDate={now}
-              title="From"
+              title={languageService[user.language].from}
               startingTimeChanged={(date) => minDateChanged(date)}
             />
             {minStartingTime != null && (
@@ -232,7 +232,9 @@ const FindWorkoutScreen = () => {
                 }
               />
               <Text className="ml-2" style={{ color: appStyle.color_primary }}>
-                Show me just {user.isMale ? "men" : "women"}-only workouts
+                {user.isMale
+                  ? languageService[user.language].showMenOnlyWorkouts
+                  : languageService[user.language].showWomenOnlyWorkouts}
               </Text>
             </View>
           </View>
@@ -249,14 +251,17 @@ const FindWorkoutScreen = () => {
                 }
               />
               <Text className="ml-2" style={{ color: appStyle.color_primary }}>
-                Use my location to messure distance from workout
+                {
+                  languageService[user.language]
+                    .useLocationToMessureDistanceFromWorkout
+                }
               </Text>
             </View>
           </View>
           <View className="items-center">
             <TouchableOpacity
               disabled={isSearchDisabled}
-              className="px-2 py-1"
+              className="px-2 py-1 mb-5"
               onPress={showResults}
               style={{
                 backgroundColor: isSearchDisabled
@@ -272,7 +277,7 @@ const FindWorkoutScreen = () => {
                     : appStyle.color_on_primary,
                 }}
               >
-                Search
+                {languageService[user.language].search}
               </Text>
             </TouchableOpacity>
           </View>
