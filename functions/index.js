@@ -97,6 +97,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
                 weekId: newWeekId,
                 leaderboardId: leaderboardRef.id,
               },
+              league: league,
             });
           }
         }
