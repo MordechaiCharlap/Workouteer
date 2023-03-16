@@ -62,6 +62,11 @@ const languageService = {
     description: "Description",
     changesSavedSuccessfully: "Changes applied",
     loading: "Loading",
+    from: "From",
+    useLocationToMessureDistanceFromWorkout:
+      "Use my location to messure distance from workout",
+    showMenOnlyWorkouts: "Show me just men-only workouts",
+    showWomenOnlyWorkouts: "Show me just female-only workouts",
   },
   hebrew: {
     login: "התחבר",
@@ -113,6 +118,11 @@ const languageService = {
     description: "תיאור",
     changesSaved: "השינויים עודכנו",
     loading: "טוען",
+    from: "מ-",
+    useLocationToMessureDistanceFromWorkout:
+      "הראה מרחק משוער מהאימון באמצעות מיקום נוכחי",
+    showMenOnlyWorkouts: "חפש אימונים לגברים בלבד",
+    showWomenOnlyWorkouts: "חפש אימונים לנשים בלבד",
   },
 };
 export default languageService;
