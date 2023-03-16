@@ -53,13 +53,15 @@ const ConfirmCurrentWorkoutButton = (props) => {
 
       setConfirmed(true);
     } else {
-      Alert.alert("You are not in the right location. get closer");
+      Alert.alert(
+        "You are to far from the workout location. Try to get closer"
+      );
     }
 
     setLoading(false);
   };
   return (
-    <View className="w-2/3">
+    <View className="w-3/4">
       <TouchableOpacity
         onPress={!loading && !confirmed ? async () => confirmWorkout() : {}}
         className="rounded-full p-2 flex-row items-center w-full"
