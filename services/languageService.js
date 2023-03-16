@@ -67,6 +67,9 @@ const languageService = {
       "Use my location to messure distance from workout",
     showMenOnlyWorkouts: "Show me just men-only workouts",
     showWomenOnlyWorkouts: "Show me just female-only workouts",
+    cantFindCityClickHere: "Can't find a certain city? Click here",
+    cantFindCityExplenation:
+      "If The city you're looking for doesn't appear here, it's because no workout has been created there yet. Be the first!",
   },
   hebrew: {
     login: "התחבר",
@@ -94,7 +97,7 @@ const languageService = {
     setLocation: "בחירת מיקום",
     clickToChangeLocation: "שינוי מיקום",
     webMapsError:
-      "אין אפשרות לראות את המפה בגרסה האינטרנטית, הורד את האפליקציה לחווית משתמש טובה יותר :)",
+      "אין אפשרות לראות את המפה בגרסה האינטרנטית, הורידו את האפליקציה לחווית משתמש טובה יותר :)",
     newWorkout: "אימון חדש",
     details: "פרטים",
     optionalText: "לא חובה",
@@ -108,7 +111,7 @@ const languageService = {
     privacy: "פרטיות",
     changePassword: "שינוי סיסמה",
     logOut: "התנתקות",
-    reportABug: "דווח על באג או הצע פיצ'ר חדש שתרצה לראות פה! :)",
+    reportABug: "דווחו על באג או הצע פיצ'ר חדש שתרצו לראות פה! :)",
     noChangesWereMade: "לא נצפו שינויים",
     applyChanges: "שמירה",
     search: "חיפוש",
@@ -121,8 +124,11 @@ const languageService = {
     from: "מ-",
     useLocationToMessureDistanceFromWorkout:
       "הראה מרחק משוער מהאימון באמצעות מיקום נוכחי",
-    showMenOnlyWorkouts: "חפש אימונים לגברים בלבד",
-    showWomenOnlyWorkouts: "חפש אימונים לנשים בלבד",
+    showMenOnlyWorkouts: "חיפוש אימונים לגברים בלבד",
+    showWomenOnlyWorkouts: "חיפוש אימונים לנשים בלבד",
+    cantFindCityClickHere: "לא מוצא עיר מסויימת? לחץ כאן",
+    cantFindCityExplenation:
+      "אם עיר מסויימת אינה נמצאת ברשימה, זאת אומרת שעדיין לא היה אימון יחיד שנוצר שם, תהיו הראשונים!",
   },
 };
 export default languageService;
