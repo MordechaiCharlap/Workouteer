@@ -16,7 +16,6 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import { doc, updateDoc } from "firebase/firestore";
 
 const FutureWorkoutsScreen = () => {
-  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { schedulePushNotification } = usePushNotifications();
   const { user } = useAuth();
@@ -25,7 +24,22 @@ const FutureWorkoutsScreen = () => {
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
-
+  const scheduleNotificationsForNewWorkouts = useCallback(async () => {
+    if (newWorkouts && Object.keys(newWorkouts).length > 0) {
+      for (var workout of workouts) {
+        if (workout.members[user.id] == null) {
+          const scheduledNotificationId = await schedulePushNotification(
+            workout.startingTime,
+            "Workout session started!",
+            "Don't forget to confirm your workout to get your points :)"
+          );
+          await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
+            [`members.${user.id}`]: scheduledNotificationId,
+          });
+        }
+      }
+    }
+  }, []);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("FutureWorkouts");
@@ -41,7 +55,7 @@ const FutureWorkoutsScreen = () => {
       getWorkouts();
       if (Object.keys(newWorkoutsAlerts).length > 0) {
         setNewWorkouts(newWorkoutsAlerts);
-        scheduleNotificationsForNewWorkouts(newWorkoutsAlerts);
+        scheduleNotificationsForNewWorkouts();
         setNewWorkoutsAlerts({});
         removeAllWorkoutRequestAcceptedAlerts();
       } else {
@@ -50,22 +64,6 @@ const FutureWorkoutsScreen = () => {
     }, [])
   );
   useEffect(() => {
-    const scheduleNotificationsForNewWorkouts = async () => {
-      if (Object.keys(newWorkouts).length > 0) {
-        for (var workout of workouts) {
-          if (workout.members[user.id] == null) {
-            const scheduledNotificationId = await schedulePushNotification(
-              workout.startingTime,
-              "Workout session started!",
-              "Don't forget to confirm your workout to get your points :)"
-            );
-            await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
-              [`members.${user.id}`]: scheduledNotificationId,
-            });
-          }
-        }
-      }
-    };
     scheduleNotificationsForNewWorkouts();
   }, [workouts]);
   return (
