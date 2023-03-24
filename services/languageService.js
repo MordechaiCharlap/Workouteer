@@ -89,6 +89,17 @@ const languageService = {
     cancelRequest: "Cancel Request",
     getPointsToCompete:
       "You have zero points this week, get some points by participate in workouts in order to see this week's leaderboard!",
+    forEveryone: "For everyone",
+    menOnly: "Men only",
+    womenOnly: "Women only",
+    minutes: "minutes",
+    members: "Members",
+    directions: "Directions",
+    you: "You!",
+    creator: "Creator",
+    inviteFriendsToJoin: "Invite friends to join",
+    requests: "Requests",
+    yourWorkout: "Your workout",
   },
   hebrew: {
     login: "התחבר",
@@ -179,6 +190,16 @@ const languageService = {
     cancelRequest: "בטל/י בקשה",
     getPointsToCompete:
       "0 נקודות השבוע, השג/י נקודות באמצעות השתתפות באימונים בשביל לראות את טבלת הניקוד השבועית.",
+    forEveryone: "מעורב",
+    menOnly: "גברים",
+    womenOnly: "נשים",
+    minutes: "דקות",
+    directions: "הוראות הגעה",
+    you: "את/ה!",
+    creator: "מנהל/ת",
+    inviteFriendsToJoin: "הזמנת חברים לאימון",
+    requests: "Requests",
+    yourWorkout: "אימון שלך",
   },
 };
 export default languageService;
