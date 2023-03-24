@@ -17,6 +17,7 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
+import languageService from "../services/languageService";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
 
@@ -81,7 +82,15 @@ const WorkoutComponent = (props) => {
         className="w-6 h-6 rounded-full bg-white"
       />
     ));
-    return <View className="flex-row items-center">{imageList}</View>;
+    return (
+      <View
+        className={`items-center flex-row${
+          user.language == "hebrew" ? "-reverse" : ""
+        }`}
+      >
+        {imageList}
+      </View>
+    );
   };
   const cancelWorkout = async () => {
     var workoutRef = workout;
@@ -156,7 +165,11 @@ const WorkoutComponent = (props) => {
     switch (userMemberStatus) {
       case "invited":
         return (
-          <View className="flex-row mt-1">
+          <View
+            className={`mt-1 flex-row${
+              user.language == "hebrew" ? "-reverse" : ""
+            }`}
+          >
             <TouchableOpacity
               onPress={acceptWorkoutInvite}
               className="mx-1 h-8 rounded flex-1 justify-center"
@@ -290,7 +303,9 @@ const WorkoutComponent = (props) => {
         }}
       >
         <View
-          className="flex-row items-center justify-between px-2"
+          className={`items-center justify-between px-2 flex-row${
+            user.language == "hebrew" ? "-reverse" : ""
+          }`}
           style={{
             borderBottomColor: appStyle.color_primary,
             borderBottomWidth: 2,
@@ -302,7 +317,11 @@ const WorkoutComponent = (props) => {
               color: appStyle.color_primary,
             }}
           >
-            {timeString(workout.startingTime.toDate())}
+            {isCreator
+              ? languageService[user.language].yourWorkout
+              : user.language == "hebrew"
+              ? `האימון של ${workout.creator}`
+              : workout.creator + "`s" + " workout"}
           </Text>
           <Text
             className={Platform.OS != "web" ? "text-xl" : "rounded-t"}
@@ -310,27 +329,34 @@ const WorkoutComponent = (props) => {
               color: appStyle.color_primary,
             }}
           >
-            {isCreator ? "Your " : workout.creator + "'s "}
-            workout
+            {timeString(workout.startingTime.toDate())}
           </Text>
         </View>
 
-        <View className="flex-row h-28">
-          <View className="justify-center items-center aspect-square">
-            <FontAwesomeIcon
-              icon={workoutTypes[workout.type].icon}
-              size={45}
-              color={appStyle.color_primary}
-            />
-          </View>
+        <View
+          className={`h-28 flex-row${
+            user.language == "hebrew" ? "-reverse" : ""
+          }`}
+        >
           <View
-            className="p-1 justify-around"
-            style={{
-              borderLeftColor: appStyle.color_primary,
-              borderLeftWidth: 2,
-            }}
+            className="p-1 justify-around flex-1"
+            style={
+              user.language == "hebrew"
+                ? {
+                    borderLeftColor: appStyle.color_primary,
+                    borderLeftWidth: 2,
+                  }
+                : {
+                    borderRightColor: appStyle.color_primary,
+                    borderRightWidth: 2,
+                  }
+            }
           >
-            <View className="flex-row items-center my-1">
+            <View
+              className={`items-center my-1 flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <FontAwesomeIcon
                 icon={faLocationDot}
                 size={30}
@@ -342,11 +368,14 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_primary,
                 }}
               >
-                :{" "}
                 {distance ? "Less than " + distance + " km away" : workout.city}
               </Text>
             </View>
-            <View className="flex-row items-center my-1">
+            <View
+              className={`items-center my-1 flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <FontAwesomeIcon
                 icon={faStopwatch}
                 size={30}
@@ -358,24 +387,28 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_primary,
                 }}
               >
-                : {workout.minutes} minutes
+                {workout.minutes} {languageService[user.language].minutes}
               </Text>
             </View>
-            <View className="flex-row items-center my-1">
+            <View
+              className={`items-center my-1 flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <FontAwesomeIcon
                 icon={faUserGroup}
                 size={30}
                 color={appStyle.color_primary}
               />
-              <Text
-                className="text-md"
-                style={{
-                  color: appStyle.color_primary,
-                }}
-              >
-                : {Object.keys(workout.members).length}
-              </Text>
+              <Text>{Object.keys(workout.members).length}</Text>
             </View>
+          </View>
+          <View className="justify-center items-center aspect-square">
+            <FontAwesomeIcon
+              icon={workoutTypes[workout.type].icon}
+              size={45}
+              color={appStyle.color_primary}
+            />
           </View>
         </View>
         <View
