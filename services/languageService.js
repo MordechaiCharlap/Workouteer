@@ -83,6 +83,8 @@ const languageService = {
       "Defending Champion",
     ],
     league: "League",
+    message: "Message",
+    friendRequest: "Friend Request",
   },
   hebrew: {
     login: "התחבר",
@@ -155,6 +157,8 @@ const languageService = {
       "טוען לכתר",
       "אלוף",
     ],
+    message: "שליחת הודעה",
+    friendRequest: "בקשת חברות",
   },
 };
 export default languageService;
