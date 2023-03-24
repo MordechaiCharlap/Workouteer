@@ -15,9 +15,8 @@ import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { leagues } from "../services/defaultValues";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-
+import languageService from "../services/languageService";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -59,7 +58,17 @@ const LeaderboardScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <Header title={leagues[user.league] + " league"} />
+        <Header
+          title={
+            user.language == "hebrew"
+              ? languageService[user.language].league +
+                " " +
+                languageService[user.language].leagues[user.league]
+              : languageService[user.language].leagues[user.league] +
+                " " +
+                languageService[user.language].league
+          }
+        />
         {leaderboardList == null ? (
           <Text
             className="text-center font-semibold text-lg"
