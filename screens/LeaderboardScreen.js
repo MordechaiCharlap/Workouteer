@@ -68,15 +68,45 @@ const LeaderboardScreen = () => {
           }
         />
         {leaderboardList == null ? (
-          <Text
-            className="text-center font-semibold text-lg p-2"
+          <View
+            className="p-2 gap-y-2"
             style={{
               backgroundColor: appStyle.color_primary,
-              color: appStyle.color_on_primary,
             }}
           >
-            {languageService[user.language].getPointsToCompete}
-          </Text>
+            <Text
+              className="text-center font-semibold text-lg"
+              style={{
+                color: appStyle.color_on_primary,
+              }}
+            >
+              {languageService[user.language].getPointsToCompete}
+            </Text>
+            <View className="flex-row items-center justify-center gap-x-2">
+              <TouchableOpacity>
+                <Text
+                  className="font-semibold text-lg rounded-sm p-2"
+                  style={{
+                    backgroundColor: appStyle.color_bg,
+                    color: appStyle.color_primary,
+                  }}
+                >
+                  {languageService[user.language].findWorkout}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text
+                  className="font-semibold text-lg rounded-sm p-2"
+                  style={{
+                    backgroundColor: appStyle.color_bg,
+                    color: appStyle.color_primary,
+                  }}
+                >
+                  {languageService[user.language].createWorkout}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         ) : (
           <FlatList
             data={leaderboardList}
