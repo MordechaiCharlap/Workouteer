@@ -30,6 +30,7 @@ import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import { onSnapshot, doc } from "firebase/firestore";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -80,7 +81,10 @@ const WorkoutDetailsScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Header title={"Details"} goBackOption={true} />
+      <Header
+        title={languageService[user.language].details}
+        goBackOption={true}
+      />
       {initalLoading ? (
         <LoadingAnimation />
       ) : (
@@ -137,8 +141,16 @@ const WorkoutDetailsScreen = ({ route }) => {
                     className="p-3 rounded-xl mt-2"
                     style={{ backgroundColor: appStyle.color_primary }}
                   >
-                    <View className="flex-row items-center justify-between">
-                      <View className="flex-row items-center">
+                    <View
+                      className={`items-center justify-between flex-row${
+                        user.language == "hebrew" ? "-reverse" : ""
+                      }`}
+                    >
+                      <View
+                        className={`items-center gap-x-2 flex-row${
+                          user.language == "hebrew" ? "-reverse" : ""
+                        }`}
+                      >
                         <FontAwesomeIcon
                           icon={faVenusMars}
                           size={25}
@@ -155,13 +167,17 @@ const WorkoutDetailsScreen = ({ route }) => {
                           }}
                         >
                           {workout.sex == "everyone"
-                            ? "For everyone"
+                            ? languageService[user.language].forEveryone
                             : workout.sex == "men"
-                            ? "Men only"
-                            : "Women only"}
+                            ? languageService[user.language].menOnly
+                            : languageService[user.language].womenOnly}
                         </Text>
                       </View>
-                      <View className="flex-row items-center">
+                      <View
+                        className={`items-center gap-x-2 flex-row${
+                          user.language == "hebrew" ? "-reverse" : ""
+                        }`}
+                      >
                         <FontAwesomeIcon
                           icon={faClock}
                           size={25}
@@ -177,7 +193,9 @@ const WorkoutDetailsScreen = ({ route }) => {
                             color: appStyle.color_on_primary,
                           }}
                         >
-                          {workout.minutes} minutes
+                          {workout.minutes +
+                            " " +
+                            languageService[user.language].minutes}
                         </Text>
                       </View>
                     </View>
@@ -198,7 +216,10 @@ const WorkoutDetailsScreen = ({ route }) => {
                       workout.invites[user.id] != null) ? (
                       <View>
                         <View className="mt-2 items-center justify-center">
-                          <WorkoutPinnedLocation ltLng={workout.location} />
+                          <WorkoutPinnedLocation
+                            ltLng={workout.location}
+                            language={user.language}
+                          />
                         </View>
                       </View>
                     ) : (
@@ -293,7 +314,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                           color: appStyle.color_on_primary,
                         }}
                       >
-                        You!
+                        {languageService[user.language].you}
                       </Text>
                     </View>
                   )}
@@ -303,7 +324,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       style={{ color: appStyle.color_primary }}
                       className="mr-5"
                     >
-                      Creator
+                      {languageService[user.language].creator}
                     </Text>
                   )}
                 </TouchableOpacity>
@@ -327,7 +348,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                             style={{ color: appStyle.color_on_primary }}
                             className="text-lg"
                           >
-                            Requests:{" "}
+                            {languageService[user.language].requests}:{" "}
                           </Text>
                           <AlertDot
                             text={
@@ -400,7 +421,7 @@ const WorkoutPinnedLocation = (props) => {
           className="text-1xl font-semibold"
           style={{ color: appStyle.color_on_primary }}
         >
-          Directions
+          {languageService[props.language].directions}
         </Text>
       </TouchableOpacity>
     </View>
