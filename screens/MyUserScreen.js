@@ -173,7 +173,7 @@ const MyUserScreen = () => {
               />
             </View>
             <View>
-              <UserStats />
+              <UserStats user={user} />
             </View>
             <View
               className="rounded-xl p-4"
