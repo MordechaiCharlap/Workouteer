@@ -70,6 +70,18 @@ const languageService = {
     cantFindCityClickHere: "Can't find a certain city? Click here",
     cantFindCityExplenation:
       "If The city you're looking for doesn't appear here, it's because no workout has been created there yet. Be the first!",
+    leagues: [
+      "Iron",
+      "Bronze",
+      "Silver",
+      "Gold",
+      "Platinum",
+      "Diamond",
+      "Master",
+      "GrandMaster",
+      "Challenger",
+      "Defending Champion",
+    ],
   },
   hebrew: {
     login: "התחבר",
@@ -130,5 +142,17 @@ const languageService = {
     cantFindCityExplenation:
       "אם עיר מסויימת אינה נמצאת ברשימה, זאת אומרת שעדיין לא היה אימון יחיד שנוצר שם, תהיו הראשונים!",
   },
+  leagues: [
+    "ברזל",
+    "ארד",
+    "כסף",
+    "זהב",
+    "פלטינום",
+    "יהלום",
+    "מאסטר",
+    "גרנד-מאסטר",
+    "טוען לכתר",
+    "",
+  ],
 };
 export default languageService;
