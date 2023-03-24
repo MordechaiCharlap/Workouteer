@@ -10,8 +10,9 @@ import * as appStyle from "../AppStyleSheet";
 import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
 import { leagues } from "../../services/defaultValues";
-const UserStats = () => {
-  const { user } = useAuth();
+const UserStats = (props) => {
+  console.log(props.user);
+  const user = props.user;
   const iconSize = 30;
   const iconColor = appStyle.color_primary;
   const renderStat = (icon, data) => {
