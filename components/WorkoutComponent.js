@@ -353,7 +353,7 @@ const WorkoutComponent = (props) => {
             }
           >
             <View
-              className={`items-center my-1 flex-row${
+              className={`items-center my-1 gap-x-1 flex-row${
                 user.language == "hebrew" ? "-reverse" : ""
               }`}
             >
@@ -372,7 +372,7 @@ const WorkoutComponent = (props) => {
               </Text>
             </View>
             <View
-              className={`items-center my-1 flex-row${
+              className={`items-center my-1 gap-x-1 flex-row${
                 user.language == "hebrew" ? "-reverse" : ""
               }`}
             >
@@ -391,7 +391,7 @@ const WorkoutComponent = (props) => {
               </Text>
             </View>
             <View
-              className={`items-center my-1 flex-row${
+              className={`items-center my-1 gap-x-1 flex-row${
                 user.language == "hebrew" ? "-reverse" : ""
               }`}
             >
