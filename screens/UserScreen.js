@@ -276,7 +276,7 @@ const UserScreen = ({ route }) => {
           />
         </View>
         <View>
-          <UserStats user={shownUser} />
+          <UserStats shownUser={shownUser} />
         </View>
 
         <Text style={{ color: appStyle.color_primary }} className="text-lg">

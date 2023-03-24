@@ -11,7 +11,8 @@ import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
 import languageService from "../../services/languageService";
 const UserStats = (props) => {
-  const user = props.user;
+  const { user } = useAuth();
+  const shownUser = props.shownUser;
   const iconSize = 30;
   const iconColor = appStyle.color_primary;
   const renderStat = (icon, data) => {
@@ -29,16 +30,16 @@ const UserStats = (props) => {
         className="flex-row items-center justify-evenly rounded-full"
         style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
       >
-        {renderStat(faBolt, user.totalPoints)}
+        {renderStat(faBolt, shownUser.totalPoints)}
         {renderStat(
           faRankingStar,
-          languageService[user.language].leagues[user.league]
+          languageService[user.language].leagues[shownUser.league]
         )}
-        {renderStat(faFire, user.streak)}
+        {renderStat(faFire, shownUser.streak)}
         {renderStreak()}
       </View>
       <View style={{ height: 180 }}>
-        <WorkoutsStats workouts={user.workouts} />
+        <WorkoutsStats workouts={shownUser.workouts} />
       </View>
     </View>
   );
