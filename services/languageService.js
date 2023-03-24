@@ -88,7 +88,7 @@ const languageService = {
     removeFriend: "Remove Friend",
     cancelRequest: "Cancel Request",
     getPointsToCompete:
-      "You have zero points this week, get some points in order to see this week's leaderboard!",
+      "You have zero points this week, get some points by participate in workouts in order to see this week's leaderboard!",
   },
   hebrew: {
     login: "התחבר",
@@ -178,7 +178,7 @@ const languageService = {
     removeFriend: "בטל/י חברות",
     cancelRequest: "בטל/י בקשה",
     getPointsToCompete:
-      "0 נקודות השבוע, השג/י נקודות בשביל לראות את טבלת הניקוד השבועית.",
+      "0 נקודות השבוע, השג/י נקודות באמצעות השתתפות באימונים בשביל לראות את טבלת הניקוד השבועית.",
   },
 };
 export default languageService;
