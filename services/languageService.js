@@ -82,6 +82,7 @@ const languageService = {
       "Challenger",
       "Defending Champion",
     ],
+    league: "League",
   },
   hebrew: {
     login: "התחבר",
@@ -152,7 +153,8 @@ const languageService = {
     "מאסטר",
     "גרנד-מאסטר",
     "טוען לכתר",
-    "",
+    "אלוף",
   ],
+  league: "ליגה",
 };
 export default languageService;
