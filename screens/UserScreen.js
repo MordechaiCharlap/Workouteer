@@ -27,6 +27,9 @@ import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
+import NameAndAge from "../components/profileScreen/NameAndAge";
+import UserStats from "../components/profileScreen/UserStats";
 
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -198,7 +201,7 @@ const UserScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 p-4 gap-y-6">
+      <View className="flex-1 p-4 gap-y-4">
         <View className="flex-row justify-between">
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -266,18 +269,16 @@ const UserScreen = ({ route }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View className="flex-row">
-          <Text
-            className="px-4 py-2 rounded-xl text-3xl"
-            style={{
-              color: appStyle.color_on_primary,
-              backgroundColor: appStyle.color_primary,
-            }}
-          >
-            {shownUser.displayName},{" "}
-            {calculateAge(shownUser.birthdate.toDate())}
-          </Text>
+        <View>
+          <NameAndAge
+            name={user.displayName}
+            age={calculateAge(user.birthdate.toDate())}
+          />
         </View>
+        <View>
+          <UserStats user={shownUser} />
+        </View>
+
         <Text style={{ color: appStyle.color_primary }} className="text-lg">
           {shownUser.description == ""
             ? "No description yet"
