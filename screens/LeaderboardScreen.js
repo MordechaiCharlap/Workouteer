@@ -83,7 +83,9 @@ const LeaderboardScreen = () => {
               {languageService[user.language].getPointsToCompete}
             </Text>
             <View className="flex-row items-center justify-center gap-x-2">
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FindWorkout")}
+              >
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
                   style={{
@@ -94,7 +96,9 @@ const LeaderboardScreen = () => {
                   {languageService[user.language].findWorkout}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NewWorkout")}
+              >
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
                   style={{
