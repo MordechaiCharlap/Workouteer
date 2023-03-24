@@ -85,6 +85,10 @@ const languageService = {
     league: "League",
     message: "Message",
     friendRequest: "Friend Request",
+    removeFriend: "Remove Friend",
+    cancelRequest: "Cancel Request",
+    getPointsToCompete:
+      "You have zero points this week, get some points in order to see this week's leaderboard!",
   },
   hebrew: {
     login: "התחבר",
@@ -119,7 +123,7 @@ const languageService = {
     workoutTypes: ["הכל", "אימון כוח", "הליכה", "ריצה", "רכיבת אופניים"],
     workoutTimePeiod: "זמן אימון (דקות)",
     language: "שפה",
-    chooseLanguage: "בחר שפה",
+    chooseLanguage: "בחר/י שפה",
     showOnlineStatus: "הראה כשאני מחובר",
     publicAccount: "משתמש ציבורי",
     settings: "הגדרות",
@@ -157,8 +161,24 @@ const languageService = {
       "טוען לכתר",
       "אלוף",
     ],
-    message: "שליחת הודעה",
+    leagueTitles: [
+      "ליגת ברזל",
+      "ליגת ארד",
+      "ליגת כסף",
+      "ליגת זהב",
+      "ליגת פלטינום",
+      "ליגת יהלום",
+      "ליגת מאסטר",
+      "ליגת גרנד-מאסטר",
+      "ליגת הטוענים לכתר",
+      "ליגת האלופים",
+    ],
+    message: "שלח/י הודעה",
     friendRequest: "בקשת חברות",
+    removeFriend: "בטל/י חברות",
+    cancelRequest: "בטל/י בקשה",
+    getPointsToCompete:
+      "0 נקודות השבוע, השג/י נקודות בשביל לראות את טבלת הניקוד השבועית.",
   },
 };
 export default languageService;

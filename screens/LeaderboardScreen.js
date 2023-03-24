@@ -61,9 +61,7 @@ const LeaderboardScreen = () => {
         <Header
           title={
             user.language == "hebrew"
-              ? languageService[user.language].league +
-                " " +
-                languageService[user.language].leagues[user.league]
+              ? languageService[user.language].leagueTitles[user.league]
               : languageService[user.language].leagues[user.league] +
                 " " +
                 languageService[user.language].league
@@ -71,13 +69,13 @@ const LeaderboardScreen = () => {
         />
         {leaderboardList == null ? (
           <Text
-            className="text-center font-semibold text-lg"
+            className="text-center font-semibold text-lg p-2"
             style={{
               backgroundColor: appStyle.color_primary,
               color: appStyle.color_on_primary,
             }}
           >
-            Get some points in order to compete
+            {languageService[user.language].getPointsToCompete}
           </Text>
         ) : (
           <FlatList
