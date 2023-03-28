@@ -787,7 +787,9 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
 };
 export const getLastWeekId = () => {
   var lastSaturday = new Date();
-  lastSat.setDate(lastSaturday.getDate() - ((lastSaturday.getDay() + 1) % 7));
+  lastSaturday.setDate(
+    lastSaturday.getDate() - ((lastSaturday.getDay() + 1) % 7)
+  );
   const weekId = `${lastSaturday.getDate()}-${
     lastSaturday.getMonth() + 1
   }-${lastSaturday.getFullYear()}`;
