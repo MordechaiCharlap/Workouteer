@@ -96,7 +96,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
             await db.doc(`users/${key}`).update({
               leaderboard: {
                 weekId: newWeekId,
-                leaderboardId: leaderboardRef.id,
+                id: leaderboardRef.id,
               },
               league: league,
             });
