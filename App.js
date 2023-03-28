@@ -11,6 +11,7 @@ import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
 import { NavbarNavigationProvider } from "./hooks/useNavbarNavigation";
 import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
+import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") enableLatestRenderer();
 initGeocoder();
@@ -20,13 +21,15 @@ export default function App() {
       <NavbarDisplayProvider>
         <AlertsProvider>
           <AuthPrvider>
-            <NotificationsProvider>
-              <NavbarNavigationProvider>
-                <TailwindProvider>
-                  <StackNavigator />
-                </TailwindProvider>
-              </NavbarNavigationProvider>
-            </NotificationsProvider>
+            <CurrentWorkoutProvider>
+              <NotificationsProvider>
+                <NavbarNavigationProvider>
+                  <TailwindProvider>
+                    <StackNavigator />
+                  </TailwindProvider>
+                </NavbarNavigationProvider>
+              </NotificationsProvider>
+            </CurrentWorkoutProvider>
           </AuthPrvider>
         </AlertsProvider>
       </NavbarDisplayProvider>
