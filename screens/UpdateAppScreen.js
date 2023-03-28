@@ -1,18 +1,53 @@
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Text, TouchableOpacity } from "react-native";
 import React, { useCallback } from "react";
 import responsiveStyle from "../components/ResponsiveStyling";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import languageService from "../services/languageService";
-import { doc, updateDoc } from "firebase/firestore";
-
+import useAuth from "../hooks/useAuth";
 const UpdateAppScreen = () => {
+  const { user } = useAuth();
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
+      <View
+        className="rounded-lg p-2 self-center w-11/12"
+        style={{ backgroundColor: appStyle.color_primary }}
+      >
+        <Text
+          className="text-2xl text-center"
+          style={{ color: appStyle.color_on_primary }}
+        >
+          {languageService[user.language].updateAppToUseIt}
+        </Text>
+        <View className="flex-row gap-x-2">
+          <TouchableOpacity
+            className="flex-1 rounded py-1"
+            style={{ backgroundColor: appStyle.color_bg }}
+          >
+            <Text
+              className="text-2xl text-center"
+              style={{ color: appStyle.color_primary }}
+            >
+              {languageService[user.language].update}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="flex-1 rounded py-1"
+            style={{ backgroundColor: appStyle.color_bg }}
+          >
+            <Text
+              className="text-2xl text-center"
+              style={{ color: appStyle.color_primary }}
+            >
+              {languageService[user.language].leave}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
