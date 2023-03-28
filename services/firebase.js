@@ -786,12 +786,11 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
   await updateUser(user);
 };
 export const getLastWeekId = () => {
-  const date = new Date();
-  const lastSunday = new Date();
-  lastSunday.setDate(date.getDate() - date.getDay());
-  const weekId = `${lastSunday.getDate()}-${
-    lastSunday.getMonth() + 1
-  }-${lastSunday.getFullYear()}`;
+  var lastSaturday = new Date();
+  lastSat.setDate(lastSaturday.getDate() - ((lastSaturday.getDay() + 1) % 7));
+  const weekId = `${lastSaturday.getDate()}-${
+    lastSaturday.getMonth() + 1
+  }-${lastSaturday.getFullYear()}`;
   return weekId;
 };
 export const addLeaderboardPoints = async (user, pointsNumber) => {
