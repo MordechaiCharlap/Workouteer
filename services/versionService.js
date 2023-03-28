@@ -27,7 +27,9 @@ export const checkIfVersionUpdated = async () => {
     console.log(
       `The app needs update, current version: ${currentAppVersion}, needed version: ${minimumRequiredVersion}`
     );
+    return false;
   } else {
     console.log("The app is updated, current version: " + currentAppVersion);
+    return true;
   }
 };
