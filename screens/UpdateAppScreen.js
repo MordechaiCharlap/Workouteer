@@ -29,13 +29,13 @@ const UpdateAppScreen = () => {
             style={{ backgroundColor: appStyle.color_bg }}
           >
             <Text
-              className="text-2xl text-center"
+              className="text-2xl text-center font-semibold"
               style={{ color: appStyle.color_primary }}
             >
               {languageService[user.language].update}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             className="flex-1 rounded py-1"
             style={{ backgroundColor: appStyle.color_bg }}
           >
@@ -45,7 +45,7 @@ const UpdateAppScreen = () => {
             >
               {languageService[user.language].leave}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
