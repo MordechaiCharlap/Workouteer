@@ -33,6 +33,7 @@ import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";
 import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 import LeaderboardScreen from "./screens/LeaderboardScreen";
+import UpdateAppScreen from "./screens/UpdateAppScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { useNavigationState } from "@react-navigation/native";
 import { checkIfVersionUpdated } from "./services/versionService";
@@ -52,11 +53,17 @@ const StackNavigator = () => {
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const [alertsChanged, setAlertsChanged] = useState(false);
+  const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
 
   useEffect(() => {
-    checkIfVersionUpdated();
+    if (!checkIfVersionUpdated()) {
+      setUpdateNeeded(false);
+    } else {
+      setUpdateNeeded(true);
+      setShowNavbar(false);
+    }
     addAuthObserver();
     console.log("StackRendered");
   }, []);
@@ -71,7 +78,6 @@ const StackNavigator = () => {
     const removeUnconfirmedOldWorkouts = async () => {
       await firebase.removeUnconfirmedOldWorkouts(user);
     };
-    const updateLeaderboard = async () => {};
     const resetStreakIfNeeded = async () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
@@ -120,7 +126,13 @@ const StackNavigator = () => {
   return (
     <View style={{ flex: 1 }}>
       <Stack.Navigator screenOptions={{ headerShown: true }}>
-        {user ? (
+        {updateNeeded ? (
+          <Stack.Screen
+            name="UpdateApp"
+            component={UpdateAppScreen}
+            options={verticalAnimation}
+          />
+        ) : user ? (
           <>
             <Stack.Screen
               name="Home"
@@ -158,11 +170,6 @@ const StackNavigator = () => {
               component={ChatScreen}
               options={verticalAnimation}
             />
-            {/* <Stack.Screen
-            name="Calendar"
-            component={CalendarScreen}
-            options={leaderboardNavigationOptions.current}
-          /> */}
             <Stack.Screen
               name="Leaderboard"
               component={LeaderboardScreen}
