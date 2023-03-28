@@ -100,6 +100,10 @@ const languageService = {
     inviteFriendsToJoin: "Invite friends to join",
     requests: "Requests",
     yourWorkout: "Your workout",
+    updateAppToUseIt:
+      "There is a new version of the app available for download. to make sure you don't run into bugs - download the latest version",
+    update: "Update",
+    leave: "Leave",
   },
   hebrew: {
     login: "התחבר",
@@ -200,6 +204,10 @@ const languageService = {
     inviteFriendsToJoin: "הזמנת חברים לאימון",
     requests: "Requests",
     yourWorkout: "אימון שלך",
+    updateAppToUseIt:
+      "האפליקציה עברה עדכון מאז השימוש האחרון. למניעת באגים/קריסה יש לעדכן את האפליקציה",
+    update: "עדכון",
+    leave: "יציאה",
   },
 };
 export default languageService;
