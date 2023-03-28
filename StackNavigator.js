@@ -35,6 +35,7 @@ import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 import LeaderboardScreen from "./screens/LeaderboardScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { useNavigationState } from "@react-navigation/native";
+import { checkIfVersionUpdated } from "./services/versionService";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
@@ -55,6 +56,7 @@ const StackNavigator = () => {
     useState(false);
 
   useEffect(() => {
+    checkIfVersionUpdated();
     addAuthObserver();
     console.log("StackRendered");
   }, []);
