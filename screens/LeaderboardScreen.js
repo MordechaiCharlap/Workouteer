@@ -67,7 +67,9 @@ const LeaderboardScreen = () => {
                 languageService[user.language].league
           }
         />
-        {leaderboardList == null ? (
+        {leaderboardList.findIndex(
+          (element) => element[0] == user.id && element[1].points == 0
+        ) != -1 ? (
           <View
             className="p-2 gap-y-2"
             style={{
