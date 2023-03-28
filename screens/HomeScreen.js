@@ -19,14 +19,14 @@ import useAuth from "../hooks/useAuth";
 import * as firebase from "../services/firebase";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import useCurrentWorkout from "../hooks/useCurrentWorkout";
 const HomeScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
-
-  const [currentWorkout, setCurrentWorkout] = useState();
+  const { currentWorkout } = useCurrentWorkout();
 
   const buttonStyle = {
     color: appStyle.color_on_primary,
@@ -53,29 +53,6 @@ const HomeScreen = () => {
     useCallback(() => {
       setCurrentScreen("Home");
       setScreen("Home");
-      const initialCheckCurrentWorkout = async () => {
-        const now = new Date();
-        const currentWorkoutReturned = await checkIfCurrentWorkout(now);
-        if (!currentWorkoutReturned) {
-          const lastQuarter = now.getMinutes() % 15;
-          //16 so there wont be bug checking 16:15:89 workout at 16:15:75. prefer to check at 16:16:XX to make sure
-          var nextCheck = new Date(now.getTime() + (16 - lastQuarter) * 60000);
-          const interval = setInterval(async () => {
-            const now = new Date();
-            if (now > nextCheck) {
-              nextCheck = new Date(nextCheck.getTime() + 15 * 60000);
-              const currentWorkoutReturned = await checkIfCurrentWorkout(now);
-              if (currentWorkoutReturned != null) {
-                setCurrentWorkout(currentWorkoutReturned);
-              } else setCurrentWorkout(null);
-            }
-          }, 60000);
-          return () => clearInterval(interval);
-        } else {
-          setCurrentWorkout(currentWorkoutReturned);
-        }
-      };
-      initialCheckCurrentWorkout();
     }, [])
   );
   return (
