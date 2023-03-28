@@ -9,6 +9,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
   .timeZone("Asia/Jerusalem")
   .onRun(async () => {
     const date = new Date();
+    date.setDate(date.getDate() - ((date.getDay() + 1) % 7));
     const newWeekId = `${date.getDate()}-${
       date.getMonth() + 1
     }-${date.getFullYear()}`;
@@ -103,6 +104,11 @@ exports.weeklyLeaderboardReset = functions.pubsub
         }
       }
     }
+
+    await db
+      .doc("leaderboards/leaderboardsData")
+      .update({ currentWeekId: newWeekId });
+
     await batch.commit();
 
     console.log("Leaderboard reset successful.");
