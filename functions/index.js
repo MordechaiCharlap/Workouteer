@@ -4,6 +4,36 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+exports.deleteUserData = functions.firestore
+  .document("users/{userId}")
+  .onDelete(async (snap, context) => {
+    const user = snap.data();
+    const userId = user.id;
+    const batch = db.batch();
+    const now = new Date();
+    const alerts = await db.doc(`alerts/${userId}`).get();
+    //delete all invites of future workouts for this user from workouts db
+    const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
+    for (var invite of invitesArray) {
+      if (invite[1].workoutDate > now)
+        await db.doc(`workouts/${invite[0]}`).update({
+          [`invites.${userId}`]: admin.firestore.FieldValue.delete(),
+        });
+    }
+    //delete alerts doc
+    await db.doc(`alerts/${userId}`).delete();
+
+    const friendRequests = await db.doc(`friendRequests/${userId}`).get();
+    //delete friendRequests doc
+    await db.doc(`friendRequests/${userId}`).delete();
+    //delete all
+    const chatsSnapshot = await db
+      .collection("chats")
+      .where("users", "array-contains", userId)
+      .get();
+
+    await batch.commit();
+  });
 exports.weeklyLeaderboardReset = functions.pubsub
   .schedule("0 0 * * 0")
   .timeZone("Asia/Jerusalem")
@@ -112,38 +142,4 @@ exports.weeklyLeaderboardReset = functions.pubsub
     await batch.commit();
 
     console.log("Leaderboard reset successful.");
-  });
-exports.deleteUserData = functions.firestore
-  .document("users/{userId}")
-  .onDelete((snap, context) => {
-    const userId = context.params.userId;
-
-    // delete user chats
-    firestore
-      .collection("chats")
-      .where("users", "array-contains", userId)
-      .get()
-      .then((querySnapshot) => {
-        const batch = firestore.batch();
-        querySnapshot.forEach((doc) => {
-          batch.delete(doc.ref);
-        });
-        return batch.commit();
-      });
-
-    // delete user workouts
-    firestore
-      .collection("workouts")
-      .where("userId", "==", userId)
-      .get()
-      .then((querySnapshot) => {
-        const batch = firestore.batch();
-        querySnapshot.forEach((doc) => {
-          batch.delete(doc.ref);
-        });
-        return batch.commit();
-      });
-
-    // delete user data from other collections
-    // ...
   });
