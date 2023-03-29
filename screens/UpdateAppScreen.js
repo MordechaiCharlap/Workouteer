@@ -21,7 +21,9 @@ const UpdateAppScreen = () => {
           className="text-2xl text-center"
           style={{ color: appStyle.color_on_primary }}
         >
-          {languageService[user.language].updateAppToUseIt}
+          {user
+            ? languageService[user.language].updateAppToUseIt
+            : "There is a new version of the app available for download. to make sure you don't run into bugs - download the latest version"}
         </Text>
         <View className="flex-row gap-x-2">
           <TouchableOpacity
@@ -32,7 +34,7 @@ const UpdateAppScreen = () => {
               className="text-2xl text-center font-semibold"
               style={{ color: appStyle.color_primary }}
             >
-              {languageService[user.language].update}
+              {user ? languageService[user.language].update : "Ipdate"}
             </Text>
           </TouchableOpacity>
           {/* <TouchableOpacity

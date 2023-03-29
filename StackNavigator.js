@@ -58,7 +58,7 @@ const StackNavigator = () => {
     useState(false);
 
   useEffect(() => {
-    if (!checkIfVersionUpdated()) {
+    if (checkIfVersionUpdated()) {
       setUpdateNeeded(false);
     } else {
       setUpdateNeeded(true);
