@@ -11,7 +11,9 @@ exports.deleteUserData = functions.firestore
     const userId = user.id;
     const batch = db.batch();
     const now = new Date();
-    const alerts = await db.doc(`alerts/${userId}`).get();
+    const alerts = (await db.doc(`alerts/${userId}`).get()).data();
+    //delete alerts doc
+    await db.doc(`alerts/${userId}`).delete();
     //delete all invites of future workouts for this user from workouts db
     const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
     for (var invite of invitesArray) {
@@ -20,18 +22,38 @@ exports.deleteUserData = functions.firestore
           [`invites.${userId}`]: admin.firestore.FieldValue.delete(),
         });
     }
-    //delete alerts doc
-    await db.doc(`alerts/${userId}`).delete();
 
-    const friendRequests = await db.doc(`friendRequests/${userId}`).get();
+    const friendRequests = (
+      await db.doc(`friendRequests/${userId}`).get()
+    ).data();
     //delete friendRequests doc
     await db.doc(`friendRequests/${userId}`).delete();
-    //delete all
-    const chatsSnapshot = await db
-      .collection("chats")
-      .where("users", "array-contains", userId)
-      .get();
-
+    const receivedRequestsArray = Array.from(
+      Object.entries(friendRequests.receivedRequests)
+    );
+    for (var request of receivedRequestsArray) {
+      await db.doc(`friendRequests/${request[0]}`).update({
+        [`sentRequests.${userId}`]: admin.firestore.FieldValue.delete(),
+      });
+    }
+    const sentRequestsArray = Array.from(
+      Object.entries(friendRequests.sentRequests)
+    );
+    for (var request of sentRequestsArray) {
+      await db.doc(`friendRequests/${request[0]}`).update({
+        [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
+      });
+      await db.doc(`users/${request[0]}`).update({
+        friendRequestsCount: admin.firestore.FieldValue.increment(-1),
+      });
+    }
+    const friendsArray = Array.from(Object.entries(user.friends));
+    for (var friend of friendsArray) {
+      await db.doc(`users/${friend[0]}`).update({
+        [`friends.${userId}`]: admin.firestore.FieldValue.delete(),
+        friendsCount: admin.firestore.FieldValue.increment(-1),
+      });
+    }
     await batch.commit();
   });
 exports.weeklyLeaderboardReset = functions.pubsub
