@@ -27,6 +27,7 @@ const SettingsScreen = () => {
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const [language, setLanguage] = useState(user.language);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const navigation = useNavigation();
   const signOut = async () => {
     console.log("Signing out");
@@ -57,6 +58,7 @@ const SettingsScreen = () => {
       navigation.goBack();
     }
   };
+  const deleteUser = async () => {};
   return (
     <View style={responsiveStyle.safeAreaStyle}>
       <StatusBar
@@ -156,7 +158,21 @@ const SettingsScreen = () => {
           </View>
         </View>
         <View className="flex-row items-center justify-between mt-5">
-          <TouchableOpacity className="w-5/12">
+          <TouchableOpacity
+            className="w-5/12"
+            onPress={() => setShowDeleteUserModal(!showDeleteUserModal)}
+          >
+            <Text
+              className="text-center py-1 px-1"
+              style={{
+                backgroundColor: appStyle.color_primary,
+                color: appStyle.color_on_primary,
+              }}
+            >
+              Delete User
+            </Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity className="w-5/12">
             <Text
               className="text-center py-1 px-1"
               style={{
@@ -166,7 +182,7 @@ const SettingsScreen = () => {
             >
               {languageService[user.language].changePassword}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={signOut} className="w-5/12">
             <Text
               className="text-center py-1 px-1"
@@ -179,6 +195,58 @@ const SettingsScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
+        <Modal
+          className="justify-center"
+          animationType="slide"
+          transparent={true}
+          visible={showDeleteUserModal}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setShowDeleteUserModal(!showDeleteUserModal);
+          }}
+        >
+          <View className="flex-1">
+            <View className="bg-black opacity-80 flex-1 justify-center ">
+              <View
+                style={{ backgroundColor: appStyle.color_bg_variant }}
+                className="p-3 rounded mx-3 gap-y-3"
+              >
+                <Text
+                  className="text-center font-semibold text-2xl"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  Are you sure?
+                </Text>
+                <View className="flex-row justify-between">
+                  <TouchableOpacity
+                    className="flex-1 m-1 p-2 rounded"
+                    onPress={async () => await deleteUser()}
+                    style={{ backgroundColor: appStyle.color_primary }}
+                  >
+                    <Text
+                      className="text-center font-semibold text-lg"
+                      style={{ color: appStyle.color_on_primary }}
+                    >
+                      Yes
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="flex-1 m-1 p-2 rounded"
+                    onPress={() => setShowDeleteUserModal(!showDeleteUserModal)}
+                    style={{ backgroundColor: appStyle.color_primary }}
+                  >
+                    <Text
+                      className="text-center font-semibold text-lg"
+                      style={{ color: appStyle.color_on_primary }}
+                    >
+                      No
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <View className="absolute bottom-8 right-0 left-0 items-center">
           <TouchableOpacity
             style={{
