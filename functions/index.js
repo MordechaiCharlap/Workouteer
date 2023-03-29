@@ -113,3 +113,37 @@ exports.weeklyLeaderboardReset = functions.pubsub
 
     console.log("Leaderboard reset successful.");
   });
+exports.deleteUserData = functions.firestore
+  .document("users/{userId}")
+  .onDelete((snap, context) => {
+    const userId = context.params.userId;
+
+    // delete user chats
+    firestore
+      .collection("chats")
+      .where("users", "array-contains", userId)
+      .get()
+      .then((querySnapshot) => {
+        const batch = firestore.batch();
+        querySnapshot.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        return batch.commit();
+      });
+
+    // delete user workouts
+    firestore
+      .collection("workouts")
+      .where("userId", "==", userId)
+      .get()
+      .then((querySnapshot) => {
+        const batch = firestore.batch();
+        querySnapshot.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        return batch.commit();
+      });
+
+    // delete user data from other collections
+    // ...
+  });
