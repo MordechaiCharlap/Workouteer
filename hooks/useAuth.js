@@ -14,9 +14,16 @@ import { db } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import useAlerts from "./useAlerts";
 import { useNavigation } from "@react-navigation/native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { GoogleAuthProvider } from "firebase/auth";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
+  GoogleSignin.configureGoogleSignin.configure({
+    webClientId: "<FROM DEVELOPER CONSOLE>", // client ID of type WEB for your server (needed to verify user ID and offline access)
+    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    iosClientId: "<FROM DEVELOPER CONSOLE>", // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+  });
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
   const auth = firebase.auth;
@@ -118,7 +125,20 @@ export const AuthPrvider = ({ children }) => {
       console.log("response not successfull");
     }
   }, [response]);
+  const authSignInGoogle = async () => {
+    const { idToken } = await GoogleSignin.signIn();
+    const googleCredential = GoogleAuthProvider.credential(idToken);
 
+    auth
+      .signInWithCredential(googleCredential)
+      .then((result) => {
+        console.log("Google sign in successful.");
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const signInGoogleAccount = async () => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
