@@ -5,13 +5,13 @@ admin.initializeApp();
 const db = admin.firestore();
 
 exports.deleteUserData = functions.firestore
-  .document("users/{userId}")
+  .document(`alerts/${userId}`)
   .onDelete(async (snap, context) => {
-    const user = snap.data();
+    const user = (await db.doc(`users/${userId}`).get()).data();
     const userId = user.id;
     const batch = db.batch();
     const now = new Date();
-    const alerts = (await db.doc(`alerts/${userId}`).get()).data();
+    const alerts = snap.data();
     //delete alerts doc
     await db.doc(`alerts/${userId}`).delete();
     //delete all invites of future workouts for this user from workouts db
@@ -32,6 +32,7 @@ exports.deleteUserData = functions.firestore
       Object.entries(friendRequests.receivedRequests)
     );
     for (var request of receivedRequestsArray) {
+      //remove sent request for every user that asked (not that it matters)
       await db.doc(`friendRequests/${request[0]}`).update({
         [`sentRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
@@ -40,13 +41,16 @@ exports.deleteUserData = functions.firestore
       Object.entries(friendRequests.sentRequests)
     );
     for (var request of sentRequestsArray) {
+      //remove sent friend request from every user that got one
       await db.doc(`friendRequests/${request[0]}`).update({
         [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
+      //decrement friend request count
       await db.doc(`users/${request[0]}`).update({
         friendRequestsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
+    //deletes from every user friends
     const friendsArray = Array.from(Object.entries(user.friends));
     for (var friend of friendsArray) {
       await db.doc(`users/${friend[0]}`).update({
