@@ -36,7 +36,8 @@
           "color": "#8ecae6",
           "sounds": []
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ],
     "updates": {
       "fallbackToCacheTimeout": 0
