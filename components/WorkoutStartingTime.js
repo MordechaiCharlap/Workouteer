@@ -66,7 +66,8 @@ const WorkoutStartingTime = (props) => {
             setDateChangedOnce(true);
             setDate(currentDate);
             props.startingTimeChanged(currentDate);
-            props.setClosestWorkoutDate(closestWorkout);
+            if (props.setClosestWorkoutDate)
+              props.setClosestWorkoutDate(closestWorkout);
           }
         }
         setShow(false);
