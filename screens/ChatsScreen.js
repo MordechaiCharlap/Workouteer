@@ -15,7 +15,7 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCheck,
-  faDoubleCheck,
+  faCheckDouble,
   faMagnifyingGlass,
   faPenToSquare,
   faArrowLeft,
@@ -200,7 +200,7 @@ const ChatsScreen = () => {
                         ) ? (
                           <View className="mr-0.5">
                             <FontAwesomeIcon
-                              icon={faDoubleCheck}
+                              icon={faCheckDouble}
                               color={appStyle.color_bg_variant}
                               size={15}
                             />
