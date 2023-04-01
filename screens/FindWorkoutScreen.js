@@ -213,7 +213,7 @@ const FindWorkoutScreen = () => {
             {minStartingTime != null && (
               <StartingTimeComp
                 minDate={minStartingTime}
-                title="to"
+                title={languageService[user.language].to}
                 startingTimeChanged={(date) => maxDateChanged(date)}
               />
             )}

@@ -63,6 +63,7 @@ const languageService = {
     changesSavedSuccessfully: "Changes applied",
     loading: "Loading",
     from: "From",
+    to:"to",
     useLocationToMessureDistanceFromWorkout:
       "Use my location to messure distance from workout",
     showMenOnlyWorkouts: "Show me just men-only workouts",
@@ -156,6 +157,7 @@ const languageService = {
     changesSaved: "השינויים עודכנו",
     loading: "טוען",
     from: "מ-",
+    to:"עד-"
     useLocationToMessureDistanceFromWorkout:
       "הראה מרחק משוער מהאימון באמצעות מיקום נוכחי",
     showMenOnlyWorkouts: "חיפוש אימונים לגברים בלבד",
