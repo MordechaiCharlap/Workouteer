@@ -1,5 +1,5 @@
 import { View, StatusBar } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import style from "../components/ResponsiveStyling";
 import HomeScreenButton from "../components/HomeScreenButton";
@@ -16,11 +16,17 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
-import * as firebase from "../services/firebase";
+import * as firebaseService from "../services/firebase";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import firestore from "@react-native-firebase/firestore";
+import { firebaseConfig } from "../firebase.config";
+import firebase from "@react-native-firebase/app";
 const HomeScreen = () => {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
@@ -42,7 +48,7 @@ const HomeScreen = () => {
         !value[2]
       ) {
         console.log("found current workout");
-        const workout = await firebase.getWorkout(key);
+        const workout = await firebaseService.getWorkout(key);
 
         return { ...workout, id: key };
       }
@@ -55,6 +61,17 @@ const HomeScreen = () => {
       setScreen("Home");
     }, [])
   );
+  useEffect(() => {
+    const getFasterikoData = async () => {
+      console.log("trying to get data");
+      const userRef = await firestore()
+        .collection("users")
+        .doc("fasteriko")
+        .get();
+      console.log("data: " + userRef.data());
+    };
+    getFasterikoData();
+  }, []);
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar
