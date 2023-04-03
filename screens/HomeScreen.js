@@ -16,17 +16,11 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
-import * as firebaseService from "../services/firebase";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 import firestore from "@react-native-firebase/firestore";
-import { firebaseConfig } from "../firebase.config";
-import firebase from "@react-native-firebase/app";
 const HomeScreen = () => {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
@@ -39,22 +33,7 @@ const HomeScreen = () => {
     backgroundColor: appStyle.color_primary,
     iconSize: 40,
   };
-  const checkIfCurrentWorkout = async (now) => {
-    console.log("checking if theres current workout");
-    for (var [key, value] of Object.entries(user.workouts)) {
-      if (
-        new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-        value[0].toDate() < now &&
-        !value[2]
-      ) {
-        console.log("found current workout");
-        const workout = await firebaseService.getWorkout(key);
 
-        return { ...workout, id: key };
-      }
-    }
-    console.log("havent found current workout");
-  };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Home");
