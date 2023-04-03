@@ -19,7 +19,6 @@ import useAuth from "../hooks/useAuth";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
-import firestore from "@react-native-firebase/firestore";
 const HomeScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
@@ -40,17 +39,17 @@ const HomeScreen = () => {
       setScreen("Home");
     }, [])
   );
-  useEffect(() => {
-    const getFasterikoData = async () => {
-      console.log("trying to get data");
-      const userRef = await firestore()
-        .collection("users")
-        .doc("fasteriko")
-        .get();
-      console.log("data: " + userRef.data());
-    };
-    getFasterikoData();
-  }, []);
+  // useEffect(() => {
+  //   const getFasterikoData = async () => {
+  //     console.log("trying to get data");
+  //     const userRef = await firestore()
+  //       .collection("users")
+  //       .doc("fasteriko")
+  //       .get();
+  //     console.log("data: " + userRef.data());
+  //   };
+  //   getFasterikoData();
+  // }, []);
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar
