@@ -3,7 +3,7 @@ package com.charlap.workouteer;
 import android.app.Application;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
-
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -32,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
         List<ReactPackage> packages = new PackageList(this).getPackages();
         // Packages that cannot be autolinked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
+        packages.add(new MainReactPackage())
+        packages.add(new ReactNativeFirebaseAppPackage(),)
         return packages;
       }
 
