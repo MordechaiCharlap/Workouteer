@@ -36,9 +36,7 @@
           "color": "#8ecae6",
           "sounds": []
         }
-      ],
-      "@react-native-google-signin/google-signin",
-      "@react-native-firebase/app"
+      ]
     ],
     "updates": {
       "fallbackToCacheTimeout": 0

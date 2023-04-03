@@ -15,12 +15,7 @@ import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") enableLatestRenderer();
 initGeocoder();
-import firebase from "@react-native-firebase/app";
-import { firebaseConfig } from "./firebase.config";
 export default function App() {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
   return (
     <NavigationContainer>
       <NavbarDisplayProvider>
