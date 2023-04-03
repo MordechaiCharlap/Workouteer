@@ -160,6 +160,7 @@ export const createUser = async (newUserData) => {
     leaderboard: {},
     streak: 0,
     totalPoints: 0,
+    isDeleted: false,
   });
 
   await setDoc(doc(db, "alerts", newUserData.id), {
