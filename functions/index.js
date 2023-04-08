@@ -3,36 +3,48 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 
 const db = admin.firestore();
-
 exports.deleteUserData = functions.firestore
-  .document(`alerts/${userId}`)
+  .document(`alerts/{userId}`)
   .onDelete(async (snap, context) => {
     const user = (await db.doc(`users/${userId}`).get()).data();
+    const uid = user.uid;
+    if (uid) {
+      admin
+        .auth()
+        .deleteUser(uid)
+        .then(() => {
+          console.log("Successfully deleted user");
+        })
+        .catch((error) => {
+          console.log("Error deleting user:", error);
+        });
+    }
     const userId = user.id;
     const batch = db.batch();
     const now = new Date();
     const alerts = snap.data();
-    //delete alerts doc
+    //  delete alerts doc
     await db.doc(`alerts/${userId}`).delete();
-    //delete all invites of future workouts for this user from workouts db
+    //  delete all invites of future workouts for this user from workouts db
     const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
-    for (var invite of invitesArray) {
-      if (invite[1].workoutDate > now)
+    for (const invite of invitesArray) {
+      if (invite[1].workoutDate > now) {
         await db.doc(`workouts/${invite[0]}`).update({
           [`invites.${userId}`]: admin.firestore.FieldValue.delete(),
         });
+      }
     }
 
     const friendRequests = (
       await db.doc(`friendRequests/${userId}`).get()
     ).data();
-    //delete friendRequests doc
+    //  delete friendRequests doc
     await db.doc(`friendRequests/${userId}`).delete();
     const receivedRequestsArray = Array.from(
       Object.entries(friendRequests.receivedRequests)
     );
-    for (var request of receivedRequestsArray) {
-      //remove sent request for every user that asked (not that it matters)
+    for (const request of receivedRequestsArray) {
+      //  remove sent request for every user that asked (not that it matters)
       await db.doc(`friendRequests/${request[0]}`).update({
         [`sentRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
@@ -40,24 +52,29 @@ exports.deleteUserData = functions.firestore
     const sentRequestsArray = Array.from(
       Object.entries(friendRequests.sentRequests)
     );
-    for (var request of sentRequestsArray) {
-      //remove sent friend request from every user that got one
+    for (const request of sentRequestsArray) {
+      //  remove sent friend request from every user that got one
       await db.doc(`friendRequests/${request[0]}`).update({
         [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
-      //decrement friend request count
+      //  decrement friend request count
       await db.doc(`users/${request[0]}`).update({
         friendRequestsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
-    //deletes from every user friends
+    //  deletes from every user friends
     const friendsArray = Array.from(Object.entries(user.friends));
-    for (var friend of friendsArray) {
+    for (const friend of friendsArray) {
       await db.doc(`users/${friend[0]}`).update({
         [`friends.${userId}`]: admin.firestore.FieldValue.delete(),
         friendsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
+    await db.doc(`users/${userId}`).update({
+      email: admin.firestore.FieldValue.delete(),
+      isDeleted: true,
+      img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
+    });
     await batch.commit();
   });
 exports.weeklyLeaderboardReset = functions.pubsub
