@@ -125,14 +125,13 @@ export const AuthPrvider = ({ children }) => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
   };
-  const createUserEmailAndPassword = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then()
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
+  const createUserEmailAndPassword = async (email, password) => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential.user.uid;
   };
   const setGoogleUserAsync = async () => {
     if (
