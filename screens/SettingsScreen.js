@@ -17,13 +17,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBug } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import { doc, updateDoc, deleteDoc } from "@firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { UserDeleted } from "../components/settingsScreen/UserDeleted";
 const SettingsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
-  const [isDeleted, setIsDeleted] = useState(user.isDeleted);
-  const { user, setUser, userSignOut } = useAuth();
+  const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
   const [showOnline, setShowOnline] = useState(user.showOnline);
@@ -60,7 +59,11 @@ const SettingsScreen = () => {
     }
   };
   const deleteUser = async () => {
-    setIsDeleted( true );
+    user.isDeleted = true;
+    setTimeout(() => {
+      userSignOut();
+    }, 3000);
+    await deleteDoc(doc(db, `alerts/${user.id}`));
   };
   return (
     <View style={responsiveStyle.safeAreaStyle}>
@@ -68,7 +71,7 @@ const SettingsScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      {isDeleted ? (
+      {user.isDeleted ? (
         <UserDeleted id={user.id} />
       ) : (
         <>
@@ -186,17 +189,6 @@ const SettingsScreen = () => {
                   Delete User
                 </Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity className="w-5/12">
-            <Text
-              className="text-center py-1 px-1"
-              style={{
-                backgroundColor: appStyle.color_primary,
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {languageService[user.language].changePassword}
-            </Text>
-          </TouchableOpacity> */}
               <TouchableOpacity onPress={signOut} className="w-5/12">
                 <Text
                   className="text-center py-1 px-1"
@@ -222,24 +214,27 @@ const SettingsScreen = () => {
               <View className="flex-1">
                 <View className="bg-black opacity-80 flex-1 justify-center ">
                   <View
-                    style={{ backgroundColor: appStyle.color_bg_variant }}
+                    style={{ backgroundColor: appStyle.color_bg }}
                     className="p-3 rounded mx-3 gap-y-3"
                   >
                     <Text
                       className="text-center font-semibold text-2xl"
-                      style={{ color: appStyle.color_on_primary }}
+                      style={{ color: appStyle.color_primary }}
                     >
                       Are you sure?
                     </Text>
                     <View className="flex-row justify-between">
                       <TouchableOpacity
                         className="flex-1 m-1 p-2 rounded"
-                        onPress={async () => await deleteUser()}
-                        style={{ backgroundColor: appStyle.color_primary }}
+                        onPress={deleteUser}
+                        style={{
+                          borderColor: appStyle.color_primary,
+                          borderWidth: 0.5,
+                        }}
                       >
                         <Text
                           className="text-center font-semibold text-lg"
-                          style={{ color: appStyle.color_on_primary }}
+                          style={{ color: appStyle.color_primary }}
                         >
                           Yes
                         </Text>
