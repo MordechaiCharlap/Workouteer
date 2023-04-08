@@ -29,8 +29,6 @@ const TermsAndConditionsCB = (props) => {
             className={Platform.OS != "web" ? "font-semibold underline" : ""}
             style={{
               color: appStyle.color_on_primary,
-              textDecorationLine: "underline",
-              fontWeight: Platform.OS != "web" ? "" : 500,
             }}
           >
             Terms and Conditions
