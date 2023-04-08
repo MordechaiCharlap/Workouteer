@@ -100,6 +100,7 @@ const RegisterScreen = () => {
   };
 
   const handleRegister = async () => {
+    const uid = await createUserEmailAndPassword(email, password);
     const newUserData = {
       img: defaultValues.defaultProfilePic,
       displayName: username,
@@ -108,9 +109,9 @@ const RegisterScreen = () => {
       email: email.toLowerCase(),
       pushToken: pushToken,
       isMale: isMale,
+      uid: uid,
     };
     await firebase.createUser(newUserData);
-    createUserEmailAndPassword(email, password);
   };
 
   return (
