@@ -6,20 +6,19 @@ const db = admin.firestore();
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap, context) => {
+    const userId = snap.id;
+    console.log(`Deleting data for ${userId}`);
+
     const user = (await db.doc(`users/${userId}`).get()).data();
     const uid = user.uid;
     if (uid) {
-      admin
-        .auth()
-        .deleteUser(uid)
-        .then(() => {
-          console.log("Successfully deleted user");
-        })
-        .catch((error) => {
-          console.log("Error deleting user:", error);
-        });
+      try {
+        await admin.auth().deleteUser(uid);
+        console.log("Successfully deleted user");
+      } catch (error) {
+        console.log("Error deleting user:", error);
+      }
     }
-    const userId = user.id;
     const batch = db.batch();
     const now = new Date();
     const alerts = snap.data();
@@ -76,7 +75,9 @@ exports.deleteUserData = functions.firestore
       img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
     });
     await batch.commit();
+    console.log(`${userId} deleted succesfully`);
   });
+
 exports.weeklyLeaderboardReset = functions.pubsub
   .schedule("0 0 * * 0")
   .timeZone("Asia/Jerusalem")
