@@ -5,7 +5,7 @@ const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-
+  const [intervalVal, setIntervalVal] = useState(null);
   const checkIfCurrentWorkout = async (now) => {
     console.log("checking if theres current workout");
     for (var [key, value] of Object.entries(user.workouts)) {
@@ -41,13 +41,23 @@ export const CurrentWorkoutProvider = ({ children }) => {
             } else setCurrentWorkout(null);
           }
         }, 60000);
-        return () => clearInterval(interval);
+        setIntervalVal(interval);
+        return () => {
+          clearInterval(intervalVal);
+          setIntervalVal(null);
+        };
       } else {
         setCurrentWorkout(currentWorkoutReturned);
       }
     };
 
     if (user) initialCheckCurrentWorkout();
+    else {
+      if (intervalVal != null) {
+        clearInterval(intervalVal);
+        setIntervalVal(null);
+      }
+    }
   }, [user]);
   return (
     <CurrentWorkoutContext.Provider value={{ currentWorkout }}>
