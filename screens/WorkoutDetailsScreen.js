@@ -23,7 +23,6 @@ import responsiveStyle from "../components/ResponsiveStyling";
 import * as appStyle from "../components/AppStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
@@ -387,7 +386,12 @@ const WorkoutDetailsScreen = ({ route }) => {
 };
 
 const WorkoutPinnedLocation = (props) => {
-  const showDirections = () => {};
+  const {
+    default: MapView,
+    PROVIDER_GOOGLE,
+    Marker,
+  } = require("react-native-maps");
+
   return (
     <View
       className="items-center justify-center p-2 rounded-lg w-full aspect-square"
