@@ -4,13 +4,13 @@ import * as appStyle from "./AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";
-import PinOnMap from "./PinOnMap";
 import languageService from "../services/languageService";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [markerCoords, setMarkerCoords] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const PinOnMap = Platform.OS == "web" ? null : require("./PinOnMap");
   const cancelLocation = () => {
     setLocation(null);
     props.locationChanged(null);
