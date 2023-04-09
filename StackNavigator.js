@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Platform, Text } from "react-native";
+import { View, Platform, Dimensions } from "react-native";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
@@ -35,7 +35,6 @@ import FriendRequestsScreen from "./screens/FriendRequestsScreen";
 import LeaderboardScreen from "./screens/LeaderboardScreen";
 import UpdateAppScreen from "./screens/UpdateAppScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
-import { useNavigationState } from "@react-navigation/native";
 import { checkIfVersionUpdated } from "./services/versionService";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -123,6 +122,8 @@ const StackNavigator = () => {
     if (workoutInvitesAlerts != null) setAlertsChanged(true);
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
+  const screenHeight = Dimensions.get("window").height;
+  const screenWidth = (9 / 19) * (screenHeight - 50);
   return (
     <View style={{ flex: 1 }}>
       <Stack.Navigator screenOptions={{ headerShown: true }}>
@@ -273,7 +274,7 @@ const StackNavigator = () => {
       </Stack.Navigator>
       {showNavbar && (
         <View>
-          <BottomNavbar height={50} />
+          <BottomNavbar height={50} width={screenWidth} />
         </View>
       )}
     </View>
