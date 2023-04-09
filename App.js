@@ -4,7 +4,7 @@ import StackNavigator from "./StackNavigator";
 import { AuthPrvider } from "./hooks/useAuth";
 import { NotificationsProvider } from "./hooks/usePushNotifications";
 import { AlertsProvider } from "./hooks/useAlerts";
-import { enableLatestRenderer } from "react-native-maps";
+
 import { initGeocoder } from "./geocoder";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
@@ -12,7 +12,10 @@ import { NavbarNavigationProvider } from "./hooks/useNavbarNavigation";
 import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 WebBrowser.maybeCompleteAuthSession();
-if (Platform.OS != "web") enableLatestRenderer();
+if (Platform.OS != "web") {
+  enableLatestRenderer = require("react-native-maps");
+  enableLatestRenderer();
+}
 initGeocoder();
 export default function App() {
   return (

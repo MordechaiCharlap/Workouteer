@@ -4,6 +4,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from "react-native";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutMinutes from "../components/WorkoutMinutes";
@@ -22,7 +23,6 @@ import WorkoutSex from "../components/WorkoutSex";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
-
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -150,10 +150,14 @@ const NewWorkoutScreen = () => {
             />
           </View>
           <View className="pb-2 rounded mb-5">
-            <WorkoutLocation
-              language={user.language}
-              locationChanged={setLocation}
-            />
+            {Platform.OS == "web" ? (
+              <Text>Cannot show map on web</Text>
+            ) : (
+              <WorkoutLocation
+                language={user.language}
+                locationChanged={setLocation}
+              />
+            )}
           </View>
           <View className="items-center mb-5">
             <TouchableOpacity
