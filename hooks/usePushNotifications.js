@@ -13,7 +13,7 @@ export const NotificationsProvider = ({ children }) => {
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
       console.log("registering for notifications");
-      await registerForPushNotifications();
+      registerForPushNotifications().then((token) => setPushToken(token));
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
@@ -43,22 +43,28 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   const registerForPushNotifications = async () => {
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-    if (Platform.OS != "web") {
+    let token;
+    if (Device.isDevice) {
+      if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
+      }
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== "granted") {
         console.log("not granted");
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+        try {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+          console.log("The status now: success");
+        } catch (error) {
+          console.log("The status now: still not granted, error: ", error);
+        }
       }
       if (finalStatus !== "granted") {
         console.log("Notification permission not granted");
@@ -70,11 +76,11 @@ export const NotificationsProvider = ({ children }) => {
       if (token && token != user.token) {
         const updatedUser = { ...user, pushToken: token };
         await firebase.updateUser(updatedUser);
-        setPushToken(token);
       }
     } else {
       // Must use physical device for Push Notifications
     }
+    return token;
   };
   const sendPushNotificationsForWorkoutMembers = async (
     workout,
