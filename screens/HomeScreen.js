@@ -20,7 +20,6 @@ import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButt
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 const HomeScreen = () => {
-  console.log("Updated");
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
