@@ -1,9 +1,21 @@
 import React from "react";
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as appStyle from "./AppStyleSheet";
 const PinOnMap = (props) => {
+  const {
+    default: MapView,
+    PROVIDER_GOOGLE,
+    Marker,
+  } = Platform.OS != "web" ? require("react-native-maps") : (null, null, null);
+
   const [coords, setCoords] = useState(props.defaultMarker);
   const pressed = (ltLng) => {
     setCoords(ltLng);
