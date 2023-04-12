@@ -13,7 +13,7 @@ import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
-  enableLatestRenderer = require("react-native-maps");
+  const { enableLatestRenderer } = require("react-native-maps");
   enableLatestRenderer();
 }
 initGeocoder();
