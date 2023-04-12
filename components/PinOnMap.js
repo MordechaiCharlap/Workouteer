@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as appStyle from "./AppStyleSheet";
 const PinOnMap = (props) => {
   const {

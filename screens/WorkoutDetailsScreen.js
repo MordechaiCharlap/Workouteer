@@ -390,7 +390,7 @@ const WorkoutPinnedLocation = (props) => {
     default: MapView,
     PROVIDER_GOOGLE,
     Marker,
-  } = require("react-native-maps");
+  } = Platform.OS != "web" ? require("react-native-maps") : (null, null, null);
 
   return (
     <View
