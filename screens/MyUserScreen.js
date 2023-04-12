@@ -44,16 +44,16 @@ const MyUserScreen = () => {
     }
     setWorkoutsCount(count);
   }, []);
-  // const calculateAge = () => {
-  //   const dateToCheck = user.birthdate.toDate();
-  //   var today = new Date();
-  //   var age = today.getFullYear() - dateToCheck.getFullYear();
-  //   var m = today.getMonth() - dateToCheck.getMonth();
-  //   if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
-  //     age--;
-  //   }
-  //   return age;
-  // };
+  const calculateAge = () => {
+    const dateToCheck = user.birthdate.toDate();
+    var today = new Date();
+    var age = today.getFullYear() - dateToCheck.getFullYear();
+    var m = today.getMonth() - dateToCheck.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dateToCheck.getDate())) {
+      age--;
+    }
+    return age;
+  };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("MyUser");
@@ -168,9 +168,11 @@ const MyUserScreen = () => {
               </View>
             </View>
             <View>
-              <NameAndAge name={user.displayName} age={88} />
+              <NameAndAge name={user.displayName} age={calculateAge()} />
             </View>
-            <View>{/* <UserStats shownUser={user} /> */}</View>
+            <View>
+              <UserStats shownUser={user} />
+            </View>
             <View
               className="rounded-xl p-4"
               style={{ backgroundColor: appStyle.color_primary }}
