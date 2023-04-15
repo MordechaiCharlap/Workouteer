@@ -102,11 +102,17 @@ const ChatsScreen = () => {
   };
   const deleteSelectedChats = async () => {
     const chatsArrClone = chatsArr.slice();
-    for (var selectedChat of selectedChats) {
+    // Loop through the selectedChats array and remove the corresponding
+    // elements from the arr array.
+    for (let selectedChat of selectedChats) {
       const index = chatsArrClone.findIndex(
         (arrayItem) => arrayItem.chat.id == selectedChat.chat.id
       );
       chatsArrClone.splice(index, 1);
+    }
+    setChatsArr(chatsArrClone);
+    setSelectedChats([]);
+    for (var selectedChat of selectedChats) {
       if (selectedChat.chat.isGroupChat) {
         await firebase.deleteGroupChatForUser(user, selectedChat);
       } else {
@@ -117,8 +123,6 @@ const ChatsScreen = () => {
         );
       }
     }
-    setChatsArr(chatsArrClone);
-    setSelectedChats([]);
   };
   const convertTimestamp = (timestamp) => {
     const date = timestamp.toDate();
@@ -394,9 +398,9 @@ const ChatsScreen = () => {
               <TouchableOpacity
                 className="w-1/3 p-1"
                 style={{ backgroundColor: appStyle.color_primary }}
-                onPress={() => {
+                onPress={async () => {
                   setModalVisible(!modalVisible);
-                  deleteSelectedChats();
+                  await deleteSelectedChats();
                 }}
               >
                 <Text
