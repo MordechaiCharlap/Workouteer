@@ -112,7 +112,7 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    buildToolsVersion rootProject.ext.buildToolsVersion
     namespace "com.charlap.workouteer"
     defaultConfig {
         applicationId 'com.charlap.workouteer'
