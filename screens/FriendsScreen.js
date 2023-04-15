@@ -130,7 +130,11 @@ const FriendsScreen = ({ route }) => {
           className="rounded-xl p-3"
           style={{ backgroundColor: appStyle.color_bg_variant }}
         >
-          <View className="flex-row items-center">
+          <View
+            className={`items-center gap-x-1 flex-row${
+              user.language == "hebrew" ? "-reverse" : ""
+            }`}
+          >
             <TouchableOpacity onPress={searchClicked}>
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
@@ -141,9 +145,9 @@ const FriendsScreen = ({ route }) => {
             <TextInput
               onChangeText={(text) => setSearchText(text)}
               style={{ color: appStyle.color_on_primary }}
-              placeholder="Search"
+              placeholder={languageService[user.language].search}
               placeholderTextColor={appStyle.color_primary}
-              className="text-xl ml-3"
+              className="text-xl"
             />
           </View>
         </View>
