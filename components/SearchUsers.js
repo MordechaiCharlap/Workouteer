@@ -13,21 +13,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import * as firebase from "../services/firebase";
+import { useNavigation } from "@react-navigation/native";
 const SearchUsers = (props) => {
+  const navigation = useNavigation;
   const [searchedUser, setSearchedUser] = useState(null);
   const textChanged = async (text) => {
     if (text != "") {
-      props.isEmpty(false);
+      if (props.setIsEmpty != null) props.setIsEmpty(false);
       const searchedUserDoc = await firebase.searchUser(text);
       if (searchedUserDoc != null) setSearchedUser(searchedUserDoc.data());
     } else {
-      props.isEmpty(true);
+      if (props.setIsEmpty != null) setIsEmpty(true);
     }
+  };
+  const userClicked = async (userData) => {
+    const friendshipStatus = await firebase.checkFriendShipStatus(
+      user,
+      userData.id
+    );
+    navigation.navigate("User", {
+      shownUser: userData,
+      friendshipStatus: friendshipStatus,
+    });
   };
   const renderSearchedUser = () => {
     return (
       <TouchableOpacity
-        onPress={() => props.userClicked(searchedUser)}
+        onPress={() => userClicked(searchedUser)}
         className="flex-row items-center mt-2"
       >
         <Image
