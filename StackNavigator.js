@@ -123,7 +123,8 @@ const StackNavigator = () => {
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   const screenHeight = Dimensions.get("window").height;
-  const screenWidth = (9 / 19) * (screenHeight - 50);
+  const screenWidth =
+    Platform.OS == "web" ? (9 / 19) * (screenHeight - 50) : null;
   return (
     <View style={{ flex: 1 }}>
       <Stack.Navigator screenOptions={{ headerShown: true }}>
