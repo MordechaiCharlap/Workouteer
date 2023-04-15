@@ -30,7 +30,9 @@ const SearchUsersScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <SearchUsers language={user.language} />
+      <View className="px-2">
+        <SearchUsers language={user.language} />
+      </View>
     </View>
   );
 };
