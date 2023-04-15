@@ -72,8 +72,8 @@ const SearchUsers = (props) => {
         style={{ backgroundColor: appStyle.color_darker }}
       >
         <View
-          className={`items-center gap-x-3 ${
-            props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+          className={`items-center gap-x-2 flex-row${
+            props.language == "hebrew" ? "-reverse" : ""
           }`}
         >
           <FontAwesomeIcon
