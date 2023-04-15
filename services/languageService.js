@@ -105,6 +105,8 @@ const languageService = {
       "There is a new version of the app available for download. to make sure you don't run into bugs - download the latest version",
     update: "Update",
     leave: "Leave",
+    addANewFriend: "Add a New Friend",
+    friends: "Friends",
   },
   hebrew: {
     login: "התחבר",
@@ -210,6 +212,8 @@ const languageService = {
       "האפליקציה עברה עדכון מאז השימוש האחרון. למניעת באגים/קריסה יש לעדכן את האפליקציה",
     update: "עדכון",
     leave: "יציאה",
+    addANewFriend: "הוספת חבר חדש",
+    friends: "חברים",
   },
 };
 export default languageService;

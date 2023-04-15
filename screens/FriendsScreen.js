@@ -23,6 +23,7 @@ import * as firebase from "../services/firebase";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -93,7 +94,7 @@ const FriendsScreen = ({ route }) => {
             }
             style={{ color: appStyle.color_primary }}
           >
-            Friends
+            {languageService[user.language].friends}
           </Text>
           <FontAwesomeIcon
             icon={faCircleUser}
@@ -196,7 +197,7 @@ const FriendsScreen = ({ route }) => {
                   className="text-lg font-semibold"
                   style={{ color: appStyle.color_primary }}
                 >
-                  Message
+                  {languageService[user.language].message}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -212,7 +213,7 @@ const FriendsScreen = ({ route }) => {
             style={{ backgroundColor: appStyle.color_primary }}
           >
             <Text style={{ color: appStyle.color_on_primary }}>
-              Add a new friend
+              {languageService[user.language].addANewFriend}
             </Text>
           </TouchableOpacity>
         </View>
