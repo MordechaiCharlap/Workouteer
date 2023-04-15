@@ -364,6 +364,13 @@ const ChatsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <View
+        className="absolute bg-black flex-1 w-full h-full"
+        style={{
+          display: modalVisible ? "flex" : "none",
+          opacity: modalVisible ? 0.8 : 0,
+        }}
+      ></View>
       <Modal
         animationType="slide"
         transparent={true}
@@ -372,47 +379,49 @@ const ChatsScreen = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View
-          style={{ backgroundColor: appStyle.color_bg_variant }}
-          className="absolute bottom-0 items-center w-full h-20"
-        >
-          <Text
-            className="font-bold text-xl p-1"
-            style={{ color: appStyle.color_on_primary }}
+        <View className="justify-center flex-1">
+          <View
+            style={{ backgroundColor: appStyle.color_bg_variant }}
+            className="items-center rounded mx-3 gap-y-2 py-2"
           >
-            Are you sure?
-          </Text>
-          <View className="flex-row w-10/12 justify-between">
-            <TouchableOpacity
-              className="w-1/3 p-1"
-              style={{ backgroundColor: appStyle.color_primary }}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                deleteSelectedChats();
-              }}
+            <Text
+              className="font-bold text-xl"
+              style={{ color: appStyle.color_on_primary }}
             >
-              <Text
-                className="text-center"
-                style={{ color: appStyle.color_on_primary }}
+              Are you sure?
+            </Text>
+            <View className="flex-row w-10/12 justify-between">
+              <TouchableOpacity
+                className="w-1/3 p-1"
+                style={{ backgroundColor: appStyle.color_primary }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  deleteSelectedChats();
+                }}
               >
-                Delete chats!
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="w-1/3 p-1"
-              style={{ backgroundColor: appStyle.color_primary }}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                setSelectedChats([]);
-              }}
-            >
-              <Text
-                className="text-center"
-                style={{ color: appStyle.color_on_primary }}
+                <Text
+                  className="text-center"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  Delete chats!
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="w-1/3 p-1"
+                style={{ backgroundColor: appStyle.color_primary }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setSelectedChats([]);
+                }}
               >
-                Cancel
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  className="text-center"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
