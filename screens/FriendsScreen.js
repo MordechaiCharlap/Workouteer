@@ -207,7 +207,7 @@ const FriendsScreen = ({ route }) => {
           style={{ backgroundColor: appStyle.color_bg }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("Explore")}
+            onPress={() => navigation.navigate("SearchUsers")}
             className="m-3 py-3 px-8"
             style={{ backgroundColor: appStyle.color_primary }}
           >
