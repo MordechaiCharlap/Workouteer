@@ -107,6 +107,9 @@ const languageService = {
     leave: "Leave",
     addANewFriend: "Add a New Friend",
     friends: "Friends",
+    today: "Today",
+    yasterday: "Yasterday",
+    tomorrow: "Tomorrow",
   },
   hebrew: {
     login: "התחבר",
@@ -214,6 +217,9 @@ const languageService = {
     leave: "יציאה",
     addANewFriend: "הוספת חבר חדש",
     friends: "חברים",
+    today: "היום",
+    yasterday: "אתמול",
+    tomorrow: "מחר",
   },
 };
 export default languageService;
