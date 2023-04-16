@@ -27,6 +27,7 @@ import UserStats from "../components/profileScreen/UserStats";
 import NameAndAge from "../components/profileScreen/NameAndAge";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import { Platform } from "react-native";
 
 const MyUserScreen = () => {
   const navigation = useNavigation();
@@ -75,7 +76,9 @@ const MyUserScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View className="flex-1">
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
+        >
           <View className="p-4 gap-y-4">
             <View className="flex-row items-center justify-between">
               <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
