@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
+import PinOnMap from "./PinOnMap";
 const WorkoutLocation = (props) => {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [markerCoords, setMarkerCoords] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const PinOnMap = require("./PinOnMap");
   const cancelLocation = () => {
     setLocation(null);
     props.locationChanged(null);
