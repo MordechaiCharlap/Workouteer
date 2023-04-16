@@ -150,14 +150,10 @@ const NewWorkoutScreen = () => {
             />
           </View>
           <View className="pb-2 rounded mb-5">
-            {Platform.OS == "web" ? (
-              <Text>Cannot show map on web</Text>
-            ) : (
-              <WorkoutLocation
-                language={user.language}
-                locationChanged={setLocation}
-              />
-            )}
+            <WorkoutLocation
+              language={user.language}
+              locationChanged={setLocation}
+            />
           </View>
           <View className="items-center mb-5">
             <TouchableOpacity
