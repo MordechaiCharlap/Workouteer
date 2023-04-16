@@ -10,7 +10,7 @@ const BottomNavbar = (props) => {
       <View
         className={`flex-row flex-grow-0 shrink-0 justify-around`}
         style={{
-          width: props.width,
+          width: props.width != null ? props.width : "100%",
           backgroundColor: appStyle.color_primary,
           height: props.height,
           borderTopWidth: 1,
