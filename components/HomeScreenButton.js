@@ -12,11 +12,18 @@ const HomeScreenButton = (props) => {
   return (
     <View>
       {props.spaceHolderButton ? (
-        <View className={`items-center justify-center w-36 h-36`}></View>
+        <View
+          className={`items-center justify-center`}
+          style={{ width: props.style.size, height: props.style.size }}
+        ></View>
       ) : (
         <TouchableOpacity
-          className={`items-center justify-center rounded-lg w-36 h-36 p-2`}
-          style={{ backgroundColor: props.style.backgroundColor }}
+          className={`items-center justify-center rounded-lg p-2`}
+          style={{
+            backgroundColor: props.style.backgroundColor,
+            width: props.style.size,
+            height: props.style.size,
+          }}
           onPress={() =>
             navigation.navigate(props.navigateScreen, { user: user })
           }
