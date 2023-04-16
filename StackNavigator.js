@@ -36,6 +36,7 @@ import LeaderboardScreen from "./screens/LeaderboardScreen";
 import UpdateAppScreen from "./screens/UpdateAppScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { checkIfVersionUpdated } from "./services/versionService";
+import { isDevice } from "expo-device";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
@@ -55,7 +56,11 @@ const StackNavigator = () => {
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  const [navbarWidth, setNavbarWidth] = useState(null);
+  const [navbarWidth, setNavbarWidth] = useState(
+    Platform.OS == "web" && !isDevice
+      ? (9 / 19) * (window.innerHeight - 50)
+      : null
+  );
   useEffect(() => {
     if (checkIfVersionUpdated()) {
       setUpdateNeeded(false);
@@ -65,14 +70,10 @@ const StackNavigator = () => {
     }
     addAuthObserver();
     console.log("StackRendered");
-    if (Platform.OS == "web")
-      window.addEventListener("resize", () => {
-        if (Platform.OS == "web") {
-          console.log(window.innerHeight);
-          setNavbarWidth((9 / 19) * (window.innerHeight - 50));
-        } else {
-        }
-      });
+    // if (Platform.OS == "web")
+    //   window.addEventListener("resize", () => {
+    //     setNavbarWidth((9 / 19) * (window.innerHeight - 50));
+    //   });
   }, []);
 
   useEffect(() => {
