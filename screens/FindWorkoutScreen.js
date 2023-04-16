@@ -52,6 +52,7 @@ const FindWorkoutScreen = () => {
       setCountry(user.defaultCountry);
       setMinStartingTime(null);
       setMaxStartingTime(null);
+      console.log("Focus search workouts");
     }, [])
   );
   useEffect(() => {
@@ -96,6 +97,17 @@ const FindWorkoutScreen = () => {
     } else {
       setMaxStartingTime(date);
     }
+  };
+  const renderMinStartingTime = () => {
+    console.log("Rendering min starting time");
+    return (
+      <StartingTimeComp
+        date={minStartingTime}
+        minDate={now}
+        title={languageService[user.language].from}
+        startingTimeChanged={(date) => minDateChanged(date)}
+      />
+    );
   };
   const showResults = async () => {
     var updatedUser = user;
@@ -204,12 +216,12 @@ const FindWorkoutScreen = () => {
             {languageService[user.language].cantFindCityExplenation}
           </Text>
 
-          <View className="flex-row justify-around mb-5">
-            <StartingTimeComp
-              minDate={now}
-              title={languageService[user.language].from}
-              startingTimeChanged={(date) => minDateChanged(date)}
-            />
+          <View
+            className={`justify-around mb-5 flex-row${
+              user.language == "hebrew" ? "-reverse" : ""
+            }`}
+          >
+            {renderMinStartingTime()}
             {minStartingTime != null && (
               <StartingTimeComp
                 minDate={minStartingTime}
