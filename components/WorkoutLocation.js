@@ -19,11 +19,17 @@ const WorkoutLocation = (props) => {
     if (showMap) {
       setShowMap(false);
     } else {
-      setShowMap(true);
       setIsLoading(true);
-      const latLongLocation = await geoService.getCurrentLocation();
-      if (latLongLocation != null) setMarkerCoords(latLongLocation);
-      else setShowMap(false);
+      if (!location) {
+        const latLongLocation = await geoService.getCurrentLocation();
+        console.log(latLongLocation);
+        if (latLongLocation != null) {
+          setMarkerCoords(latLongLocation);
+        } else {
+          setMarkerCoords(location);
+        }
+        setShowMap(true);
+      }
       setIsLoading(false);
     }
   };
@@ -55,7 +61,7 @@ const WorkoutLocation = (props) => {
         </View>
         <TouchableOpacity
           className="rounded justify-center p-1"
-          onPress={location != null ? cancelLocation : setLocationClicked}
+          onPress={setLocationClicked}
           style={{
             backgroundColor:
               location != null
