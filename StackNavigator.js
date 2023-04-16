@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Platform, Dimensions } from "react-native";
+import { View, Platform } from "react-native";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
 import MyUserScreen from "./screens/MyUserScreen";
@@ -55,7 +55,7 @@ const StackNavigator = () => {
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-
+  const [navbarWidth, setNavbarWidth] = useState(null);
   useEffect(() => {
     if (checkIfVersionUpdated()) {
       setUpdateNeeded(false);
@@ -65,6 +65,14 @@ const StackNavigator = () => {
     }
     addAuthObserver();
     console.log("StackRendered");
+    if (Platform.OS == "web")
+      window.addEventListener("resize", () => {
+        if (Platform.OS == "web") {
+          console.log(window.innerHeight);
+          setNavbarWidth((9 / 19) * (window.innerHeight - 50));
+        } else {
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -127,9 +135,7 @@ const StackNavigator = () => {
     if (workoutInvitesAlerts != null) setAlertsChanged(true);
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
-  const screenHeight = Dimensions.get("window").height;
-  const screenWidth =
-    Platform.OS == "web" ? (9 / 19) * (screenHeight - 50) : null;
+
   return (
     <View style={{ flex: 1 }}>
       <Stack.Navigator screenOptions={{ headerShown: true }}>
@@ -280,7 +286,7 @@ const StackNavigator = () => {
       </Stack.Navigator>
       {showNavbar && (
         <View>
-          <BottomNavbar height={50} width={screenWidth} />
+          <BottomNavbar height={50} width={navbarWidth} />
         </View>
       )}
     </View>
