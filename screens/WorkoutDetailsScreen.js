@@ -105,7 +105,10 @@ const WorkoutDetailsScreen = ({ route }) => {
                           className="text-md font-semibold"
                           style={{ color: appStyle.color_on_primary }}
                         >
-                          {timeString(workout.startingTime.toDate(),user.language)}
+                          {timeString(
+                            workout.startingTime.toDate(),
+                            user.language
+                          )}
                         </Text>
                       </View>
                     </View>
@@ -210,9 +213,8 @@ const WorkoutDetailsScreen = ({ route }) => {
                     )}
                   </View>
                   <View>
-                    {Platform.OS != "web" &&
-                    (workout.members[user.id] != null ||
-                      workout.invites[user.id] != null) ? (
+                    {workout.members[user.id] != null ||
+                    workout.invites[user.id] != null ? (
                       <View>
                         <View className="mt-2 items-center justify-center">
                           <WorkoutPinnedLocation
@@ -234,9 +236,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                               : "text-center text-sm py-2 px-3"
                           }
                         >
-                          {
-                            "Only workout members that are using portable device (not PC) can see location on map"
-                          }
+                          {`Only workout members that are using portable device (not PC) can see location on map`}
                         </Text>
                       </View>
                     )}
@@ -386,12 +386,9 @@ const WorkoutDetailsScreen = ({ route }) => {
 };
 
 const WorkoutPinnedLocation = (props) => {
-  const {
-    default: MapView,
-    PROVIDER_GOOGLE,
-    Marker,
-  } = Platform.OS != "web" ? require("react-native-maps") : (null, null, null);
-
+  const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
+  const { Marker } = require("../services/mapsService");
+  console.log(`props.ltLng.latitude: ${props.ltLng}`);
   return (
     <View
       className="items-center justify-center p-2 rounded-lg w-full aspect-square"
