@@ -66,6 +66,7 @@
     "react-native-svg": "13.4.0",
     "react-native-system-navigation-bar": "^2.0.0",
     "react-native-web": "~0.18.10",
+    "react-native-web-maps": "^0.3.0",
     "tailwindcss-react-native": "^1.7.10",
     "typescript": "^4.9.4"
   },
