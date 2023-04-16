@@ -11,6 +11,7 @@ import * as appStyle from "./AppStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
+import { timeString } from "../services/timeFunctions";
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
@@ -93,22 +94,7 @@ const WorkoutStartingTime = (props) => {
   const showDatepicker = () => {
     showTrue();
   };
-  const timeString = () => {
-    var day;
-    var time;
-    if (props.minDate.getDate() == date.getDate()) day = "Today";
-    else if (props.minDate.getDate() + 1 == date.getDate()) day = "Tomorrow";
-    else {
-      const dd = date.getDate();
-      const mm = date.getMonth() + 1;
-      day = dd + "/" + mm;
-    }
-    const hh = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-    const mm =
-      date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-    time = hh + ":" + mm;
-    return day + ", " + time;
-  };
+
   return (
     <View>
       <TouchableOpacity
@@ -125,7 +111,7 @@ const WorkoutStartingTime = (props) => {
           <Text
             style={{ color: appStyle.color_on_primary, textAlign: "center" }}
           >
-            {timeString()}
+            {timeString(date,user.language)}
           </Text>
         )}
       </TouchableOpacity>
