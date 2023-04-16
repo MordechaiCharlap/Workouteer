@@ -329,7 +329,7 @@ const WorkoutComponent = (props) => {
               color: appStyle.color_primary,
             }}
           >
-            {timeString(workout.startingTime.toDate())}
+            {timeString(workout.startingTime.toDate(), user.language)}
           </Text>
         </View>
 

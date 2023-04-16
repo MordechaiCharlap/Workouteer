@@ -105,7 +105,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                           className="text-md font-semibold"
                           style={{ color: appStyle.color_on_primary }}
                         >
-                          {timeString(workout.startingTime.toDate())}
+                          {timeString(workout.startingTime.toDate(),user.language)}
                         </Text>
                       </View>
                     </View>

@@ -1,9 +1,14 @@
-export const timeString = (date) => {
+import languageService from "./languageService";
+
+export const timeString = (date, language) => {
   const now = new Date();
   var day;
   var time;
-  if (now.getDate() == date.getDate()) day = "Today";
-  else if (now.getDate() + 1 == date.getDate()) day = "Tomorrow";
+  if (now.getDate() == date.getDate()) day = languageService[language].today;
+  else if (now.getDate() + 1 == date.getDate())
+    day = languageService[language].tomorrow;
+  else if (now.getDate() + 1 == date.getDate())
+    day = languageService[language].yasterday;
   else {
     const dd = date.getDate();
     const mm = date.getMonth() + 1;
