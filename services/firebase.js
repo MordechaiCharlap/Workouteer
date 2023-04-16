@@ -817,7 +817,7 @@ export const addLeaderboardPoints = async (user, pointsNumber) => {
     await getNewLeaderboard(user, pointsNumber);
   }
 };
-const getNewLeaderboard = async (user, pointsNumber) => {
+export const getNewLeaderboard = async (user, pointsNumber) => {
   const lastWeekId = getLastWeekId();
   var leaderboardId = "";
   const q = query(
