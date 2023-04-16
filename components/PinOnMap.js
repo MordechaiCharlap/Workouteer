@@ -12,8 +12,13 @@ const PinOnMap = (props) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
   const [coords, setCoords] = useState(props.defaultMarker);
-  const pressed = (ltLng) => {
-    setCoords(ltLng);
+  const pressed = (event) => {
+    Platform.OS != "web"
+      ? setCoords(event.nativeEvent.coordinate)
+      : setCoords({
+          latitude: event.latLng.lat(),
+          longitude: event.latLng.lng(),
+        });
   };
   const saveLocation = () => {
     props.saveLocation(coords);
@@ -24,10 +29,10 @@ const PinOnMap = (props) => {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
-        onPress={(e) => pressed(e.nativeEvent.coordinate)}
+        onPress={(e) => pressed(e)}
         initialRegion={{
-          latitude: props.defaultMarker.latitude,
-          longitude: props.defaultMarker.longitude,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
