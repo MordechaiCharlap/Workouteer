@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
+import { messageTimeString } from "../services/timeFunctions";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.id;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
@@ -26,26 +27,6 @@ const ChatMessage = (props) => {
       seenByMe();
     }
   }, [props.message.seenBy]);
-
-  const convertTimestamp = (timestamp) => {
-    const date = timestamp.toDate();
-    //workaround
-    // date.setHours(date.getHours() + 2);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
-    const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-    if (props.currentDay.day == day) {
-      return h + ":" + m;
-    } else {
-      const yasterday = new Date();
-      yasterday.setDate(yasterday.getDate() - 1);
-      if (yasterday.toDateString() == date.toDateString()) {
-        return "Yasterday " + h + ":" + m;
-      }
-      return `${day}/${month} ${h}:${m}`;
-    }
-  };
   return (
     <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
       <TouchableOpacity
@@ -82,7 +63,10 @@ const ChatMessage = (props) => {
                 : appStyle.color_on_primary,
             }}
           >
-            {convertTimestamp(props.message.sentAt)}
+            {messageTimeString(
+              props.message.sentAt.toDate(),
+              props.user.language
+            )}
           </Text>
           {isSelfMessage ? (
             <View className="ml-2">

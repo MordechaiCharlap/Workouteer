@@ -20,6 +20,22 @@ export const timeString = (date, language) => {
   time = hh + ":" + mm;
   return day + ", " + time;
 };
+export const messageTimeString = (date, language) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
+  const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+  if (currentDay.day == day) {
+    return h + ":" + m;
+  } else {
+    const yasterday = new Date();
+    yasterday.setDate(yasterday.getDate() - 1);
+    if (yasterday.toDateString() == date.toDateString()) {
+      return languageService[language].yasterday + h + ":" + m;
+    }
+    return `${day}/${month} ${h}:${m}`;
+  }
+};
 export const isSameDay = (d1, d2) => {
   return (
     d1.getFullYear() === d2.getFullYear() &&

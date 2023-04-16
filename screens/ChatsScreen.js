@@ -33,6 +33,7 @@ import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import { messageTimeString } from "../services/timeFunctions";
 const ChatsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -124,25 +125,6 @@ const ChatsScreen = () => {
       }
     }
   };
-  const convertTimestamp = (timestamp) => {
-    const date = timestamp.toDate();
-    //workaround
-    // date.setHours(date.getHours() + 2);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
-    const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-    if (currentDay.day == day) {
-      return h + ":" + m;
-    } else {
-      const yasterday = new Date();
-      yasterday.setDate(yasterday.getDate() - 1);
-      if (yasterday.toDateString() == date.toDateString()) {
-        return "Yasterday " + h + ":" + m;
-      }
-      return `${day}/${month} ${h}:${m}`;
-    }
-  };
   const chatsList = () => {
     const lastMessageConverter = (lastMessage, isAlert, isMyMessage) => {
       var shownText = lastMessage.content;
@@ -193,7 +175,10 @@ const ChatsScreen = () => {
                       className="mt-1"
                       style={{ color: appStyle.color_primary, fontSize: 12 }}
                     >
-                      {convertTimestamp(item.chat.lastMessage.sentAt)}
+                      {messageTimeString(
+                        item.chat.lastMessage.sentAt.toDate(),
+                        user.language
+                      )}
                     </Text>
                   </View>
                   <View className="flex-row items-center justify-between">
@@ -278,7 +263,13 @@ const ChatsScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-row items-center h-10 mt-4 mb-2 justify-center">
+      <View
+        className="flex-row items-center h-10 mt-4 mb-2 justify-center"
+        style={{
+          borderBottomColor: appStyle.color_bg_variant,
+          borderBottomWidth: 0.7,
+        }}
+      >
         <Text
           className="text-4xl font-semibold"
           style={{ color: appStyle.color_primary }}
@@ -298,26 +289,30 @@ const ChatsScreen = () => {
       </View>
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (
-          <View
-            className="rounded-xl"
-            style={{ backgroundColor: appStyle.color_darker }}
-          >
-            <View className="flex-row items-center h-12 p-3">
-              <TouchableOpacity>
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  size={24}
-                  color={appStyle.color_on_primary}
-                />
-              </TouchableOpacity>
-              <TextInput
-                style={{ color: appStyle.color_on_primary }}
-                placeholder="Search"
-                placeholderTextColor={appStyle.color_on_primary}
-                className="text-xl ml-3"
-              />
-            </View>
-          </View>
+          <>
+            {chatsArr != null && chatsArr.length != 0 && (
+              <View
+                className="rounded-xl"
+                style={{ backgroundColor: appStyle.color_darker }}
+              >
+                <View className="flex-row items-center h-12 p-3">
+                  <TouchableOpacity>
+                    <FontAwesomeIcon
+                      icon={faMagnifyingGlass}
+                      size={24}
+                      color={appStyle.color_on_primary}
+                    />
+                  </TouchableOpacity>
+                  <TextInput
+                    style={{ color: appStyle.color_on_primary }}
+                    placeholder="Search"
+                    placeholderTextColor={appStyle.color_on_primary}
+                    className="text-xl ml-3"
+                  />
+                </View>
+              </View>
+            )}
+          </>
         ) : (
           <View className="flex-row items-center h-12 justify-between">
             <TouchableOpacity onPress={() => setSelectedChats([])}>
