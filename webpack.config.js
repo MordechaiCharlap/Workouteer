@@ -7,6 +7,7 @@ module.exports = async function (env, argv) {
     ...config.resolve,
     alias: {
       "react-native": "react-native-web",
+      "react-native-maps": "react-native-web-maps",
     },
     extensions: [".web.ts", ".web.tsx", ".web.js", ".js", ".ts", ".tsx"],
   };
