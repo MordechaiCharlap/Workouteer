@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  signInWithCredential,
+  getAuth,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
@@ -20,7 +20,8 @@ const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
-  const auth = firebase.auth;
+  const firebaseApp = firebase.firebaseApp;
+  const auth = getAuth(firebaseApp);
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
@@ -81,12 +82,19 @@ export const AuthPrvider = ({ children }) => {
           };
           setUserAsync();
         } else {
-          if (unsubscribeAlerts) unsubscribeAlerts();
-          console.log("Stops listening to alerts");
-          if (unsubscribeUser) unsubscribeUser();
-          console.log("Stops listening to user");
-          setUser(null);
-          console.log("state Changed, user logged out");
+          if (unsubscribeAlerts) {
+            unsubscribeAlerts();
+            console.log("Stops listening to alerts");
+          }
+          if (unsubscribeUser) {
+            unsubscribeUser();
+            console.log("Stops listening to user");
+          }
+          if (user) {
+            console.log("nulling User");
+            setUser(null);
+            console.log("state Changed, user logged out");
+          }
           setInitialLoading(false);
         }
       });
@@ -186,14 +194,13 @@ export const AuthPrvider = ({ children }) => {
         });
     } else {
       console.log("remembering user");
+      // Sign in the user with email and password
       signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          console.log("signed in!");
-        })
+        .then()
         .catch((error) => {
-          const errorCode = error.code;
-          console.log("error code: ", errorCode);
-          setAuthErrorCode(errorCode);
+          // Handle errors
+          console.error(error);
+          setAuthErrorCode(error.code);
           setLoginLoading(false);
         });
     }
