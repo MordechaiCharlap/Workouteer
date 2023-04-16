@@ -10,7 +10,7 @@ const WorkoutLocation = (props) => {
   const [location, setLocation] = useState(null);
   const [markerCoords, setMarkerCoords] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const PinOnMap = Platform.OS == "web" ? null : require("./PinOnMap");
+  const PinOnMap = require("./PinOnMap");
   const cancelLocation = () => {
     setLocation(null);
     props.locationChanged(null);
@@ -79,13 +79,11 @@ const WorkoutLocation = (props) => {
             >
               {languageService[props.language].gettingCurrentLocation}
             </Text>
-          ) : Platform.OS != "web" ? (
+          ) : (
             <PinOnMap
               defaultMarker={markerCoords}
               saveLocation={locationPinned}
             />
-          ) : (
-            <Text>{languageService[props.language].webMapsError}</Text>
           ))}
       </View>
     </View>
