@@ -1,4 +1,4 @@
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import style from "../components/ResponsiveStyling";
@@ -26,12 +26,12 @@ const HomeScreen = () => {
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const { currentWorkout } = useCurrentWorkout();
-
-  const buttonStyle = {
+  const [buttonStyle, setButtonStyle] = useState({
     color: appStyle.color_on_primary,
     backgroundColor: appStyle.color_primary,
-    iconSize: 40,
-  };
+    size: Platform.OS == "web" ? window.innerHeight / 6.45 : 144,
+    iconSize: window.innerHeight / 23.225,
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -39,17 +39,15 @@ const HomeScreen = () => {
       setScreen("Home");
     }, [])
   );
-  // useEffect(() => {
-  //   const getFasterikoData = async () => {
-  //     console.log("trying to get data");
-  //     const userRef = await firestore()
-  //       .collection("users")
-  //       .doc("fasteriko")
-  //       .get();
-  //     console.log("data: " + userRef.data());
-  //   };
-  //   getFasterikoData();
-  // }, []);
+  // if (Platform.OS == "web")
+  //   window.addEventListener("resize", () => {
+  //     console.log(window.innerHeight);
+  //     setButtonStyle({
+  //       ...buttonStyle,
+  //       size: window.innerHeight / 6.45,
+  //       iconSize: window.innerHeight / 23.225,
+  //     });
+  //   });
   return (
     <View style={style.safeAreaStyle}>
       <StatusBar
