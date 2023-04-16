@@ -25,11 +25,11 @@ const WorkoutLocation = (props) => {
         console.log(latLongLocation);
         if (latLongLocation != null) {
           setMarkerCoords(latLongLocation);
-        } else {
-          setMarkerCoords(location);
         }
-        setShowMap(true);
+      } else {
+        setMarkerCoords(location);
       }
+      setShowMap(true);
       setIsLoading(false);
     }
   };
