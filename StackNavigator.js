@@ -37,12 +37,12 @@ import UpdateAppScreen from "./screens/UpdateAppScreen";
 import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { checkIfVersionUpdated } from "./services/versionService";
-import useOrientation from "./hooks/useOrientation";
-import { isWebOnPC } from "./services/webScreenService";
+import useWebResponsiveness from "./hooks/useWebResponsiveness";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
     useAuth();
+  const { isWeb, setIsWeb } = useWebResponsiveness;
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -58,10 +58,8 @@ const StackNavigator = () => {
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  const [navbarWidth, setNavbarWidth] = useState(
-    isWebOnPC ? (9 / 19) * (window.innerHeight - 50) : null
-  );
-  const webDeviceOrientation = useOrientation();
+  var webDeviceOrientation;
+  console.log("StackNavigator");
   console.log(`Orientation: ${webDeviceOrientation}`);
   useEffect(() => {
     if (checkIfVersionUpdated()) {
@@ -70,11 +68,6 @@ const StackNavigator = () => {
       setUpdateNeeded(true);
     }
     addAuthObserver();
-    console.log("StackRendered");
-    if (isWebOnPC)
-      window.addEventListener("resize", () => {
-        setNavbarWidth((9 / 19) * (window.innerHeight - 50));
-      });
   }, []);
 
   useEffect(() => {
@@ -82,7 +75,6 @@ const StackNavigator = () => {
       setGoogleUserAsync();
     }
   }, [googleUserInfo]);
-
   useEffect(() => {
     const removeUnconfirmedOldWorkouts = async () => {
       await firebase.removeUnconfirmedOldWorkouts(user);
@@ -297,7 +289,7 @@ const StackNavigator = () => {
       </Stack.Navigator>
       {showNavbar && !updateNeeded && webDeviceOrientation != "LANDSCAPE" && (
         <View>
-          <BottomNavbar height={50} width={navbarWidth} />
+          <BottomNavbar height={50} />
         </View>
       )}
     </View>
