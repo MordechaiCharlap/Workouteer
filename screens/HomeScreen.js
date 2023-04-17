@@ -1,4 +1,4 @@
-import { View, StatusBar, Platform } from "react-native";
+import { View, StatusBar, Dimensions } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
@@ -31,19 +31,32 @@ const HomeScreen = () => {
   const buttonStyle = {
     color: appStyle.color_on_primary,
     backgroundColor: appStyle.color_primary,
-    size: windowHeight ? windowHeight / 5.5 : window.innerHeight / 5.5,
-    iconSize: windowHeight ? windowHeight / 16.5 : window.innerHeight / 16.5,
-    fontSize: windowHeight ? windowHeight / 35 : window.innerHeight / 35,
+    size: windowHeight
+      ? windowHeight / 5.5
+      : Dimensions.get("window").height / 5.5,
+    iconSize: windowHeight
+      ? windowHeight / 16.5
+      : Dimensions.get("window").height / 16.5,
+    fontSize: windowHeight
+      ? windowHeight / 35
+      : Dimensions.get("window").height / 35,
   };
   const rowStyle = {
     flexDirection: "row",
     justifyContent: "center",
-    columnGap: windowHeight ? windowHeight / 30 : window.innerHeight / 30,
+    columnGap: windowHeight
+      ? windowHeight / 30
+      : Dimensions.get("window").height / 30,
   };
   const menuContainerStyle = {
     flex: 1,
-    justifyContent: "center",
-    rowGap: windowHeight ? windowHeight / 30 : window.innerHeight / 30,
+    paddingTop: windowHeight
+      ? windowHeight / 25
+      : Dimensions.get("window").height / 25,
+    paddingBottom: windowHeight
+      ? windowHeight / 25
+      : Dimensions.get("window").height / 25,
+    justifyContent: "space-evenly",
   };
   useFocusEffect(
     useCallback(() => {
@@ -53,6 +66,7 @@ const HomeScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
+      <View></View>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
