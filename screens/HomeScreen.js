@@ -19,6 +19,7 @@ import useAuth from "../hooks/useAuth";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import useWebResponsiveness from "../hooks/useWebResponsiveness";
 const HomeScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
@@ -26,36 +27,38 @@ const HomeScreen = () => {
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const { currentWorkout } = useCurrentWorkout();
-  const [buttonStyle, setButtonStyle] = useState({
+  const { windowHeight } = useWebResponsiveness();
+  const buttonStyle = {
     color: appStyle.color_on_primary,
     backgroundColor: appStyle.color_primary,
-    size: Platform.OS == "web" ? window.innerHeight / 6.45 : 144,
-    iconSize: window.innerHeight / 23.225,
-  });
-
+    size: windowHeight ? windowHeight / 5.5 : window.innerHeight / 5.5,
+    iconSize: windowHeight ? windowHeight / 16.5 : window.innerHeight / 16.5,
+    fontSize: windowHeight ? windowHeight / 35 : window.innerHeight / 35,
+  };
+  const rowStyle = {
+    flexDirection: "row",
+    justifyContent: "center",
+    columnGap: windowHeight ? windowHeight / 30 : window.innerHeight / 30,
+  };
+  const menuContainerStyle = {
+    flex: 1,
+    justifyContent: "center",
+    rowGap: windowHeight ? windowHeight / 30 : window.innerHeight / 30,
+  };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Home");
       setScreen("Home");
     }, [])
   );
-  // if (Platform.OS == "web")
-  //   window.addEventListener("resize", () => {
-  //     console.log(window.innerHeight);
-  //     setButtonStyle({
-  //       ...buttonStyle,
-  //       size: window.innerHeight / 6.45,
-  //       iconSize: window.innerHeight / 23.225,
-  //     });
-  //   });
   return (
     <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1 p-3 px-7 justify-center">
-        <View className="flex-row justify-between my-5">
+      <View style={menuContainerStyle}>
+        <View style={rowStyle}>
           <HomeScreenButton
             buttonText={languageService[user.language].findWorkoutHomeBtn}
             style={buttonStyle}
@@ -69,7 +72,7 @@ const HomeScreen = () => {
             icon={faPlus}
           />
         </View>
-        <View className="flex-row justify-between my-5">
+        <View style={rowStyle}>
           <HomeScreenButton
             alert={
               Object.keys(workoutRequestsAlerts).length > 0 ||
@@ -91,7 +94,7 @@ const HomeScreen = () => {
             icon={faCalendarCheck}
           />
         </View>
-        <View className="flex-row justify-between my-5">
+        <View style={rowStyle}>
           <HomeScreenButton
             buttonText={languageService[user.language].friendsWorkoutsHomeBtn}
             style={buttonStyle}
