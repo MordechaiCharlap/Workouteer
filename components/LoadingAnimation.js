@@ -6,7 +6,7 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 
 const LoadingAnimation = () => {
   return (
-    <View className="flex-1">
+    <View style={safeAreaStyle()}>
       {Platform.OS == "android" && (
         <Lottie
           source={require("../animations/initialLoading.json")}
