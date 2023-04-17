@@ -13,8 +13,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import responsiveStyle from "../components/ResponsiveStyling";
-import { ResponsiveShadow } from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -90,12 +89,7 @@ const LoginScreen = () => {
     }
   }, [authErrorCode]);
   return (
-    <View
-      style={[
-        responsiveStyle.safeAreaStyle,
-        { minHeight: Math.round(windowHeight) },
-      ]}
-    >
+    <View style={{ ...safeAreaStyle, minHeight: Math.round(windowHeight) }}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -106,7 +100,7 @@ const LoginScreen = () => {
         <View className="flex-1 justify-center">
           <View className="mx-6">
             <View
-              className={`mb-3 rounded-t-xl p-3 justify-between ${ResponsiveShadow}`}
+              className={`mb-3 rounded-t-xl p-3 justify-between`}
               style={{
                 backgroundColor: appStyle.color_primary,
                 shadowColor: "#000",
@@ -230,7 +224,7 @@ const LoginScreen = () => {
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate("Register")}
-              className={`flex-1 rounded-b-xl justify-center p-3 ${ResponsiveShadow}`}
+              className={`flex-1 rounded-b-xl justify-center p-3`}
               style={{
                 backgroundColor: appStyle.color_primary,
                 shadowColor: appStyle.color_bg,

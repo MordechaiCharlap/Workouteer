@@ -1,6 +1,6 @@
 import { View, StatusBar, Text, TouchableOpacity } from "react-native";
 import React, { useCallback } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import languageService from "../services/languageService";
@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 const UpdateAppScreen = () => {
   const { user } = useAuth();
   return (
-    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
+    <View className="justify-center" style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

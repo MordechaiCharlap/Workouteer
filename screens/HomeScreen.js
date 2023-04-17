@@ -1,7 +1,7 @@
 import { View, StatusBar, Platform } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import style from "../components/ResponsiveStyling";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../components/AppStyleSheet";
 import {
@@ -49,7 +49,7 @@ const HomeScreen = () => {
   //     });
   //   });
   return (
-    <View style={style.safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 const SearchUsers = (props) => {
   const { user } = useAuth();
-  const navigation = useNavigation;
+  const navigation = useNavigation();
   const [searchedUser, setSearchedUser] = useState(null);
   const textChanged = async (text) => {
     if (text != "") {

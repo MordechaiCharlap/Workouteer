@@ -1,6 +1,6 @@
 import { View, FlatList, StatusBar } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
@@ -67,7 +67,7 @@ const FutureWorkoutsScreen = () => {
     scheduleNotificationsForNewWorkouts();
   }, [workouts]);
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

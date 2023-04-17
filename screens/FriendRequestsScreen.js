@@ -10,7 +10,7 @@ import React, { useCallback, useState } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
@@ -51,7 +51,7 @@ const FriendRequestsScreen = () => {
     setFriendRequests(requestsClone);
   };
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

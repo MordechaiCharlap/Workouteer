@@ -14,8 +14,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import responsiveStyle from "../components/ResponsiveStyling";
-import { ResponsiveShadow } from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import * as defaultValues from "../services/defaultValues";
@@ -115,7 +114,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={responsiveStyle.safeAreaStyle} className="justify-center">
+    <View style={safeAreaStyle} className="justify-center">
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -124,7 +123,7 @@ const RegisterScreen = () => {
         <LoadingAnimation />
       ) : (
         <View
-          className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+          className={`mx-6 rounded-xl p-4`}
           style={{
             backgroundColor: appStyle.color_primary,
             shadowColor: "#000",
@@ -180,7 +179,7 @@ const RegisterScreen = () => {
 
           <TouchableOpacity
             onPress={createAccountClicked}
-            className={`flex-1 rounded p-2 justify-center ${ResponsiveShadow} mt-5`}
+            className={`flex-1 rounded p-2 justify-center mt-5`}
             style={{
               backgroundColor: appStyle.color_bg,
               shadowColor: appStyle.color_bg,

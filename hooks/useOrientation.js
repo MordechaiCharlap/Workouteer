@@ -7,6 +7,7 @@ const isPortrait = () => {
 };
 const useOrientation = () => {
   if (isWebOnMobileDevice) {
+    console.log("Web on device, making sure not on portrait mode");
     // State to hold the connection status
     const [orientation, setOrientation] = useState(
       isPortrait() ? "PORTRAIT" : "LANDSCAPE"

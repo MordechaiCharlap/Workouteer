@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { React, useCallback, useEffect, useState } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
@@ -52,7 +52,7 @@ const LeaderboardScreen = () => {
     fetchLeaderboard();
   }, []);
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

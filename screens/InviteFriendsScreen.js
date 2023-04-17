@@ -12,7 +12,7 @@ import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
@@ -112,7 +112,7 @@ const InviteFriendsScreen = ({ route }) => {
     );
   };
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

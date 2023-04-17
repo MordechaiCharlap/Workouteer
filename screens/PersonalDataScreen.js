@@ -9,8 +9,7 @@ import {
 } from "react-native";
 import { React, useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import responsiveStyle from "../components/ResponsiveStyling";
-import { ResponsiveShadow } from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
@@ -59,13 +58,13 @@ const PersonalDataScreen = () => {
     }
   };
   return (
-    <View className="justify-center" style={responsiveStyle.safeAreaStyle}>
+    <View className="justify-center" style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <View
-        className={`mx-6 rounded-xl p-4 ${ResponsiveShadow}`}
+        className={`mx-6 rounded-xl p-4`}
         style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}
       >
         <View>
@@ -180,7 +179,7 @@ const PersonalDataScreen = () => {
 
           <TouchableOpacity
             onPress={createAccountPressed}
-            className={`justify-center py-3 ${ResponsiveShadow}`}
+            className={`justify-center py-3`}
             style={{
               backgroundColor: appStyle.color_bg,
               shadowColor: appStyle.color_primary,

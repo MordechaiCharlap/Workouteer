@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { React, useState, useCallback } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCheck,
@@ -258,7 +258,7 @@ const ChatsScreen = () => {
     navigation.navigate("Friends", { user: user, isMyUser: true });
   };
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

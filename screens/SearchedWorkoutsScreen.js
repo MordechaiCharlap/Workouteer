@@ -1,7 +1,7 @@
 import { View, StatusBar, FlatList } from "react-native";
 import * as appStyle from "../components/AppStyleSheet";
 import React, { useCallback } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import WorkoutComponent from "../components/WorkoutComponent";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
@@ -16,7 +16,7 @@ const SearchedWorkoutsScreen = ({ route }) => {
   );
   const workouts = route.params.workouts;
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

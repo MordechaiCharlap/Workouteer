@@ -9,7 +9,7 @@ import {
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import { saveSettingsChanges } from "../services/firebase";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
@@ -66,7 +66,7 @@ const SettingsScreen = () => {
     await deleteDoc(doc(db, `alerts/${user.id}`));
   };
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

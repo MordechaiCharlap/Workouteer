@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -70,7 +70,7 @@ const MyUserScreen = () => {
     }, [])
   );
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

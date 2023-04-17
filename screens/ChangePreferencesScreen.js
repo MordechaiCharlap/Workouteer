@@ -1,7 +1,7 @@
 import { View, Text, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { React } from "react";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const ChangePreferencesScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -11,7 +11,7 @@ const ChangePreferencesScreen = () => {
     }, [])
   );
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

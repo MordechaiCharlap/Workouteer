@@ -62,7 +62,7 @@ const StackNavigator = () => {
     isWebOnPC ? (9 / 19) * (window.innerHeight - 50) : null
   );
   const webDeviceOrientation = useOrientation();
-  console.log(`Web device orientation: ${webDeviceOrientation}`);
+  console.log(`Orientation: ${webDeviceOrientation}`);
   useEffect(() => {
     if (checkIfVersionUpdated()) {
       setUpdateNeeded(false);

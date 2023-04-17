@@ -1,5 +1,5 @@
 import { View, StatusBar } from "react-native";
-import responsiveStyle from "../components/ResponsiveStyling";
+import safeAreaStyle from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import React, { useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -17,7 +17,7 @@ const FriendsWorkoutsScreen = () => {
     }, [])
   );
   return (
-    <View style={responsiveStyle.safeAreaStyle}>
+    <View style={safeAreaStyle}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
