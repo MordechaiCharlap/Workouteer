@@ -37,12 +37,10 @@ import UpdateAppScreen from "./screens/UpdateAppScreen";
 import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import { checkIfVersionUpdated } from "./services/versionService";
-import useWebResponsiveness from "./hooks/useWebResponsiveness";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
     useAuth();
-  const { isWeb, setIsWeb } = useWebResponsiveness;
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -58,8 +56,6 @@ const StackNavigator = () => {
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  var webDeviceOrientation;
-  console.log("StackNavigator");
   console.log(`Orientation: ${webDeviceOrientation}`);
   useEffect(() => {
     if (checkIfVersionUpdated()) {
