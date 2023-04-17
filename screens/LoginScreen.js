@@ -89,7 +89,7 @@ const LoginScreen = () => {
     }
   }, [authErrorCode]);
   return (
-    <View style={{ ...safeAreaStyle, minHeight: Math.round(windowHeight) }}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
