@@ -36,6 +36,7 @@ import LeaderboardScreen from "./screens/LeaderboardScreen";
 import UpdateAppScreen from "./screens/UpdateAppScreen";
 import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
+import useWebResponsiveness from "./hooks/useWebResponsiveness";
 import { checkIfVersionUpdated } from "./services/versionService";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -52,11 +53,11 @@ const StackNavigator = () => {
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
+  const { orientation } = useWebResponsiveness();
   const [alertsChanged, setAlertsChanged] = useState(false);
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  console.log(`Orientation: ${webDeviceOrientation}`);
   useEffect(() => {
     if (checkIfVersionUpdated()) {
       setUpdateNeeded(false);
@@ -125,11 +126,14 @@ const StackNavigator = () => {
     if (workoutInvitesAlerts != null) setAlertsChanged(true);
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
-
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <Stack.Navigator screenOptions={{ headerShown: true }}>
-        {webDeviceOrientation == "LANDSCAPE" ? (
+        {orientation == "LANDSCAPE" ? (
           <Stack.Screen
             name="LandscapeOrientationScreen"
             component={LandscapeOrientationScreen}
@@ -142,7 +146,7 @@ const StackNavigator = () => {
             options={verticalAnimation}
           />
         ) : (
-          webDeviceOrientation != "LANDSCAPE" &&
+          orientation != "LANDSCAPE" &&
           (user ? (
             <>
               <Stack.Screen
@@ -283,9 +287,9 @@ const StackNavigator = () => {
           ))
         )}
       </Stack.Navigator>
-      {showNavbar && !updateNeeded && webDeviceOrientation != "LANDSCAPE" && (
+      {showNavbar && !updateNeeded && orientation != "LANDSCAPE" && (
         <View>
-          <BottomNavbar height={50} />
+          <BottomNavbar />
         </View>
       )}
     </View>
