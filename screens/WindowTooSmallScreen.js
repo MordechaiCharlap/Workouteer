@@ -4,7 +4,7 @@ import * as appStyle from "../components/AppStyleSheet";
 const WindowTooSmallScreen = () => {
   return (
     <View
-      className="flex-1 justify-center items-center"
+      className="flex-1 justify-center items-center p-10"
       style={{ backgroundColor: appStyle.color_bg }}
     >
       <Text
