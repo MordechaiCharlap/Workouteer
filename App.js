@@ -11,6 +11,7 @@ import { Platform } from "react-native";
 import { NavbarNavigationProvider } from "./hooks/useNavbarNavigation";
 import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
+import { WebResponsivenessProvider } from "./hooks/useWebResponsiveness";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
   const { enableLatestRenderer } = require("react-native-maps");
@@ -20,21 +21,23 @@ initGeocoder();
 export default function App() {
   return (
     <NavigationContainer>
-      <NavbarDisplayProvider>
-        <AlertsProvider>
-          <AuthPrvider>
-            <CurrentWorkoutProvider>
-              <NotificationsProvider>
-                <NavbarNavigationProvider>
-                  <TailwindProvider>
-                    <StackNavigator />
-                  </TailwindProvider>
-                </NavbarNavigationProvider>
-              </NotificationsProvider>
-            </CurrentWorkoutProvider>
-          </AuthPrvider>
-        </AlertsProvider>
-      </NavbarDisplayProvider>
+      <WebResponsivenessProvider>
+        <NavbarDisplayProvider>
+          <AlertsProvider>
+            <AuthPrvider>
+              <CurrentWorkoutProvider>
+                <NotificationsProvider>
+                  <NavbarNavigationProvider>
+                    <TailwindProvider>
+                      <StackNavigator />
+                    </TailwindProvider>
+                  </NavbarNavigationProvider>
+                </NotificationsProvider>
+              </CurrentWorkoutProvider>
+            </AuthPrvider>
+          </AlertsProvider>
+        </NavbarDisplayProvider>
+      </WebResponsivenessProvider>
     </NavigationContainer>
   );
 }
