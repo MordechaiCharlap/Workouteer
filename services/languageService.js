@@ -202,8 +202,8 @@ const languageService = {
     getPointsToCompete:
       "0 נקודות השבוע, השג/י נקודות באמצעות השתתפות באימונים בשביל לראות את טבלת הניקוד השבועית.",
     forEveryone: "מעורב",
-    menOnly: "גברים",
-    womenOnly: "נשים",
+    menOnly: "לגברים בלבד",
+    womenOnly: "לנשים בלבד",
     minutes: "דקות",
     directions: "הוראות הגעה",
     you: "את/ה!",
