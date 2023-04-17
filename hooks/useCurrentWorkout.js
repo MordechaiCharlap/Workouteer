@@ -51,8 +51,9 @@ export const CurrentWorkoutProvider = ({ children }) => {
       }
     };
 
-    if (user) initialCheckCurrentWorkout();
-    else {
+    if (user) {
+      if (intervalVal == null) initialCheckCurrentWorkout();
+    } else {
       if (intervalVal != null) {
         clearInterval(intervalVal);
         setIntervalVal(null);
