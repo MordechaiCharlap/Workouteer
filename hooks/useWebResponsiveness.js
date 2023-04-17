@@ -11,6 +11,7 @@ export const WebResponsivenessProvider = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState();
   const [windowHeight, setWindowHeight] = useState();
   const [orientation, setOrientation] = useState();
+  const [windowTooSmall, setWindowTooSmall] = useState();
   useEffect(() => {
     if (Platform.OS == "web") {
       console.log("***OnWeb responsiveness in action***");
@@ -22,11 +23,22 @@ export const WebResponsivenessProvider = ({ children }) => {
       const resizeHandler = () => {
         setWindowHeight(window.innerHeight);
         setWindowWidth(window.innerWidth);
+        if (window.innerHeight <= 572 || window.innerWidth <= 271) {
+          if (windowTooSmall != true) {
+            setWindowTooSmall(true);
+          }
+        } else {
+          if (windowTooSmall != false) {
+            setWindowTooSmall(false);
+          }
+        }
       };
       if (isWebOnMobileDevice) {
+        orientationHandler();
         Dimensions.addEventListener("change", orientationHandler);
         console.log("started listening to orientation");
       } else {
+        resizeHandler();
         window.addEventListener("resize", resizeHandler);
         console.log("started listening to resize");
       }
@@ -42,7 +54,14 @@ export const WebResponsivenessProvider = ({ children }) => {
   }, []);
   return (
     <WebDeviceResponsivenessContext.Provider
-      value={{ isWeb, setIsWeb, windowWidth, windowHeight, orientation }}
+      value={{
+        isWeb,
+        setIsWeb,
+        windowWidth,
+        windowHeight,
+        orientation,
+        windowTooSmall,
+      }}
     >
       {children}
     </WebDeviceResponsivenessContext.Provider>
