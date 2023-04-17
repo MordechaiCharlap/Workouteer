@@ -9,7 +9,8 @@ export const NotificationsProvider = ({ children }) => {
   const [pushToken, setPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
+  useEffect;
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
       console.log("registering for notifications");
@@ -132,10 +133,10 @@ export const NotificationsProvider = ({ children }) => {
     if (identifier != null)
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
-  const sendPushNotification = async (user, title, body, data) => {
-    if (user.pushToken) {
+  const sendPushNotification = async (userToSend, title, body, data) => {
+    if (userToSend.pushToken) {
       const pushNotification = {
-        to: user.pushToken,
+        to: userToSend.pushToken,
         sound: "default",
         title: title,
         body: body,
@@ -153,12 +154,24 @@ export const NotificationsProvider = ({ children }) => {
       console.log("pushNotification: ", pushNotification);
     }
   };
-
+  const sendPushNotificationForFriendsAboutWorkout = async (workoutSex) => {
+    for (var friendId of Object.keys(user.friends)) {
+      const friend = await firebase.getUserDataById(friendId);
+      if (workoutSex == "everyone" || user.isMale == friend.isMale) {
+        await sendPushNotification(
+          friend,
+          `${user.displayName} just scheduled a workout!`,
+          "Ask him to join :)"
+        );
+      }
+    }
+  };
   return (
     <NotificationsContext.Provider
       value={{
         sendPushNotification,
         sendPushNotificationsForWorkoutMembers,
+        sendPushNotificationForFriendsAboutWorkout,
         pushToken,
         setPushToken,
         notificationListenerFunction,

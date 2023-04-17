@@ -27,7 +27,10 @@ const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, setUser } = useAuth();
-  const { schedulePushNotification } = usePushNotifications();
+  const {
+    schedulePushNotification,
+    sendPushNotificationForFriendsAboutWorkout,
+  } = usePushNotifications();
   const now = new Date();
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
@@ -102,6 +105,7 @@ const NewWorkoutScreen = () => {
       requests: {},
     };
     await firebase.createWorkout(workout);
+    await sendPushNotificationForFriendsAboutWorkout(workoutSex);
   };
   return (
     <View style={safeAreaStyle()}>
@@ -119,18 +123,21 @@ const NewWorkoutScreen = () => {
             {/* margin is inside the component after each types row */}
             <WorkoutType language={user.language} typeSelected={setType} />
           </View>
-          <View className="pb-2 rounded mb-5 flex-row justify-between">
-            <WorkoutStartingTime
-              setClosestWorkoutDate={setClosestWorkoutDate}
-              startingTimeChanged={setStartingTime}
-              minDate={now}
-            />
-            <WorkoutSex
-              isMale={user.isMale}
-              language={user.language}
-              sexChanged={setWorkoutSex}
-              text={languageService[user.language].openForEveryone}
-            />
+          <View className="pb-2 mb-5 flex-row">
+            <View className="w-1/2">
+              <WorkoutStartingTime
+                setClosestWorkoutDate={setClosestWorkoutDate}
+                startingTimeChanged={setStartingTime}
+                minDate={now}
+              />
+            </View>
+            <View className="w-1/2">
+              <WorkoutSex
+                isMale={user.isMale}
+                language={user.language}
+                sexChanged={setWorkoutSex}
+              />
+            </View>
           </View>
           {startingTime != null && (
             <View className="pb-2 rounded mb-5">
