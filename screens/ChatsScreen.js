@@ -290,7 +290,7 @@ const ChatsScreen = () => {
       <View className="px-4 flex-1">
         {selectedChats.length == 0 ? (
           <>
-            {chatsArr != null && chatsArr.length != 0 && (
+            {/* {chatsArr != null && chatsArr.length != 0 && (
               <View
                 className="rounded-xl"
                 style={{ backgroundColor: appStyle.color_darker }}
@@ -311,7 +311,7 @@ const ChatsScreen = () => {
                   />
                 </View>
               </View>
-            )}
+            )} */}
           </>
         ) : (
           <View className="flex-row items-center h-12 justify-between">
