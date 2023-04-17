@@ -1,6 +1,5 @@
 import React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import * as firebase from "../services/firebase";
 import {
   inMemoryPersistence,
   setPersistence,
@@ -11,7 +10,12 @@ import {
   getAuth,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
-import { db } from "../services/firebase";
+import {
+  db,
+  userDataByEmail,
+  checkIfEmailAvailable,
+  auth as firebaseAuth,
+} from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import useAlerts from "./useAlerts";
 import { useNavigation } from "@react-navigation/native";
@@ -20,8 +24,7 @@ const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
-  const firebaseApp = firebase.firebaseApp;
-  const auth = getAuth(firebaseApp);
+  const auth = firebaseAuth;
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
@@ -47,10 +50,13 @@ export const AuthPrvider = ({ children }) => {
     if (!googleUserInfo) {
       console.log("auth observer");
       onAuthStateChanged(auth, (authUser) => {
+        console.log("AuthStateChanged");
+        console.log(authUser);
         if (authUser) {
+          console.log("User signed in");
           const setUserAsync = async () => {
             setLoginLoading(true);
-            const userData = await firebase.userDataByEmail(
+            const userData = await userDataByEmail(
               authUser.email.toLowerCase()
             );
             console.log("Listening to alerts");
@@ -142,13 +148,9 @@ export const AuthPrvider = ({ children }) => {
     return userCredential.user.uid;
   };
   const setGoogleUserAsync = async () => {
-    if (
-      !(await firebase.checkIfEmailAvailable(
-        googleUserInfo.email.toLowerCase()
-      ))
-    ) {
+    if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
       console.log("existing user");
-      const userData = await firebase.userDataByEmail(
+      const userData = await userDataByEmail(
         googleUserInfo.email.toLowerCase()
       );
       console.log("Listening to alerts");
@@ -196,9 +198,10 @@ export const AuthPrvider = ({ children }) => {
       console.log("remembering user");
       // Sign in the user with email and password
       signInWithEmailAndPassword(auth, email, password)
-        .then()
+        .then(() => {
+          console.log("signed in!");
+        })
         .catch((error) => {
-          // Handle errors
           console.error(error);
           setAuthErrorCode(error.code);
           setLoginLoading(false);
