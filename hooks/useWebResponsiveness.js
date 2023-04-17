@@ -20,7 +20,6 @@ export const WebResponsivenessProvider = ({ children }) => {
       };
 
       const resizeHandler = () => {
-        console.log("resizeHandled");
         setWindowHeight(window.innerHeight);
         setWindowWidth(window.innerWidth);
       };
