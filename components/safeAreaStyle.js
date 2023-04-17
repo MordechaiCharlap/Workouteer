@@ -15,7 +15,7 @@ export const safeAreaStyle = () => {
     const fixedWidth =
       (9 / 19) * (windowHeight ? windowHeight : window.innerHeight);
     style = {
-      height: fixedHeight,
+      height: "100%",
       flex: 1,
       alignSelf: "center",
       aspectRatio: fixedWidth,
