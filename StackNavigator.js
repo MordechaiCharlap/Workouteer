@@ -140,7 +140,7 @@ const StackNavigator = () => {
             component={LandscapeOrientationScreen}
             options={verticalAnimation}
           />
-        ) : windowTooSmall ? (
+        ) : windowTooSmall == true ? (
           <Stack.Screen
             name="WindowTooSmallScreen"
             component={WindowTooSmallScreen}
