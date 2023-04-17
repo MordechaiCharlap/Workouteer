@@ -59,22 +59,28 @@ const WorkoutLocation = (props) => {
             {languageService[props.language].location}:
           </Text>
         </View>
-        <TouchableOpacity
-          className="rounded justify-center p-1"
-          onPress={setLocationClicked}
-          style={{
-            backgroundColor:
-              location != null
-                ? appStyle.color_primary_variant
-                : appStyle.color_primary,
-          }}
-        >
-          <Text style={{ color: appStyle.color_on_primary }}>
-            {location == null
-              ? languageService[props.language].setLocation
-              : languageService[props.language].clickToChangeLocation}
-          </Text>
-        </TouchableOpacity>
+        {showMap ? (
+          <></>
+        ) : (
+          <TouchableOpacity
+            className="rounded justify-center p-1"
+            onPress={setLocationClicked}
+            style={{
+              backgroundColor:
+                location != null
+                  ? appStyle.color_primary_variant
+                  : appStyle.color_primary,
+            }}
+          >
+            <Text style={{ color: appStyle.color_on_primary }}>
+              {isLoading
+                ? languageService[props.language].loading
+                : location == null
+                ? languageService[props.language].setLocation
+                : languageService[props.language].clickToChangeLocation}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View className="items-center">
         {showMap &&
