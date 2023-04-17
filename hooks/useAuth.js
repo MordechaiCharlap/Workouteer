@@ -214,12 +214,13 @@ export const AuthPrvider = ({ children }) => {
       if (unsubscribeUser) unsubscribeUser();
       console.log("Stops listening to user");
       setGoogleUserInfo(null);
-      setUser(null);
-      setInitialLoading(false);
     } else
       signOut(auth)
         .then(() => {})
         .catch((error) => {});
+
+    setUser(null);
+    setInitialLoading(false);
   };
   return (
     <AuthContext.Provider
