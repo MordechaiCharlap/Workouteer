@@ -4,17 +4,19 @@ import NavbarButton from "./NavbarButton";
 import * as appStyle from "./AppStyleSheet";
 import useAlerts from "../hooks/useAlerts";
 import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import { isWebOnPC } from "../services/webScreenService";
 const BottomNavbar = () => {
   const { chatsAlerts, friendRequestsAlerts } = useAlerts();
   const { windowHeight } = useWebResponsiveness();
-  const fixedWidth =
-    (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height);
+  const fixedWidth = isWebOnPC
+    ? (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height)
+    : "100%";
   return (
     <View
       className="items-center"
       style={{
         height: Math.max(
-          (windowHeight ? windowHeight : Dimensions.get("window").height) / 12,
+          (windowHeight ? windowHeight : Dimensions.get("window").height) / 13,
           30
         ),
         backgroundColor: "#f2f2f2",
