@@ -1,17 +1,10 @@
 import * as appStyle from "./AppStyleSheet";
 import { isWebOnPC } from "../services/webScreenService";
-import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useWebResponsiveness from "../hooks/useWebResponsiveness";
 export const safeAreaStyle = () => {
   var style;
   if (isWebOnPC) {
-    console.log("web on pc");
-    console.log(window.navigator.userAgent);
-    const { showNavbar } = useNavbarDisplay();
     const { windowHeight } = useWebResponsiveness();
-    const fixedHeight = windowHeight
-      ? windowHeight - (showNavbar ? 50 : 0)
-      : window.innerHeight - (showNavbar ? 50 : 0);
     const fixedWidth =
       (9 / 19) * (windowHeight ? windowHeight : window.innerHeight);
     style = {
@@ -29,6 +22,5 @@ export const safeAreaStyle = () => {
       backgroundColor: appStyle.color_bg,
     };
   }
-  console.log(`safe are style: ${style}`);
   return style;
 };
