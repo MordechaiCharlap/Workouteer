@@ -1,12 +1,14 @@
 import * as appStyle from "./AppStyleSheet";
 import { isWebOnPC } from "../services/webScreenService";
 import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import { Dimensions } from "react-native";
 export const safeAreaStyle = () => {
   var style;
   if (isWebOnPC) {
     const { windowHeight } = useWebResponsiveness();
     const fixedWidth =
-      (9 / 19) * (windowHeight ? windowHeight : window.innerHeight);
+      (9 / 19) *
+      (windowHeight ? windowHeight : Dimensions.get("window").height);
     style = {
       height: "100%",
       flex: 1,

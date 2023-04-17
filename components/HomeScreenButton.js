@@ -45,8 +45,8 @@ const HomeScreenButton = (props) => {
             color={props.style.color}
           />
           <Text
-            style={{ color: props.style.color }}
-            className="font-bold text-center text-xl"
+            style={{ color: props.style.color, fontSize: props.style.fontSize }}
+            className="font-bold text-center"
           >
             {props.buttonText}
           </Text>
