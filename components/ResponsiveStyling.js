@@ -1,8 +1,8 @@
 import { Platform, StyleSheet, StatusBar } from "react-native";
 import * as appStyle from "./AppStyleSheet";
-import { isDevice } from "expo-device";
+import { isWebOnPC } from "../services/webScreenService";
 var responsiveStyle;
-if (Platform.OS == "web" && !isDevice) {
+if (isWebOnPC) {
   responsiveStyle = StyleSheet.create({
     safeAreaStyle: {
       height: window.innerHeight - 50,
