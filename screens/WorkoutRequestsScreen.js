@@ -12,7 +12,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
@@ -63,7 +63,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     await firebase.rejectWorkoutRequest(rejectedUser.id, workout);
   };
   return (
-    <View style={safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

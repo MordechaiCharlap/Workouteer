@@ -2,7 +2,7 @@ import { View, StatusBar } from "react-native";
 import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
 import useAuth from "../hooks/useAuth";
@@ -24,7 +24,7 @@ const ExploreScreen = () => {
   );
 
   return (
-    <View style={safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

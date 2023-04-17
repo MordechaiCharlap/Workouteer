@@ -1,7 +1,7 @@
 import { View, Text, StatusBar, FlatList } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import WorkoutComponent from "../components/WorkoutComponent";
 import Header from "../components/Header";
@@ -34,7 +34,7 @@ const WorkoutInvitesScreen = () => {
     getWorkoutsByInvites();
   }, []);
   return (
-    <View style={safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

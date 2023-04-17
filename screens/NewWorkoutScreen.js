@@ -13,7 +13,7 @@ import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
 import React, { useState, useEffect, useCallback } from "react";
 import * as appStyle from "../components/AppStyleSheet";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
 import Header from "../components/Header";
@@ -104,7 +104,7 @@ const NewWorkoutScreen = () => {
     await firebase.createWorkout(workout);
   };
   return (
-    <View style={safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

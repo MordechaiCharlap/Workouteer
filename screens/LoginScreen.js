@@ -13,7 +13,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {

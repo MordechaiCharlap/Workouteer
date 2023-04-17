@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { React, useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
@@ -58,7 +58,7 @@ const PersonalDataScreen = () => {
     }
   };
   return (
-    <View className="justify-center" style={safeAreaStyle}>
+    <View className="justify-center" style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

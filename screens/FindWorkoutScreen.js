@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
@@ -132,7 +132,7 @@ const FindWorkoutScreen = () => {
     });
   };
   return (
-    <View style={safeAreaStyle}>
+    <View style={safeAreaStyle()}>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}

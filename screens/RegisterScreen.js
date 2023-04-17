@@ -14,7 +14,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import safeAreaStyle from "../components/safeAreaStyle";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
 import * as defaultValues from "../services/defaultValues";
@@ -114,7 +114,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={safeAreaStyle} className="justify-center">
+    <View style={safeAreaStyle()} className="justify-center">
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
