@@ -11,7 +11,7 @@ export const WebResponsivenessProvider = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState();
   const [windowHeight, setWindowHeight] = useState();
   const [orientation, setOrientation] = useState();
-  const [windowTooSmall, setWindowTooSmall] = useState();
+  const [windowTooSmall, setWindowTooSmall] = useState(false);
   useEffect(() => {
     if (Platform.OS == "web") {
       console.log("***OnWeb responsiveness in action***");

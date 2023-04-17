@@ -38,6 +38,7 @@ import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import useWebResponsiveness from "./hooks/useWebResponsiveness";
 import { checkIfVersionUpdated } from "./services/versionService";
+import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
@@ -53,7 +54,7 @@ const StackNavigator = () => {
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
-  const { orientation } = useWebResponsiveness();
+  const { orientation, windowTooSmall } = useWebResponsiveness();
   const [alertsChanged, setAlertsChanged] = useState(false);
   const [updateNeeded, setUpdateNeeded] = useState(false);
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
@@ -139,6 +140,12 @@ const StackNavigator = () => {
             component={LandscapeOrientationScreen}
             options={verticalAnimation}
           />
+        ) : windowTooSmall ? (
+          <Stack.Screen
+            name="WindowTooSmallScreen"
+            component={WindowTooSmallScreen}
+            options={verticalAnimation}
+          />
         ) : updateNeeded ? (
           <Stack.Screen
             name="UpdateApp"
@@ -147,6 +154,8 @@ const StackNavigator = () => {
           />
         ) : (
           orientation != "LANDSCAPE" &&
+          !windowTooSmall &&
+          !updateNeeded &&
           (user ? (
             <>
               <Stack.Screen
@@ -287,11 +296,14 @@ const StackNavigator = () => {
           ))
         )}
       </Stack.Navigator>
-      {showNavbar && !updateNeeded && orientation != "LANDSCAPE" && (
-        <View>
-          <BottomNavbar />
-        </View>
-      )}
+      {showNavbar &&
+        !updateNeeded &&
+        orientation != "LANDSCAPE" &&
+        !windowTooSmall && (
+          <View>
+            <BottomNavbar />
+          </View>
+        )}
     </View>
   );
 };
