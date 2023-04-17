@@ -1,6 +1,7 @@
 import { doc, getDoc } from "@firebase/firestore";
 import Constants from "expo-constants";
 import { db } from "./firebase";
+import { Platform } from "react-native";
 export const checkIfVersionUpdated = async () => {
   // A helper function to compare two version numbers
   function compareVersions(versionA, versionB) {
@@ -18,7 +19,7 @@ export const checkIfVersionUpdated = async () => {
     }
     return 0;
   }
-
+  if (Platform.OS == "web") return false;
   const currentAppVersion = Constants.manifest.version;
   const minimumRequiredVersion = (await getDoc(doc(db, "appData/specs"))).data()
     .version;
