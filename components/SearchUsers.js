@@ -14,7 +14,9 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import * as firebase from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
+import useAuth from "../hooks/useAuth";
 const SearchUsers = (props) => {
+  const { user } = useAuth();
   const navigation = useNavigation;
   const [searchedUser, setSearchedUser] = useState(null);
   const textChanged = async (text) => {
