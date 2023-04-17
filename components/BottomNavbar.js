@@ -10,7 +10,13 @@ const BottomNavbar = () => {
   return (
     <View
       className="items-center"
-      style={{ height: 50, backgroundColor: "#f2f2f2" }}
+      style={{
+        height: Math.max(
+          (windowHeight ? windowHeight : window.innerHeight) / 12,
+          30
+        ),
+        backgroundColor: "#f2f2f2",
+      }}
     >
       <View
         className={`flex-row justify-around`}
