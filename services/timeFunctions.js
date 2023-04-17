@@ -21,11 +21,12 @@ export const timeString = (date, language) => {
   return day + ", " + time;
 };
 export const messageTimeString = (date, language) => {
+  const currentDay = new Date();
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
   const m = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-  if (currentDay.day == day) {
+  if (currentDay.getDate() == day) {
     return h + ":" + m;
   } else {
     const yasterday = new Date();
