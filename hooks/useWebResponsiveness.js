@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 import { isWebOnMobileDevice, isWebOnPC } from "../services/webScreenService";
 const WebDeviceResponsivenessContext = createContext({});
 const isPortrait = () => {
-  return window.innerWidth <= window.innerHeight;
+  return window.innerWidth <= Dimensions.get("window").height;
 };
 export const WebResponsivenessProvider = ({ children }) => {
   const [isWeb, setIsWeb] = useState();
@@ -21,16 +21,15 @@ export const WebResponsivenessProvider = ({ children }) => {
       };
 
       const resizeHandler = () => {
-        setWindowHeight(window.innerHeight);
+        setWindowHeight(Dimensions.get("window").height);
         setWindowWidth(window.innerWidth);
-        if (window.innerHeight <= 572 || window.innerWidth <= 271) {
-          if (windowTooSmall != true) {
-            setWindowTooSmall(true);
-          }
+        if (
+          Dimensions.get("window").height <= 572 ||
+          window.innerWidth <= 271
+        ) {
+          setWindowTooSmall(true);
         } else {
-          if (windowTooSmall != false) {
-            setWindowTooSmall(false);
-          }
+          setWindowTooSmall(false);
         }
       };
       if (isWebOnMobileDevice) {
