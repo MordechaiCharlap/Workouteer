@@ -47,7 +47,7 @@ const FriendsScreen = ({ route }) => {
       setShownFriendsArray(friendsArr);
     };
     showFriends();
-  }, []);
+  }, [user]);
   const [searchText, setSearchText] = useState("");
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
 
