@@ -3,14 +3,16 @@ import React from "react";
 import NavbarButton from "./NavbarButton";
 import * as appStyle from "./AppStyleSheet";
 import useAlerts from "../hooks/useAlerts";
+import useWebResponsiveness from "../hooks/useWebResponsiveness";
 const BottomNavbar = (props) => {
   const { chatsAlerts, friendRequestsAlerts } = useAlerts();
+  const { windowHeight } = useWebResponsiveness();
   return (
     <View className="items-center" style={{ backgroundColor: "#f2f2f2" }}>
       <View
         className={`flex-row flex-grow-0 shrink-0 justify-around`}
         style={{
-          width: props.width != null ? props.width : "100%",
+          width: (9 / 19) * (windowHeight ? windowHeight : window.innerHeight),
           backgroundColor: appStyle.color_primary,
           height: props.height,
           borderTopWidth: 1,
