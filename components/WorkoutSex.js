@@ -3,6 +3,7 @@ import { React, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import * as appStyle from "./AppStyleSheet";
 import { useEffect } from "react";
+import languageService from "../services/languageService";
 const WorkoutSex = (props) => {
   const [workoutSex, setWorkoutSex] = useState("everyone");
   useEffect(() => {
@@ -26,7 +27,13 @@ const WorkoutSex = (props) => {
           value={true}
         />
       </View>
-      <Text style={{ color: appStyle.color_primary }}>{props.text}</Text>
+      <Text style={{ color: appStyle.color_primary }}>
+        {workoutSex == "everyone"
+          ? languageService[props.language].openForEveryone
+          : languageService[props.language][
+              props.isMale ? "menOnly" : "womenOnly"
+            ]}
+      </Text>
     </View>
   );
 };
