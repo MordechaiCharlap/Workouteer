@@ -21,10 +21,10 @@ initGeocoder();
 export default function App() {
   return (
     <NavigationContainer>
-      <WebResponsivenessProvider>
-        <NavbarDisplayProvider>
-          <AlertsProvider>
-            <AuthPrvider>
+      <AuthPrvider>
+        <WebResponsivenessProvider>
+          <NavbarDisplayProvider>
+            <AlertsProvider>
               <CurrentWorkoutProvider>
                 <NotificationsProvider>
                   <NavbarNavigationProvider>
@@ -34,10 +34,10 @@ export default function App() {
                   </NavbarNavigationProvider>
                 </NotificationsProvider>
               </CurrentWorkoutProvider>
-            </AuthPrvider>
-          </AlertsProvider>
-        </NavbarDisplayProvider>
-      </WebResponsivenessProvider>
+            </AlertsProvider>
+          </NavbarDisplayProvider>
+        </WebResponsivenessProvider>
+      </AuthPrvider>
     </NavigationContainer>
   );
 }
