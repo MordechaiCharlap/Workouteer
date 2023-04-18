@@ -7,7 +7,6 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  getAuth,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import {
@@ -17,7 +16,6 @@ import {
   auth as firebaseAuth,
 } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
-import useAlerts from "./useAlerts";
 import { useNavigation } from "@react-navigation/native";
 const AuthContext = createContext({});
 
@@ -29,15 +27,8 @@ export const AuthPrvider = ({ children }) => {
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
-  var unsubscribeAlerts = null;
+
   var unsubscribeUser = null;
-  const {
-    setChatsAlerts,
-    setWorkoutRequestsAlerts,
-    setWorkoutInvitesAlerts,
-    setFriendRequestsAlerts,
-    setNewWorkoutsAlerts,
-  } = useAlerts();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -46,30 +37,17 @@ export const AuthPrvider = ({ children }) => {
     webClientId:
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
-  const addAuthObserver = () => {
+  useEffect(() => {
     if (!googleUserInfo) {
       console.log("auth observer");
+      console.log(auth);
       onAuthStateChanged(auth, (authUser) => {
-        console.log("AuthStateChanged");
-        console.log(authUser);
         if (authUser) {
-          console.log("User signed in");
+          console.log("state Changed, user logged in: " + authUser.email);
           const setUserAsync = async () => {
             setLoginLoading(true);
             const userData = await userDataByEmail(
               authUser.email.toLowerCase()
-            );
-            console.log("Listening to alerts");
-            unsubscribeAlerts = onSnapshot(
-              doc(db, "alerts", userData.id),
-              (doc) => {
-                const alertsData = doc.data();
-                setChatsAlerts(alertsData.chats);
-                setWorkoutRequestsAlerts(alertsData.workoutRequests);
-                setWorkoutInvitesAlerts(alertsData.workoutInvites);
-                setFriendRequestsAlerts(alertsData.friendRequests);
-                setNewWorkoutsAlerts(alertsData.newWorkouts);
-              }
             );
             console.log("Listening to user");
             unsubscribeUser = onSnapshot(
@@ -79,19 +57,13 @@ export const AuthPrvider = ({ children }) => {
                 if (initialLoading) setInitialLoading(false);
               }
             );
-            console.log(
-              "state Changed, user logged in: " + authUser.email.toLowerCase()
-            );
             setTimeout(() => {
               setLoginLoading(false);
             }, 5000);
           };
           setUserAsync();
         } else {
-          if (unsubscribeAlerts) {
-            unsubscribeAlerts();
-            console.log("Stops listening to alerts");
-          }
+          console.log("state Changed, user signed out");
           if (unsubscribeUser) {
             unsubscribeUser();
             console.log("Stops listening to user");
@@ -105,7 +77,7 @@ export const AuthPrvider = ({ children }) => {
         }
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     const getUserData = async (accessToken) => {
@@ -147,35 +119,32 @@ export const AuthPrvider = ({ children }) => {
     );
     return userCredential.user.uid;
   };
-  const setGoogleUserAsync = async () => {
-    if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
-      console.log("existing user");
-      const userData = await userDataByEmail(
-        googleUserInfo.email.toLowerCase()
-      );
-      console.log("Listening to alerts");
-      unsubscribeAlerts = onSnapshot(doc(db, "alerts", userData.id), (doc) => {
-        const alertsData = doc.data();
-        setChatsAlerts(alertsData.chats);
-        setWorkoutRequestsAlerts(alertsData.workoutRequests);
-        setWorkoutInvitesAlerts(alertsData.workoutInvites);
-        setFriendRequestsAlerts(alertsData.friendRequests);
-        setNewWorkoutsAlerts(alertsData.newWorkouts);
-      });
-      console.log("Listening to user");
-      unsubscribeUser = onSnapshot(doc(db, "users", userData.id), (doc) => {
-        setUser(doc.data());
-        if (initialLoading) setInitialLoading(false);
-      });
-      console.log(
-        "google user logged in: " + googleUserInfo.email.toLowerCase()
-      );
-    } else {
-      navigation.navigate("Register");
+  useEffect(() => {
+    const setGoogleUserAsync = async () => {
+      if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
+        console.log("existing user");
+        const userData = await userDataByEmail(
+          googleUserInfo.email.toLowerCase()
+        );
+        console.log("Listening to user");
+        unsubscribeUser = onSnapshot(doc(db, "users", userData.id), (doc) => {
+          setUser(doc.data());
+          if (initialLoading) setInitialLoading(false);
+        });
+        console.log(
+          "google user logged in: " + googleUserInfo.email.toLowerCase()
+        );
+      } else {
+        navigation.navigate("Register");
 
-      setInitialLoading(false);
+        setInitialLoading(false);
+      }
+    };
+    if (googleUserInfo) {
+      setGoogleUserAsync();
     }
-  };
+  }, [googleUserInfo]);
+
   const signInEmailPassword = (email, password, rememberMe) => {
     setLoginLoading(true);
     if (!rememberMe) {
@@ -212,8 +181,6 @@ export const AuthPrvider = ({ children }) => {
   const userSignOut = () => {
     setInitialLoading(true);
     if (googleUserInfo) {
-      if (unsubscribeAlerts) unsubscribeAlerts();
-      console.log("Stops listening to alerts");
       if (unsubscribeUser) unsubscribeUser();
       console.log("Stops listening to user");
       setGoogleUserInfo(null);
@@ -234,9 +201,7 @@ export const AuthPrvider = ({ children }) => {
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
-        setGoogleUserAsync,
         userSignOut,
-        addAuthObserver,
         initialLoading,
         loginLoading,
         authErrorCode,
