@@ -36,8 +36,12 @@ const FriendRequestsScreen = () => {
     removeRequestFromArray(index);
     await sendPushNotification(
       otherUser,
-      "You've got a new friend!",
-      `You and ${user.displayName} are now friends :),`
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[shownUser.language].acceptedYourFriendRequest[
+          user.isMale
+        ]
+      }`
     );
     await firebase.acceptFriendRequest(user.id, otherUser.id);
   };

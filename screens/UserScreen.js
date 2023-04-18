@@ -70,8 +70,12 @@ const UserScreen = ({ route }) => {
     await firebase.acceptFriendRequest(user.id, shownUser.id);
     await sendPushNotification(
       shownUser,
-      "You've got a new friend!",
-      `You and ${user.displayName} are now friends :),`
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[shownUser.language].acceptedYourFriendRequest[
+          user.isMale
+        ]
+      }`
     );
   };
   const rejectFriendRequest = async () => {
@@ -87,8 +91,10 @@ const UserScreen = ({ route }) => {
     await firebase.sendFriendRequest(user.id, shownUser);
     await sendPushNotification(
       shownUser,
-      "New Friend Request!",
-      `${user.displayName} wants to be your friend :)`
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[shownUser.language].wantsToBeYourFriend[user.isMale]
+      }`
     );
   };
   const calculateAge = () => {

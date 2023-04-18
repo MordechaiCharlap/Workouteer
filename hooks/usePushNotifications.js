@@ -1,16 +1,16 @@
-import { createContext, useState, useRef, useEffect, useContext } from "react";
+import { createContext, useState, useRef, useContext } from "react";
 import * as Device from "expo-device";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
+import languageService from "../services/languageService";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   const [pushToken, setPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user } = useAuth();
-  useEffect;
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
       console.log("registering for notifications");
@@ -83,6 +83,63 @@ export const NotificationsProvider = ({ children }) => {
     }
     return token;
   };
+  const sendPushNotificationUserLeftWorkout = async (
+    workout,
+    leavingUserId,
+    leavingUserDisplayName
+  ) => {
+    const membersArray = await firebase.getWorkoutMembers(workout);
+    for (var user of membersArray) {
+      if (user.id == leavingUserId) continue;
+      await sendPushNotification(
+        user,
+        "Workouteer",
+        `${leavingUserDisplayName} ${
+          languageService[user.language].leftTheWorkout[user.isMale]
+        }`
+      );
+    }
+  };
+  const sendPushNotificationCreatorLeftWorkout = async (
+    workout,
+    leavingUserId,
+    leavingUserDisplayName
+  ) => {
+    const membersArray = await firebase.getWorkoutMembers(workout);
+    for (var user of membersArray) {
+      if (user.id == leavingUserId) continue;
+      await sendPushNotification(
+        user,
+        "Workouteer",
+        `${leavingUserDisplayName} ${
+          languageService[user.language].leftTheWorkout[user.isMale]
+        }, ${
+          user.id == workout.creator
+            ? languageService[user.language].youAreTheNewAdmin[user.isMale]
+            : `${languageService[user.language].theNewAdmin}: ${
+                workout.creator
+              }`
+        }`
+      );
+    }
+  };
+  const sendPushNotificationUserJoinedYouwWorkout = async (
+    workout,
+    joinedUser,
+    excludeUserId
+  ) => {
+    const membersArray = await firebase.getWorkoutMembers(workout);
+    for (var user of membersArray) {
+      if (user.id == excludeUserId) continue;
+      await sendPushNotification(
+        user,
+        "Workouteer",
+        `${joinedUser.displayName} ${
+          languageService[user.language].joinedYourWorkout[joinedUser.isMale]
+        }`
+      );
+    }
+  };
   const sendPushNotificationsForWorkoutMembers = async (
     workout,
     title,
@@ -154,15 +211,24 @@ export const NotificationsProvider = ({ children }) => {
       console.log("pushNotification: ", pushNotification);
     }
   };
-  const sendPushNotificationForFriendsAboutWorkout = async (workoutSex) => {
+  const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
+    const title =
+      user.displayName +
+      " " +
+      languageService[friend.language].scheduled[user.isMale] +
+      " " +
+      languageService[friend.language].scheduledWorkout[workoutType];
+    const body = languageService[friend.language].askToJoin[friend.isMale];
+    await sendPushNotification(friend, title, body);
+  };
+  const sendPushNotificationForFriendsAboutWorkout = async (
+    workoutSex,
+    workoutType
+  ) => {
     for (var friendId of Object.keys(user.friends)) {
       const friend = await firebase.getUserDataById(friendId);
       if (workoutSex == "everyone" || user.isMale == friend.isMale) {
-        await sendPushNotification(
-          friend,
-          `${user.displayName} just scheduled a workout!`,
-          "Ask him to join :)"
-        );
+        await sendFriendsWorkoutNotificationMessage(workoutType, friend);
       }
     }
   };
@@ -171,7 +237,10 @@ export const NotificationsProvider = ({ children }) => {
       value={{
         sendPushNotification,
         sendPushNotificationsForWorkoutMembers,
+        sendPushNotificationUserLeftWorkout,
         sendPushNotificationForFriendsAboutWorkout,
+        sendPushNotificationCreatorLeftWorkout,
+        sendPushNotificationUserJoinedYouwWorkout,
         pushToken,
         setPushToken,
         notificationListenerFunction,

@@ -25,8 +25,10 @@ const WorkoutComponent = (props) => {
   const { workoutRequestsAlerts } = useAlerts();
   const {
     sendPushNotification,
-    sendPushNotificationsForWorkoutMembers,
+    sendPushNotificationUserJoinedYouwWorkout,
+    sendPushNotificationUserLeftWorkout,
     schedulePushNotification,
+    sendPushNotificationCreatorLeftWorkout,
     cancelScheduledPushNotification,
   } = usePushNotifications();
   const [workout, setWorkout] = useState(props.workout);
@@ -65,12 +67,10 @@ const WorkoutComponent = (props) => {
     else setUserMemberStatus("not");
     await firebase.leaveWorkout(user, workoutRef);
     await cancelScheduledPushNotification(workout.members[user.id]);
-    await sendPushNotificationsForWorkoutMembers(
+    await sendPushNotificationUserLeftWorkout(
       workoutRef,
-      "New Alert",
-      `${user.displayName} left the workout`,
-      null,
-      user.id
+      user.id,
+      user.displayName
     );
   };
   const renderMembersPics = () => {
@@ -102,12 +102,11 @@ const WorkoutComponent = (props) => {
           break;
         }
       }
-      await sendPushNotificationsForWorkoutMembers(
+      await sendPushNotificationCreatorLeftWorkout(
         workoutRef,
-        "New Alert",
-        `The workout creator left the workout, the new workout manager is ${workoutRef.creator}`,
-        null,
-        user.id
+        user.id,
+        user.displayName,
+        newCreatorIsMale
       );
       await updateDoc(doc(firebase.db, `workouts/${workoutRef.id}`), {
         creator: workoutRef.creator,
@@ -121,11 +120,15 @@ const WorkoutComponent = (props) => {
   const requestToJoinWorkout = async () => {
     setUserMemberStatus("pending");
     await firebase.requestToJoinWorkout(user.id, workout);
-    const cretorData = firebase.getUserDataById(workout.creator);
+    const creatorData = firebase.getUserDataById(workout.creator);
     await sendPushNotification(
-      cretorData,
-      "New Alert",
-      `${user.displayName} wants to join your workout!`
+      creatorData,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[creatorData.language].wantsToJoinYourWorkout[
+          user.isMale
+        ]
+      }`
     );
   };
   const cancelWorkoutRequest = async () => {
@@ -139,21 +142,15 @@ const WorkoutComponent = (props) => {
 
     const scheduledNotificationId = await schedulePushNotification(
       startingTime,
-      "Workout session started!",
-      "Don't forget to confirm your workout to get your points :)"
+      "Workouteer",
+      languageService[user.language].confirmYourWorkout[user.isMale]
     );
     await firebase.acceptWorkoutInvite(
       user,
       workoutRef,
       scheduledNotificationId
     );
-    await sendPushNotificationsForWorkoutMembers(
-      workoutRef,
-      "New Alert",
-      `${user.displayName} joined your workout`,
-      null,
-      user.id
-    );
+    await sendPushNotificationUserJoinedYouwWorkout(workoutRef, user, user.id);
   };
   const rejectWorkoutInvite = async () => {
     setUserMemberStatus("not");

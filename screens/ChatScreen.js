@@ -118,7 +118,7 @@ const ChatScreen = ({ route }) => {
       await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
       await sendPushNotification(
         otherUser,
-        "New message",
+        "Workouteer",
         `${user.displayName}: ${content}`
       );
     }

@@ -16,13 +16,14 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 
 const WorkoutRequestsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
-  const { sendPushNotificationsForWorkoutMembers, sendPushNotification } =
+  const { sendPushNotification, sendPushNotificationUserJoinedYouwWorkout } =
     usePushNotifications();
 
   const workout = route.params.workout;
@@ -41,18 +42,21 @@ const WorkoutRequestsScreen = ({ route }) => {
     const requestersClone = requesters.slice();
     requestersClone[index].accepted = true;
     setRequesters(requestersClone);
-    await sendPushNotificationsForWorkoutMembers(
+    await sendPushNotificationUserJoinedYouwWorkout(
       workout,
-      "New Alert!",
-      `${acceptedUser.displayName} joined your workout`,
-      null,
+      "Workouteer",
+      acceptedUser,
       user.id
     );
     await firebase.acceptWorkoutRequest(acceptedUser, workout);
     await sendPushNotification(
       workout,
-      "New Alert!",
-      `${user.displayName} accepted your request to join the workout`,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[acceptedUser.language].acceptedYourWorkoutRequest[
+          user.isMale
+        ]
+      }`,
       user.id
     );
   };
