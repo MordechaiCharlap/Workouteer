@@ -11,12 +11,12 @@ export const AlertsProvider = ({ children }) => {
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
-  const [unsubscribeAlerts, setUnsubscribeAlerts] = useState();
   useEffect(() => {
+    var unsubscribeAlertsListener;
     if (user) {
       if (!userSignedIn) {
         setUserSignedIn(true);
-        const unsubscribeAlertsListener = onSnapshot(
+        unsubscribeAlertsListener = onSnapshot(
           doc(db, "alerts", user.id),
           (doc) => {
             const alertsData = doc.data();
@@ -27,15 +27,14 @@ export const AlertsProvider = ({ children }) => {
             setNewWorkoutsAlerts(alertsData.newWorkouts);
           }
         );
-        setUnsubscribeAlerts(unsubscribeAlertsListener);
       }
     } else {
       if (userSignedIn) {
         setUserSignedIn(false);
-        unsubscribeAlerts();
         console.log("Stopped listening to alerts");
       }
     }
+    return unsubscribeAlertsListener;
   }, [user]);
   return (
     <AlertsContext.Provider
