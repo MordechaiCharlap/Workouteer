@@ -100,6 +100,28 @@ export const NotificationsProvider = ({ children }) => {
       );
     }
   };
+  const sendPushNotificationUserAcceptedYourFriendRequest = async (
+    acceptedUser
+  ) => {
+    await sendPushNotification(
+      acceptedUser,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[shownUser.language].acceptedYourFriendRequest[
+          user.isMale
+        ]
+      }`
+    );
+  };
+  const sendPushNotificationUserWantsToBeYourFriend = async (askedUser) => {
+    await sendPushNotification(
+      askedUser,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[shownUser.language].wantsToBeYourFriend[user.isMale]
+      }`
+    );
+  };
   const sendPushNotificationCreatorLeftWorkout = async (
     workout,
     leavingUserId,
@@ -139,6 +161,31 @@ export const NotificationsProvider = ({ children }) => {
         }`
       );
     }
+  };
+  const sendPushNotificationUserWantsToJoinYourWorkout = async (
+    requester,
+    creatorData
+  ) => {
+    await sendPushNotification(
+      creatorData,
+      "Workouteer",
+      `${requester.displayName} ${
+        languageService[creatorData.language].wantsToJoinYourWorkout[
+          requester.isMale
+        ]
+      }`
+    );
+  };
+  const sendPushNotificationChatMessage = async (
+    otherUser,
+    sender,
+    content
+  ) => {
+    await sendPushNotification(
+      otherUser,
+      "Workouteer",
+      `${sender.displayName}: ${content}`
+    );
   };
   const sendPushNotificationsForWorkoutMembers = async (
     workout,
@@ -211,6 +258,17 @@ export const NotificationsProvider = ({ children }) => {
       console.log("pushNotification: ", pushNotification);
     }
   };
+  const sendPushNotificationCreatorAcceptedYourRequest = async (otherUser) => {
+    await sendPushNotification(
+      otherUser,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[otherUser.language].acceptedYourWorkoutRequest[
+          user.isMale
+        ]
+      }`
+    );
+  };
   const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
     const title =
       user.displayName +
@@ -236,11 +294,16 @@ export const NotificationsProvider = ({ children }) => {
     <NotificationsContext.Provider
       value={{
         sendPushNotification,
+        sendPushNotificationUserWantsToBeYourFriend,
+        sendPushNotificationUserAcceptedYourFriendRequest,
+        sendPushNotificationUserWantsToJoinYourWorkout,
+        sendPushNotificationCreatorAcceptedYourRequest,
         sendPushNotificationsForWorkoutMembers,
         sendPushNotificationUserLeftWorkout,
         sendPushNotificationForFriendsAboutWorkout,
         sendPushNotificationCreatorLeftWorkout,
         sendPushNotificationUserJoinedYouwWorkout,
+        sendPushNotificationChatMessage,
         pushToken,
         setPushToken,
         notificationListenerFunction,

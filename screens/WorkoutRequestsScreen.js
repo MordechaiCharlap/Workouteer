@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useState, useCallback } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as appStyle from "../components/AppStyleSheet";
 import * as firebase from "../services/firebase";
@@ -16,15 +16,15 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import languageService from "../services/languageService";
 
 const WorkoutRequestsScreen = ({ route }) => {
-  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
-  const { sendPushNotification, sendPushNotificationUserJoinedYouwWorkout } =
-    usePushNotifications();
+  const {
+    sendPushNotificationUserJoinedYouwWorkout,
+    sendPushNotificationCreatorAcceptedYourRequest,
+  } = usePushNotifications();
 
   const workout = route.params.workout;
   const [requesters, setRequesters] = useState();
@@ -49,16 +49,7 @@ const WorkoutRequestsScreen = ({ route }) => {
       user.id
     );
     await firebase.acceptWorkoutRequest(acceptedUser, workout);
-    await sendPushNotification(
-      workout,
-      "Workouteer",
-      `${user.displayName} ${
-        languageService[acceptedUser.language].acceptedYourWorkoutRequest[
-          user.isMale
-        ]
-      }`,
-      user.id
-    );
+    await sendPushNotificationCreatorAcceptedYourRequest(acceptedUser);
   };
   const rejectUser = async (rejectedUser, index) => {
     const requestersClone = requesters.slice();

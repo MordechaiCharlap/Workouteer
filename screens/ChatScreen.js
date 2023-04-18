@@ -43,7 +43,7 @@ const ChatScreen = ({ route }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  const { sendPushNotification } = usePushNotifications();
+  const { sendPushNotificationChatMessage } = usePushNotifications();
   const { user, setUser } = useAuth();
   const { chatsAlerts, setChatsAlerts } = useAlerts();
   const [chat, setChat] = useState(route.params.chat);
@@ -116,11 +116,7 @@ const ChatScreen = ({ route }) => {
       const content = messageText;
       setMessageText("");
       await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
-      await sendPushNotification(
-        otherUser,
-        "Workouteer",
-        `${user.displayName}: ${content}`
-      );
+      await sendPushNotificationChatMessage(otherUser, user, content);
     }
   };
   const leaveChat = async () => {

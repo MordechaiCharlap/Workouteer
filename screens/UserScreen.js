@@ -37,7 +37,8 @@ const UserScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
-  const { sendPushNotification } = usePushNotifications();
+  const { sendPushNotificationUserWantsToBeYourFriend } =
+    usePushNotifications();
 
   const shownUser = route.params.shownUser;
   const [workoutsCount, setWorkoutsCount] = useState();
@@ -68,15 +69,7 @@ const UserScreen = ({ route }) => {
   const acceptFriendRequest = async () => {
     setFriendshipStatus("Friends");
     await firebase.acceptFriendRequest(user.id, shownUser.id);
-    await sendPushNotification(
-      shownUser,
-      "Workouteer",
-      `${user.displayName} ${
-        languageService[shownUser.language].acceptedYourFriendRequest[
-          user.isMale
-        ]
-      }`
-    );
+    await sendPushNotificationUserAcceptedYourFriendRequest(shownUser);
   };
   const rejectFriendRequest = async () => {
     setFriendshipStatus("None");
@@ -89,13 +82,7 @@ const UserScreen = ({ route }) => {
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
     await firebase.sendFriendRequest(user.id, shownUser);
-    await sendPushNotification(
-      shownUser,
-      "Workouteer",
-      `${user.displayName} ${
-        languageService[shownUser.language].wantsToBeYourFriend[user.isMale]
-      }`
-    );
+    await sendPushNotificationUserWantsToBeYourFriend(shownUser);
   };
   const calculateAge = () => {
     const birthdate = shownUser.birthdate.toDate();
