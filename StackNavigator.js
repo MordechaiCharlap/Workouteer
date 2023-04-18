@@ -41,8 +41,7 @@ import { checkIfVersionUpdated } from "./services/versionService";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user, addAuthObserver, googleUserInfo, setGoogleUserAsync } =
-    useAuth();
+  const { user } = useAuth();
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -50,7 +49,7 @@ const StackNavigator = () => {
     chatsNavigationOptions,
     exploreNavigationOptions,
   } = useNavbarNavigation();
-  const { showNavbar, setShowNavbar, setCurrentScreen } = useNavbarDisplay();
+  const { showNavbar } = useNavbarDisplay();
   const { notificationListenerFunction } = usePushNotifications();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
@@ -65,14 +64,8 @@ const StackNavigator = () => {
     } else {
       setUpdateNeeded(true);
     }
-    addAuthObserver();
   }, []);
 
-  useEffect(() => {
-    if (googleUserInfo) {
-      setGoogleUserAsync();
-    }
-  }, [googleUserInfo]);
   useEffect(() => {
     const removeUnconfirmedOldWorkouts = async () => {
       await firebase.removeUnconfirmedOldWorkouts(user);
