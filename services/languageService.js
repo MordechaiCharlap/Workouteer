@@ -110,6 +110,42 @@ const languageService = {
     today: "Today",
     yasterday: "Yasterday",
     tomorrow: "Tomorrow",
+    scheduled: ["scheduled", "scheduled"],
+    scheduledWorkout: [
+      "a Resistance Training",
+      "a walk",
+      "a run",
+      "a bike ride",
+    ],
+    askToJoin: ["Ask to join!", "Ask to join!"],
+    newMessage: "New message",
+    leftTheWorkout: ["left the workout", "left the workout"],
+    youAreTheNewAdmin: [
+      "You are the new workout manager",
+      "You are the new workout manager",
+    ],
+    theNewAdmin: "The new workout manager",
+    acceptedYourFriendRequest: [
+      "accepted your friend request",
+      "accepted your friend request",
+    ],
+    wantsToBeYourFriend: [
+      "sent you a friend request",
+      "sent you a friend request",
+    ],
+    joinedYourWorkout: ["joined your workout", "joined your workout"],
+    acceptedYourWorkoutRequest: [
+      "accepted your request to join their workout",
+      "accepted your request to join their workout",
+    ],
+    confirmYourWorkout: [
+      "Confirm your scheduled workout to get points",
+      "Confirm your scheduled workout to get points",
+    ],
+    wantsToJoinYourWorkout: [
+      "wants to join your workout",
+      "wants to join your workout",
+    ],
   },
   hebrew: {
     login: "התחבר",
@@ -220,6 +256,31 @@ const languageService = {
     today: "היום",
     yasterday: "אתמול",
     tomorrow: "מחר",
+    scheduled: ["קבעה", "קבע"],
+    scheduledWorkout: ["אימון כוח", "הליכה", "ריצה", "רכיבת אופניים"],
+    askToJoin: ["בקשי להצטרף!", "בקש להצטרף!"],
+    newMessage: "הודעה חדשה",
+    leftTheWorkout: ["עזבה את האימון", "עזב את האימון"],
+    youAreTheNewAdmin: ["את המנהלת החדשה", "אתה המנהל החדש"],
+    theNewAdmin: "המנהל החדש",
+    acceptedYourFriendRequest: [
+      "אישרה את בקשת החברות שלך",
+      "אישר את בקשת החברות שלך",
+    ],
+    wantsToBeYourFriend: ["שלחה לך בקשת חברות", "שלח לך בקשת חברות"],
+    joinedYourWorkout: ["הצטרפה לאימון שלך", "הצטרפה לאימון שלך"],
+    acceptedYourWorkoutRequest: [
+      "אישרה את בקשת ההצטרפות שלך לאימון",
+      "אישר את בקשת ההצטרפות שלך לאימון",
+    ],
+    confirmYourWorkout: [
+      "אשרי את האימון שלך בשביל לקבל נקודות",
+      "אשר את האימון שלך בשביל לקבל נקודות",
+    ],
+    wantsToJoinYourWorkout: [
+      "רוצה להצטרף לאימון שלך",
+      "רוצה להצטרף לאימון שלך",
+    ],
   },
 };
 export default languageService;
