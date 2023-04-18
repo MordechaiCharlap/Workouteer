@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   StatusBar,
   Text,
@@ -122,14 +121,6 @@ const ChatScreen = ({ route }) => {
         "New message",
         `${user.displayName}: ${content}`
       );
-      // const lastContent = await AsyncStorage.getItem(`chats/${chatData.id}`);
-      // if (lastContent)
-      //   console.log("last savedChat was ", JSON.parse(lastContent));
-      // await AsyncStorage.setItem(
-      //   `chats/${chatData.id}`,
-      //   JSON.stringify(chatData)
-      // );
-      // console.log(chatData, " saved");
     }
   };
   const leaveChat = async () => {
