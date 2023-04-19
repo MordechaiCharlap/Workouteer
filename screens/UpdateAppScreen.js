@@ -5,8 +5,16 @@ import * as firebase from "../services/firebase";
 import * as appStyle from "../components/AppStyleSheet";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
+import { useFocusEffect } from "@react-navigation/native";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const UpdateAppScreen = () => {
   const { user } = useAuth();
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("UpdateApp");
+    }, [])
+  );
   return (
     <View className="justify-center" style={safeAreaStyle()}>
       <StatusBar

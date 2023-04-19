@@ -10,6 +10,7 @@ import {
   StatusBar,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { React, useState, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -31,7 +32,6 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
-import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import { messageTimeString } from "../services/timeFunctions";
 const ChatsScreen = () => {
@@ -54,7 +54,7 @@ const ChatsScreen = () => {
       getChats();
     }, [chatsAlerts])
   );
- 
+
   const chatLongClicked = (item) => {
     const selectedChatsClone = selectedChats.slice();
     const index = selectedChatsClone.findIndex(

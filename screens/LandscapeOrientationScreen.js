@@ -1,7 +1,15 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useCallback } from "react";
 import * as appStyle from "../components/AppStyleSheet";
+import { useFocusEffect } from "@react-navigation/native";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const LandscapeOrientationScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("LandscapeOrientation");
+    }, [])
+  );
   return (
     <View
       className="flex-1 justify-center items-center"

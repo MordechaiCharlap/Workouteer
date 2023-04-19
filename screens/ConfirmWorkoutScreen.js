@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text } from "react-native";
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
@@ -7,7 +7,15 @@ import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
 import * as appStyle from "../components/AppStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
 const ConfirmWorkoutScreen = ({ route }) => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("ConfirmWorkout");
+    }, [])
+  );
   const {
     default: MapView,
     Circle,

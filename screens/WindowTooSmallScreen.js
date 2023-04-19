@@ -1,7 +1,16 @@
 import { View, Text } from "react-native";
 import React from "react";
 import * as appStyle from "../components/AppStyleSheet";
+import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 const WindowTooSmallScreen = () => {
+  const { setCurrentScreen } = useNavbarDisplay();
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("WindowTooSmall");
+    }, [])
+  );
   return (
     <View
       className="flex-1 justify-center items-center p-10"
