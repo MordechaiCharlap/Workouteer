@@ -24,7 +24,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
   };
   const confirmWorkout = async () => {
     setLoading(true);
-    if ((await confirmWorkoutLocation()) < 100) {
+    if ((await confirmWorkoutLocation()) < 150) {
       const newWorkoutArray = [
         props.currentWorkout.startingTime.toDate(),
         props.currentWorkout.minutes,
@@ -54,7 +54,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
       setConfirmed(true);
     } else {
       Alert.alert(
-        "You are to far from the workout location. Try to get closer"
+        "You are too far from the workout location. Try to get closer"
       );
     }
 
