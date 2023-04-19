@@ -95,7 +95,7 @@ export const NotificationsProvider = ({ children }) => {
         user,
         "Workouteer",
         `${leavingUserDisplayName} ${
-          languageService[user.language].leftTheWorkout[user.isMale]
+          languageService[user.language].leftTheWorkout[user.isMale ? 1 : 0]
         }`
       );
     }
@@ -108,7 +108,7 @@ export const NotificationsProvider = ({ children }) => {
       "Workouteer",
       `${user.displayName} ${
         languageService[shownUser.language].acceptedYourFriendRequest[
-          user.isMale
+          user.isMale ? 1 : 0
         ]
       }`
     );
@@ -118,7 +118,9 @@ export const NotificationsProvider = ({ children }) => {
       askedUser,
       "Workouteer",
       `${user.displayName} ${
-        languageService[shownUser.language].wantsToBeYourFriend[user.isMale]
+        languageService[shownUser.language].wantsToBeYourFriend[
+          user.isMale ? 1 : 0
+        ]
       }`
     );
   };
@@ -134,10 +136,12 @@ export const NotificationsProvider = ({ children }) => {
         user,
         "Workouteer",
         `${leavingUserDisplayName} ${
-          languageService[user.language].leftTheWorkout[user.isMale]
+          languageService[user.language].leftTheWorkout[user.isMale ? 1 : 0]
         }, ${
           user.id == workout.creator
-            ? languageService[user.language].youAreTheNewAdmin[user.isMale]
+            ? languageService[user.language].youAreTheNewAdmin[
+                user.isMale ? 1 : 0
+              ]
             : `${languageService[user.language].theNewAdmin}: ${
                 workout.creator
               }`
@@ -157,7 +161,9 @@ export const NotificationsProvider = ({ children }) => {
         user,
         "Workouteer",
         `${joinedUser.displayName} ${
-          languageService[user.language].joinedYourWorkout[joinedUser.isMale]
+          languageService[user.language].joinedYourWorkout[
+            joinedUser.isMale ? 1 : 0
+          ]
         }`
       );
     }
@@ -171,7 +177,7 @@ export const NotificationsProvider = ({ children }) => {
       "Workouteer",
       `${requester.displayName} ${
         languageService[creatorData.language].wantsToJoinYourWorkout[
-          requester.isMale
+          requester.isMale ? 1 : 0
         ]
       }`
     );
@@ -264,20 +270,26 @@ export const NotificationsProvider = ({ children }) => {
       "Workouteer",
       `${user.displayName} ${
         languageService[otherUser.language].acceptedYourWorkoutRequest[
-          user.isMale
+          user.isMale ? 1 : 0
         ]
       }`
     );
   };
   const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
+    console.log(workoutType);
+    console.log(languageService[friend.language].scheduledWorkout);
+    console.log(languageService[friend.language].scheduledWorkout[workoutType]);
     const title =
       user.displayName +
       " " +
-      languageService[friend.language].scheduled[user.isMale] +
+      languageService[friend.language].scheduled[user.isMale ? 1 : 0] +
       " " +
       languageService[friend.language].scheduledWorkout[workoutType];
-    const body = languageService[friend.language].askToJoin[friend.isMale];
-    await sendPushNotification(friend, title, body);
+    const body =
+      languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
+    console.log(`title: ${title}`);
+    console.log(`body: ${body}`);
+    // await sendPushNotification(friend, title, body);
   };
   const sendPushNotificationForFriendsAboutWorkout = async (
     workoutSex,
