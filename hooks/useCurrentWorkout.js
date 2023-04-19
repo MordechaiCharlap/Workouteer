@@ -61,7 +61,9 @@ export const CurrentWorkoutProvider = ({ children }) => {
     }
   }, [user]);
   return (
-    <CurrentWorkoutContext.Provider value={{ currentWorkout }}>
+    <CurrentWorkoutContext.Provider
+      value={{ currentWorkout, setCurrentWorkout }}
+    >
       {children}
     </CurrentWorkoutContext.Provider>
   );
