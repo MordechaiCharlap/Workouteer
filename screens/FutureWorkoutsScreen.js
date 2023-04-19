@@ -1,4 +1,4 @@
-import { View, FlatList, StatusBar } from "react-native";
+import { View, FlatList, StatusBar, Platform } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -28,11 +28,14 @@ const FutureWorkoutsScreen = () => {
     if (newWorkouts && Object.keys(newWorkouts).length > 0) {
       for (var workout of workouts) {
         if (workout.members[user.id] == null) {
-          const scheduledNotificationId = await schedulePushNotification(
-            workout.startingTime,
-            "Workout session started!",
-            "Don't forget to confirm your workout to get your points :)"
-          );
+          var scheduledNotificationId;
+          if (Platform.OS != "web") {
+            scheduledNotificationId = await schedulePushNotification(
+              workout.startingTime,
+              "Workout session started!",
+              "Don't forget to confirm your workout to get your points :)"
+            );
+          }
           await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
             [`members.${user.id}`]: scheduledNotificationId,
           });
