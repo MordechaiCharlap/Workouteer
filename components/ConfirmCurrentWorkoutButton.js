@@ -9,11 +9,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
   return (
     <View className="w-3/4">
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("ConfirmWorkout", {
-            workoutLocation: props.currentWorkout.location,
-          })
-        }
+        onPress={() => navigation.navigate("ConfirmWorkout")}
         className="rounded-full p-2 flex-row items-center w-full"
         style={{
           borderWidth: 2,
