@@ -21,7 +21,20 @@ export const timeString = (date, language) => {
   return day + ", " + time;
 };
 export const messageTimeString = (date, language) => {
-  const currentDay = new Date();
+  const now = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    return {
+      date: today,
+      year: year,
+      month: month,
+      day: day,
+    };
+  };
+  const currentDay = now();
+
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const h = (date.getHours() < 10 ? "0" : "") + date.getHours();
