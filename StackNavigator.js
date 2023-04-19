@@ -295,14 +295,11 @@ const StackNavigator = () => {
           ))
         )}
       </Stack.Navigator>
-      {showNavbar &&
-        !updateNeeded &&
-        orientation != "LANDSCAPE" &&
-        !windowTooSmall && (
-          <View>
-            <BottomNavbar />
-          </View>
-        )}
+      {showNavbar && (
+        <View>
+          <BottomNavbar />
+        </View>
+      )}
     </View>
   );
 };
