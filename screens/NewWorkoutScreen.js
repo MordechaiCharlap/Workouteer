@@ -109,7 +109,7 @@ const NewWorkoutScreen = () => {
       requests: {},
     };
     await firebase.createWorkout(workout);
-    await sendPushNotificationForFriendsAboutWorkout(user, workoutSex, type);
+    await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
   };
   return (
     <View style={safeAreaStyle()}>
