@@ -39,6 +39,7 @@ import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import useWebResponsiveness from "./hooks/useWebResponsiveness";
 import { checkIfVersionUpdated } from "./services/versionService";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
+import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -270,6 +271,11 @@ const StackNavigator = () => {
               <Stack.Screen
                 name="FriendRequests"
                 component={FriendRequestsScreen}
+                options={verticalAnimation}
+              />
+              <Stack.Screen
+                name="ConfirmWorkout"
+                component={ConfirmWorkoutScreen}
                 options={verticalAnimation}
               />
             </>
