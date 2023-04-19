@@ -1,6 +1,5 @@
-import { View, StyleSheet, Text } from "react-native";
-import React, { useCallback } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useCallback, useEffect } from "react";
 import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
 import { getCurrentLocation } from "../services/geoService";
@@ -9,8 +8,16 @@ import * as appStyle from "../components/AppStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-const ConfirmWorkoutScreen = ({ route }) => {
+import useAuth from "../hooks/useAuth";
+import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import { useState } from "react";
+const ConfirmWorkoutScreen = () => {
+  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
+  const { setCurrentWorkout, currentWorkout } = useCurrentWorkout();
+  const { user } = useAuth();
+  const [confirmed, setConfirmed] = useState(false);
+  const [workout, setWorkout] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("ConfirmWorkout");
@@ -22,55 +29,82 @@ const ConfirmWorkoutScreen = ({ route }) => {
     PROVIDER_GOOGLE,
   } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
-  const workoutLocation = route.params.workoutLocation;
+  useEffect(() => {
+    if (!workout && currentWorkout) setWorkout(currentWorkout);
+  }, [currentWorkout]);
   const confirmationPoints = 15;
-  const confirmWorkoutLocation = async () => {
+  const getDistenceFromMe = async () => {
     const currentLocation = await getCurrentLocation();
-    const distance = getDistance(
-      props.currentWorkout.location,
-      currentLocation
-    );
+    const distance = getDistance(workout.location, currentLocation);
     return distance;
   };
+  const sameDay = (d1, d2) => {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate()
+    );
+  };
   const checkConfirmation = async () => {
-    setLoading(true);
-    if ((await confirmWorkoutLocation()) < 150) {
+    const distance = await getDistenceFromMe();
+    console.log(`ditance: ${distance}`);
+    if (distance <= 150) {
       const newWorkoutArray = [
-        props.currentWorkout.startingTime.toDate(),
-        props.currentWorkout.minutes,
+        workout.startingTime.toDate(),
+        workout.minutes,
         true,
       ];
       const now = new Date();
-
+      console.log("test");
       if (
         user.lastConfirmedWorkoutDate &&
-        user.lastConfirmedWorkoutDate.toDate().toDateString() ==
-          now.toDateString()
+        sameDay(user.lastConfirmedWorkoutDate.toDate(), now)
       )
-        await updateDoc(doc(db, `users/${user.id}`), {
-          lastConfirmedWorkoutDate: Timestamp.now(),
-          [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
-          totalPoints: increment(confirmationPoints),
-        });
-      else
-        await updateDoc(doc(db, `users/${user.id}`), {
-          lastConfirmedWorkoutDate: Timestamp.now(),
-          [`workouts.${props.currentWorkout.id}`]: { ...newWorkoutArray },
-          streak: increment(1),
-          totalPoints: increment(confirmationPoints),
-        });
-      await addLeaderboardPoints(user, confirmationPoints);
-
+        console.log("test2");
+      else console.log("test3");
+      //   await updateDoc(doc(db, `users/${user.id}`), {
+      //     lastConfirmedWorkoutDate: Timestamp.now(),
+      //     [`workouts.${workout.id}`]: { ...newWorkoutArray },
+      //     totalPoints: increment(confirmationPoints),
+      //   });
+      // else
+      //   await updateDoc(doc(db, `users/${user.id}`), {
+      //     lastConfirmedWorkoutDate: Timestamp.now(),
+      //     [`workouts.${workout.id}`]: { ...newWorkoutArray },
+      //     streak: increment(1),
+      //     totalPoints: increment(confirmationPoints),
+      //   });
+      // await addLeaderboardPoints(user, confirmationPoints);
+      console.log("test6");
+      setCurrentWorkout(null);
+      console.log("test5");
       setConfirmed(true);
+      console.log("test4");
+      setTimeout(() => {
+        console.log("Going back");
+        navigation.goBack();
+      }, 1000);
     } else {
       Alert.alert(
-        "You are too far from the workout location. Try to get closer"
+        `You are ${
+          distance < 1000 ? `${distance} meters` : ` ${distance / 1000} km away`
+        } away from the workout location, get closer`
       );
     }
-
-    setLoading(false);
   };
-  return (
+  return confirmed == true ? (
+    <View style={safeAreaStyle()} className="justify-center">
+      <Text
+        className="rounded py-2 px-4 font-semibold text-xl"
+        style={{
+          backgroundColor: appStyle.color_primary,
+          color: appStyle.color_on_primary,
+        }}
+      >
+        Workout Confirmed! +15 points
+      </Text>
+    </View>
+  ) : (
     <View
       className="items-center px-3 justify-center gap-y-3"
       style={safeAreaStyle()}
@@ -95,15 +129,15 @@ const ConfirmWorkoutScreen = ({ route }) => {
           provider={PROVIDER_GOOGLE}
           showsUserLocation={true}
           initialRegion={{
-            latitude: workoutLocation.latitude,
-            longitude: workoutLocation.longitude,
+            latitude: workout.location.latitude,
+            longitude: workout.location.longitude,
             latitudeDelta: 0.001,
             longitudeDelta: 0.02,
           }}
         >
-          <Marker coordinate={workoutLocation} />
+          <Marker coordinate={workout.location} />
           <Circle
-            center={workoutLocation}
+            center={workout.location}
             radius={100}
             fillColor={appStyle.color_circle_fill}
             strokeColor={appStyle.color_circle_border}
@@ -113,8 +147,19 @@ const ConfirmWorkoutScreen = ({ route }) => {
         </MapView>
       </View>
 
-      <TouchableOpacity onPress={checkConfirmation}>
-        <Text>Confirm workout</Text>
+      <TouchableOpacity
+        className="rounded py-2 px-4"
+        style={{ backgroundColor: appStyle.color_primary }}
+        onPress={checkConfirmation}
+      >
+        <Text
+          className="font-semibold text-lg"
+          style={{
+            color: appStyle.color_on_primary,
+          }}
+        >
+          Confirm workout
+        </Text>
       </TouchableOpacity>
     </View>
   );
