@@ -234,7 +234,7 @@ export const NotificationsProvider = ({ children }) => {
     return scheduledNotificationId;
   };
   const cancelScheduledPushNotification = async (identifier) => {
-    if (identifier != null)
+    if (identifier != null && Platform.OS != "web")
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
   const sendPushNotification = async (userToSend, title, body, data) => {
