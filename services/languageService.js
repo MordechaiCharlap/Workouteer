@@ -112,6 +112,7 @@ const languageService = {
     tomorrow: "Tomorrow",
     scheduled: ["scheduled", "scheduled"],
     scheduledWorkout: [
+      "Everything",
       "a Resistance Training",
       "a walk",
       "a run",
@@ -257,7 +258,7 @@ const languageService = {
     yasterday: "אתמול",
     tomorrow: "מחר",
     scheduled: ["קבעה", "קבע"],
-    scheduledWorkout: ["אימון כוח", "הליכה", "ריצה", "רכיבת אופניים"],
+    scheduledWorkout: ["הכל", "אימון כוח", "הליכה", "ריצה", "רכיבת אופניים"],
     askToJoin: ["בקשי להצטרף!", "בקש להצטרף!"],
     newMessage: "הודעה חדשה",
     leftTheWorkout: ["עזבה את האימון", "עזב את האימון"],
