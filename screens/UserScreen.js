@@ -37,8 +37,10 @@ const UserScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
 
   const { user } = useAuth();
-  const { sendPushNotificationUserWantsToBeYourFriend } =
-    usePushNotifications();
+  const {
+    sendPushNotificationUserWantsToBeYourFriend,
+    sendPushNotificationUserAcceptedYourFriendRequest,
+  } = usePushNotifications();
 
   const shownUser = route.params.shownUser;
   const [workoutsCount, setWorkoutsCount] = useState();
