@@ -85,11 +85,15 @@ const NewWorkoutScreen = () => {
   const createWorkout = async () => {
     setIsCreateDisabled(true);
     navigation.goBack();
-    const scheduledNotificationId = await schedulePushNotification(
-      startingTime,
-      "Workout session started!",
-      "Don't forget to confirm your workout to get your points :)"
-    );
+    var scheduledNotificationId;
+    if (Platform.OS != "web") {
+      scheduledNotificationId = await schedulePushNotification(
+        startingTime,
+        "Workout session started!",
+        "Don't forget to confirm your workout to get your points :)"
+      );
+    }
+
     const cityAndCountry = await getCityAndCountry(location);
     const workout = {
       creator: user.id,
@@ -105,7 +109,7 @@ const NewWorkoutScreen = () => {
       requests: {},
     };
     await firebase.createWorkout(workout);
-    await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
+    await sendPushNotificationForFriendsAboutWorkout(user, workoutSex, type);
   };
   return (
     <View style={safeAreaStyle()}>
