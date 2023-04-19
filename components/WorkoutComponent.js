@@ -131,12 +131,15 @@ const WorkoutComponent = (props) => {
     const workoutRef = workout;
     if (props.screen == "WorkoutInvites") setWorkout(null);
     setUserMemberStatus("member");
+    var scheduledNotificationId;
+    if (Platform.OS != "web") {
+      scheduledNotificationId = await schedulePushNotification(
+        startingTime,
+        "Workouteer",
+        languageService[user.language].confirmYourWorkout[user.isMale]
+      );
+    }
 
-    const scheduledNotificationId = await schedulePushNotification(
-      startingTime,
-      "Workouteer",
-      languageService[user.language].confirmYourWorkout[user.isMale]
-    );
     await firebase.acceptWorkoutInvite(
       user,
       workoutRef,
