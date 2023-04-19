@@ -54,20 +54,7 @@ const ChatsScreen = () => {
       getChats();
     }, [chatsAlerts])
   );
-  const now = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-    return {
-      date: today,
-      year: year,
-      month: month,
-      day: day,
-    };
-  };
-  const currentDay = now();
-
+ 
   const chatLongClicked = (item) => {
     const selectedChatsClone = selectedChats.slice();
     const index = selectedChatsClone.findIndex(
