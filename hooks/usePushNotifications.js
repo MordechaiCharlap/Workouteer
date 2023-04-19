@@ -289,7 +289,7 @@ export const NotificationsProvider = ({ children }) => {
       languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
     console.log(`title: ${title}`);
     console.log(`body: ${body}`);
-    // await sendPushNotification(friend, title, body);
+    await sendPushNotification(friend, title, body);
   };
   const sendPushNotificationForFriendsAboutWorkout = async (
     workoutSex,
