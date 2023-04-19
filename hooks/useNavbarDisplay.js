@@ -6,7 +6,15 @@ export const NavbarDisplayProvider = ({ children }) => {
   const [currentScreen, setCurrentScreen] = useState();
   useEffect(() => {
     const navbarScreens = ["MyUser", "Leaderboard", "Home", "Chats", "Explore"];
-    const dontShowNavbar = ["Chat", "Login", "Register"];
+    const dontShowNavbar = [
+      "Chat",
+      "Login",
+      "Register",
+      "ConfirmWorkout",
+      "LandscapeOrientation",
+      "UpdateApp",
+      "WindowTooSmall",
+    ];
     if (dontShowNavbar.includes(currentScreen)) setShowNavbar(false);
     else setShowNavbar(true);
   }, [currentScreen]);
