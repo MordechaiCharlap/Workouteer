@@ -130,13 +130,22 @@ const LeaderboardScreen = () => {
                         ),
                       })
                 }
-                className="flex-row flex-1 items-center mt-2"
+                className="flex-row flex-1 items-center py-1"
+                style={
+                  item[0] == user.id
+                    ? { backgroundColor: appStyle.color_bg_variant }
+                    : {}
+                }
               >
                 <Text
                   className={`text-4xl w-12 text-center ${
                     index < 3 ? "font-bold" : ""
                   }`}
-                  style={{ color: appStyle.color_primary }}
+                  style={
+                    item[0] == user.id
+                      ? { color: appStyle.color_on_primary }
+                      : { color: appStyle.color_primary }
+                  }
                 >
                   {index + 1}
                 </Text>
@@ -148,27 +157,21 @@ const LeaderboardScreen = () => {
                 />
                 <Text
                   className="text-2xl font-semibold tracking-wider"
-                  style={{ color: appStyle.color_primary }}
+                  style={
+                    item[0] == user.id
+                      ? { color: appStyle.color_on_primary }
+                      : { color: appStyle.color_primary }
+                  }
                 >
                   {item[1].displayName}
                 </Text>
-                {/* <View>
-                  <Text
-                    className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_primary }}
-                  >
-                    {item[1].displayName}
-                  </Text>
-                  <Text
-                    className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.color_primary }}
-                  >
-                    {item[0]}
-                  </Text>
-                </View> */}
                 <Text
                   className="absolute right-3 my-auto text-2xl"
-                  style={{ color: appStyle.color_primary }}
+                  style={
+                    item[0] == user.id
+                      ? { color: appStyle.color_on_primary }
+                      : { color: appStyle.color_primary }
+                  }
                 >
                   {item[1].points}XP
                 </Text>
