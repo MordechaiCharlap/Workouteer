@@ -174,7 +174,7 @@ const InviteFriendsScreen = ({ route }) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-              {getButton(item.id)}
+              {getButton(item)}
             </View>
           ) : (
             <></>
