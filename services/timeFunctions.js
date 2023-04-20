@@ -18,22 +18,10 @@ export const timeString = (date, language) => {
   const mm =
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
   time = hh + ":" + mm;
-  return day + ", " + time;
+  return day + " " + time;
 };
 export const messageTimeString = (date, language) => {
-  const now = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-    return {
-      date: today,
-      year: year,
-      month: month,
-      day: day,
-    };
-  };
-  const currentDay = now();
+  const currentDay = new Date();
 
   const day = date.getDate();
   const month = date.getMonth() + 1;
@@ -45,7 +33,7 @@ export const messageTimeString = (date, language) => {
     const yasterday = new Date();
     yasterday.setDate(yasterday.getDate() - 1);
     if (yasterday.toDateString() == date.toDateString()) {
-      return languageService[language].yasterday + h + ":" + m;
+      return languageService[language].yasterday + " " + h + ":" + m;
     }
     return `${day}/${month} ${h}:${m}`;
   }
