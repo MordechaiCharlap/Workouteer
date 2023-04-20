@@ -17,11 +17,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import usePushNotifications from "../hooks/usePushNotifications";
 
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-
+  const { sendPushNotificationInviteFriendToWorkout } = usePushNotifications();
   const { user } = useAuth();
   const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
@@ -42,20 +43,21 @@ const InviteFriendsScreen = ({ route }) => {
       showFriends();
     }, [])
   );
-  const inviteFriend = async (friendId) => {
-    setButtonLoading(friendId);
+  const inviteFriend = async (friend) => {
+    setButtonLoading(friend.id);
     const workoutClone = { ...workout };
     if (workoutClone.invites == null) {
-      workoutClone.invites = { [friendId]: true };
+      workoutClone.invites = { [friend.id]: true };
     } else {
-      workoutClone.invites[friendId] = true;
+      workoutClone.invites[friend.id] = true;
     }
-    await firebase.inviteFriendToWorkout(friendId, workout);
+    await firebase.inviteFriendToWorkout(friend.id, workout);
+    await sendPushNotificationInviteFriendToWorkout(friend);
     setWorkout(workoutClone);
     setButtonLoading(false);
   };
-  const getButton = (friendId) => {
-    if (workout.invites && workout.invites[friendId] != null) {
+  const getButton = (friend) => {
+    if (workout.invites && workout.invites[friend.id] != null) {
       return (
         <View
           className="py-1 w-28 rounded"
@@ -75,7 +77,7 @@ const InviteFriendsScreen = ({ route }) => {
           </Text>
         </View>
       );
-    } else if (workout.members[friendId]) {
+    } else if (workout.members[friend.id]) {
       return (
         <View
           className="py-1 w-28 rounded"
@@ -94,7 +96,7 @@ const InviteFriendsScreen = ({ route }) => {
     }
     return (
       <TouchableOpacity
-        onPress={async () => inviteFriend(friendId)}
+        onPress={async () => inviteFriend(friend)}
         className="py-1 w-28 rounded"
         style={{
           backgroundColor: appStyle.color_bg,
@@ -106,7 +108,7 @@ const InviteFriendsScreen = ({ route }) => {
           className="text-lg text-center font-semibold"
           style={{ color: appStyle.color_primary }}
         >
-          {buttonLoading == friendId ? "Loading" : "Invite"}
+          {buttonLoading == friend.id ? "Loading" : "Invite"}
         </Text>
       </TouchableOpacity>
     );
