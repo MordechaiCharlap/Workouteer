@@ -186,7 +186,7 @@ const SettingsScreen = () => {
                     color: appStyle.color_on_primary,
                   }}
                 >
-                  Delete User
+                  {languageService[user.language].deleteUser}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={signOut} className="w-5/12">
