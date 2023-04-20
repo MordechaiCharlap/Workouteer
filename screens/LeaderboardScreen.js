@@ -45,7 +45,7 @@ const LeaderboardScreen = () => {
         )
       ).data();
       const usersArray = Array.from(Object.entries(leaderboardData.users)).sort(
-        (a, b) => a[1].points < b[1].points
+        (a, b) => b[1].points - a[1].points
       );
       setLeaderboardList(usersArray);
     };
