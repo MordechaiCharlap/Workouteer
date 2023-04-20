@@ -84,10 +84,10 @@ const languageService = {
       "Defending Champion",
     ],
     league: "League",
-    message: "Message",
+    message: ["Message", "Message"],
     friendRequest: "Friend Request",
-    removeFriend: "Remove Friend",
-    cancelRequest: "Cancel Request",
+    removeFriend: ["Remove Friend", "Remove Friend"],
+    cancelRequest: ["Cancel Request", "Cancel Request"],
     getPointsToCompete:
       "You have zero points this week, get some points by participate in workouts in order to see this week's leaderboard!",
     forEveryone: "For everyone",
@@ -154,6 +154,7 @@ const languageService = {
     userIsDeleted: "This user got deleted",
     cannotSendMessagesToDeletedUser:
       "You cannot send messages to a deleted user",
+    deleteUser: "Delete user",
   },
   hebrew: {
     login: "התחבר",
@@ -239,10 +240,10 @@ const languageService = {
       "ליגת הטוענים לכתר",
       "ליגת האלופים",
     ],
-    message: "שלח/י הודעה",
+    message: ["שלחי הודעה", "שלח הודעה"],
     friendRequest: "בקשת חברות",
-    removeFriend: "בטל/י חברות",
-    cancelRequest: "בטל/י בקשה",
+    removeFriend: ["בטלי חברות", "בטל חברות"],
+    cancelRequest: ["בטלי בקשה", "בטל בקשה"],
     getPointsToCompete:
       "0 נקודות השבוע, השג/י נקודות באמצעות השתתפות באימונים בשביל לראות את טבלת הניקוד השבועית.",
     forEveryone: "מעורב",
@@ -293,6 +294,7 @@ const languageService = {
     userIsDeleted: "המשתמש אינו קיים יותר",
     cannotSendMessagesToDeletedUser:
       "אין אפשרות לשלוח הודעות למשתמש שאינו קיים יותר",
+    deleteUser: "מחיקת משתמש",
   },
 };
 export default languageService;
