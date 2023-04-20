@@ -252,7 +252,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className="text-md"
                         style={{ color: appStyle.color_primary }}
                       >
-                        Members
+                        {languageService[user.language].members}
                       </Text>
                     </View>
                   </View>
@@ -313,7 +313,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                           color: appStyle.color_on_primary,
                         }}
                       >
-                        {languageService[user.language].you}
+                        {
+                          languageService[user.language].you[
+                            user.isMale ? 1 : 0
+                          ]
+                        }
                       </Text>
                     </View>
                   )}
@@ -375,7 +379,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                 className="text-xl text-center font-semibold"
                 style={{ color: appStyle.color_on_primary }}
               >
-                Invite friends to join
+                {languageService[user.language].inviteFriendsToJoin}
               </Text>
             </TouchableOpacity>
           )}

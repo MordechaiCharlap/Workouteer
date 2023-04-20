@@ -96,7 +96,7 @@ const languageService = {
     minutes: "minutes",
     members: "Members",
     directions: "Directions",
-    you: "You!",
+    you: ["You", "You"],
     creator: "Creator",
     inviteFriendsToJoin: "Invite friends to join",
     requests: "Requests",
@@ -171,6 +171,7 @@ const languageService = {
     requestToJoin: ["Request to join", "Request to join"],
     lessThan: "Less than ",
     kmAway: "km away",
+    members: "Members",
   },
   hebrew: {
     login: "התחבר",
@@ -267,7 +268,7 @@ const languageService = {
     womenOnly: "לנשים בלבד",
     minutes: "דקות",
     directions: "הוראות הגעה",
-    you: "את/ה!",
+    you: ["את", "אתה"],
     creator: "מנהל/ת",
     inviteFriendsToJoin: "הזמנת חברים לאימון",
     requests: "Requests",
@@ -327,6 +328,7 @@ const languageService = {
     requestToJoin: ["בקשי להצטרף", "בקש להצטרף"],
     lessThan: "פחות מ",
     kmAway: "קילומטרים ממך",
+    members: "משתתפים",
   },
 };
 export default languageService;

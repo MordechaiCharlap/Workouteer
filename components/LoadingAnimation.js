@@ -3,8 +3,11 @@ import * as appStyle from "./AppStyleSheet";
 import { View, Text, Platform } from "react-native";
 import React from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 
 const LoadingAnimation = () => {
+  const { user } = useAuth();
   return (
     <View style={safeAreaStyle()}>
       {Platform.OS == "android" && (
@@ -19,7 +22,7 @@ const LoadingAnimation = () => {
         style={{ color: appStyle.color_primary }}
         className="text-5xl font-semibold tracking-widest text-center"
       >
-        Loading
+        {languageService[user.language].loading}
       </Text>
     </View>
   );
