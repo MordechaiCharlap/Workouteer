@@ -248,7 +248,7 @@ export const NotificationsProvider = ({ children }) => {
       const pushNotification = {
         to: userToSend.pushToken,
         sound: "default",
-        title: title,
+        title: "",
         body: body,
         data: data ? data : {},
       };
