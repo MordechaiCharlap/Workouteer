@@ -147,6 +147,10 @@ const languageService = {
       "wants to join your workout",
       "wants to join your workout",
     ],
+    invitedYouToWorkout: [
+      "invited you to her workout",
+      "invited you to his workout",
+    ],
   },
   hebrew: {
     login: "התחבר",
@@ -282,6 +286,7 @@ const languageService = {
       "רוצה להצטרף לאימון שלך",
       "רוצה להצטרף לאימון שלך",
     ],
+    invitedYouToWorkout: ["הזמינה אותך לאימון", "הזמין אותך לאימון"],
   },
 };
 export default languageService;
