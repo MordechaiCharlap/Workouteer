@@ -155,6 +155,22 @@ const languageService = {
     cannotSendMessagesToDeletedUser:
       "You cannot send messages to a deleted user",
     deleteUser: "Delete user",
+    country: "Country",
+    city: "City",
+    workoutConfirmedDontLeave: [
+      "Workout Confirmed! Don't leave the screen while we updating your place on leaderboard",
+      "Workout Confirmed! Don't leave the screen while we updating your place on leaderboard",
+    ],
+    pointsAdded: "points added successfully. Enjoy your workout",
+    exit: "Exit",
+    acceptInvite: ["Accept invite", "Accept invite"],
+    cancelWorkout: "Cancel workout",
+    rejectInvite: ["Reject invite", "Reject invite"],
+    leave: ["Leave", "Leave"],
+    cancelJoinRequest: "Cancel join request",
+    requestToJoin: ["Request to join", "Request to join"],
+    lessThan: "Less than ",
+    kmAway: "km away",
   },
   hebrew: {
     login: "התחבר",
@@ -295,6 +311,22 @@ const languageService = {
     cannotSendMessagesToDeletedUser:
       "אין אפשרות לשלוח הודעות למשתמש שאינו קיים יותר",
     deleteUser: "מחיקת משתמש",
+    country: "ארץ",
+    city: "עיר",
+    workoutConfirmedDontLeave: [
+      "האימון אושר! אנא המתיני בזמן שאנו מעדכנים את המיקום שלך בטבלת הניקוד",
+      "האימון אושר! אנא המתן בזמן שאנו מעדכנים את המיקום שלך בטבלת הניקוד",
+    ],
+    pointsAdded: "נקודות נוספו בהצלחה! אימון מוצלח",
+    exit: "יציאה",
+    acceptInvite: ["אשרי הזמנה", "אשר הזמנה"],
+    cancelWorkout: "ביטול אימון",
+    rejectInvite: ["סרבי להזמנה", "סרב להזמנה"],
+    leave: ["עזבי", "עזוב"],
+    cancelJoinRequest: "ביטול בקשת הצטרפות",
+    requestToJoin: ["בקשי להצטרף", "בקש להצטרף"],
+    lessThan: "פחות מ",
+    kmAway: "קילומטרים ממך",
   },
 };
 export default languageService;

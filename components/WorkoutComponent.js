@@ -175,7 +175,11 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_on_primary,
                 }}
               >
-                {buttonLoading == "acceptLoading" ? "Loading" : "Accept invite"}
+                {buttonLoading == "acceptLoading"
+                  ? languageService[user.language].loading
+                  : languageService[user.language].acceptInvite[
+                      user.isMale ? 1 : 0
+                    ]}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -193,7 +197,11 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_primary,
                 }}
               >
-                {buttonLoading == "rejectLoading" ? "Loading" : "Reject invite"}
+                {buttonLoading == "rejectLoading"
+                  ? languageService[user.language].loading
+                  : languageService[user.language].rejectInvite[
+                      user.isMale ? 1 : 0
+                    ]}
               </Text>
             </TouchableOpacity>
           </View>
@@ -215,7 +223,9 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading" : "Cancel Workout"}
+              {buttonLoading
+                ? languageService[user.language].loading
+                : languageService[user.language].cancelWorkout}
             </Text>
           </TouchableOpacity>
         );
@@ -236,7 +246,9 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading" : "Leave Workout"}
+              {buttonLoading
+                ? languageService[user.language].loading
+                : languageService[user.language].leave[user.isMale ? 1 : 0]}
             </Text>
           </TouchableOpacity>
         );
@@ -257,7 +269,9 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading" : "Cancel Workout Request"}
+              {buttonLoading
+                ? languageService[user.language].loading
+                : languageService[user.language].cancelWorkoutRequest}
             </Text>
           </TouchableOpacity>
         );
@@ -278,7 +292,11 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_primary,
               }}
             >
-              {buttonLoading ? "Loading" : "Request to join"}
+              {buttonLoading
+                ? languageService[user.language].loading
+                : languageService[user.language].requestToJoin[
+                    user.isMale ? 1 : 0
+                  ]}
             </Text>
           </TouchableOpacity>
         );
@@ -360,7 +378,12 @@ const WorkoutComponent = (props) => {
                   color: appStyle.color_primary,
                 }}
               >
-                {distance ? "Less than " + distance + " km away" : workout.city}
+                {distance
+                  ? languageService[user.language].lessThan +
+                    distance +
+                    " " +
+                    languageService[user.language].kmAway
+                  : workout.city}
               </Text>
             </View>
             <View
@@ -430,7 +453,7 @@ const WorkoutComponent = (props) => {
                 color: appStyle.color_on_primary,
               }}
             >
-              Details
+              {languageService[user.language].details}
             </Text>
             {!isPastWorkout &&
               isCreator &&

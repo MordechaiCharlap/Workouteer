@@ -17,6 +17,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useAuth from "../hooks/useAuth";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import { languageService } from "../services/languageService";
 import { useState } from "react";
 const ConfirmWorkoutScreen = () => {
   const navigation = useNavigation();
@@ -138,8 +139,11 @@ const ConfirmWorkoutScreen = () => {
             color: appStyle.color_on_primary,
           }}
         >
-          Workout Confirmed! Don't leave the screen while we updating your place
-          on leaderboard
+          {
+            languageService[user.language].workoutConfirmedDontLeave[
+              user.isMale ? 1 : 0
+            ]
+          }
         </Text>
       ) : (
         <>
@@ -150,7 +154,8 @@ const ConfirmWorkoutScreen = () => {
               color: appStyle.color_on_primary,
             }}
           >
-            {confirmationPoints} points added succesfully!
+            {confirmationPoints}{" "}
+            {languageService[user.language].pointsAdded[user.isMale ? 1 : 0]}
           </Text>
           <TouchableOpacity
             className="rounded py-2 px-4"
@@ -166,7 +171,7 @@ const ConfirmWorkoutScreen = () => {
                 color: appStyle.color_on_primary,
               }}
             >
-              Go back
+              {languageService[user.language].exit}
             </Text>
           </TouchableOpacity>
         </>

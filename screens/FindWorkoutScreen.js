@@ -153,7 +153,7 @@ const FindWorkoutScreen = () => {
               style.dropdown,
               countryIsFocus && { borderColor: appStyle.color_primary },
             ]}
-            placeholder="Country"
+            placeholder={languageService[user.language].country}
             placeholderStyle={style.placeholderStyle}
             selectedTextStyle={style.selectedTextStyle}
             inputSearchStyle={style.inputSearchStyle}
@@ -175,7 +175,7 @@ const FindWorkoutScreen = () => {
               style.dropdown,
               cityIsFocus && { borderColor: appStyle.color_primary },
             ]}
-            placeholder="City"
+            placeholder={languageService[user.language].city}
             placeholderStyle={style.placeholderStyle}
             selectedTextStyle={style.selectedTextStyle}
             inputSearchStyle={style.inputSearchStyle}

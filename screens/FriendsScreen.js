@@ -201,7 +201,7 @@ const FriendsScreen = ({ route }) => {
                   className="text-lg font-semibold"
                   style={{ color: appStyle.color_primary }}
                 >
-                  {languageService[user.language].message}
+                  {languageService[user.language].message[user.isMale ? 1 : 0]}
                 </Text>
               </TouchableOpacity>
             </View>
