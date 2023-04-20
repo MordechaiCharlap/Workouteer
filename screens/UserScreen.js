@@ -43,22 +43,24 @@ const UserScreen = ({ route }) => {
   } = usePushNotifications();
 
   const shownUser = route.params.shownUser;
-  const [workoutsCount, setWorkoutsCount] = useState();
-  const [friendshipStatus, setFriendshipStatus] = useState(
-    route.params.friendshipStatus
-  );
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("User");
     }, [])
   );
+  const [workoutsCount, setWorkoutsCount] = useState();
+  const [friendshipStatus, setFriendshipStatus] = useState(
+    route.params.friendshipStatus
+  );
+
   useEffect(() => {
-    const now = new Date();
-    var count = 0;
-    for (var value of Object.values(user.workouts)) {
-      if (value[0].toDate() < now) count++;
+    if (!shownUser.isDeleted) {
+      var count = 0;
+      for (var value of Object.values(shownUser.workouts)) {
+        if (value[2]) count++;
+      }
+      setWorkoutsCount(count);
     }
-    setWorkoutsCount(count);
   }, []);
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
@@ -197,123 +199,142 @@ const UserScreen = ({ route }) => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1">
-        <ScrollView
-          showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
-        >
-          <View className="p-4 gap-y-4">
-            <View className="flex-row justify-between">
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+      {!shownUser.isDeleted ? (
+        <View className="flex-1">
+          <ScrollView
+            showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
+          >
+            <View className="p-4 gap-y-4">
+              <View className="flex-row justify-between">
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    size={30}
+                    color={appStyle.color_primary}
+                  />
+                </TouchableOpacity>
+                <Text
+                  className=" text-center text-3xl tracking-widest"
+                  style={{ color: appStyle.color_primary }}
+                >
+                  {shownUser.id}
+                </Text>
+                <View className="opacity-0">
+                  <FontAwesomeIcon icon={faChevronLeft} size={30} />
+                </View>
+              </View>
+              <View className="flex-row h-48 items-center">
+                <Image
+                  source={{
+                    uri: shownUser.img,
+                  }}
+                  className="h-32 w-32 bg-white rounded-full"
+                  style={{
+                    borderWidth: 1,
+                    borderColor: appStyle.color_primary,
+                  }}
+                />
+
+                <View className="absolute right-0 gap-3">
+                  <TouchableOpacity
+                    className="items-center flex-row rounded-2xl p-3 gap-3"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                    onPress={() =>
+                      navigation.navigate("PastWorkouts", {
+                        user: shownUser,
+                      })
+                    }
+                  >
+                    <Text
+                      style={{ fontSize: 30, color: appStyle.color_on_primary }}
+                    >
+                      {workoutsCount}
+                    </Text>
+                    <FontAwesomeIcon
+                      icon={faDumbbell}
+                      size={40}
+                      color={appStyle.color_on_primary}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="items-center flex-row rounded-2xl p-3 gap-3"
+                    style={{ backgroundColor: appStyle.color_primary }}
+                    onPress={() =>
+                      navigation.navigate("Friends", {
+                        user: shownUser,
+                        isMyUser: false,
+                      })
+                    }
+                  >
+                    <Text
+                      style={{ fontSize: 30, color: appStyle.color_on_primary }}
+                    >
+                      {shownUser.friendsCount}
+                    </Text>
+                    <FontAwesomeIcon
+                      icon={faUserGroup}
+                      size={40}
+                      color={appStyle.color_on_primary}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View>
+                <NameAndAge
+                  name={shownUser.displayName}
+                  age={calculateAge(shownUser.birthdate.toDate())}
+                />
+              </View>
+              <View>
+                <UserStats shownUser={shownUser} />
+              </View>
+
+              <Text
+                style={{ color: appStyle.color_primary }}
+                className="text-lg"
+              >
+                {shownUser.description == ""
+                  ? "No description yet"
+                  : shownUser.description}
+              </Text>
+            </View>
+          </ScrollView>
+          <View
+            style={{ backgroundColor: appStyle.color_bg_variant }}
+            className="flex-row justify-center px-4 pb-2 gap-4"
+          >
+            {renderFriendshipButton()}
+            {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
+              <TouchableOpacity
+                className="flex-row items-center justify-center"
+                onPress={() => openPrivateChat()}
+                style={style.socialButton}
+              >
+                <Text
+                  className="text-center text-xl mr-2"
+                  style={{ color: appStyle.color_on_primary }}
+                >
+                  {languageService[user.language].message}
+                </Text>
                 <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  size={30}
-                  color={appStyle.color_primary}
+                  icon={faPaperPlane}
+                  size={20}
+                  color={appStyle.color_on_primary}
                 />
               </TouchableOpacity>
-              <Text
-                className=" text-center text-3xl tracking-widest"
-                style={{ color: appStyle.color_primary }}
-              >
-                {shownUser.id}
-              </Text>
-              <View className="opacity-0">
-                <FontAwesomeIcon icon={faChevronLeft} size={30} />
-              </View>
-            </View>
-            <View className="flex-row h-48 items-center">
-              <Image
-                source={{
-                  uri: shownUser.img,
-                }}
-                className="h-32 w-32 bg-white rounded-full"
-                style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
-              />
-
-              <View className="absolute right-0 gap-3">
-                <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-3"
-                  style={{ backgroundColor: appStyle.color_primary }}
-                  onPress={() =>
-                    navigation.navigate("PastWorkouts", {
-                      user: shownUser,
-                    })
-                  }
-                >
-                  <Text
-                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
-                  >
-                    {workoutsCount}
-                  </Text>
-                  <FontAwesomeIcon
-                    icon={faDumbbell}
-                    size={40}
-                    color={appStyle.color_on_primary}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-3"
-                  style={{ backgroundColor: appStyle.color_primary }}
-                  onPress={() =>
-                    navigation.navigate("Friends", {
-                      user: shownUser,
-                      isMyUser: false,
-                    })
-                  }
-                >
-                  <Text
-                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
-                  >
-                    {shownUser.friendsCount}
-                  </Text>
-                  <FontAwesomeIcon
-                    icon={faUserGroup}
-                    size={40}
-                    color={appStyle.color_on_primary}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View>
-              <NameAndAge
-                name={user.displayName}
-                age={calculateAge(user.birthdate.toDate())}
-              />
-            </View>
-            <View>
-              <UserStats shownUser={shownUser} />
-            </View>
-
-            <Text style={{ color: appStyle.color_primary }} className="text-lg">
-              {shownUser.description == ""
-                ? "No description yet"
-                : shownUser.description}
-            </Text>
-            <View className="flex-row absolute bottom-0 right-0 left-0 justify-center p-4 gap-4">
-              {renderFriendshipButton()}
-              {(shownUser.isPublic == true ||
-                friendshipStatus == "Friends") && (
-                <TouchableOpacity
-                  className="flex-row items-center justify-center"
-                  onPress={() => openPrivateChat()}
-                  style={style.socialButton}
-                >
-                  <Text
-                    className="text-center text-xl mr-2"
-                    style={{ color: appStyle.color_on_primary }}
-                  >
-                    {languageService[user.language].message}
-                  </Text>
-                  <FontAwesomeIcon
-                    icon={faPaperPlane}
-                    size={20}
-                    color={appStyle.color_on_primary}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
+            )}
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      ) : (
+        <View className="flex-1 justify-center items-center">
+          <Text
+            className="text-4xl font-semibold"
+            style={{ color: appStyle.color_primary }}
+          >
+            {languageService[user.language].userIsDeleted}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
