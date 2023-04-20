@@ -151,6 +151,9 @@ const languageService = {
       "invited you to her workout",
       "invited you to his workout",
     ],
+    userIsDeleted: "This user got deleted",
+    cannotSendMessagesToDeletedUser:
+      "You cannot send messages to a deleted user",
   },
   hebrew: {
     login: "התחבר",
@@ -287,6 +290,9 @@ const languageService = {
       "רוצה להצטרף לאימון שלך",
     ],
     invitedYouToWorkout: ["הזמינה אותך לאימון", "הזמין אותך לאימון"],
+    userIsDeleted: "המשתמש אינו קיים יותר",
+    cannotSendMessagesToDeletedUser:
+      "אין אפשרות לשלוח הודעות למשתמש שאינו קיים יותר",
   },
 };
 export default languageService;
