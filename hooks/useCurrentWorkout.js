@@ -14,7 +14,6 @@ export const CurrentWorkoutProvider = ({ children }) => {
         value[0].toDate() < now &&
         !value[2]
       ) {
-        console.log("found current workout");
         const workout = await firebase.getWorkout(key);
 
         return { ...workout, id: key };
@@ -38,6 +37,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
             const currentWorkoutReturned = await checkIfCurrentWorkout(now);
             if (currentWorkoutReturned != null) {
               setCurrentWorkout(currentWorkoutReturned);
+              console.log(`found current workout: ${currentWorkoutReturned}`);
             } else setCurrentWorkout(null);
           }
         }, 60000);
@@ -48,6 +48,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
         };
       } else {
         setCurrentWorkout(currentWorkoutReturned);
+        console.log(`found current workout: ${currentWorkoutReturned}`);
       }
     };
 
