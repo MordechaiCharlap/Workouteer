@@ -208,7 +208,9 @@ const ChatScreen = ({ route }) => {
               className="text-2xl flex-1 mr-2 rounded py-1 px-4"
               multiline={true}
               showsVerticalScrollIndicator={false}
-              placeholder="Message"
+              placeholder={
+                languageService[user.language].message[user.isMale ? 1 : 0]
+              }
               placeholderTextColor={appStyle.color_primary}
               style={{
                 backgroundColor: appStyle.color_bg,
