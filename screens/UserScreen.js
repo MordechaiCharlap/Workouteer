@@ -130,7 +130,7 @@ const UserScreen = ({ route }) => {
             className="text-center text-xl mr-2"
             style={{ color: appStyle.color_on_primary }}
           >
-            {languageService[user.language].removeFriend}
+            {languageService[user.language].removeFriend[user.isMale ? 1 : 0]}
           </Text>
           <FontAwesomeIcon
             icon={faUserXmark}
@@ -150,7 +150,7 @@ const UserScreen = ({ route }) => {
             className="text-center text-xl mr-2"
             style={{ color: appStyle.color_on_primary }}
           >
-            {languageService[user.language].cancelRequest}
+            {languageService[user.language].cancelRequest[user.isMale ? 1 : 0]}
           </Text>
           <FontAwesomeIcon
             icon={faUserMinus}
@@ -314,7 +314,7 @@ const UserScreen = ({ route }) => {
                   className="text-center text-xl mr-2"
                   style={{ color: appStyle.color_on_primary }}
                 >
-                  {languageService[user.language].message}
+                  {languageService[user.language].message[user.isMale ? 1 : 0]}
                 </Text>
                 <FontAwesomeIcon
                   icon={faPaperPlane}
