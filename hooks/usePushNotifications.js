@@ -291,6 +291,18 @@ export const NotificationsProvider = ({ children }) => {
     console.log(`body: ${body}`);
     await sendPushNotification(friend, title, body);
   };
+  const sendPushNotificationInviteFriendToWorkout = async (friend, workout) => {
+    await sendPushNotification(
+      friend,
+      "Workouteer",
+      `${user.displayName} ${
+        languageService[friend.language].invitedYouToWorkout[
+          user.isMale ? 1 : 0
+        ]
+      }`,
+      null
+    );
+  };
   const sendPushNotificationForFriendsAboutWorkout = async (
     workoutSex,
     workoutType
@@ -316,6 +328,7 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotificationCreatorLeftWorkout,
         sendPushNotificationUserJoinedYouwWorkout,
         sendPushNotificationChatMessage,
+        sendPushNotificationInviteFriendToWorkout,
         pushToken,
         setPushToken,
         notificationListenerFunction,
