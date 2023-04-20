@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useCallback } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import { useFocusEffect } from "@react-navigation/native";
@@ -15,6 +15,10 @@ const LandscapeOrientationScreen = () => {
       className="flex-1 justify-center items-center"
       style={{ backgroundColor: appStyle.color_bg }}
     >
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Text
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}

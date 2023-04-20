@@ -1,4 +1,11 @@
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Alert,
+  StatusBar,
+} from "react-native";
 import React, { useCallback, useEffect } from "react";
 import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
@@ -119,6 +126,10 @@ const ConfirmWorkoutScreen = () => {
   }, []);
   return confirmed == true ? (
     <View style={safeAreaStyle()} className="justify-center">
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       {updatingFirestore ? (
         <Text
           className="rounded py-2 px-4 font-semibold text-xl"
@@ -166,6 +177,10 @@ const ConfirmWorkoutScreen = () => {
       className="items-center px-3 justify-center gap-y-3"
       style={safeAreaStyle()}
     >
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Text
         className="rounded py-2 px-4 font-semibold text-xl"
         style={{
