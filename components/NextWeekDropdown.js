@@ -6,12 +6,17 @@ import languageService from "../services/languageService";
 const NextWeekDropdown = (props) => {
   const now = props.now;
   const language = props.language;
-  const [isFocused, setIsFocused] = useState(false);
+  const [isWeekdaysFocused, setIsWeekdaysFocused] = useState(false);
   const [weekdays, setWeekdays] = useState([]);
-  const [weekday, setWeekday] = useState(now.getDay() % 7);
+  const [weekday, setWeekday] = useState(now);
+  const [isHoursFocused, setIsHoursFocused] = useState(false);
+  const [hours, setHours] = useState([]);
+  const [hour, setHour] = useState(now.getHours());
+  const [minutes, setMinutes] = useState();
   useEffect(() => {
     const currentDay = now.getDay();
     const weekdaysArr = [];
+    const today = new Date();
     for (let i = 0; i < 7; i++) {
       const num = (currentDay + i) % 7;
       weekdaysArr.push({
@@ -20,20 +25,40 @@ const NextWeekDropdown = (props) => {
             ? languageService[language].weekdays[num] +
               ` (${languageService[language].today})`
             : languageService[language].weekdays[num],
-        value: num,
+        value: today,
       });
+      today.setDate(today.getDate() + 1);
     }
 
     console.log(weekdaysArr);
     setWeekdays(weekdaysArr);
   }, []);
+  useEffect(() => {
+    const isToday = weekday.getDay() === now.getDay();
+    // Get the current hour and minute
+    const currentHour = now.getHours();
+    setHour(currentHour);
+    const currentMinute = now.getMinutes();
 
+    // Create an empty array to store the time intervals
+    const timeIntervals = [];
+
+    for (let hour = 0; hour < 24; hour++) {
+      if (isToday && hour < currentHour) continue;
+      console.log(hour + " " + currentHour);
+      timeIntervals.push({
+        label: hour,
+        value: hour,
+      });
+    }
+    setHours(timeIntervals);
+  }, [weekday]);
   return (
-    <View>
+    <View className="flex-row justify-between">
       <Dropdown
         style={[
           style.dropdown,
-          isFocused && { borderColor: appStyle.color_primary },
+          isWeekdaysFocused && { borderColor: appStyle.color_primary },
         ]}
         placeholder={languageService[language].day}
         placeholderStyle={style.placeholderStyle}
@@ -44,12 +69,34 @@ const NextWeekDropdown = (props) => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        value={weekday}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        value={weekdays[0]}
+        onFocus={() => setIsWeekdaysFocused(true)}
+        onBlur={() => setIsWeekdaysFocused(false)}
         onChange={(item) => {
-          setWeekday(item);
-          setIsFocused(false);
+          setWeekday(item.value);
+          setIsWeekdaysFocused(false);
+        }}
+      />
+      <Dropdown
+        style={[
+          style.dropdown,
+          isHoursFocused && { borderColor: appStyle.color_primary },
+        ]}
+        placeholder={languageService[language].hour}
+        placeholderStyle={style.placeholderStyle}
+        selectedTextStyle={style.selectedTextStyle}
+        inputSearchStyle={style.inputSearchStyle}
+        iconStyle={style.iconStyle}
+        data={hours}
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        value={hour}
+        onFocus={() => setIsHoursFocused(true)}
+        onBlur={() => setIsHoursFocused(false)}
+        onChange={(item) => {
+          setHour(item.value);
+          setIsHoursFocused(false);
         }}
       />
     </View>
@@ -66,6 +113,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 16,
   },
   dropdown: {
+    flexGrow: 1,
     backgroundColor: appStyle.color_primary,
     height: 50,
     borderColor: appStyle.color_on_primary,
