@@ -8,14 +8,18 @@ const NextWeekDropdown = (props) => {
   const language = props.language;
   const [isFocused, setIsFocused] = useState(false);
   const [weekdays, setWeekdays] = useState([]);
-  const [weekday, setWeekday] = useState(0);
+  const [weekday, setWeekday] = useState(now.getDay() % 7);
   useEffect(() => {
     const currentDay = now.getDay();
     const weekdaysArr = [];
     for (let i = 0; i < 7; i++) {
       const num = (currentDay + i) % 7;
       weekdaysArr.push({
-        label: languageService[language].weekdays[num],
+        label:
+          i == 0
+            ? languageService[language].weekdays[num] +
+              ` (${languageService[language].today})`
+            : languageService[language].weekdays[num],
         value: num,
       });
     }
@@ -40,7 +44,7 @@ const NextWeekDropdown = (props) => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        value={123}
+        value={weekday}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onChange={(item) => {
