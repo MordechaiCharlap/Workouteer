@@ -78,7 +78,10 @@ export const AuthPrvider = ({ children }) => {
       });
     }
   }, []);
-
+  const updatedErrorCode = (code) => {
+    setAuthErrorCode("");
+    setAuthErrorCode(code);
+  };
   useEffect(() => {
     const getUserData = async (accessToken) => {
       console.log("Access token: " + accessToken);
@@ -156,7 +159,7 @@ export const AuthPrvider = ({ children }) => {
             .catch((error) => {
               const errorCode = error.code;
               console.log("error code: ", errorCode);
-              setAuthErrorCode(errorCode);
+              updatedErrorCode(errorCode);
               setLoginLoading(false);
             });
         })
@@ -165,18 +168,18 @@ export const AuthPrvider = ({ children }) => {
         });
     } else {
       console.log("remembering user");
-      // Sign in the user with email and password
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           console.log("signed in!");
+          setLoginLoading(false);
         })
         .catch((error) => {
-          console.error(error);
-          setAuthErrorCode(error.code);
+          const errorCode = error.code;
+          console.log("error code: ", errorCode);
+          updatedErrorCode(errorCode);
           setLoginLoading(false);
         });
     }
-    setLoginLoading(false);
   };
   const userSignOut = () => {
     setInitialLoading(true);

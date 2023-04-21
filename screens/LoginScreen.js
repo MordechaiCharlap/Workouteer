@@ -59,33 +59,32 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    if (authErrorCode) {
-      switch (authErrorCode) {
-        case "auth/wrong-password":
-          setErrorText("Wrong password");
-          break;
-        case " auth/wrong-password":
-          setErrorText("Wrong password");
-          break;
-        case "auth/invalid-email":
-          setErrorText("Invalid-email");
-          break;
-        case " auth/invalid-email":
-          setErrorText("Invalid-email");
-          break;
-        case "auth/user-not-found":
-          setErrorText("User doesn't exists");
-          break;
-        case " auth/user-not-found":
-          setErrorText("User doesn't exists");
-          break;
-        case "auth/too-many-requests":
-          setErrorText("Too many tries, try again later");
-          break;
-        case " auth/too-many-requests":
-          setErrorText("Too many tries, try again later");
-          break;
-      }
+    console.log(`got new one: ${authErrorCode}`);
+    switch (authErrorCode) {
+      case "auth/wrong-password":
+        setErrorText("Wrong password");
+        break;
+      case " auth/wrong-password":
+        setErrorText("Wrong password");
+        break;
+      case "auth/invalid-email":
+        setErrorText("Invalid-email");
+        break;
+      case " auth/invalid-email":
+        setErrorText("Invalid-email");
+        break;
+      case "auth/user-not-found":
+        setErrorText("User doesn't exists");
+        break;
+      case " auth/user-not-found":
+        setErrorText("User doesn't exists");
+        break;
+      case "auth/too-many-requests":
+        setErrorText("Too many tries, try again later");
+        break;
+      case " auth/too-many-requests":
+        setErrorText("Too many tries, try again later");
+        break;
     }
   }, [authErrorCode]);
   return (
@@ -182,7 +181,7 @@ const LoginScreen = () => {
                     </Text>
                   </View>
                   <Text
-                    className="text-center my-2 text-lg"
+                    className="text-center my-2 text-lg h-8"
                     style={{ color: appStyle.color_error }}
                   >
                     {errorText}
