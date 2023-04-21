@@ -22,7 +22,7 @@ const LoadingAnimation = () => {
         style={{ color: appStyle.color_primary }}
         className="text-5xl font-semibold tracking-widest text-center"
       >
-        {languageService[user.language].loading}
+        Workouteer
       </Text>
     </View>
   );
