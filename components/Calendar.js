@@ -4,7 +4,7 @@ import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 const Calendar = (props) => {
   const { user } = useAuth();
-  const weekdays = languageService[user.language].weekDays;
+  const weekdays = languageService[user.language].weekdays;
   const today = new Date();
   return (
     <View>

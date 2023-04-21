@@ -6,7 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 const WorkoutsStats = (props) => {
   const { user } = useAuth();
   const week = [];
-  const weekdays = languageService[user.language].weekDays;
+  const weekdays = languageService[user.language].weekdays;
   const renderStats = () => {
     const now = new Date();
     const weekAgo = new Date();
