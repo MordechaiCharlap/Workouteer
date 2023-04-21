@@ -15,7 +15,7 @@ const languageService = {
     workoutInvites: "Workout invites",
     noDescriptionYet: "No description yet",
     weeklyStatisticsChart: "Last week exercise duration (minutes)",
-    weekDays: [
+    weekdays: [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -107,6 +107,7 @@ const languageService = {
     leave: "Leave",
     addANewFriend: "Add a New Friend",
     friends: "Friends",
+    day: "Day",
     today: "Today",
     yasterday: "Yasterday",
     tomorrow: "Tomorrow",
@@ -189,7 +190,7 @@ const languageService = {
     workoutInvites: "הזמנות לאימונים",
     noDescriptionYet: "אין תיאור עדיין",
     weeklyStatisticsChart: "זמן אימון בשבוע האחרון (דקות)",
-    weekDays: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
+    weekdays: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
     chats: "צ'אטים",
     createWorkout: "יצירת אימון",
     when: "מתי?",
@@ -279,6 +280,7 @@ const languageService = {
     leave: "יציאה",
     addANewFriend: "הוספת חבר חדש",
     friends: "חברים",
+    day: "יום",
     today: "היום",
     yasterday: "אתמול",
     tomorrow: "מחר",
