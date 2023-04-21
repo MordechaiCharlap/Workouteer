@@ -134,7 +134,7 @@ const WorkoutComponent = (props) => {
     var scheduledNotificationId;
     if (Platform.OS != "web") {
       scheduledNotificationId = await schedulePushNotification(
-        startingTime,
+        workoutRef.startingTime.toDate(),
         "Workouteer",
         languageService[user.language].confirmYourWorkout[user.isMale]
       );
