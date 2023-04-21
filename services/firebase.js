@@ -611,7 +611,7 @@ export const acceptWorkoutInvite = async (
     [`members.${invited.id}`]: scheduledNotificationId,
   });
   await updateDoc(doc(db, "users", invited.id), {
-    [`workouts.${workout.id}`]: workout.startingTime,
+    [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
   });
   const accepted = true;
   await removeWorkoutInviteAlert(invited.id, workout, accepted);
@@ -634,7 +634,7 @@ export const acceptWorkoutRequest = async (requester, workout) => {
     [`members.${requester.id}`]: null,
   });
   await updateDoc(doc(db, "users", requester.id), {
-    [`workouts.${workout.id}`]: workout.startingTime,
+    [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
   });
   await workoutRequestAcceptedAlert(requester.id, workout);
   await removeWorkoutRequestAlert(requester.id, workout);
@@ -704,7 +704,7 @@ export const workoutRequestAcceptedAlert = async (requesterId, workout) => {
     [`newWorkouts.${workout.id}.workoutDate`]: workout.startingTime,
   });
 };
-export const removeAllWorkoutRequestAcceptedAlerts = async (userId) => {
+export const removeAllNewWorkoutsAlerts = async (userId) => {
   await updateDoc(doc(db, "alerts", userId), {
     newWorkouts: {},
   });
