@@ -52,15 +52,15 @@ const FutureWorkoutsScreen = () => {
         setWorkouts(workoutsArr);
         setInitialLoading(false);
       };
-      const removeAllWorkoutRequestAcceptedAlerts = async () => {
-        await firebase.removeAllWorkoutRequestAcceptedAlerts(user.id);
+      const removeAllNewWorkoutsAlerts = async () => {
+        await firebase.removeAllNewWorkoutsAlerts(user.id);
       };
       getWorkouts();
       if (Object.keys(newWorkoutsAlerts).length > 0) {
         setNewWorkouts(newWorkoutsAlerts);
         scheduleNotificationsForNewWorkouts();
         setNewWorkoutsAlerts({});
-        removeAllWorkoutRequestAcceptedAlerts();
+        removeAllNewWorkoutsAlerts();
       } else {
         setNewWorkouts({});
       }
