@@ -53,7 +53,6 @@ const FindWorkoutScreen = () => {
       setCountry(user.defaultCountry);
       setMinStartingTime(null);
       setMaxStartingTime(null);
-      console.log("Focus search workouts");
     }, [])
   );
   useEffect(() => {
@@ -100,7 +99,6 @@ const FindWorkoutScreen = () => {
     }
   };
   const renderMinStartingTime = () => {
-    console.log("Rendering min starting time");
     return (
       <StartingTimeComp
         language={user.language}
@@ -321,7 +319,7 @@ const FindWorkoutScreen = () => {
   );
 };
 const StartingTimeComp = (props) => {
-  return Platform.OS != "web" ? (
+  return Platform.OS == "web" ? (
     <View className="rounded-xl" style={{ backgroundColor: appStyle.color_bg }}>
       <Text
         className="text-xl font-semibold text-center"
@@ -350,7 +348,7 @@ const StartingTimeComp = (props) => {
       </Text>
       <WorkoutStartingTime
         startingTimeChanged={props.startingTimeChanged}
-        minDate={props.minDate}
+        minDate={props.minDate ? props.minDate : new Date()}
       />
     </View>
   );

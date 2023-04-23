@@ -17,7 +17,6 @@ const NextWeekDropdown = (props) => {
   const [minute, setMinute] = useState();
   const [minutes, setMinutes] = useState();
   const [isMinutesFocused, setIsMinutesFocused] = useState(false);
-  if (minDate) console.log(`mindate: ${minDate}`);
   const setSelectedDateByStates = () => {
     const date = new Date(weekday);
     date.setHours(hour);
@@ -65,7 +64,6 @@ const NextWeekDropdown = (props) => {
 
       today.setDate(today.getDate() + 1);
     }
-    console.log(`${weekdaysArr}`);
 
     setWeekdays(weekdaysArr);
     setWeekday(
@@ -96,7 +94,6 @@ const NextWeekDropdown = (props) => {
         value: hour,
       });
     }
-    console.log(`hours: ${hoursInterval}`);
     setHours(hoursInterval);
 
     if (props.setLast) setHour(hoursInterval[hoursInterval.length - 1].value);
@@ -120,7 +117,6 @@ const NextWeekDropdown = (props) => {
       });
     }
     setMinutes(minutesInterval);
-    console.log(`minutes: ${minutesInterval}`);
     if (props.setLast)
       setMinute(minutesInterval[minutesInterval.length - 1].value);
     else setMinute(minutesInterval[0].value);
