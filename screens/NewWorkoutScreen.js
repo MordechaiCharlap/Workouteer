@@ -24,10 +24,12 @@ import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import NextWeekDropdown from "../components/NextWeekDropdown";
+import * as workoutUtils from "../utilities/workoutUtils";
+import AwesomeAlert from "react-native-awesome-alerts";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const {
     schedulePushNotification,
     sendPushNotificationForFriendsAboutWorkout,
@@ -45,11 +47,44 @@ const NewWorkoutScreen = () => {
     appStyle.color_bg_variant
   );
   const [closestWorkoutDate, setClosestWorkoutDate] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("NewWorkout");
     }, [])
   );
+  const checkIfWorkoutTimeAvailable = () => {
+    const closestWorkout =
+      workoutUtils.checkIfDateAvailableAndReturnClosestWorkout(
+        user,
+        startingTime
+      );
+    if (closestWorkout == false) {
+      setAlertTitle(
+        languageService[user.language].alreadyScheduledAWorkoutThisDate
+      );
+      setAlertMessage(
+        languageService[user.language].chooseAnotherDate[user.isMale ? 1 : 0]
+      );
+      return false;
+    } else {
+      if (
+        closestWorkout != null &&
+        new Date(startingTime.getTime() + minutes * 60000) > closestWorkout
+      ) {
+        setAlertTitle(
+          languageService[user.language].yourWorkoutOverlappingOtherWorkout
+        );
+        setAlertMessage(
+          languageService[user.language].tryToScheduleAnEearlierWorkout
+        );
+        return false;
+      }
+    }
+    return true;
+  };
   useEffect(() => {
     checkIfCanAddWorkout();
   }, [type, startingTime, minutes, location]);
@@ -84,33 +119,37 @@ const NewWorkoutScreen = () => {
     return arr;
   };
   const createWorkout = async () => {
-    setIsCreateDisabled(true);
-    navigation.goBack();
-    var scheduledNotificationId;
-    if (Platform.OS != "web") {
-      scheduledNotificationId = await schedulePushNotification(
-        startingTime,
-        "Workout session started!",
-        "Don't forget to confirm your workout to get your points :)"
-      );
+    if (checkIfWorkoutTimeAvailable()) {
+      console.log("Adding workout");
+      setIsCreateDisabled(true);
+      navigation.goBack();
+      var scheduledNotificationId;
+      if (Platform.OS != "web") {
+        scheduledNotificationId = await schedulePushNotification(
+          startingTime,
+          "Workout session started!",
+          "Don't forget to confirm your workout to get your points :)"
+        );
+      }
+      const cityAndCountry = await getCityAndCountry(location);
+      const workout = {
+        creator: user.id,
+        members: { [user.id]: scheduledNotificationId },
+        type: type,
+        sex: workoutSex,
+        startingTime: startingTime,
+        minutes: minutes,
+        location: location,
+        description: description,
+        ...cityAndCountry,
+        invites: {},
+        requests: {},
+      };
+      await firebase.createWorkout(workout);
+      await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
+    } else {
+      setShowAlert(true);
     }
-
-    const cityAndCountry = await getCityAndCountry(location);
-    const workout = {
-      creator: user.id,
-      members: { [user.id]: scheduledNotificationId },
-      type: type,
-      sex: workoutSex,
-      startingTime: startingTime,
-      minutes: minutes,
-      location: location,
-      description: description,
-      ...cityAndCountry,
-      invites: {},
-      requests: {},
-    };
-    await firebase.createWorkout(workout);
-    await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
   };
   return (
     <View style={safeAreaStyle()}>
@@ -138,7 +177,7 @@ const NewWorkoutScreen = () => {
               language={user.language}
               sexChanged={setWorkoutSex}
             />
-            {Platform.OS != "web" ? (
+            {Platform.OS == "web" ? (
               <WorkoutStartingTime
                 setClosestWorkoutDate={setClosestWorkoutDate}
                 startingTimeChanged={setStartingTime}
@@ -149,7 +188,7 @@ const NewWorkoutScreen = () => {
             )}
           </View>
 
-          {Platform.OS == "web" ? (
+          {Platform.OS != "web" ? (
             <NextWeekDropdown
               language={user.language}
               now={now}
@@ -163,8 +202,6 @@ const NewWorkoutScreen = () => {
               <WorkoutMinutes
                 language={user.language}
                 minutesSelected={setMinutes}
-                workoutDate={startingTime}
-                closestWorkoutDate={closestWorkoutDate}
               />
             </View>
           )}
@@ -200,6 +237,23 @@ const NewWorkoutScreen = () => {
           </View>
         </ScrollView>
       </View>
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        confirmText={languageService[user.language].gotIt}
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowAlert(false);
+        }}
+        onConfirmPressed={() => {
+          setShowAlert(false);
+        }}
+      />
     </View>
   );
 };
