@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Platform,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -21,7 +22,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-
+import NextWeekDropdown from "../components/NextWeekDropdown";
 const FindWorkoutScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -102,8 +103,8 @@ const FindWorkoutScreen = () => {
     console.log("Rendering min starting time");
     return (
       <StartingTimeComp
-        date={minStartingTime}
-        minDate={now}
+        language={user.language}
+        now={now}
         title={languageService[user.language].from}
         startingTimeChanged={(date) => minDateChanged(date)}
       />
@@ -217,16 +218,26 @@ const FindWorkoutScreen = () => {
           </Text>
 
           <View
-            className={`justify-around mb-5 flex-row${
-              user.language == "hebrew" ? "-reverse" : ""
+            className={`justify-around mb-5 ${
+              Platform.OS != "web"
+                ? ""
+                : `flex-row${user.language == "hebrew" ? "-reverse" : ""}`
             }`}
           >
-            {renderMinStartingTime()}
+            <StartingTimeComp
+              language={user.language}
+              now={now}
+              title={languageService[user.language].from}
+              startingTimeChanged={(date) => minDateChanged(date)}
+            />
             {minStartingTime != null && (
               <StartingTimeComp
+                now={now}
+                language={user.language}
                 minDate={minStartingTime}
                 title={languageService[user.language].to}
                 startingTimeChanged={(date) => maxDateChanged(date)}
+                setLast={true}
               />
             )}
           </View>
@@ -310,7 +321,23 @@ const FindWorkoutScreen = () => {
   );
 };
 const StartingTimeComp = (props) => {
-  return (
+  return Platform.OS != "web" ? (
+    <View className="rounded-xl" style={{ backgroundColor: appStyle.color_bg }}>
+      <Text
+        className="text-xl font-semibold text-center"
+        style={{ color: appStyle.color_primary }}
+      >
+        {props.title}
+      </Text>
+      <NextWeekDropdown
+        setLast={props.setLast}
+        language={props.language}
+        now={props.now}
+        minDate={props.minDate}
+        selectedDateChanged={props.startingTimeChanged}
+      ></NextWeekDropdown>
+    </View>
+  ) : (
     <View
       className="rounded-xl p-2 pb-4 px-4 items-center"
       style={{ backgroundColor: appStyle.color_bg }}
