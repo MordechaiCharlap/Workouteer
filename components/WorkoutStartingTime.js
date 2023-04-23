@@ -12,6 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
 import { timeString } from "../services/timeFunctions";
+import * as workoutUtils from "../utilities/workoutUtils";
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
@@ -57,7 +58,10 @@ const WorkoutStartingTime = (props) => {
           props.startingTimeChanged(null);
         } else {
           const closestWorkout =
-            checkIfDateAvailableAndReturnClosestWorkout(currentDate);
+            workoutUtils.checkIfDateAvailableAndReturnClosestWorkout(
+              user,
+              currentDate
+            );
           if (closestWorkout == false) {
             if (Platform.OS != "web")
               Alert.alert("You already have a workout in this date");
@@ -111,7 +115,7 @@ const WorkoutStartingTime = (props) => {
           <Text
             style={{ color: appStyle.color_on_primary, textAlign: "center" }}
           >
-            {timeString(date,user.language)}
+            {timeString(date, user.language)}
           </Text>
         )}
       </TouchableOpacity>
