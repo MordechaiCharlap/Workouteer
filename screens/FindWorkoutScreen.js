@@ -217,7 +217,7 @@ const FindWorkoutScreen = () => {
 
           <View
             className={`justify-around mb-5 ${
-              Platform.OS != "web"
+              Platform.OS == "web"
                 ? ""
                 : `flex-row${user.language == "hebrew" ? "-reverse" : ""}`
             }`}
