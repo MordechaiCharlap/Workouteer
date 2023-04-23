@@ -174,6 +174,19 @@ const languageService = {
     lessThan: "Less than ",
     kmAway: "km away",
     members: "Members",
+    alreadyScheduledAWorkoutThisDate:
+      "You have a scheduled workout in this date",
+    chooseAnotherDate: ["Choose another date", "Choose another date"],
+    yourWorkoutOverlappingOtherWorkout:
+      "This workout overlaps another scheduled workout of yours",
+    tryToScheduleAnEearlierWorkout:
+      "Maybe you should try to schedule an earlier workout",
+    gotIt: "Got it",
+    cantGoBackInTime: "Can't go back in time",
+    scheduleLater: [
+      "Schedule a later starting time",
+      "Schedule a later starting time",
+    ],
   },
   hebrew: {
     login: "התחבר",
@@ -333,6 +346,14 @@ const languageService = {
     lessThan: "פחות מ",
     kmAway: "קילומטרים ממך",
     members: "משתתפים",
+    alreadyScheduledAWorkoutThisDate: "יש לך אימון בשעה הזאת כבר",
+    chooseAnotherDate: ["בחרי תאריך אחר", "בחר תאריך אחר"],
+    yourWorkoutOverlappingOtherWorkout:
+      "האימון הזה חופף את זמן האימון של אימון אחר שקבעת",
+    tryToScheduleAnEearlierWorkout: "אולי כדאי לבחור שעה מוקדמת יותר",
+    gotIt: "הבנתי",
+    cantGoBackInTime: "אי אפשר לחזור אחורה בזמן",
+    scheduleLater: ["בחר שעת התחלה מאוחרת יותר", "בחר שעת התחלה מאוחרת יותר"],
   },
 };
 export default languageService;
