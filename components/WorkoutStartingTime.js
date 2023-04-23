@@ -12,7 +12,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
 import { timeString } from "../services/timeFunctions";
-import * as workoutUtils from "../utilities/workoutUtils";
+import AwesomeAlert from "react-native-awesome-alerts";
+
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
@@ -20,6 +21,13 @@ const WorkoutStartingTime = (props) => {
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [mode, setMode] = useState("date");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState(
+    languageService[user.language].cantGoBackInTime
+  );
+  const [alertMessage, setAlertMessage] = useState(
+    languageService[user.language].scheduleLater[user.isMale ? 1 : 0]
+  );
   useEffect(() => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
@@ -32,11 +40,13 @@ const WorkoutStartingTime = (props) => {
         setDate(currentDate);
         setMode("time");
       } else {
+        setShow(false);
+        setMode("date");
         if (
           date.getDate() == props.minDate.getDate() &&
           currentDate.getTime() < props.minDate.getTime()
         ) {
-          if (Platform.OS != "web") Alert.alert("Can't go back in time");
+          setShowAlert(true);
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
         } else {
@@ -44,8 +54,6 @@ const WorkoutStartingTime = (props) => {
           setDate(currentDate);
           props.startingTimeChanged(currentDate);
         }
-        setShow(false);
-        setMode("date");
       }
     } else if (event.type == "dismissed" && !dateChangedOnce) {
       props.startingTimeChanged(null);
@@ -100,6 +108,23 @@ const WorkoutStartingTime = (props) => {
           onChange={onDateChange}
         />
       )}
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        confirmText={languageService[user.language].gotIt}
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowAlert(false);
+        }}
+        onConfirmPressed={() => {
+          setShowAlert(false);
+        }}
+      />
     </View>
   );
 };
