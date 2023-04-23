@@ -37,7 +37,7 @@ const WorkoutMinutes = (props) => {
             isFocus && { color: appStyle.color_on_primary },
           ]}
         >
-          Workout length (hours:minutes)
+          {languageService[props.language].workoutMinutesPlaceholder}
         </Text>
       );
     }
@@ -63,7 +63,6 @@ const WorkoutMinutes = (props) => {
         placeholder={
           !isFocus ? languageService[props.language].workoutTimePeiod : "..."
         }
-        searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}

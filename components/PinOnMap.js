@@ -8,6 +8,7 @@ import {
   Platform,
 } from "react-native";
 import * as appStyle from "./AppStyleSheet";
+import languageService from "../services/languageService";
 const PinOnMap = (props) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
@@ -52,7 +53,7 @@ const PinOnMap = (props) => {
           className="text-1xl font-semibold"
           style={{ color: appStyle.color_primary }}
         >
-          Save location
+          {languageService[props.language].saveLocation}
         </Text>
       </TouchableOpacity>
     </View>
