@@ -97,7 +97,13 @@ const NextWeekDropdown = (props) => {
     setSelectedDateByStates();
   }, [weekday, hour, minute]);
   return (
-    <View className="flex-row">
+    <View
+      style={
+        language == "hebrew"
+          ? { flexDirection: "row-reverse" }
+          : { flexDirection: "row" }
+      }
+    >
       <Dropdown
         style={[
           style.dropdown,
