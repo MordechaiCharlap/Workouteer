@@ -93,6 +93,7 @@ const WorkoutLocation = (props) => {
             </Text>
           ) : (
             <PinOnMap
+              language={props.language}
               defaultMarker={markerCoords}
               saveLocation={locationPinned}
             />

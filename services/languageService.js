@@ -187,6 +187,18 @@ const languageService = {
       "Schedule a later starting time",
       "Schedule a later starting time",
     ],
+    workoutMinutesPlaceholder: "Workout length (hours:minutes)",
+    youAre: ["You are", "You are"],
+    meters: ["meters"],
+    kms: ["kilometers"],
+    fromTheWorkoutLocationGetCloser: [
+      "from the workout location. Get close",
+      "from the workout location. Get close",
+    ],
+    confirmWorkout: ["Confirm workout", "Confirm workout"],
+    getInsideTheCircle: ["Get inside the circle", "Get inside the circle"],
+    checkingDistnace: "CheckingDistance",
+    saveLocation: "Save location",
   },
   hebrew: {
     login: "התחבר",
@@ -354,6 +366,18 @@ const languageService = {
     gotIt: "הבנתי",
     cantGoBackInTime: "אי אפשר לחזור אחורה בזמן",
     scheduleLater: ["בחר שעת התחלה מאוחרת יותר", "בחר שעת התחלה מאוחרת יותר"],
+    workoutMinutesPlaceholder: "זמן אימון (דקות:שעות)",
+    youAre: ["את", "אתה"],
+    meters: ["מטרים"],
+    kms: "קילומטרים",
+    fromTheWorkoutLocationGetCloser: [
+      "ממיקום האימון. תתקרבי",
+      "ממיקום האימון. תתקרב",
+    ],
+    confirmWorkout: ["אשרי אימון", "אשר אימון"],
+    getInsideTheCircle: ["כנסי לעיגול", "כנס לעיגול"],
+    checkingDistnace: "בודק מרחק",
+    saveLocation: "בחירת מיקום",
   },
 };
 export default languageService;
