@@ -177,7 +177,7 @@ const NewWorkoutScreen = () => {
               language={user.language}
               sexChanged={setWorkoutSex}
             />
-            {Platform.OS == "web" ? (
+            {Platform.OS != "web" ? (
               <WorkoutStartingTime
                 setClosestWorkoutDate={setClosestWorkoutDate}
                 startingTimeChanged={setStartingTime}
@@ -188,7 +188,7 @@ const NewWorkoutScreen = () => {
             )}
           </View>
 
-          {Platform.OS != "web" ? (
+          {Platform.OS == "web" ? (
             <NextWeekDropdown
               language={user.language}
               now={now}
