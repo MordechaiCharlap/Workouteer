@@ -15,10 +15,19 @@ const NextWeekDropdown = (props) => {
   const [minute, setMinute] = useState();
   const [minutes, setMinutes] = useState();
   const [isMinutesFocused, setIsMinutesFocused] = useState(false);
+  const [selectedDate, setSelectedDate] = useState();
+  const setSelectedDateByStates = () => {
+    const date = new Date(weekday);
+    date.setHours(hour);
+    date.setMinutes(minute);
+    setSelectedDate(date);
+    console.log(`updated date: ${date}`);
+  };
   useEffect(() => {
     const currentDay = now.getDay();
     const weekdaysArr = [];
     const today = new Date();
+    console.log(`today:${today}`);
     for (let i = 0; i < 7; i++) {
       const num = (currentDay + i) % 7;
       const day = String(today.getDate()).padStart(2, "0");
@@ -41,7 +50,6 @@ const NextWeekDropdown = (props) => {
     setWeekday(weekdaysArr[0].value);
   }, []);
   useEffect(() => {
-    console.log("Weekday changed!");
     const isToday = weekday.getDay() === now.getDay();
     // Get the current hour and minute
     const currentHour = now.getHours();
@@ -65,7 +73,6 @@ const NextWeekDropdown = (props) => {
     setHour(hoursInterval[0].value);
   }, [weekday]);
   useEffect(() => {
-    console.log("Hour changed!");
     const minutesInterval = [];
     const currentMinute = now.getMinutes();
     const currentHour = now.getHours();
@@ -82,12 +89,13 @@ const NextWeekDropdown = (props) => {
         label: minute.toString().padStart(2, "0"),
         value: minute,
       });
-
-      console.log(`${hour}:${minute}`);
     }
     setMinutes(minutesInterval);
     setMinute(minutesInterval[0].value);
   }, [hour]);
+  useEffect(() => {
+    setSelectedDateByStates();
+  }, [weekday, hour, minute]);
   return (
     <View className="flex-row">
       <Dropdown
