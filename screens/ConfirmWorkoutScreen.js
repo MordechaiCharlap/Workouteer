@@ -17,8 +17,10 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useAuth from "../hooks/useAuth";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
-import { languageService } from "../services/languageService";
+import languageService from "../services/languageService";
 import { useState } from "react";
+import AwesomeAlert from "react-native-awesome-alerts";
+
 const ConfirmWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -27,9 +29,12 @@ const ConfirmWorkoutScreen = () => {
 
   const [confirmed, setConfirmed] = useState(false);
   const [checkingDistance, setCheckingDistance] = useState(false);
-  const [updatingFirestore, setUpdatingFirestore] = useState(false);
   const workout = currentWorkout;
-  const [refresh, setRefresh] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [exitableAlert, setExitableAlert] = useState(true);
   useEffect(() => {
     if (refresh) {
       checkConfirmation();
@@ -88,8 +93,14 @@ const ConfirmWorkoutScreen = () => {
       setRefresh(true);
     }
     if (distance <= 150) {
-      setUpdatingFirestore(true);
-      setConfirmed(true);
+      setAlertTitle(
+        languageService[user.language].workoutConfirmedDontLeave[
+          user.isMale ? 1 : 0
+        ]
+      );
+      setExitableAlert(false);
+      setShowAlert(true);
+
       setCheckingDistance(false);
       const newWorkoutArray = [
         workout.startingTime.toDate(),
@@ -114,15 +125,25 @@ const ConfirmWorkoutScreen = () => {
           totalPoints: increment(confirmationPoints),
         });
       await addLeaderboardPoints(user, confirmationPoints);
-      setUpdatingFirestore(false);
+      setConfirmed(true);
+      setShowAlert(false);
+      setExitableAlert(false);
     } else {
       setConfirmed(false);
       setCheckingDistance(false);
-      Alert.alert(
-        `You are ${
-          distance < 1000 ? `${distance} meters` : ` ${distance / 1000} km away`
-        } away from the workout location, get closer`
+      setAlertTitle(
+        `${languageService[user.language].youAre} ${
+          distance < 1000
+            ? `${distance} ${languageService[user.language].meters}`
+            : ` ${distance / 1000} ${languageService[user.language].kms}`
+        } ${
+          languageService[user.language].fromTheWorkoutLocationGetCloser[
+            user.isMale ? 1 : 0
+          ]
+        }`
       );
+      setExitableAlert(true);
+      setShowAlert(true);
     }
   }, []);
   return confirmed == true ? (
@@ -131,51 +152,34 @@ const ConfirmWorkoutScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      {updatingFirestore ? (
+      <View className="items-center gap-y-7">
         <Text
-          className="rounded py-2 px-4 font-semibold text-xl"
+          className="rounded p-2 font-semibold text-xl text-center"
           style={{
             backgroundColor: appStyle.color_primary,
             color: appStyle.color_on_primary,
           }}
         >
-          {
-            languageService[user.language].workoutConfirmedDontLeave[
-              user.isMale ? 1 : 0
-            ]
-          }
+          {confirmationPoints} {languageService[user.language].pointsAdded}
         </Text>
-      ) : (
-        <>
+        <TouchableOpacity
+          className="rounded py-2 px-4"
+          style={{ borderColor: appStyle.color_primary, borderWidth: 1 }}
+          onPress={() => {
+            navigation.goBack();
+            setCurrentWorkout(null);
+          }}
+        >
           <Text
-            className="rounded py-2 px-4 font-semibold text-xl"
+            className="font-semibold text-lg text-center"
             style={{
-              backgroundColor: appStyle.color_primary,
-              color: appStyle.color_on_primary,
+              color: appStyle.color_primary,
             }}
           >
-            {confirmationPoints}{" "}
-            {languageService[user.language].pointsAdded[user.isMale ? 1 : 0]}
+            {languageService[user.language].exit}
           </Text>
-          <TouchableOpacity
-            className="rounded py-2 px-4"
-            style={{ backgroundColor: appStyle.color_primary }}
-            onPress={() => {
-              navigation.goBack();
-              setCurrentWorkout(null);
-            }}
-          >
-            <Text
-              className="font-semibold text-lg"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {languageService[user.language].exit}
-            </Text>
-          </TouchableOpacity>
-        </>
-      )}
+        </TouchableOpacity>
+      </View>
     </View>
   ) : (
     <View
@@ -194,7 +198,7 @@ const ConfirmWorkoutScreen = () => {
           color: appStyle.color_primary,
         }}
       >
-        Get inside the circle
+        {languageService[user.language].getInsideTheCircle[user.isMale ? 1 : 0]}
       </Text>
       <View
         className="items-center justify-center p-2 rounded-lg w-full aspect-square"
@@ -236,7 +240,7 @@ const ConfirmWorkoutScreen = () => {
             color: appStyle.color_on_primary,
           }}
         >
-          Confirm workout
+          {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
         </Text>
       </TouchableOpacity>
       {checkingDistance == true ? (
@@ -248,12 +252,29 @@ const ConfirmWorkoutScreen = () => {
               color: appStyle.color_on_primary,
             }}
           >
-            Checking distance...
+            {languageService[user.language].checkingDistance + "..."}
           </Text>
         </View>
       ) : (
         <></>
       )}
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={!exitableAlert}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={exitableAlert}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={exitableAlert}
+        confirmText={languageService[user.language].gotIt}
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowAlert(false);
+        }}
+        onConfirmPressed={() => {
+          setShowAlert(false);
+        }}
+      />
     </View>
   );
 };
