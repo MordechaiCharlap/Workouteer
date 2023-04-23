@@ -3,6 +3,7 @@ import * as appStyle from "./AppStyleSheet";
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
+
 const NextWeekDropdown = (props) => {
   const now = props.now;
   const language = props.language;
@@ -15,13 +16,12 @@ const NextWeekDropdown = (props) => {
   const [minute, setMinute] = useState();
   const [minutes, setMinutes] = useState();
   const [isMinutesFocused, setIsMinutesFocused] = useState(false);
-  const [selectedDate, setSelectedDate] = useState();
   const setSelectedDateByStates = () => {
     const date = new Date(weekday);
     date.setHours(hour);
     date.setMinutes(minute);
-    setSelectedDate(date);
-    console.log(`updated date: ${date}`);
+    props.selectedDateChanged(date);
+    console.log(`selected date: ${date}`);
   };
   useEffect(() => {
     const currentDay = now.getDay();
@@ -97,83 +97,81 @@ const NextWeekDropdown = (props) => {
     setSelectedDateByStates();
   }, [weekday, hour, minute]);
   return (
-    <View
-      style={
-        language == "hebrew"
-          ? { flexDirection: "row-reverse" }
-          : { flexDirection: "row" }
-      }
-    >
-      <Dropdown
-        style={[
-          style.dropdown,
-          { flexGrow: 1 },
-          isWeekdaysFocused && { borderColor: appStyle.color_primary },
-        ]}
-        placeholder={languageService[language].day}
-        placeholderStyle={style.placeholderStyle}
-        selectedTextStyle={style.selectedTextStyle}
-        inputSearchStyle={style.inputSearchStyle}
-        iconStyle={style.iconStyle}
-        data={weekdays}
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        value={weekdays[0]}
-        onFocus={() => setIsWeekdaysFocused(true)}
-        onBlur={() => setIsWeekdaysFocused(false)}
-        onChange={(item) => {
-          setWeekday(item.value);
-          setIsWeekdaysFocused(false);
-        }}
-      />
-      <View className="flex-row">
+    <View>
+      <View
+        className={`gap-x-4 flex-row${language == "hebrew" ? "-reverse" : ""}`}
+      >
         <Dropdown
           style={[
             style.dropdown,
-            { width: 70 },
-            isHoursFocused && { borderColor: appStyle.color_primary },
+            { flexGrow: 1 },
+            isWeekdaysFocused && { borderColor: appStyle.color_primary },
           ]}
-          placeholder={languageService[language].hour}
+          placeholder={languageService[language].day}
           placeholderStyle={style.placeholderStyle}
           selectedTextStyle={style.selectedTextStyle}
           inputSearchStyle={style.inputSearchStyle}
           iconStyle={style.iconStyle}
-          data={hours}
+          data={weekdays}
           maxHeight={300}
           labelField="label"
           valueField="value"
-          value={hour}
-          onFocus={() => setIsHoursFocused(true)}
-          onBlur={() => setIsHoursFocused(false)}
+          value={weekdays[0]}
+          onFocus={() => setIsWeekdaysFocused(true)}
+          onBlur={() => setIsWeekdaysFocused(false)}
           onChange={(item) => {
-            setHour(item.value);
-            setIsHoursFocused(false);
+            setWeekday(item.value);
+            setIsWeekdaysFocused(false);
           }}
         />
-        <Dropdown
-          style={[
-            style.dropdown,
-            { width: 70 },
-            isMinutesFocused && { borderColor: appStyle.color_primary },
-          ]}
-          placeholder={languageService[language].minutes}
-          placeholderStyle={style.placeholderStyle}
-          selectedTextStyle={style.selectedTextStyle}
-          inputSearchStyle={style.inputSearchStyle}
-          iconStyle={style.iconStyle}
-          data={minutes}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          value={minute}
-          onFocus={() => setIsMinutesFocused(true)}
-          onBlur={() => setIsMinutesFocused(false)}
-          onChange={(item) => {
-            setMinute(item.value);
-            setIsMinutesFocused(false);
-          }}
-        />
+        <View className="flex-row">
+          <Dropdown
+            style={[
+              style.dropdown,
+              { width: 70 },
+              isHoursFocused && { borderColor: appStyle.color_primary },
+            ]}
+            placeholder={languageService[language].hour}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={hours}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={hour}
+            onFocus={() => setIsHoursFocused(true)}
+            onBlur={() => setIsHoursFocused(false)}
+            onChange={(item) => {
+              setHour(item.value);
+              setIsHoursFocused(false);
+            }}
+          />
+          <Dropdown
+            style={[
+              style.dropdown,
+              { width: 70 },
+              isMinutesFocused && { borderColor: appStyle.color_primary },
+            ]}
+            placeholder={languageService[language].minutes}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={minutes}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={minute}
+            onFocus={() => setIsMinutesFocused(true)}
+            onBlur={() => setIsMinutesFocused(false)}
+            onChange={(item) => {
+              setMinute(item.value);
+              setIsMinutesFocused(false);
+            }}
+          />
+        </View>
       </View>
     </View>
   );
