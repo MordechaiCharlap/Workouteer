@@ -19,8 +19,8 @@ const WorkoutSex = (props) => {
         <CheckBox
           onValueChange={(value) =>
             value == true
-              ? setWorkoutSex("everyone")
-              : setWorkoutSex(props.isMale == true ? "men" : "women")
+              ? setWorkoutSex(props.isMale == true ? "men" : "women")
+              : setWorkoutSex("everyone")
           }
           backgroundColor={appStyle.color_primary}
           valueColor={appStyle.color_on_primary}
@@ -28,11 +28,11 @@ const WorkoutSex = (props) => {
         />
       </View>
       <Text style={{ color: appStyle.color_primary }}>
-        {workoutSex == "everyone"
-          ? languageService[props.language].openForEveryone
-          : languageService[props.language][
-              props.isMale ? "menOnly" : "womenOnly"
-            ]}
+        {
+          languageService[props.language][
+            props.isMale ? "menOnly" : "womenOnly"
+          ]
+        }
       </Text>
     </View>
   );
