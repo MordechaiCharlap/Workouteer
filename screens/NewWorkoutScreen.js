@@ -128,23 +128,36 @@ const NewWorkoutScreen = () => {
             {/* margin is inside the component after each types row */}
             <WorkoutType language={user.language} typeSelected={setType} />
           </View>
-          <View className="pb-2 mb-5 flex-row">
-            <View className="w-1/2">
+          <View
+            className={`pb-2 mb-5 justify-between flex-row${
+              user.language == "hebrew" ? "-reverse" : ""
+            }`}
+          >
+            <WorkoutSex
+              isMale={user.isMale}
+              language={user.language}
+              sexChanged={setWorkoutSex}
+            />
+            {Platform.OS != "web" ? (
               <WorkoutStartingTime
                 setClosestWorkoutDate={setClosestWorkoutDate}
                 startingTimeChanged={setStartingTime}
                 minDate={now}
               />
-            </View>
-            <View className="w-1/2">
-              <WorkoutSex
-                isMale={user.isMale}
-                language={user.language}
-                sexChanged={setWorkoutSex}
-              />
-            </View>
+            ) : (
+              <></>
+            )}
           </View>
-          <NextWeekDropdown language={user.language} now={now} />
+
+          {Platform.OS == "web" ? (
+            <NextWeekDropdown
+              language={user.language}
+              now={now}
+              selectedDateChanged={setStartingTime}
+            />
+          ) : (
+            <></>
+          )}
           {startingTime != null && (
             <View className="pb-2 rounded mb-5">
               <WorkoutMinutes
