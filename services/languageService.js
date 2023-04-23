@@ -195,7 +195,7 @@ const languageService = {
     chats: "צ'אטים",
     createWorkout: "יצירת אימון",
     when: "מתי?",
-    openForEveryone: "פתוח גם לגברים וגם לנשים",
+    openForEveryone: "מעורב",
     location: "מיקום",
     gettingCurrentLocation: "טוען מיקום נוכחי...",
     setLocation: "בחירת מיקום",
