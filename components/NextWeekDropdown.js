@@ -5,6 +5,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
 
 const NextWeekDropdown = (props) => {
+  const minDate = props.minDate;
   const now = props.now;
   const language = props.language;
   const [weekday, setWeekday] = useState(now);
@@ -16,43 +17,68 @@ const NextWeekDropdown = (props) => {
   const [minute, setMinute] = useState();
   const [minutes, setMinutes] = useState();
   const [isMinutesFocused, setIsMinutesFocused] = useState(false);
+  if (minDate) console.log(`mindate: ${minDate}`);
   const setSelectedDateByStates = () => {
     const date = new Date(weekday);
     date.setHours(hour);
     date.setMinutes(minute);
     props.selectedDateChanged(date);
-    console.log(`selected date: ${date}`);
   };
   useEffect(() => {
+    var minYear;
+    var minMonth;
+    var minDay;
+    if (minDate != null) {
+      minYear = minDate.getFullYear();
+      minMonth = minDate.getMonth();
+      minDay = minDate.getDate();
+    }
     const currentDay = now.getDay();
     const weekdaysArr = [];
     const today = new Date();
-    console.log(`today:${today}`);
     for (let i = 0; i < 7; i++) {
-      const num = (currentDay + i) % 7;
-      const day = String(today.getDate()).padStart(2, "0");
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const formattedDate = `${day}/${month}`;
-      weekdaysArr.push({
-        label:
-          i == 0
-            ? languageService[language].weekdays[num] +
-              ` (${languageService[language].today})`
-            : i == 1
-            ? languageService[language].weekdays[num] +
-              ` (${languageService[language].tomorrow})`
-            : languageService[language].weekdays[num] + ` ${formattedDate}`,
-        value: new Date(today),
-      });
+      if (
+        minDate != null &&
+        (minYear > today.getFullYear() ||
+          (minYear == today.getFullYear() && minMonth > today.getMonth()) ||
+          (minYear == today.getFullYear() &&
+            minMonth == today.getMonth() &&
+            minDay > today.getDate()))
+      ) {
+      } else {
+        const num = (currentDay + i) % 7;
+        const day = String(today.getDate()).padStart(2, "0");
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const formattedDate = `${day}/${month}`;
+        weekdaysArr.push({
+          label:
+            i == 0
+              ? languageService[language].weekdays[num] +
+                ` (${languageService[language].today})`
+              : i == 1
+              ? languageService[language].weekdays[num] +
+                ` (${languageService[language].tomorrow})`
+              : languageService[language].weekdays[num] + ` ${formattedDate}`,
+          value: new Date(today),
+        });
+      }
+
       today.setDate(today.getDate() + 1);
     }
+    console.log(`${weekdaysArr}`);
+
     setWeekdays(weekdaysArr);
-    setWeekday(weekdaysArr[0].value);
-  }, []);
+    setWeekday(
+      minDate ? weekdaysArr[weekdaysArr.length - 1].value : weekdaysArr[0].value
+    );
+  }, [minDate]);
   useEffect(() => {
-    const isToday = weekday.getDay() === now.getDay();
+    const isToday = minDate
+      ? minDate.getDate() == weekday.getDate()
+      : weekday.getDay() === now.getDay();
     // Get the current hour and minute
-    const currentHour = now.getHours();
+    const currentHour = minDate ? minDate.getHours() : now.getHours();
+    const currentMinutes = minDate ? minDate.getMinutes() : now.getMinutes();
     setHour(currentHour);
 
     // Create an empty array to store the time intervals
@@ -61,27 +87,30 @@ const NextWeekDropdown = (props) => {
     for (let hour = 0; hour < 24; hour++) {
       if (
         isToday &&
-        (hour < currentHour || (hour == currentHour && now.getMinutes() >= 45))
-      )
+        (hour < currentHour || (hour == currentHour && currentMinutes >= 45))
+      ) {
         continue;
+      }
       hoursInterval.push({
         label: hour.toString().padStart(2, "0"),
         value: hour,
       });
     }
+    console.log(`hours: ${hoursInterval}`);
     setHours(hoursInterval);
-    setHour(hoursInterval[0].value);
+
+    if (props.setLast) setHour(hoursInterval[hoursInterval.length - 1].value);
+    else setHour(hoursInterval[0].value);
   }, [weekday]);
   useEffect(() => {
+    const isToday = minDate
+      ? minDate.getDate() == weekday.getDate()
+      : weekday.getDay() === now.getDay();
     const minutesInterval = [];
-    const currentMinute = now.getMinutes();
-    const currentHour = now.getHours();
+    const currentMinutes = minDate ? minDate.getMinutes() : now.getMinutes();
+    const currentHour = minDate ? minDate.getHours() : now.getHours();
     for (let minute = 0; minute < 60; minute += 15) {
-      if (
-        weekday.getDay() === now.getDay() &&
-        hour == currentHour &&
-        currentMinute > minute
-      ) {
+      if (isToday && hour == currentHour && currentMinutes >= minute) {
         continue;
       }
 
@@ -91,7 +120,10 @@ const NextWeekDropdown = (props) => {
       });
     }
     setMinutes(minutesInterval);
-    setMinute(minutesInterval[0].value);
+    console.log(`minutes: ${minutesInterval}`);
+    if (props.setLast)
+      setMinute(minutesInterval[minutesInterval.length - 1].value);
+    else setMinute(minutesInterval[0].value);
   }, [hour]);
   useEffect(() => {
     setSelectedDateByStates();
@@ -116,7 +148,7 @@ const NextWeekDropdown = (props) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          value={weekdays[0]}
+          value={props.setLast ? weekdays[weekdays.length - 1] : weekdays[0]}
           onFocus={() => setIsWeekdaysFocused(true)}
           onBlur={() => setIsWeekdaysFocused(false)}
           onChange={(item) => {
