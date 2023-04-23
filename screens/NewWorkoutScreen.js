@@ -23,6 +23,7 @@ import WorkoutSex from "../components/WorkoutSex";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
+import NextWeekDropdown from "../components/NextWeekDropdown";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -143,6 +144,7 @@ const NewWorkoutScreen = () => {
               />
             </View>
           </View>
+          <NextWeekDropdown language={user.language} now={now} />
           {startingTime != null && (
             <View className="pb-2 rounded mb-5">
               <WorkoutMinutes
