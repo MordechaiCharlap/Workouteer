@@ -129,7 +129,7 @@ const HomeScreen = () => {
           <View className="absolute bottom-1 right-0 left-0 mx-0 items-center">
             <ConfirmCurrentWorkoutButton
               currentWorkout={currentWorkout}
-              userId={user.id}
+              user={user}
             />
           </View>
         )}
