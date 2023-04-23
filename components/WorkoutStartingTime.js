@@ -25,23 +25,6 @@ const WorkoutStartingTime = (props) => {
     maximumDate.setDate(maximumDate.getDate() + 7);
     setMaxDate(maximumDate);
   }, []);
-  const checkIfDateAvailableAndReturnClosestWorkout = (dateToCheck) => {
-    var closestWorkoutDate = null;
-    for (var value of Object.values(user.workouts)) {
-      if (
-        new Date(value[0].toDate().getTime() + value[1] * 60000) >
-          dateToCheck &&
-        value[0].toDate() < dateToCheck
-      ) {
-        return false;
-      } else if (
-        value[0].toDate() > dateToCheck &&
-        (closestWorkoutDate == null || closestWorkoutDate > value[0].toDate())
-      )
-        closestWorkoutDate = value[0].toDate();
-    }
-    return closestWorkoutDate;
-  };
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (event.type == "set") {
@@ -57,23 +40,9 @@ const WorkoutStartingTime = (props) => {
           setDateChangedOnce(false);
           props.startingTimeChanged(null);
         } else {
-          const closestWorkout =
-            workoutUtils.checkIfDateAvailableAndReturnClosestWorkout(
-              user,
-              currentDate
-            );
-          if (closestWorkout == false) {
-            if (Platform.OS != "web")
-              Alert.alert("You already have a workout in this date");
-            setDateChangedOnce(false);
-            props.startingTimeChanged(null);
-          } else {
-            setDateChangedOnce(true);
-            setDate(currentDate);
-            props.startingTimeChanged(currentDate);
-            if (props.setClosestWorkoutDate)
-              props.setClosestWorkoutDate(closestWorkout);
-          }
+          setDateChangedOnce(true);
+          setDate(currentDate);
+          props.startingTimeChanged(currentDate);
         }
         setShow(false);
         setMode("date");
