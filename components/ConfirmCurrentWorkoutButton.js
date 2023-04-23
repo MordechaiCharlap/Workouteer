@@ -4,7 +4,9 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../components/AppStyleSheet";
 import { useNavigation } from "@react-navigation/native";
+import languageService from "../services/languageService";
 const ConfirmCurrentWorkoutButton = (props) => {
+  const user = props.user;
   const navigation = useNavigation();
   return (
     <View className="w-3/4">
@@ -32,10 +34,10 @@ const ConfirmCurrentWorkoutButton = (props) => {
           />
         </View>
         <Text
-          className="text-center"
+          className="text-center flex-1"
           style={{ color: appStyle.color_on_primary }}
         >
-          Confirm workout to get points
+          {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
         </Text>
       </TouchableOpacity>
     </View>
