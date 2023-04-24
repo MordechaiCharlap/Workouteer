@@ -40,6 +40,7 @@ import useWebResponsiveness from "./hooks/useWebResponsiveness";
 import { checkIfVersionUpdated } from "./services/versionService";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
+import { safeAreaStyle } from "./components/safeAreaStyle";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -122,11 +123,7 @@ const StackNavigator = () => {
   }, [workoutInvitesAlerts]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={safeAreaStyle()}>
       <Stack.Navigator screenOptions={{ headerShown: true }}>
         {orientation == "LANDSCAPE" ? (
           <Stack.Screen
