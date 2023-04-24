@@ -14,9 +14,11 @@ export const NavbarDisplayProvider = ({ children }) => {
       "LandscapeOrientation",
       "UpdateApp",
       "WindowTooSmall",
+      "LinkUserWithGoogle",
     ];
-    if (dontShowNavbar.includes(currentScreen)) setShowNavbar(false);
-    else setShowNavbar(true);
+    if (dontShowNavbar.includes(currentScreen)) {
+      setShowNavbar(false);
+    } else setShowNavbar(true);
   }, [currentScreen]);
   return (
     <NavbarDisplayContext.Provider
