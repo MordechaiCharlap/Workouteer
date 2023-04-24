@@ -6,7 +6,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  extends: ["eslint:recommended", "google"],
+  extends: ["eslint:recommended"],
   rules: {
     "object-curly-spacing": [2, "always"],
     "comma-dangle": [

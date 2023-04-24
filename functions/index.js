@@ -5,7 +5,7 @@ admin.initializeApp();
 const db = admin.firestore();
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
-  .onDelete(async (snap, context) => {
+  .onDelete(async (snap) => {
     const userId = snap.id;
     console.log(`Deleting data for ${userId}`);
 
@@ -22,8 +22,6 @@ exports.deleteUserData = functions.firestore
     const batch = db.batch();
     const now = new Date();
     const alerts = snap.data();
-    //  delete alerts doc
-    await db.doc(`alerts/${userId}`).delete();
     //  delete all invites of future workouts for this user from workouts db
     const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
     for (const invite of invitesArray) {
