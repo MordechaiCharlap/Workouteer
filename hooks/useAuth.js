@@ -7,6 +7,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithCredential,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import {
@@ -40,7 +42,6 @@ export const AuthPrvider = ({ children }) => {
   useEffect(() => {
     if (!googleUserInfo) {
       console.log("auth observer");
-      console.log(auth);
       onAuthStateChanged(auth, (authUser) => {
         if (authUser) {
           console.log("state Changed, user logged in: " + authUser.email);
@@ -104,6 +105,15 @@ export const AuthPrvider = ({ children }) => {
     if (response?.type === "success") {
       setInitialLoading(true);
       console.log("success");
+      console.log(response);
+      const credential = GoogleAuthProvider.credential(
+        null,
+        response.authentication.accessToken
+      );
+      console.log(credential);
+      signInWithCredential(auth, credential)
+        .then((value) => console.log(value))
+        .catch((error) => console.log(`error:${error}`));
       getUserData(response.authentication.accessToken);
     } else {
       console.log("response not successfull");
