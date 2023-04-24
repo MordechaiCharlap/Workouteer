@@ -40,6 +40,7 @@ import useWebResponsiveness from "./hooks/useWebResponsiveness";
 import { checkIfVersionUpdated } from "./services/versionService";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
+import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
 import { safeAreaStyle } from "./components/safeAreaStyle";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -286,6 +287,11 @@ const StackNavigator = () => {
               <Stack.Screen
                 name="Register"
                 component={RegisterScreen}
+                options={horizontalLeftAnimation}
+              />
+              <Stack.Screen
+                name="LinkUserWithGoogle"
+                component={LinkUserWithGoogleScreen}
                 options={horizontalLeftAnimation}
               />
             </>
