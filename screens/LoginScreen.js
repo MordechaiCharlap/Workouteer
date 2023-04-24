@@ -45,7 +45,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
-  const loginEmailPassword = () => {
+  const loginEmailPassword = async () => {
     if (!loginLoading) {
       setErrorText("");
       if (password == "" || email == "")
@@ -54,7 +54,7 @@ const LoginScreen = () => {
         setErrorText("Invalid-email");
       else if (!/^[a-zA-Z0-9]{6,20}$/.test(password))
         setErrorText("Invalid-password");
-      else if (!loginLoading) signInEmailPassword(email, password);
+      else if (!loginLoading) await signInEmailPassword(email, password);
     }
   };
 
