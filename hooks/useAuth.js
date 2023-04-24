@@ -9,6 +9,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithCredential,
+  linkWithCredential,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import {
@@ -29,6 +30,7 @@ export const AuthPrvider = ({ children }) => {
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
   var unsubscribeUser = null;
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -103,11 +105,22 @@ export const AuthPrvider = ({ children }) => {
       );
       // getUserData(response.authentication.accessToken);
       console.log(credential);
-      signInWithCredential(auth, credential)
-        .then((credential) => {
-          setGoogleUserInfo({ uid: credential.user.uid });
-        })
-        .catch((error) => console.log(`error:${error}`));
+      if (!rememberMe) {
+        console.log("not remembering");
+        setPersistence(auth, inMemoryPersistence).then(() => {
+          signInWithCredential(auth, credential)
+            .then((credential) => {
+              setGoogleUserInfo({ uid: credential.user.uid });
+            })
+            .catch((error) => console.log(`error:${error}`));
+        });
+      } else {
+        signInWithCredential(auth, credential)
+          .then((credential) => {
+            setGoogleUserInfo({ uid: credential.user.uid });
+          })
+          .catch((error) => console.log(`error:${error}`));
+      }
     } else {
       console.log("response not successfull");
     }
@@ -159,7 +172,7 @@ export const AuthPrvider = ({ children }) => {
       if (initialLoading) setInitialLoading(false);
     });
   };
-  const signInEmailPassword = (email, password, rememberMe) => {
+  const signInEmailPassword = (email, password) => {
     setLoginLoading(true);
     if (!rememberMe) {
       console.log("not remembering user");
@@ -211,6 +224,7 @@ export const AuthPrvider = ({ children }) => {
       value={{
         user,
         setUser,
+        setRememberMe,
         googleUserInfo,
         startListenToUserAsync,
         createUserEmailAndPassword,
