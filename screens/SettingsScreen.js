@@ -61,10 +61,10 @@ const SettingsScreen = () => {
   };
   const deleteUser = async () => {
     user.isDeleted = true;
-    setTimeout(() => {
+    setTimeout(async () => {
       userSignOut();
+      await deleteDoc(doc(db, `alerts/${user.id}`));
     }, 3000);
-    await deleteDoc(doc(db, `alerts/${user.id}`));
   };
   return (
     <View style={safeAreaStyle()}>
