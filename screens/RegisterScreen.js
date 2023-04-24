@@ -34,11 +34,17 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
 
-  const { googleUserInfo, loginLoading, createUserEmailAndPassword } =
-    useAuth();
+  const {
+    googleUserInfo,
+    startListenToUserAsync,
+    loginLoading,
+    createUserEmailAndPassword,
+  } = useAuth();
   const { pushToken } = usePushNotifications();
   const [isMale, setIsMale] = useState();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState(
+    googleUserInfo ? googleUserInfo.email : null
+  );
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState(false);
@@ -62,7 +68,7 @@ const RegisterScreen = () => {
     if (
       isMale == null ||
       !acceptTerms ||
-      (!googleUserInfo && !email) ||
+      !email ||
       !username ||
       (!googleUserInfo && !password) ||
       (!googleUserInfo && !confirmPassword) ||
@@ -86,7 +92,7 @@ const RegisterScreen = () => {
     if (!loading) {
       setLoading(true);
       if (checkIfValidData())
-        if (!(await firebase.checkIfEmailAvailable(email))) {
+        if (!googleUserInfo && !(await firebase.checkIfEmailAvailable(email))) {
           setInputErrorText("Email is already used");
           setLoading(false);
         } else if (
@@ -99,7 +105,9 @@ const RegisterScreen = () => {
   };
 
   const handleRegister = async () => {
-    const uid = await createUserEmailAndPassword(email, password);
+    const uid = googleUserInfo
+      ? googleUserInfo.uid
+      : await createUserEmailAndPassword(email, password);
     const newUserData = {
       img: defaultValues.defaultProfilePic,
       displayName: username,
@@ -111,6 +119,7 @@ const RegisterScreen = () => {
       uid: uid,
     };
     await firebase.createUser(newUserData);
+    await startListenToUserAsync(newUserData.id);
   };
 
   return (
