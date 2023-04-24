@@ -29,7 +29,6 @@ export const AuthPrvider = ({ children }) => {
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
-
   var unsubscribeUser = null;
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -68,6 +67,8 @@ export const AuthPrvider = ({ children }) => {
               }, 5000);
             } else {
               setLoginLoading(false);
+              const uid = googleUserInfo;
+              setGoogleUserInfo({ ...uid, email: authUser.email });
               setGoogleUserInfo(authUser);
             }
           };
@@ -93,24 +94,6 @@ export const AuthPrvider = ({ children }) => {
     setAuthErrorCode(code);
   };
   useEffect(() => {
-    // const getUserData = async (accessToken) => {
-    //   console.log("Access token: " + accessToken);
-    //   let userInfoResponse = await fetch(
-    //     "https://www.googleapis.com/userinfo/v2/me",
-    //     {
-    //       headers: { Authorization: `Bearer ${accessToken}` },
-    //     }
-    //   );
-
-    //   userInfoResponse
-    //     .json()
-    //     .then((data) => {
-    //       setGoogleUserInfo(data);
-    //     })
-    //     .catch((e) => {
-    //       console.log("error:", e.message);
-    //     });
-    // };
     if (response?.type === "success") {
       setInitialLoading(true);
       console.log("success");
@@ -121,7 +104,9 @@ export const AuthPrvider = ({ children }) => {
       // getUserData(response.authentication.accessToken);
       console.log(credential);
       signInWithCredential(auth, credential)
-        .then()
+        .then((credential) => {
+          setGoogleUserInfo({ uid: credential.user.uid });
+        })
         .catch((error) => console.log(`error:${error}`));
     } else {
       console.log("response not successfull");
@@ -161,12 +146,19 @@ export const AuthPrvider = ({ children }) => {
         setInitialLoading(false);
       }
     };
-    if (googleUserInfo) {
+    console.log("googleUserInfoUseEffectActivated");
+    if (googleUserInfo && googleUserInfo.email != null) {
       console.log("setting google user");
       setGoogleUserAsync();
     }
   }, [googleUserInfo]);
-
+  const startListenToUserAsync = async (userId) => {
+    console.log("Listening to user " + userId);
+    unsubscribeUser = onSnapshot(doc(db, "users", userId), (doc) => {
+      setUser(doc.data());
+      if (initialLoading) setInitialLoading(false);
+    });
+  };
   const signInEmailPassword = (email, password, rememberMe) => {
     setLoginLoading(true);
     if (!rememberMe) {
@@ -220,6 +212,7 @@ export const AuthPrvider = ({ children }) => {
         user,
         setUser,
         googleUserInfo,
+        startListenToUserAsync,
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
