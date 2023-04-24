@@ -6,6 +6,7 @@ import {
   StatusBar,
   Modal,
 } from "react-native";
+import AwesomeAlert from "react-native-awesome-alerts";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as appStyle from "../components/AppStyleSheet";
@@ -201,63 +202,7 @@ const SettingsScreen = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <Modal
-              className="justify-center"
-              animationType="slide"
-              transparent={true}
-              visible={showDeleteUserModal}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setShowDeleteUserModal(!showDeleteUserModal);
-              }}
-            >
-              <View className="flex-1">
-                <View className="bg-black opacity-80 flex-1 justify-center ">
-                  <View
-                    style={{ backgroundColor: appStyle.color_bg }}
-                    className="p-3 rounded mx-3 gap-y-3"
-                  >
-                    <Text
-                      className="text-center font-semibold text-2xl"
-                      style={{ color: appStyle.color_primary }}
-                    >
-                      Are you sure?
-                    </Text>
-                    <View className="flex-row justify-between">
-                      <TouchableOpacity
-                        className="flex-1 m-1 p-2 rounded"
-                        onPress={deleteUser}
-                        style={{
-                          borderColor: appStyle.color_primary,
-                          borderWidth: 0.5,
-                        }}
-                      >
-                        <Text
-                          className="text-center font-semibold text-lg"
-                          style={{ color: appStyle.color_primary }}
-                        >
-                          Yes
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        className="flex-1 m-1 p-2 rounded"
-                        onPress={() =>
-                          setShowDeleteUserModal(!showDeleteUserModal)
-                        }
-                        style={{ backgroundColor: appStyle.color_primary }}
-                      >
-                        <Text
-                          className="text-center font-semibold text-lg"
-                          style={{ color: appStyle.color_on_primary }}
-                        >
-                          No
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+
             <View className="absolute bottom-8 right-0 left-0 items-center">
               <TouchableOpacity
                 style={{
@@ -301,6 +246,30 @@ const SettingsScreen = () => {
           </View>
         </>
       )}
+      <AwesomeAlert
+        overlayStyle={{
+          width: safeAreaStyle().width,
+          height: "100%",
+        }}
+        show={showDeleteUserModal}
+        showProgress={false}
+        title={"Are you sure?"}
+        message={"Are you sure?"}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        showCancelButton={true}
+        confirmText="yes"
+        cancelText="no"
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowDeleteUserModal(false);
+        }}
+        onConfirmPressed={async () => {
+          setShowDeleteUserModal(false);
+          await deleteUser();
+        }}
+      />
     </View>
   );
 };
