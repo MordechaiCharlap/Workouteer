@@ -39,11 +39,11 @@ const LoginScreen = () => {
     signInGoogleAccount,
     authErrorCode,
     loginLoading,
+    setRememberMe,
   } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [errorText, setErrorText] = useState("");
   const loginEmailPassword = () => {
     if (!loginLoading) {
@@ -54,7 +54,7 @@ const LoginScreen = () => {
         setErrorText("Invalid-email");
       else if (!/^[a-zA-Z0-9]{6,20}$/.test(password))
         setErrorText("Invalid-password");
-      else if (!loginLoading) signInEmailPassword(email, password, rememberMe);
+      else if (!loginLoading) signInEmailPassword(email, password);
     }
   };
 
