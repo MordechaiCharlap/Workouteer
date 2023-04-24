@@ -1,8 +1,37 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Password from "./registerScreen/Password";
 import * as appStyle from "./AppStyleSheet";
+import useAuth from "../hooks/useAuth";
+import { auth } from "../services/firebase";
+import { linkWithCredential } from "firebase/auth";
+import { updateDoc, doc } from "firebase/firestore";
 const LoginWithKnownEmail = (props) => {
+  const { signInEmailPassword, googleUserInfo } = useAuth();
+  const [password, setPassword] = useState("");
+  const loginAndLink = async () => {
+    const isLoggedIn = await signInEmailPassword(
+      googleUserInfo.email,
+      password
+    );
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      linkWithCredential(auth.currentUser, googleUserInfo.credential)
+        .then((res) => {
+          const updateBothAuthTrue = async () => {
+            console.log("updating both auths true");
+            await updateDoc(doc(db, "users", props.id), {
+              authGoogle: true,
+              authEmail: true,
+            });
+            console.log("both auth is true now");
+          };
+          updateBothAuthTrue();
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <View
       style={{
@@ -20,14 +49,17 @@ const LoginWithKnownEmail = (props) => {
       </Text>
 
       <View style={style.knownInput}>
-        <Text style={{ color: appStyle.color_on_primary }}>{props.email}</Text>
+        <Text style={{ color: appStyle.color_on_primary }}>
+          {googleUserInfo.email}
+        </Text>
       </View>
       <View>
-        <Password style={style} valueChanged={props.setPassword} />
+        <Password style={style} valueChanged={setPassword} />
       </View>
       <View className="gap-y-1">
         <View className="flex-row gap-x-1">
           <TouchableOpacity
+            onPress={loginAndLink}
             style={{ backgroundColor: appStyle.color_bg }}
             className="w-1 grow items-center py-2"
           >
@@ -59,6 +91,7 @@ const LoginWithKnownEmail = (props) => {
         <View>
           <TouchableOpacity
             onPress={() => {
+              setLinkAuth(false);
               props.setForgotPassword(true);
               props.setShowLogin(false);
             }}
