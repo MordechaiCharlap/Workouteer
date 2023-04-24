@@ -1,11 +1,14 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { React, useCallback } from "react";
+import { React, useCallback, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../components/AppStyleSheet";
 import calculateAge from "../utilities/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
+import { db } from "../services/firebase";
+import { updateDoc, doc } from "firebase/firestore";
 const LinkUserWithGoogleScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -13,60 +16,108 @@ const LinkUserWithGoogleScreen = ({ route }) => {
       setCurrentScreen("LinkUserWithGoogle");
     }, [])
   );
-  const { googleUserInfo } = useAuth();
+  const { googleUserInfo, signInWithCredentialGoogle } = useAuth();
   const userData = route.params.userData;
+
+  const [showLogin, setShowLogin] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const replaceAuthEmailWithAuthGoogle = async () => {
+    await updateDoc(doc(db, "users", userData.id), {
+      authGoogle: true,
+      authEmail: false,
+    });
+    signInWithCredentialGoogle();
+  };
   return (
     <View style={safeAreaStyle()} className="justify-center p-2 items-center">
-      <Text
-        style={{ color: appStyle.color_primary }}
-        className="text-lg text-center mb-10"
-      >
-        That email is associated with this user: is that you?
-      </Text>
-      <View
-        style={{
-          backgroundColor: appStyle.color_bg_variant,
-          borderWidth: 1,
-          borderColor: appStyle.color_primary,
-        }}
-        className="rounded flex-row p-2 gap-x-2 items-center w-5/6"
-      >
-        <View className="h-full aspect-square">
-          <Image
-            source={{
-              uri: userData.img,
-            }}
-            className="h-full aspect-square bg-white rounded-full"
-          />
-        </View>
-        <View className="justify-between">
-          <View className="flex-row gap-x-1 items-center">
-            <Text
-              style={{ color: appStyle.color_on_primary }}
-              className="font-semibold text-lg"
-            >
-              {userData.id},
-            </Text>
-            <Text
-              style={{ color: appStyle.color_on_primary }}
-              className="text-lg"
-            >
-              {calculateAge(userData.birthdate.toDate())}
-            </Text>
-          </View>
-          <Text style={{ color: appStyle.color_on_primary }}>
-            {userData.email}
+      {showLogin ? (
+        <LoginWithKnownEmail
+          email={googleUserInfo.email}
+          setShowLogin={setShowLogin}
+          setForgotPassword={setForgotPassword}
+        />
+      ) : forgotPassword ? (
+        <View
+          style={{
+            backgroundColor: appStyle.color_bg_variant,
+            borderWidth: 1,
+            borderColor: appStyle.color_primary,
+          }}
+          className="p-4 rounded gap-y-3 w-5/6"
+        >
+          <Text
+            className="text-lg text-center"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            No worries, just use your google account for now until we would add
+            a `get new passowrd option`
           </Text>
+          <TouchableOpacity
+            onPress={replaceAuthEmailWithAuthGoogle}
+            style={styles.yesButton}
+          >
+            <Text style={styles.yesText}>Use the app!</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-      <View className="absolute bottom-10 w-2/3 gap-y-2">
-        <TouchableOpacity style={styles.yesButton}>
-          <Text style={styles.yesText}>Yes. Link accounts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.noButton}>
-          <Text style={styles.noText}>No. Delete fake user.</Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <>
+          <Text
+            style={{ color: appStyle.color_primary }}
+            className="text-lg text-center mb-10"
+          >
+            That email is associated with this user: is that you?
+          </Text>
+          <View
+            style={{
+              backgroundColor: appStyle.color_bg_variant,
+              borderWidth: 1,
+              borderColor: appStyle.color_primary,
+            }}
+            className="rounded flex-row p-2 gap-x-2 items-center w-5/6"
+          >
+            <View className="h-full aspect-square">
+              <Image
+                source={{
+                  uri: userData.img,
+                }}
+                className="h-full aspect-square bg-white rounded-full"
+              />
+            </View>
+            <View className="justify-between">
+              <View className="flex-row gap-x-1 items-center">
+                <Text
+                  style={{ color: appStyle.color_on_primary }}
+                  className="font-semibold text-lg"
+                >
+                  {userData.id},
+                </Text>
+                <Text
+                  style={{ color: appStyle.color_on_primary }}
+                  className="text-lg"
+                >
+                  {calculateAge(userData.birthdate.toDate())}
+                </Text>
+              </View>
+              <Text style={{ color: appStyle.color_on_primary }}>
+                {userData.email}
+              </Text>
+            </View>
+          </View>
+          <View className="absolute bottom-10 w-2/3 gap-y-2">
+            <TouchableOpacity
+              onPress={() => {
+                setShowLogin(!showLogin);
+              }}
+              style={styles.yesButton}
+            >
+              <Text style={styles.yesText}>Yes.</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.noButton}>
+              <Text style={styles.noText}>No. Delete fake user.</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 };
