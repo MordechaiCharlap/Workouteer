@@ -32,7 +32,6 @@ export const AuthPrvider = ({ children }) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
-  const [linkAuth, setLinkAuth] = useState(false);
   var unsubscribeUser = null;
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -283,7 +282,6 @@ export const AuthPrvider = ({ children }) => {
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
-        setLinkAuth,
         userSignOut,
         signInWithCredentialGoogle,
         initialLoading,

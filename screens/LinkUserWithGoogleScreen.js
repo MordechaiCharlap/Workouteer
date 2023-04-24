@@ -16,7 +16,8 @@ const LinkUserWithGoogleScreen = ({ route }) => {
       setCurrentScreen("LinkUserWithGoogle");
     }, [])
   );
-  const { googleUserInfo, signInWithCredentialGoogle } = useAuth();
+
+  const { signInWithCredentialGoogle } = useAuth();
   const userData = route.params.userData;
 
   const [showLogin, setShowLogin] = useState(false);
@@ -32,7 +33,7 @@ const LinkUserWithGoogleScreen = ({ route }) => {
     <View style={safeAreaStyle()} className="justify-center p-2 items-center">
       {showLogin ? (
         <LoginWithKnownEmail
-          email={googleUserInfo.email}
+          id={userData.id}
           setShowLogin={setShowLogin}
           setForgotPassword={setForgotPassword}
         />

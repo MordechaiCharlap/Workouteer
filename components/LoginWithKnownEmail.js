@@ -72,26 +72,11 @@ const LoginWithKnownEmail = (props) => {
               Login
             </Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            style={{ borderColor: appStyle.color_on_primary, borderWidth: 0.3 }}
-            className="w-1 grow items-center py-2"
-          >
-            <Text
-              className="text-center tracking-widest text-xl"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              Go back
-            </Text>
-          </TouchableOpacity> */}
         </View>
 
         <View>
           <TouchableOpacity
             onPress={() => {
-              setLinkAuth(false);
               props.setForgotPassword(true);
               props.setShowLogin(false);
             }}
