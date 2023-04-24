@@ -45,22 +45,31 @@ export const AuthPrvider = ({ children }) => {
       onAuthStateChanged(auth, (authUser) => {
         if (authUser) {
           console.log("state Changed, user logged in: " + authUser.email);
-          const setUserAsync = async () => {
-            setLoginLoading(true);
+          const getData = async () => {
             const userData = await userDataByEmail(
               authUser.email.toLowerCase()
             );
-            console.log("Listening to user");
-            unsubscribeUser = onSnapshot(
-              doc(db, "users", userData.id),
-              (doc) => {
-                setUser(doc.data());
-                if (initialLoading) setInitialLoading(false);
-              }
-            );
-            setTimeout(() => {
+            return userData;
+          };
+          const setUserAsync = async () => {
+            setLoginLoading(true);
+            const userData = await getData();
+            if (userData != null) {
+              console.log("Listening to user");
+              unsubscribeUser = onSnapshot(
+                doc(db, "users", userData.id),
+                (doc) => {
+                  setUser(doc.data());
+                  if (initialLoading) setInitialLoading(false);
+                }
+              );
+              setTimeout(() => {
+                setLoginLoading(false);
+              }, 5000);
+            } else {
               setLoginLoading(false);
-            }, 5000);
+              setGoogleUserInfo(authUser);
+            }
           };
           setUserAsync();
         } else {
@@ -84,37 +93,36 @@ export const AuthPrvider = ({ children }) => {
     setAuthErrorCode(code);
   };
   useEffect(() => {
-    const getUserData = async (accessToken) => {
-      console.log("Access token: " + accessToken);
-      let userInfoResponse = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
+    // const getUserData = async (accessToken) => {
+    //   console.log("Access token: " + accessToken);
+    //   let userInfoResponse = await fetch(
+    //     "https://www.googleapis.com/userinfo/v2/me",
+    //     {
+    //       headers: { Authorization: `Bearer ${accessToken}` },
+    //     }
+    //   );
 
-      userInfoResponse
-        .json()
-        .then((data) => {
-          setGoogleUserInfo(data);
-        })
-        .catch((e) => {
-          console.log("error:", e.message);
-        });
-    };
+    //   userInfoResponse
+    //     .json()
+    //     .then((data) => {
+    //       setGoogleUserInfo(data);
+    //     })
+    //     .catch((e) => {
+    //       console.log("error:", e.message);
+    //     });
+    // };
     if (response?.type === "success") {
       setInitialLoading(true);
       console.log("success");
-      console.log(response);
       const credential = GoogleAuthProvider.credential(
         null,
         response.authentication.accessToken
       );
+      // getUserData(response.authentication.accessToken);
       console.log(credential);
       signInWithCredential(auth, credential)
-        .then((value) => console.log(value))
+        .then()
         .catch((error) => console.log(`error:${error}`));
-      getUserData(response.authentication.accessToken);
     } else {
       console.log("response not successfull");
     }
@@ -149,11 +157,12 @@ export const AuthPrvider = ({ children }) => {
         );
       } else {
         navigation.navigate("Register");
-
+        console.log("navigated to register");
         setInitialLoading(false);
       }
     };
     if (googleUserInfo) {
+      console.log("setting google user");
       setGoogleUserAsync();
     }
   }, [googleUserInfo]);
