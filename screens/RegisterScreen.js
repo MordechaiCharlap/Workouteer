@@ -117,6 +117,8 @@ const RegisterScreen = () => {
       pushToken: pushToken,
       isMale: isMale,
       uid: uid,
+      authEmail: googleUserInfo ? false : true,
+      authGoogle: googleUserInfo ? true : false,
     };
     await firebase.createUser(newUserData);
     await startListenToUserAsync(newUserData.id);
