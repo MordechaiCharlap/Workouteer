@@ -32,6 +32,7 @@ export const AuthPrvider = ({ children }) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
+  const [linkAuth, setLinkAuth] = useState(false);
   var unsubscribeUser = null;
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -45,6 +46,14 @@ export const AuthPrvider = ({ children }) => {
     console.log("auth observer");
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
+        if (linkAuth) {
+          console.log("Linking auths!");
+          linkWithCredential(authUser, googleUserInfo.credential)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((error) => console.log(error));
+        }
         console.log("state Changed, user logged in: " + authUser.email);
         const getData = async () => {
           const userData = await userDataByEmail(authUser.email.toLowerCase());
@@ -254,6 +263,7 @@ export const AuthPrvider = ({ children }) => {
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
+        setLinkAuth,
         userSignOut,
         signInWithCredentialGoogle,
         initialLoading,
