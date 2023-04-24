@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   GoogleAuthProvider,
+  EmailAuthProvider,
   signInWithCredential,
   linkWithCredential,
 } from "firebase/auth";
@@ -41,86 +42,80 @@ export const AuthPrvider = ({ children }) => {
       "371037963339-poup230qmc5e6s484udrhch0m8g2ngd5.apps.googleusercontent.com",
   });
   useEffect(() => {
-    if (!googleUserInfo) {
-      console.log("auth observer");
-      onAuthStateChanged(auth, (authUser) => {
-        if (authUser) {
-          console.log("state Changed, user logged in: " + authUser.email);
-          const getData = async () => {
-            const userData = await userDataByEmail(
-              authUser.email.toLowerCase()
+    console.log("auth observer");
+    onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        console.log("state Changed, user logged in: " + authUser.email);
+        const getData = async () => {
+          const userData = await userDataByEmail(authUser.email.toLowerCase());
+          return userData;
+        };
+        const setUserAsync = async () => {
+          setLoginLoading(true);
+          const userData = await getData();
+          if (userData != null) {
+            console.log("Listening to user");
+            unsubscribeUser = onSnapshot(
+              doc(db, "users", userData.id),
+              (doc) => {
+                setUser(doc.data());
+                if (initialLoading) setInitialLoading(false);
+              }
             );
-            return userData;
-          };
-          const setUserAsync = async () => {
-            setLoginLoading(true);
-            const userData = await getData();
-            if (userData != null) {
-              console.log("Listening to user");
-              unsubscribeUser = onSnapshot(
-                doc(db, "users", userData.id),
-                (doc) => {
-                  setUser(doc.data());
-                  if (initialLoading) setInitialLoading(false);
-                }
-              );
-              setTimeout(() => {
-                setLoginLoading(false);
-              }, 5000);
-            } else {
+            setTimeout(() => {
               setLoginLoading(false);
-              const uid = googleUserInfo;
-              setGoogleUserInfo({ ...uid, email: authUser.email });
-              setGoogleUserInfo(authUser);
-            }
-          };
-          setUserAsync();
-        } else {
-          console.log("state Changed, user signed out");
-          if (unsubscribeUser) {
-            unsubscribeUser();
-            console.log("Stops listening to user");
+            }, 5000);
+          } else {
+            setLoginLoading(false);
           }
-          if (user) {
-            console.log("nulling User");
-            setUser(null);
-            console.log("state Changed, user logged out");
-          }
-          setInitialLoading(false);
+        };
+        setUserAsync();
+      } else {
+        console.log("state Changed, user signed out");
+        if (unsubscribeUser) {
+          unsubscribeUser();
+          console.log("Stops listening to user");
         }
-      });
-    }
+        if (user) {
+          console.log("nulling User");
+          setUser(null);
+          console.log("state Changed, user logged out");
+        }
+        setInitialLoading(false);
+      }
+    });
   }, []);
   const updatedErrorCode = (code) => {
     setAuthErrorCode("");
     setAuthErrorCode(code);
   };
   useEffect(() => {
+    var credential;
+    const getUserData = async (accessToken) => {
+      console.log("Access token: " + accessToken);
+      let userInfoResponse = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      userInfoResponse
+        .json()
+        .then((data) => {
+          setGoogleUserInfo({ ...data, credential: credential });
+        })
+        .catch((e) => {
+          console.log("error:", e.message);
+        });
+    };
     if (response?.type === "success") {
       setInitialLoading(true);
       console.log("success");
-      const credential = GoogleAuthProvider.credential(
+      credential = GoogleAuthProvider.credential(
         null,
         response.authentication.accessToken
       );
-      // getUserData(response.authentication.accessToken);
-      console.log(credential);
-      if (!rememberMe) {
-        console.log("not remembering");
-        setPersistence(auth, inMemoryPersistence).then(() => {
-          signInWithCredential(auth, credential)
-            .then((credential) => {
-              setGoogleUserInfo({ uid: credential.user.uid });
-            })
-            .catch((error) => console.log(`error:${error}`));
-        });
-      } else {
-        signInWithCredential(auth, credential)
-          .then((credential) => {
-            setGoogleUserInfo({ uid: credential.user.uid });
-          })
-          .catch((error) => console.log(`error:${error}`));
-      }
+      getUserData(response.authentication.accessToken);
     } else {
       console.log("response not successfull");
     }
@@ -138,21 +133,47 @@ export const AuthPrvider = ({ children }) => {
     );
     return userCredential.user.uid;
   };
+  const signInWithCredentialGoogle = () => {
+    if (!rememberMe) {
+      console.log("not remembering");
+      setPersistence(auth, inMemoryPersistence).then(() => {
+        signInWithCredential(auth, googleUserInfo.credential)
+          .then((result) => {
+            setGoogleUserInfo({
+              uid: result.user.uid,
+              email: result.user.email,
+            });
+          })
+          .catch((error) => console.log(`error:${error}`));
+      });
+    } else {
+      signInWithCredential(auth, oogleUserInfo.credential)
+        .then((result) => {
+          setGoogleUserInfo({
+            uid: result.user.uid,
+            email: result.user.email,
+          });
+        })
+        .catch((error) => console.log(`error:${error}`));
+    }
+  };
   useEffect(() => {
     const setGoogleUserAsync = async () => {
       if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
-        console.log("existing user");
+        console.log("existing user, checking if googleAuth");
         const userData = await userDataByEmail(
           googleUserInfo.email.toLowerCase()
         );
-        console.log("Listening to user");
-        unsubscribeUser = onSnapshot(doc(db, "users", userData.id), (doc) => {
-          setUser(doc.data());
-          if (initialLoading) setInitialLoading(false);
-        });
-        console.log(
-          "google user logged in: " + googleUserInfo.email.toLowerCase()
-        );
+        if (userData.authGoogle == false) {
+          console.log("Google auth false, moving to google linking screen");
+          navigation.navigate("LinkUserWithGoogle", { userData: userData });
+        } else {
+          console.log(
+            "Google auth true=> user logged in: " +
+              googleUserInfo.email.toLowerCase()
+          );
+          signInWithCredentialGoogle();
+        }
       } else {
         navigation.navigate("Register");
         console.log("navigated to register");
@@ -160,11 +181,11 @@ export const AuthPrvider = ({ children }) => {
       }
     };
     console.log("googleUserInfoUseEffectActivated");
-    if (googleUserInfo && googleUserInfo.email != null) {
-      console.log("setting google user");
+    if (googleUserInfo && googleUserInfo.credential) {
       setGoogleUserAsync();
     }
   }, [googleUserInfo]);
+
   const startListenToUserAsync = async (userId) => {
     console.log("Listening to user " + userId);
     unsubscribeUser = onSnapshot(doc(db, "users", userId), (doc) => {
