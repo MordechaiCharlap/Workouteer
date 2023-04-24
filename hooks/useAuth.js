@@ -139,23 +139,26 @@ export const AuthPrvider = ({ children }) => {
       setPersistence(auth, inMemoryPersistence).then(() => {
         signInWithCredential(auth, googleUserInfo.credential)
           .then((result) => {
-            setGoogleUserInfo({
-              uid: result.user.uid,
-              email: result.user.email,
-            });
+            // setGoogleUserInfo({
+            //   uid: result.user.uid,
+            //   email: result.user.email,
+            // });
           })
           .catch((error) => console.log(`error:${error}`));
       });
     } else {
-      signInWithCredential(auth, oogleUserInfo.credential)
+      console.log("remembering");
+
+      signInWithCredential(auth, googleUserInfo.credential)
         .then((result) => {
-          setGoogleUserInfo({
-            uid: result.user.uid,
-            email: result.user.email,
-          });
+          // setGoogleUserInfo({
+          //   uid: result.user.uid,
+          //   email: result.user.email,
+          // });
         })
         .catch((error) => console.log(`error:${error}`));
     }
+    if (!initialLoading) setInitialLoading(false);
   };
   useEffect(() => {
     const setGoogleUserAsync = async () => {
@@ -252,6 +255,7 @@ export const AuthPrvider = ({ children }) => {
         signInEmailPassword,
         signInGoogleAccount,
         userSignOut,
+        signInWithCredentialGoogle,
         initialLoading,
         loginLoading,
         authErrorCode,
