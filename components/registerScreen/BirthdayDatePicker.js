@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as appStyle from "../AppStyleSheet";
+import * as appStyle from "../../utilites/appStyleSheet";
 
 const BirthdayDatePicker = (props) => {
   const [dateStyle, setDateStyle] = useState(props.style.input);

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";

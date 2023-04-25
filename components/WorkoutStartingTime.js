@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { React, useEffect, useState } from "react";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";

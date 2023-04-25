@@ -10,7 +10,7 @@ import {
 import React, { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";

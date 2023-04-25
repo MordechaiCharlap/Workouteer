@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { React, useState } from "react";
 import CheckBox from "../components/CheckBox";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { useEffect } from "react";
 import languageService from "../services/languageService";
 const WorkoutSex = (props) => {

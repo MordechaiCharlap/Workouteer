@@ -11,7 +11,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import Password from "./registerScreen/Password";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { auth } from "../services/firebase";
 import { linkWithCredential } from "firebase/auth";

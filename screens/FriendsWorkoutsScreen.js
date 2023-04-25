@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import React, { useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 

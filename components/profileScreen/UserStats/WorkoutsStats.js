@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
-import * as appStyle from "../../AppStyleSheet";
+import * as appStyle from "../../../services/appStyleSheet";
 import languageService from "../../../services/languageService";
 import useAuth from "../../../hooks/useAuth";
 const WorkoutsStats = (props) => {

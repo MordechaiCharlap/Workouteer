@@ -2,7 +2,7 @@ import { View, StatusBar, Text, TouchableOpacity } from "react-native";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as firebase from "../services/firebase";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";

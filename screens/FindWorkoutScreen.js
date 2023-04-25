@@ -14,7 +14,7 @@ import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
 import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";

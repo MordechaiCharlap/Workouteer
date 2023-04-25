@@ -6,7 +6,7 @@ import {
   faRankingStar,
   faBolt,
 } from "@fortawesome/free-solid-svg-icons";
-import * as appStyle from "../AppStyleSheet";
+import * as appStyle from "../../utilites/appStyleSheet";
 import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
 import languageService from "../../services/languageService";

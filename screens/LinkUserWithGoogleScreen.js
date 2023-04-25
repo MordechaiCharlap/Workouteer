@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { React, useCallback, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import calculateAge from "../utilities/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";

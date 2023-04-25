@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useCallback, useState } from "react";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";

@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 

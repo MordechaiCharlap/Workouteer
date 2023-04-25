@@ -1,5 +1,5 @@
 import Lottie from "lottie-react-native";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { View, Text, Platform } from "react-native";
 import React from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";

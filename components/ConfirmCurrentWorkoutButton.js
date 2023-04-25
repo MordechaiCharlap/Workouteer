@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { workoutTypes } from "./WorkoutType";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
 const ConfirmCurrentWorkoutButton = (props) => {

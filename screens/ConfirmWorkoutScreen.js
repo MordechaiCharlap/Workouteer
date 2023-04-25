@@ -11,7 +11,7 @@ import { db, addLeaderboardPoints } from "../services/firebase";
 import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";

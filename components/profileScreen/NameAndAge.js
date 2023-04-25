@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import * as appStyle from "../AppStyleSheet";
+import * as appStyle from "../../utilites/appStyleSheet";
 const NameAndAge = (props) => {
   return (
     <View className="flex-row">

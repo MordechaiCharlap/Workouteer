@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState } from "react";
-import * as appStyle from "./AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";

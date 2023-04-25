@@ -1,5 +1,5 @@
 import { View, StatusBar, FlatList } from "react-native";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import Header from "../components/Header";

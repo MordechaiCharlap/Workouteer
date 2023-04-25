@@ -1,7 +1,7 @@
 import { View, StatusBar } from "react-native";
 import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import * as appStyle from "../components/AppStyleSheet";
+import * as appStyle from "../utilites/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
