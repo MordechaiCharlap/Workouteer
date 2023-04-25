@@ -165,6 +165,19 @@ const LeaderboardScreen = () => {
                 >
                   {item[1].displayName}
                 </Text>
+                {index < 3 && (
+                  <Image
+                    key={index}
+                    source={
+                      index == 0
+                        ? require("../assets/leaderboard/medal-rank-1-transparent-bg.png")
+                        : index == 1
+                        ? require("../assets/leaderboard/medal-rank-2-transparent-bg.png")
+                        : require("../assets/leaderboard/medal-rank-3-transparent-bg.png")
+                    }
+                    className="h-12 w-12"
+                  />
+                )}
                 <Text
                   className="absolute right-3 my-auto text-2xl"
                   style={
