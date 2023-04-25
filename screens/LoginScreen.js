@@ -85,6 +85,8 @@ const LoginScreen = () => {
       case " auth/too-many-requests":
         setErrorText("Too many tries, try again later");
         break;
+      default:
+        setErrorText("");
     }
   }, [authErrorCode]);
   return (
