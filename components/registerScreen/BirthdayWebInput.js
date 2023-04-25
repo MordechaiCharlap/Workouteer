@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../../utilites/appStyleSheet";
+import * as appStyle from "../../utilities/appStyleSheet";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
   const [dayStyle, setDayStyle] = useState(style.input);

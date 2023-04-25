@@ -5,7 +5,7 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "./AlertDot";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();

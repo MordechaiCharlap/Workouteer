@@ -2,7 +2,7 @@ import { View, Text, StatusBar, FlatList } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import WorkoutComponent from "../components/WorkoutComponent";
 import Header from "../components/Header";
 import LoadingAnimation from "../components/LoadingAnimation";

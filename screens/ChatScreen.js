@@ -24,7 +24,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/ChatMessage";
 import useAuth from "../hooks/useAuth";

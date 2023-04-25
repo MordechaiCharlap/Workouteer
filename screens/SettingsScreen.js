@@ -9,7 +9,7 @@ import {
 import AwesomeAlert from "react-native-awesome-alerts";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { saveSettingsChanges } from "../services/firebase";
 import Header from "../components/Header";

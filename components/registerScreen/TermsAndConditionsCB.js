@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import CheckBox from "../CheckBox";
-import * as appStyle from "../../utilites/appStyleSheet";
+import * as appStyle from "../../utilities/appStyleSheet";
 
 const TermsAndConditionsCB = (props) => {
   const handleValueChanged = (value) => {

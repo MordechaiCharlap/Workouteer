@@ -10,7 +10,7 @@ import {
 import { React, useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import SearchUsers from "../components/SearchUsers";

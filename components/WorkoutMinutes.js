@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 import { React, useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 const data = [
   { label: "0:30", value: 30 },
   { label: "1:00", value: 60 },

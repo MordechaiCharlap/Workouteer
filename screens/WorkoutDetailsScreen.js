@@ -20,7 +20,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
 import LoadingAnimation from "../components/LoadingAnimation";

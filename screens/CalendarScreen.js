@@ -2,7 +2,7 @@ import { View, Text, StatusBar } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { React, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Calendar from "../components/Calendar";
 const CalendarScreen = () => {

@@ -10,7 +10,7 @@ import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as firebase from "../services/firebase";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faUserPen,

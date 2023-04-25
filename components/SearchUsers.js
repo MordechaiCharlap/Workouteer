@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { React, useState } from "react";
 
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";

@@ -1,6 +1,6 @@
 import { TextInput, View, Text } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../../utilites/appStyleSheet";
+import * as appStyle from "../../utilities/appStyleSheet";
 const UsernameInput = (props) => {
   const [usernameStyle, setUsernameStyle] = useState(props.style.input);
   const [error, setError] = useState(null);

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

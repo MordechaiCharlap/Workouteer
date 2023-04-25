@@ -12,7 +12,7 @@ import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import Geocoder from "react-native-geocoding";
 import WorkoutDescription from "../components/WorkoutDescription";
 import React, { useState, useEffect, useCallback } from "react";
-import * as appStyle from "../utilites/appStyleSheet";
+import * as appStyle from "../utilities/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import WorkoutLocation from "../components/WorkoutLocation";
