@@ -45,17 +45,6 @@ const UpdateAppScreen = () => {
               {user ? languageService[user.language].update : "Ipdate"}
             </Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            className="flex-1 rounded py-1"
-            style={{ backgroundColor: appStyle.color_bg }}
-          >
-            <Text
-              className="text-2xl text-center"
-              style={{ color: appStyle.color_primary }}
-            >
-              {languageService[user.language].leave}
-            </Text>
-          </TouchableOpacity> */}
         </View>
       </View>
     </View>

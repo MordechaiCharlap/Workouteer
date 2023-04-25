@@ -240,7 +240,7 @@ const EditProfileData = (props) => {
               multiline
               spellCheck={false}
               autoCorrect={false}
-              placeholder="Optional text"
+              placeholder={languageService[user.language].optionalText}
               placeholderTextColor={appStyle.color_primary}
               numberOfLines={12}
               maxLength={350}

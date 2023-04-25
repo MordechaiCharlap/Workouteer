@@ -374,7 +374,7 @@ const ChatsScreen = () => {
               className="font-bold text-xl"
               style={{ color: appStyle.color_on_primary }}
             >
-              Are you sure?
+              {languageService[user.language].areYouSure[user.isMale ? 1 : 0]}
             </Text>
             <View className="flex-row w-10/12 justify-between">
               <TouchableOpacity
@@ -389,7 +389,7 @@ const ChatsScreen = () => {
                   className="text-center"
                   style={{ color: appStyle.color_on_primary }}
                 >
-                  Delete chats!
+                  {languageService[user.language].deleteChats}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -404,7 +404,7 @@ const ChatsScreen = () => {
                   className="text-center"
                   style={{ color: appStyle.color_on_primary }}
                 >
-                  Cancel
+                  {languageService[user.language].cancel}
                 </Text>
               </TouchableOpacity>
             </View>

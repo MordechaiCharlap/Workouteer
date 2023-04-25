@@ -82,7 +82,7 @@ const PersonalDataScreen = () => {
             style={{ color: appStyle.color_on_primary }}
             className="text-2xl mb-4"
           >
-            {"One last step"}
+            One last step
           </Text>
           <Text style={{ color: appStyle.color_on_primary }}>
             Before you move on we need just a bit more information to make your

@@ -236,7 +236,10 @@ const WorkoutDetailsScreen = ({ route }) => {
                               : "text-center text-sm py-2 px-3"
                           }
                         >
-                          {`Only workout members that are using portable device (not PC) can see location on map`}
+                          {
+                            languageService[user.language]
+                              .onlyWorkoutMembersCanSeeLocation
+                          }
                         </Text>
                       </View>
                     )}

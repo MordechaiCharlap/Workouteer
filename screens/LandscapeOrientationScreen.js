@@ -3,7 +3,10 @@ import React, { useCallback } from "react";
 import * as appStyle from "../components/AppStyleSheet";
 import { useFocusEffect } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import useAuth from "../hooks/useAuth";
+import languageService from "../services/languageService";
 const LandscapeOrientationScreen = () => {
+  const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
@@ -23,7 +26,9 @@ const LandscapeOrientationScreen = () => {
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}
       >
-        App is supported only in portrait mode
+        {user
+          ? languageService[user.language].landscapeModeMessage
+          : "App is supported only in portrait mode"}
       </Text>
     </View>
   );

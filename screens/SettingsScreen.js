@@ -73,7 +73,7 @@ const SettingsScreen = () => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       {user.isDeleted ? (
-        <UserDeleted id={user.id} />
+        <UserDeleted id={user.id} language={language} />
       ) : (
         <>
           <View className="flex-1 p-4">

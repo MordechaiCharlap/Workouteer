@@ -168,7 +168,7 @@ const UserScreen = ({ route }) => {
             style={style.leftSocialButton}
           >
             <Text className="text-xl mr-2" style={style.leftText}>
-              Accept
+              {languageService[user.language].accept}
             </Text>
             <FontAwesomeIcon
               icon={faCheck}
@@ -182,7 +182,7 @@ const UserScreen = ({ route }) => {
             style={style.rightSocialButton}
           >
             <Text className="text-xl mr-2" style={style.rightText}>
-              Reject
+              {languageService[user.language].reject}
             </Text>
             <FontAwesomeIcon
               icon={faX}
@@ -294,7 +294,7 @@ const UserScreen = ({ route }) => {
                 className="text-lg"
               >
                 {shownUser.description == ""
-                  ? "No description yet"
+                  ? languageService[user.language].noDescriptionYet
                   : shownUser.description}
               </Text>
             </View>

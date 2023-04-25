@@ -15,6 +15,7 @@ import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
@@ -104,7 +105,7 @@ const FriendRequestsScreen = () => {
                       className="text-xl"
                       style={{ color: appStyle.color_on_primary }}
                     >
-                      Accept
+                      {languageService[user.language].accept}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -119,7 +120,7 @@ const FriendRequestsScreen = () => {
                       className="text-xl"
                       style={{ color: appStyle.color_primary }}
                     >
-                      Reject
+                      {languageService[user.language].reject}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -136,7 +137,7 @@ const FriendRequestsScreen = () => {
               }}
               className="text-center text-xl"
             >
-              No friend requests left
+              {languageService[user.language].noFriendRequestsLeft}
             </Text>
           </View>
         )}

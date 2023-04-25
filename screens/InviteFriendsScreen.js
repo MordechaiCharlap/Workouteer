@@ -18,6 +18,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
+import languageService from "../services/languageService";
 
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -73,7 +74,7 @@ const InviteFriendsScreen = ({ route }) => {
               color: appStyle.color_on_primary,
             }}
           >
-            Invited
+            {languageService[user.language].invited[friend.isMale ? 1 : 0]}
           </Text>
         </View>
       );
@@ -89,7 +90,7 @@ const InviteFriendsScreen = ({ route }) => {
             className="text-lg text-center font-semibold"
             style={{ color: appStyle.color_on_primary }}
           >
-            Joined
+            {languageService[user.language].joined[friend.isMale ? 1 : 0]}
           </Text>
         </View>
       );
@@ -108,7 +109,9 @@ const InviteFriendsScreen = ({ route }) => {
           className="text-lg text-center font-semibold"
           style={{ color: appStyle.color_primary }}
         >
-          {buttonLoading == friend.id ? "Loading" : "Invite"}
+          {buttonLoading == friend.id
+            ? languageService[user.language].loading
+            : languageService[user.language].invite[user.isMale ? 1 : 0]}
         </Text>
       </TouchableOpacity>
     );
@@ -135,7 +138,7 @@ const InviteFriendsScreen = ({ route }) => {
           <TextInput
             onChangeText={(text) => setSearchText(text)}
             style={{ color: appStyle.color_on_primary }}
-            placeholder="Search"
+            placeholder={languageService[user.language].search}
             placeholderTextColor={appStyle.color_primary}
             className="text-xl ml-3"
           />

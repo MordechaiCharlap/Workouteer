@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import * as appStyle from "../AppStyleSheet";
+import languageService from "../../services/languageService";
 export const UserDeleted = (props) => {
   return (
     <View className="justify-center flex-1">
@@ -11,7 +12,11 @@ export const UserDeleted = (props) => {
           className="text-4xl font-semibold text-center"
           style={{ color: appStyle.color_on_primary }}
         >
-          {props.id} deleted succesfuly.
+          {languageService[props.language].theUser +
+            " " +
+            `'${props.id}'` +
+            " " +
+            languageService[props.language].deletedSuccessfully}
         </Text>
         <Text
           className="text-lg text-center"

@@ -16,6 +16,7 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 
 const WorkoutRequestsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -105,7 +106,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                       className="text-center"
                       style={{ color: appStyle.color_on_primary }}
                     >
-                      Accept
+                      {languageService[user.language].accept}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -121,7 +122,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                       style={{ color: appStyle.color_on_primary }}
                       className="text-center"
                     >
-                      Reject
+                      {languageService[user.language].reject}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -138,7 +139,13 @@ const WorkoutRequestsScreen = ({ route }) => {
                     className="text-center"
                     style={{ color: appStyle.color_on_primary }}
                   >
-                    {item.accepted == false ? "Rejected" : "Accepted"}
+                    {item.accepted == false
+                      ? languageService[user.language].rejected[
+                          item.user.isMale ? 1 : 0
+                        ]
+                      : languageService[user.language].accepted[
+                          item.user.isMale ? 1 : 0
+                        ]}
                   </Text>
                 </View>
               )}

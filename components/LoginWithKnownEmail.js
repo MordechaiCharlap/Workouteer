@@ -45,7 +45,7 @@ const LoginWithKnownEmail = (props) => {
         className="text-center text-lg"
         style={{ color: appStyle.color_on_primary }}
       >
-        Write your password so we could let you use both identification options
+        Use your workouteer account to link both identifications.
       </Text>
 
       <View style={style.knownInput}>

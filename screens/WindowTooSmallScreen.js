@@ -4,8 +4,11 @@ import * as appStyle from "../components/AppStyleSheet";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import useAuth from "../hooks/useAuth";
+import languageService from "../services/languageService";
 const WindowTooSmallScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
+  const { user } = useAuth();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WindowTooSmall");
@@ -24,7 +27,9 @@ const WindowTooSmallScreen = () => {
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}
       >
-        Window is too small, Please increase your browser window size
+        {user
+          ? languageService[user.language].windowTooSmallMessage
+          : "Window is too small, Please increase your browser window size"}
       </Text>
     </View>
   );
