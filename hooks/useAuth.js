@@ -8,9 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   GoogleAuthProvider,
-  EmailAuthProvider,
   signInWithCredential,
-  linkWithCredential,
 } from "firebase/auth";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 import {
@@ -198,65 +196,26 @@ export const AuthPrvider = ({ children }) => {
   };
   const signInEmailPassword = async (email, password) => {
     setLoginLoading(true);
-    try {
-      if (!rememberMe) {
-        console.log("not remembering user");
-        await setPersistence(auth, inMemoryPersistence);
-        await signInWithEmailAndPassword(auth, email, password);
-        setLoginLoading(false);
-        return true;
-      } else {
-        console.log("remembering user");
-        await signInWithEmailAndPassword(auth, email, password);
-        console.log("signed in!");
-        setLoginLoading(false);
-        return true;
-      }
-    } catch (error) {
-      const errorCode = error.code;
-      console.log("error code: ", errorCode);
-      updatedErrorCode(errorCode);
-      setLoginLoading(false);
-      throw error;
+    if (!rememberMe) {
+      console.log("not remembering user");
+      await setPersistence(firebaseAuth, inMemoryPersistence);
+    } else {
+      console.log("remembering user");
     }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Successful login");
+      setLoginLoading(false);
+      setAuthErrorCode(null);
+      return true;
+    } catch (error) {
+      console.log(`error: ${error.code}`);
+      setAuthErrorCode(error.code);
+    }
+    setLoginLoading(false);
+    return false;
   };
-  // const signInEmailPassword = (email, password) => {
-  //   setLoginLoading(true);
-  //   if (!rememberMe) {
-  //     console.log("not remembering user");
-  //     return setPersistence(auth, inMemoryPersistence)
-  //       .then(() => {
-  //         signInWithEmailAndPassword(auth, email, password)
-  //           .then(() => {
-  //             return true;
-  //           })
-  //           .catch((error) => {
-  //             const errorCode = error.code;
-  //             console.log("error code: ", errorCode);
-  //             updatedErrorCode(errorCode);
-  //             setLoginLoading(false);
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         setLoginLoading(false);
-  //       });
-  //   } else {
-  //     console.log("remembering user");
-  //     signInWithEmailAndPassword(auth, email, password)
-  //       .then(() => {
-  //         console.log("signed in!");
-  //         setLoginLoading(false);
-  //         return true;
-  //       })
-  //       .catch((error) => {
-  //         const errorCode = error.code;
-  //         console.log("error code: ", errorCode);
-  //         updatedErrorCode(errorCode);
-  //         setLoginLoading(false);
-  //         return true;
-  //       });
-  //   }
-  // };
   const userSignOut = () => {
     setInitialLoading(true);
     if (googleUserInfo) {
