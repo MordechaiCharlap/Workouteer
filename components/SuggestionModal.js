@@ -12,6 +12,11 @@ const SuggestionModal = (props) => {
     if (title.match(titleRegex)) return true;
     return false;
   };
+  const isValidContent = () => {
+    const contentRegex = /^.{15,}$/;
+    if (content.match(contentRegex)) return true;
+    return false;
+  };
   return (
     <Modal visible={props.showSuggestionModal}>
       <View
