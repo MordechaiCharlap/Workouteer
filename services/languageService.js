@@ -219,6 +219,11 @@ const languageService = {
       "Window is too small, Please increase your browser window size",
     onlyWorkoutMembersCanSeeLocation:
       "Only workout members can see the location on the map",
+    titleInstruction: "Title must be at least 5 characters",
+    contentInstruction: "Content mus be at least 15 characters",
+    title: "Title",
+    submit: "Submit",
+    helpUsMakeAppBetter: "Help us make it better! ",
   },
   hebrew: {
     login: "התחבר",
@@ -418,6 +423,11 @@ const languageService = {
       "חלון הדפדפן שלך קטן מדיי, הגדל אותו לשימוש באפליקציה",
     onlyWorkoutMembersCanSeeLocation:
       "רק חברי האימון יכולים לראות את המיקום המדוייק במפה",
+    titleInstruction: "הנושא חייב להיות באורך של 5 תווים לפחות",
+    contentInstruction: "התוכן חייב להיות באורך של 15 תווים לפחות",
+    title: "נושא",
+    submit: "שליחה",
+    helpUsMakeAppBetter: "עזרו לנו לשפר את חווית השימוש שלכם!",
   },
 };
 export default languageService;
