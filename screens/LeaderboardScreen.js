@@ -137,18 +137,31 @@ const LeaderboardScreen = () => {
                     : {}
                 }
               >
-                <Text
-                  className={`text-4xl w-12 text-center ${
-                    index < 3 ? "font-bold" : ""
-                  }`}
-                  style={
-                    item[0] == user.id
-                      ? { color: appStyle.color_on_primary }
-                      : { color: appStyle.color_primary }
-                  }
-                >
-                  {index + 1}
-                </Text>
+                {index < 3 ? (
+                  <Image
+                    key={index}
+                    source={
+                      index == 0
+                        ? require("../assets/leaderboard/medal-rank-1-transparent-bg.png")
+                        : index == 1
+                        ? require("../assets/leaderboard/medal-rank-2-transparent-bg.png")
+                        : require("../assets/leaderboard/medal-rank-3-transparent-bg.png")
+                    }
+                    className="w-12 h-12"
+                  />
+                ) : (
+                  <Text
+                    className="text-4xl w-12 text-center"
+                    style={
+                      item[0] == user.id
+                        ? { color: appStyle.color_on_primary }
+                        : { color: appStyle.color_primary }
+                    }
+                  >
+                    {index + 1}
+                  </Text>
+                )}
+
                 <Image
                   source={{
                     uri: item[1].img,
@@ -165,19 +178,7 @@ const LeaderboardScreen = () => {
                 >
                   {item[1].displayName}
                 </Text>
-                {index < 3 && (
-                  <Image
-                    key={index}
-                    source={
-                      index == 0
-                        ? require("../assets/leaderboard/medal-rank-1-transparent-bg.png")
-                        : index == 1
-                        ? require("../assets/leaderboard/medal-rank-2-transparent-bg.png")
-                        : require("../assets/leaderboard/medal-rank-3-transparent-bg.png")
-                    }
-                    className="h-12 w-12"
-                  />
-                )}
+
                 <Text
                   className="absolute right-3 my-auto text-2xl"
                   style={
