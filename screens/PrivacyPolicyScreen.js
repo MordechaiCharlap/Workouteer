@@ -4,6 +4,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, StatusBar } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import { ScrollView } from "react-native";
 
 const PrivacyPolicyScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -18,11 +19,15 @@ const PrivacyPolicyScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <Text style={{ color: appStyle.color_primary }} className="text-center">
-        Privacy Policy
-      </Text>
-      <Text style={{ color: appStyle.color_primary }}>
-        {`Workouteer operates the workouteer.co.il website, which provides the SERVICE.
+      <ScrollView className="px-3 gap-y-3">
+        <Text
+          style={{ color: appStyle.color_primary }}
+          className="text-center font-semibold text-2xl"
+        >
+          Privacy Policy
+        </Text>
+        <Text style={{ color: appStyle.color_primary }}>
+          {`Workouteer operates the workouteer.co.il website, which provides the SERVICE.
 
 This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the Workouteer website.
 
@@ -67,7 +72,8 @@ Our Privacy Policy was created with the help of the Privacy Policy Template.
 
 Contact Us
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.`}
-      </Text>
+        </Text>
+      </ScrollView>
     </View>
   );
 };
