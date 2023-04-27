@@ -207,20 +207,22 @@ const FriendsScreen = ({ route }) => {
             </View>
           )}
         />
-        <View
-          className="items-center"
-          style={{ backgroundColor: appStyle.color_bg }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("SearchUsers")}
-            className="m-3 py-3 px-8"
-            style={{ backgroundColor: appStyle.color_primary }}
+        {isMyUser && (
+          <View
+            className="items-center"
+            style={{ backgroundColor: appStyle.color_bg }}
           >
-            <Text style={{ color: appStyle.color_on_primary }}>
-              {languageService[user.language].addANewFriend}
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SearchUsers")}
+              className="m-3 py-3 px-8"
+              style={{ backgroundColor: appStyle.color_primary }}
+            >
+              <Text style={{ color: appStyle.color_on_primary }}>
+                {languageService[user.language].addANewFriend}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );
