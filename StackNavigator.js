@@ -42,6 +42,8 @@ import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
 import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
 import { safeAreaStyle } from "./components/safeAreaStyle";
+import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
+import ConditionsScreen from "./screens/ConditionsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -297,6 +299,16 @@ const StackNavigator = () => {
             </>
           ))
         )}
+        <Stack.Screen
+          name="TermsOfService"
+          component={TermsOfServiceScreen}
+          options={verticalAnimation}
+        />
+        <Stack.Screen
+          name="Conditions"
+          component={ConditionsScreen}
+          options={verticalAnimation}
+        />
       </Stack.Navigator>
       {showNavbar && (
         <View>

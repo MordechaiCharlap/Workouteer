@@ -15,6 +15,8 @@ export const NavbarDisplayProvider = ({ children }) => {
       "UpdateApp",
       "WindowTooSmall",
       "LinkUserWithGoogle",
+      "TermsOfService",
+      "Conditions",
     ];
     if (dontShowNavbar.includes(currentScreen)) {
       setShowNavbar(false);
