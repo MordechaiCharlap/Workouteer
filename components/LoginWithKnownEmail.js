@@ -16,19 +16,24 @@ const LoginWithKnownEmail = (props) => {
     );
     console.log(isLoggedIn);
     if (isLoggedIn) {
-      linkWithCredential(auth.currentUser, googleUserInfo.credential)
-        .then((res) => {
-          const updateBothAuthTrue = async () => {
-            console.log("updating both auths true");
-            await updateDoc(doc(db, "users", props.id), {
-              authGoogle: true,
-              authEmail: true,
-            });
-            console.log("both auth is true now");
-          };
-          updateBothAuthTrue();
-        })
-        .catch((error) => console.log(error));
+      try {
+        await linkWithCredential(auth.currentUser, googleUserInfo.credential);
+        console.log("updating both auths true");
+        await updateDoc(doc(db, "users", props.id), {
+          authGoogle: true,
+        });
+        console.log("both auth is true now");
+      } catch (error) {
+        console.log(`errorCode:${error.code}`);
+        if (error.code == "auth/provider-already-linked") {
+          console.log(
+            "Already linked, updating authGoogle to true so wont happen again"
+          );
+          // await updateDoc(doc(db, "users", props.id), {
+          //   authGoogle: true,
+          // });
+        }
+      }
     }
   };
 
