@@ -258,6 +258,7 @@ const SettingsScreen = () => {
         }}
       >
         <SuggestionForm
+          setShowSuggestionForm={setShowSuggestionForm}
           id={user.id}
           language={user.language}
           showSuggestionForm={showSuggestionForm}
