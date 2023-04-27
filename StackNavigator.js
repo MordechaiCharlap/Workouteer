@@ -43,7 +43,7 @@ import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
 import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
 import { safeAreaStyle } from "./components/safeAreaStyle";
 import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
-import ConditionsScreen from "./screens/ConditionsScreen";
+import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -305,8 +305,8 @@ const StackNavigator = () => {
           options={verticalAnimation}
         />
         <Stack.Screen
-          name="Conditions"
-          component={ConditionsScreen}
+          name="PrivacyPolicy"
+          component={PrivacyPolicyScreen}
           options={verticalAnimation}
         />
       </Stack.Navigator>

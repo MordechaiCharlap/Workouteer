@@ -1,7 +1,9 @@
-import { View, Text } from "react-native";
 import React, { useCallback } from "react";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect } from "@react-navigation/native";
+import { View, Text, StatusBar } from "react-native";
+import * as appStyle from "../utilities/appStyleSheet";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 
 const TermsOfServiceScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -11,7 +13,11 @@ const TermsOfServiceScreen = () => {
     }, [])
   );
   return (
-    <View>
+    <View style={safeAreaStyle()}>
+      <StatusBar
+        backgroundColor={appStyle.statusBarStyle.backgroundColor}
+        barStyle={appStyle.statusBarStyle.barStyle}
+      />
       <Text>TermsOfServiceScreen</Text>
     </View>
   );
