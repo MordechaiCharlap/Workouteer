@@ -22,7 +22,7 @@ const FriendRequestsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const [friendRequests, setFriendRequests] = useState();
   const { user } = useAuth();
-  const { sendPushNotificationCreatorAcceptedYourRequest } =
+  const { sendPushNotificationUserAcceptedYourFriendRequest } =
     usePushNotifications();
   useFocusEffect(
     useCallback(() => {
