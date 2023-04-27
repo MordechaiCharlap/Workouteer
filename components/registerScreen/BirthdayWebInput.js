@@ -87,6 +87,7 @@ const BirthdayWebInput = (props) => {
           {"Birthdate: "}
         </Text>
         <TextInput
+          keyboardType="numeric"
           onChangeText={(text) => handleDayChanged(text)}
           maxLength={2}
           placeholderTextColor={"#5f6b8b"}
@@ -94,6 +95,7 @@ const BirthdayWebInput = (props) => {
           style={[dayStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
+          keyboardType="numeric"
           onChangeText={(text) => handleMonthChanged(text)}
           maxLength={2}
           placeholderTextColor={"#5f6b8b"}
@@ -101,6 +103,7 @@ const BirthdayWebInput = (props) => {
           style={[monthStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
+          keyboardType="numeric"
           onChangeText={(text) => handleYearChanged(text)}
           maxLength={4}
           className="text-center"
