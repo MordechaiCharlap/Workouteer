@@ -224,6 +224,8 @@ const languageService = {
     title: "Title",
     submit: "Submit",
     helpUsMakeAppBetter: "Help us make it better! ",
+    submitting: "Submitting...",
+    submittedSuccesfully: "Submitted Succesfully!",
   },
   hebrew: {
     login: "התחבר",
@@ -427,6 +429,8 @@ const languageService = {
     contentInstruction: "התוכן חייב להיות באורך של 15 תווים לפחות",
     title: "נושא",
     submit: "שליחה",
+    submitting: "שולח...",
+    submittedSuccesfully: "נשלח בהצלחה!",
     helpUsMakeAppBetter: "עזרו לנו לשפר את חווית השימוש שלכם!",
   },
 };
