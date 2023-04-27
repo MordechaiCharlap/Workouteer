@@ -2,8 +2,9 @@ import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import CheckBox from "../CheckBox";
 import * as appStyle from "../../utilities/appStyleSheet";
-
+import { useNavigation } from "@react-navigation/native";
 const TermsAndConditionsCB = (props) => {
+  const navigation = useNavigation();
   const handleValueChanged = (value) => {
     props.valueChanged(value);
   };
@@ -20,20 +21,24 @@ const TermsAndConditionsCB = (props) => {
           <Text style={{ color: appStyle.color_on_primary }}>
             {"I agree to the "}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TermsOfService")}
+          >
             <Text
               className={Platform.OS != "web" ? "font-semibold underline" : ""}
               style={{
                 color: appStyle.color_on_primary,
               }}
             >
-              Terms and Conditions
+              Terms of Service
             </Text>
           </TouchableOpacity>
           <Text style={{ color: appStyle.color_on_primary, marginLeft: 5 }}>
             {"and the "}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PrivacyPolicy")}
+          >
             <Text
               className={Platform.OS != "web" ? "font-semibold underline" : ""}
               style={{
