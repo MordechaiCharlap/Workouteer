@@ -74,7 +74,7 @@ const LinkUserWithGoogleScreen = ({ route }) => {
               borderWidth: 1,
               borderColor: appStyle.color_primary,
             }}
-            className="rounded flex-row p-2 gap-x-2 items-center w-5/6"
+            className="rounded flex-row p-2 gap-x-2 items-center w-5/6 h-20"
           >
             <View className="h-full aspect-square">
               <Image
