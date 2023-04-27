@@ -21,6 +21,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { UserDeleted } from "../components/settingsScreen/UserDeleted";
+import SuggestionForm from "../components/SuggestionForm";
 const SettingsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
@@ -29,6 +30,7 @@ const SettingsScreen = () => {
   const [showOnline, setShowOnline] = useState(user.showOnline);
   const [language, setLanguage] = useState(user.language);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [showSuggestionForm, setShowSuggestionForm] = useState(false);
   const navigation = useNavigation();
   const signOut = async () => {
     console.log("Signing out");
@@ -205,6 +207,7 @@ const SettingsScreen = () => {
 
             <View className="absolute bottom-8 right-0 left-0 items-center">
               <TouchableOpacity
+                onPress={() => setShowSuggestionForm(true)}
                 style={{
                   backgroundColor: appStyle.color_primary,
                 }}
@@ -246,6 +249,21 @@ const SettingsScreen = () => {
           </View>
         </>
       )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showSuggestionForm}
+        onRequestClose={() => {
+          setShowSuggestionForm(!showSuggestionForm);
+        }}
+      >
+        <SuggestionForm
+          id={user.id}
+          language={user.language}
+          showSuggestionForm={showSuggestionForm}
+        />
+      </Modal>
+
       <AwesomeAlert
         overlayStyle={{
           width: safeAreaStyle().width,
