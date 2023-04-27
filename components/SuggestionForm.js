@@ -4,13 +4,36 @@ import languageService from "../services/languageService";
 import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
+import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db as dbImport } from "../services/firebase";
 const SuggestionForm = (props) => {
+  const db = dbImport;
   const id = props.id;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(false);
   const [isContentValid, setIsContentValid] = useState(false);
-  const submitSuggestion = async () => {};
+  const [isSubmitting, setIsSubmitting] = useState();
+  const submitSuggestion = async () => {
+    setIsSubmitting(true);
+    const suggestionsData = (
+      await getDoc(doc(db, "suggestions/suggestionsCollectionData"))
+    ).data();
+    const newNumberOfSuggestions = suggestionsData.numberOfSuggestions + 1;
+    await updateDoc(doc(db, "suggestions/suggestionsCollectionData"), {
+      numberOfSuggestions: newNumberOfSuggestions,
+    });
+    await setDoc(doc(db, "suggestions", String(newNumberOfSuggestions)), {
+      senderId: id,
+      title: title,
+      content: content,
+      dateSubmitted: Timestamp.now(),
+    });
+    setIsSubmitting(false);
+    setTimeout(() => {
+      props.setShowSuggestionForm(false);
+    }, 1000);
+  };
   useEffect(() => {
     const titleRegex = /^.{5,}$/;
     if (title.match(titleRegex)) setIsTitleValid(true);
@@ -92,14 +115,18 @@ const SuggestionForm = (props) => {
               : style.submitButton
           }
           className="self-center"
-          disabled={!isContentValid || !isTitleValid}
+          disabled={!isContentValid || !isTitleValid || isSubmitting != null}
           onPress={submitSuggestion}
         >
           <Text
             className="tracking-widest font-semibold text-xl"
             style={style.submitButtonText}
           >
-            {languageService[props.language].submit}
+            {isSubmitting == null
+              ? languageService[props.language].submit
+              : isSubmitting == true
+              ? languageService[props.language].submitting
+              : languageService[props.language].submittedSuccesfully}
           </Text>
         </TouchableOpacity>
       </View>
