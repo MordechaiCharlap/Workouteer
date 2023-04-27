@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Password from "./registerScreen/Password";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
-import { auth } from "../services/firebase";
+import { auth, db } from "../services/firebase";
 import { linkWithCredential } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 const LoginWithKnownEmail = (props) => {
@@ -27,11 +27,11 @@ const LoginWithKnownEmail = (props) => {
         console.log(`errorCode:${error.code}`);
         if (error.code == "auth/provider-already-linked") {
           console.log(
-            "Already linked, updating authGoogle to true so wont happen again"
+            `Already linked, updating authGoogle of ${props.id} to true so wont happen again`
           );
-          // await updateDoc(doc(db, "users", props.id), {
-          //   authGoogle: true,
-          // });
+          await updateDoc(doc(db, "users", props.id), {
+            authGoogle: true,
+          });
         }
       }
     }
