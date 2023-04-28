@@ -12,6 +12,7 @@ import { NavbarNavigationProvider } from "./hooks/useNavbarNavigation";
 import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 import { WebResponsivenessProvider } from "./hooks/useWebResponsiveness";
+import { FriendsWorkoutsProvider } from "./hooks/useFriendsWorkouts";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
   const { enableLatestRenderer } = require("react-native-maps");
@@ -26,13 +27,15 @@ export default function App() {
           <NavbarDisplayProvider>
             <AlertsProvider>
               <CurrentWorkoutProvider>
-                <NotificationsProvider>
-                  <NavbarNavigationProvider>
-                    <TailwindProvider>
-                      <StackNavigator />
-                    </TailwindProvider>
-                  </NavbarNavigationProvider>
-                </NotificationsProvider>
+                <FriendsWorkoutsProvider>
+                  <NotificationsProvider>
+                    <NavbarNavigationProvider>
+                      <TailwindProvider>
+                        <StackNavigator />
+                      </TailwindProvider>
+                    </NavbarNavigationProvider>
+                  </NotificationsProvider>
+                </FriendsWorkoutsProvider>
               </CurrentWorkoutProvider>
             </AlertsProvider>
           </NavbarDisplayProvider>
