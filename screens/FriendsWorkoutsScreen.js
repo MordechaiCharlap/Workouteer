@@ -7,8 +7,11 @@ import useAuth from "../hooks/useAuth";
 import * as appStyle from "../utilities/appStyleSheet";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-
+import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
+import { FlatList } from "react-native";
+import WorkoutComponent from "../components/WorkoutComponent";
 const FriendsWorkoutsScreen = () => {
+  const { friendsWorkouts, setFriendsWorkouts } = useFriendsWorkouts();
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -16,6 +19,7 @@ const FriendsWorkoutsScreen = () => {
       setCurrentScreen("FriendsWorkouts");
     }, [])
   );
+  console.log(friendsWorkouts);
   return (
     <View style={safeAreaStyle()}>
       <StatusBar
@@ -26,7 +30,21 @@ const FriendsWorkoutsScreen = () => {
         title={languageService[user.language].friendsWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-4"></View>
+      <View className="flex-1 px-4">
+        <FlatList
+          className="p-2"
+          showsVerticalScrollIndicator={false}
+          data={friendsWorkouts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <WorkoutComponent
+              workout={item}
+              isPastWorkout={false}
+              screen={"FriendsWorkouts"}
+            />
+          )}
+        />
+      </View>
     </View>
   );
 };
