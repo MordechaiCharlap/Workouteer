@@ -649,7 +649,31 @@ export const getWorkout = async (workoutId) => {
   const workoutDoc = await getDoc(doc(db, "workouts", workoutId));
   return { ...workoutDoc.data(), id: workoutDoc.id };
 };
-export const getFriendsWorkouts = async (user) => {};
+export const getFriendsWorkouts = async (user) => {
+  const now = new Date();
+  const friendsArray = await getFriendsArray(user);
+  const userFutureWorkoutIds = [];
+  const friendsFutureWorkouts = [];
+  for (var workout of Object.entries(user.workouts)) {
+    if (workout[1][0].toDate() > now) userFutureWorkoutIds.push(workout[0]);
+  }
+  for (var friend of friendsArray) {
+    for (var workout of Object.entries(friend.workouts)) {
+      if (
+        workout[1][0].toDate() > now &&
+        !userFutureWorkoutIds.includes(workout[0])
+      ) {
+        const workoutData = await getWorkout(workout[0]);
+        if (
+          workoutData.members[user.id] == null &&
+          workoutData.invites[user.id] != false
+        )
+          friendsFutureWorkouts.push(workoutData);
+      }
+    }
+  }
+  return friendsFutureWorkouts;
+};
 
 export const updateUser = async (user) => {
   await setDoc(doc(db, "users", user.id), { ...user });
