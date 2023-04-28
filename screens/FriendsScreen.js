@@ -27,29 +27,30 @@ import languageService from "../services/languageService";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-  useFocusEffect(
-    useCallback(() => {
-      setCurrentScreen("Friends");
-      const showFriends = async () => {
-        const friendsArr = [];
-        for (var key of Object.keys(
-          isMyUser ? user.friends : shownUser.friends
-        )) {
-          var userData = await firebase.userDataById(key);
-          friendsArr.push(userData);
-        }
-        setFriendsArray(friendsArr);
-        setShownFriendsArray(friendsArr);
-      };
-      showFriends();
-    }, [])
-  );
   const { user } = useAuth();
   const shownUser = route.params.user;
   const isMyUser = route.params.isMyUser;
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("Friends");
+    }, [])
+  );
+  useEffect(() => {
+    const showFriends = async () => {
+      const friendsArr = [];
+      for (var key of Object.keys(shownUser.friends)) {
+        var userData = await firebase.userDataById(key);
+        friendsArr.push(userData);
+      }
+      setFriendsArray(friendsArr);
+      setShownFriendsArray(friendsArr);
+    };
+    showFriends();
+  }, [route.params.friendsAdded]);
+
   useEffect(() => {
     if (searchText != "") {
       const searchTextLower = searchText.toLocaleLowerCase();

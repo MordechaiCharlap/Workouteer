@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -22,6 +22,7 @@ const FriendRequestsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const [friendRequests, setFriendRequests] = useState();
   const { user } = useAuth();
+  const [friendsAdded, setFriendsAdded] = useState(false);
   const { sendPushNotificationUserAcceptedYourFriendRequest } =
     usePushNotifications();
   useFocusEffect(
@@ -34,7 +35,21 @@ const FriendRequestsScreen = () => {
       setArray();
     }, [])
   );
+  useEffect(() => {
+    navigation.addListener("beforeRemove", (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+
+      // Send data back to the previous screen
+      navigation.navigate("FriendsScreen", {
+        user: user,
+        isMyUser: true,
+        friendsAdded: true,
+      });
+    });
+  }, [navigation]);
   const acceptFriendRequest = async (otherUser, index) => {
+    setFriendsAdded(true);
     removeRequestFromArray(index);
     await sendPushNotificationUserAcceptedYourFriendRequest(otherUser);
     await firebase.acceptFriendRequest(user.id, otherUser.id);
