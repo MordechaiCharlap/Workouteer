@@ -18,6 +18,7 @@ import {
   faChevronLeft,
   faCircleUser,
   faUserClock,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import AlertDot from "../components/AlertDot";
@@ -197,19 +198,21 @@ const FriendsScreen = ({ route }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => openPrivateChat(item)}
-                className="py-1 px-6 rounded"
+                className="p-2 rounded items-center justify-center flex-row gap-x-1"
                 style={{
-                  backgroundColor: appStyle.color_bg,
+                  backgroundColor: appStyle.color_primary,
                   borderColor: appStyle.color_primary,
-                  borderWidth: 0.5,
+                  borderWidth: 1,
                 }}
               >
-                <Text
-                  className="text-lg font-semibold"
-                  style={{ color: appStyle.color_primary }}
-                >
+                <Text style={{ color: appStyle.color_bg }}>
                   {languageService[user.language].message[user.isMale ? 1 : 0]}
                 </Text>
+                <FontAwesomeIcon
+                  icon={faPaperPlane}
+                  size={15}
+                  color={appStyle.color_bg}
+                />
               </TouchableOpacity>
             </View>
           )}
