@@ -30,36 +30,31 @@ const FriendsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Friends");
+      const showFriends = async () => {
+        const friendsArr = [];
+        for (var key of Object.keys(
+          isMyUser ? user.friends : shownUser.friends
+        )) {
+          var userData = await firebase.userDataById(key);
+          friendsArr.push(userData);
+        }
+        setFriendsArray(friendsArr);
+        setShownFriendsArray(friendsArr);
+      };
+      showFriends();
     }, [])
   );
   const { user } = useAuth();
   const shownUser = route.params.user;
   const isMyUser = route.params.isMyUser;
-  useEffect(() => {
-    const showFriends = async () => {
-      const friendsArr = [];
-      for (var key of Object.keys(
-        isMyUser ? user.friends : shownUser.friends
-      )) {
-        var userData = await firebase.userDataById(key);
-        friendsArr.push(userData);
-      }
-      setShownFriendsArray(friendsArr);
-    };
-    showFriends();
-  }, [user]);
   const [searchText, setSearchText] = useState("");
+  const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
-
+  useEffect(() => {}, [searchText]);
   const searchClicked = async () => {
     if (searchText != "") {
       const friendsArr = [];
-      //TODO!!
-      // allFriendsMap.forEach((value, key) => {
-      //   friendsArr.push(key);
-      // });
-      // setShownFriendsArray(friendsArr);
-    }
+    } else setShownFriendsArray(friendsArray);
   };
   //TODO
   const openPrivateChat = async (otherUser) => {
@@ -162,7 +157,9 @@ const FriendsScreen = ({ route }) => {
                 onPress={() =>
                   navigation.navigate("User", {
                     shownUser: item,
-                    friendshipStatus: "Friends",
+                    friendshipStatus: isMyUser
+                      ? "Friends"
+                      : firebase.checkFriendShipStatus(user, item),
                   })
                 }
                 className="flex-row flex-1 items-center"
