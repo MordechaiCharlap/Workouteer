@@ -50,12 +50,23 @@ const FriendsScreen = ({ route }) => {
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
-  useEffect(() => {}, [searchText]);
-  const searchClicked = async () => {
+  useEffect(() => {
     if (searchText != "") {
-      const friendsArr = [];
+      const searchTextLower = searchText.toLocaleLowerCase();
+      const resultArray = [];
+      for (var i = 0; i < friendsArray.length; i++) {
+        if (
+          friendsArray[i].id.toLocaleLowerCase().includes(searchTextLower) ||
+          friendsArray[i].displayName
+            .toLocaleLowerCase()
+            .includes(searchTextLower)
+        ) {
+          resultArray.push(friendsArray[i]);
+        }
+      }
+      setShownFriendsArray(resultArray);
     } else setShownFriendsArray(friendsArray);
-  };
+  }, [searchText]);
   //TODO
   const openPrivateChat = async (otherUser) => {
     const chat = await firebase.getPrivateChatByUsers(user, otherUser);
@@ -130,13 +141,11 @@ const FriendsScreen = ({ route }) => {
               user.language == "hebrew" ? "-reverse" : ""
             }`}
           >
-            <TouchableOpacity onPress={searchClicked}>
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                size={20}
-                color={appStyle.color_primary}
-              />
-            </TouchableOpacity>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              size={20}
+              color={appStyle.color_primary}
+            />
             <TextInput
               onChangeText={(text) => setSearchText(text)}
               style={{ color: appStyle.color_on_primary }}
