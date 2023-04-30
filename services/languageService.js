@@ -229,6 +229,7 @@ const languageService = {
     minutes: "minutes",
     hours: "hours",
     days: "days",
+    betaVersion: "Beta version",
   },
   hebrew: {
     login: "התחבר",
@@ -438,6 +439,7 @@ const languageService = {
     minutes: "דקות",
     hours: "שעות",
     days: "ימים",
+    betaVersion: "גרסת בטא",
   },
 };
 export default languageService;
