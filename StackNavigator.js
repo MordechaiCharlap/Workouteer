@@ -37,7 +37,6 @@ import UpdateAppScreen from "./screens/UpdateAppScreen";
 import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
 import useWebResponsiveness from "./hooks/useWebResponsiveness";
-import { checkIfVersionUpdated } from "./services/versionService";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
 import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
