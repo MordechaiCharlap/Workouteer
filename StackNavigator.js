@@ -44,6 +44,7 @@ import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
 import { safeAreaStyle } from "./components/safeAreaStyle";
 import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
+import useAppData from "./hooks/useAppData";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -60,16 +61,9 @@ const StackNavigator = () => {
     useAlerts();
   const { orientation, windowTooSmall } = useWebResponsiveness();
   const [alertsChanged, setAlertsChanged] = useState(false);
-  const [updateNeeded, setUpdateNeeded] = useState(false);
+  const { isVersionUpToDate } = useAppData();
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
-  useEffect(() => {
-    if (checkIfVersionUpdated()) {
-      setUpdateNeeded(false);
-    } else {
-      setUpdateNeeded(true);
-    }
-  }, []);
 
   useEffect(() => {
     const removeUnconfirmedOldWorkouts = async () => {
@@ -140,7 +134,7 @@ const StackNavigator = () => {
             component={WindowTooSmallScreen}
             options={verticalAnimation}
           />
-        ) : updateNeeded ? (
+        ) : !isVersionUpToDate ? (
           <Stack.Screen
             name="UpdateApp"
             component={UpdateAppScreen}
@@ -149,7 +143,7 @@ const StackNavigator = () => {
         ) : (
           orientation != "LANDSCAPE" &&
           !windowTooSmall &&
-          !updateNeeded &&
+          isVersionUpToDate &&
           (user ? (
             <>
               <Stack.Screen
