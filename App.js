@@ -4,7 +4,6 @@ import StackNavigator from "./StackNavigator";
 import { AuthPrvider } from "./hooks/useAuth";
 import { NotificationsProvider } from "./hooks/usePushNotifications";
 import { AlertsProvider } from "./hooks/useAlerts";
-
 import { initGeocoder } from "./geocoder";
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
@@ -13,34 +12,38 @@ import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 import { WebResponsivenessProvider } from "./hooks/useWebResponsiveness";
 import { FriendsWorkoutsProvider } from "./hooks/useFriendsWorkouts";
+import { AppDataProvider } from "./hooks/useAppData";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
   const { enableLatestRenderer } = require("react-native-maps");
   enableLatestRenderer();
 }
 initGeocoder();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthPrvider>
-        <WebResponsivenessProvider>
-          <NavbarDisplayProvider>
-            <AlertsProvider>
-              <CurrentWorkoutProvider>
-                <FriendsWorkoutsProvider>
-                  <NotificationsProvider>
-                    <NavbarNavigationProvider>
-                      <TailwindProvider>
-                        <StackNavigator />
-                      </TailwindProvider>
-                    </NavbarNavigationProvider>
-                  </NotificationsProvider>
-                </FriendsWorkoutsProvider>
-              </CurrentWorkoutProvider>
-            </AlertsProvider>
-          </NavbarDisplayProvider>
-        </WebResponsivenessProvider>
-      </AuthPrvider>
+      <AppDataProvider>
+        <AuthPrvider>
+          <WebResponsivenessProvider>
+            <NavbarDisplayProvider>
+              <AlertsProvider>
+                <CurrentWorkoutProvider>
+                  <FriendsWorkoutsProvider>
+                    <NotificationsProvider>
+                      <NavbarNavigationProvider>
+                        <TailwindProvider>
+                          <StackNavigator />
+                        </TailwindProvider>
+                      </NavbarNavigationProvider>
+                    </NotificationsProvider>
+                  </FriendsWorkoutsProvider>
+                </CurrentWorkoutProvider>
+              </AlertsProvider>
+            </NavbarDisplayProvider>
+          </WebResponsivenessProvider>
+        </AuthPrvider>
+      </AppDataProvider>
     </NavigationContainer>
   );
 }
