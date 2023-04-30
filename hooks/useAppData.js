@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
   const [appData, setAppData] = useState();
-  const [isVersionUpToDate, setIsVersionUpToDate] = useState();
+  const [isVersionUpToDate, setIsVersionUpToDate] = useState(true);
 
   const IsVersionUpToDateFunc = () => {
     const latestVersion = appData.version;
