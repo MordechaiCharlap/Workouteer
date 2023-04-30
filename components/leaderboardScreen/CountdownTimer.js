@@ -44,7 +44,7 @@ const CountdownTimer = (props) => {
     return () => clearInterval(intervalRef.current);
   }, []);
   return (
-    <View>
+    <View className="mb-5">
       <Text className="text-xl text-center font-semibold">
         {formattedTimeLeft}
       </Text>
