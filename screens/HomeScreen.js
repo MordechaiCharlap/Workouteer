@@ -1,6 +1,6 @@
-import { View, StatusBar, Dimensions } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { View, StatusBar, Dimensions, Text } from "react-native";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import HomeScreenButton from "../components/HomeScreenButton";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -20,7 +20,9 @@ import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButt
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import useAppData from "../hooks/useAppData";
 const HomeScreen = () => {
+  const { appData } = useAppData();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
@@ -134,6 +136,14 @@ const HomeScreen = () => {
           </View>
         )}
       </View>
+      {appData.isBetaVersion && (
+        <Text
+          style={{ color: appStyle.color_primary }}
+          className="absolute text-xs m-1"
+        >
+          {languageService[user.language].betaVersion}
+        </Text>
+      )}
     </View>
   );
 };
