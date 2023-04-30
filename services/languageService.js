@@ -93,7 +93,6 @@ const languageService = {
     forEveryone: "For everyone",
     menOnly: "Men only",
     womenOnly: "Women only",
-    minutes: "minutes",
     members: "Members",
     directions: "Directions",
     you: ["You", "You"],
@@ -226,6 +225,10 @@ const languageService = {
     helpUsMakeAppBetter: "Help us make it better! ",
     submitting: "Submitting...",
     submittedSuccesfully: "Submitted Succesfully!",
+    seconds: "seconds",
+    minutes: "minutes",
+    hours: "hours",
+    days: "days",
   },
   hebrew: {
     login: "התחבר",
@@ -320,7 +323,6 @@ const languageService = {
     forEveryone: "מעורב",
     menOnly: "לגברים בלבד",
     womenOnly: "לנשים בלבד",
-    minutes: "דקות",
     directions: "הוראות הגעה",
     you: ["את", "אתה"],
     creator: "מנהל/ת",
@@ -432,6 +434,10 @@ const languageService = {
     submitting: "שולח...",
     submittedSuccesfully: "נשלח בהצלחה!",
     helpUsMakeAppBetter: "עזרו לנו לשפר את חווית השימוש שלכם!",
+    seconds: "שניות",
+    minutes: "דקות",
+    hours: "שעות",
+    days: "ימים",
   },
 };
 export default languageService;
