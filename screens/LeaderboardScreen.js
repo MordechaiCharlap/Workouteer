@@ -17,6 +17,7 @@ import * as firebase from "../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CountdownTimer from "../components/leaderboardScreen/CountdownTimer";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -67,6 +68,8 @@ const LeaderboardScreen = () => {
                 languageService[user.language].league
           }
         />
+        <CountdownTimer language={user.language} />
+
         {leaderboardList.findIndex(
           (element) => element[0] == user.id && element[1].points == 0
         ) != -1 ? (
