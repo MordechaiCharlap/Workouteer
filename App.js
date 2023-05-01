@@ -12,6 +12,7 @@ import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 import { WebResponsivenessProvider } from "./hooks/useWebResponsiveness";
 import { FriendsWorkoutsProvider } from "./hooks/useFriendsWorkouts";
+import { LeaderboardUpdatesProvider } from "./hooks/useLeaderboardUpdates";
 import { AppDataProvider } from "./hooks/useAppData";
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
@@ -31,11 +32,13 @@ export default function App() {
                 <CurrentWorkoutProvider>
                   <FriendsWorkoutsProvider>
                     <NotificationsProvider>
-                      <NavbarNavigationProvider>
-                        <TailwindProvider>
-                          <StackNavigator />
-                        </TailwindProvider>
-                      </NavbarNavigationProvider>
+                      <LeaderboardUpdatesProvider>
+                        <NavbarNavigationProvider>
+                          <TailwindProvider>
+                            <StackNavigator />
+                          </TailwindProvider>
+                        </NavbarNavigationProvider>
+                      </LeaderboardUpdatesProvider>
                     </NotificationsProvider>
                   </FriendsWorkoutsProvider>
                 </CurrentWorkoutProvider>

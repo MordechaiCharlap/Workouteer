@@ -1,7 +1,7 @@
 import { useEffect, createContext, useContext } from "react";
 import useAuth from "./useAuth";
 const LeaderboardUpdatesContext = createContext({});
-const LeaderboardUpdatesProvider = (children) => {
+export const LeaderboardUpdatesProvider = (children) => {
   const { user } = useAuth();
   useEffect(() => {
     if (leaderboardUpdatedMessage != null) {
@@ -13,6 +13,6 @@ const LeaderboardUpdatesProvider = (children) => {
     </LeaderboardUpdatesContext.Provider>
   );
 };
-export const useLeaderboardUpdatesProvider = useContext(
-  LeaderboardUpdatesContext
-);
+export default function useLeaderboardUpdates() {
+  return useContext(LeaderboardUpdatesContext);
+}
