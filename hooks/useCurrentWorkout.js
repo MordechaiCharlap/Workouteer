@@ -7,7 +7,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
   const [currentWorkout, setCurrentWorkout] = useState(null);
   const [intervalVal, setIntervalVal] = useState(null);
   const checkIfCurrentWorkout = async (now) => {
-    console.log("checking if theres current workout");
+    console.log(`checking if theres current workout for ${now.toDateString()}`);
     for (var [key, value] of Object.entries(user.workouts)) {
       if (
         new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
@@ -19,49 +19,56 @@ export const CurrentWorkoutProvider = ({ children }) => {
         return { ...workout, id: key };
       }
     }
-    console.log("havent found current workout");
   };
   const clearIntervalFunc = () => {
     if (intervalVal != null) {
+      console.log("Clearing interval");
       clearInterval(intervalVal);
       setIntervalVal(null);
     }
   };
   useEffect(() => {
     clearIntervalFunc();
+
     const initialCheckCurrentWorkout = async () => {
+      // Get the current time
       const now = new Date();
-      const currentWorkoutReturned = await checkIfCurrentWorkout(now);
-      if (!currentWorkoutReturned) {
-        const lastQuarter = now.getMinutes() % 15;
-        //16 so there wont be bug checking 16:15:89 workout at 16:15:75. prefer to check at 16:16:XX to make sure
-        var nextCheck = new Date(now.getTime() + (16 - lastQuarter) * 60000);
-        const interval = setInterval(async () => {
+
+      // Call the function immediately on the initial render
+      checkIfCurrentWorkout(now);
+
+      // Calculate the number of minutes past the hour
+      const minutes = now.getMinutes();
+
+      // Calculate the number of minutes until the next quarter hour
+      const minutesUntilQuarterHour = 15 - (minutes % 15);
+
+      // Calculate the number of milliseconds until the next quarter hour
+      const millisecondsUntilQuarterHour = minutesUntilQuarterHour * 60 * 1000;
+      //Adding second so it would calculate the workouts which registered exactly at 00:00 (ss,ms)
+      const msUntilNextQuarterPlusOneSec = millisecondsUntilQuarterHour + 1000;
+      // Wait until the next quarter hour to start the interval
+      setTimeout(() => {
+        console.log("initial interval");
+        const now = new Date();
+        checkIfCurrentWorkout(now);
+        const interval = setInterval(() => {
           const now = new Date();
-          if (now > nextCheck) {
-            nextCheck = new Date(nextCheck.getTime() + 15 * 60000);
-            const currentWorkoutReturned = await checkIfCurrentWorkout(now);
-            if (currentWorkoutReturned != null) {
-              setCurrentWorkout(currentWorkoutReturned);
-              console.log(`found current workout: ${currentWorkoutReturned}`);
-            } else setCurrentWorkout(null);
-          }
-        }, 60000);
+          checkIfCurrentWorkout(now);
+        }, 15 * 60 * 1000);
         setIntervalVal(interval);
-        return () => {
-          clearIntervalFunc();
-        };
-      } else {
-        setCurrentWorkout(currentWorkoutReturned);
-        console.log(`found current workout: ${currentWorkoutReturned}`);
-      }
+      }, msUntilNextQuarterPlusOneSec);
     };
 
     if (user) {
+      console.log("initialCheck");
       initialCheckCurrentWorkout();
     }
-  }, [user?.workouts]);
 
+    return () => {
+      clearIntervalFunc();
+    };
+  }, [user?.workouts]);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
