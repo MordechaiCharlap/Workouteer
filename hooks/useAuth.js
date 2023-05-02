@@ -206,15 +206,17 @@ export const AuthPrvider = ({ children }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Successful login");
-      setLoginLoading(false);
       setAuthErrorCode(null);
+      setTimeout(() => {
+        setLoginLoading(false);
+      }, 5000);
       return true;
     } catch (error) {
       console.log(`error: ${error.code}`);
       setAuthErrorCode(error.code);
+      setLoginLoading(false);
+      return false;
     }
-    setLoginLoading(false);
-    return false;
   };
   const userSignOut = () => {
     setInitialLoading(true);
