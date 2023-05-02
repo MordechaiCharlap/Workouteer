@@ -13,6 +13,7 @@
     ],
     "public": "web-build",
     "ignore": [
+      "adminSdkKey.json",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
@@ -34,9 +35,7 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint"
-      ]
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"]
     }
   ]
 }
