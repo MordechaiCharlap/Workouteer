@@ -9,12 +9,19 @@ import {
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { color_primary } from "../utilities/appStyleSheet";
 const LeaderboardUpdatesContext = createContext({});
 export const LeaderboardUpdatesProvider = ({ children }) => {
   const { user } = useAuth();
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [testing, setTesting] = useState(true);
+  const getPlaceString = (place, language) => {
+    if (language == "english") {
+      return `${place} ${languageService[language].place}`;
+    }
+    return languageService[language].place + " " + place;
+  };
   useEffect(() => {
     // if (!user?.leaderboard.leaderboardUpdatedMessage) return;
     if (!user) return;
@@ -23,25 +30,30 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
       : user.leaderboard.leaderboardUpdated;
     console.log("Showing leaderboard updated modal!");
     setTesting(true);
-    setModalMessage(
-      `You finished ${leaderboardUpdated.lastPlace} place last weekend`
+    setModalTitle(
+      languageService[user.language].youFinished[user.isMale ? 1 : 0] +
+        " " +
+        getPlaceString(leaderboardUpdated.lastPlace, user.language) +
+        " " +
+        languageService[user.language].lastWeekend
     );
     setShowModal(true);
-  }, [user?.leaderboard.leaderboardUpdated]);
+  }, [user]);
   return (
     <LeaderboardUpdatesContext.Provider value={{}}>
       {children}
       {showModal && (
         <AwesomeAlert
+          overlayStyle={color_primary}
           show={showModal}
           showProgress={false}
-          title={modalMessage}
-          message={modalMessage}
+          title={modalTitle}
+          message={""}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showConfirmButton={true}
           confirmText={languageService[user.language].gotIt}
-          confirmButtonColor="#DD6B55"
+          confirmButtonColor={color_primary}
           onCancelPressed={() => {
             setShowAlert(false);
           }}
