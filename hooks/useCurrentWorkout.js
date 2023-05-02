@@ -21,11 +21,14 @@ export const CurrentWorkoutProvider = ({ children }) => {
     }
     console.log("havent found current workout");
   };
-  const clreaingInterval = () => {
-    clearInterval(intervalVal);
-    setIntervalVal(null);
+  const clearIntervalFunc = () => {
+    if (intervalVal != null) {
+      clearInterval(intervalVal);
+      setIntervalVal(null);
+    }
   };
   useEffect(() => {
+    clearIntervalFunc();
     const initialCheckCurrentWorkout = async () => {
       const now = new Date();
       const currentWorkoutReturned = await checkIfCurrentWorkout(now);
@@ -46,7 +49,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
         }, 60000);
         setIntervalVal(interval);
         return () => {
-          clreaingInterval();
+          clearIntervalFunc();
         };
       } else {
         setCurrentWorkout(currentWorkoutReturned);
@@ -55,14 +58,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
     };
 
     if (user) {
-      if (intervalVal != null) {
-        clreaingInterval();
-      }
       initialCheckCurrentWorkout();
-    } else {
-      if (intervalVal != null) {
-        clreaingInterval();
-      }
     }
   }, [user?.workouts]);
 
