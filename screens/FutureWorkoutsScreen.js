@@ -1,7 +1,7 @@
 import { View, FlatList, StatusBar, Platform } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -98,7 +98,7 @@ const FutureWorkoutsScreen = () => {
                 {newWorkouts[item.id] != null ? (
                   <View className="absolute left-0 top-6">
                     <AlertDot
-                      text="new!"
+                      text={languageService[user.language].new}
                       textColor={appStyle.color_on_primary}
                       borderWidth={5}
                       borderColor={appStyle.color_bg}

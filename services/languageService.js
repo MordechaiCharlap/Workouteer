@@ -230,6 +230,11 @@ const languageService = {
     hours: "hours",
     days: "days",
     betaVersion: "Beta version",
+    untilTheWeekend: "until the weekend",
+    youFinished: ["You finished", "You finished"],
+    lastWeekend: "last weekend",
+    place: "place",
+    new: "new!",
   },
   hebrew: {
     login: "התחבר",
@@ -440,6 +445,11 @@ const languageService = {
     hours: "שעות",
     days: "ימים",
     betaVersion: "גרסת בטא",
+    untilTheWeekend: "עד סוף השבוע",
+    youFinished: ["את סיימת", "אתה סיימת"],
+    lastWeekend: "בסוף השבוע האחרון",
+    place: "דירוג",
+    new: "חדש!",
   },
 };
 export default languageService;
