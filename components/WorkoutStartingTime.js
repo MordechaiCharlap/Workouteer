@@ -34,7 +34,9 @@ const WorkoutStartingTime = (props) => {
     setMaxDate(maximumDate);
   }, []);
   const onDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = new Date(selectedDate);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
     if (event.type == "set") {
       if (mode == "date") {
         setDate(currentDate);
