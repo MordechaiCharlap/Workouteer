@@ -55,18 +55,16 @@ export const CurrentWorkoutProvider = ({ children }) => {
     };
 
     if (user) {
-      if (intervalVal == null) {
-        initialCheckCurrentWorkout();
-      } else {
+      if (intervalVal != null) {
         clreaingInterval();
-        initialCheckCurrentWorkout();
       }
+      initialCheckCurrentWorkout();
     } else {
       if (intervalVal != null) {
         clreaingInterval();
       }
     }
-  }, [user]);
+  }, [user?.workouts]);
 
   return (
     <CurrentWorkoutContext.Provider
