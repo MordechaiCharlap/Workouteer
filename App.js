@@ -32,13 +32,13 @@ export default function App() {
                 <CurrentWorkoutProvider>
                   <FriendsWorkoutsProvider>
                     <NotificationsProvider>
-                      <LeaderboardUpdatesProvider>
-                        <NavbarNavigationProvider>
-                          <TailwindProvider>
-                            <StackNavigator />
-                          </TailwindProvider>
-                        </NavbarNavigationProvider>
-                      </LeaderboardUpdatesProvider>
+                      {/* <LeaderboardUpdatesProvider> */}
+                      <NavbarNavigationProvider>
+                        <TailwindProvider>
+                          <StackNavigator />
+                        </TailwindProvider>
+                      </NavbarNavigationProvider>
+                      {/* </LeaderboardUpdatesProvider> */}
                     </NotificationsProvider>
                   </FriendsWorkoutsProvider>
                 </CurrentWorkoutProvider>
