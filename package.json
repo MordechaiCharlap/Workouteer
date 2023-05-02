@@ -9,7 +9,8 @@
     "build-dev": "webpack --env mode=development",
     "build-prod": "webpack --env mode=production",
     "predeploy": "expo export:web",
-    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && node scripts/update-last-web-deploy.js && firebase deploy --only hosting"
+    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && node scripts/update-last-web-deploy.js && firebase deploy --only hosting",
+    "build-apk": "eas build --profile preview --platform android"
   },
   "dependencies": {
     "@expo/dev-server": "0.1.120",
