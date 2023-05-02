@@ -84,18 +84,12 @@ const StackNavigator = () => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
     };
-    const getNewLeaderboard = async () => {
-      await firebase.getNewLeaderboard(user, 0);
-    };
+
     if (!notificationsListenersAdded && user != null && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
       addListenerAsync(user);
     }
     if (user) {
-      if (firebase.getLastWeekId() != user.leaderboard.weekId) {
-        console.log("New user, getting a new leaderboard :)");
-        getNewLeaderboard();
-      }
       removeUnconfirmedOldWorkouts();
       resetStreakIfNeeded();
     }
