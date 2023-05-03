@@ -148,6 +148,7 @@ export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.id), {
     ...newUserData,
     img: defaultValues.defaultProfilePic,
+    workoutsCount: 0,
     friendsCount: 0,
     friendRequestsCount: 0,
     plannedWorkouts: {},
@@ -182,7 +183,6 @@ export const createUser = async (newUserData) => {
   });
   await setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
     confirmedWorkouts: [],
-    count: 0,
   });
 };
 export const checkFriendShipStatus = async (userData, otherUserId) => {
@@ -440,10 +440,9 @@ export const createWorkout = async (workout) => {
 
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
-    [`workouts.${newWorkoutRef.id}`]: [
+    [`plannedWorkouts.${newWorkoutRef.id}`]: [
       workout.startingTime,
       workout.minutes,
-      false,
     ],
   });
   await updateDoc(doc(db, "alerts", workout.creator), {
@@ -451,9 +450,10 @@ export const createWorkout = async (workout) => {
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
 };
-export const getFutureWorkouts = async (user, now) => {
+export const getFutureWorkouts = async (user) => {
+  const now = new Date();
   const workoutsArray = [];
-  for (var [key, value] of Object.entries(user.workouts)) {
+  for (var [key, value] of Object.entries(user.plannedWorkouts)) {
     if (value[0].toDate() > now) {
       workoutsArray.push({
         id: key,
@@ -467,15 +467,13 @@ export const getFutureWorkouts = async (user, now) => {
   );
   return workoutsArray;
 };
-export const getPastWorkouts = async (user, now) => {
+export const getPastWorkouts = async (confirmedWorkouts) => {
   const workoutsArray = [];
-  for (var [key, value] of Object.entries(user.workouts)) {
-    if (value[0].toDate() < now) {
-      workoutsArray.push({
-        id: key,
-        ...(await getDoc(doc(db, "workouts", key))).data(),
-      });
-    }
+  for (var workout of confirmedWorkouts) {
+    workoutsArray.push({
+      id: workout[0],
+      ...(await getDoc(doc(db, "workouts", workout[0]))).data(),
+    });
   }
   workoutsArray.sort(
     (a, b) =>
@@ -516,7 +514,7 @@ export const deleteGroupChatForUser = async (user, chat) => {
 };
 export const cancelWorkout = async (user, workout) => {
   await updateDoc(doc(db, "users", user.id), {
-    [`workouts.${workout.id}`]: deleteField(),
+    [`plannedWorkouts.${workout.id}`]: deleteField(),
   });
   await deleteDoc(doc(db, "workouts", workout.id));
 };
@@ -525,7 +523,7 @@ export const leaveWorkout = async (user, workout) => {
     [`members.${user.id}`]: deleteField(),
   });
   await updateDoc(doc(db, "users", user.id), {
-    [`workouts.${workout.id}`]: deleteField(),
+    [`plannedWorkouts.${workout.id}`]: deleteField(),
   });
 };
 export const getWorkoutResults = async (preferences) => {
@@ -620,7 +618,7 @@ export const acceptWorkoutInvite = async (
     },
   });
   await updateDoc(doc(db, "users", invited.id), {
-    [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
+    [`plannedWorkouts.${workout.id}`]: [workout.startingTime, workout.minutes],
   });
   const accepted = true;
   await removeWorkoutInviteAlert(invited.id, workout, accepted);
@@ -643,7 +641,7 @@ export const acceptWorkoutRequest = async (requester, workout) => {
     [`members.${requester.id}`]: { confirmed: false },
   });
   await updateDoc(doc(db, "users", requester.id), {
-    [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
+    [`plannedWorkouts.${workout.id}`]: [workout.startingTime, workout.minutes],
   });
   await workoutRequestAcceptedAlert(requester.id, workout);
   await removeWorkoutRequestAlert(requester.id, workout);
@@ -662,25 +660,19 @@ export const getWorkout = async (workoutId) => {
     return null;
   }
 };
-export const getFriendsWorkouts = async (user) => {
+export const getFriendsFutureWorkouts = async (user) => {
   const now = new Date();
   const friendsArray = await getFriendsArray(user);
   const userFutureWorkoutIds = [];
   const friendsFutureWorkouts = [];
-  for (var workout of Object.entries(user.workouts)) {
-    if (workout[1][0].toDate() > now) userFutureWorkoutIds.push(workout[0]);
+  for (var [key, value] of Object.entries(user.plannedWorkouts)) {
+    if (value[0].toDate() > now) userFutureWorkoutIds.push(key);
   }
   for (var friend of friendsArray) {
-    for (var workout of Object.entries(friend.workouts)) {
-      if (
-        workout[1][0].toDate() > now &&
-        !userFutureWorkoutIds.includes(workout[0])
-      ) {
-        const workoutData = await getWorkout(workout[0]);
-        if (
-          workoutData.members[user.id] == null &&
-          workoutData.invites[user.id] != false
-        )
+    for (var [key, value] of Object.entries(friend.plannedWorkouts)) {
+      if (value[0].toDate() > now && !userFutureWorkoutIds.includes(key)) {
+        const workoutData = await getWorkout(key);
+        if (workoutData.invites[user.id] != false)
           friendsFutureWorkouts.push(workoutData);
       }
     }
@@ -813,24 +805,22 @@ export const removePastOrEmptyWorkoutsAlerts = async (
 };
 export const removeUnconfirmedOldWorkouts = async (user) => {
   const now = new Date();
-  const userWorkouts = user.workouts;
-  for (const [key, value] of Object.entries(user.workouts)) {
+  const unconfirmedWorkouts = user.plannedWorkouts;
+  for (const [key, value] of Object.entries(user.plannedWorkouts)) {
+    if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
+      continue;
+
+    delete unconfirmedWorkouts[key];
+    const workout = await getWorkout(key);
+    //remove unconfirmed only if nobody in the workout confirmed it
     if (
-      new Date(value[0].toDate().getTime() + value[1] * 60000) < now &&
-      !value[2]
+      workout != null &&
+      !Object.values(workout.members).some((user) => user.confirmedWorkout)
     ) {
-      delete userWorkouts[key];
-      const workout = await getWorkout(key);
-      if (
-        workout != null &&
-        !Object.values(workout.members).some((user) => user.confirmedWorkout)
-      ) {
-        await deleteDoc(doc(db, `workouts/${key}`));
-      }
-      //remove unconfirmed only if nobody in the workout confirmed it
+      await deleteDoc(doc(db, `workouts/${key}`));
     }
   }
-  user.workouts = userWorkouts;
+  user.plannedWorkouts = unconfirmedWorkouts;
   await updateUser(user);
 };
 export const getLastWeekId = () => {

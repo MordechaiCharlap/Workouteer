@@ -8,7 +8,9 @@ export const FriendsWorkoutsProvider = ({ children }) => {
   useEffect(() => {
     if (user != null && friendsWorkouts == null) {
       const initialGetAllFriendsWorkout = async () => {
-        const friendsWorkoutsArray = await firebase.getFriendsWorkouts(user);
+        const friendsWorkoutsArray = await firebase.getFriendsFutureWorkouts(
+          user
+        );
         setFriendsWorkouts(friendsWorkoutsArray);
       };
       initialGetAllFriendsWorkout();

@@ -4,7 +4,7 @@ export const checkIfDateAvailableAndReturnClosestWorkout = (
 ) => {
   console.log("test");
   var closestWorkoutDate = null;
-  for (var value of Object.values(user.workouts)) {
+  for (var value of Object.values(user.plannedWorkouts)) {
     if (
       new Date(value[0].toDate().getTime() + value[1] * 60000) > dateToCheck &&
       value[0].toDate() < dateToCheck
