@@ -4,9 +4,23 @@ import * as appStyle from "../../../utilities/appStyleSheet";
 import languageService from "../../../services/languageService";
 import useAuth from "../../../hooks/useAuth";
 import useConfirmedWorkouts from "../../../hooks/useConfirmedWorkouts";
-const WorkoutsStats = () => {
+import { useEffect } from "react";
+const WorkoutsStats = (props) => {
   const { user } = useAuth();
-  const { confirmedWorkouts, confirmedWorkoutsCount } = useConfirmedWorkouts();
+  const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
+    useConfirmedWorkouts();
+  const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
+    user.id == props.shownUser.id ? confirmedWorkouts : null
+  );
+  useEffect(() => {
+    if (user.id == props.shownUser.id) return;
+    const getShownUserConfirmedWorkouts = async () => {
+      setConfirmedWorkoutsArray(
+        await getConfirmedWorkoutsByUserId(props.shownUser.id)
+      );
+    };
+    getShownUserConfirmedWorkouts();
+  }, []);
   const week = [];
   const weekdays = languageService[user.language].weekdays;
   const renderStats = () => {
@@ -24,8 +38,8 @@ const WorkoutsStats = () => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    for (var i = confirmedWorkoutsCount - 1; i >= 0, i--; ) {
-      const workout = confirmedWorkouts[i];
+    for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
+      const workout = confirmedWorkoutsArray[i];
       if (workout[1].toDate() < weekAgo) break;
 
       weekWorkoutMinutes[workout[1].toDate().getDay()] += workout[2];
