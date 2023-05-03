@@ -8,7 +8,14 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect } from "react";
 import * as firebase from "../services/firebase";
-import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  deleteField,
+  doc,
+  increment,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -114,16 +121,20 @@ const ConfirmWorkoutScreen = () => {
       )
         await updateDoc(doc(db, `users/${user.id}`), {
           lastConfirmedWorkoutDate: Timestamp.now(),
-          [`workouts.${workout.id}`]: { ...newWorkoutArray },
+          [`plannedWorkouts.${workout.id}`]: deleteField(),
           totalPoints: increment(confirmationPoints),
         });
       else
         await updateDoc(doc(db, `users/${user.id}`), {
           lastConfirmedWorkoutDate: Timestamp.now(),
-          [`workouts.${workout.id}`]: { ...newWorkoutArray },
+          [`plannedWorkouts.${workout.id}`]: deleteField(),
           streak: increment(1),
           totalPoints: increment(confirmationPoints),
         });
+      await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
+        confirmedWorkouts: arrayUnion(workout.id),
+        count: increment(1),
+      });
       await updateDoc(doc(db, `workouts/${workout.id}`), {
         [`members.${user.id}.confirmedWorkout`]: true,
       });

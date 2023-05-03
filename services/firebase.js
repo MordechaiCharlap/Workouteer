@@ -150,7 +150,7 @@ export const createUser = async (newUserData) => {
     img: defaultValues.defaultProfilePic,
     friendsCount: 0,
     friendRequestsCount: 0,
-    workouts: {},
+    plannedWorkouts: {},
     chatPals: {},
     friends: {},
     chats: {},
@@ -179,6 +179,10 @@ export const createUser = async (newUserData) => {
   await setDoc(doc(db, "friendRequests", newUserData.id), {
     receivedRequests: {},
     sentRequests: {},
+  });
+  await setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
+    confirmedWorkouts: [],
+    count: 0,
   });
 };
 export const checkFriendShipStatus = async (userData, otherUserId) => {
