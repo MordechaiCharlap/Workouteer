@@ -9,12 +9,12 @@ const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user } = useAuth();
   const [confirmedWorkouts, setConfirmedWorkouts] = useState();
-  const [unsubscribeListener, setUnsubscribeListener] = useState();
+  var unsubscribeListener;
   const db = firebase.db;
   const cleanListener = () => {
     if (unsubscribeListener != null) {
       unsubscribeListener();
-      setUnsubscribeListener(null);
+      unsubscribeListener = null;
     }
   };
   const getConfirmedWorkoutsByUserId = async (userId) => {
@@ -25,14 +25,13 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
     if (user) {
       if (confirmedWorkouts == null) {
         console.log("Listening to confirmedWorkouts");
-        const unsubscribeConfirmedWorkouts = onSnapshot(
-          doc(db, "alerts", user.id),
+        unsubscribeListener = onSnapshot(
+          doc(db, "usersConfirmedWorkouts", user.id),
           (doc) => {
             const confirmedWorkoutsData = doc.data();
             setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
           }
         );
-        setUnsubscribeListener(unsubscribeConfirmedWorkouts);
       }
     }
     return () => cleanListener();
