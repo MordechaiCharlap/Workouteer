@@ -20,7 +20,6 @@ const FutureWorkoutsScreen = () => {
   const { schedulePushNotification } = usePushNotifications();
   const { user } = useAuth();
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
-  const now = new Date();
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -48,7 +47,9 @@ const FutureWorkoutsScreen = () => {
       setCurrentScreen("FutureWorkouts");
       const getWorkouts = async () => {
         console.log("getting workouts");
-        const workoutsArr = await firebase.getFutureWorkouts(user);
+        const workoutsArr = await firebase.getFutureWorkouts(
+          user.plannedWorkouts
+        );
         setWorkouts(workoutsArr);
         setInitialLoading(false);
       };

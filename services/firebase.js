@@ -450,10 +450,10 @@ export const createWorkout = async (workout) => {
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
 };
-export const getFutureWorkouts = async (user) => {
+export const getFutureWorkouts = async (plannedWorkouts) => {
   const now = new Date();
   const workoutsArray = [];
-  for (var [key, value] of Object.entries(user.plannedWorkouts)) {
+  for (var [key, value] of Object.entries(plannedWorkouts)) {
     if (value[0].toDate() > now) {
       workoutsArray.push({
         id: key,
