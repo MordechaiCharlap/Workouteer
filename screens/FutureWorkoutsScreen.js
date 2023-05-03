@@ -27,7 +27,7 @@ const FutureWorkoutsScreen = () => {
   const scheduleNotificationsForNewWorkouts = useCallback(async () => {
     if (newWorkouts && Object.keys(newWorkouts).length > 0) {
       for (var workout of workouts) {
-        if (workout.members[user.id] == null) {
+        if (workout.members[user.id].notificationId == null) {
           var scheduledNotificationId;
           if (Platform.OS != "web") {
             scheduledNotificationId = await schedulePushNotification(
