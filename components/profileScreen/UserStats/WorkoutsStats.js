@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import * as appStyle from "../../../utilities/appStyleSheet";
 import languageService from "../../../services/languageService";
 import useAuth from "../../../hooks/useAuth";
-const WorkoutsStats = (props) => {
+import useConfirmedWorkouts from "../../../hooks/useConfirmedWorkouts";
+const WorkoutsStats = () => {
   const { user } = useAuth();
+  const { confirmedWorkouts, confirmedWorkoutsCount } = useConfirmedWorkouts();
   const week = [];
   const weekdays = languageService[user.language].weekdays;
   const renderStats = () => {
@@ -22,12 +24,13 @@ const WorkoutsStats = (props) => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    for (var workout of Object.values(props.workouts)) {
-      if (workout[0].toDate() >= weekAgo && workout[2] == true) {
-        weekWorkoutMinutes[workout[0].toDate().getDay()] += workout[1];
-        if (weekWorkoutMinutes[workout[0].toDate().getDay()] > highestPoints)
-          highestPoints = weekWorkoutMinutes[workout[0].toDate().getDay()];
-      }
+    for (var i = confirmedWorkoutsCount - 1; i >= 0, i--; ) {
+      const workout = confirmedWorkouts[i];
+      if (workout[1].toDate() < weekAgo) break;
+
+      weekWorkoutMinutes[workout[1].toDate().getDay()] += workout[2];
+      if (weekWorkoutMinutes[workout[1].toDate().getDay()] > highestPoints)
+        highestPoints = weekWorkoutMinutes[workout[1].toDate().getDay()];
     }
     const pointHeight = highestPoints != 0 ? 120 / highestPoints : 0;
     const renderColumn = (index) => {
