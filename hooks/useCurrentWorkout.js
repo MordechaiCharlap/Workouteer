@@ -5,36 +5,44 @@ const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const [intervalVal, setIntervalVal] = useState(null);
-  const checkIfCurrentWorkout = async (now) => {
-    console.log(`checking if theres current workout for ${now.toDateString()}`);
-    for (var [key, value] of Object.entries(user.plannedWorkouts)) {
-      if (
-        new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-        value[0].toDate() < now
-      ) {
-        const workout = await firebase.getWorkout(key);
+  var intervalVal;
 
-        return { ...workout, id: key };
-      }
-    }
-  };
   const clearIntervalFunc = () => {
     if (intervalVal != null) {
       console.log("Clearing interval");
       clearInterval(intervalVal);
-      setIntervalVal(null);
+      intervalVal = null;
     }
   };
   useEffect(() => {
     clearIntervalFunc();
+    const checkIfCurrentWorkout = async (now) => {
+      console.log(
+        `checking if theres current workout for ${now.toTimeString()}`
+      );
+      console.log(
+        `there is ${Object.keys(user.plannedWorkouts).length} workouts to check`
+      );
+      for (var [key, value] of Object.entries(user.plannedWorkouts)) {
+        console.log(`checking ${key}`);
+        if (
+          new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
+          value[0].toDate() < now
+        ) {
+          console.log(`current:${key}`);
+          const workout = await firebase.getWorkout(key);
 
+          return { ...workout, id: key };
+        }
+      }
+      console.log("Havent found current workout");
+    };
     const initialCheckCurrentWorkout = async () => {
       // Get the current time
       const now = new Date();
 
       // Call the function immediately on the initial render
-      checkIfCurrentWorkout(now);
+      setCurrentWorkout(await checkIfCurrentWorkout(now));
 
       // Calculate the number of minutes past the hour
       const minutes = now.getMinutes();
@@ -47,15 +55,13 @@ export const CurrentWorkoutProvider = ({ children }) => {
       //Adding second so it would calculate the workouts which registered exactly at 00:00 (ss,ms)
       const msUntilNextQuarterPlusOneSec = millisecondsUntilQuarterHour + 1000;
       // Wait until the next quarter hour to start the interval
-      setTimeout(() => {
+      setTimeout(async () => {
         console.log("initial interval");
-        const now = new Date();
-        checkIfCurrentWorkout(now);
-        const interval = setInterval(() => {
+        const interval = await setInterval(async () => {
           const now = new Date();
-          checkIfCurrentWorkout(now);
+          setCurrentWorkout(await checkIfCurrentWorkout(now));
         }, 15 * 60 * 1000);
-        setIntervalVal(interval);
+        intervalVal = interval;
       }, msUntilNextQuarterPlusOneSec);
     };
 
