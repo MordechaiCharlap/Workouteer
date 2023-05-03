@@ -10,7 +10,7 @@ const WorkoutsStats = (props) => {
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
     useConfirmedWorkouts();
   const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
-    user.id == props.shownUser.id ? confirmedWorkouts : null
+    user.id == props.shownUser.id ? confirmedWorkouts : []
   );
   useEffect(() => {
     if (user.id == props.shownUser.id) return;
@@ -38,14 +38,15 @@ const WorkoutsStats = (props) => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
-      const workout = confirmedWorkoutsArray[i];
-      if (workout[1].toDate() < weekAgo) break;
+    if (props.shownUser.workoutsCount != 0)
+      for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
+        const workout = confirmedWorkoutsArray[i];
+        if (workout[1].toDate() < weekAgo) break;
 
-      weekWorkoutMinutes[workout[1].toDate().getDay()] += workout[2];
-      if (weekWorkoutMinutes[workout[1].toDate().getDay()] > highestPoints)
-        highestPoints = weekWorkoutMinutes[workout[1].toDate().getDay()];
-    }
+        weekWorkoutMinutes[workout[1].toDate().getDay()] += workout[2];
+        if (weekWorkoutMinutes[workout[1].toDate().getDay()] > highestPoints)
+          highestPoints = weekWorkoutMinutes[workout[1].toDate().getDay()];
+      }
     const pointHeight = highestPoints != 0 ? 120 / highestPoints : 0;
     const renderColumn = (index) => {
       return (
