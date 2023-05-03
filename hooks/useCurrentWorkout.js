@@ -1,22 +1,29 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  var intervalVal;
-
+  const intervalRef = useRef(null);
+  const hasRunEffectRef = useRef(false);
   const clearIntervalFunc = () => {
-    if (intervalVal != null) {
+    if (intervalRef.current != false) {
       console.log("Clearing interval");
-      clearInterval(intervalVal);
-      intervalVal = null;
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      hasRunEffectRef.current = false;
     }
   };
   useEffect(() => {
-    clearIntervalFunc();
-    const checkIfCurrentWorkout = async (now) => {
+    const checkIfCurrentWorkout = async () => {
+      const now = new Date();
       console.log(
         `checking if theres current workout for ${now.toTimeString()}`
       );
@@ -24,7 +31,9 @@ export const CurrentWorkoutProvider = ({ children }) => {
         `there is ${Object.keys(user.plannedWorkouts).length} workouts to check`
       );
       for (var [key, value] of Object.entries(user.plannedWorkouts)) {
-        console.log(`checking ${key}`);
+        console.log(
+          `checking ${key} starting time: ${value[0].toDate().toTimeString()}`
+        );
         if (
           new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
           value[0].toDate() < now
@@ -57,19 +66,22 @@ export const CurrentWorkoutProvider = ({ children }) => {
       // Wait until the next quarter hour to start the interval
       setTimeout(async () => {
         console.log("initial interval");
+        setCurrentWorkout(await checkIfCurrentWorkout());
         const interval = setInterval(async () => {
-          const now = new Date();
-          setCurrentWorkout(await checkIfCurrentWorkout(now));
+          setCurrentWorkout(await checkIfCurrentWorkout());
         }, 15 * 60 * 1000);
-        intervalVal = interval;
+        intervalRef.current = interval;
       }, msUntilNextQuarterPlusOneSec);
     };
 
-    if (user) {
+    clearIntervalFunc();
+    if (user && !hasRunEffectRef.current) {
       console.log("initialCheck");
       initialCheckCurrentWorkout();
+      hasRunEffectRef.current = true;
     }
-  }, [user?.plannedWorkouts]);
+    return () => clearIntervalFunc();
+  }, [user.plannedWorkouts]);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
