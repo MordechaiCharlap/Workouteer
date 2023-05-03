@@ -12,13 +12,11 @@ export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentWorkout, setCurrentWorkout] = useState(null);
   const intervalRef = useRef(null);
-  const hasRunEffectRef = useRef(false);
   const clearIntervalFunc = () => {
-    if (intervalRef.current != false) {
+    if (intervalRef != null) {
       console.log("Clearing interval");
       clearInterval(intervalRef.current);
       intervalRef.current = null;
-      hasRunEffectRef.current = false;
     }
   };
   useEffect(() => {
@@ -74,14 +72,12 @@ export const CurrentWorkoutProvider = ({ children }) => {
       }, msUntilNextQuarterPlusOneSec);
     };
 
-    clearIntervalFunc();
-    if (user && !hasRunEffectRef.current) {
-      console.log("initialCheck");
+    // clearIntervalFunc();
+    if (user && intervalRef.current == null) {
       initialCheckCurrentWorkout();
-      hasRunEffectRef.current = true;
     }
     return () => clearIntervalFunc();
-  }, [user.plannedWorkouts]);
+  }, [user?.plannedWorkouts]);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
