@@ -132,7 +132,11 @@ const ConfirmWorkoutScreen = () => {
           totalPoints: increment(confirmationPoints),
         });
       await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
-        confirmedWorkouts: arrayUnion(workout.id),
+        confirmedWorkouts: arrayUnion([
+          workout.id,
+          workout.startingTime,
+          workout.minutes,
+        ]),
         count: increment(1),
       });
       await updateDoc(doc(db, `workouts/${workout.id}`), {
