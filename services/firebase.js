@@ -648,8 +648,12 @@ export const rejectWorkoutRequest = async (requesterId, workout) => {
   await removeWorkoutRequestAlert(requesterId, workout);
 };
 export const getWorkout = async (workoutId) => {
-  const workoutDoc = await getDoc(doc(db, "workouts", workoutId));
-  return { ...workoutDoc.data(), id: workoutDoc.id };
+  try {
+    const workoutDoc = await getDoc(doc(db, "workouts", workoutId));
+    return { ...workoutDoc.data(), id: workoutDoc.id };
+  } catch (error) {
+    return null;
+  }
 };
 export const getFriendsWorkouts = async (user) => {
   const now = new Date();
@@ -809,8 +813,14 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
       !value[2]
     ) {
       delete userWorkouts[key];
-      await deleteDoc(doc(db, `workouts/${key}`));
-      console.log("Removed unconfirmed workout " + key);
+      const workout = await getWorkout(key);
+      if (
+        workout != null &&
+        !Object.values(workout.members).some((user) => user.confirmed)
+      ) {
+        await deleteDoc(doc(db, `workouts/${key}`));
+      }
+      //remove unconfirmed only if nobody in the workout confirmed it
     }
   }
   user.workouts = userWorkouts;
