@@ -17,7 +17,6 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
-import * as defaultValues from "../services/defaultValues";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAuth from "../hooks/useAuth";
 import SexDropdown from "../components/registerScreen/SexDropdown";
@@ -109,7 +108,6 @@ const RegisterScreen = () => {
       ? googleUserInfo.uid
       : await createUserEmailAndPassword(email, password);
     const newUserData = {
-      img: defaultValues.defaultProfilePic,
       displayName: username,
       id: username.toLowerCase(),
       birthdate: date,

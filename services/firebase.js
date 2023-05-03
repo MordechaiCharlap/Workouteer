@@ -3,6 +3,7 @@ import { getReactNativePersistence } from "firebase/auth/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import * as defaultValues from "./defaultValues";
 import {
   getFirestore,
   deleteField,
@@ -146,6 +147,7 @@ export const updatePersonalData = async (user, newData) => {
 export const createUser = async (newUserData) => {
   await setDoc(doc(db, "users", newUserData.id), {
     ...newUserData,
+    img: defaultValues.defaultProfilePic,
     friendsCount: 0,
     friendRequestsCount: 0,
     workouts: {},
