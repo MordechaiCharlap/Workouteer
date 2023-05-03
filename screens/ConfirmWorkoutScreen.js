@@ -123,13 +123,15 @@ const ConfirmWorkoutScreen = () => {
           lastConfirmedWorkoutDate: Timestamp.now(),
           [`plannedWorkouts.${workout.id}`]: deleteField(),
           totalPoints: increment(confirmationPoints),
+          workoutsCount: increment(1),
         });
       else
         await updateDoc(doc(db, `users/${user.id}`), {
+          streak: increment(1),
           lastConfirmedWorkoutDate: Timestamp.now(),
           [`plannedWorkouts.${workout.id}`]: deleteField(),
-          streak: increment(1),
           totalPoints: increment(confirmationPoints),
+          workoutsCount: increment(1),
         });
       await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
         confirmedWorkouts: arrayUnion([
@@ -137,7 +139,6 @@ const ConfirmWorkoutScreen = () => {
           workout.startingTime,
           workout.minutes,
         ]),
-        count: increment(1),
       });
       await updateDoc(doc(db, `workouts/${workout.id}`), {
         [`members.${user.id}.confirmedWorkout`]: true,
