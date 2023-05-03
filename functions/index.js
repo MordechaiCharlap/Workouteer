@@ -72,6 +72,8 @@ exports.deleteUserData = functions.firestore
       isDeleted: true,
       img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
     });
+    //delete confirmedWorkouts doc
+    await db.doc(`usersConfirmedWorkouts/${userId}`).delete();
     await batch.commit();
     console.log(`${userId} deleted succesfully`);
   });
