@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 import useAuth from "./useAuth";
@@ -9,12 +9,13 @@ const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user } = useAuth();
   const [confirmedWorkouts, setConfirmedWorkouts] = useState();
-  var unsubscribeListener;
+  const unsubscribeRef = useRef();
   const db = firebase.db;
   const cleanListener = () => {
-    if (unsubscribeListener != null) {
-      unsubscribeListener();
-      unsubscribeListener = null;
+    if (unsubscribeRef.current) {
+      console.log("***Cleaning confirmedWorkoutsListener");
+      unsubscribeRef.current();
+      unsubscribeRef.current = null;
     }
   };
   const getConfirmedWorkoutsByUserId = async (userId) => {
@@ -22,20 +23,25 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
       .confirmedWorkouts;
   };
   useEffect(() => {
-    if (user) {
-      if (confirmedWorkouts == null) {
-        console.log("Listening to confirmedWorkouts");
-        unsubscribeListener = onSnapshot(
-          doc(db, "usersConfirmedWorkouts", user.id),
-          (doc) => {
-            const confirmedWorkoutsData = doc.data();
-            setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
-          }
-        );
-      }
+    if (user && !unsubscribeRef.current) {
+      console.log("Listening to confirmedWorkouts");
+      unsubscribeRef.current = onSnapshot(
+        doc(db, "usersConfirmedWorkouts", user.id),
+        (doc) => {
+          const confirmedWorkoutsData = doc.data();
+          console.log("ConfirmedWorkouts updated!");
+          console.log(confirmedWorkoutsData);
+          setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
+        }
+      );
     }
-    return () => cleanListener();
   }, [user]);
+  useEffect(() => {
+    return () => {
+      console.log("unmount");
+      cleanListener();
+    };
+  }, []);
   return (
     <ConfirmedWorkoutContext.Provider
       value={{ confirmedWorkouts, getConfirmedWorkoutsByUserId }}
