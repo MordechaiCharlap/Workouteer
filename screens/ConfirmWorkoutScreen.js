@@ -111,6 +111,17 @@ const ConfirmWorkoutScreen = () => {
 
       setCheckingDistance(false);
       const now = new Date();
+      await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
+        confirmedWorkouts: arrayUnion({
+          id: workout.id,
+          startingTime: workout.startingTime,
+          minutes: workout.minutes,
+        }),
+      });
+      await updateDoc(doc(db, `workouts/${workout.id}`), {
+        [`members.${user.id}.confirmedWorkout`]: true,
+      });
+      await firebase.addLeaderboardPoints(user, confirmationPoints);
       if (
         user.lastConfirmedWorkoutDate &&
         sameDay(user.lastConfirmedWorkoutDate.toDate(), now)
@@ -129,14 +140,6 @@ const ConfirmWorkoutScreen = () => {
           totalPoints: increment(confirmationPoints),
           workoutsCount: increment(1),
         });
-      const workoutArr = [workout.id, workout.startingTime, workout.minutes];
-      await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
-        confirmedWorkouts: arrayUnion(workoutArr),
-      });
-      await updateDoc(doc(db, `workouts/${workout.id}`), {
-        [`members.${user.id}.confirmedWorkout`]: true,
-      });
-      await firebase.addLeaderboardPoints(user, confirmationPoints);
 
       setConfirmed(true);
       setShowAlert(false);

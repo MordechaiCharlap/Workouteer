@@ -471,8 +471,8 @@ export const getPastWorkouts = async (confirmedWorkouts) => {
   const workoutsArray = [];
   for (var workout of confirmedWorkouts) {
     workoutsArray.push({
-      id: workout[0],
-      ...(await getDoc(doc(db, "workouts", workout[0]))).data(),
+      id: workout.id,
+      ...(await getDoc(doc(db, "workouts", workout.id))).data(),
     });
   }
   workoutsArray.sort(

@@ -41,11 +41,16 @@ const WorkoutsStats = (props) => {
     if (props.shownUser.workoutsCount != 0)
       for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
         const workout = confirmedWorkoutsArray[i];
-        if (workout[1].toDate() < weekAgo) break;
+        if (workout.startingTime.toDate() < weekAgo) break;
 
-        weekWorkoutMinutes[workout[1].toDate().getDay()] += workout[2];
-        if (weekWorkoutMinutes[workout[1].toDate().getDay()] > highestPoints)
-          highestPoints = weekWorkoutMinutes[workout[1].toDate().getDay()];
+        weekWorkoutMinutes[workout.startingTime.toDate().getDay()] +=
+          workout.minutes;
+        if (
+          weekWorkoutMinutes[workout.startingTime.toDate().getDay()] >
+          highestPoints
+        )
+          highestPoints =
+            weekWorkoutMinutes[workout.startingTime.toDate().getDay()];
       }
     const pointHeight = highestPoints != 0 ? 120 / highestPoints : 0;
     const renderColumn = (index) => {

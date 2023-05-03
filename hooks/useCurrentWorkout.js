@@ -57,7 +57,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
       // Wait until the next quarter hour to start the interval
       setTimeout(async () => {
         console.log("initial interval");
-        const interval = await setInterval(async () => {
+        const interval = setInterval(async () => {
           const now = new Date();
           setCurrentWorkout(await checkIfCurrentWorkout(now));
         }, 15 * 60 * 1000);
@@ -69,10 +69,6 @@ export const CurrentWorkoutProvider = ({ children }) => {
       console.log("initialCheck");
       initialCheckCurrentWorkout();
     }
-
-    return () => {
-      clearIntervalFunc();
-    };
   }, [user?.plannedWorkouts]);
   return (
     <CurrentWorkoutContext.Provider
