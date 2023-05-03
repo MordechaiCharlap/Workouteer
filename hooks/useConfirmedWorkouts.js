@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 import useAuth from "./useAuth";
@@ -6,9 +6,10 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 const ConfirmedWorkoutContext = createContext({});
-const ConfirmedWorkoutsProvider = ({ children }) => {
+export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user } = useAuth();
   const [confirmedWorkouts, setConfirmedWorkouts] = useState();
+  const [confirmedWorkoutsCount, setConfirmedWorkoutsCount] = useState();
   const [unsubscribeListener, setUnsubscribeListener] = useState();
 
   const cleanListener = () => {
@@ -25,7 +26,8 @@ const ConfirmedWorkoutsProvider = ({ children }) => {
           doc(db, "alerts", user.id),
           (doc) => {
             const confirmedWorkoutsData = doc.data();
-            setConfirmedWorkouts(confirmedWorkoutsData);
+            setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
+            setConfirmedWorkoutsCount(confirmedWorkoutsData.count);
           }
         );
         setUnsubscribeListener(unsubscribeConfirmedWorkouts);
@@ -34,8 +36,13 @@ const ConfirmedWorkoutsProvider = ({ children }) => {
     return () => cleanListener();
   }, [user]);
   return (
-    <ConfirmedWorkoutContext.Provider value={{}}>
+    <ConfirmedWorkoutContext.Provider
+      value={{ confirmedWorkouts, confirmedWorkoutsCount }}
+    >
       {children}
     </ConfirmedWorkoutContext.Provider>
   );
 };
+export default function useConfirmedWorkouts() {
+  return useContext(ConfirmedWorkoutContext);
+}
