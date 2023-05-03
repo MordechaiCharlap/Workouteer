@@ -37,7 +37,7 @@ const FutureWorkoutsScreen = () => {
             );
           }
           await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
-            [`members.${user.id}`]: scheduledNotificationId,
+            [`members.${user.id}.notificationId`]: scheduledNotificationId,
           });
         }
       }
