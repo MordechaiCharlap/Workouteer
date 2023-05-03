@@ -610,7 +610,10 @@ export const acceptWorkoutInvite = async (
 ) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`invites.${invited.id}`]: deleteField(),
-    [`members.${invited.id}`]: scheduledNotificationId,
+    [`members.${invited.id}`]: {
+      notificationId: scheduledNotificationId,
+      confirmedWorkout: false,
+    },
   });
   await updateDoc(doc(db, "users", invited.id), {
     [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
@@ -633,7 +636,7 @@ export const cancelWorkoutRequest = async (requesterId, workout) => {
 export const acceptWorkoutRequest = async (requester, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`requests.${requester.id}`]: deleteField(),
-    [`members.${requester.id}`]: null,
+    [`members.${requester.id}`]: { confirmed: false },
   });
   await updateDoc(doc(db, "users", requester.id), {
     [`workouts.${workout.id}`]: [workout.startingTime, workout.minutes, false],
@@ -816,7 +819,7 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
       const workout = await getWorkout(key);
       if (
         workout != null &&
-        !Object.values(workout.members).some((user) => user.confirmed)
+        !Object.values(workout.members).some((user) => user.confirmedWorkout)
       ) {
         await deleteDoc(doc(db, `workouts/${key}`));
       }
