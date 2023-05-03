@@ -15,6 +15,7 @@ import {
   increment,
   Timestamp,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
@@ -109,11 +110,6 @@ const ConfirmWorkoutScreen = () => {
       setShowAlert(true);
 
       setCheckingDistance(false);
-      const newWorkoutArray = [
-        workout.startingTime.toDate(),
-        workout.minutes,
-        true,
-      ];
       const now = new Date();
       if (
         user.lastConfirmedWorkoutDate &&
@@ -133,12 +129,9 @@ const ConfirmWorkoutScreen = () => {
           totalPoints: increment(confirmationPoints),
           workoutsCount: increment(1),
         });
+      const workoutArr = [workout.id, workout.startingTime, workout.minutes];
       await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
-        confirmedWorkouts: arrayUnion([
-          workout.id,
-          workout.startingTime,
-          workout.minutes,
-        ]),
+        confirmedWorkouts: arrayUnion(workoutArr),
       });
       await updateDoc(doc(db, `workouts/${workout.id}`), {
         [`members.${user.id}.confirmedWorkout`]: true,
@@ -166,7 +159,7 @@ const ConfirmWorkoutScreen = () => {
       setShowAlert(true);
     }
   }, []);
-  return confirmed == true ? (
+  return confirmed == true || workout == null ? (
     <View style={safeAreaStyle()} className="justify-center">
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
@@ -252,7 +245,9 @@ const ConfirmWorkoutScreen = () => {
       <TouchableOpacity
         className="rounded py-2 px-4"
         style={{ backgroundColor: appStyle.color_primary }}
-        onPress={checkingDistance ? {} : checkConfirmation}
+        onPress={async () =>
+          checkingDistance ? {} : await checkConfirmation()
+        }
       >
         <Text
           className="font-semibold text-lg"
