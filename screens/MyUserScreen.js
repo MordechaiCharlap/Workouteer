@@ -28,23 +28,14 @@ import NameAndAge from "../components/profileScreen/NameAndAge";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { Platform } from "react-native";
+import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 
 const MyUserScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
   const { friendRequestsAlerts, setFriendRequestsAlerts } = useAlerts();
-
-  const [workoutsCount, setWorkoutsCount] = useState();
-  useEffect(() => {
-    var count = 0;
-    for (var value of Object.values(user.workouts)) {
-      if (value[2]) count++;
-    }
-    setWorkoutsCount(count);
-  }, []);
   const calculateAge = () => {
     const dateToCheck = user.birthdate.toDate();
     var today = new Date();
@@ -124,7 +115,7 @@ const MyUserScreen = () => {
                   <Text
                     style={{ fontSize: 30, color: appStyle.color_on_primary }}
                   >
-                    {workoutsCount}
+                    {confirmedWorkoutsCount}
                   </Text>
                   <FontAwesomeIcon
                     icon={faDumbbell}

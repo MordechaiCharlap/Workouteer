@@ -48,20 +48,10 @@ const UserScreen = ({ route }) => {
       setCurrentScreen("User");
     }, [])
   );
-  const [workoutsCount, setWorkoutsCount] = useState();
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
 
-  useEffect(() => {
-    if (!shownUser.isDeleted) {
-      var count = 0;
-      for (var value of Object.values(shownUser.workouts)) {
-        if (value[2]) count++;
-      }
-      setWorkoutsCount(count);
-    }
-  }, []);
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
     navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
@@ -248,7 +238,7 @@ const UserScreen = ({ route }) => {
                     <Text
                       style={{ fontSize: 30, color: appStyle.color_on_primary }}
                     >
-                      {workoutsCount}
+                      {shownUser.workoutsCount}
                     </Text>
                     <FontAwesomeIcon
                       icon={faDumbbell}
