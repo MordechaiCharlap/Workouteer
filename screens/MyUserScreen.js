@@ -28,7 +28,6 @@ import NameAndAge from "../components/profileScreen/NameAndAge";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { Platform } from "react-native";
-import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 
 const MyUserScreen = () => {
   const navigation = useNavigation();
@@ -115,7 +114,7 @@ const MyUserScreen = () => {
                   <Text
                     style={{ fontSize: 30, color: appStyle.color_on_primary }}
                   >
-                    {confirmedWorkoutsCount}
+                    {user.workoutsCount}
                   </Text>
                   <FontAwesomeIcon
                     icon={faDumbbell}
