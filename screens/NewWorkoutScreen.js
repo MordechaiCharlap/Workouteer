@@ -137,7 +137,7 @@ const NewWorkoutScreen = () => {
         members: {
           [user.id]: {
             notificationId: scheduledNotificationId,
-            confirmed: false,
+            confirmedWorkout: false,
           },
         },
         type: type,
