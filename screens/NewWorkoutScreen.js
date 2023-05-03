@@ -134,7 +134,12 @@ const NewWorkoutScreen = () => {
       const cityAndCountry = await getCityAndCountry(location);
       const workout = {
         creator: user.id,
-        members: { [user.id]: scheduledNotificationId },
+        members: {
+          [user.id]: {
+            notificationId: scheduledNotificationId,
+            confirmed: false,
+          },
+        },
         type: type,
         sex: workoutSex,
         startingTime: startingTime,
