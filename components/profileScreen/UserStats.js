@@ -39,7 +39,7 @@ const UserStats = (props) => {
         {renderStreak()}
       </View>
       <View style={{ height: 180 }}>
-        <WorkoutsStats />
+        <WorkoutsStats shownUser={shownUser} />
       </View>
     </View>
   );
