@@ -8,11 +8,10 @@ export const CurrentWorkoutProvider = ({ children }) => {
   const [intervalVal, setIntervalVal] = useState(null);
   const checkIfCurrentWorkout = async (now) => {
     console.log(`checking if theres current workout for ${now.toDateString()}`);
-    for (var [key, value] of Object.entries(user.workouts)) {
+    for (var [key, value] of Object.entries(user.plannedWorkouts)) {
       if (
         new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-        value[0].toDate() < now &&
-        !value[2]
+        value[0].toDate() < now
       ) {
         const workout = await firebase.getWorkout(key);
 
@@ -68,7 +67,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
     return () => {
       clearIntervalFunc();
     };
-  }, [user?.workouts]);
+  }, [user?.plannedWorkouts]);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
