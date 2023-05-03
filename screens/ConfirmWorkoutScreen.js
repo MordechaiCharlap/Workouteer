@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useCallback, useEffect } from "react";
-import { db, addLeaderboardPoints } from "../services/firebase";
+import * as firebase from "../services/firebase";
 import { doc, increment, Timestamp, updateDoc } from "firebase/firestore";
 import { getCurrentLocation } from "../services/geoService";
 import { getDistance } from "geolib";
@@ -26,7 +26,7 @@ const ConfirmWorkoutScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setCurrentWorkout, currentWorkout } = useCurrentWorkout();
   const { user } = useAuth();
-
+  const db = firebase.db;
   const [confirmed, setConfirmed] = useState(false);
   const [checkingDistance, setCheckingDistance] = useState(false);
   const workout = currentWorkout;
@@ -124,7 +124,11 @@ const ConfirmWorkoutScreen = () => {
           streak: increment(1),
           totalPoints: increment(confirmationPoints),
         });
-      await addLeaderboardPoints(user, confirmationPoints);
+      await updateDoc(doc(db, `workouts/${workout.id}`), {
+        [`members.${user.id}.confirmedWorkout`]: true,
+      });
+      await firebase.addLeaderboardPoints(user, confirmationPoints);
+
       setConfirmed(true);
       setShowAlert(false);
       setExitableAlert(false);
