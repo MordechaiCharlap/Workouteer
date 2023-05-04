@@ -8,7 +8,7 @@ import * as firebase from "../services/firebase";
 const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user } = useAuth();
-  const [confirmedWorkouts, setConfirmedWorkouts] = useState();
+  const [confirmedWorkouts, setConfirmedWorkouts] = useState([]);
   const unsubscribeRef = useRef();
   const db = firebase.db;
   const cleanListener = () => {
@@ -31,7 +31,8 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
           const confirmedWorkoutsData = doc.data();
           console.log("ConfirmedWorkouts updated!");
           console.log(confirmedWorkoutsData);
-          setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
+          if (confirmedWorkoutsData != null)
+            setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
         }
       );
     }

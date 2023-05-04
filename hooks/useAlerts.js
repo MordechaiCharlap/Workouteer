@@ -20,11 +20,13 @@ export const AlertsProvider = ({ children }) => {
         setUserSignedIn(true);
         unsubscribeAlerts = onSnapshot(doc(db, "alerts", user.id), (doc) => {
           const alertsData = doc.data();
-          setChatsAlerts(alertsData.chats);
-          setWorkoutRequestsAlerts(alertsData.workoutRequests);
-          setWorkoutInvitesAlerts(alertsData.workoutInvites);
-          setFriendRequestsAlerts(alertsData.friendRequests);
-          setNewWorkoutsAlerts(alertsData.newWorkouts);
+          if (alertsData != null) {
+            setChatsAlerts(alertsData.chats);
+            setWorkoutRequestsAlerts(alertsData.workoutRequests);
+            setWorkoutInvitesAlerts(alertsData.workoutInvites);
+            setFriendRequestsAlerts(alertsData.friendRequests);
+            setNewWorkoutsAlerts(alertsData.newWorkouts);
+          }
         });
       }
     } else {
