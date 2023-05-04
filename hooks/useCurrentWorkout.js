@@ -26,6 +26,14 @@ export const CurrentWorkoutProvider = ({ children }) => {
       timeoutRef.current = null;
     }
   };
+  function getMsUntilNextQuarterHour() {
+    const now = new Date();
+    const timeToNextQuarterHour =
+      (15 - (now.getMinutes() % 15)) * 60000 -
+      now.getSeconds() * 1000 -
+      now.getMilliseconds();
+    return timeToNextQuarterHour;
+  }
   useEffect(() => {
     const checkIfCurrentWorkout = async () => {
       const now = new Date();
@@ -41,7 +49,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
         );
         if (
           new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-          value[0].toDate() < now
+          value[0].toDate() <= now
         ) {
           console.log(`current:${key}`);
           const workout = await firebase.getWorkout(key);
@@ -58,17 +66,6 @@ export const CurrentWorkoutProvider = ({ children }) => {
 
       // Call the function immediately on the initial render
       setCurrentWorkout(await checkIfCurrentWorkout(now));
-
-      // Calculate the number of minutes past the hour
-      const minutes = now.getMinutes();
-
-      // Calculate the number of minutes until the next quarter hour
-      const minutesUntilQuarterHour = 15 - (minutes % 15);
-
-      // Calculate the number of milliseconds until the next quarter hour
-      const millisecondsUntilQuarterHour = minutesUntilQuarterHour * 60 * 1000;
-      //Adding second so it would calculate the workouts which registered exactly at 00:00 (ss,ms)
-      // Wait until the next quarter hour to start the interval
       timeoutRef.current = setTimeout(async () => {
         console.log("=== FinishedTimeout: second check");
         timeoutRef.current = null;
@@ -78,7 +75,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
 
           setCurrentWorkout(await checkIfCurrentWorkout());
         }, 15 * 60 * 1000);
-      }, millisecondsUntilQuarterHour);
+      }, getMsUntilNextQuarterHour());
     };
 
     clearIntervalOrTimeoutFunc();
