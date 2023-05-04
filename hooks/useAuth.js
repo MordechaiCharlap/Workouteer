@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   inMemoryPersistence,
@@ -30,7 +30,7 @@ export const AuthPrvider = ({ children }) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
-  var unsubscribeUser = null;
+  const unsubscribeUser = useRef();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
       "371037963339-ju66vhm3qrc8d2hln2spg9o37305vuc4.apps.googleusercontent.com",
@@ -53,7 +53,7 @@ export const AuthPrvider = ({ children }) => {
           const userData = await getData();
           if (userData != null) {
             console.log("Listening to user");
-            unsubscribeUser = onSnapshot(
+            unsubscribeUser.current = onSnapshot(
               doc(db, "users", userData.id),
               (doc) => {
                 setUser(doc.data());
@@ -70,8 +70,8 @@ export const AuthPrvider = ({ children }) => {
         setUserAsync();
       } else {
         console.log("state Changed, user signed out");
-        if (unsubscribeUser) {
-          unsubscribeUser();
+        if (unsubscribeUser.current) {
+          unsubscribeUser.current();
           console.log("Stops listening to user");
         }
         if (user) {
@@ -83,10 +83,7 @@ export const AuthPrvider = ({ children }) => {
       }
     });
   }, []);
-  const updatedErrorCode = (code) => {
-    setAuthErrorCode("");
-    setAuthErrorCode(code);
-  };
+
   useEffect(() => {
     var credential;
     const getUserData = async (accessToken) => {
@@ -118,7 +115,11 @@ export const AuthPrvider = ({ children }) => {
       console.log("response not successfull");
     }
   }, [response]);
-
+  useEffect(() => {
+    return () => {
+      if (unsubscribeUser.current) unsubscribeUser.current();
+    };
+  }, []);
   const signInGoogleAccount = async () => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
@@ -189,7 +190,7 @@ export const AuthPrvider = ({ children }) => {
 
   const startListenToUserAsync = async (userId) => {
     console.log("Listening to user " + userId);
-    unsubscribeUser = onSnapshot(doc(db, "users", userId), (doc) => {
+    unsubscribeUser.current = onSnapshot(doc(db, "users", userId), (doc) => {
       setUser(doc.data());
       if (initialLoading) setInitialLoading(false);
     });
@@ -221,7 +222,7 @@ export const AuthPrvider = ({ children }) => {
   const userSignOut = () => {
     setInitialLoading(true);
     if (googleUserInfo) {
-      if (unsubscribeUser) unsubscribeUser();
+      if (unsubscribeUser) unsubscribeUser.current();
       console.log("Stops listening to user");
       setGoogleUserInfo(null);
     } else
