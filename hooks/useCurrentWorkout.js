@@ -12,11 +12,18 @@ export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
   const [currentWorkout, setCurrentWorkout] = useState(null);
   const intervalRef = useRef(null);
-  const clearIntervalFunc = () => {
-    if (intervalRef != null) {
+  const timeoutRef = useRef(null);
+  const clearIntervalOrTimeoutFunc = () => {
+    console.log("Clearing intervalOrTimeout func");
+    if (intervalRef.current != null) {
       console.log("Clearing interval");
       clearInterval(intervalRef.current);
       intervalRef.current = null;
+    }
+    if (timeoutRef.current != null) {
+      console.log("Clearing timeout");
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
   };
   useEffect(() => {
@@ -45,6 +52,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
       console.log("Havent found current workout");
     };
     const initialCheckCurrentWorkout = async () => {
+      console.log("=== Initial check");
       // Get the current time
       const now = new Date();
 
@@ -60,24 +68,28 @@ export const CurrentWorkoutProvider = ({ children }) => {
       // Calculate the number of milliseconds until the next quarter hour
       const millisecondsUntilQuarterHour = minutesUntilQuarterHour * 60 * 1000;
       //Adding second so it would calculate the workouts which registered exactly at 00:00 (ss,ms)
-      const msUntilNextQuarterPlusOneSec = millisecondsUntilQuarterHour + 1000;
       // Wait until the next quarter hour to start the interval
-      setTimeout(async () => {
-        console.log("initial interval");
+      timeoutRef.current = setTimeout(async () => {
+        console.log("=== FinishedTimeout: second check");
+        timeoutRef.current = null;
         setCurrentWorkout(await checkIfCurrentWorkout());
-        const interval = setInterval(async () => {
+        intervalRef.current = setInterval(async () => {
+          console.log("=== finished 15 minutes interval: third check");
+
           setCurrentWorkout(await checkIfCurrentWorkout());
         }, 15 * 60 * 1000);
-        intervalRef.current = interval;
-      }, msUntilNextQuarterPlusOneSec);
+      }, millisecondsUntilQuarterHour);
     };
 
-    // clearIntervalFunc();
-    if (user && intervalRef.current == null) {
+    clearIntervalOrTimeoutFunc();
+    if (user) {
       initialCheckCurrentWorkout();
     }
-    return () => clearIntervalFunc();
-  }, [user?.plannedWorkouts]);
+  }, [user.plannedWorkouts]);
+  useEffect(() => {
+    console.log("unmount");
+    return () => clearIntervalOrTimeoutFunc();
+  }, []);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
