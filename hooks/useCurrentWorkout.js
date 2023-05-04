@@ -85,7 +85,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
     if (user) {
       initialCheckCurrentWorkout();
     }
-  }, [user.plannedWorkouts]);
+  }, [user?.plannedWorkouts]);
   useEffect(() => {
     console.log("unmount");
     return () => clearIntervalOrTimeoutFunc();
