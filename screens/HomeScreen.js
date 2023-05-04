@@ -45,20 +45,22 @@ const HomeScreen = () => {
   };
   const rowStyle = {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     columnGap: windowHeight
       ? windowHeight / 30
       : Dimensions.get("window").height / 30,
   };
+  const leftRightMargin = windowHeight
+    ? windowHeight / 16.5
+    : Dimensions.get("window").height / 16.5;
   const menuContainerStyle = {
-    flex: 1,
-    paddingTop: windowHeight
-      ? windowHeight / 25
-      : Dimensions.get("window").height / 25,
-    paddingBottom: windowHeight
-      ? windowHeight / 25
-      : Dimensions.get("window").height / 25,
-    justifyContent: "space-evenly",
+    marginTop: windowHeight
+      ? windowHeight / 16.5
+      : Dimensions.get("window").height / 16.5,
+    marginRight: leftRightMargin,
+    marginLeft: leftRightMargin,
+    height: "80%",
+    justifyContent: "space-between",
   };
   useFocusEffect(
     useCallback(() => {
@@ -68,7 +70,6 @@ const HomeScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <View></View>
       <StatusBar
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
@@ -126,16 +127,18 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
-
-        {currentWorkout != null && (
-          <View className="absolute bottom-1 right-0 left-0 mx-0 items-center">
-            <ConfirmCurrentWorkoutButton
-              currentWorkout={currentWorkout}
-              user={user}
-            />
-          </View>
-        )}
       </View>
+      {currentWorkout != null && (
+        <View
+          style={{ marginHorizontal: leftRightMargin }}
+          className="flex-1 justify-center"
+        >
+          <ConfirmCurrentWorkoutButton
+            currentWorkout={currentWorkout}
+            user={user}
+          />
+        </View>
+      )}
       {appData.isBetaVersion && (
         <Text
           style={{ color: appStyle.color_primary }}
