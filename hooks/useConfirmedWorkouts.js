@@ -13,7 +13,6 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
   const db = firebase.db;
   const cleanListener = () => {
     if (unsubscribeRef.current) {
-      console.log("***Cleaning confirmedWorkoutsListener");
       unsubscribeRef.current();
       unsubscribeRef.current = null;
     }
@@ -24,13 +23,10 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
   };
   useEffect(() => {
     if (user && !unsubscribeRef.current) {
-      console.log("Listening to confirmedWorkouts");
       unsubscribeRef.current = onSnapshot(
         doc(db, "usersConfirmedWorkouts", user.id),
         (doc) => {
           const confirmedWorkoutsData = doc.data();
-          console.log("ConfirmedWorkouts updated!");
-          console.log(confirmedWorkoutsData);
           if (confirmedWorkoutsData != null)
             setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
         }
@@ -39,7 +35,6 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
   }, [user]);
   useEffect(() => {
     return () => {
-      console.log("unmount");
       cleanListener();
     };
   }, []);

@@ -15,8 +15,6 @@ export const AlertsProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       if (!userSignedIn) {
-        console.log("Listening to alerts");
-        console.log(user.id);
         setUserSignedIn(true);
         unsubscribeAlerts = onSnapshot(doc(db, "alerts", user.id), (doc) => {
           const alertsData = doc.data();
@@ -33,7 +31,6 @@ export const AlertsProvider = ({ children }) => {
       if (userSignedIn) {
         setUserSignedIn(false);
         if (unsubscribeAlerts != null) {
-          console.log("Stopped listening to alerts");
           unsubscribeAlerts();
         }
       }

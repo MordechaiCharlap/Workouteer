@@ -46,7 +46,6 @@ const FutureWorkoutsScreen = () => {
     useCallback(() => {
       setCurrentScreen("FutureWorkouts");
       const getWorkouts = async () => {
-        console.log("getting workouts");
         const workoutsArr = await firebase.getFutureWorkouts(
           user.plannedWorkouts
         );

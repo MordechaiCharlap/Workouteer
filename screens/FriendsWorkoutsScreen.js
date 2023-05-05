@@ -19,7 +19,6 @@ const FriendsWorkoutsScreen = () => {
       setCurrentScreen("FriendsWorkouts");
     }, [])
   );
-  console.log(friendsWorkouts);
   return (
     <View style={safeAreaStyle()}>
       <StatusBar

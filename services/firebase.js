@@ -780,10 +780,10 @@ export const removePastOrEmptyWorkoutsAlerts = async (
       changed++;
     }
   }
-  const requestAcceptedAlerts = newWorkoutsAlerts;
-  for (var [key, value] of Object.entries(requestAcceptedAlerts)) {
+  const newWorkoutsAlertsClone = newWorkoutsAlerts;
+  for (var [key, value] of Object.entries(newWorkoutsAlertsClone)) {
     if (value.workoutDate.toDate() < now) {
-      delete requestAcceptedAlerts[key];
+      delete newWorkoutsAlertsClone[key];
       changed++;
     }
   }
@@ -798,7 +798,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     console.log(`Removed ${changed} old invites and request! enjoy your time`);
     await updateDoc(doc(db, "alerts", userId), {
       workoutRequests: requestAlerts,
-      newWorkouts: requestAcceptedAlerts,
+      newWorkouts: newWorkoutsAlertsClone,
       workoutInvites: inviteAlerts,
     });
   }

@@ -120,7 +120,6 @@ const NewWorkoutScreen = () => {
   };
   const createWorkout = async () => {
     if (checkIfWorkoutTimeAvailable()) {
-      console.log("Adding workout");
       setIsCreateDisabled(true);
       navigation.goBack();
       var scheduledNotificationId;

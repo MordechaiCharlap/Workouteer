@@ -58,11 +58,9 @@ export const NotificationsProvider = ({ children }) => {
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== "granted") {
-        console.log("not granted");
         try {
           const { status } = await Notifications.requestPermissionsAsync();
           finalStatus = status;
-          console.log("The status now: success");
         } catch (error) {
           console.log("The status now: still not granted, error: ", error);
         }
@@ -71,9 +69,7 @@ export const NotificationsProvider = ({ children }) => {
         console.log("Notification permission not granted");
         return;
       }
-      console.log("Notification permission granted");
       const token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
       if (token && token != user.token) {
         const updatedUser = { ...user, pushToken: token };
         await firebase.updateUser(updatedUser);
@@ -276,9 +272,6 @@ export const NotificationsProvider = ({ children }) => {
     );
   };
   const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
-    console.log(workoutType);
-    console.log(languageService[friend.language].scheduledWorkout);
-    console.log(languageService[friend.language].scheduledWorkout[workoutType]);
     const title =
       user.displayName +
       " " +
@@ -287,8 +280,6 @@ export const NotificationsProvider = ({ children }) => {
       languageService[friend.language].scheduledWorkout[workoutType];
     const body =
       languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
-    console.log(`title: ${title}`);
-    console.log(`body: ${body}`);
     await sendPushNotification(friend, title, body);
   };
   const sendPushNotificationInviteFriendToWorkout = async (friend, workout) => {

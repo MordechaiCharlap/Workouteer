@@ -14,21 +14,14 @@ const LoginWithKnownEmail = (props) => {
       googleUserInfo.email,
       password
     );
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       try {
         await linkWithCredential(auth.currentUser, googleUserInfo.credential);
-        console.log("updating both auths true");
         await updateDoc(doc(db, "users", props.id), {
           authGoogle: true,
         });
-        console.log("both auth is true now");
       } catch (error) {
-        console.log(`errorCode:${error.code}`);
         if (error.code == "auth/provider-already-linked") {
-          console.log(
-            `Already linked, updating authGoogle of ${props.id} to true so wont happen again`
-          );
           await updateDoc(doc(db, "users", props.id), {
             authGoogle: true,
           });

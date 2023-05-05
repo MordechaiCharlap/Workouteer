@@ -60,7 +60,6 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (!authErrorCode) return;
-    console.log(`got new error code: ${authErrorCode}`);
     switch (authErrorCode) {
       case "auth/wrong-password":
         setErrorText("Wrong password");

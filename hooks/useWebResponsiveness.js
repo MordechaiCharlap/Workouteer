@@ -14,10 +14,8 @@ export const WebResponsivenessProvider = ({ children }) => {
   const [windowTooSmall, setWindowTooSmall] = useState(false);
   useEffect(() => {
     if (Platform.OS == "web") {
-      console.log("***OnWeb responsiveness in action***");
       const orientationHandler = () => {
         setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
-        console.log("orientationHandled");
       };
 
       const resizeHandler = () => {
@@ -48,7 +46,6 @@ export const WebResponsivenessProvider = ({ children }) => {
           : window.removeEventListener("resize", resizeHandler);
       };
     } else {
-      console.log("***Not OnWeb, no need for WebResponsiveness**");
     }
   }, []);
   return (

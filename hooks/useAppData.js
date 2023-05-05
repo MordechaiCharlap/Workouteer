@@ -29,12 +29,8 @@ export const AppDataProvider = ({ children }) => {
     const currentAppVersion = Constants.manifest.version;
 
     if (compareVersions(currentAppVersion, latestVersion) < 0) {
-      console.log(
-        `The app needs update, current version: ${currentAppVersion}, needed version: ${minimumRequiredVersion}`
-      );
       return false;
     } else {
-      console.log("The app is updated, current version: " + currentAppVersion);
       return true;
     }
   };
@@ -42,7 +38,6 @@ export const AppDataProvider = ({ children }) => {
     const getAppData = async () => {
       const appDataFromDB = (await getDoc(doc(db, "appData/specs"))).data();
       setAppData(appDataFromDB);
-      console.log(appDataFromDB);
     };
     getAppData();
   }, []);

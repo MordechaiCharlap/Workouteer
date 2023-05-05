@@ -1,4 +1,4 @@
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Text } from "react-native";
 import { React, useState, useCallback } from "react";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -8,6 +8,7 @@ import Explore from "../components/Explore";
 import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import languageService from "../services/languageService";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -29,14 +30,17 @@ const ExploreScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View className="flex-1">
-        {renderOption == "Explore" && (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-3xl font-semibold">
+          {languageService[user.language].comingSoon}
+        </Text>
+        {/* {renderOption == "Explore" && (
           <SearchUsers
             language={user.language}
             setIsEmpty={(isEmpty) => setSearchInputEmpty(isEmpty)}
           />
         )}
-        {renderOption == "Explore" && searchInputEmpty == true && <Explore />}
+        {renderOption == "Explore" && searchInputEmpty == true && <Explore />} */}
       </View>
     </View>
   );

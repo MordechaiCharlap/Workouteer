@@ -7,21 +7,21 @@ import React, {
 } from "react";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
+import useAlerts from "./useAlerts";
+import { deleteField, doc, updateDoc } from "firebase/firestore";
 const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
   const { user } = useAuth();
+  const { newWorkoutsAlerts } = useAlerts();
   const [currentWorkout, setCurrentWorkout] = useState(null);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
   const clearIntervalOrTimeoutFunc = () => {
-    console.log("Clearing intervalOrTimeout func");
     if (intervalRef.current != null) {
-      console.log("Clearing interval");
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
     if (timeoutRef.current != null) {
-      console.log("Clearing timeout");
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
@@ -37,42 +37,37 @@ export const CurrentWorkoutProvider = ({ children }) => {
   useEffect(() => {
     const checkIfCurrentWorkout = async () => {
       const now = new Date();
-      console.log(
-        `checking if theres current workout for ${now.toTimeString()}`
-      );
-      console.log(
-        `there is ${Object.keys(user.plannedWorkouts).length} workouts to check`
-      );
       for (var [key, value] of Object.entries(user.plannedWorkouts)) {
-        console.log(
-          `checking ${key} starting time: ${value[0].toDate().toTimeString()}`
-        );
         if (
           new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
           value[0].toDate() <= now
         ) {
-          console.log(`current:${key}`);
+          if (newWorkoutsAlerts[key] != null) {
+            try {
+              await updateDoc(doc(firebase.db, `alerts/${user.id}`), {
+                [`newWorkouts.${key}`]: deleteField(),
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
           const workout = await firebase.getWorkout(key);
 
           return { ...workout, id: key };
         }
       }
-      console.log("Havent found current workout");
     };
     const initialCheckCurrentWorkout = async () => {
-      console.log("=== Initial check");
       // Get the current time
       const now = new Date();
 
       // Call the function immediately on the initial render
       setCurrentWorkout(await checkIfCurrentWorkout(now));
       timeoutRef.current = setTimeout(async () => {
-        console.log("=== FinishedTimeout: second check");
         timeoutRef.current = null;
         setCurrentWorkout(await checkIfCurrentWorkout());
         intervalRef.current = setInterval(async () => {
-          console.log("=== finished 15 minutes interval: third check");
-
           setCurrentWorkout(await checkIfCurrentWorkout());
         }, 15 * 60 * 1000);
       }, getMsUntilNextQuarterHour());

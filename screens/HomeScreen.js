@@ -46,9 +46,6 @@ const HomeScreen = () => {
   const rowStyle = {
     flexDirection: "row",
     justifyContent: "space-between",
-    columnGap: windowHeight
-      ? windowHeight / 30
-      : Dimensions.get("window").height / 30,
   };
   const leftRightMargin = windowHeight
     ? windowHeight / 16.5
@@ -57,8 +54,7 @@ const HomeScreen = () => {
     marginTop: windowHeight
       ? windowHeight / 16.5
       : Dimensions.get("window").height / 16.5,
-    marginRight: leftRightMargin,
-    marginLeft: leftRightMargin,
+    width: "80%",
     height: "80%",
     justifyContent: "space-between",
   };
@@ -74,7 +70,7 @@ const HomeScreen = () => {
         backgroundColor={appStyle.statusBarStyle.backgroundColor}
         barStyle={appStyle.statusBarStyle.barStyle}
       />
-      <View style={menuContainerStyle}>
+      <View style={menuContainerStyle} className="self-center">
         <View style={rowStyle}>
           <HomeScreenButton
             buttonText={languageService[user.language].findWorkoutHomeBtn}

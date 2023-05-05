@@ -33,7 +33,6 @@ const LeaderboardScreen = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       if (user.leaderboard.weekId != firebase.getLastWeekId()) {
-        console.log("No leaderboard");
         setLeaderboardList();
         return;
       }
