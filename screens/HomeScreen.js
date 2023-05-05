@@ -47,14 +47,11 @@ const HomeScreen = () => {
     flexDirection: "row",
     justifyContent: "space-between",
   };
-  const leftRightMargin = windowHeight
-    ? windowHeight / 16.5
-    : Dimensions.get("window").height / 16.5;
   const menuContainerStyle = {
     marginTop: windowHeight
       ? windowHeight / 16.5
       : Dimensions.get("window").height / 16.5,
-    width: "80%",
+    width: "85%",
     height: "80%",
     justifyContent: "space-between",
   };
@@ -125,10 +122,7 @@ const HomeScreen = () => {
         </View>
       </View>
       {currentWorkout != null && (
-        <View
-          style={{ marginHorizontal: leftRightMargin }}
-          className="flex-1 justify-center"
-        >
+        <View style={{ width: "85%" }} className="justify-center">
           <ConfirmCurrentWorkoutButton
             currentWorkout={currentWorkout}
             user={user}
