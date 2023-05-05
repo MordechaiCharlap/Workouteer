@@ -282,7 +282,8 @@ const ConfirmWorkoutScreen = () => {
         title={alertTitle}
         message={alertMessage}
         closeOnTouchOutside={exitableAlert}
-        closeOnHardwareBackPress={false}
+        closeOnHardwareBackPress={true}
+        onDismiss={() => setShowAlert(false)}
         showConfirmButton={exitableAlert}
         confirmText={languageService[user.language].gotIt}
         confirmButtonColor="#DD6B55"

@@ -116,7 +116,8 @@ const WorkoutStartingTime = (props) => {
         title={alertTitle}
         message={alertMessage}
         closeOnTouchOutside={true}
-        closeOnHardwareBackPress={false}
+        onDismiss={() => setShowAlert(false)}
+        closeOnHardwareBackPress={true}
         showConfirmButton={true}
         confirmText={languageService[user.language].gotIt}
         confirmButtonColor="#DD6B55"

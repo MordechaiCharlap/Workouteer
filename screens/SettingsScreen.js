@@ -275,7 +275,8 @@ const SettingsScreen = () => {
         title={"Are you sure?"}
         message={"Are you sure?"}
         closeOnTouchOutside={true}
-        closeOnHardwareBackPress={false}
+        onDismiss={() => setShowDeleteUserModal(false)}
+        closeOnHardwareBackPress={true}
         showConfirmButton={true}
         showCancelButton={true}
         confirmText="yes"
