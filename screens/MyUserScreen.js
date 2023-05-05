@@ -74,7 +74,7 @@ const MyUserScreen = () => {
               <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
                 <FontAwesomeIcon
                   icon={faUserPen}
-                  size={25}
+                  size={30}
                   color={appStyle.color_primary}
                 />
               </TouchableOpacity>
@@ -88,7 +88,7 @@ const MyUserScreen = () => {
               <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                 <FontAwesomeIcon
                   icon={faGear}
-                  size={25}
+                  size={30}
                   color={appStyle.color_primary}
                 />
               </TouchableOpacity>
