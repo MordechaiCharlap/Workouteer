@@ -44,6 +44,7 @@ import { safeAreaStyle } from "./components/safeAreaStyle";
 import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import useAppData from "./hooks/useAppData";
+import ReportUserScreen from "./screens/ReportUserScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user } = useAuth();
@@ -263,6 +264,11 @@ const StackNavigator = () => {
               <Stack.Screen
                 name="ConfirmWorkout"
                 component={ConfirmWorkoutScreen}
+                options={verticalAnimation}
+              />
+              <Stack.Screen
+                name="ReportUser"
+                component={ReportUserScreen}
                 options={verticalAnimation}
               />
             </>
