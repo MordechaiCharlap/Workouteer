@@ -341,6 +341,11 @@ const UserScreen = ({ route }) => {
         message={
           languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
         }
+        onConfirm={() =>
+          navigation.navigate("ReportUser", {
+            reported: shownUser,
+          })
+        }
       />
     </View>
   );

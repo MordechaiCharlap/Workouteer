@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     top: -10,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 14,
+    fontSize: 16,
   },
   placeholderStyle: {
     color: appStyle.color_on_primary,
