@@ -2,7 +2,6 @@ export const checkIfDateAvailableAndReturnClosestWorkout = (
   user,
   dateToCheck
 ) => {
-  console.log("test");
   var closestWorkoutDate = null;
   for (var value of Object.values(user.plannedWorkouts)) {
     if (
