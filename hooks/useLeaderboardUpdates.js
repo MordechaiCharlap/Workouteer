@@ -59,7 +59,8 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
           title={modalTitle}
           message={""}
           closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
+          onDismiss={() => setShowModal(false)}
+          closeOnHardwareBackPress={true}
           showConfirmButton={true}
           confirmText={languageService[user.language].gotIt}
           confirmButtonColor={color_primary}

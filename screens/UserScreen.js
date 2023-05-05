@@ -23,6 +23,7 @@ import {
   faUserXmark,
   faCheck,
   faX,
+  faShield,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
@@ -31,6 +32,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import NameAndAge from "../components/profileScreen/NameAndAge";
 import UserStats from "../components/profileScreen/UserStats";
+import AwesomeModal from "../components/AwesomeModal";
 
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -41,7 +43,7 @@ const UserScreen = ({ route }) => {
     sendPushNotificationUserWantsToBeYourFriend,
     sendPushNotificationUserAcceptedYourFriendRequest,
   } = usePushNotifications();
-
+  const [showReportModal, setShowReportModal] = useState(false);
   const shownUser = route.params.shownUser;
   useFocusEffect(
     useCallback(() => {
@@ -51,7 +53,6 @@ const UserScreen = ({ route }) => {
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );
-
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
     navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
@@ -209,9 +210,13 @@ const UserScreen = ({ route }) => {
                 >
                   {shownUser.id}
                 </Text>
-                <View className="opacity-0">
-                  <FontAwesomeIcon icon={faChevronLeft} size={30} />
-                </View>
+                <TouchableOpacity onPress={() => setShowReportModal(true)}>
+                  <FontAwesomeIcon
+                    icon={faShield}
+                    size={30}
+                    color={appStyle.color_primary}
+                  />
+                </TouchableOpacity>
               </View>
               <View className="flex-row h-48 items-center">
                 <Image
@@ -325,6 +330,18 @@ const UserScreen = ({ route }) => {
           </Text>
         </View>
       )}
+      <AwesomeModal
+        showModal={showReportModal}
+        setShowModal={setShowReportModal}
+        title={
+          languageService[user.language].doYouWantToReportThisUser[
+            user.isMale ? 1 : 0
+          ]
+        }
+        message={
+          languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
+        }
+      />
     </View>
   );
 };

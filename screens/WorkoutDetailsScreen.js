@@ -74,6 +74,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     }
     return age;
   };
+  const showDirections = () => {};
   return (
     <View style={safeAreaStyle()}>
       <StatusBar
@@ -395,7 +396,6 @@ const WorkoutDetailsScreen = ({ route }) => {
 const WorkoutPinnedLocation = (props) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
-  console.log(`props.ltLng.latitude: ${props.ltLng}`);
   return (
     <View
       className="items-center justify-center p-2 rounded-lg w-full aspect-square"
@@ -416,7 +416,7 @@ const WorkoutPinnedLocation = (props) => {
       >
         <Marker coordinate={props.ltLng} />
       </MapView>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="bottom-4 rounded py-2 px-6 absolute"
         style={{
           backgroundColor: appStyle.color_primary,
@@ -431,7 +431,7 @@ const WorkoutPinnedLocation = (props) => {
         >
           {languageService[props.language].directions}
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

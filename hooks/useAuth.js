@@ -43,6 +43,7 @@ export const AuthPrvider = ({ children }) => {
     console.log("auth observer");
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
+        setInitialLoading(true);
         console.log("state Changed, user logged in: " + authUser.email);
         const getData = async () => {
           const userData = await userDataByEmail(authUser.email.toLowerCase());
@@ -57,7 +58,6 @@ export const AuthPrvider = ({ children }) => {
               doc(db, "users", userData.id),
               (doc) => {
                 setUser(doc.data());
-                if (initialLoading) setInitialLoading(false);
               }
             );
             setTimeout(() => {
@@ -79,7 +79,6 @@ export const AuthPrvider = ({ children }) => {
           setUser(null);
           console.log("state Changed, user logged out");
         }
-        setInitialLoading(false);
       }
     });
   }, []);
@@ -120,6 +119,37 @@ export const AuthPrvider = ({ children }) => {
       if (unsubscribeUser.current) unsubscribeUser.current();
     };
   }, []);
+  useEffect(() => {
+    const setGoogleUserAsync = async () => {
+      if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
+        console.log("existing user, checking if googleAuth");
+        const userData = await userDataByEmail(
+          googleUserInfo.email.toLowerCase()
+        );
+        if (userData.authGoogle == false) {
+          console.log("Google auth false, moving to google linking screen");
+          navigation.navigate("LinkUserWithGoogle", { userData: userData });
+        } else {
+          console.log(
+            "Google auth true=> user logged in: " +
+              googleUserInfo.email.toLowerCase()
+          );
+          signInWithCredentialGoogle();
+        }
+      } else {
+        navigation.navigate("Register");
+        console.log("navigated to register");
+        setInitialLoading(false);
+      }
+    };
+    console.log("googleUserInfoUseEffectActivated");
+    if (googleUserInfo && googleUserInfo.credential) {
+      setGoogleUserAsync();
+    }
+  }, [googleUserInfo]);
+  useEffect(() => {
+    setInitialLoading(false);
+  }, [user]);
   const signInGoogleAccount = async () => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
@@ -157,42 +187,12 @@ export const AuthPrvider = ({ children }) => {
         })
         .catch((error) => console.log(`error:${error}`));
     }
-    if (!initialLoading) setInitialLoading(false);
   };
-  useEffect(() => {
-    const setGoogleUserAsync = async () => {
-      if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
-        console.log("existing user, checking if googleAuth");
-        const userData = await userDataByEmail(
-          googleUserInfo.email.toLowerCase()
-        );
-        if (userData.authGoogle == false) {
-          console.log("Google auth false, moving to google linking screen");
-          navigation.navigate("LinkUserWithGoogle", { userData: userData });
-        } else {
-          console.log(
-            "Google auth true=> user logged in: " +
-              googleUserInfo.email.toLowerCase()
-          );
-          signInWithCredentialGoogle();
-        }
-      } else {
-        navigation.navigate("Register");
-        console.log("navigated to register");
-        setInitialLoading(false);
-      }
-    };
-    console.log("googleUserInfoUseEffectActivated");
-    if (googleUserInfo && googleUserInfo.credential) {
-      setGoogleUserAsync();
-    }
-  }, [googleUserInfo]);
 
   const startListenToUserAsync = async (userId) => {
     console.log("Listening to user " + userId);
     unsubscribeUser.current = onSnapshot(doc(db, "users", userId), (doc) => {
       setUser(doc.data());
-      if (initialLoading) setInitialLoading(false);
     });
   };
   const signInEmailPassword = async (email, password) => {
@@ -231,7 +231,6 @@ export const AuthPrvider = ({ children }) => {
         .catch((error) => {});
 
     setUser(null);
-    setInitialLoading(false);
   };
   return (
     <AuthContext.Provider

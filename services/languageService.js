@@ -235,6 +235,15 @@ const languageService = {
     lastWeekend: "last weekend",
     place: "place",
     new: "new!",
+    doYouWantToReportThisUser: [
+      "Do you want to report this user?",
+      "Do you want to report this user?",
+    ],
+    reportUserMessage: [
+      "By reporting inappropriate behavior, you're helping us keep our app a safe and enjoyable place.",
+      "By reporting inappropriate behavior, you're helping us keep our app a safe and enjoyable place.",
+    ],
+    continue: ["Continue", "Continue"],
   },
   hebrew: {
     login: "התחבר",
@@ -450,6 +459,15 @@ const languageService = {
     lastWeekend: "בסוף השבוע האחרון",
     place: "דירוג",
     new: "חדש!",
+    doYouWantToReportThisUser: [
+      "Do you want to report this user?",
+      "Do you want to report this user?",
+    ],
+    reportUserMessage: [
+      "באמצעות דיווח על התנהגות לא הולמת, את עוזרת לנו לשמור על האפליקציה שלנו כמקום בטוח ונעים לשימוש.",
+      "באמצעות דיווח על התנהגות לא הולמת, אתה עוזר לנו לשמור על האפליקציה שלנו כמקום בטוח ונעים לשימוש.",
+    ],
+    continue: ["המשיכי", "המשך"],
   },
 };
 export default languageService;
