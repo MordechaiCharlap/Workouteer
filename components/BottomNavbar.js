@@ -41,7 +41,7 @@ const BottomNavbar = () => {
           screen="Chats"
           alert={Object.keys(chatsAlerts).length > 0}
         />
-        {/* <NavbarButton screen="Explore" /> */}
+        <NavbarButton screen="Explore" />
       </View>
     </View>
   );
