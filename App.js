@@ -15,6 +15,8 @@ import { FriendsWorkoutsProvider } from "./hooks/useFriendsWorkouts";
 import { LeaderboardUpdatesProvider } from "./hooks/useLeaderboardUpdates";
 import { ConfirmedWorkoutsProvider } from "./hooks/useConfirmedWorkouts";
 import { AppDataProvider } from "./hooks/useAppData";
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
   const { enableLatestRenderer } = require("react-native-maps");
