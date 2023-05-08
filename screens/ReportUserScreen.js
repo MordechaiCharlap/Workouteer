@@ -77,20 +77,13 @@ const ReportUserScreen = ({ route }) => {
     return newReportId;
   };
   const reportUser = async () => {
-    if (
-      violationType == "profileImageContainsNudity" &&
-      reported.img == defaultValues.defaultProfilePic
-    )
-      return;
     setSubmitting(true);
     const reportId = await createReport();
-    // if (violationType == "profileImageContainsNudity")
-    //   await copyProfileImage(reported.id, reportId);
-    setTimeout(() => {
-      setSubmitting(false);
-      setShowSubmittedModal(true);
-    }, 5000);
-    // setSubmitting(false);
+    if (violationType == "profileImageContainsNudity")
+      await copyProfileImage(reported.id, reportId);
+    setShowSubmittedModal(true);
+
+    setSubmitting(false);
   };
   const submitPressed = async () => {
     if (violationType == null) {
@@ -104,6 +97,12 @@ const ReportUserScreen = ({ route }) => {
       setIsContentEmptyError(true);
       return;
     }
+    if (
+      violationType == "profileImageContainsNudity" &&
+      reported.img == defaultValues.defaultProfilePic
+    )
+      return;
+    reportUser();
   };
   return (
     <View style={safeAreaStyle()}>
