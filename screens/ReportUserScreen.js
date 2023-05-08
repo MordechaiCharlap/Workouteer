@@ -8,7 +8,7 @@ import * as appStyle from "../utilities/appStyleSheet";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
 import { db, storage } from "../services/firebase";
-import { getDownloadURL, ref } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Dropdown } from "react-native-element-dropdown";
 import { TextInput } from "react-native";
 import { useRef } from "react";
@@ -45,19 +45,11 @@ const ReportUserScreen = ({ route }) => {
       value: "other",
     },
   ];
-  const copyProfileImage = async (userId, reportId) => {
-    const bucket = storage;
-    const sourceRef = ref(bucket, `profile-pics/${userId}.jpg`);
-    console.log(sourceRef);
-    const destinationRef = ref(bucket, `reports/${reportId}.jpg`);
-
-    const downloadUrl = await getDownloadURL(sourceRef);
-    console.log(downloadUrl);
-    const response = await fetch(downloadUrl);
-    const blob = await response.blob();
-
-    await destinationRef.put(blob);
-    console.log("Copied the profile picture!");
+  const copyProfileImage = async (reportId) => {
+    const destinationRef = ref(storage, `reports/${reportId}.jpg`);
+    const blob = await fetch(reported.img).then((r) => r.blob());
+    const metadata = { contentType: "image/jpeg" };
+    await uploadBytes(destinationRef, blob, metadata).then((snapshot) => {});
   };
   const createReport = async () => {
     const newReport = {
@@ -73,14 +65,14 @@ const ReportUserScreen = ({ route }) => {
       content: content.current,
     };
     console.log(newReport);
-    const newReportId = await addDoc(collection(db, `reports`), newReport);
-    return newReportId;
+    const newReportRef = await addDoc(collection(db, `reports`), newReport);
+    return newReportRef.id;
   };
   const reportUser = async () => {
     setSubmitting(true);
     const reportId = await createReport();
     if (violationType == "profileImageContainsNudity")
-      await copyProfileImage(reported.id, reportId);
+      await copyProfileImage(reportId);
     setShowSubmittedModal(true);
 
     setSubmitting(false);
@@ -102,7 +94,7 @@ const ReportUserScreen = ({ route }) => {
       reported.img == defaultValues.defaultProfilePic
     )
       return;
-    reportUser();
+    await reportUser();
   };
   return (
     <View style={safeAreaStyle()}>
@@ -192,6 +184,7 @@ const ReportUserScreen = ({ route }) => {
       {showSubmittedModal && (
         <AwesomeModal
           onDismiss={() => navigation.goBack()}
+          onConfirm={() => navigation.goBack()}
           showCancelButton={false}
           showModal={showSubmittedModal}
           setShowModal={setShowSubmittedModal}
