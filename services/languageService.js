@@ -250,7 +250,7 @@ const languageService = {
     other: "Other",
     violationType: "Violation type",
     reportSubmittedTitle: "Report submitted successfully!",
-    reportSubmittedMEssage:
+    reportSubmittedMessage:
       "Thank you for reporting this user. Your contribution helps us create a positive environment for all",
   },
   hebrew: {
@@ -482,7 +482,7 @@ const languageService = {
     other: "אחר",
     violationType: "סוג הפרה",
     reportSubmittedTitle: "הדיווח נשלח בהצלחה",
-    reportSubmittedMEssage:
+    reportSubmittedMessage:
       "תודה שדיווחת על המשתמש. התרומה שלך עוזרת לנו ליצור סביבה חיובית לכל המשתמשים :)",
   },
 };
