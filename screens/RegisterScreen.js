@@ -252,7 +252,7 @@ const style = StyleSheet.create({
     left: 22,
     top: -10,
     zIndex: 999,
-    fontSize: 14,
+    fontSize: 16,
   },
   selectedTextStyle: {
     fontSize: 16,
