@@ -24,6 +24,7 @@ const ReportUserScreen = ({ route }) => {
   const content = useRef("");
   const [submitting, setSubmitting] = useState(false);
   const [isTypeEmptyError, setIsTypeEmptyError] = useState(false);
+  const [isContentEmptyError, setIsContentEmptyError] = useState(false);
   const [showSubmittedModal, setShowSubmittedModal] = useState(false);
   useFocusEffect(
     useCallback(() => {
@@ -82,11 +83,28 @@ const ReportUserScreen = ({ route }) => {
     )
       return;
     setSubmitting(true);
-    setShowSubmittedModal(true);
     const reportId = await createReport();
-    if (violationType == "profileImageContainsNudity")
-      await copyProfileImage(reported.id, reportId);
-    setSubmitting(false);
+    // if (violationType == "profileImageContainsNudity")
+    //   await copyProfileImage(reported.id, reportId);
+    setTimeout(() => {
+      setSubmitting(false);
+      setShowSubmittedModal(true);
+    }, 5000);
+    // setSubmitting(false);
+  };
+  const submitPressed = async () => {
+    if (violationType == null) {
+      setIsTypeEmptyError(true);
+      return;
+    }
+    if (
+      violationType != "profileImageContainsNudity" &&
+      content.current == ""
+    ) {
+      console.log("content empy error true");
+      setIsContentEmptyError(true);
+      return;
+    }
   };
   return (
     <View style={safeAreaStyle()}>
@@ -129,6 +147,10 @@ const ReportUserScreen = ({ route }) => {
           <TextInput
             className="flex-1"
             style={{
+              borderColor: isContentEmptyError
+                ? appStyle.color_error
+                : appStyle.color_primary,
+              borderWidth: 1.5,
               textAlignVertical: "top",
               backgroundColor: appStyle.color_primary,
               borderRadius: 8,
@@ -150,13 +172,15 @@ const ReportUserScreen = ({ route }) => {
               : appStyle.color_bg_variant,
           }}
           className="rounded py-2"
-          onPress={reportUser}
+          onPress={submitPressed}
         >
           <Text
             className="text-center text-lg  font-semibold tracking-widest"
             style={{ color: appStyle.color_bg }}
           >
-            {languageService[user.language].submit}
+            {submitting
+              ? languageService[user.language].submitting
+              : languageService[user.language].submit}
           </Text>
         </TouchableOpacity>
       </View>
