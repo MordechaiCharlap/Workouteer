@@ -101,7 +101,6 @@ const ReportUserScreen = ({ route }) => {
       violationType != "profileImageContainsNudity" &&
       content.current == ""
     ) {
-      console.log("content empy error true");
       setIsContentEmptyError(true);
       return;
     }
@@ -137,6 +136,11 @@ const ReportUserScreen = ({ route }) => {
             }}
             onBlur={() => setIsViolationsFocused(false)}
             onChange={(item) => {
+              if (
+                isContentEmptyError &&
+                item.value == "profileImageContainsNudity"
+              )
+                setIsContentEmptyError(false);
               setViolationType(item.value);
               if (item != null) setIsTypeEmptyError(false);
               setIsViolationsFocused(false);
@@ -162,14 +166,16 @@ const ReportUserScreen = ({ route }) => {
             multiline
             placeholder={languageService[user.language].details}
             placeholderTextColor={appStyle.color_lighter}
-            onChangeText={(text) => (content.current = text)}
+            onChangeText={(text) => {
+              content.current = text;
+              if (text != "" && isContentEmptyError)
+                setIsContentEmptyError(false);
+            }}
           ></TextInput>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: violationType
-              ? appStyle.color_primary
-              : appStyle.color_bg_variant,
+            backgroundColor: appStyle.color_primary,
           }}
           className="rounded py-2"
           onPress={submitPressed}
