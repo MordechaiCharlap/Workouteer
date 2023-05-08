@@ -103,7 +103,7 @@ export const NotificationsProvider = ({ children }) => {
       acceptedUser,
       "Workouteer",
       `${user.displayName} ${
-        languageService[shownUser.language].acceptedYourFriendRequest[
+        languageService[acceptedUser.language].acceptedYourFriendRequest[
           user.isMale ? 1 : 0
         ]
       }`
@@ -114,7 +114,7 @@ export const NotificationsProvider = ({ children }) => {
       askedUser,
       "Workouteer",
       `${user.displayName} ${
-        languageService[shownUser.language].wantsToBeYourFriend[
+        languageService[askedUser.language].wantsToBeYourFriend[
           user.isMale ? 1 : 0
         ]
       }`
