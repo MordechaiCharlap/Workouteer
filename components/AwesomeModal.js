@@ -42,7 +42,9 @@ const AwesomeModal = (props) => {
           : languageService[user.language].continue[user.isMale ? 1 : 0]
       }
       confirmButtonColor="#DD6B55"
-      showCancelButton={props.showCancelButton ? props.showCancelButton : true}
+      showCancelButton={
+        props.showCancelButton != null ? props.showCancelButton : true
+      }
       cancelText={
         props.cancelText
           ? props.cancelText
