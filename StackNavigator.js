@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Platform, StatusBar } from "react-native";
 import * as appStyle from "./utilities/appStyleSheet";
 import BottomNavbar from "./components/BottomNavbar";
@@ -46,6 +46,7 @@ import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import useAppData from "./hooks/useAppData";
 import ReportUserScreen from "./screens/ReportUserScreen";
+import * as SplashScreen from "expo-splash-screen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, initialLoading } = useAuth();
@@ -113,6 +114,12 @@ const StackNavigator = () => {
   useEffect(() => {
     if (workoutInvitesAlerts != null) setAlertsChanged(true);
   }, [workoutInvitesAlerts]);
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      await SplashScreen.hideAsync();
+    };
+    if (!initialLoading) hideSplashScreen();
+  }, [initialLoading]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
     <View style={safeAreaStyle()}>
