@@ -18,10 +18,6 @@ const LandscapeOrientationScreen = () => {
       className="flex-1 justify-center items-center"
       style={{ backgroundColor: appStyle.color_bg }}
     >
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Text
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}

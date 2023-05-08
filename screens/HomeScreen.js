@@ -63,10 +63,6 @@ const HomeScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View style={menuContainerStyle} className="self-center">
         <View style={rowStyle}>
           <HomeScreenButton

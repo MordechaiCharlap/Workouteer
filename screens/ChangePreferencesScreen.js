@@ -15,10 +15,6 @@ const ChangePreferencesScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="flex-1 justify-center">
         <Text className="text-4xl text-white font-bold text-center">
           {languageService[user.language].comingSoon}

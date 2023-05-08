@@ -91,10 +91,6 @@ const LoginScreen = () => {
   }, [authErrorCode]);
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       {initialLoading ? (
         <LoadingAnimation />
       ) : (

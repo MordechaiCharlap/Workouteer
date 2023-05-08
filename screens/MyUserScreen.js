@@ -61,10 +61,6 @@ const MyUserScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}

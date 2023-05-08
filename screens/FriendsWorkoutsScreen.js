@@ -21,10 +21,6 @@ const FriendsWorkoutsScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header
         title={languageService[user.language].friendsWorkouts}
         goBackOption={true}

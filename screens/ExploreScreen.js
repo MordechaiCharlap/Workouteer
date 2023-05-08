@@ -26,10 +26,6 @@ const ExploreScreen = () => {
 
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="flex-1 justify-center items-center">
         <Text className="text-3xl font-semibold">
           {languageService[user.language].comingSoon}

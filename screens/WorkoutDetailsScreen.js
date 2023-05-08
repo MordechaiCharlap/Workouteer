@@ -77,10 +77,6 @@ const WorkoutDetailsScreen = ({ route }) => {
   const showDirections = () => {};
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header
         title={languageService[user.language].details}
         goBackOption={true}

@@ -19,10 +19,6 @@ const WindowTooSmallScreen = () => {
       className="flex-1 justify-center items-center p-10"
       style={{ backgroundColor: appStyle.color_bg }}
     >
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Text
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}

@@ -97,10 +97,6 @@ const ReportUserScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header title={languageService[user.language].report} />
       <View className="flex-1 p-3 gap-y-2">
         <View>

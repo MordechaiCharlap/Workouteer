@@ -70,10 +70,6 @@ const SettingsScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       {user.isDeleted ? (
         <UserDeleted id={user.id} language={language} />
       ) : (

@@ -15,10 +15,6 @@ const PrivacyPolicyScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <ScrollView className="px-3 gap-y-3">
         <Text
           style={{ color: appStyle.color_primary }}

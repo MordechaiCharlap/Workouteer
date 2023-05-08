@@ -17,10 +17,6 @@ const UpdateAppScreen = () => {
   );
   return (
     <View className="justify-center" style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View
         className="rounded-lg p-2 self-center w-11/12"
         style={{ backgroundColor: appStyle.color_primary }}

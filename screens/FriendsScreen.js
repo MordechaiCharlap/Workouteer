@@ -76,10 +76,6 @@ const FriendsScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="flex-1 px-2">
         <View
           className="flex-row items-center mt-4 mb-4"

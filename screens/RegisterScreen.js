@@ -124,10 +124,6 @@ const RegisterScreen = () => {
 
   return (
     <View style={safeAreaStyle()} className="justify-center">
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       {loginLoading ? (
         <LoadingAnimation />
       ) : (

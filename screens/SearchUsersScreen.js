@@ -26,10 +26,6 @@ const SearchUsersScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="px-2">
         <SearchUsers language={user.language} />
       </View>

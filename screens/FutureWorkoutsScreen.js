@@ -71,10 +71,6 @@ const FutureWorkoutsScreen = () => {
   }, [workouts]);
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header
         title={languageService[user.language].futureWorkouts}
         goBackOption={true}

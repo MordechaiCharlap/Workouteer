@@ -60,10 +60,6 @@ const WorkoutRequestsScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header title={"Requests"} goBackOption={true} />
       <View
         style={{ backgroundColor: appStyle.color_bg }}

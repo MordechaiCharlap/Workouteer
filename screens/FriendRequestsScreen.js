@@ -65,10 +65,6 @@ const FriendRequestsScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header title={"Friend Requests"} goBackOption={true} />
       <View className="flex-1 px-2">
         {user.friendRequestsCount > 0 ? (

@@ -129,10 +129,6 @@ const ChatScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View
         className="flex-row items-center"
         style={{

@@ -14,10 +14,6 @@ const TermsOfServiceScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Text>TermsOfServiceScreen</Text>
     </View>
   );

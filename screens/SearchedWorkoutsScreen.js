@@ -17,10 +17,6 @@ const SearchedWorkoutsScreen = ({ route }) => {
   const workouts = route.params.workouts;
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header title="Results" goBackOption={true} />
       <FlatList
         className="px-2"

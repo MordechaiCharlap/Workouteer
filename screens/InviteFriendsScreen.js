@@ -118,10 +118,6 @@ const InviteFriendsScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Header title={"Invite Friends"} goBackOption={true} />
       <View
         className="rounded-xl p-3 mx-2"

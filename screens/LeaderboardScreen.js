@@ -53,10 +53,6 @@ const LeaderboardScreen = () => {
   }, []);
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="flex-1">
         <Header
           title={

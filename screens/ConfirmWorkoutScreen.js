@@ -164,10 +164,6 @@ const ConfirmWorkoutScreen = () => {
   }, []);
   return confirmed == true || workout == null ? (
     <View style={safeAreaStyle()} className="justify-center">
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View className="items-center gap-y-7">
         <Text
           className="rounded p-2 font-semibold text-xl text-center"
@@ -202,10 +198,6 @@ const ConfirmWorkoutScreen = () => {
       className="items-center px-3 justify-center gap-y-3"
       style={safeAreaStyle()}
     >
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <Text
         className="rounded py-2 px-4 font-semibold text-xl"
         style={{

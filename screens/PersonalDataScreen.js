@@ -59,10 +59,6 @@ const PersonalDataScreen = () => {
   };
   return (
     <View className="justify-center" style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       <View
         className={`mx-6 rounded-xl p-4`}
         style={{ backgroundColor: appStyle.color_primary, shadowColor: "#000" }}

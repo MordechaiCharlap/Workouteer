@@ -186,10 +186,6 @@ const UserScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
       {!shownUser.isDeleted ? (
         <View className="flex-1">
           <ScrollView

@@ -11,14 +11,7 @@ const NotificationsScreen = () => {
       setCurrentScreen("Notifications");
     }, [])
   );
-  return (
-    <View>
-      <StatusBar
-        backgroundColor={appStyle.statusBarStyle.backgroundColor}
-        barStyle={appStyle.statusBarStyle.barStyle}
-      />
-    </View>
-  );
+  return <View></View>;
 };
 
 export default NotificationsScreen;
