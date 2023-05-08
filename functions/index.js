@@ -3,12 +3,15 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 
 const db = admin.firestore();
+const bucket = admin.storage().bucket();
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
     const userId = snap.id;
     console.log(`Deleting data for ${userId}`);
-
+    //delete user's picture
+    const file = bucket.file(`profile-pics/${userId}.jpg`);
+    await file.delete();
     const user = (await db.doc(`users/${userId}`).get()).data();
     const uid = user.uid;
     if (uid) {
