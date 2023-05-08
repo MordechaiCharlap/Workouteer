@@ -69,6 +69,7 @@ export const AuthPrvider = ({ children }) => {
         setUserAsync();
       } else {
         console.log("state Changed, user signed out");
+        setInitialLoading(false);
         if (unsubscribeUser.current) {
           unsubscribeUser.current();
           console.log("Stops listening to user");
