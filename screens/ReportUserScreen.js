@@ -11,7 +11,7 @@ import { db } from "../services/firebase";
 import { Dropdown } from "react-native-element-dropdown";
 import { TextInput } from "react-native";
 import { useRef } from "react";
-
+import AwesomeModal from "../components/AwesomeModal";
 const ReportUserScreen = ({ route }) => {
   const db = db;
   const navigation = useNavigation();
@@ -22,6 +22,8 @@ const ReportUserScreen = ({ route }) => {
   const [violationType, setViolationType] = useState();
   const content = useRef("");
   const [submitting, setSubmitting] = useState(false);
+  const [isTypeEmptyError, setIsTypeEmptyError] = useState(false);
+  const [showSubmittedModal, setShowSubmittedModal] = useState(false);
   useFocusEffect(
     useCallback(() => {
       setViolationType();
@@ -41,6 +43,11 @@ const ReportUserScreen = ({ route }) => {
       value: "other",
     },
   ];
+  const reportUser = async () => {
+    setSubmitting(true);
+    setShowSubmittedModal(true);
+    setSubmitting(false);
+  };
   return (
     <View style={safeAreaStyle()}>
       <StatusBar
@@ -48,73 +55,79 @@ const ReportUserScreen = ({ route }) => {
         barStyle={appStyle.statusBarStyle.barStyle}
       />
       <Header title={languageService[user.language].report} />
-      {isPageReady ? (
-        <View className="flex-1 p-3 gap-y-2">
-          <View>
-            <Dropdown
-              style={[
-                style.dropdown,
-                isViolationsFocused && { borderColor: appStyle.color_primary },
-              ]}
-              placeholder={languageService[user.language].violationType}
-              placeholderStyle={style.placeholderStyle}
-              selectedTextStyle={style.selectedTextStyle}
-              inputSearchStyle={style.inputSearchStyle}
-              iconStyle={style.iconStyle}
-              data={violationsTypes}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              value={violationType}
-              onFocus={() => setIsViolationsFocused(true)}
-              onBlur={() => setIsViolationsFocused(false)}
-              onChange={(item) => {
-                setViolationType(item.value);
-                setIsViolationsFocused(false);
-              }}
-            />
-          </View>
-          <View className="flex-1">
-            <TextInput
-              className="flex-1"
-              style={{
-                textAlignVertical: "top",
-                backgroundColor: appStyle.color_primary,
-                borderRadius: 8,
-                padding: 8,
-                color: appStyle.color_on_primary,
-                fontSize: 16,
-              }}
-              autoCorrect={false}
-              multiline
-              placeholder={languageService[user.language].details}
-              placeholderTextColor={appStyle.color_lighter}
-              onChangeText={(text) => (content.current = text)}
-            ></TextInput>
-          </View>
-          <TouchableOpacity
-            style={{
-              backgroundColor: violationType
-                ? appStyle.color_primary
-                : appStyle.color_bg_variant,
+      <View className="flex-1 p-3 gap-y-2">
+        <View>
+          <Dropdown
+            style={[
+              style.dropdown,
+              isViolationsFocused
+                ? { borderColor: appStyle.color_primary }
+                : isTypeEmptyError && { borderColor: appStyle.color_error },
+            ]}
+            placeholder={languageService[user.language].violationType}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={violationsTypes}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={violationType}
+            onFocus={() => setIsViolationsFocused(true)}
+            onBlur={() => setIsViolationsFocused(false)}
+            onChange={(item) => {
+              setViolationType(item.value);
+              if (item != null) setIsTypeEmptyError(false);
+              setIsViolationsFocused(false);
             }}
-            className="rounded py-2"
+          />
+        </View>
+        <View className="flex-1">
+          <TextInput
+            className="flex-1"
+            style={{
+              textAlignVertical: "top",
+              backgroundColor: appStyle.color_primary,
+              borderRadius: 8,
+              padding: 8,
+              color: appStyle.color_on_primary,
+              fontSize: 16,
+            }}
+            autoCorrect={false}
+            multiline
+            placeholder={languageService[user.language].details}
+            placeholderTextColor={appStyle.color_lighter}
+            onChangeText={(text) => (content.current = text)}
+          ></TextInput>
+        </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: violationType
+              ? appStyle.color_primary
+              : appStyle.color_bg_variant,
+          }}
+          className="rounded py-2"
+          onPress={async () =>
+            violationType ? await reportUser() : setIsTypeEmptyError(true)
+          }
+        >
+          <Text
+            className="text-center text-lg  font-semibold tracking-widest"
+            style={{ color: appStyle.color_bg }}
           >
-            <Text
-              className="text-center text-lg  font-semibold tracking-widest"
-              style={{ color: appStyle.color_bg }}
-            >
-              {languageService[user.language].submit}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-3xl">
-            {languageService[user.language].comingSoon}
+            {languageService[user.language].submit}
           </Text>
-        </View>
-      )}
+        </TouchableOpacity>
+      </View>
+      <AwesomeModal
+        onDismiss={() => navigation.goBack()}
+        showCancelButton={false}
+        showModal={showSubmittedModal}
+        setShowModal={setShowSubmittedModal}
+        title={languageService[user.language].reportSubmittedTitle}
+        message={languageService[user.language].reportSubmittedTitle}
+      />
     </View>
   );
 };
@@ -124,8 +137,7 @@ const style = StyleSheet.create({
   dropdown: {
     backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: appStyle.color_primary,
-    borderWidth: 0.5,
+    borderWidth: 1.5,
     borderRadius: 8,
     paddingHorizontal: 8,
   },

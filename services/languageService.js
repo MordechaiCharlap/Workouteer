@@ -244,6 +244,14 @@ const languageService = {
       "By reporting inappropriate behavior, you're helping us keep our app a safe and enjoyable place.",
     ],
     continue: ["Continue", "Continue"],
+    report: "Report",
+    profileImageContainsNudity: "Profile image contains nudity",
+    harassment: "Harassment",
+    other: "Other",
+    violationType: "Violation type",
+    reportSubmittedTitle: "Report submitted successfully!",
+    reportSubmittedMEssage:
+      "Thank you for reporting this user. Your contribution helps us create a positive environment for all",
   },
   hebrew: {
     login: "התחבר",
@@ -468,6 +476,14 @@ const languageService = {
       "באמצעות דיווח על התנהגות לא הולמת, אתה עוזר לנו לשמור על האפליקציה שלנו כמקום בטוח ונעים לשימוש.",
     ],
     continue: ["המשיכי", "המשך"],
+    report: "דיווח",
+    profileImageContainsNudity: "תמונת הפרופיל מכילה עירום",
+    harassment: "הטרדה",
+    other: "אחר",
+    violationType: "סוג הפרה",
+    reportSubmittedTitle: "הדיווח נשלח בהצלחה",
+    reportSubmittedMEssage:
+      "תודה שדיווחת על המשתמש. התרומה שלך עוזרת לנו ליצור סביבה חיובית לכל המשתמשים :)",
   },
 };
 export default languageService;

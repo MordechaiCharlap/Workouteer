@@ -20,9 +20,13 @@ const AwesomeModal = (props) => {
       showProgress={props.showProgress ? props.showProgress : false}
       title={props.title ? props.title : ""}
       message={props.message ? props.message : ""}
-      onDismiss={() => {
-        props.setShowModal(false);
-      }}
+      onDismiss={
+        props.onDismiss
+          ? props.onDismiss
+          : () => {
+              props.setShowModal(false);
+            }
+      }
       closeOnTouchOutside={
         props.closeOnTouchOutside ? props.closeOnTouchOutside : true
       }
@@ -36,7 +40,7 @@ const AwesomeModal = (props) => {
           : languageService[user.language].continue[user.isMale ? 1 : 0]
       }
       confirmButtonColor="#DD6B55"
-      showCancelButton={props.showCancelButton ? props.showProgress : true}
+      showCancelButton={props.showCancelButton ? props.showCancelButton : true}
       cancelText={
         props.cancelText
           ? props.cancelText
@@ -45,10 +49,14 @@ const AwesomeModal = (props) => {
       onCancelPressed={() => {
         props.setShowModal(false);
       }}
-      onConfirmPressed={() => {
-        props.setShowModal(false);
-        props.onConfirmPressed();
-      }}
+      onConfirmPressed={
+        props.onConfirm
+          ? () => {
+              props.setShowModal(false);
+              props.onConfirm();
+            }
+          : props.setShowModal(false)
+      }
     />
   );
 };
