@@ -148,7 +148,9 @@ export const AuthPrvider = ({ children }) => {
   }, [googleUserInfo]);
   useEffect(() => {
     if (user) {
-      setInitialLoading(false);
+      setTimeout(() => {
+        setInitialLoading(false);
+      }, 1000);
     }
   }, [user]);
   useEffect(() => {
