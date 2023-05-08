@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import { safeAreaStyle } from "../components/safeAreaStyle";
@@ -7,17 +7,18 @@ import { StatusBar } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
-import { db } from "../services/firebase";
+import { db, storage } from "../services/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
 import { Dropdown } from "react-native-element-dropdown";
 import { TextInput } from "react-native";
 import { useRef } from "react";
 import AwesomeModal from "../components/AwesomeModal";
+import { addDoc, collection, doc } from "firebase/firestore";
+import * as defaultValues from "../services/defaultValues";
 const ReportUserScreen = ({ route }) => {
-  const db = db;
   const navigation = useNavigation();
   const { reported } = route.params;
   const { user } = useAuth();
-  const isPageReady = true;
   const [isViolationsFocused, setIsViolationsFocused] = useState(false);
   const [violationType, setViolationType] = useState();
   const content = useRef("");
@@ -43,9 +44,48 @@ const ReportUserScreen = ({ route }) => {
       value: "other",
     },
   ];
+  const copyProfileImage = async (userId, reportId) => {
+    const bucket = storage;
+    const sourceRef = ref(bucket, `profile-pics/${userId}.jpg`);
+    console.log(sourceRef);
+    const destinationRef = ref(bucket, `reports/${reportId}.jpg`);
+
+    const downloadUrl = await getDownloadURL(sourceRef);
+    console.log(downloadUrl);
+    const response = await fetch(downloadUrl);
+    const blob = await response.blob();
+
+    await destinationRef.put(blob);
+    console.log("Copied the profile picture!");
+  };
+  const createReport = async () => {
+    const newReport = {
+      reported: {
+        id: reported.id,
+        description: reported.description,
+      },
+      reporter: {
+        id: user.id,
+        description: user.description,
+      },
+      violationType: violationType,
+      content: content.current,
+    };
+    console.log(newReport);
+    const newReportId = await addDoc(collection(db, `reports`), newReport);
+    return newReportId;
+  };
   const reportUser = async () => {
+    if (
+      violationType == "profileImageContainsNudity" &&
+      reported.img == defaultValues.defaultProfilePic
+    )
+      return;
     setSubmitting(true);
     setShowSubmittedModal(true);
+    const reportId = await createReport();
+    if (violationType == "profileImageContainsNudity")
+      await copyProfileImage(reported.id, reportId);
     setSubmitting(false);
   };
   return (
@@ -74,7 +114,9 @@ const ReportUserScreen = ({ route }) => {
             labelField="label"
             valueField="value"
             value={violationType}
-            onFocus={() => setIsViolationsFocused(true)}
+            onFocus={() => {
+              setIsViolationsFocused(true);
+            }}
             onBlur={() => setIsViolationsFocused(false)}
             onChange={(item) => {
               setViolationType(item.value);
@@ -108,9 +150,7 @@ const ReportUserScreen = ({ route }) => {
               : appStyle.color_bg_variant,
           }}
           className="rounded py-2"
-          onPress={async () =>
-            violationType ? await reportUser() : setIsTypeEmptyError(true)
-          }
+          onPress={reportUser}
         >
           <Text
             className="text-center text-lg  font-semibold tracking-widest"
@@ -120,14 +160,16 @@ const ReportUserScreen = ({ route }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <AwesomeModal
-        onDismiss={() => navigation.goBack()}
-        showCancelButton={false}
-        showModal={showSubmittedModal}
-        setShowModal={setShowSubmittedModal}
-        title={languageService[user.language].reportSubmittedTitle}
-        message={languageService[user.language].reportSubmittedTitle}
-      />
+      {showSubmittedModal && (
+        <AwesomeModal
+          onDismiss={() => navigation.goBack()}
+          showCancelButton={false}
+          showModal={showSubmittedModal}
+          setShowModal={setShowSubmittedModal}
+          title={languageService[user.language].reportSubmittedTitle}
+          message={languageService[user.language].reportSubmittedTitle}
+        />
+      )}
     </View>
   );
 };
