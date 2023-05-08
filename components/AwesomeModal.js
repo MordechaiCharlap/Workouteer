@@ -22,7 +22,9 @@ const AwesomeModal = (props) => {
       message={props.message ? props.message : ""}
       onDismiss={
         props.onDismiss
-          ? props.onDismiss
+          ? () => {
+              props.onDismiss();
+            }
           : () => {
               props.setShowModal(false);
             }
@@ -52,10 +54,11 @@ const AwesomeModal = (props) => {
       onConfirmPressed={
         props.onConfirm
           ? () => {
-              props.setShowModal(false);
               props.onConfirm();
             }
-          : props.setShowModal(false)
+          : () => {
+              props.setShowModal(false);
+            }
       }
     />
   );
