@@ -43,7 +43,6 @@ export const AuthPrvider = ({ children }) => {
     console.log("auth observer");
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        setInitialLoading(true);
         console.log("state Changed, user logged in: " + authUser.email);
         const getData = async () => {
           const userData = await userDataByEmail(authUser.email.toLowerCase());
@@ -148,8 +147,13 @@ export const AuthPrvider = ({ children }) => {
     }
   }, [googleUserInfo]);
   useEffect(() => {
-    setInitialLoading(false);
+    if (user) {
+      setInitialLoading(false);
+    }
   }, [user]);
+  useEffect(() => {
+    console.log(initialLoading);
+  }, [initialLoading]);
   const signInGoogleAccount = async () => {
     console.log("promptAsyncing!");
     await promptAsync({ useProxy: false, showInRecents: true });
