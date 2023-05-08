@@ -64,7 +64,6 @@ const ReportUserScreen = ({ route }) => {
       violationType: violationType,
       content: content.current,
     };
-    console.log(newReport);
     const newReportRef = await addDoc(collection(db, `reports`), newReport);
     return newReportRef.id;
   };
@@ -189,7 +188,7 @@ const ReportUserScreen = ({ route }) => {
           showModal={showSubmittedModal}
           setShowModal={setShowSubmittedModal}
           title={languageService[user.language].reportSubmittedTitle}
-          message={languageService[user.language].reportSubmittedTitle}
+          message={languageService[user.language].reportSubmittedMessage}
         />
       )}
     </View>
