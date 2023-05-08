@@ -91,152 +91,148 @@ const LoginScreen = () => {
   }, [authErrorCode]);
   return (
     <View style={safeAreaStyle()}>
-      {initialLoading ? (
-        <LoadingAnimation />
-      ) : (
-        <View className="flex-1 justify-center">
-          <View className="mx-6">
-            <View
-              className={`mb-3 rounded-t-xl p-3 justify-between`}
-              style={{
-                backgroundColor: appStyle.color_primary,
-                shadowColor: "#000",
-              }}
-            >
-              <View className="my-3 items-center">
-                <FontAwesomeIcon
-                  icon={faCircleUser}
-                  color={appStyle.color_on_primary}
-                  size={50}
-                />
-                <Text
-                  style={{ color: appStyle.color_on_primary }}
-                  className="text-2xl my-4"
-                >
-                  {"Welcome :)"}
-                </Text>
-                <Text style={{ color: appStyle.color_on_primary }}>
-                  Sign in and find a partner for your next workout TODAY!
-                </Text>
-              </View>
-              <KeyboardAvoidingView
-                behavior={Platform.OS == "android" ? null : "padding"}
-                enabled={true}
+      <View className="flex-1 justify-center">
+        <View className="mx-6">
+          <View
+            className={`mb-3 rounded-t-xl p-3 justify-between`}
+            style={{
+              backgroundColor: appStyle.color_primary,
+              shadowColor: "#000",
+            }}
+          >
+            <View className="my-3 items-center">
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                color={appStyle.color_on_primary}
+                size={50}
+              />
+              <Text
+                style={{ color: appStyle.color_on_primary }}
+                className="text-2xl my-4"
               >
-                <ScrollView scrollEnabled={false}>
-                  <TextInput
-                    className="rounded mb-5 px-3 py-1 focus:"
-                    style={style.input}
-                    placeholder="Email"
-                    placeholderTextColor={"#5f6b8b"}
-                    onChangeText={(text) => setEmail(text)}
-                  ></TextInput>
-                  <View className="mb-5">
-                    <TextInput
-                      className="rounded px-3 py-1"
-                      secureTextEntry={!showPassword}
-                      style={style.input}
-                      placeholder="Password"
-                      placeholderTextColor={"#5f6b8b"}
-                      onChangeText={(text) => setPassword(text)}
-                    ></TextInput>
-                    {password != "" && (
-                      <View className="absolute right-3 top-0 bottom-0 justify-center">
-                        <TouchableOpacity
-                          onPress={() => {
-                            setShowPassword(!showPassword);
-                          }}
-                        >
-                          {showPassword ? (
-                            <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              size={25}
-                              color={appStyle.color_primary}
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              icon={faEye}
-                              size={25}
-                              color={appStyle.color_primary}
-                            />
-                          )}
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </View>
-                  <View className="flex-row items-center mb-5">
-                    <CheckBox
-                      valueColor={appStyle.color_primary}
-                      backgroundColor={appStyle.color_bg}
-                      value={false}
-                      onValueChange={(value) => setRememberMe(value)}
-                    />
-                    <Text
-                      className="ml-2"
-                      style={{ color: appStyle.color_on_primary }}
-                    >
-                      Remember me!
-                    </Text>
-                  </View>
-                  <Text
-                    className="text-center my-2 text-lg h-8"
-                    style={{ color: appStyle.color_error }}
-                  >
-                    {errorText}
-                  </Text>
-                </ScrollView>
-              </KeyboardAvoidingView>
-              <TouchableOpacity
-                onPress={loginEmailPassword}
-                className={`self-center py-2 px-8 w-full mb-3`}
-                style={{
-                  backgroundColor: appStyle.color_bg,
-                }}
-              >
-                <Text
-                  className="text-center tracking-widest font-bold text-xl"
-                  style={{
-                    color: appStyle.color_primary,
-                  }}
-                >
-                  {loginLoading == true ? "Loading" : "Login"}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => signInGoogleAccount()}
-                className={`self-center py-2 w-full items-center`}
-                style={{
-                  backgroundColor: appStyle.color_on_primary,
-                }}
-              >
-                <Text
-                  className="tracking-widest font-bold text-xl"
-                  style={{
-                    color: appStyle.color_primary,
-                  }}
-                >
-                  Continue with Google
-                </Text>
-              </TouchableOpacity>
+                {"Welcome :)"}
+              </Text>
+              <Text style={{ color: appStyle.color_on_primary }}>
+                Sign in and find a partner for your next workout TODAY!
+              </Text>
             </View>
+            <KeyboardAvoidingView
+              behavior={Platform.OS == "android" ? null : "padding"}
+              enabled={true}
+            >
+              <ScrollView scrollEnabled={false}>
+                <TextInput
+                  className="rounded mb-5 px-3 py-1 focus:"
+                  style={style.input}
+                  placeholder="Email"
+                  placeholderTextColor={"#5f6b8b"}
+                  onChangeText={(text) => setEmail(text)}
+                ></TextInput>
+                <View className="mb-5">
+                  <TextInput
+                    className="rounded px-3 py-1"
+                    secureTextEntry={!showPassword}
+                    style={style.input}
+                    placeholder="Password"
+                    placeholderTextColor={"#5f6b8b"}
+                    onChangeText={(text) => setPassword(text)}
+                  ></TextInput>
+                  {password != "" && (
+                    <View className="absolute right-3 top-0 bottom-0 justify-center">
+                      <TouchableOpacity
+                        onPress={() => {
+                          setShowPassword(!showPassword);
+                        }}
+                      >
+                        {showPassword ? (
+                          <FontAwesomeIcon
+                            icon={faEyeSlash}
+                            size={25}
+                            color={appStyle.color_primary}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            size={25}
+                            color={appStyle.color_primary}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+                <View className="flex-row items-center mb-5">
+                  <CheckBox
+                    valueColor={appStyle.color_primary}
+                    backgroundColor={appStyle.color_bg}
+                    value={false}
+                    onValueChange={(value) => setRememberMe(value)}
+                  />
+                  <Text
+                    className="ml-2"
+                    style={{ color: appStyle.color_on_primary }}
+                  >
+                    Remember me!
+                  </Text>
+                </View>
+                <Text
+                  className="text-center my-2 text-lg h-8"
+                  style={{ color: appStyle.color_error }}
+                >
+                  {errorText}
+                </Text>
+              </ScrollView>
+            </KeyboardAvoidingView>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Register")}
-              className={`flex-1 rounded-b-xl justify-center p-3`}
+              onPress={loginEmailPassword}
+              className={`self-center py-2 px-8 w-full mb-3`}
               style={{
-                backgroundColor: appStyle.color_primary,
-                shadowColor: appStyle.color_bg,
+                backgroundColor: appStyle.color_bg,
               }}
             >
               <Text
-                className="text-center font-bold text-xl tracking-widest"
-                style={{ color: appStyle.color_on_primary }}
+                className="text-center tracking-widest font-bold text-xl"
+                style={{
+                  color: appStyle.color_primary,
+                }}
               >
-                Register
+                {loginLoading == true ? "Loading" : "Login"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => signInGoogleAccount()}
+              className={`self-center py-2 w-full items-center`}
+              style={{
+                backgroundColor: appStyle.color_on_primary,
+              }}
+            >
+              <Text
+                className="tracking-widest font-bold text-xl"
+                style={{
+                  color: appStyle.color_primary,
+                }}
+              >
+                Continue with Google
               </Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Register")}
+            className={`flex-1 rounded-b-xl justify-center p-3`}
+            style={{
+              backgroundColor: appStyle.color_primary,
+              shadowColor: appStyle.color_bg,
+            }}
+          >
+            <Text
+              className="text-center font-bold text-xl tracking-widest"
+              style={{ color: appStyle.color_on_primary }}
+            >
+              Register
+            </Text>
+          </TouchableOpacity>
         </View>
-      )}
+      </View>
     </View>
   );
 };
