@@ -13,7 +13,6 @@ export const NotificationsProvider = ({ children }) => {
   const { user } = useAuth();
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
-      console.log("registering for notifications");
       registerForPushNotifications().then((token) => setPushToken(token));
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
@@ -24,15 +23,11 @@ export const NotificationsProvider = ({ children }) => {
       });
       // This listener is fired whenever a notification is received while the app is foregrounded
       notificationListener.current =
-        Notifications.addNotificationReceivedListener((notification) => {
-          console.log("notification: ", notification);
-        });
+        Notifications.addNotificationReceivedListener((notification) => {});
 
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log("response: ", response);
-        });
+        Notifications.addNotificationResponseReceivedListener((response) => {});
 
       return () => {
         if (responseListener) {
@@ -61,12 +56,9 @@ export const NotificationsProvider = ({ children }) => {
         try {
           const { status } = await Notifications.requestPermissionsAsync();
           finalStatus = status;
-        } catch (error) {
-          console.log("The status now: still not granted, error: ", error);
-        }
+        } catch (error) {}
       }
       if (finalStatus !== "granted") {
-        console.log("Notification permission not granted");
         return;
       }
       const token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -217,7 +209,6 @@ export const NotificationsProvider = ({ children }) => {
           },
           body: JSON.stringify(pushNotification),
         });
-        console.log("pushNotification: ", pushNotification);
       }
     }
   };
@@ -257,7 +248,6 @@ export const NotificationsProvider = ({ children }) => {
         },
         body: JSON.stringify(pushNotification),
       });
-      console.log("pushNotification: ", pushNotification);
     }
   };
   const sendPushNotificationCreatorAcceptedYourRequest = async (otherUser) => {

@@ -16,6 +16,9 @@ import { LeaderboardUpdatesProvider } from "./hooks/useLeaderboardUpdates";
 import { ConfirmedWorkoutsProvider } from "./hooks/useConfirmedWorkouts";
 import { AppDataProvider } from "./hooks/useAppData";
 import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import { Timestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { db } from "./services/firebase";
 SplashScreen.preventAutoHideAsync();
 WebBrowser.maybeCompleteAuthSession();
 if (Platform.OS != "web") {
@@ -25,6 +28,15 @@ if (Platform.OS != "web") {
 initGeocoder();
 
 export default function App() {
+  useEffect(() => {
+    const trackWebsiteView = async () => {
+      await updateDoc(doc(db, "appData/website"), {
+        views: arrayUnion(Timestamp.now()),
+      });
+    };
+    if (Platform.OS == "web") trackWebsiteView();
+  }, []);
+
   return (
     <NavigationContainer>
       <AppDataProvider>

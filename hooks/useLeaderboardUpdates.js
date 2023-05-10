@@ -24,7 +24,6 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
         setUserLoggedIn(true);
         const getNewLeaderboard = async () => {
           await firebase.getNewLeaderboard(user, 0);
-          console.log("getting new leaderboard");
         };
         if (firebase.getLastWeekId() != user.leaderboard.weekId) {
           getNewLeaderboard();

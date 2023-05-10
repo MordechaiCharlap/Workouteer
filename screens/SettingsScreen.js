@@ -33,7 +33,6 @@ const SettingsScreen = () => {
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
   const navigation = useNavigation();
   const signOut = async () => {
-    console.log("Signing out");
     await updateDoc(doc(db, "users", user.id), {
       pushToken: null,
     });

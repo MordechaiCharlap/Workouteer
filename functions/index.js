@@ -8,7 +8,6 @@ exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
     const userId = snap.id;
-    console.log(`Deleting data for ${userId}`);
     //delete user's picture
     const file = bucket.file(`profile-pics/${userId}.jpg`);
     await file.delete();
@@ -17,9 +16,7 @@ exports.deleteUserData = functions.firestore
     if (uid) {
       try {
         await admin.auth().deleteUser(uid);
-        console.log("Successfully deleted user");
       } catch (error) {
-        console.log("Error deleting user:", error);
       }
     }
     const batch = db.batch();

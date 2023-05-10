@@ -55,7 +55,6 @@ export const uploadProfileImage = async (userId, uri) => {
   const blob = await fetch(uri).then((r) => r.blob());
   const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
   await uploadBytes(storageRef, blob).then((snapshot) => {
-    console.log("Uploaded a blob or file!");
   });
 
   return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
@@ -289,7 +288,6 @@ export const addChatConnection = async (userId, otherUserId, chatId) => {
   });
 };
 const getSeenByMapGroupChat = (senderId, chat) => {
-  console.log(chat);
   var seenByMap = new Map();
   for (var key of Object.keys(chat.members)) {
     if (key != senderId) seenByMap.set(key, false);
@@ -795,7 +793,6 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     }
   }
   if (changed) {
-    console.log(`Removed ${changed} old invites and request! enjoy your time`);
     await updateDoc(doc(db, "alerts", userId), {
       workoutRequests: requestAlerts,
       newWorkouts: newWorkoutsAlertsClone,

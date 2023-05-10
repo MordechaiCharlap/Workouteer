@@ -33,11 +33,9 @@ export const WebResponsivenessProvider = ({ children }) => {
       if (isWebOnMobileDevice) {
         orientationHandler();
         Dimensions.addEventListener("change", orientationHandler);
-        console.log("started listening to orientation");
       } else {
         resizeHandler();
         window.addEventListener("resize", resizeHandler);
-        console.log("started listening to resize");
       }
 
       return () => {
