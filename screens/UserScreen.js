@@ -332,6 +332,7 @@ const UserScreen = ({ route }) => {
         </View>
       )}
       <AwesomeModal
+        closeOnTouchOutside={false}
         showModal={showReportModal}
         setShowModal={setShowReportModal}
         title={
