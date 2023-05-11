@@ -104,7 +104,7 @@ const MyUserScreen = () => {
                   className="items-center flex-row rounded-2xl p-3 gap-x-3"
                   style={{ backgroundColor: appStyle.color_primary }}
                   onPress={() =>
-                    navigation.navigate("PastWorkouts", { user: user })
+                    navigation.navigate("PastWorkouts", { shownUser: user })
                   }
                 >
                   <Text
