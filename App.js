@@ -29,12 +29,18 @@ initGeocoder();
 
 export default function App() {
   useEffect(() => {
-    const trackWebsiteView = async () => {
-      await updateDoc(doc(db, "appData/website"), {
-        views: arrayUnion(Timestamp.now()),
-      });
-    };
-    if (Platform.OS == "web") trackWebsiteView();
+    fetch("https://api.ipify.org?format=json")
+      .then((response) => response.json())
+      .then((data) => {
+        const trackWebsiteView = async () => {
+          await updateDoc(doc(db, "appData/website"), {
+            views: arrayUnion(Timestamp.now()),
+          });
+        };
+        if (Platform.OS == "web" && data.ip != "77.137.70.233")
+          trackWebsiteView();
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
