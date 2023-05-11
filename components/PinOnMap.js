@@ -26,32 +26,40 @@ const PinOnMap = (props) => {
   };
   return (
     <View className="items-center">
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        showsUserLocation={true}
-        onPress={(e) => pressed(e)}
-        initialRegion={{
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+      <View
+        className="items-center justify-center p-2 rounded-lg w-full aspect-square"
+        style={{
+          backgroundColor: appStyle.color_primary,
         }}
       >
-        <Marker coordinate={coords} />
-      </MapView>
+        <MapView
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
+          onPress={(e) => pressed(e)}
+          initialRegion={{
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker coordinate={coords} />
+        </MapView>
+      </View>
+
       <TouchableOpacity
-        className="absolute bottom-4 rounded p-2"
+        className="absolute bottom-4 px-3 py-2"
         style={{
-          backgroundColor: appStyle.color_bg,
-          borderColor: appStyle.color_primary,
-          borderWidth: 1,
+          backgroundColor: appStyle.color_primary,
+          borderColor: appStyle.color_bg,
+          borderWidth: 2,
         }}
         onPress={() => saveLocation()}
       >
         <Text
-          className="text-1xl font-semibold"
-          style={{ color: appStyle.color_primary }}
+          className="text-xl font-semibold"
+          style={{ color: appStyle.color_on_primary }}
         >
           {languageService[props.language].saveLocation}
         </Text>
@@ -61,8 +69,8 @@ const PinOnMap = (props) => {
 };
 const styles = StyleSheet.create({
   map: {
-    height: 400,
-    width: 400,
+    width: "100%",
+    height: "100%",
   },
 });
 export default PinOnMap;
