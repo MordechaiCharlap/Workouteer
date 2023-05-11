@@ -232,7 +232,7 @@ const UserScreen = ({ route }) => {
                     style={{ backgroundColor: appStyle.color_primary }}
                     onPress={() =>
                       navigation.navigate("PastWorkouts", {
-                        user: shownUser,
+                        shownUser: shownUser,
                       })
                     }
                   >
