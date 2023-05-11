@@ -248,7 +248,7 @@ const UserScreen = ({ route }) => {
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="items-center flex-row rounded-2xl p-3 gap-3"
+                    className="items-center flex-row rounded-2xl p-3 gap-x-3"
                     style={{ backgroundColor: appStyle.color_primary }}
                     onPress={() =>
                       navigation.navigate("Friends", {
