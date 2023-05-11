@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, Platform } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Platform,
+  StyleSheet,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
@@ -161,23 +168,15 @@ const WorkoutComponent = (props) => {
     switch (userMemberStatus) {
       case "invited":
         return (
-          <View
-            className={`mt-1 flex-row${
-              user.language == "hebrew" ? "-reverse" : ""
-            }`}
-          >
+          <View className={`mt-0.5 gap-x-0.5 flex-row`}>
             <TouchableOpacity
               onPress={acceptWorkoutInvite}
-              className="mx-1 h-8 rounded flex-1 justify-center"
-              style={{
-                backgroundColor: appStyle.color_bg_variant,
-              }}
+              className="h-8 flex-1 justify-center rounded-bl-lg"
+              style={style.actionButton}
             >
               <Text
                 className="text-center font-semibold"
-                style={{
-                  color: appStyle.color_on_primary,
-                }}
+                style={style.actionButtonText}
               >
                 {buttonLoading == "acceptLoading"
                   ? languageService[user.language].loading
@@ -188,18 +187,12 @@ const WorkoutComponent = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={rejectWorkoutInvite}
-              className="mx-1 h-8 rounded flex-1 justify-center"
-              style={{
-                backgroundColor: appStyle.color_bg,
-                borderColor: appStyle.color_primary,
-                borderWidth: 1,
-              }}
+              className="h-8 flex-1 justify-center rounded-br-lg"
+              style={style.actionButton}
             >
               <Text
                 className="text-center font-semibold"
-                style={{
-                  color: appStyle.color_primary,
-                }}
+                style={style.actionButtonText}
               >
                 {buttonLoading == "rejectLoading"
                   ? languageService[user.language].loading
@@ -214,19 +207,12 @@ const WorkoutComponent = (props) => {
         return (
           <TouchableOpacity
             onPress={cancelWorkout}
-            className="mx-1 h-8 rounded flex-1 justify-center"
-            style={{
-              backgroundColor: appStyle.color_bg,
-              borderColor: appStyle.color_primary,
-              borderWidth: 1,
-            }}
+            className={`h-8 flex-1 justify-center ${
+              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+            }`}
+            style={style.actionButton}
           >
-            <Text
-              className="text-center"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
+            <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].cancelWorkout}
@@ -237,19 +223,12 @@ const WorkoutComponent = (props) => {
         return (
           <TouchableOpacity
             onPress={leaveWorkout}
-            className="mx-1 h-8 rounded flex-1 justify-center"
-            style={{
-              backgroundColor: appStyle.color_bg,
-              borderColor: appStyle.color_primary,
-              borderWidth: 1,
-            }}
+            className={`h-8 flex-1 justify-center ${
+              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+            }`}
+            style={style.actionButton}
           >
-            <Text
-              className="text-center"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
+            <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].leave[user.isMale ? 1 : 0]}
@@ -260,19 +239,12 @@ const WorkoutComponent = (props) => {
         return (
           <TouchableOpacity
             onPress={cancelWorkoutRequest}
-            className="mx-1 h-8 rounded flex-1 justify-center"
-            style={{
-              backgroundColor: appStyle.color_bg,
-              borderColor: appStyle.color_primary,
-              borderWidth: 1,
-            }}
+            className={`h-8 flex-1 justify-center ${
+              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+            }`}
+            style={style.actionButton}
           >
-            <Text
-              className="text-center"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
+            <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].cancelWorkoutRequest}
@@ -283,19 +255,12 @@ const WorkoutComponent = (props) => {
         return (
           <TouchableOpacity
             onPress={requestToJoinWorkout}
-            className="mx-1 h-8 rounded flex-1 justify-center"
-            style={{
-              backgroundColor: appStyle.color_bg,
-              borderColor: appStyle.color_primary,
-              borderWidth: 1,
-            }}
+            className={`h-8 flex-1 justify-center ${
+              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+            }`}
+            style={style.actionButton}
           >
-            <Text
-              className="text-center"
-              style={{
-                color: appStyle.color_primary,
-              }}
-            >
+            <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].requestToJoin[
@@ -308,28 +273,16 @@ const WorkoutComponent = (props) => {
   };
   if (workout != null)
     return (
-      <View
-        className="rounded mb-5"
-        style={{
-          backgroundColor: appStyle.color_bg,
-          borderWidth: 2,
-          borderColor: appStyle.color_primary,
-        }}
-      >
+      <View className="mb-5" style={style.container}>
         <View
-          className={`items-center justify-between px-2 flex-row${
+          className={`items-center justify-between mb-0.5 py-1 px-2 flex-row${
             user.language == "hebrew" ? "-reverse" : ""
           }`}
-          style={{
-            borderBottomColor: appStyle.color_primary,
-            borderBottomWidth: 2,
-          }}
+          style={style.topSection}
         >
           <Text
-            className={Platform.OS != "web" ? "text-xl" : "rounded-t"}
-            style={{
-              color: appStyle.color_primary,
-            }}
+            className={Platform.OS != "web" ? "text-xl" : ""}
+            style={style.creatorText}
           >
             {isCreator
               ? languageService[user.language].yourWorkout
@@ -338,10 +291,8 @@ const WorkoutComponent = (props) => {
               : workout.creator + "`s" + " workout"}
           </Text>
           <Text
-            className={Platform.OS != "web" ? "text-xl" : "rounded-t"}
-            style={{
-              color: appStyle.color_primary,
-            }}
+            className={Platform.OS != "web" ? "text-xl" : ""}
+            style={style.dateText}
           >
             {timeString(workout.startingTime.toDate(), user.language)}
           </Text>
@@ -351,21 +302,9 @@ const WorkoutComponent = (props) => {
           className={`h-28 flex-row${
             user.language == "hebrew" ? "-reverse" : ""
           }`}
+          style={style.middleSection}
         >
-          <View
-            className="p-1 justify-around flex-1"
-            style={
-              user.language == "hebrew"
-                ? {
-                    borderLeftColor: appStyle.color_primary,
-                    borderLeftWidth: 2,
-                  }
-                : {
-                    borderRightColor: appStyle.color_primary,
-                    borderRightWidth: 2,
-                  }
-            }
-          >
+          <View className="justify-around flex-1">
             <View
               className={`items-center my-1 gap-x-1 flex-row${
                 user.language == "hebrew" ? "-reverse" : ""
@@ -373,15 +312,10 @@ const WorkoutComponent = (props) => {
             >
               <FontAwesomeIcon
                 icon={faLocationDot}
-                size={30}
-                color={appStyle.color_primary}
+                size={style.detailsIcons.size}
+                color={style.detailsIcons.color}
               />
-              <Text
-                className="text-md"
-                style={{
-                  color: appStyle.color_primary,
-                }}
-              >
+              <Text className="text-md" style={style.basicDetailsText}>
                 {distance
                   ? languageService[user.language].lessThan +
                     distance +
@@ -397,15 +331,10 @@ const WorkoutComponent = (props) => {
             >
               <FontAwesomeIcon
                 icon={faStopwatch}
-                size={30}
-                color={appStyle.color_primary}
+                size={style.detailsIcons.size}
+                color={style.detailsIcons.color}
               />
-              <Text
-                className="text-md"
-                style={{
-                  color: appStyle.color_primary,
-                }}
-              >
+              <Text className="text-md" style={style.basicDetailsText}>
                 {workout.minutes} {languageService[user.language].minutes}
               </Text>
             </View>
@@ -416,30 +345,34 @@ const WorkoutComponent = (props) => {
             >
               <FontAwesomeIcon
                 icon={faUserGroup}
-                size={30}
-                color={appStyle.color_primary}
+                size={style.detailsIcons.size}
+                color={style.detailsIcons.color}
               />
-              <Text>{Object.keys(workout.members).length}</Text>
+              <Text style={style.basicDetailsText}>
+                {Object.keys(workout.members).length}
+              </Text>
             </View>
           </View>
           <View className="justify-center items-center aspect-square">
             <FontAwesomeIcon
               icon={workoutTypes[workout.type].icon}
               size={45}
-              color={appStyle.color_primary}
+              color={style.workoutIcon.color}
             />
           </View>
         </View>
         <View
-          className="flex-1 py-1"
+          className={`flex-1 py-0.5 ${
+            userMemberStatus == "invited" ? "" : "gap-x-0.5"
+          }`}
           style={{
-            borderTopColor: appStyle.color_primary,
-            borderTopWidth: 2,
             flexDirection: userMemberStatus == "invited" ? "column" : "row",
           }}
         >
           <TouchableOpacity
-            className="mx-1 h-8 flex-1 rounded justify-center flex-row items-center"
+            className={`h-8 flex-1 justify-center flex-row items-center ${
+              userMemberStatus == "invited" ? "" : "rounded-bl-lg"
+            }`}
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: workout,
@@ -448,15 +381,9 @@ const WorkoutComponent = (props) => {
                 userMemberStatus: userMemberStatus,
               })
             }
-            style={{
-              backgroundColor: appStyle.color_primary,
-            }}
+            style={style.actionButton}
           >
-            <Text
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
+            <Text style={style.actionButtonText}>
               {languageService[user.language].details}
             </Text>
             {!isPastWorkout &&
@@ -477,5 +404,48 @@ const WorkoutComponent = (props) => {
       </View>
     );
 };
-
+const topSectionFontSize = 16;
+const style = StyleSheet.create({
+  topSection: {
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    backgroundColor: appStyle.color_primary,
+  },
+  middleSection: {
+    paddingHorizontal: 7,
+    backgroundColor: appStyle.color_primary,
+  },
+  BottomSection: {
+    backgroundColor: appStyle.color_primary,
+  },
+  workoutIcon: { color: appStyle.color_on_primary },
+  dividers: {
+    width: 2,
+    color: appStyle.color_bg,
+  },
+  creatorText: {
+    color: appStyle.color_on_primary,
+    fontSize: topSectionFontSize,
+  },
+  dateText: { color: appStyle.color_on_primary, fontSize: topSectionFontSize },
+  basicDetailsText: {
+    color: appStyle.color_on_primary,
+  },
+  detailsIcons: {
+    size: 20,
+    color: appStyle.color_on_primary,
+  },
+  detailsButton: {
+    backgroundColor: appStyle.color_bg,
+  },
+  detailsButtonText: {
+    color: appStyle.color_primary,
+  },
+  actionButton: {
+    backgroundColor: appStyle.color_primary,
+  },
+  actionButtonText: {
+    color: appStyle.color_on_primary,
+  },
+});
 export default WorkoutComponent;
