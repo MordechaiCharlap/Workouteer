@@ -35,19 +35,6 @@ const FriendRequestsScreen = () => {
       setArray();
     }, [])
   );
-  useEffect(() => {
-    navigation.addListener("beforeRemove", (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-
-      // Send data back to the previous screen
-      navigation.navigate("FriendsScreen", {
-        user: user,
-        isMyUser: true,
-        friendsAdded: true,
-      });
-    });
-  }, [navigation]);
   const acceptFriendRequest = async (otherUser, index) => {
     setFriendsAdded(true);
     removeRequestFromArray(index);
