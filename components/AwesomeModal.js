@@ -47,7 +47,9 @@ const AwesomeModal = (props) => {
           ? props.closeOnHardwareBackPress
           : true
       }
-      showConfirmButton={props.showConfirmButton ? showConfirmButton : true}
+      showConfirmButton={
+        props.showConfirmButton != null ? props.showConfirmButton : true
+      }
       confirmText={
         props.confirmText
           ? props.confirmText
