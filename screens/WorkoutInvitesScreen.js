@@ -11,19 +11,27 @@ import useAlerts from "../hooks/useAlerts";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import * as geoService from "../services/geoService";
 
 const WorkoutInvitesScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
   const [workouts, setWorkouts] = useState();
-  const [initialLoading, setInitialLoading] = useState(true);
   const { workoutInvitesAlerts } = useAlerts();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState();
+
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutInvites");
     }, [])
   );
   useEffect(() => {
+    const getCurrentLocation = async () => {
+      const location = await geoService.getCurrentLocation();
+      console.log(location.latitude);
+      setCurrentLocation(location);
+    };
     const getWorkoutsByInvites = async () => {
       const workoutsArr = await firebase.getWorkoutsByInvites(
         workoutInvitesAlerts
@@ -31,6 +39,7 @@ const WorkoutInvitesScreen = () => {
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
+    // getCurrentLocation();
     getWorkoutsByInvites();
   }, []);
   return (
@@ -50,6 +59,7 @@ const WorkoutInvitesScreen = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <WorkoutComponent
+                location={currentLocation}
                 userMemberStatus={"invited"}
                 workout={item}
                 isPastWorkout={false}
