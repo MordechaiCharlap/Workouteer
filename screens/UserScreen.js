@@ -292,9 +292,9 @@ const UserScreen = ({ route }) => {
           </ScrollView>
           <View
             style={{ backgroundColor: appStyle.color_bg_variant }}
-            className="flex-row justify-center px-4 pb-2 gap-4"
+            className="flex-row justify-center px-4 py-2"
           >
-            {renderFriendshipButton()}
+            <View className="mr-4">{renderFriendshipButton()}</View>
             {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
               <TouchableOpacity
                 className="flex-row items-center justify-center"
