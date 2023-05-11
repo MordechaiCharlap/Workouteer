@@ -135,7 +135,9 @@ const NewWorkoutScreen = () => {
         creator: user.id,
         members: {
           [user.id]: {
-            notificationId: scheduledNotificationId,
+            notificationId: scheduledNotificationId
+              ? scheduledNotificationId
+              : null,
             confirmedWorkout: false,
           },
         },
