@@ -29,8 +29,8 @@ const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
-  const shownUser = route.params.user;
-  const isMyUser = route.params.isMyUser;
+  var shownUser = route.params.user ? route.params.user : user;
+  const isMyUser = shownUser.id == user.id;
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
@@ -41,8 +41,13 @@ const FriendsScreen = ({ route }) => {
   );
   useEffect(() => {
     const showFriends = async () => {
+      if (!isMyUser) {
+        return;
+      }
       const friendsArr = [];
-      for (var key of Object.keys(shownUser.friends)) {
+      for (var key of Object.keys(
+        isMyUser ? user.friends : shownUser.friends
+      )) {
         var userData = await firebase.userDataById(key);
         friendsArr.push(userData);
       }
@@ -50,8 +55,7 @@ const FriendsScreen = ({ route }) => {
       setShownFriendsArray(friendsArr);
     };
     showFriends();
-  }, [route.params.friendsAdded]);
-
+  }, [user.friends]);
   useEffect(() => {
     if (searchText != "") {
       const searchTextLower = searchText.toLocaleLowerCase();
