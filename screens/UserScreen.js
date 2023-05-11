@@ -192,7 +192,7 @@ const UserScreen = ({ route }) => {
             showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
           >
             <View className="p-4 gap-y-4">
-              <View className="flex-row justify-between">
+              <View className="flex-row justify-between items-center">
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <FontAwesomeIcon
                     icon={faChevronLeft}
@@ -201,7 +201,7 @@ const UserScreen = ({ route }) => {
                   />
                 </TouchableOpacity>
                 <Text
-                  className=" text-center text-3xl tracking-widest"
+                  className="text-3xl tracking-widest"
                   style={{ color: appStyle.color_primary }}
                 >
                   {shownUser.id}
@@ -226,9 +226,9 @@ const UserScreen = ({ route }) => {
                   }}
                 />
 
-                <View className="absolute right-0 gap-3">
+                <View className="absolute right-0 gap-y-3">
                   <TouchableOpacity
-                    className="items-center flex-row rounded-2xl p-3 gap-3"
+                    className="items-center flex-row rounded-2xl p-3 gap-x-3"
                     style={{ backgroundColor: appStyle.color_primary }}
                     onPress={() =>
                       navigation.navigate("PastWorkouts", {
@@ -280,14 +280,19 @@ const UserScreen = ({ route }) => {
                 <UserStats shownUser={shownUser} />
               </View>
 
-              <Text
-                style={{ color: appStyle.color_primary }}
-                className="text-lg"
+              <View
+                className="rounded-xl p-4"
+                style={{ backgroundColor: appStyle.color_primary }}
               >
-                {shownUser.description == ""
-                  ? languageService[user.language].noDescriptionYet
-                  : shownUser.description}
-              </Text>
+                <Text
+                  style={{ color: appStyle.color_on_primary }}
+                  className="text-lg"
+                >
+                  {shownUser.description == ""
+                    ? languageService[user.language].noDescriptionYet
+                    : user.description}
+                </Text>
+              </View>
             </View>
           </ScrollView>
           <View
