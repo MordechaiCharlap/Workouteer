@@ -27,7 +27,6 @@ import { deleteField, doc, updateDoc } from "firebase/firestore";
 import languageService from "../services/languageService";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
-
   const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
   const {
@@ -45,7 +44,7 @@ const WorkoutComponent = (props) => {
   const isPastWorkout = props.isPastWorkout;
   const isCreator = props.workout.creator == user.id;
   useEffect(() => {
-    if (!isPastWorkout && workout) {
+    if (!props.userMemberStatus && !isPastWorkout && workout) {
       if (isCreator) {
         setUserMemberStatus("creator");
       } else if (workout.members[user.id] != null) {
@@ -63,6 +62,7 @@ const WorkoutComponent = (props) => {
         setUserMemberStatus("not");
       }
     }
+    if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
     if (props.location) {
       const distance = getDistance(props.location, workout.location);
       setDistance(Math.ceil(distance / 1000));
@@ -269,6 +269,8 @@ const WorkoutComponent = (props) => {
             </Text>
           </TouchableOpacity>
         );
+      default:
+        return <></>;
     }
   };
   if (workout != null)
