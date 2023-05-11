@@ -25,7 +25,6 @@ const FriendsWorkoutsScreen = () => {
   useEffect(() => {
     const getCurrentLocation = async () => {
       const location = await geoService.getCurrentLocation();
-      console.log(location);
       setCurrentLocation(location);
     };
     getCurrentLocation();

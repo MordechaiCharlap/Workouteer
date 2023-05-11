@@ -29,7 +29,6 @@ const WorkoutInvitesScreen = () => {
   useEffect(() => {
     const getCurrentLocation = async () => {
       const location = await geoService.getCurrentLocation();
-      console.log(location.latitude);
       setCurrentLocation(location);
     };
     const getWorkoutsByInvites = async () => {
