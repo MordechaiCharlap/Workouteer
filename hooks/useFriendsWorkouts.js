@@ -3,10 +3,10 @@ import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 const FriendsWorkoutsContext = createContext({});
 export const FriendsWorkoutsProvider = ({ children }) => {
-  const [friendsWorkouts, setFriendsWorkouts] = useState();
+  const [friendsWorkouts, setFriendsWorkouts] = useState([]);
   const { user } = useAuth();
   useEffect(() => {
-    if (user != null && friendsWorkouts == null) {
+    if (user != null) {
       const initialGetAllFriendsWorkout = async () => {
         const friendsWorkoutsArray = await firebase.getFriendsFutureWorkouts(
           user
