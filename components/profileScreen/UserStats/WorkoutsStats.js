@@ -38,7 +38,10 @@ const WorkoutsStats = (props) => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    if (props.shownUser.workoutsCount != 0)
+    if (
+      props.shownUser.workoutsCount != 0 &&
+      confirmedWorkoutsArray.length != 0
+    )
       for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
         const workout = confirmedWorkoutsArray[i];
         if (workout.startingTime.toDate() < weekAgo) break;
