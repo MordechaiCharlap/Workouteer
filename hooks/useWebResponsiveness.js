@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { Dimensions } from "react-native";
-import { isWebOnMobileDevice, isWebOnPC } from "../services/webScreenService";
+import { isWebOnMobileDevice } from "../services/webScreenService";
 const WebDeviceResponsivenessContext = createContext({});
 const isPortrait = () => {
   return window.innerWidth <= Dimensions.get("window").height;
@@ -12,37 +12,37 @@ export const WebResponsivenessProvider = ({ children }) => {
   const [windowHeight, setWindowHeight] = useState();
   const [orientation, setOrientation] = useState();
   const [windowTooSmall, setWindowTooSmall] = useState(false);
+  const resizeHandler = () => {
+    setTimeout(() => {
+      console.log("Resize handled");
+      setWindowHeight(Dimensions.get("window").height);
+      setWindowWidth(window.innerWidth);
+      if (Dimensions.get("window").height <= 572 || window.innerWidth <= 271) {
+        setWindowTooSmall(true);
+      } else {
+        setWindowTooSmall(false);
+      }
+    }, 100);
+  };
   useEffect(() => {
     if (Platform.OS == "web") {
       const orientationHandler = () => {
         setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
       };
 
-      const resizeHandler = () => {
-        setWindowHeight(Dimensions.get("window").height);
-        setWindowWidth(window.innerWidth);
-        if (
-          Dimensions.get("window").height <= 572 ||
-          window.innerWidth <= 271
-        ) {
-          setWindowTooSmall(true);
-        } else {
-          setWindowTooSmall(false);
-        }
-      };
       if (isWebOnMobileDevice) {
         orientationHandler();
         Dimensions.addEventListener("change", orientationHandler);
+        return () => {
+          Dimensions.removeEventListener("change", orientationHandler);
+        };
       } else {
         resizeHandler();
         window.addEventListener("resize", resizeHandler);
+        return () => {
+          window.removeEventListener("resize", resizeHandler);
+        };
       }
-
-      return () => {
-        isWebOnMobileDevice
-          ? Dimensions.removeEventListener("change", orientationHandler)
-          : window.removeEventListener("resize", resizeHandler);
-      };
     } else {
     }
   }, []);
