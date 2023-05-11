@@ -21,11 +21,13 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 import useWebResponsiveness from "../hooks/useWebResponsiveness";
 import useAppData from "../hooks/useAppData";
+import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 const HomeScreen = () => {
   const { appData } = useAppData();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
+  const { friendsWorkouts } = useFriendsWorkouts();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const { currentWorkout } = useCurrentWorkout();
@@ -102,6 +104,8 @@ const HomeScreen = () => {
         </View>
         <View style={rowStyle}>
           <HomeScreenButton
+            alert={friendsWorkouts.length > 0}
+            alertNumber={friendsWorkouts.length}
             buttonText={languageService[user.language].friendsWorkoutsHomeBtn}
             style={buttonStyle}
             navigateScreen="FriendsWorkouts"
