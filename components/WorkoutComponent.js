@@ -168,7 +168,7 @@ const WorkoutComponent = (props) => {
     switch (userMemberStatus) {
       case "invited":
         return (
-          <View className={`mt-0.5 gap-x-0.5 flex-row`}>
+          <View className={`gap-x-0.5 flex-row`}>
             <TouchableOpacity
               onPress={acceptWorkoutInvite}
               className="h-8 flex-1 justify-center rounded-bl-lg"
@@ -275,9 +275,9 @@ const WorkoutComponent = (props) => {
   };
   if (workout != null)
     return (
-      <View className="mb-5" style={style.container}>
+      <View style={style.container}>
         <View
-          className={`items-center justify-between mb-0.5 py-1 px-2 flex-row${
+          className={`items-center justify-between py-1 px-2 flex-row${
             user.language == "hebrew" ? "-reverse" : ""
           }`}
           style={style.topSection}
@@ -364,11 +364,10 @@ const WorkoutComponent = (props) => {
           </View>
         </View>
         <View
-          className={`flex-1 py-0.5 ${
-            userMemberStatus == "invited" ? "" : "gap-x-0.5"
-          }`}
+          className="flex-1"
           style={{
             flexDirection: userMemberStatus == "invited" ? "column" : "row",
+            columnGap: userMemberStatus == "invited" ? 0 : 3,
           }}
         >
           <TouchableOpacity
@@ -401,13 +400,19 @@ const WorkoutComponent = (props) => {
                 </View>
               )}
           </TouchableOpacity>
-          {!isPastWorkout && getWorkoutActionButtons()}
+          {!isPastWorkout &&
+            userMemberStatus != "invited" &&
+            getWorkoutActionButtons()}
         </View>
+        {!isPastWorkout && userMemberStatus == "invited" && (
+          <View>{getWorkoutActionButtons()}</View>
+        )}
       </View>
     );
 };
 const topSectionFontSize = 16;
 const style = StyleSheet.create({
+  container: { marginBottom: 15, rowGap: 3 },
   topSection: {
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
