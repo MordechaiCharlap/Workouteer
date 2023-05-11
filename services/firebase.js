@@ -54,8 +54,7 @@ export const getUserDataById = async (userId) => {
 export const uploadProfileImage = async (userId, uri) => {
   const blob = await fetch(uri).then((r) => r.blob());
   const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
-  await uploadBytes(storageRef, blob).then((snapshot) => {
-  });
+  await uploadBytes(storageRef, blob).then((snapshot) => {});
 
   return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
 };
@@ -893,4 +892,20 @@ export const getNewLeaderboard = async (user, pointsNumber) => {
     ["leaderboard.id"]: leaderboardId,
     ["leaderboard.weekId"]: lastWeekId,
   });
+};
+export const deletePushTokenForUserWhoIsNotMe = async (userId, pushToken) => {
+  const q = query(
+    collection(db, "users"),
+    where("pushToken", "==", pushToken),
+    where("id", "!=", userId)
+  );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.size > 0) {
+    for (var docRef of querySnapshot) {
+      const data = docRef.data();
+      await updateDoc(doc(db, `users/${data.id}`), {
+        pushToken: null,
+      });
+    }
+  }
 };
