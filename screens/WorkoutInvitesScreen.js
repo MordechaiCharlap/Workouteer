@@ -50,6 +50,7 @@ const WorkoutInvitesScreen = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <WorkoutComponent
+                userMemberStatus={"invited"}
                 workout={item}
                 isPastWorkout={false}
                 screen={"WorkoutInvites"}
