@@ -40,10 +40,12 @@ const AwesomeModal = (props) => {
             }
       }
       closeOnTouchOutside={
-        props.closeOnTouchOutside ? props.closeOnTouchOutside : true
+        props.closeOnTouchOutside != null ? props.closeOnTouchOutside : true
       }
       closeOnHardwareBackPress={
-        props.closeOnHardwareBackPress ? props.closeOnHardwareBackPress : true
+        props.closeOnHardwareBackPress != null
+          ? props.closeOnHardwareBackPress
+          : true
       }
       showConfirmButton={props.showConfirmButton ? showConfirmButton : true}
       confirmText={
