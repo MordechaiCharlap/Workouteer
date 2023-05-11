@@ -221,7 +221,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         </View>
                       </View>
                     ) : (
-                      <View>
+                      <View className="mt-5">
                         <Text
                           style={{
                             color: appStyle.color_on_primary,
