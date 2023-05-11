@@ -1,13 +1,23 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import languageService from "../services/languageService";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
+import { isWebOnPC } from "../services/webScreenService";
+import useWebResponsiveness from "../hooks/useWebResponsiveness";
 const AwesomeModal = (props) => {
   const { user } = useAuth();
+  var fixedWidth;
+  if (isWebOnPC) {
+    const { windowHeight } = useWebResponsiveness();
+    fixedWidth =
+      (9 / 19) *
+      (windowHeight ? windowHeight : Dimensions.get("window").height);
+  }
   return (
     <AwesomeAlert
+      overlayStyle={fixedWidth ? { width: fixedWidth } : {}}
       contentContainerStyle={{
         backgroundColor: appStyle.color_bg,
       }}
