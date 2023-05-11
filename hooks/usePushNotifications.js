@@ -11,6 +11,7 @@ export const NotificationsProvider = ({ children }) => {
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user } = useAuth();
+  const isWeb = Platform.OS == "web";
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
       registerForPushNotifications().then((token) => setPushToken(token));
@@ -63,6 +64,7 @@ export const NotificationsProvider = ({ children }) => {
       }
       const token = (await Notifications.getExpoPushTokenAsync()).data;
       if (token && token != user.token) {
+        await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
         const updatedUser = { ...user, pushToken: token };
         await firebase.updateUser(updatedUser);
       }
@@ -181,37 +183,7 @@ export const NotificationsProvider = ({ children }) => {
       `${sender.displayName}: ${content}`
     );
   };
-  const sendPushNotificationsForWorkoutMembers = async (
-    workout,
-    title,
-    body,
-    data,
-    excludeUserId
-  ) => {
-    const membersArray = await firebase.getWorkoutMembers(workout);
-    for (var user of membersArray) {
-      if (user.id == excludeUserId) continue;
 
-      if (user.pushToken) {
-        const pushNotification = {
-          to: user.pushToken,
-          sound: "default",
-          title: title,
-          body: body,
-          data: data ? data : {},
-        };
-        await fetch("https://exp.host/--/api/v2/push/send", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Accept-encoding": "gzip, deflate",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(pushNotification),
-        });
-      }
-    }
-  };
   const schedulePushNotification = async (trigger, title, body, data) => {
     const pushNotification = {
       sound: "default",
@@ -231,6 +203,7 @@ export const NotificationsProvider = ({ children }) => {
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
   const sendPushNotification = async (userToSend, title, body, data) => {
+    if (isWeb) return;
     if (userToSend.pushToken) {
       const pushNotification = {
         to: userToSend.pushToken,
@@ -303,7 +276,6 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotificationUserAcceptedYourFriendRequest,
         sendPushNotificationUserWantsToJoinYourWorkout,
         sendPushNotificationCreatorAcceptedYourRequest,
-        sendPushNotificationsForWorkoutMembers,
         sendPushNotificationUserLeftWorkout,
         sendPushNotificationForFriendsAboutWorkout,
         sendPushNotificationCreatorLeftWorkout,
