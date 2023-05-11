@@ -10,11 +10,16 @@ import * as appStyle from "../utilities/appStyleSheet";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
-const PastWorkoutScreen = ({ route }) => {
+import useAuth from "../hooks/useAuth";
+const PastWorkoutsScreen = ({ route }) => {
+  const { user } = useAuth();
+  const shownUser = route.params.shownUser ? route.params.shownUser : user;
   const { setCurrentScreen } = useNavbarDisplay();
-  const { confirmedWorkouts } = useConfirmedWorkouts();
-  const user = route.params.user;
-  const now = new Date();
+  const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
+    useConfirmedWorkouts();
+  const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
+    shownUser.id == shownUser.id ? confirmedWorkouts : []
+  );
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   useFocusEffect(
@@ -23,13 +28,27 @@ const PastWorkoutScreen = ({ route }) => {
     }, [])
   );
   useEffect(() => {
+    if (user.id == shownUser.id) return;
+    console.log("Another user workouts");
+    const getShownUserConfirmedWorkouts = async () => {
+      const shownUserWorkouts = await getConfirmedWorkoutsByUserId(
+        shownUser.id
+      );
+      console.log(shownUserWorkouts);
+      setConfirmedWorkoutsArray(shownUserWorkouts);
+    };
+    getShownUserConfirmedWorkouts();
+  }, []);
+  useEffect(() => {
     const getWorkouts = async () => {
-      const workoutsArr = await firebase.getPastWorkouts(confirmedWorkouts);
+      const workoutsArr = await firebase.getPastWorkouts(
+        confirmedWorkoutsArray
+      );
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
     getWorkouts();
-  }, []);
+  }, [confirmedWorkoutsArray]);
   return (
     <View style={safeAreaStyle()}>
       <Header
@@ -55,4 +74,4 @@ const PastWorkoutScreen = ({ route }) => {
   );
 };
 
-export default PastWorkoutScreen;
+export default PastWorkoutsScreen;
