@@ -327,7 +327,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                       style={{ color: appStyle.color_primary }}
                       className="mr-5"
                     >
-                      {languageService[user.language].creator}
+                      {
+                        languageService[user.language].creator[
+                          user.isMale ? 1 : 0
+                        ]
+                      }
                     </Text>
                   )}
                 </TouchableOpacity>
