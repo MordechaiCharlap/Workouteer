@@ -70,7 +70,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             buttonText={languageService[user.language].findWorkoutHomeBtn}
             style={buttonStyle}
-            navigateScreen="FindWorkout"
+            navigateScreen="SearchWorkouts"
             icon={faMagnifyingGlass}
           />
           <HomeScreenButton
@@ -122,11 +122,13 @@ const HomeScreen = () => {
         </View>
       </View>
       {currentWorkout != null && (
-        <View style={{ width: "85%" }} className="justify-center">
-          <ConfirmCurrentWorkoutButton
-            currentWorkout={currentWorkout}
-            user={user}
-          />
+        <View className="justify-center items-center flex-1">
+          <View style={{ width: "85%" }}>
+            <ConfirmCurrentWorkoutButton
+              currentWorkout={currentWorkout}
+              user={user}
+            />
+          </View>
         </View>
       )}
       {appData.isBetaVersion && (
