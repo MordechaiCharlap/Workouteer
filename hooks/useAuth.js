@@ -19,6 +19,7 @@ import {
 } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { useNavigation } from "@react-navigation/native";
+import { getCurrentLocation } from "../services/geoService";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
@@ -29,6 +30,7 @@ export const AuthPrvider = ({ children }) => {
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [userLoaded, setUserLoaded] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const unsubscribeUser = useRef();
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -130,12 +132,21 @@ export const AuthPrvider = ({ children }) => {
     }
   }, [googleUserInfo]);
   useEffect(() => {
-    if (user) {
+    if (user && !userLoaded) {
+      setUserLoaded(true);
       setTimeout(() => {
         setInitialLoading(false);
       }, 1000);
-    }
+    } else if (!user) setUserLoaded(false);
   }, [user]);
+  useEffect(() => {
+    if (!userLoaded) return;
+
+    const getLocation = async () => {
+      return await getCurrentLocation(user);
+    };
+    getLocation();
+  }, [userLoaded]);
   const signInGoogleAccount = async () => {
     await promptAsync({ useProxy: false, showInRecents: true });
   };
@@ -212,6 +223,7 @@ export const AuthPrvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        userLoaded,
         user,
         setUser,
         setRememberMe,
