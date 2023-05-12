@@ -29,9 +29,6 @@ const FriendsWorkoutsScreen = () => {
     };
     getCurrentLocation();
   }, []);
-  useEffect(() => {
-    console.log(currentLocation);
-  }, [currentLocation]);
   return (
     <View style={safeAreaStyle()}>
       <Header
