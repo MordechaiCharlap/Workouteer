@@ -19,15 +19,16 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { Timestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "./services/firebase";
-SplashScreen.preventAutoHideAsync();
-WebBrowser.maybeCompleteAuthSession();
-if (Platform.OS != "web") {
-  const { enableLatestRenderer } = require("react-native-maps");
-  enableLatestRenderer();
-}
-initGeocoder();
 
 export default function App() {
+  SplashScreen.preventAutoHideAsync();
+  WebBrowser.maybeCompleteAuthSession();
+  if (Platform.OS != "web") {
+    const { enableLatestRenderer } = require("react-native-maps");
+    enableLatestRenderer();
+  }
+  initGeocoder();
+
   useEffect(() => {
     fetch("https://api.ipify.org?format=json")
       .then((response) => response.json())
