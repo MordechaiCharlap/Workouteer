@@ -83,7 +83,7 @@ const FindWorkoutScreen = () => {
     }
   }, [type, minStartingTime, maxStartingTime, city, country]);
   const getCurrentLocation = async () => {
-    const currentLocation = await geoService.getCurrentLocation();
+    const currentLocation = await geoService.getCurrentLocation(user);
     setCurrentLocation(currentLocation);
   };
   const minDateChanged = (date) => {
