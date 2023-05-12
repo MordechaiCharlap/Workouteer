@@ -372,7 +372,11 @@ const WorkoutComponent = (props) => {
         >
           <TouchableOpacity
             className={`h-8 flex-1 justify-center flex-row items-center ${
-              userMemberStatus == "invited" ? "" : "rounded-bl-lg"
+              userMemberStatus == "invited"
+                ? ""
+                : !isPastWorkout
+                ? "rounded-bl-lg"
+                : "rounded-b-lg"
             }`}
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
