@@ -85,21 +85,24 @@ const WorkoutDetailsScreen = ({ route }) => {
         <LoadingAnimation />
       ) : (
         <View className="flex-1 mx-4">
-          <View className="rounded flex-1">
+          <View className="flex-1 ">
             <FlatList
               showsVerticalScrollIndicator={false}
               data={members}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={() => (
                 <View>
-                  <View className="flex-row items-center ">
+                  <View className="flex-row items-center">
                     <View className="w-1 flex-1">
                       <View
-                        className="p-2 rounded"
-                        style={{ backgroundColor: appStyle.color_primary }}
+                        className="rounded justify-center px-2"
+                        style={{
+                          backgroundColor: appStyle.color_primary,
+                          height: 40,
+                        }}
                       >
                         <Text
-                          className="text-md font-semibold"
+                          className="text-md text-left"
                           style={{ color: appStyle.color_on_primary }}
                         >
                           {timeString(
@@ -112,7 +115,9 @@ const WorkoutDetailsScreen = ({ route }) => {
                     <View>
                       <View
                         className="rounded-full p-2 mx-2"
-                        style={{ backgroundColor: appStyle.color_primary }}
+                        style={{
+                          backgroundColor: appStyle.color_primary,
+                        }}
                       >
                         <FontAwesomeIcon
                           icon={workoutTypes[workout.type].icon}
@@ -123,11 +128,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                     </View>
                     <View className="w-1 flex-1">
                       <View
-                        className="p-2 rounded"
-                        style={{ backgroundColor: appStyle.color_primary }}
+                        className="rounded px-2 justify-center"
+                        style={{
+                          backgroundColor: appStyle.color_primary,
+                          height: 40,
+                        }}
                       >
                         <Text
-                          className="text-md text-right font-semibold"
+                          className="text-md text-right"
                           style={{ color: appStyle.color_on_primary }}
                         >
                           {workout.city}
@@ -137,7 +145,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                   </View>
 
                   <View
-                    className="p-3 rounded-xl mt-2"
+                    className="p-3 rounded mt-2"
                     style={{ backgroundColor: appStyle.color_primary }}
                   >
                     <View
@@ -201,7 +209,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                     {workout.description != "" && (
                       <Text
                         className={
-                          Platform.OS != "web" ? "text-sm mt-1" : "mt-1"
+                          Platform.OS != "web" ? "text-sm mt-2" : "mt-2"
                         }
                         style={{ color: appStyle.color_on_primary }}
                       >
@@ -221,11 +229,15 @@ const WorkoutDetailsScreen = ({ route }) => {
                         </View>
                       </View>
                     ) : (
-                      <View className="mt-5">
+                      <View
+                        className="mt-2 rounded"
+                        style={{
+                          backgroundColor: appStyle.color_primary,
+                        }}
+                      >
                         <Text
                           style={{
                             color: appStyle.color_on_primary,
-                            backgroundColor: appStyle.color_primary,
                           }}
                           className={
                             Platform.OS != "web"
@@ -241,7 +253,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </View>
                     )}
                   </View>
-                  <View>
+                  <View className="mt-2">
                     <View className="flex-row justify-center items-center">
                       <FontAwesomeIcon
                         icon={faUserGroup}
