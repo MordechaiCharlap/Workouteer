@@ -22,12 +22,14 @@ import { timeString } from "../services/timeFunctions";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
+import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
 import languageService from "../services/languageService";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { updateArrayIfNeedForWorkout } = useFriendsWorkouts();
   const { workoutRequestsAlerts } = useAlerts();
   const {
     sendPushNotificationUserJoinedYouwWorkout,
@@ -132,13 +134,18 @@ const WorkoutComponent = (props) => {
   };
   const requestToJoinWorkout = async () => {
     setUserMemberStatus("pending");
+    const workoutClone = workout;
+    workoutClone.requests[user.id] = true;
+    updateArrayIfNeedForWorkout(workoutClone);
     await firebase.requestToJoinWorkout(user.id, workout);
-    const creatorData = firebase.getUserDataById(workout.creator);
-    console.log(creatorData);
+    const creatorData = await firebase.getUserDataById(workout.creator);
     await sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData);
   };
   const cancelWorkoutRequest = async () => {
     setUserMemberStatus("not");
+    const workoutClone = workout;
+    delete workoutClone.requests[user.id];
+    updateArrayIfNeedForWorkout(workoutClone);
     await firebase.cancelWorkoutRequest(user.id, workout);
   };
   const acceptWorkoutInvite = async () => {
@@ -165,6 +172,9 @@ const WorkoutComponent = (props) => {
     setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
     const workoutRef = workout;
+    const workoutClone = workout;
+    workoutClone.invites[user.id] = false;
+    updateArrayIfNeedForWorkout(workoutClone);
     await firebase.rejectWorkoutInvite(user.id, workoutRef);
   };
   const getWorkoutActionButtons = () => {
