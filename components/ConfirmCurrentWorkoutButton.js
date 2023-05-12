@@ -18,13 +18,11 @@ const ConfirmCurrentWorkoutButton = (props) => {
       onPress={() => navigation.navigate("ConfirmWorkout")}
       className="flex-row items-center w-full rounded"
       style={{
-        borderWidth: 1,
-        borderColor: appStyle.color_on_primary,
-        backgroundColor: appStyle.color_bg_variant,
+        backgroundColor: appStyle.color_primary,
       }}
     >
       <View
-        style={{ backgroundColor: appStyle.color_primary, padding: 7 }}
+        style={{ backgroundColor: appStyle.color_primary_variant, padding: 7 }}
         className="rounded-l"
       >
         <FontAwesomeIcon
