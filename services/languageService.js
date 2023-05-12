@@ -351,7 +351,7 @@ const languageService = {
     creator: ["מנהלת", "מנהל"],
     inviteFriendsToJoin: "הזמנת חברים לאימון",
     requests: "Requests",
-    yourWorkout: "אימון שלך",
+    yourWorkout: "האימון שלך",
     updateAppToUseIt:
       "האפליקציה עברה עדכון מאז השימוש האחרון. למניעת באגים/קריסה יש לעדכן את האפליקציה",
     update: "עדכון",
