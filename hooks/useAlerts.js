@@ -1,22 +1,31 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import useAuth from "./useAuth";
 import { onSnapshot, doc } from "firebase/firestore";
-import { db } from "../services/firebase";
+import * as firebase from "../services/firebase";
 const AlertsContext = createContext({});
 export const AlertsProvider = ({ children }) => {
-  const { user } = useAuth();
-  const [userSignedIn, setUserSignedIn] = useState(false);
+  const { user, userLoaded } = useAuth();
   const [chatsAlerts, setChatsAlerts] = useState({});
   const [workoutRequestsAlerts, setWorkoutRequestsAlerts] = useState({});
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
+
   var unsubscribeAlerts = null;
   useEffect(() => {
-    if (user) {
-      if (!userSignedIn) {
-        setUserSignedIn(true);
-        unsubscribeAlerts = onSnapshot(doc(db, "alerts", user.id), (doc) => {
+    const removingBadWorkoutAlerts = async () => {
+      await firebase.removePastOrEmptyWorkoutsAlerts(
+        workoutRequestsAlerts,
+        newWorkoutsAlerts,
+        workoutInvitesAlerts,
+        user.id
+      );
+    };
+    if (userLoaded) {
+      removingBadWorkoutAlerts();
+      unsubscribeAlerts = onSnapshot(
+        doc(firebase.db, "alerts", user.id),
+        (doc) => {
           const alertsData = doc.data();
           if (alertsData != null) {
             setChatsAlerts(alertsData.chats);
@@ -25,17 +34,19 @@ export const AlertsProvider = ({ children }) => {
             setFriendRequestsAlerts(alertsData.friendRequests);
             setNewWorkoutsAlerts(alertsData.newWorkouts);
           }
-        });
-      }
-    } else {
-      if (userSignedIn) {
-        setUserSignedIn(false);
-        if (unsubscribeAlerts != null) {
-          unsubscribeAlerts();
         }
+      );
+    } else {
+      if (unsubscribeAlerts != null) {
+        unsubscribeAlerts();
       }
     }
-  }, [user]);
+    return () => {
+      if (unsubscribeAlerts != null) {
+        unsubscribeAlerts();
+      }
+    };
+  }, [userLoaded]);
   return (
     <AlertsContext.Provider
       value={{

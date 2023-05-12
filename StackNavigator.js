@@ -49,7 +49,7 @@ import ReportUserScreen from "./screens/ReportUserScreen";
 import * as SplashScreen from "expo-splash-screen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user, initialLoading } = useAuth();
+  const { user, userLoaded, initialLoading } = useAuth();
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -88,32 +88,16 @@ const StackNavigator = () => {
       await notificationListenerFunction();
     };
 
-    if (!notificationsListenersAdded && user != null && Platform.OS != "web") {
+    if (!notificationsListenersAdded && userLoaded && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
       addListenerAsync(user);
     }
-    if (user) {
+    if (userLoaded) {
       removeUnconfirmedOldWorkouts();
       resetStreakIfNeeded();
     }
-  }, [user]);
-  useEffect(() => {
-    const removingBadWorkoutAlerts = async () => {
-      await firebase.removePastOrEmptyWorkoutsAlerts(
-        workoutRequestsAlerts,
-        newWorkoutsAlerts,
-        workoutInvitesAlerts,
-        user.id
-      );
-    };
-    if (user && alertsChanged) {
-      removingBadWorkoutAlerts();
-      setAlertsChanged(false);
-    }
-  }, [alertsChanged, user]);
-  useEffect(() => {
-    if (workoutInvitesAlerts != null) setAlertsChanged(true);
-  }, [workoutInvitesAlerts]);
+  }, [userLoaded]);
+
   useEffect(() => {
     const hideSplashScreen = async () => {
       await SplashScreen.hideAsync();
