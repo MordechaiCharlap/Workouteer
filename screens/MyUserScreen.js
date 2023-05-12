@@ -81,7 +81,11 @@ const MyUserScreen = () => {
               >
                 {user.id}
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Settings", { language: user.language })
+                }
+              >
                 <FontAwesomeIcon
                   icon={faGear}
                   size={30}

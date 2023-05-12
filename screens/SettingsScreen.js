@@ -22,7 +22,7 @@ import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { UserDeleted } from "../components/settingsScreen/UserDeleted";
 import SuggestionForm from "../components/SuggestionForm";
-const SettingsScreen = () => {
+const SettingsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
@@ -32,6 +32,7 @@ const SettingsScreen = () => {
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
   const navigation = useNavigation();
+  const lastLanguage = route.params.language;
   const signOut = async () => {
     await updateDoc(doc(db, "users", user.id), {
       pushToken: null,
@@ -75,23 +76,23 @@ const SettingsScreen = () => {
         <>
           <View className="flex-1 p-4">
             <Header
-              title={languageService[user.language].settings}
+              title={languageService[lastLanguage].settings}
               goBackOption={true}
             />
             <Text
               className="text-center"
               style={{ color: appStyle.color_primary }}
             >
-              {languageService[user.language].privacy}
+              {languageService[lastLanguage].privacy}
             </Text>
             <View
               className={`justify-between items-center h-10 ${
-                user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
               style={{ color: appStyle.color_primary }}
             >
               <Text style={{ color: appStyle.color_primary }}>
-                {languageService[user.language].publicAccount}:
+                {languageService[lastLanguage].publicAccount}:
               </Text>
               <Switch
                 trackColor={{ false: "#767577", true: appStyle.color_primary }}
@@ -102,12 +103,12 @@ const SettingsScreen = () => {
             </View>
             <View
               className={`justify-between items-center h-10 ${
-                user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
               style={{ color: appStyle.color_primary }}
             >
               <Text style={{ color: appStyle.color_primary }}>
-                {languageService[user.language].showOnlineStatus}:
+                {languageService[lastLanguage].showOnlineStatus}:
               </Text>
               <Switch
                 trackColor={{ false: "#767577", true: appStyle.color_primary }}
@@ -118,12 +119,12 @@ const SettingsScreen = () => {
             </View>
             <View
               className={`justify-between items-center h-10 ${
-                user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
               style={{ color: appStyle.color_primary }}
             >
               <Text style={{ color: appStyle.color_primary }}>
-                {languageService[user.language].chooseLanguage}:
+                {languageService[lastLanguage].chooseLanguage}:
               </Text>
               <View className="flex-row gap-x-2">
                 <TouchableOpacity
@@ -184,7 +185,7 @@ const SettingsScreen = () => {
                     color: appStyle.color_on_primary,
                   }}
                 >
-                  {languageService[user.language].deleteUser}
+                  {languageService[lastLanguage].deleteUser}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={signOut} className="w-5/12">
@@ -195,7 +196,7 @@ const SettingsScreen = () => {
                     color: appStyle.color_on_primary,
                   }}
                 >
-                  {languageService[user.language].logOut}
+                  {languageService[lastLanguage].logOut}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -220,7 +221,7 @@ const SettingsScreen = () => {
                   color: appStyle.color_primary,
                 }}
               >
-                {languageService[user.language].reportABug}
+                {languageService[lastLanguage].reportABug}
               </Text>
             </View>
           </View>
@@ -237,8 +238,8 @@ const SettingsScreen = () => {
                 style={{ color: appStyle.color_primary }}
               >
                 {changesMade == false
-                  ? languageService[user.language].noChangesWereMade
-                  : languageService[user.language].applyChanges}
+                  ? languageService[lastLanguage].noChangesWereMade
+                  : languageService[lastLanguage].applyChanges}
               </Text>
             </TouchableOpacity>
           </View>
@@ -255,7 +256,7 @@ const SettingsScreen = () => {
         <SuggestionForm
           setShowSuggestionForm={setShowSuggestionForm}
           id={user.id}
-          language={user.language}
+          language={lastLanguage}
           showSuggestionForm={showSuggestionForm}
         />
       </Modal>
