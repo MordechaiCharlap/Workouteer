@@ -157,6 +157,7 @@ export const createUser = async (newUserData) => {
     language: getLanguage(),
     isPublic: true,
     showOnline: true,
+    lastLocation: null,
     defaultCity: null,
     defaultCountry: null,
     isOnline: true,
@@ -669,11 +670,12 @@ export const getFriendsFutureWorkouts = async (user) => {
     for (var [key, value] of Object.entries(friend.plannedWorkouts)) {
       if (value[0].toDate() > now && !userFutureWorkoutIds.includes(key)) {
         const workoutData = await getWorkout(key);
-        if (workoutData.invites[user.id] != false)
-          friendsFutureWorkouts.push(workoutData);
+        // if ( workoutData.invites[ user.id ] == false ) continue;
+        friendsFutureWorkouts.push(workoutData);
       }
     }
   }
+
   return friendsFutureWorkouts;
 };
 
