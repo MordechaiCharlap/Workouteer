@@ -47,6 +47,7 @@ import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import useAppData from "./hooks/useAppData";
 import ReportUserScreen from "./screens/ReportUserScreen";
 import * as SplashScreen from "expo-splash-screen";
+import SearchWorkoutsScreen from "./screens/SearchWorkoutsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -265,6 +266,11 @@ const StackNavigator = () => {
               <Stack.Screen
                 name="ReportUser"
                 component={ReportUserScreen}
+                options={verticalAnimation}
+              />
+              <Stack.Screen
+                name="SearchWorkouts"
+                component={SearchWorkoutsScreen}
                 options={verticalAnimation}
               />
             </>
