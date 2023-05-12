@@ -300,7 +300,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  {item.id == user.id && (
+                  {/* {item.id == user.id && (
                     <View
                       className="rounded-lg p-1"
                       style={{
@@ -320,7 +320,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         }
                       </Text>
                     </View>
-                  )}
+                  )} */}
 
                   {item.id == workout.creator && (
                     <Text
