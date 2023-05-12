@@ -24,12 +24,11 @@ const PastWorkoutsScreen = ({ route }) => {
   const [initialLoading, setInitialLoading] = useState(true);
   useFocusEffect(
     useCallback(() => {
-      setCurrentScreen("PastWorkout");
+      setCurrentScreen("PastWorkouts");
     }, [])
   );
   useEffect(() => {
     if (user.id == shownUser.id) return;
-    console.log("Another user workouts");
     const getShownUserConfirmedWorkouts = async () => {
       const shownUserWorkouts = await getConfirmedWorkoutsByUserId(
         shownUser.id
