@@ -63,9 +63,11 @@ const WorkoutComponent = (props) => {
       }
     }
     if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
-    if (props.location) {
-      const distance = getDistance(props.location, workout.location);
-      setDistance(Math.ceil(distance / 1000));
+    if (user.lastLocation) {
+      const distance = getDistance(user.lastLocation, workout.location);
+
+      const dist = Math.ceil(distance / 1000);
+      setDistance(dist);
     }
   }, []);
   const leaveWorkout = async () => {
@@ -132,6 +134,7 @@ const WorkoutComponent = (props) => {
     setUserMemberStatus("pending");
     await firebase.requestToJoinWorkout(user.id, workout);
     const creatorData = firebase.getUserDataById(workout.creator);
+    console.log(creatorData);
     await sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData);
   };
   const cancelWorkoutRequest = async () => {
@@ -247,7 +250,9 @@ const WorkoutComponent = (props) => {
             <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
-                : languageService[user.language].cancelWorkoutRequest}
+                : languageService[user.language].cancelRequest[
+                    user.isMale ? 1 : 0
+                  ]}
             </Text>
           </TouchableOpacity>
         );
