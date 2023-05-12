@@ -253,16 +253,19 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </View>
                     )}
                   </View>
-                  <View className="mt-2">
-                    <View className="flex-row justify-center items-center">
+                  <View className="mt-2 items-center">
+                    <View
+                      className="flex-row justify-center items-center rounded p-2"
+                      style={{ backgroundColor: appStyle.color_primary }}
+                    >
                       <FontAwesomeIcon
                         icon={faUserGroup}
-                        size={30}
-                        color={appStyle.color_primary}
+                        size={25}
+                        color={appStyle.color_on_primary}
                       />
                       <Text
                         className="text-md"
-                        style={{ color: appStyle.color_primary }}
+                        style={{ color: appStyle.color_on_primary }}
                       >
                         {languageService[user.language].members}
                       </Text>
