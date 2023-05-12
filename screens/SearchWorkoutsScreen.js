@@ -30,6 +30,7 @@ import {
   faChevronCircleLeft,
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
+import AnimatedSlides from "../components/basic/AnimatedSlides";
 const SearchWorkoutsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -61,11 +62,48 @@ const SearchWorkoutsScreen = () => {
   };
   const style = StyleSheet.create({
     slideStyle: {
+      paddingHorizontal: 10,
       width: fixedWidth,
-      justifyContent: "center",
-      alignItems: "center",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "#5f6b8b",
+      color: appStyle.color_on_primary,
+    },
+    text: { color: appStyle.color_on_primary },
+    container: {
+      paddingHorizontal: 16,
+    },
+    dropdown: {
+      backgroundColor: appStyle.color_primary,
+      height: 50,
+      borderColor: appStyle.color_on_primary,
+      borderWidth: 0.5,
+      borderRadius: 4,
+      paddingHorizontal: 8,
+    },
+    icon: {
+      marginRight: 5,
+      color: "white",
+    },
+    placeholderStyle: {
+      color: "#5f6b8b",
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      color: appStyle.color_on_primary,
+      fontSize: 16,
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
     },
   });
+
   const now = new Date();
 
   const [city, setCity] = useState(user.defaultCity);
@@ -171,7 +209,111 @@ const SearchWorkoutsScreen = () => {
         title={languageService[user.language].findWorkout}
         goBackOption={true}
       />
-      <ScrollView horizontal={true} ref={scrollViewRef} pagingEnabled={true}>
+      <AnimatedSlides width={fixedWidth}>
+        <View style={style.slideStyle}>
+          <WorkoutType
+            language={user.language}
+            typeSelected={setType}
+            everythingOption={true}
+          />
+        </View>
+        <View style={style.slideStyle}>
+          <Dropdown
+            style={[
+              style.dropdown,
+              countryIsFocus && { borderColor: appStyle.color_primary },
+            ]}
+            placeholder={languageService[user.language].country}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={countriesArr}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={country}
+            onFocus={() => setCountryIsFocus(true)}
+            onBlur={() => setCountryIsFocus(false)}
+            onChange={(item) => {
+              setCountry(item.value);
+              setCountryIsFocus(false);
+            }}
+          />
+          <Dropdown
+            style={[
+              style.dropdown,
+              cityIsFocus && { borderColor: appStyle.color_primary },
+            ]}
+            placeholder={languageService[user.language].city}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={citiesArr}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={city}
+            onFocus={() => setCityIsFocus(true)}
+            onBlur={() => setCityIsFocus(false)}
+            onChange={(item) => {
+              setCity(item.value);
+              setCityIsFocus(false);
+            }}
+          />
+          <View
+            className={`flex-row${user.language == "hebrew" ? "-reverse" : ""}`}
+          >
+            <TouchableOpacity
+              onPress={() => setNoCityInformation(!noCityInformation)}
+              className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
+              style={{ backgroundColor: appStyle.color_primary }}
+            >
+              <Text style={{ color: appStyle.color_on_primary }}>
+                {languageService[user.language].cantFindCityClickHere}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Text
+            className="mb-5 rounded p-1 mt-1"
+            style={{
+              color: appStyle.color_on_primary,
+              backgroundColor: appStyle.color_primary_variant,
+              display: noCityInformation ? "flex" : "none",
+            }}
+          >
+            {languageService[user.language].cantFindCityExplenation}
+          </Text>
+        </View>
+        <View style={style.slideStyle}>
+          <View
+            className={`justify-around mb-5 ${
+              Platform.OS == "web"
+                ? ""
+                : `flex-row${user.language == "hebrew" ? "-reverse" : ""}`
+            }`}
+          >
+            <StartingTimeComp
+              language={user.language}
+              now={now}
+              title={languageService[user.language].from}
+              startingTimeChanged={(date) => minDateChanged(date)}
+            />
+            {minStartingTime != null && (
+              <StartingTimeComp
+                now={now}
+                language={user.language}
+                minDate={minStartingTime}
+                title={languageService[user.language].to}
+                startingTimeChanged={(date) => maxDateChanged(date)}
+                setLast={true}
+              />
+            )}
+          </View>
+        </View>
+      </AnimatedSlides>
+      {/* <ScrollView horizontal={true} ref={scrollViewRef} pagingEnabled={true}>
         <View style={style.slideStyle}>
           <Text>1</Text>
         </View>
@@ -203,9 +345,43 @@ const SearchWorkoutsScreen = () => {
             size={50}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };
-
+const StartingTimeComp = (props) => {
+  return Platform.OS == "web" ? (
+    <View className="rounded-xl" style={{ backgroundColor: appStyle.color_bg }}>
+      <Text
+        className="text-xl font-semibold text-center"
+        style={{ color: appStyle.color_primary }}
+      >
+        {props.title}
+      </Text>
+      <NextWeekDropdown
+        setLast={props.setLast}
+        language={props.language}
+        now={props.now}
+        minDate={props.minDate}
+        selectedDateChanged={props.startingTimeChanged}
+      ></NextWeekDropdown>
+    </View>
+  ) : (
+    <View
+      className="rounded-xl p-2 pb-4 px-4 items-center"
+      style={{ backgroundColor: appStyle.color_bg }}
+    >
+      <Text
+        className="text-xl font-semibold"
+        style={{ color: appStyle.color_primary }}
+      >
+        {props.title}
+      </Text>
+      <WorkoutStartingTime
+        startingTimeChanged={props.startingTimeChanged}
+        minDate={props.minDate ? props.minDate : new Date()}
+      />
+    </View>
+  );
+};
 export default SearchWorkoutsScreen;
