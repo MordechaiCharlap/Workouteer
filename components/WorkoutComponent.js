@@ -426,9 +426,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 7,
     backgroundColor: appStyle.color_primary,
   },
-  BottomSection: {
-    backgroundColor: appStyle.color_primary,
-  },
+  BottomSection: {},
   workoutIcon: { color: appStyle.color_on_primary },
   dividers: {
     width: 2,
@@ -446,14 +444,8 @@ const style = StyleSheet.create({
     size: 20,
     color: appStyle.color_on_primary,
   },
-  detailsButton: {
-    backgroundColor: appStyle.color_bg,
-  },
-  detailsButtonText: {
-    color: appStyle.color_primary,
-  },
   actionButton: {
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_primary_variant,
   },
   actionButtonText: {
     color: appStyle.color_on_primary,
