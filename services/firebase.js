@@ -592,10 +592,10 @@ export const getWorkoutResults = async (preferences) => {
   const workoutsArr = [];
   var q = query(
     collection(db, "workouts"),
-    where("country.id", "==", preferences.country),
-    where("city.id", "==", preferences.city),
     where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
     where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
+    where("country.id", "==", preferences.country),
+    where("city.id", "==", preferences.city),
     orderBy("startingTime", "asc"),
     limit(30)
   );
@@ -607,6 +607,32 @@ export const getWorkoutResults = async (preferences) => {
   }
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
+    workoutsArr.push({
+      ...doc.data(),
+      id: doc.id,
+    });
+  });
+  return workoutsArr;
+};
+export const searchWorkouts = async (preferences, userId) => {
+  const workoutsArr = [];
+  var q = query(
+    collection(db, "workouts"),
+    where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
+    where("country.id", "==", preferences.country),
+    where("city.id", "==", preferences.city),
+    orderBy("startingTime", "asc"),
+    limit(30)
+  );
+  if (preferences.type != 0) {
+    q = query(q, where("type", "==", preferences.type));
+  }
+  if (preferences.sex != "everyone") {
+    q = query(q, where("sex", "==", preferences.sex));
+  }
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // if (doc.data().members[userId] == null)
     workoutsArr.push({
       ...doc.data(),
       id: doc.id,
