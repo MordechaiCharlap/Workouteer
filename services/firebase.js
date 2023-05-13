@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as defaultValues from "./defaultValues";
+import Geocoder from "react-native-geocoding";
 import {
   getFirestore,
   deleteField,
@@ -414,60 +415,95 @@ export const getFirstPageMessages = async (chatId) => {
   return messagesArr;
 };
 export const addCountryAndCityToDbIfNeeded = async (latLong) => {
-  var json = await Geocoder.from(latLongLocation, "en");
   var cityId;
   var countryId;
   var cityEn;
   var countryEn;
   var cityHe;
   var countryHe;
-  var results = json.results[0];
+  const json = await Geocoder.from(latLong);
+  const results = json.results[0];
+  console.log(results);
   for (var element of results.address_components) {
     if (element.types.includes("locality")) {
       cityId = element.long_name.replace(/\s/g, "-").toLowerCase();
       cityEn = element.long_name;
+      console.log(cityId);
+      console.log(cityEn);
     }
     if (element.types.includes("country")) {
       countryId = element.long_name.replace(/\s/g, "-").toLowerCase();
       countryEn = element.long_name;
+      console.log(countryId);
+      console.log(countryEn);
     }
   }
-  json = await Geocoder.from(latLongLocation, "he");
-  results = json.results[0];
-  for (var element of results.address_components) {
-    if (element.types.includes("locality")) {
-      cityHe = element.long_name;
-    }
-    if (element.types.includes("country")) {
-      countryHe = element.long_name;
-    }
+  if (countryId == "israel") {
+    var apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
+      latLong.latitude
+    },${
+      latLong.longitude
+    }&key=${"AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ"}&language=${"he"}`;
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const results = data.results;
+        console.log(results);
+        for (var element of results.address_components) {
+          if (element.types.includes("locality")) {
+            cityHe = element.long_name;
+            console.log("cityHe:" + cityHe);
+          }
+          if (element.types.includes("country")) {
+            countryHe = element.long_name;
+            console.log("countryHe:" + countryHe);
+          }
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
-  console.log(cityHe);
-  console.log(countryHe);
-  console.log(countryEn);
-  console.log(countryEn);
-
   const countryDoc = await getDoc(doc(db, "countriesData", countryId));
   if (!countryDoc.exists()) {
-    await setDoc(doc(db, "countriesData", countryId), {
-      cities: {
-        [`${cityId}`]: { english: cityEn, hebrew: cityHe },
-      },
-    });
-    await updateDoc(doc(db, "countriesData", "countries"), {
-      [`names.${countryId}`]: { english: countryEn, hebrew: countryHe },
-    });
-  } else {
-    if (!countryDoc.data().cities[city]) {
-      await updateDoc(doc(db, "countriesData", countryId), {
-        [`cities.${cityId}`]: { english: cityEn, hebrew: cityHe },
+    if (countryId == "israel") {
+      await setDoc(doc(db, "countriesData", countryId), {
+        cities: {
+          [`${cityId}`]: { english: cityEn, hebrew: cityHe },
+        },
+      });
+      await updateDoc(doc(db, "countriesData", "countries"), {
+        [`names.${countryId}`]: { english: countryEn, hebrew: countryHe },
+      });
+    } else {
+      await setDoc(doc(db, "countriesData", countryId), {
+        cities: {
+          [`${cityId}`]: { english: cityEn },
+        },
+      });
+      await updateDoc(doc(db, "countriesData", "countries"), {
+        [`names.${countryId}`]: { english: countryEn },
       });
     }
+  } else {
+    if (!countryDoc.data().cities[cityId]) {
+      if (countryId == "israel") {
+        await updateDoc(doc(db, "countriesData", countryId), {
+          [`cities.${cityId}`]: { english: cityEn },
+        });
+      } else {
+        await updateDoc(doc(db, "countriesData", countryId), {
+          [`cities.${cityId}`]: { english: cityEn, hebrew: cityHe },
+        });
+      }
+    }
   }
+  return { country: countryId, city: cityId };
 };
 export const createWorkout = async (workout) => {
-  await addCountryAndCityToDbIfNeeded(workout.location);
-
+  const cityAndCountry = await addCountryAndCityToDbIfNeeded(workout.location);
+  workout.city = cityAndCountry.city;
+  workout.country = cityAndCountry.country;
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
     [`plannedWorkouts.${newWorkoutRef.id}`]: [
