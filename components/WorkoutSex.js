@@ -17,6 +17,8 @@ const WorkoutSex = (props) => {
     >
       <View>
         <CheckBox
+          style={{ borderRadius: 4 }}
+          size={props.size}
           onValueChange={(value) =>
             value == true
               ? setWorkoutSex(props.isMale == true ? "men" : "women")
@@ -24,7 +26,7 @@ const WorkoutSex = (props) => {
           }
           backgroundColor={appStyle.color_primary}
           valueColor={appStyle.color_on_primary}
-          value={true}
+          value={false}
         />
       </View>
       <Text style={{ color: appStyle.color_primary }}>

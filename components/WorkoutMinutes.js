@@ -50,6 +50,7 @@ const WorkoutMinutes = (props) => {
       <Dropdown
         style={[
           styles.dropdown,
+          value ? styles.valueChanged : styles.valueNotChanged,
           isFocus && { borderColor: appStyle.color_on_primary },
         ]}
         placeholderStyle={styles.placeholderStyle}
@@ -78,12 +79,17 @@ export default WorkoutMinutes;
 
 const styles = StyleSheet.create({
   dropdown: {
-    backgroundColor: appStyle.color_primary,
     height: 50,
     borderColor: appStyle.color_primary,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
+  },
+  valueNotChanged: {
+    backgroundColor: appStyle.color_bg_variant,
+  },
+  valueChanged: {
+    backgroundColor: appStyle.color_primary,
   },
   icon: {
     marginRight: 5,

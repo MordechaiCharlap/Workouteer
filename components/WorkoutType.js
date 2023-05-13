@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -37,7 +38,32 @@ export const workoutTypes = [
 
 const WorkoutType = (props) => {
   const iconSize = 60;
-  const isWeb = Platform.OS == "web";
+  const style = StyleSheet.create({
+    typeButton: {
+      width: "48%",
+      height: iconSize * 2,
+      borderWidth: 1,
+      borderColor: appStyle.color_primary,
+      backgroundColor: appStyle.color_bg_variant,
+    },
+    chosenTypeButton: {
+      width: "48%",
+      borderWidth: 1,
+      height: iconSize * 2,
+      borderColor: appStyle.color_primary,
+      backgroundColor: appStyle.color_primary,
+    },
+    everythingButton: {
+      borderWidth: 1,
+      borderColor: appStyle.color_primary,
+      backgroundColor: appStyle.color_bg_variant,
+    },
+    chosenEverythingButton: {
+      borderWidth: 1,
+      borderColor: appStyle.color_primary,
+      backgroundColor: appStyle.color_primary,
+    },
+  });
   const [chosenType, setChosenType] = useState(0);
   const typeClicked = (id) => {
     props.typeSelected(id);
@@ -49,32 +75,24 @@ const WorkoutType = (props) => {
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="rounded-lg mb-3"
-        style={style.typeButton}
+        className="items-center justify-center rounded-lg mb-3"
+        style={
+          type.id == chosenType ? style.chosenTypeButton : style.typeButton
+        }
       >
-        <View
+        <FontAwesomeIcon
+          color={appStyle.color_on_primary}
+          icon={type.icon}
+          size={iconSize}
+        />
+        <Text
+          className="text-center"
           style={{
-            backgroundColor:
-              type.id == chosenType
-                ? appStyle.color_primary_variant
-                : appStyle.color_primary,
+            color: appStyle.color_on_primary,
           }}
-          className={`py-4 px-2 items-center rounded-lg`}
         >
-          <FontAwesomeIcon
-            color={appStyle.color_on_primary}
-            icon={type.icon}
-            size={iconSize}
-          />
-          <Text
-            className="text-center"
-            style={{
-              color: appStyle.color_on_primary,
-            }}
-          >
-            {languageService[props.language].workoutTypes[type.id]}
-          </Text>
-        </View>
+          {languageService[props.language].workoutTypes[type.id]}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -88,12 +106,11 @@ const WorkoutType = (props) => {
           className="rounded-lg mb-3"
         >
           <View
-            style={{
-              backgroundColor:
-                workoutTypes[0].id == chosenType
-                  ? appStyle.color_primary_variant
-                  : appStyle.color_primary,
-            }}
+            style={
+              workoutTypes[0].id == chosenType
+                ? style.chosenEverythingButton
+                : style.everythingButton
+            }
             className={`p-4 items-center rounded-lg`}
           >
             <Text
@@ -116,7 +133,5 @@ const WorkoutType = (props) => {
     </View>
   );
 };
-const style = StyleSheet.create({
-  typeButton: { width: "48%", borderWidth: 1 },
-});
+
 export default WorkoutType;

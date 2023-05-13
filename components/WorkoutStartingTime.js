@@ -81,7 +81,10 @@ const WorkoutStartingTime = (props) => {
   return (
     <View>
       <TouchableOpacity
-        style={styles.input}
+        style={[
+          styles.input,
+          dateChangedOnce ? styles.changedVal : styles.notChangedVal,
+        ]}
         className="rounded px-3 h-10 justify-center items-center"
         onPress={showDatepicker}
       >
@@ -134,11 +137,16 @@ const WorkoutStartingTime = (props) => {
 const styles = StyleSheet.create({
   input: {
     width: 130,
-    backgroundColor: appStyle.color_primary,
     height: 50,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
+  },
+  changedVal: {
+    backgroundColor: appStyle.color_primary,
+  },
+  notChangedVal: {
+    backgroundColor: appStyle.color_bg_variant,
   },
 });
 export default WorkoutStartingTime;

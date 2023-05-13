@@ -62,13 +62,13 @@ const WorkoutLocation = (props) => {
           <></>
         ) : (
           <TouchableOpacity
-            className="rounded justify-center p-1"
+            className="rounded justify-center px-2 py-1"
             onPress={setLocationClicked}
             style={{
               backgroundColor:
                 location != null
-                  ? appStyle.color_primary_variant
-                  : appStyle.color_primary,
+                  ? appStyle.color_primary
+                  : appStyle.color_bg_variant,
             }}
           >
             <Text style={{ color: appStyle.color_on_primary }}>
