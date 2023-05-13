@@ -66,9 +66,9 @@ const WorkoutComponent = (props) => {
     }
     if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
     if (user.lastLocation) {
-      const distance = getDistance(user.lastLocation, workout.location);
+      const distanceCalc = getDistance(user.lastLocation, workout.location);
 
-      const dist = Math.ceil(distance / 1000);
+      const dist = Math.max(Math.ceil(distanceCalc / 1000), 1);
       setDistance(dist);
     }
   }, []);
@@ -333,7 +333,7 @@ const WorkoutComponent = (props) => {
                 color={style.detailsIcons.color}
               />
               <Text className="text-md" style={style.basicDetailsText}>
-                {distance
+                {distance != null
                   ? languageService[user.language].lessThan +
                     distance +
                     " " +
