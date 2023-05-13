@@ -104,20 +104,6 @@ const NewWorkoutScreen = () => {
       setCreateButtonColor("black");
     }
   };
-  const getCityAndCountry = async (location) => {
-    const arr = { city: "", country: "" };
-    const json = await Geocoder.from(location);
-    var results = json.results[0];
-    for (var element of results.address_components) {
-      if (element.types.includes("locality")) {
-        arr.city = element.long_name;
-      }
-      if (element.types.includes("country")) {
-        arr.country = element.long_name;
-      }
-    }
-    return arr;
-  };
   const createWorkout = async () => {
     if (checkIfWorkoutTimeAvailable()) {
       setIsCreateDisabled(true);
@@ -130,7 +116,6 @@ const NewWorkoutScreen = () => {
           "Don't forget to confirm your workout to get your points :)"
         );
       }
-      const cityAndCountry = await getCityAndCountry(location);
       const workout = {
         creator: user.id,
         members: {
@@ -147,7 +132,6 @@ const NewWorkoutScreen = () => {
         minutes: minutes,
         location: location,
         description: description,
-        ...cityAndCountry,
         invites: {},
         requests: {},
       };
