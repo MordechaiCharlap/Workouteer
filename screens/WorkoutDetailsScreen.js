@@ -138,7 +138,9 @@ const WorkoutDetailsScreen = ({ route }) => {
                           className="text-md text-right"
                           style={{ color: appStyle.color_on_primary }}
                         >
-                          {workout.city}
+                          {workout.city[user.language]
+                            ? workout.city[user.language]
+                            : workout.city["english"]}
                         </Text>
                       </View>
                     </View>
