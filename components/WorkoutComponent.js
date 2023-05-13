@@ -338,7 +338,9 @@ const WorkoutComponent = (props) => {
                     distance +
                     " " +
                     languageService[user.language].kmAway
-                  : workout.city}
+                  : workout.city[user.language]
+                  ? workout.city[user.language]
+                  : workout.city["english"]}
               </Text>
             </View>
             <View
