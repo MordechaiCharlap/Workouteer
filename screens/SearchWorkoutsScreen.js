@@ -25,6 +25,8 @@ import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import NextWeekDropdown from "../components/NextWeekDropdown";
 import { isWebOnPC } from "../services/webScreenService";
+import { convertHexToRgba } from "../utilities/stylingFunctions";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronCircleLeft,
@@ -118,6 +120,7 @@ const SearchWorkoutsScreen = () => {
   const [countriesArr, setCountriesArr] = useState([]);
   const [citiesArr, setCitiesArr] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const steps = ["Workout Type", "City", "When"];
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("FindWorkout");
@@ -209,8 +212,9 @@ const SearchWorkoutsScreen = () => {
         title={languageService[user.language].findWorkout}
         goBackOption={true}
       />
-      <AnimatedSlides width={fixedWidth}>
-        <View style={style.slideStyle}>
+      <View className="flex-row"></View>
+      <ScrollView horizontal={true} ref={scrollViewRef} pagingEnabled={true}>
+        <View title={"Workout type"} style={style.slideStyle}>
           <WorkoutType
             language={user.language}
             typeSelected={setType}
@@ -312,40 +316,42 @@ const SearchWorkoutsScreen = () => {
             )}
           </View>
         </View>
-      </AnimatedSlides>
-      {/* <ScrollView horizontal={true} ref={scrollViewRef} pagingEnabled={true}>
-        <View style={style.slideStyle}>
-          <Text>1</Text>
-        </View>
-        <View style={style.slideStyle}>
-          <Text>2</Text>
-        </View>
-        <View style={style.slideStyle}>
-          <Text>3</Text>
-        </View>
       </ScrollView>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
-          paddingVertical: 10,
+          padding: 10,
+          columnGap: 10,
         }}
       >
-        <TouchableOpacity onPress={handlePrevPage}>
-          <FontAwesomeIcon
-            icon={faChevronCircleLeft}
-            color={appStyle.color_primary}
-            size={50}
-          />
+        <TouchableOpacity
+          onPress={handlePrevPage}
+          className="w-1 rounded grow items-center justify-center py-3"
+          style={{
+            borderWidth: 2,
+            borderColor: convertHexToRgba(appStyle.color_primary, 0.15),
+          }}
+        >
+          <Text
+            className="font-black"
+            style={{ color: appStyle.color_primary }}
+          >
+            {languageService[user.language].back.toUpperCase()}
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleNextPage}>
-          <FontAwesomeIcon
-            icon={faChevronCircleRight}
-            color={appStyle.color_primary}
-            size={50}
-          />
+        <TouchableOpacity
+          onPress={handleNextPage}
+          className="w-1 rounded grow items-center justify-center py-3"
+          style={{ backgroundColor: appStyle.color_primary }}
+        >
+          <Text className="font-black" style={{ color: appStyle.color_bg }}>
+            {languageService[user.language].continue[
+              user.isMale ? 1 : 0
+            ].toUpperCase()}
+          </Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };
