@@ -164,28 +164,6 @@ const SearchWorkoutsScreen = () => {
     const currentLocation = await geoService.getCurrentLocation(user);
     setCurrentLocation(currentLocation);
   };
-  // const minDateChanged = (date) => {
-  //   setMinStartingTime(null);
-  //   setMinStartingTime(date);
-  // };
-  // const maxDateChanged = (date) => {
-  //   if (date < minStartingTime) {
-  //     minDateChanged(minStartingTime);
-  //     setMaxStartingTime(null);
-  //   } else {
-  //     setMaxStartingTime(date);
-  //   }
-  // };
-  // const renderMinStartingTime = () => {
-  //   return (
-  //     <StartingTimeComp
-  //       language={user.language}
-  //       now={now}
-  //       title={languageService[user.language].from}
-  //       startingTimeChanged={(date) => minDateChanged(date)}
-  //     />
-  //   );
-  // };
   const handleSearch = async () => {
     if (searching) return;
     setSearching(true);
@@ -312,59 +290,6 @@ const SearchWorkoutsScreen = () => {
             </View>
           </View>
         </View>
-        {/* <View style={style.slideStyle}>
-          <View
-            className={`justify-around mb-5 ${
-              Platform.OS == "web"
-                ? ""
-                : `flex-row${user.language == "hebrew" ? "-reverse" : ""}`
-            }`}
-          >
-            <StartingTimeComp
-              language={user.language}
-              now={now}
-              title={languageService[user.language].from}
-              startingTimeChanged={(date) => minDateChanged(date)}
-            />
-            {minStartingTime != null && (
-              <StartingTimeComp
-                now={now}
-                language={user.language}
-                minDate={minStartingTime}
-                title={languageService[user.language].to}
-                startingTimeChanged={(date) => maxDateChanged(date)}
-                setLast={true}
-              />
-            )}
-          </View>
-          <View className="mb-5">
-            <View
-              className={`items-center flex-row${
-                user.language == "hebrew" ? "-reverse" : ""
-              }`}
-            >
-              <CheckBox
-                size={40}
-                backgroundColor={appStyle.color_primary}
-                value={false}
-                valueColor={appStyle.color_on_primary}
-                onValueChange={(value) =>
-                  value == true
-                    ? user.isMale
-                      ? setWorkoutSex("men")
-                      : setWorkoutSex("women")
-                    : setWorkoutSex("everyone")
-                }
-              />
-              <View className="w-2" />
-              <Text style={{ color: appStyle.color_primary }}>
-                {user.isMale
-                  ? languageService[user.language].showMenOnlyWorkouts
-                  : languageService[user.language].showWomenOnlyWorkouts}
-              </Text>
-            </View>
-          </View>
-        </View> */}
       </ScrollView>
       <View
         style={{
