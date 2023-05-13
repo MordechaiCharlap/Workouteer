@@ -143,7 +143,7 @@ export const AuthPrvider = ({ children }) => {
     if (!userLoaded) return;
 
     const getLocation = async () => {
-      return await getCurrentLocation(user);
+      await getCurrentLocation(user);
     };
     getLocation();
   }, [userLoaded]);
