@@ -33,35 +33,44 @@ const SearchWorkoutsScreen = () => {
 
   const { user } = useAuth();
 
+  const pages = ["Workout Type", "Where"];
   const { width, height } = useWindowDimensions();
   const fixedHeight = height;
   const fixedWidth = isWebOnPC ? (9 / 19) * fixedHeight : width;
-  const [country, setCountry] = useState(user.defaultCountry);
   const scrollViewRef = useRef(null);
   const currentPageIndexRef = useRef(0);
-  const pagesCount = 3;
   const handleNextPage = () => {
-    if (pagesCount == currentPageIndexRef.current + 1) return;
+    if (pages.length == currentPageIndexRef.current + 1) return;
     currentPageIndexRef.current++;
+    checkIfLastPage();
     scroll();
   };
   const handlePrevPage = () => {
     if (currentPageIndexRef.current == 0) return;
     currentPageIndexRef.current--;
 
+    checkIfLastPage();
     scroll();
   };
+
   const handleScrollEnd = (event) => {
     const offset = event.nativeEvent.contentOffset.x;
     const index = Math.round(offset / fixedWidth);
     currentPageIndexRef.current = index;
+    checkIfLastPage();
   };
+
   const scroll = () => {
     scrollViewRef.current.scrollTo({
       animated: true,
       x: currentPageIndexRef.current * width,
       y: 0,
     });
+  };
+  const checkIfLastPage = () => {
+    if (currentPageIndexRef.current + 1 == pages.length) {
+      setLastPage(true);
+    } else setLastPage(false);
   };
   const style = StyleSheet.create({
     slideStyle: {
@@ -109,28 +118,25 @@ const SearchWorkoutsScreen = () => {
   });
 
   const now = new Date();
-
+  const [lastPage, setLastPage] = useState(false);
+  const [country, setCountry] = useState(user.defaultCountry);
   const [city, setCity] = useState(user.defaultCity);
   const [type, setType] = useState(0);
-  const [isSearchDisabled, setIsSearchDisabled] = useState(true);
-  const [minStartingTime, setMinStartingTime] = useState(null);
-  const [maxStartingTime, setMaxStartingTime] = useState(null);
   const [workoutSex, setWorkoutSex] = useState("everyone");
   const [countryIsFocus, setCountryIsFocus] = useState(false);
   const [cityIsFocus, setCityIsFocus] = useState(false);
-  const [noCityInformation, setNoCityInformation] = useState(false);
   const [countriesArr, setCountriesArr] = useState([]);
   const [citiesArr, setCitiesArr] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
-  const steps = ["Workout Type", "City", "When"];
+  const [isSearchDisabled, setIsSearchDisabled] = useState(true);
+  const [searching, setSearching] = useState(false);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("FindWorkout");
       setType(0);
       setCity(user.defaultCity);
       setCountry(user.defaultCountry);
-      setMinStartingTime(null);
-      setMaxStartingTime(null);
+      setSearching(false);
     }, [])
   );
   useEffect(() => {
@@ -148,60 +154,59 @@ const SearchWorkoutsScreen = () => {
     }
   }, [country]);
   useEffect(() => {
-    if (
-      type == null ||
-      minStartingTime == null ||
-      maxStartingTime == null ||
-      city == null ||
-      country == null
-    ) {
+    if (city == null || country == null) {
       setIsSearchDisabled(true);
     } else {
       setIsSearchDisabled(false);
     }
-  }, [type, minStartingTime, maxStartingTime, city, country]);
+  }, [city, country]);
   const getCurrentLocation = async () => {
     const currentLocation = await geoService.getCurrentLocation(user);
     setCurrentLocation(currentLocation);
   };
-  const minDateChanged = (date) => {
-    setMinStartingTime(null);
-    setMinStartingTime(date);
-  };
-  const maxDateChanged = (date) => {
-    if (date < minStartingTime) {
-      minDateChanged(minStartingTime);
-      setMaxStartingTime(null);
-    } else {
-      setMaxStartingTime(date);
-    }
-  };
-  const renderMinStartingTime = () => {
-    return (
-      <StartingTimeComp
-        language={user.language}
-        now={now}
-        title={languageService[user.language].from}
-        startingTimeChanged={(date) => minDateChanged(date)}
-      />
-    );
-  };
-  const showResults = async () => {
+  // const minDateChanged = (date) => {
+  //   setMinStartingTime(null);
+  //   setMinStartingTime(date);
+  // };
+  // const maxDateChanged = (date) => {
+  //   if (date < minStartingTime) {
+  //     minDateChanged(minStartingTime);
+  //     setMaxStartingTime(null);
+  //   } else {
+  //     setMaxStartingTime(date);
+  //   }
+  // };
+  // const renderMinStartingTime = () => {
+  //   return (
+  //     <StartingTimeComp
+  //       language={user.language}
+  //       now={now}
+  //       title={languageService[user.language].from}
+  //       startingTimeChanged={(date) => minDateChanged(date)}
+  //     />
+  //   );
+  // };
+  const handleSearch = async () => {
+    if (searching) return;
+    setSearching(true);
     var updatedUser = user;
-    if (!updatedUser.defaultCountry || updatedUser.defaultCountry != country)
+    if (
+      !updatedUser.defaultCountry != country ||
+      updatedUser.defaultCity != city
+    ) {
       updatedUser.defaultCountry = country;
-    if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
       updatedUser.defaultCity = city;
-    await firebase.updateUser(updatedUser);
+      await firebase.updateUser(updatedUser);
+    }
     const preferences = {
       country: country,
       city: city,
       type: type,
-      minTime: minStartingTime,
-      maxTime: maxStartingTime,
+      minTime: now,
       sex: workoutSex,
     };
-    const workouts = await firebase.getWorkoutResults(preferences);
+    // const workouts = await firebase.getWorkoutResults(preferences);
+    const workouts = await firebase.searchWorkouts(preferences, user.id);
     navigation.navigate("SearchedWorkouts", {
       workouts: workouts,
       user: user,
@@ -216,6 +221,7 @@ const SearchWorkoutsScreen = () => {
       />
       <View className="flex-row"></View>
       <ScrollView
+        showsHorizontalScrollIndicator={Platform.OS == "web" ? false : true}
         horizontal={true}
         ref={scrollViewRef}
         pagingEnabled={true}
@@ -229,52 +235,84 @@ const SearchWorkoutsScreen = () => {
           />
         </View>
         <View style={style.slideStyle}>
-          <Dropdown
-            style={[
-              style.dropdown,
-              countryIsFocus && { borderColor: appStyle.color_primary },
-            ]}
-            placeholder={languageService[user.language].country}
-            placeholderStyle={style.placeholderStyle}
-            selectedTextStyle={style.selectedTextStyle}
-            inputSearchStyle={style.inputSearchStyle}
-            iconStyle={style.iconStyle}
-            data={countriesArr}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            value={country}
-            onFocus={() => setCountryIsFocus(true)}
-            onBlur={() => setCountryIsFocus(false)}
-            onChange={(item) => {
-              setCountry(item.value);
-              setCountryIsFocus(false);
-            }}
-          />
-          <Dropdown
-            style={[
-              style.dropdown,
-              cityIsFocus && { borderColor: appStyle.color_primary },
-            ]}
-            placeholder={languageService[user.language].city}
-            placeholderStyle={style.placeholderStyle}
-            selectedTextStyle={style.selectedTextStyle}
-            inputSearchStyle={style.inputSearchStyle}
-            iconStyle={style.iconStyle}
-            data={citiesArr}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            value={city}
-            onFocus={() => setCityIsFocus(true)}
-            onBlur={() => setCityIsFocus(false)}
-            onChange={(item) => {
-              setCity(item.value);
-              setCityIsFocus(false);
-            }}
-          />
+          <View className="mt-5">
+            <Dropdown
+              style={[
+                style.dropdown,
+                countryIsFocus && { borderColor: appStyle.color_primary },
+              ]}
+              placeholder={languageService[user.language].country}
+              placeholderStyle={style.placeholderStyle}
+              selectedTextStyle={style.selectedTextStyle}
+              inputSearchStyle={style.inputSearchStyle}
+              iconStyle={style.iconStyle}
+              data={countriesArr}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              value={country}
+              onFocus={() => setCountryIsFocus(true)}
+              onBlur={() => setCountryIsFocus(false)}
+              onChange={(item) => {
+                setCountry(item.value);
+                setCountryIsFocus(false);
+              }}
+            />
+          </View>
+          <View className="mt-5">
+            <Dropdown
+              style={[
+                style.dropdown,
+                cityIsFocus && { borderColor: appStyle.color_primary },
+              ]}
+              placeholder={languageService[user.language].city}
+              placeholderStyle={style.placeholderStyle}
+              selectedTextStyle={style.selectedTextStyle}
+              inputSearchStyle={style.inputSearchStyle}
+              iconStyle={style.iconStyle}
+              data={citiesArr}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              value={city}
+              onFocus={() => setCityIsFocus(true)}
+              onBlur={() => setCityIsFocus(false)}
+              onChange={(item) => {
+                setCity(item.value);
+                setCityIsFocus(false);
+              }}
+            />
+          </View>
+
+          <View className="mt-5">
+            <View
+              className={`items-center flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
+              <CheckBox
+                size={40}
+                backgroundColor={appStyle.color_primary}
+                value={false}
+                valueColor={appStyle.color_on_primary}
+                onValueChange={(value) =>
+                  value == true
+                    ? user.isMale
+                      ? setWorkoutSex("men")
+                      : setWorkoutSex("women")
+                    : setWorkoutSex("everyone")
+                }
+              />
+              <View className="w-2" />
+              <Text style={{ color: appStyle.color_primary }}>
+                {user.isMale
+                  ? languageService[user.language].showMenOnlyWorkouts
+                  : languageService[user.language].showWomenOnlyWorkouts}
+              </Text>
+            </View>
+          </View>
         </View>
-        <View style={style.slideStyle}>
+        {/* <View style={style.slideStyle}>
           <View
             className={`justify-around mb-5 ${
               Platform.OS == "web"
@@ -299,7 +337,34 @@ const SearchWorkoutsScreen = () => {
               />
             )}
           </View>
-        </View>
+          <View className="mb-5">
+            <View
+              className={`items-center flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
+              <CheckBox
+                size={40}
+                backgroundColor={appStyle.color_primary}
+                value={false}
+                valueColor={appStyle.color_on_primary}
+                onValueChange={(value) =>
+                  value == true
+                    ? user.isMale
+                      ? setWorkoutSex("men")
+                      : setWorkoutSex("women")
+                    : setWorkoutSex("everyone")
+                }
+              />
+              <View className="w-2" />
+              <Text style={{ color: appStyle.color_primary }}>
+                {user.isMale
+                  ? languageService[user.language].showMenOnlyWorkouts
+                  : languageService[user.language].showWomenOnlyWorkouts}
+              </Text>
+            </View>
+          </View>
+        </View> */}
       </ScrollView>
       <View
         style={{
@@ -324,17 +389,35 @@ const SearchWorkoutsScreen = () => {
             {languageService[user.language].back.toUpperCase()}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleNextPage}
-          className="w-1 rounded grow items-center justify-center py-3"
-          style={{ backgroundColor: appStyle.color_primary }}
-        >
-          <Text className="font-black" style={{ color: appStyle.color_bg }}>
-            {languageService[user.language].continue[
-              user.isMale ? 1 : 0
-            ].toUpperCase()}
-          </Text>
-        </TouchableOpacity>
+        {lastPage ? (
+          <TouchableOpacity
+            onPress={handleSearch}
+            className="w-1 rounded grow items-center justify-center py-3"
+            style={{ backgroundColor: appStyle.color_primary }}
+          >
+            <Text
+              className="font-black"
+              style={{ color: appStyle.color_on_primary }}
+            >
+              {searching
+                ? languageService[user.language].searching.toUpperCase()
+                : languageService[user.language].search.toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            disabled={isSearchDisabled}
+            onPress={handleNextPage}
+            className="w-1 rounded grow items-center justify-center py-3"
+            style={{ backgroundColor: appStyle.color_primary }}
+          >
+            <Text className="font-black" style={{ color: appStyle.color_bg }}>
+              {languageService[user.language].continue[
+                user.isMale ? 1 : 0
+              ].toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
