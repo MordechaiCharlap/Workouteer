@@ -13,7 +13,11 @@ import {
   faChevronCircleLeft,
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../hooks/useAuth";
+import languageService from "../../services/languageService";
+import { convertHexToRgba } from "../../utilities/stylingFunctions";
 const AnimatedSlides = (props) => {
+  const { user } = useAuth();
   const scrollViewRef = useRef(null);
   const currentPageIndexRef = useRef(0);
   const horizontal = props.horizontal != null ? props.horizontal : true;
@@ -46,6 +50,13 @@ const AnimatedSlides = (props) => {
   };
   return (
     <View className="flex-1">
+      <View className="flex-row">
+        {Children.map(props.children, (child, index) => (
+          <View>
+            <Text>{child.props.title}</Text>
+          </View>
+        ))}
+      </View>
       <ScrollView
         horizontal={horizontal}
         ref={scrollViewRef}
@@ -57,10 +68,37 @@ const AnimatedSlides = (props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
-          paddingVertical: 10,
+          padding: 10,
+          columnGap: 10,
         }}
       >
-        <TouchableOpacity onPress={handlePrevPage}>
+        <TouchableOpacity
+          onPress={handlePrevPage}
+          className="w-1 rounded grow items-center justify-center py-3"
+          style={{
+            borderWidth: 2,
+            borderColor: convertHexToRgba(appStyle.color_primary, 0.15),
+          }}
+        >
+          <Text
+            className="font-black"
+            style={{ color: appStyle.color_primary }}
+          >
+            {languageService[user.language].back.toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleNextPage}
+          className="w-1 rounded grow items-center justify-center py-3"
+          style={{ backgroundColor: appStyle.color_primary }}
+        >
+          <Text className="font-black" style={{ color: appStyle.color_bg }}>
+            {languageService[user.language].continue[
+              user.isMale ? 1 : 0
+            ].toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={handlePrevPage}>
           <FontAwesomeIcon
             icon={faChevronCircleLeft}
             color={appStyle.color_primary}
@@ -73,7 +111,7 @@ const AnimatedSlides = (props) => {
             color={appStyle.color_primary}
             size={50}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
