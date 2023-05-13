@@ -423,19 +423,14 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
   var countryHe;
   const json = await Geocoder.from(latLong);
   const results = json.results[0];
-  console.log(results);
   for (var element of results.address_components) {
     if (element.types.includes("locality")) {
       cityId = element.long_name.replace(/\s/g, "-").toLowerCase();
       cityEn = element.long_name;
-      console.log(cityId);
-      console.log(cityEn);
     }
     if (element.types.includes("country")) {
       countryId = element.long_name.replace(/\s/g, "-").toLowerCase();
       countryEn = element.long_name;
-      console.log(countryId);
-      console.log(countryEn);
     }
   }
   if (countryId == "israel") {
@@ -448,15 +443,9 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
       .then((response) => response.json())
       .then((data) => {
         const results = data.results;
-        console.log(results);
         for (var element of results.address_components) {
           if (element.types.includes("locality")) {
             cityHe = element.long_name;
-            console.log("cityHe:" + cityHe);
-          }
-          if (element.types.includes("country")) {
-            countryHe = element.long_name;
-            console.log("countryHe:" + countryHe);
           }
         }
       })
@@ -472,33 +461,40 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
           [`${cityId}`]: { english: cityEn, hebrew: cityHe },
         },
       });
-      await updateDoc(doc(db, "countriesData", "countries"), {
-        [`names.${countryId}`]: { english: countryEn, hebrew: countryHe },
-      });
     } else {
       await setDoc(doc(db, "countriesData", countryId), {
         cities: {
-          [`${cityId}`]: { english: cityEn },
+          [`${cityId}`]: cityEn,
         },
       });
-      await updateDoc(doc(db, "countriesData", "countries"), {
-        [`names.${countryId}`]: { english: countryEn },
-      });
     }
+    await updateDoc(doc(db, "countriesData", "countries"), {
+      [`names.${countryId}`]: countryEn,
+    });
   } else {
     if (!countryDoc.data().cities[cityId]) {
       if (countryId == "israel") {
         await updateDoc(doc(db, "countriesData", countryId), {
-          [`cities.${cityId}`]: { english: cityEn },
+          [`cities.${cityId}`]: { english: cityEn, hebrew: cityHe },
         });
       } else {
         await updateDoc(doc(db, "countriesData", countryId), {
-          [`cities.${cityId}`]: { english: cityEn, hebrew: cityHe },
+          [`cities.${cityId}`]: cityEn,
         });
       }
     }
   }
-  return { country: countryId, city: cityId };
+  if (cityHe)
+    return {
+      country: { id: countryId, english: countryEn },
+      city: { id: cityId, english: cityEn, hebrew: cityHe },
+    };
+  else {
+    return {
+      country: { id: countryId, english: countryEn },
+      city: { id: cityId, english: cityEn },
+    };
+  }
 };
 export const createWorkout = async (workout) => {
   const cityAndCountry = await addCountryAndCityToDbIfNeeded(workout.location);
@@ -596,8 +592,8 @@ export const getWorkoutResults = async (preferences) => {
   const workoutsArr = [];
   var q = query(
     collection(db, "workouts"),
-    where("country", "==", preferences.country),
-    where("city", "==", preferences.city),
+    where("country.id", "==", preferences.country),
+    where("city.id", "==", preferences.city),
     where("startingTime", ">=", Timestamp.fromDate(preferences.minTime)),
     where("startingTime", "<=", Timestamp.fromDate(preferences.maxTime)),
     orderBy("startingTime", "asc"),
@@ -621,19 +617,26 @@ export const getWorkoutResults = async (preferences) => {
 export const getCountries = async () => {
   const countriesArr = [];
   const countriesDoc = await getDoc(doc(db, "countriesData", "countries"));
-  for (var key of Object.keys(countriesDoc.data().names)) {
-    countriesArr.push({ label: key, value: key });
+  for (var [key, value] of Object.entries(countriesDoc.data().names)) {
+    countriesArr.push({ label: value, value: key });
   }
   return countriesArr;
 };
 
-export const getCities = async (country) => {
+export const getCities = async (countryId, language) => {
   const citiesArr = [];
-  const safeCountryString = country.replace(/\s/g, "-");
-  const countryDoc = await getDoc(doc(db, "countriesData", safeCountryString));
+  const countryDoc = await getDoc(doc(db, "countriesData", countryId));
+
   if (countryDoc.exists()) {
-    for (var key of Object.keys(countryDoc.data().cities)) {
-      citiesArr.push({ label: key, value: key });
+    if (countryId == "israel") {
+      for (var [key, value] of Object.entries(countryDoc.data().cities)) {
+        citiesArr.push({ label: value[language], value: key });
+      }
+      return citiesArr;
+    } else {
+      for (var [key, value] of Object.entries(countryDoc.data().cities)) {
+        citiesArr.push({ label: value, value: key });
+      }
     }
   }
   return citiesArr;
