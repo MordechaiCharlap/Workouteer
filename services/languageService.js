@@ -252,6 +252,7 @@ const languageService = {
     reportSubmittedTitle: "Report submitted successfully!",
     reportSubmittedMessage:
       "Thank you for reporting this user. Your contribution helps us create a positive environment for all",
+    back: "Back",
   },
   hebrew: {
     login: "התחבר",
@@ -484,6 +485,7 @@ const languageService = {
     reportSubmittedTitle: "הדיווח נשלח בהצלחה",
     reportSubmittedMessage:
       "תודה שדיווחת על המשתמש. התרומה שלך עוזרת לנו ליצור סביבה חיובית לכל המשתמשים :)",
+    back: "אחורה",
   },
 };
 export default languageService;
