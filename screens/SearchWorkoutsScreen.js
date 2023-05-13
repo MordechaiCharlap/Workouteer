@@ -8,7 +8,7 @@ import {
   Platform,
   useWindowDimensions,
 } from "react-native";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, Children } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import Header from "../components/Header";
@@ -46,19 +46,22 @@ const SearchWorkoutsScreen = () => {
   const [country, setCountry] = useState(user.defaultCountry);
   const scrollViewRef = useRef(null);
   const currentPageIndexRef = useRef(0);
+  const pagesCount = 3;
   const handleNextPage = () => {
+    if (pagesCount == currentPageIndexRef.current + 1) return;
     currentPageIndexRef.current++;
-    scrollViewRef.current.scrollTo({
-      animated: true,
-      x: currentPageIndexRef.current * fixedWidth,
-      y: 0,
-    });
+    scroll();
   };
   const handlePrevPage = () => {
+    if (currentPageIndexRef.current == 0) return;
     currentPageIndexRef.current--;
+
+    scroll();
+  };
+  const scroll = () => {
     scrollViewRef.current.scrollTo({
       animated: true,
-      x: currentPageIndexRef.current * fixedWidth,
+      x: currentPageIndexRef.current * width,
       y: 0,
     });
   };
@@ -93,6 +96,7 @@ const SearchWorkoutsScreen = () => {
       fontSize: 16,
     },
     selectedTextStyle: {
+      textAlign: "center",
       color: appStyle.color_on_primary,
       fontSize: 16,
     },
@@ -140,7 +144,7 @@ const SearchWorkoutsScreen = () => {
   useEffect(() => {
     if (country != null) {
       const updateCities = async () => {
-        setCitiesArr(await firebase.getCities(country));
+        setCitiesArr(await firebase.getCities(country, user.language));
       };
       updateCities();
     }
@@ -266,7 +270,7 @@ const SearchWorkoutsScreen = () => {
               setCityIsFocus(false);
             }}
           />
-          <View
+          {/* <View
             className={`flex-row${user.language == "hebrew" ? "-reverse" : ""}`}
           >
             <TouchableOpacity
@@ -288,7 +292,7 @@ const SearchWorkoutsScreen = () => {
             }}
           >
             {languageService[user.language].cantFindCityExplenation}
-          </Text>
+          </Text> */}
         </View>
         <View style={style.slideStyle}>
           <View
