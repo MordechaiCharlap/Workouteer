@@ -58,11 +58,6 @@ export const AuthPrvider = ({ children }) => {
                 setUser(doc.data());
               }
             );
-            setTimeout(() => {
-              setLoginLoading(false);
-            }, 5000);
-          } else {
-            setLoginLoading(false);
           }
         };
         setUserAsync();
@@ -97,13 +92,13 @@ export const AuthPrvider = ({ children }) => {
         });
     };
     if (response?.type === "success") {
-      setInitialLoading(true);
       credential = GoogleAuthProvider.credential(
         null,
         response.authentication.accessToken
       );
       getUserData(response.authentication.accessToken);
     } else {
+      setInitialLoading(false);
     }
   }, [response]);
   useEffect(() => {
@@ -124,11 +119,12 @@ export const AuthPrvider = ({ children }) => {
         }
       } else {
         navigation.navigate("Register");
-        setInitialLoading(false);
       }
     };
     if (googleUserInfo && googleUserInfo.credential) {
-      setGoogleUserAsync();
+      setGoogleUserAsync().then(() => {
+        setLoginLoading(false);
+      });
     }
   }, [googleUserInfo]);
   useEffect(() => {
@@ -140,6 +136,7 @@ export const AuthPrvider = ({ children }) => {
     } else if (!user) setUserLoaded(false);
   }, [user]);
   useEffect(() => {
+    setLoginLoading(false);
     if (!userLoaded) return;
 
     const getLocation = async () => {
@@ -148,6 +145,7 @@ export const AuthPrvider = ({ children }) => {
     getLocation();
   }, [userLoaded]);
   const signInGoogleAccount = async () => {
+    setLoginLoading(true);
     await promptAsync({ useProxy: false, showInRecents: true });
   };
   const createUserEmailAndPassword = async (email, password) => {
