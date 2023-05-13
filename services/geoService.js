@@ -1,6 +1,5 @@
 import * as Location from "expo-location";
 import { updateUser } from "./firebase";
-import Geocoder from "react-native-geocoding";
 import { addCountryAndCityToDbIfNeeded } from "./firebase";
 
 export const getCurrentLocation = async (user) => {
@@ -19,10 +18,14 @@ export const getCurrentLocation = async (user) => {
   if (user && latLongLocation) {
     const userClone = { ...user };
     userClone.lastLocation = latLongLocation;
-    const cityAndCountry = await addCountryAndCityToDbIfNeeded(latLongLocation);
-    console.log(cityAndCountry);
-    userClone.city = cityAndCountry.city;
-    userClone.country = cityAndCountry.country;
+    if (!userClone.defaultCountry || !userClone.defaultCity) {
+      const cityAndCountry = await addCountryAndCityToDbIfNeeded(
+        latLongLocation
+      );
+      userClone.defaultCity = cityAndCountry.city.id;
+      userClone.defaultCountry = cityAndCountry.country.id;
+    }
+
     await updateUser(userClone);
   }
   return latLongLocation;
