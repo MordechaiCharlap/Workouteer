@@ -8,7 +8,6 @@ import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ExploreScreen from "./screens/ExploreScreen";
 import FriendsScreen from "./screens/FriendsScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ChatsScreen from "./screens/ChatsScreen";
 import ChangePreferencesScreen from "./screens/ChangePreferencesScreen";
 import SearchUsersScreen from "./screens/SearchUsersScreen";
@@ -48,6 +47,8 @@ import useAppData from "./hooks/useAppData";
 import ReportUserScreen from "./screens/ReportUserScreen";
 import * as SplashScreen from "expo-splash-screen";
 import SearchWorkoutsScreen from "./screens/SearchWorkoutsScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -209,6 +210,11 @@ const StackNavigator = () => {
                 options={verticalAnimation}
               />
               <Stack.Screen
+                name="CreateWorkout"
+                component={CreateWorkoutScreen}
+                options={verticalAnimation}
+              />
+              <Stack.Screen
                 name="FindWorkout"
                 component={FindWorkoutScreen}
                 options={verticalAnimation}
@@ -313,6 +319,7 @@ const StackNavigator = () => {
     </View>
   );
 };
+
 const verticalAnimation = () => {
   const options = {
     headerShown: false,
