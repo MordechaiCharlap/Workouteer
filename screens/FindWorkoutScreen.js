@@ -64,7 +64,7 @@ const FindWorkoutScreen = () => {
   useEffect(() => {
     if (country != null) {
       const updateCities = async () => {
-        setCitiesArr(await firebase.getCities(country));
+        setCitiesArr(await firebase.getCities(country, user.language));
       };
       updateCities();
     }
@@ -109,7 +109,7 @@ const FindWorkoutScreen = () => {
     );
   };
   const showResults = async () => {
-    var updatedUser = user;
+    var updatedUser = { ...user };
     if (!updatedUser.defaultCountry || updatedUser.defaultCountry != country)
       updatedUser.defaultCountry = country;
     if (!updatedUser.defaultCountry || updatedUser.defaultCountry != city)
@@ -187,30 +187,6 @@ const FindWorkoutScreen = () => {
               setCityIsFocus(false);
             }}
           />
-          <View
-            className={`flex-row${user.language == "hebrew" ? "-reverse" : ""}`}
-          >
-            <TouchableOpacity
-              onPress={() => setNoCityInformation(!noCityInformation)}
-              className={`p-1 rounded ${noCityInformation ? "" : "mb-5"}`}
-              style={{ backgroundColor: appStyle.color_primary }}
-            >
-              <Text style={{ color: appStyle.color_on_primary }}>
-                {languageService[user.language].cantFindCityClickHere}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <Text
-            className="mb-5 rounded p-1 mt-1"
-            style={{
-              color: appStyle.color_on_primary,
-              backgroundColor: appStyle.color_bg_variant,
-              display: noCityInformation ? "flex" : "none",
-            }}
-          >
-            {languageService[user.language].cantFindCityExplenation}
-          </Text>
-
           <View
             className={`justify-around mb-5 ${
               Platform.OS == "web"
