@@ -161,17 +161,10 @@ const CreateWorkoutScreen = () => {
     },
   });
   const upperIconStyle = { color: appStyle.color_primary, size: 30 };
-  const TitleAndBackOption = (props) => {
+  const Title = (props) => {
     return (
       <View>
-        <TouchableOpacity onPress={handlePrevPage}>
-          <FontAwesomeIcon
-            icon={props.icon}
-            size={upperIconStyle.size}
-            color={upperIconStyle.color}
-          />
-        </TouchableOpacity>
-
+        <View className="flex-1"></View>
         <Text
           className="text-center text-lg"
           style={{ color: appStyle.color_primary }}
@@ -263,17 +256,30 @@ const CreateWorkoutScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <View className="flex-1">
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          ref={scrollViewRef}
-          pagingEnabled={true}
-          scrollEnabled={false}
-          onMomentumScrollEnd={handleScrollEnd}
-        >
-          <View style={style.slideStyle}>
-            <TitleAndBackOption title={"Workout Type"} icon={faX} />
+      <TouchableOpacity
+        onPress={handlePrevPage}
+        style={{ marginTop: 20, marginHorizontal: 20 }}
+      >
+        <FontAwesomeIcon
+          icon={pageIndex == 0 ? faX : faChevronLeft}
+          size={upperIconStyle.size}
+          color={upperIconStyle.color}
+        />
+      </TouchableOpacity>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        ref={scrollViewRef}
+        pagingEnabled={true}
+        scrollEnabled={false}
+        onMomentumScrollEnd={handleScrollEnd}
+      >
+        <View style={style.slideStyle}>
+          <Title
+            title={languageService[user.language].workoutType}
+            icon={faX}
+          />
+          <View>
             <WorkoutType
               language={user.language}
               typeSelected={(type) => {
@@ -281,12 +287,14 @@ const CreateWorkoutScreen = () => {
               }}
             />
           </View>
+        </View>
 
-          <View title={"Date and Duration"} style={style.slideStyle}>
-            <TitleAndBackOption
-              title={"Date and Duration"}
-              icon={faChevronLeft}
-            />
+        <View style={style.slideStyle}>
+          <Title
+            title={languageService[user.language].dateAndDuration}
+            icon={faChevronLeft}
+          />
+          <View>
             {Platform.OS == "web" ? (
               <View>
                 <NextWeekDropdown
@@ -318,72 +326,81 @@ const CreateWorkoutScreen = () => {
               </View>
             )}
           </View>
-          <View title={"Location"} style={style.slideStyle}>
+        </View>
+        <View style={style.slideStyle}>
+          <Title
+            title={languageService[user.language].location}
+            icon={faChevronLeft}
+          />
+          <View>
             <WorkoutLocation
               initialShow={true}
               language={user.language}
               locationChanged={setLocation}
             />
           </View>
-          <View title={"Sex and Description"} style={style.slideStyle}>
-            <WorkoutSex
-              size={40}
-              isMale={user.isMale}
-              language={user.language}
-              sexChanged={setWorkoutSex}
-            />
-            <WorkoutDescription
-              language={user.language}
-              descChanged={setDescription}
-            />
-          </View>
-        </ScrollView>
-        {pageIndex == pages.length - 1 ? (
-          <TouchableOpacity
-            disabled={isCreateDisabled}
-            onPress={createWorkout}
-            className="rounded-full items-center py-3"
-            style={{
-              margin: 10,
+        </View>
+        <View style={style.slideStyle}>
+          <Title
+            title={languageService[user.language].preferences}
+            icon={faChevronLeft}
+          />
+          <WorkoutSex
+            size={40}
+            isMale={user.isMale}
+            language={user.language}
+            sexChanged={setWorkoutSex}
+          />
+          <WorkoutDescription
+            language={user.language}
+            descChanged={setDescription}
+          />
+        </View>
+      </ScrollView>
+      {pageIndex == pages.length - 1 ? (
+        <TouchableOpacity
+          disabled={isCreateDisabled}
+          onPress={createWorkout}
+          className="rounded-lg items-center h-16 justify-center"
+          style={{
+            margin: 10,
 
-              backgroundColor: appStyle.color_primary_variant,
-              borderWidth: 1,
-              borderColor: convertHexToRgba(appStyle.color_on_primary, 0.6),
-            }}
+            backgroundColor: appStyle.color_success,
+            borderWidth: 3,
+            borderColor: convertHexToRgba(appStyle.color_primary, 0.2),
+          }}
+        >
+          <Text
+            className="font-black text-lg"
+            style={{ color: convertHexToRgba(appStyle.color_primary, 0.8) }}
           >
-            <Text
-              className="font-black"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              {loading
-                ? languageService[user.language].loading.toUpperCase()
-                : languageService[user.language].createWorkout.toUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            disabled={continueDisabled}
-            onPress={handleNextPage}
-            className="rounded-full items-center py-3"
-            style={{
-              margin: 10,
-              backgroundColor: continueDisabled
-                ? appStyle.color_bg_variant
-                : appStyle.color_primary,
-            }}
+            {loading
+              ? languageService[user.language].loading.toUpperCase()
+              : languageService[user.language].createWorkout.toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          disabled={continueDisabled}
+          onPress={handleNextPage}
+          className="rounded-lg items-center h-16 justify-center"
+          style={{
+            margin: 10,
+            backgroundColor: continueDisabled
+              ? appStyle.color_bg_variant
+              : appStyle.color_primary,
+          }}
+        >
+          <Text
+            className="font-black text-lg"
+            style={{ color: appStyle.color_on_primary }}
           >
-            <Text
-              className="font-black"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              {languageService[user.language].continue[
-                user.isMale ? 1 : 0
-              ].toUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-
+            {languageService[user.language].continue[
+              user.isMale ? 1 : 0
+            ].toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+      )}
       <AwesomeAlert
         show={showAlert}
         showProgress={false}
