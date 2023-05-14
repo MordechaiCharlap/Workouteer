@@ -2,7 +2,23 @@ import * as Location from "expo-location";
 import { updateUser } from "./firebase";
 import { addCountryAndCityToDbIfNeeded } from "./firebase";
 
-export const getCurrentLocation = async (user) => {
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(() => resolve(false), ms));
+}
+
+async function getLocationOrTimeout() {
+  const locationPromise = getLocation();
+  const timeoutPromise = wait(3000);
+
+  try {
+    const location = await Promise.race([locationPromise, timeoutPromise]);
+    return location;
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+  }
+}
+const getLocation = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== "granted") {
     return false;
@@ -15,7 +31,12 @@ export const getCurrentLocation = async (user) => {
     latitude: location.coords.latitude,
     longitude: location.coords.longitude,
   };
-  if (user && latLongLocation) {
+  return latLongLocation;
+};
+export const getCurrentLocation = async (user) => {
+  const latLongLocation = await getLocationOrTimeout();
+  if (!latLongLocation) return false;
+  if (user) {
     const userClone = { ...user };
     userClone.lastLocation = latLongLocation;
     if (!userClone.defaultCountry || !userClone.defaultCity) {
