@@ -45,13 +45,18 @@ const CreateWorkoutScreen = () => {
   const [workoutSex, setWorkoutSex] = useState("everyone");
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState("");
-  const [isCreateDisabled, setIsCreateDisabled] = useState(true);
+  const [isCreateDisabled, setIsCreateDisabled] = useState(false);
   const [continueDisabled, setContinueDisabled] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const pages = ["Workout Type", "Create Workout"];
+  const pages = [
+    "Workout Type",
+    "Date and Duration",
+    "Location",
+    "Sex and Description",
+  ];
   const [pageIndex, setPageIndex] = useState(0);
   const { width, height } = useWindowDimensions();
   const fixedHeight = height;
@@ -85,23 +90,32 @@ const CreateWorkoutScreen = () => {
     });
   };
   useEffect(() => {
-    console.log(pageIndex);
     switch (pageIndex) {
       case 0:
         if (type == null) {
           setContinueDisabled(true);
           return;
         }
+        break;
       case 1:
-        if (type == null) {
+        if (minutes == null || startingTime == null) {
           setContinueDisabled(true);
           return;
         }
+        break;
+      case 2:
+        if (location == null) {
+          setContinueDisabled(true);
+          return;
+        }
+        break;
     }
     setContinueDisabled(false);
-  }, [pageIndex, type]);
+  }, [pageIndex, type, minutes, startingTime, location]);
   const style = StyleSheet.create({
     slideStyle: {
+      rowGap: 15,
+      paddingTop: 20,
       paddingHorizontal: 10,
       width: fixedWidth,
     },
@@ -179,25 +193,10 @@ const CreateWorkoutScreen = () => {
     }
     return true;
   };
-  useEffect(() => {
-    checkIfCanAddWorkout();
-  }, [type, startingTime, minutes, location]);
-  const checkIfCanAddWorkout = () => {
-    if (
-      type != null &&
-      startingTime != null &&
-      minutes != null &&
-      location != null
-    ) {
-      setIsCreateDisabled(false);
-    } else {
-      setIsCreateDisabled(true);
-    }
-  };
   const createWorkout = async () => {
     if (checkIfWorkoutTimeAvailable()) {
       setIsCreateDisabled(true);
-      navigation.goBack();
+      setLoading(true);
       var scheduledNotificationId;
       if (Platform.OS != "web") {
         scheduledNotificationId = await schedulePushNotification(
@@ -206,6 +205,7 @@ const CreateWorkoutScreen = () => {
           "Don't forget to confirm your workout to get your points :)"
         );
       }
+
       const workout = {
         creator: user.id,
         members: {
@@ -225,7 +225,14 @@ const CreateWorkoutScreen = () => {
         invites: {},
         requests: {},
       };
-      await firebase.createWorkout(workout);
+      const newWorkoutId = await firebase.createWorkout(workout);
+      const returnedWorkout = await firebase.getWorkout(newWorkoutId);
+      navigation.replace("WorkoutDetails", {
+        workout: returnedWorkout,
+        isCreator: true,
+        isPastWorkout: false,
+        userMemberStatus: "creator",
+      });
       await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
     } else {
       setShowAlert(true);
@@ -238,7 +245,7 @@ const CreateWorkoutScreen = () => {
         goBackOption={true}
       />
       <ScrollView
-        showsHorizontalScrollIndicator={Platform.OS == "web" ? false : true}
+        showsHorizontalScrollIndicator={false}
         horizontal={true}
         ref={scrollViewRef}
         pagingEnabled={true}
@@ -250,15 +257,59 @@ const CreateWorkoutScreen = () => {
             language={user.language}
             typeSelected={(type) => {
               setType(type);
-              handleNextPage();
+              // handleNextPage();
             }}
           />
         </View>
-        <View title={"Workout Date"} style={style.slideStyle}>
-          <NextWeekDropdown
+        <View title={"Date and Duration"} style={style.slideStyle}>
+          {Platform.OS == "web" ? (
+            <View>
+              <NextWeekDropdown
+                language={user.language}
+                now={now}
+                selectedDateChanged={setStartingTime}
+              />
+              <WorkoutMinutes
+                language={user.language}
+                minutesSelected={setMinutes}
+              />
+            </View>
+          ) : (
+            <View>
+              <View className="flex-row">
+                <View className="w-1/2">
+                  <WorkoutStartingTime
+                    startingTimeChanged={setStartingTime}
+                    minDate={now}
+                  />
+                </View>
+                <View className="w-1/2">
+                  <WorkoutMinutes
+                    language={user.language}
+                    minutesSelected={setMinutes}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+        </View>
+        <View title={"Location"} style={style.slideStyle}>
+          <WorkoutLocation
+            initialShow={true}
             language={user.language}
-            now={now}
-            selectedDateChanged={setStartingTime}
+            locationChanged={setLocation}
+          />
+        </View>
+        <View title={"Sex and Description"} style={style.slideStyle}>
+          <WorkoutSex
+            size={40}
+            isMale={user.isMale}
+            language={user.language}
+            sexChanged={setWorkoutSex}
+          />
+          <WorkoutDescription
+            language={user.language}
+            descChanged={setDescription}
           />
         </View>
       </ScrollView>
@@ -327,6 +378,24 @@ const CreateWorkoutScreen = () => {
           </TouchableOpacity>
         )}
       </View>
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        onDismiss={() => setShowAlert(false)}
+        closeOnHardwareBackPress={true}
+        showConfirmButton={true}
+        confirmText={languageService[user.language].gotIt}
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowAlert(false);
+        }}
+        onConfirmPressed={() => {
+          setShowAlert(false);
+        }}
+      />
     </View>
   );
 };
