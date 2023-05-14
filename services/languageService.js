@@ -43,7 +43,7 @@ const languageService = {
     newWorkout: "New workout",
     details: "Details",
     optionalText: "Optional text",
-    workoutTimePeiod: "Workout time period (minutes)",
+    workoutTimePeiod: "Duration",
     language: "Language",
     chooseLanguage: "Choose language",
     showOnlineStatus: "Show online status",
@@ -187,7 +187,7 @@ const languageService = {
       "Schedule a later starting time",
       "Schedule a later starting time",
     ],
-    workoutMinutesPlaceholder: "Workout length (hours:minutes)",
+    workoutMinutesPlaceholder: "Duration",
     youAre: ["You are", "You are"],
     meters: ["meters"],
     kms: ["kilometers"],
@@ -254,6 +254,7 @@ const languageService = {
     reportSubmittedMessage:
       "Thank you for reporting this user. Your contribution helps us create a positive environment for all",
     back: "Back",
+    results: "Results",
   },
   hebrew: {
     login: "התחבר",
@@ -488,6 +489,7 @@ const languageService = {
     reportSubmittedMessage:
       "תודה שדיווחת על המשתמש. התרומה שלך עוזרת לנו ליצור סביבה חיובית לכל המשתמשים :)",
     back: "אחורה",
+    results: "תוצאות",
   },
 };
 export default languageService;
