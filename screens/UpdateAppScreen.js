@@ -38,7 +38,7 @@ const UpdateAppScreen = () => {
               className="text-2xl text-center font-semibold"
               style={{ color: appStyle.color_primary }}
             >
-              {user ? languageService[user.language].update : "Ipdate"}
+              {user ? languageService[user.language].update : "Update"}
             </Text>
           </TouchableOpacity>
         </View>
