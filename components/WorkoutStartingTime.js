@@ -85,7 +85,7 @@ const WorkoutStartingTime = (props) => {
           styles.input,
           dateChangedOnce ? styles.changedVal : styles.notChangedVal,
         ]}
-        className="rounded px-3 h-10 justify-center items-center"
+        className="px-3 h-10 justify-center items-center"
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
