@@ -46,7 +46,7 @@ const WorkoutMinutes = (props) => {
 
   return (
     <View>
-      {renderLabel()}
+      {/* {renderLabel()} */}
       <Dropdown
         style={[
           styles.dropdown,
