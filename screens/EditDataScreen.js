@@ -76,10 +76,10 @@ const EditProfileData = (props) => {
       aspect: [1, 1],
       quality: 1,
     });
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImageLoading(true);
       const manipResult = await ImageManipulator.manipulateAsync(
-        result.localUri || result.uri,
+        result.localUri || result.assets[0].uri,
         [{ resize: { height: 1080, width: 1080 } }],
         {
           compress: 0.5,
