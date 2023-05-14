@@ -30,6 +30,8 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import { convertHexToRgba } from "../utilities/stylingFunctions";
 import { isWebOnPC } from "../services/webScreenService";
 import { useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft, faX } from "@fortawesome/free-solid-svg-icons";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -70,7 +72,10 @@ const CreateWorkoutScreen = () => {
     scroll();
   };
   const handlePrevPage = () => {
-    if (currentPageIndexRef.current == 0) return;
+    if (currentPageIndexRef.current == 0) {
+      navigation.goBack();
+      return;
+    }
     setPageIndex(currentPageIndexRef.current - 1);
     currentPageIndexRef.current--;
 
@@ -149,15 +154,33 @@ const CreateWorkoutScreen = () => {
       color: appStyle.color_on_primary,
       fontSize: 16,
     },
-    iconStyle: {
-      width: 20,
-      height: 20,
-    },
+
     inputSearchStyle: {
       height: 40,
       fontSize: 16,
     },
   });
+  const upperIconStyle = { color: appStyle.color_primary, size: 30 };
+  const TitleAndBackOption = (props) => {
+    return (
+      <View>
+        <TouchableOpacity onPress={handlePrevPage}>
+          <FontAwesomeIcon
+            icon={props.icon}
+            size={upperIconStyle.size}
+            color={upperIconStyle.color}
+          />
+        </TouchableOpacity>
+
+        <Text
+          className="text-center text-lg"
+          style={{ color: appStyle.color_primary }}
+        >
+          {props.title}
+        </Text>
+      </View>
+    );
+  };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("CreateWorkout");
@@ -240,108 +263,89 @@ const CreateWorkoutScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <Header
-        title={languageService[user.language].createWorkout}
-        goBackOption={true}
-      />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        ref={scrollViewRef}
-        pagingEnabled={true}
-        scrollEnabled={false}
-        onMomentumScrollEnd={handleScrollEnd}
-      >
-        <View title={"Workout type"} style={style.slideStyle}>
-          <WorkoutType
-            language={user.language}
-            typeSelected={(type) => {
-              setType(type);
-              // handleNextPage();
-            }}
-          />
-        </View>
-        <View title={"Date and Duration"} style={style.slideStyle}>
-          {Platform.OS == "web" ? (
-            <View>
-              <NextWeekDropdown
-                language={user.language}
-                now={now}
-                selectedDateChanged={setStartingTime}
-              />
-              <WorkoutMinutes
-                language={user.language}
-                minutesSelected={setMinutes}
-              />
-            </View>
-          ) : (
-            <View>
-              <View className="flex-row">
-                <View className="w-1/2">
-                  <WorkoutStartingTime
-                    startingTimeChanged={setStartingTime}
-                    minDate={now}
-                  />
-                </View>
-                <View className="w-1/2">
-                  <WorkoutMinutes
-                    language={user.language}
-                    minutesSelected={setMinutes}
-                  />
+      <View className="flex-1">
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          ref={scrollViewRef}
+          pagingEnabled={true}
+          scrollEnabled={false}
+          onMomentumScrollEnd={handleScrollEnd}
+        >
+          <View style={style.slideStyle}>
+            <TitleAndBackOption title={"Workout Type"} icon={faX} />
+            <WorkoutType
+              language={user.language}
+              typeSelected={(type) => {
+                setType(type);
+              }}
+            />
+          </View>
+
+          <View title={"Date and Duration"} style={style.slideStyle}>
+            <TitleAndBackOption
+              title={"Date and Duration"}
+              icon={faChevronLeft}
+            />
+            {Platform.OS == "web" ? (
+              <View>
+                <NextWeekDropdown
+                  language={user.language}
+                  now={now}
+                  selectedDateChanged={setStartingTime}
+                />
+                <WorkoutMinutes
+                  language={user.language}
+                  minutesSelected={setMinutes}
+                />
+              </View>
+            ) : (
+              <View>
+                <View className="flex-row">
+                  <View className="w-1/2">
+                    <WorkoutStartingTime
+                      startingTimeChanged={setStartingTime}
+                      minDate={now}
+                    />
+                  </View>
+                  <View className="w-1/2">
+                    <WorkoutMinutes
+                      language={user.language}
+                      minutesSelected={setMinutes}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
-        </View>
-        <View title={"Location"} style={style.slideStyle}>
-          <WorkoutLocation
-            initialShow={true}
-            language={user.language}
-            locationChanged={setLocation}
-          />
-        </View>
-        <View title={"Sex and Description"} style={style.slideStyle}>
-          <WorkoutSex
-            size={40}
-            isMale={user.isMale}
-            language={user.language}
-            sexChanged={setWorkoutSex}
-          />
-          <WorkoutDescription
-            language={user.language}
-            descChanged={setDescription}
-          />
-        </View>
-      </ScrollView>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          padding: 10,
-          columnGap: 10,
-        }}
-      >
-        <TouchableOpacity
-          onPress={handlePrevPage}
-          className="w-1 rounded grow items-center justify-center py-3"
-          style={{
-            borderWidth: 2,
-            borderColor: convertHexToRgba(appStyle.color_primary, 0.15),
-          }}
-        >
-          <Text
-            className="font-black"
-            style={{ color: appStyle.color_primary }}
-          >
-            {languageService[user.language].back.toUpperCase()}
-          </Text>
-        </TouchableOpacity>
+            )}
+          </View>
+          <View title={"Location"} style={style.slideStyle}>
+            <WorkoutLocation
+              initialShow={true}
+              language={user.language}
+              locationChanged={setLocation}
+            />
+          </View>
+          <View title={"Sex and Description"} style={style.slideStyle}>
+            <WorkoutSex
+              size={40}
+              isMale={user.isMale}
+              language={user.language}
+              sexChanged={setWorkoutSex}
+            />
+            <WorkoutDescription
+              language={user.language}
+              descChanged={setDescription}
+            />
+          </View>
+        </ScrollView>
         {pageIndex == pages.length - 1 ? (
           <TouchableOpacity
             disabled={isCreateDisabled}
             onPress={createWorkout}
-            className="w-1 rounded grow items-center justify-center py-3"
+            className="rounded-full items-center py-3"
             style={{
+              margin: 10,
+
               backgroundColor: appStyle.color_primary_variant,
               borderWidth: 1,
               borderColor: convertHexToRgba(appStyle.color_on_primary, 0.6),
@@ -360,8 +364,9 @@ const CreateWorkoutScreen = () => {
           <TouchableOpacity
             disabled={continueDisabled}
             onPress={handleNextPage}
-            className="w-1 rounded grow items-center justify-center py-3"
+            className="rounded-full items-center py-3"
             style={{
+              margin: 10,
               backgroundColor: continueDisabled
                 ? appStyle.color_bg_variant
                 : appStyle.color_primary,
@@ -378,6 +383,7 @@ const CreateWorkoutScreen = () => {
           </TouchableOpacity>
         )}
       </View>
+
       <AwesomeAlert
         show={showAlert}
         showProgress={false}
