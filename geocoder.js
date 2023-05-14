@@ -1,4 +1,5 @@
 import Geocoder from "react-native-geocoding";
+import { mapsApiKey } from "./utilities/mapsApiKey";
 export const initGeocoder = () => {
-  Geocoder.init("AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ", { language: "en" });
+  Geocoder.init(mapsApiKey, { language: "en" });
 };
