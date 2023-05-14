@@ -2,7 +2,7 @@
   "expo": {
     "name": "Workouteer",
     "slug": "workouteer-rn",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/app-icon.png",
@@ -41,14 +41,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "icon": "./assets/app-icon-ios.png",
       "supportsTablet": true
     },
     "android": {
       "config": {
-        "googleMaps": { "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ" }
+        "googleMaps": {
+          "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ"
+        }
       },
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "resize",
