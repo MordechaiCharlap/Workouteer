@@ -205,11 +205,6 @@ const NextWeekDropdown = (props) => {
   );
 };
 const style = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderColor: "#5f6b8b",
-    color: appStyle.color_on_primary,
-  },
   text: { color: appStyle.color_on_primary },
   container: {
     paddingHorizontal: 16,
@@ -217,7 +212,7 @@ const style = StyleSheet.create({
   dropdown: {
     backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: appStyle.color_on_primary,
+    borderColor: appStyle.color_bg_variant,
     borderWidth: 0.5,
     borderRadius: 4,
     paddingHorizontal: 8,

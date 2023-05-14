@@ -106,10 +106,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   placeholderStyle: {
+    textAlign: "center",
     color: appStyle.color_on_primary,
     fontSize: 16,
   },
   selectedTextStyle: {
+    textAlign: "center",
     color: appStyle.color_on_primary,
     fontSize: 16,
   },

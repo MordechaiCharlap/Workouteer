@@ -89,7 +89,12 @@ const WorkoutStartingTime = (props) => {
         onPress={showDatepicker}
       >
         {!dateChangedOnce && (
-          <Text style={{ color: appStyle.color_on_primary }}>
+          <Text
+            style={{
+              color: appStyle.color_on_primary,
+              textAlign: "center",
+            }}
+          >
             {languageService[user.language].when}
           </Text>
         )}
@@ -136,8 +141,8 @@ const WorkoutStartingTime = (props) => {
 };
 const styles = StyleSheet.create({
   input: {
-    width: 130,
     height: 50,
+    borderColor: appStyle.color_primary,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
