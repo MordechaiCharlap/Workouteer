@@ -6,8 +6,11 @@ import Header from "../components/Header";
 import WorkoutComponent from "../components/WorkoutComponent";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect } from "@react-navigation/native";
+import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 
 const SearchedWorkoutsScreen = ({ route }) => {
+  const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
@@ -17,7 +20,10 @@ const SearchedWorkoutsScreen = ({ route }) => {
   const workouts = route.params.workouts;
   return (
     <View style={safeAreaStyle()}>
-      <Header title="Results" goBackOption={true} />
+      <Header
+        title={languageService[user.language].results}
+        goBackOption={true}
+      />
       <FlatList
         className="px-2"
         data={workouts}
