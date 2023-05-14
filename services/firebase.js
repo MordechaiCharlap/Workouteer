@@ -26,6 +26,7 @@ import {
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
+import { mapsApiKey } from "../utilities/mapsApiKey";
 export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = initializeAuth(firebaseApp, {
   persistence: getReactNativePersistence(AsyncStorage),
@@ -420,7 +421,6 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
   var cityEn;
   var countryEn;
   var cityHe;
-  var countryHe;
   const json = await Geocoder.from(latLong);
   const results = json.results[0];
   for (var element of results.address_components) {
@@ -436,16 +436,15 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
   if (countryId == "israel") {
     var apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
       latLong.latitude
-    },${
-      latLong.longitude
-    }&key=${"AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ"}&language=${"he"}`;
+    },${latLong.longitude}&key=${mapsApiKey}&language=${"he"}`;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         const results = data.results;
-        for (var element of results.address_components) {
+        for (var element of results) {
           if (element.types.includes("locality")) {
-            cityHe = element.long_name;
+            cityHe = element.formatted_address.split(",")[0];
+            break;
           }
         }
       })
@@ -511,6 +510,7 @@ export const createWorkout = async (workout) => {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
+  return newWorkoutRef.id;
 };
 export const getFutureWorkouts = async (plannedWorkouts) => {
   const now = new Date();
