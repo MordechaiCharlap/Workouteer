@@ -76,7 +76,7 @@ const HomeScreen = () => {
           <HomeScreenButton
             buttonText={languageService[user.language].createWorkoutHomeBtn}
             style={buttonStyle}
-            navigateScreen="NewWorkout"
+            navigateScreen="CreateWorkout"
             icon={faPlus}
           />
         </View>
