@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faX } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../utilities/appStyleSheet";
 const Header = (props) => {
@@ -19,7 +19,7 @@ const Header = (props) => {
           onPress={props.navigate ? props.navigate : () => navigation.goBack()}
         >
           <FontAwesomeIcon
-            icon={faChevronLeft}
+            icon={props.icon == "x" ? faX : faChevronLeft}
             size={40}
             color={props.color ? props.color : appStyle.color_primary}
           />
