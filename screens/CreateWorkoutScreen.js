@@ -241,10 +241,9 @@ const CreateWorkoutScreen = () => {
         invites: {},
         requests: {},
       };
-      const newWorkoutId = await firebase.createWorkout(workout);
-      const returnedWorkout = await firebase.getWorkout(newWorkoutId);
+      const newWorkoutData = await firebase.createWorkout(workout);
       navigation.replace("WorkoutDetails", {
-        workout: returnedWorkout,
+        workout: newWorkoutData,
         isCreator: true,
         isPastWorkout: false,
         userMemberStatus: "creator",
