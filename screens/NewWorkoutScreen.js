@@ -26,6 +26,7 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import NextWeekDropdown from "../components/NextWeekDropdown";
 import * as workoutUtils from "../utilities/workoutUtils";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { convertHexToRgba } from "../utilities/stylingFunctions";
 const NewWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -46,7 +47,6 @@ const NewWorkoutScreen = () => {
   const [createButtonColor, setCreateButtonColor] = useState(
     appStyle.color_bg_variant
   );
-  const [closestWorkoutDate, setClosestWorkoutDate] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -101,7 +101,7 @@ const NewWorkoutScreen = () => {
     } else {
       setIsCreateDisabled(true);
       setCreateButtonTextColor("white");
-      setCreateButtonColor("black");
+      setCreateButtonColor(convertHexToRgba(appStyle.color_bg_variant, 0.5));
     }
   };
   const createWorkout = async () => {
@@ -159,13 +159,13 @@ const NewWorkoutScreen = () => {
             }`}
           >
             <WorkoutSex
+              size={50}
               isMale={user.isMale}
               language={user.language}
               sexChanged={setWorkoutSex}
             />
             {Platform.OS != "web" ? (
               <WorkoutStartingTime
-                setClosestWorkoutDate={setClosestWorkoutDate}
                 startingTimeChanged={setStartingTime}
                 minDate={now}
               />
