@@ -65,41 +65,31 @@ const WorkoutLocation = (props) => {
   const locationPinned = (coords) => {
     getAddress(coords);
     setLocation(coords);
-    setShowMap(false);
     props.locationChanged(coords);
   };
+  useEffect(() => {
+    if (address) setShowMap(false);
+  }, [address]);
   return (
     <View>
       <View className="items-center mb-5 gap-x-1">
-        <View
-          className={`items-center gap-x-1 mb-5 ${
-            props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
-          }`}
-        >
-          <FontAwesomeIcon
-            icon={faLocationDot}
-            size={25}
-            color={appStyle.color_primary}
-          />
-          <Text style={{ color: appStyle.color_primary }}>
-            {languageService[props.language].location}:
-          </Text>
-        </View>
         {showMap ? (
           <></>
         ) : (
           <View>
-            {address != null && (
-              <Text
-                className="rounded-t px-2 py-1 text-lg"
-                style={{
-                  color: convertHexToRgba(appStyle.color_primary, 0.9),
-                  backgroundColor: appStyle.color_on_primary,
-                }}
-              >
-                {address}
-              </Text>
-            )}
+            <Text
+              className="rounded-t px-2 py-1 text-lg"
+              style={{
+                color: convertHexToRgba(appStyle.color_primary, 0.9),
+                backgroundColor: appStyle.color_on_primary,
+              }}
+            >
+              {address
+                ? address
+                : languageService[user.language].chooseLocation[
+                    user.isMale ? 1 : 0
+                  ]}
+            </Text>
             <TouchableOpacity
               className="rounded-b justify-center px-2 py-1"
               onPress={setLocationClicked}
