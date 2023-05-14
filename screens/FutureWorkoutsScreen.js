@@ -92,15 +92,15 @@ const FutureWorkoutsScreen = () => {
                   screen={"FutureWorkouts"}
                 />
                 {newWorkouts[item.id] != null ? (
-                  <View className="absolute left-0 top-6">
+                  <View className="absolute left-1 top-6">
                     <AlertDot
                       text={languageService[user.language].new}
                       textColor={appStyle.color_on_primary}
-                      borderWidth={5}
+                      borderWidth={2}
                       borderColor={appStyle.color_bg}
-                      fontSize={20}
-                      size={60}
-                      color={appStyle.color_primary}
+                      fontSize={15}
+                      size={55}
+                      color={appStyle.color_primary_variant}
                     />
                   </View>
                 ) : (
