@@ -510,7 +510,8 @@ export const createWorkout = async (workout) => {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
-  return newWorkoutRef.id;
+  workout.startingTime = Timestamp.fromDate(workout.startingTime);
+  return { id: newWorkoutRef.id, ...workout };
 };
 export const getFutureWorkouts = async (plannedWorkouts) => {
   const now = new Date();
