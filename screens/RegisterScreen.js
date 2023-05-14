@@ -112,7 +112,7 @@ const RegisterScreen = () => {
       id: username.toLowerCase(),
       birthdate: date,
       email: email.toLowerCase(),
-      pushToken: pushToken,
+      pushToken: pushToken ? pushToken : null,
       isMale: isMale,
       uid: uid,
       authEmail: googleUserInfo ? false : true,
