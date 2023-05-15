@@ -26,6 +26,7 @@ import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
 import languageService from "../services/languageService";
+import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -39,6 +40,7 @@ const WorkoutComponent = (props) => {
     cancelScheduledPushNotification,
     sendPushNotificationUserWantsToJoinYourWorkout,
   } = usePushNotifications();
+  const { checkIfWorkoutOnPlannedWorkoutTime } = useWorkoutLogic();
   const [workout, setWorkout] = useState(props.workout);
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const [distance, setDistance] = useState(null);
@@ -133,6 +135,7 @@ const WorkoutComponent = (props) => {
     );
   };
   const requestToJoinWorkout = async () => {
+    if (checkIfWorkoutOnPlannedWorkoutTime(workout) != null) return;
     setUserMemberStatus("pending");
     const workoutClone = workout;
     workoutClone.requests[user.id] = true;
