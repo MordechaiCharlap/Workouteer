@@ -65,7 +65,7 @@ const WorkoutComponent = (props) => {
       }
     }
     if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
-    if (user.lastLocation) {
+    if (props.screen != "FutureWorkouts" && user.lastLocation) {
       const distanceCalc = getDistance(user.lastLocation, workout.location);
 
       const dist = Math.max(Math.ceil(distanceCalc / 1000), 1);
@@ -334,10 +334,9 @@ const WorkoutComponent = (props) => {
               />
               <Text className="text-md" style={style.basicDetailsText}>
                 {distance != null
-                  ? languageService[user.language].lessThan +
-                    distance +
-                    " " +
-                    languageService[user.language].kmAway
+                  ? distance == 1
+                    ? languageService[user.language].kmAway
+                    : distance + " " + languageService[user.language].kmsAway
                   : workout.city[user.language]
                   ? workout.city[user.language]
                   : workout.city["english"]}
