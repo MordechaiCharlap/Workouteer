@@ -8,7 +8,7 @@ const languageService = {
     friendsWorkoutsHomeBtn: "FRIENDS WORKOUTS",
     workoutInvitesHomeBtn: "WORKOUT INVITES",
     createWorkout: "Create workout",
-    findWorkout: "Find a workout",
+    searchWorkout: "Find a workout",
     pastWorkouts: "Past workouts",
     futureWorkouts: "Future workouts",
     friendsWorkouts: "Friends workouts",
@@ -262,6 +262,16 @@ const languageService = {
     dateAndDuration: "Date and duration",
     preferences: "Preferences",
     inviteFriends: ["Invite friends", "Invite friends"],
+    youCannotJoinThisWorkout: [
+      "You cannot join this workout",
+      "You cannot join this workout",
+    ],
+    thisWorkoutOverlapsPlannedWorkout:
+      "This workout date and duration overlaps one of your planned workouts",
+    showPlannedWorkout: "Show the planned workout",
+    appRequiresInternetConnection:
+      "The app requires internet connection to work",
+    connectAndComeBack: "Connect and try again :)",
   },
   hebrew: {
     login: "התחבר",
@@ -272,7 +282,7 @@ const languageService = {
     friendsWorkoutsHomeBtn: "אימונים של חברים",
     workoutInvitesHomeBtn: "הזמנות לאימונים",
     createWorkout: "יצירת אימון חדש",
-    findWorkout: "חיפוש אימונים",
+    searchWorkout: "חיפוש אימונים",
     pastWorkouts: "אימונים קודמים",
     futureWorkouts: "אימונים עתידיים",
     friendsWorkouts: "אימונים של חברים",
@@ -504,6 +514,16 @@ const languageService = {
     dateAndDuration: "תאריך ואורך אימון",
     preferences: "העדפות",
     inviteFriends: ["הזמיני חברים", "הזמן חברים"],
+    youCannotJoinThisWorkout: [
+      "את לא יכולה להצטרף לאימון הזה",
+      "אתה לא יכול להצטרף לאימון הזה",
+    ],
+    thisWorkoutOverlapsPlannedWorkout:
+      "האימון הזה חופף לאחד מהאימונים המתוכננים שלך",
+    showPlannedWorkout: "הראה את האימון",
+    appRequiresInternetConnection:
+      "אי אפשר להשתמש באפליקציה ללא חיבור לאינטרנט",
+    connectAndComeBack: "התחברו וחזרו מאוחר יותר :)",
   },
 };
 export default languageService;
