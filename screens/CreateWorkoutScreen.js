@@ -44,7 +44,7 @@ const CreateWorkoutScreen = () => {
   const [type, setType] = useState(null);
   const [startingTime, setStartingTime] = useState(null);
   const [minutes, setMinutes] = useState(null);
-  const [workoutSex, setWorkoutSex] = useState("everyone");
+  const [workoutSex, setWorkoutSex] = useState();
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState("");
   const [isCreateDisabled, setIsCreateDisabled] = useState(false);
