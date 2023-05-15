@@ -22,7 +22,6 @@ const AwesomeModal = (props) => {
         backgroundColor: appStyle.color_bg,
       }}
       confirmButtonStyle={{ backgroundColor: appStyle.color_primary }}
-      cancelButtonStyle={{}}
       cancelButtonTextStyle={{ color: appStyle.color_primary }}
       titleStyle={{ color: appStyle.color_primary, textAlign: "center" }}
       messageStyle={{ color: appStyle.color_primary }}
@@ -68,14 +67,15 @@ const AwesomeModal = (props) => {
         props.setShowModal(false);
       }}
       onConfirmPressed={
-        props.onConfirm
+        props.onConfirmPressed
           ? () => {
-              props.onConfirm();
+              props.onConfirmPressed();
             }
           : () => {
               props.setShowModal(false);
             }
       }
+      customView={props.customView ? props.customView : null}
     />
   );
 };
