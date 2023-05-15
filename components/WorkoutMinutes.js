@@ -13,16 +13,12 @@ const data = [
 ];
 
 const WorkoutMinutes = (props) => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(props.value);
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
-    if (value == false) setValue(null);
+    props.minutesSelected(value);
   }, [value]);
-  useEffect(() => {
-    setValue(null);
-  }, [props.workoutDate]);
   const handleMinutesChange = (item) => {
-    props.minutesSelected(item.value);
     setValue(item.value);
     setIsFocus(false);
   };
@@ -46,7 +42,6 @@ const WorkoutMinutes = (props) => {
 
   return (
     <View>
-      {/* {renderLabel()} */}
       <Dropdown
         style={[
           styles.dropdown,

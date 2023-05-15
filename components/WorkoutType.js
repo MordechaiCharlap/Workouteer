@@ -64,11 +64,15 @@ const WorkoutType = (props) => {
       backgroundColor: appStyle.color_primary,
     },
   });
-  const [chosenType, setChosenType] = useState(0);
+  const [chosenType, setChosenType] = useState(
+    props.value != null ? props.value : 0
+  );
   const typeClicked = (id) => {
-    props.typeSelected(id);
     setChosenType(id);
   };
+  useEffect(() => {
+    props.typeSelected(chosenType);
+  }, [chosenType]);
   const renderWorkoutTypeButton = (type) => {
     return (
       <TouchableOpacity

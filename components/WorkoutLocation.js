@@ -19,16 +19,20 @@ const WorkoutLocation = (props) => {
   useEffect(() => {
     const initialShowMap = async () => {
       setIsLoading(true);
-      const latLongLocation = await geoService.getCurrentLocation();
-      if (latLongLocation != false) {
-        setMarkerCoords(latLongLocation);
-      } else {
+      if (user.lastLocation) {
         setMarkerCoords(user.lastLocation);
+      } else {
+        const latLongLocation = await geoService.getCurrentLocation(user);
+        setMarkerCoords(latLongLocation);
       }
       setShowMap(true);
       setIsLoading(false);
     };
-    if (props.initialShow) initialShowMap();
+    if (props.value) {
+      setLocation(props.value);
+    } else if (props.initialShow) {
+      initialShowMap();
+    }
   }, []);
   const setLocationClicked = async () => {
     if (showMap) {
@@ -47,11 +51,11 @@ const WorkoutLocation = (props) => {
       setIsLoading(false);
     }
   };
-  const getAddress = (latLong) => {
+  const getAddress = () => {
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
-        latLong.latitude
-      },${latLong.longitude}&language=${
+        location.latitude
+      },${location.longitude}&language=${
         user.language == "hebrew" ? "he" : "en"
       }&key=${mapsApiKey}`
     )
@@ -63,12 +67,17 @@ const WorkoutLocation = (props) => {
       .catch((error) => console.error(error));
   };
   const locationPinned = (coords) => {
-    getAddress(coords);
     setLocation(coords);
     props.locationChanged(coords);
   };
   useEffect(() => {
-    if (address) setShowMap(false);
+    if (location) getAddress();
+  }, [location]);
+  useEffect(() => {
+    if (address) {
+      props.locationChanged(location);
+      setShowMap(false);
+    }
   }, [address]);
   return (
     <View>
