@@ -14,7 +14,6 @@ export const WebResponsivenessProvider = ({ children }) => {
   const [windowTooSmall, setWindowTooSmall] = useState(false);
   const resizeHandler = () => {
     setTimeout(() => {
-      console.log("Resize handled");
       setWindowHeight(Dimensions.get("window").height);
       setWindowWidth(window.innerWidth);
       if (Dimensions.get("window").height <= 572 || window.innerWidth <= 271) {
