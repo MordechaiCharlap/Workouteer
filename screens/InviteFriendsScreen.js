@@ -118,7 +118,12 @@ const InviteFriendsScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <Header title={"Invite Friends"} goBackOption={true} />
+      <Header
+        title={
+          languageService[user.language].inviteFriends[user.isMale ? 1 : 0]
+        }
+        goBackOption={true}
+      />
       <View
         className="rounded-xl p-3 mx-2"
         style={{ backgroundColor: appStyle.color_bg_variant }}
