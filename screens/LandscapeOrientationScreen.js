@@ -14,10 +14,7 @@ const LandscapeOrientationScreen = () => {
     }, [])
   );
   return (
-    <View
-      className="flex-1 justify-center items-center"
-      style={{ backgroundColor: appStyle.color_bg }}
-    >
+    <View className="justify-center items-center px-4" style={safeAreaStyle()}>
       <Text
         className="text-5xl font-bold text-center"
         style={{ color: appStyle.color_primary }}

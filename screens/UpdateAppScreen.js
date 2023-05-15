@@ -16,7 +16,10 @@ const UpdateAppScreen = () => {
     }, [])
   );
   return (
-    <View className="justify-center" style={safeAreaStyle()}>
+    <View
+      className="justify-center items-center gap-y-4 px-4"
+      style={safeAreaStyle()}
+    >
       <View
         className="rounded-lg p-2 self-center w-11/12"
         style={{ backgroundColor: appStyle.color_primary }}
@@ -29,7 +32,7 @@ const UpdateAppScreen = () => {
             ? languageService[user.language].updateAppToUseIt
             : "There is a new version of the app available for download. to make sure you don't run into bugs - download the latest version"}
         </Text>
-        <View className="flex-row gap-x-2">
+        <View className="flex-row gap-x-2 mt-3">
           <TouchableOpacity
             className="flex-1 rounded py-1"
             style={{ backgroundColor: appStyle.color_bg }}
