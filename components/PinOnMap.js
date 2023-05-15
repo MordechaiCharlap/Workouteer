@@ -20,8 +20,6 @@ const PinOnMap = (props) => {
           latitude: event.latLng.lat(),
           longitude: event.latLng.lng(),
         });
-  };
-  const saveLocation = () => {
     props.saveLocation(coords);
   };
   return (
@@ -48,7 +46,7 @@ const PinOnMap = (props) => {
         </MapView>
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="absolute bottom-4 px-3 py-2"
         style={{
           backgroundColor: appStyle.color_primary,
@@ -63,7 +61,7 @@ const PinOnMap = (props) => {
         >
           {languageService[props.language].saveLocation}
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
