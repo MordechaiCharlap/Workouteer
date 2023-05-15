@@ -5,7 +5,9 @@ import * as appStyle from "../utilities/appStyleSheet";
 import { useEffect } from "react";
 import languageService from "../services/languageService";
 const WorkoutSex = (props) => {
-  const [workoutSex, setWorkoutSex] = useState("everyone");
+  const [workoutSex, setWorkoutSex] = useState(
+    props.value != null ? props.value : "everyone"
+  );
   useEffect(() => {
     props.sexChanged(workoutSex);
   }, [workoutSex]);
@@ -26,7 +28,7 @@ const WorkoutSex = (props) => {
           }
           backgroundColor={appStyle.color_primary}
           valueColor={appStyle.color_on_primary}
-          value={false}
+          value={workoutSex != "everyone"}
         />
       </View>
       <Text style={{ color: appStyle.color_primary }}>
