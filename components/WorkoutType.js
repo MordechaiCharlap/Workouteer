@@ -85,21 +85,14 @@ const WorkoutType = (props) => {
         }
       >
         <FontAwesomeIcon
-          color={
-            type.id == chosenType
-              ? appStyle.color_on_primary
-              : appStyle.color_primary_variant
-          }
+          color={appStyle.color_on_primary}
           icon={type.icon}
           size={iconSize}
         />
         <Text
           className="text-center"
           style={{
-            color:
-              type.id == chosenType
-                ? appStyle.color_on_primary
-                : appStyle.color_primary_variant,
+            color: appStyle.color_on_primary,
           }}
         >
           {languageService[props.language].workoutTypes[type.id]}
