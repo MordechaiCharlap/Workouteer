@@ -114,6 +114,9 @@ const CreateWorkoutScreen = () => {
 
     setContinueDisabled(disabled);
   }, [pageIndex, type, minutes, startingTime, location]);
+  useEffect(() => {
+    console.log(`location:${location}`);
+  }, [location]);
   const style = StyleSheet.create({
     slideStyle: {
       rowGap: 15,
@@ -332,7 +335,9 @@ const CreateWorkoutScreen = () => {
         </View>
         <View style={style.slideStyle}>
           <Title
-            title={languageService[user.language].location}
+            title={
+              languageService[user.language].chooseLocation[user.isMale ? 1 : 0]
+            }
             icon={faChevronLeft}
           />
           <View>
