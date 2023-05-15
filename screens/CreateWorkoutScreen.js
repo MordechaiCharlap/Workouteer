@@ -114,9 +114,6 @@ const CreateWorkoutScreen = () => {
 
     setContinueDisabled(disabled);
   }, [pageIndex, type, minutes, startingTime, location]);
-  useEffect(() => {
-    console.log(`location:${location}`);
-  }, [location]);
   const style = StyleSheet.create({
     slideStyle: {
       rowGap: 15,
