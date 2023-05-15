@@ -2,7 +2,7 @@
   "expo": {
     "name": "Workouteer",
     "slug": "workouteer-rn",
-    "version": "1.0.23",
+    "version": "1.01.00",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/app-icon.png",
