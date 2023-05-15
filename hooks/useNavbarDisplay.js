@@ -4,20 +4,20 @@ const NavbarDisplayContext = createContext({});
 export const NavbarDisplayProvider = ({ children }) => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [currentScreen, setCurrentScreen] = useState();
+  const dontShowNavbar = [
+    "Chat",
+    "Login",
+    "Register",
+    "ConfirmWorkout",
+    "LandscapeOrientation",
+    "UpdateApp",
+    "WindowTooSmall",
+    "LinkUserWithGoogle",
+    "TermsOfService",
+    "PrivacyPolicy",
+    "ConnectToInternet",
+  ];
   useEffect(() => {
-    const navbarScreens = ["MyUser", "Leaderboard", "Home", "Chats", "Explore"];
-    const dontShowNavbar = [
-      "Chat",
-      "Login",
-      "Register",
-      "ConfirmWorkout",
-      "LandscapeOrientation",
-      "UpdateApp",
-      "WindowTooSmall",
-      "LinkUserWithGoogle",
-      "TermsOfService",
-      "PrivacyPolicy",
-    ];
     if (dontShowNavbar.includes(currentScreen)) {
       setShowNavbar(false);
     } else setShowNavbar(true);
