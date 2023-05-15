@@ -158,6 +158,7 @@ export const createUser = async (newUserData) => {
     description: "",
     language: getLanguage(),
     isPublic: true,
+    lastWorkoutCreation: null,
     showOnline: true,
     lastLocation: null,
     defaultCity: null,
@@ -499,8 +500,16 @@ export const createWorkout = async (workout) => {
   const cityAndCountry = await addCountryAndCityToDbIfNeeded(workout.location);
   workout.city = cityAndCountry.city;
   workout.country = cityAndCountry.country;
+  workout.startingTime = Timestamp.fromDate(workout.startingTime);
+
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
+    lastWorkoutCreation: {
+      type: workout.type,
+      sex: workout.sex,
+      minutes: workout.minutes,
+      location: workout.location,
+    },
     [`plannedWorkouts.${newWorkoutRef.id}`]: [
       workout.startingTime,
       workout.minutes,
@@ -510,7 +519,6 @@ export const createWorkout = async (workout) => {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
-  workout.startingTime = Timestamp.fromDate(workout.startingTime);
   return { id: newWorkoutRef.id, ...workout };
 };
 export const getFutureWorkouts = async (plannedWorkouts) => {
