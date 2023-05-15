@@ -3,11 +3,11 @@ import React from "react";
 import NavbarButton from "./NavbarButton";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAlerts from "../hooks/useAlerts";
-import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import useResponsiveness from "../hooks/useResponsiveness";
 import { isWebOnPC } from "../services/webScreenService";
 const BottomNavbar = () => {
   const { chatsAlerts, friendRequestsAlerts } = useAlerts();
-  const { windowHeight } = useWebResponsiveness();
+  const { windowHeight } = useResponsiveness();
   const fixedWidth = isWebOnPC
     ? (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height)
     : "100%";

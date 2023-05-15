@@ -19,7 +19,7 @@ import useAuth from "../hooks/useAuth";
 import ConfirmCurrentWorkoutButton from "../components/ConfirmCurrentWorkoutButton";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
-import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import useResponsiveness from "../hooks/useResponsiveness";
 import useAppData from "../hooks/useAppData";
 import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 const HomeScreen = () => {
@@ -31,7 +31,7 @@ const HomeScreen = () => {
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
   const { currentWorkout } = useCurrentWorkout();
-  const { windowHeight } = useWebResponsiveness();
+  const { windowHeight } = useResponsiveness();
   const buttonStyle = {
     color: appStyle.color_on_primary,
     backgroundColor: appStyle.color_primary,

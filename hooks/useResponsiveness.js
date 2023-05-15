@@ -6,7 +6,7 @@ const WebDeviceResponsivenessContext = createContext({});
 const isPortrait = () => {
   return window.innerWidth <= Dimensions.get("window").height;
 };
-export const WebResponsivenessProvider = ({ children }) => {
+export const ResponsivenessProvider = ({ children }) => {
   const [isWeb, setIsWeb] = useState();
   const [windowWidth, setWindowWidth] = useState();
   const [windowHeight, setWindowHeight] = useState();
@@ -60,6 +60,6 @@ export const WebResponsivenessProvider = ({ children }) => {
     </WebDeviceResponsivenessContext.Provider>
   );
 };
-export default function useWebResponsiveness() {
+export default function useResponsiveness() {
   return useContext(WebDeviceResponsivenessContext);
 }

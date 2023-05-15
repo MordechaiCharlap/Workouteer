@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../utilities/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
-import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import useResponsiveness from "../hooks/useResponsiveness";
 const ConfirmCurrentWorkoutButton = (props) => {
-  const { windowHeight } = useWebResponsiveness();
+  const { windowHeight } = useResponsiveness();
   const user = props.user;
   const navigation = useNavigation();
   const iconSize = windowHeight

@@ -34,7 +34,7 @@ import LeaderboardScreen from "./screens/LeaderboardScreen";
 import UpdateAppScreen from "./screens/UpdateAppScreen";
 import LandscapeOrientationScreen from "./screens/LandscapeOrientationScreen";
 import useNavbarDisplay from "./hooks/useNavbarDisplay";
-import useWebResponsiveness from "./hooks/useWebResponsiveness";
+import useResponsiveness from "./hooks/useResponsiveness";
 import WindowTooSmallScreen from "./screens/WindowTooSmallScreen";
 import ConfirmWorkoutScreen from "./screens/ConfirmWorkoutScreen";
 import LinkUserWithGoogleScreen from "./screens/LinkUserWithGoogleScreen";
@@ -61,7 +61,7 @@ const StackNavigator = () => {
   } = useNavbarNavigation();
   const { showNavbar } = useNavbarDisplay();
   const { notificationListenerFunction } = usePushNotifications();
-  const { orientation, windowTooSmall } = useWebResponsiveness();
+  const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
   const { isVersionUpToDate } = useAppData();
   const [notificationsListenersAdded, setNotificationsListenersAdded] =

@@ -5,12 +5,12 @@ import languageService from "../services/languageService";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { isWebOnPC } from "../services/webScreenService";
-import useWebResponsiveness from "../hooks/useWebResponsiveness";
+import useResponsiveness from "../hooks/useResponsiveness";
 const AwesomeModal = (props) => {
   const { user } = useAuth();
   var fixedWidth;
   if (isWebOnPC) {
-    const { windowHeight } = useWebResponsiveness();
+    const { windowHeight } = useResponsiveness();
     fixedWidth =
       (9 / 19) *
       (windowHeight ? windowHeight : Dimensions.get("window").height);
