@@ -185,7 +185,7 @@ const SearchWorkoutsScreen = () => {
     };
     // const workouts = await firebase.getWorkoutResults(preferences);
     const workouts = await firebase.searchWorkouts(preferences, user.id);
-    navigation.navigate("SearchedWorkouts", {
+    navigation.replace("SearchedWorkouts", {
       workouts: workouts,
       user: user,
       location: currentLocation,
