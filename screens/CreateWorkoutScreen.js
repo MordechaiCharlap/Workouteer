@@ -248,6 +248,7 @@ const CreateWorkoutScreen = () => {
         isPastWorkout: false,
         userMemberStatus: "creator",
       });
+
       await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
     } else {
       setShowAlert(true);
@@ -280,6 +281,7 @@ const CreateWorkoutScreen = () => {
           />
           <View>
             <WorkoutType
+              value={user.lastWorkoutCreation?.type}
               language={user.language}
               typeSelected={(type) => {
                 setType(type);
@@ -302,6 +304,7 @@ const CreateWorkoutScreen = () => {
                   selectedDateChanged={setStartingTime}
                 />
                 <WorkoutMinutes
+                  value={user.lastWorkoutCreation?.minutes}
                   language={user.language}
                   minutesSelected={setMinutes}
                 />
@@ -317,6 +320,7 @@ const CreateWorkoutScreen = () => {
                   </View>
                   <View className="w-1/2">
                     <WorkoutMinutes
+                      value={user.lastWorkoutCreation?.minutes}
                       language={user.language}
                       minutesSelected={setMinutes}
                     />
@@ -333,6 +337,7 @@ const CreateWorkoutScreen = () => {
           />
           <View>
             <WorkoutLocation
+              value={user.lastWorkoutCreation?.location}
               initialShow={true}
               language={user.language}
               locationChanged={setLocation}
@@ -345,6 +350,7 @@ const CreateWorkoutScreen = () => {
             icon={faChevronLeft}
           />
           <WorkoutSex
+            value={user.lastWorkoutCreation?.sex}
             size={40}
             isMale={user.isMale}
             language={user.language}
