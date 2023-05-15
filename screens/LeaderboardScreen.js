@@ -97,7 +97,7 @@ const LeaderboardScreen = () => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate("NewWorkout")}
+                onPress={() => navigation.navigate("CreateWorkout")}
               >
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
