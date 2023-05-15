@@ -16,7 +16,6 @@ import NotificationsScreen from "./screens/NotificationsScreen";
 import EditDataScreen from "./screens/EditDataScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import ChatScreen from "./screens/ChatScreen";
-import FindWorkoutScreen from "./screens/FindWorkoutScreen";
 import FutureWorkoutsScreen from "./screens/FutureWorkoutsScreen";
 import PastWorkoutsScreen from "./screens/PastWorkoutsScreen";
 import WorkoutDetailsScreen from "./screens/WorkoutDetailsScreen";
@@ -206,11 +205,6 @@ const StackNavigator = () => {
               <Stack.Screen
                 name="CreateWorkout"
                 component={CreateWorkoutScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="FindWorkout"
-                component={FindWorkoutScreen}
                 options={verticalAnimation}
               />
               <Stack.Screen

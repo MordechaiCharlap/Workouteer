@@ -84,7 +84,7 @@ const LeaderboardScreen = () => {
             </Text>
             <View className="flex-row items-center justify-center gap-x-2">
               <TouchableOpacity
-                onPress={() => navigation.navigate("FindWorkout")}
+                onPress={() => navigation.navigate("SearchWorkouts")}
               >
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
@@ -93,7 +93,7 @@ const LeaderboardScreen = () => {
                     color: appStyle.color_primary,
                   }}
                 >
-                  {languageService[user.language].findWorkout}
+                  {languageService[user.language].searchWorkout}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity

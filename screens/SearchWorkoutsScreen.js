@@ -132,7 +132,7 @@ const SearchWorkoutsScreen = () => {
   const [searching, setSearching] = useState(false);
   useFocusEffect(
     useCallback(() => {
-      setCurrentScreen("FindWorkout");
+      setCurrentScreen("SearchWorkouts");
       setType(0);
       setCity(user.defaultCity);
       setCountry(user.defaultCountry);
@@ -194,7 +194,7 @@ const SearchWorkoutsScreen = () => {
   return (
     <View style={safeAreaStyle()}>
       <Header
-        title={languageService[user.language].findWorkout}
+        title={languageService[user.language].searchWorkout}
         goBackOption={true}
       />
       <View className="flex-row"></View>
