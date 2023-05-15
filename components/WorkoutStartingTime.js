@@ -13,6 +13,7 @@ import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
 import { timeString } from "../services/timeFunctions";
 import AwesomeAlert from "react-native-awesome-alerts";
+import AwesomeModal from "./AwesomeModal";
 
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
@@ -77,18 +78,19 @@ const WorkoutStartingTime = (props) => {
   const showDatepicker = () => {
     showTrue();
   };
-
   return (
     <View>
       <TouchableOpacity
         style={[
           styles.input,
-          dateChangedOnce ? styles.changedVal : styles.notChangedVal,
+          !dateChangedOnce || !props.value
+            ? styles.notChangedVal
+            : styles.changedVal,
         ]}
-        className="px-3 h-10 justify-center items-center"
+        className="px-3 justify-center items-center"
         onPress={showDatepicker}
       >
-        {!dateChangedOnce && (
+        {!dateChangedOnce || !props.value ? (
           <Text
             style={{
               color: appStyle.color_on_primary,
@@ -97,8 +99,7 @@ const WorkoutStartingTime = (props) => {
           >
             {languageService[user.language].when}
           </Text>
-        )}
-        {dateChangedOnce && (
+        ) : (
           <Text
             style={{ color: appStyle.color_on_primary, textAlign: "center" }}
           >
@@ -118,13 +119,15 @@ const WorkoutStartingTime = (props) => {
           onChange={onDateChange}
         />
       )}
-      <AwesomeAlert
-        show={showAlert}
+      <AwesomeModal
+        showModal={showAlert}
         showProgress={false}
         title={alertTitle}
         message={alertMessage}
         closeOnTouchOutside={true}
-        onDismiss={() => setShowAlert(false)}
+        onDismiss={() => {
+          setShowAlert(false);
+        }}
         closeOnHardwareBackPress={true}
         showConfirmButton={true}
         confirmText={languageService[user.language].gotIt}
@@ -135,6 +138,7 @@ const WorkoutStartingTime = (props) => {
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
+        showCancelButton={false}
       />
     </View>
   );

@@ -32,6 +32,7 @@ import { isWebOnPC } from "../services/webScreenService";
 import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faX } from "@fortawesome/free-solid-svg-icons";
+import AwesomeModal from "../components/AwesomeModal";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -95,27 +96,23 @@ const CreateWorkoutScreen = () => {
     });
   };
   useEffect(() => {
+    let disabled = false;
     switch (pageIndex) {
       case 0:
-        if (type == null) {
-          setContinueDisabled(true);
-          return;
-        }
+        disabled = type == null;
         break;
       case 1:
         if (minutes == null || startingTime == null) {
-          setContinueDisabled(true);
-          return;
-        }
+          disabled = true;
+        } else if (!checkIfWorkoutTimeAvailable()) disabled = true;
+
         break;
       case 2:
-        if (location == null) {
-          setContinueDisabled(true);
-          return;
-        }
+        disabled = location == null;
         break;
     }
-    setContinueDisabled(false);
+
+    setContinueDisabled(disabled);
   }, [pageIndex, type, minutes, startingTime, location]);
   const style = StyleSheet.create({
     slideStyle: {
@@ -180,23 +177,27 @@ const CreateWorkoutScreen = () => {
     }, [])
   );
   const checkIfWorkoutTimeAvailable = () => {
-    const closestWorkout =
+    const closestWorkoutDateAfter =
       workoutUtils.checkIfDateAvailableAndReturnClosestWorkout(
         user,
         startingTime
       );
-    if (closestWorkout == false) {
+    if (closestWorkoutDateAfter == false) {
+      setStartingTime(null);
+
       setAlertTitle(
         languageService[user.language].alreadyScheduledAWorkoutThisDate
       );
       setAlertMessage(
         languageService[user.language].chooseAnotherDate[user.isMale ? 1 : 0]
       );
+      setShowAlert(true);
       return false;
     } else {
       if (
-        closestWorkout != null &&
-        new Date(startingTime.getTime() + minutes * 60000) > closestWorkout
+        closestWorkoutDateAfter != null &&
+        new Date(startingTime.getTime() + minutes * 60000) >
+          closestWorkoutDateAfter
       ) {
         setAlertTitle(
           languageService[user.language].yourWorkoutOverlappingOtherWorkout
@@ -204,55 +205,52 @@ const CreateWorkoutScreen = () => {
         setAlertMessage(
           languageService[user.language].tryToScheduleAnEearlierWorkout
         );
+        setShowAlert(true);
         return false;
       }
     }
     return true;
   };
   const createWorkout = async () => {
-    if (checkIfWorkoutTimeAvailable()) {
-      setIsCreateDisabled(true);
-      setLoading(true);
-      var scheduledNotificationId;
-      if (Platform.OS != "web") {
-        scheduledNotificationId = await schedulePushNotification(
-          startingTime,
-          "Workout session started!",
-          "Don't forget to confirm your workout to get your points :)"
-        );
-      }
-
-      const workout = {
-        creator: user.id,
-        members: {
-          [user.id]: {
-            notificationId: scheduledNotificationId
-              ? scheduledNotificationId
-              : null,
-            confirmedWorkout: false,
-          },
-        },
-        type: type,
-        sex: workoutSex,
-        startingTime: startingTime,
-        minutes: minutes,
-        location: location,
-        description: description,
-        invites: {},
-        requests: {},
-      };
-      const newWorkoutData = await firebase.createWorkout(workout);
-      navigation.replace("WorkoutDetails", {
-        workout: newWorkoutData,
-        isCreator: true,
-        isPastWorkout: false,
-        userMemberStatus: "creator",
-      });
-
-      await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
-    } else {
-      setShowAlert(true);
+    setIsCreateDisabled(true);
+    setLoading(true);
+    var scheduledNotificationId;
+    if (Platform.OS != "web") {
+      scheduledNotificationId = await schedulePushNotification(
+        startingTime,
+        "Workout session started!",
+        "Don't forget to confirm your workout to get your points :)"
+      );
     }
+
+    const workout = {
+      creator: user.id,
+      members: {
+        [user.id]: {
+          notificationId: scheduledNotificationId
+            ? scheduledNotificationId
+            : null,
+          confirmedWorkout: false,
+        },
+      },
+      type: type,
+      sex: workoutSex,
+      startingTime: startingTime,
+      minutes: minutes,
+      location: location,
+      description: description,
+      invites: {},
+      requests: {},
+    };
+    const newWorkoutData = await firebase.createWorkout(workout);
+    navigation.replace("WorkoutDetails", {
+      workout: newWorkoutData,
+      isCreator: true,
+      isPastWorkout: false,
+      userMemberStatus: "creator",
+    });
+
+    await sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
   };
   return (
     <View style={safeAreaStyle()}>
@@ -299,6 +297,7 @@ const CreateWorkoutScreen = () => {
             {Platform.OS == "web" ? (
               <View>
                 <NextWeekDropdown
+                  value={startingTime}
                   language={user.language}
                   now={now}
                   selectedDateChanged={setStartingTime}
@@ -314,6 +313,7 @@ const CreateWorkoutScreen = () => {
                 <View className="flex-row">
                   <View className="w-1/2">
                     <WorkoutStartingTime
+                      value={startingTime}
                       startingTimeChanged={setStartingTime}
                       minDate={now}
                     />
@@ -366,18 +366,15 @@ const CreateWorkoutScreen = () => {
         <TouchableOpacity
           disabled={isCreateDisabled}
           onPress={createWorkout}
-          className="rounded-lg items-center h-16 justify-center"
+          className="rounded-full items-center h-16 justify-center"
           style={{
             margin: 10,
-
-            backgroundColor: appStyle.color_success,
-            borderWidth: 3,
-            borderColor: convertHexToRgba(appStyle.color_primary, 0.2),
+            backgroundColor: appStyle.color_primary,
           }}
         >
           <Text
             className="font-black text-lg"
-            style={{ color: convertHexToRgba(appStyle.color_primary, 0.8) }}
+            style={{ color: appStyle.color_on_primary }}
           >
             {loading
               ? languageService[user.language].loading.toUpperCase()
@@ -388,17 +385,21 @@ const CreateWorkoutScreen = () => {
         <TouchableOpacity
           disabled={continueDisabled}
           onPress={handleNextPage}
-          className="rounded-lg items-center h-16 justify-center"
+          className="rounded-full items-center h-16 justify-center"
           style={{
             margin: 10,
             backgroundColor: continueDisabled
-              ? appStyle.color_bg_variant
-              : appStyle.color_primary,
+              ? convertHexToRgba(appStyle.color_bg_variant, 0.4)
+              : appStyle.color_bg_variant,
           }}
         >
           <Text
             className="font-black text-lg"
-            style={{ color: appStyle.color_on_primary }}
+            style={{
+              color: continueDisabled
+                ? convertHexToRgba(appStyle.color_on_primary, 0.4)
+                : appStyle.color_on_primary,
+            }}
           >
             {languageService[user.language].continue[
               user.isMale ? 1 : 0
@@ -406,8 +407,8 @@ const CreateWorkoutScreen = () => {
           </Text>
         </TouchableOpacity>
       )}
-      <AwesomeAlert
-        show={showAlert}
+      <AwesomeModal
+        showModal={showAlert}
         showProgress={false}
         title={alertTitle}
         message={alertMessage}
@@ -417,12 +418,10 @@ const CreateWorkoutScreen = () => {
         showConfirmButton={true}
         confirmText={languageService[user.language].gotIt}
         confirmButtonColor="#DD6B55"
-        onCancelPressed={() => {
-          setShowAlert(false);
-        }}
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
+        showCancelButton={false}
       />
     </View>
   );
