@@ -45,23 +45,6 @@ const PinOnMap = (props) => {
           <Marker coordinate={coords} />
         </MapView>
       </View>
-
-      {/* <TouchableOpacity
-        className="absolute bottom-4 px-3 py-2"
-        style={{
-          backgroundColor: appStyle.color_primary,
-          borderColor: appStyle.color_bg,
-          borderWidth: 2,
-        }}
-        onPress={() => saveLocation()}
-      >
-        <Text
-          className="text-xl font-semibold"
-          style={{ color: appStyle.color_on_primary }}
-        >
-          {languageService[props.language].saveLocation}
-        </Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
