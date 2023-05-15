@@ -1,8 +1,17 @@
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faMapLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
 import PinOnMap from "./PinOnMap";
@@ -39,14 +48,18 @@ const WorkoutLocation = (props) => {
       setShowMap(false);
     } else {
       setIsLoading(true);
-      if (!location) {
+      const currentChosenLoc = location;
+      if (!currentChosenLoc) {
         const latLongLocation = await geoService.getCurrentLocation();
         if (latLongLocation != null) {
           setMarkerCoords(latLongLocation);
         }
       } else {
-        setMarkerCoords(location);
+        setMarkerCoords(currentChosenLoc);
       }
+      // setLocation();
+      // setAddress();
+      // props.locationChanged()
       setShowMap(true);
       setIsLoading(false);
     }
@@ -61,12 +74,30 @@ const WorkoutLocation = (props) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const address = data.results[0].formatted_address;
-        setAddress(address);
+        if (
+          data.results[0].types.includes("gym") ||
+          data.results[0].types.includes("health")
+        ) {
+          fetch(
+            `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.results[0].place_id}&key=${mapsApiKey}`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              const addressRef = data.result.name;
+              setAddress(addressRef);
+            });
+        } else {
+          const addressRef = data.results[0].formatted_address;
+          setAddress(addressRef);
+        }
       })
       .catch((error) => console.error(error));
   };
   const locationPinned = (coords) => {
+    if (coords == location) {
+      setShowMap(false);
+      return;
+    }
     setLocation(coords);
     props.locationChanged(coords);
   };
@@ -85,31 +116,26 @@ const WorkoutLocation = (props) => {
         {showMap ? (
           <></>
         ) : (
-          <View>
-            <Text
-              className="rounded-t px-2 py-1 text-lg"
-              style={{
-                color: convertHexToRgba(appStyle.color_primary, 0.9),
-                backgroundColor: appStyle.color_on_primary,
-              }}
-            >
-              {address
-                ? address
-                : languageService[user.language].chooseLocation[
-                    user.isMale ? 1 : 0
-                  ]}
-            </Text>
+          <View className="flex-row items-center w-full">
             <TouchableOpacity
-              className="rounded-b justify-center px-2 py-1"
+              className="rounded-l-full justify-center items-center px-4"
               onPress={setLocationClicked}
-              style={{
-                backgroundColor:
-                  location != null
-                    ? appStyle.color_primary
-                    : appStyle.color_bg_variant,
-              }}
+              style={[
+                {
+                  backgroundColor:
+                    location != null
+                      ? appStyle.color_primary
+                      : appStyle.color_bg_variant,
+                },
+                style.genericWorkoutProp,
+              ]}
             >
-              <Text
+              <FontAwesomeIcon
+                icon={faMapLocationDot}
+                color={appStyle.color_on_primary}
+                size={30}
+              />
+              {/* <Text
                 className="text-lg text-center"
                 style={{ color: appStyle.color_on_primary }}
               >
@@ -118,8 +144,28 @@ const WorkoutLocation = (props) => {
                   : location == null
                   ? languageService[props.language].setLocation
                   : languageService[props.language].clickToChangeLocation}
-              </Text>
+              </Text> */}
             </TouchableOpacity>
+            <View
+              className="justify-center rounded-r-full flex-1 px-2"
+              style={[
+                style.genericWorkoutProp,
+                { backgroundColor: appStyle.color_on_primary },
+              ]}
+            >
+              <Text
+                className="px-2 py-1 text-lg"
+                style={{
+                  color: convertHexToRgba(appStyle.color_primary, 0.9),
+                }}
+              >
+                {address
+                  ? address
+                  : languageService[user.language].chooseLocation[
+                      user.isMale ? 1 : 0
+                    ]}
+              </Text>
+            </View>
           </View>
         )}
       </View>
@@ -143,4 +189,9 @@ const WorkoutLocation = (props) => {
     </View>
   );
 };
+const style = StyleSheet.create({
+  genericWorkoutProp: {
+    height: 50,
+  },
+});
 export default WorkoutLocation;
