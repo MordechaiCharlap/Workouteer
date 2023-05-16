@@ -15,10 +15,13 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { doc, updateDoc } from "firebase/firestore";
 
-const FutureWorkoutsScreen = () => {
+const FutureWorkoutsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { schedulePushNotification } = usePushNotifications();
   const { user } = useAuth();
+  const shownUser =
+    route.params.shownUser != null ? route.params.shownUser : user;
+  const isMyUser = shownUser.id == user.id;
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
@@ -47,7 +50,7 @@ const FutureWorkoutsScreen = () => {
       setCurrentScreen("FutureWorkouts");
       const getWorkouts = async () => {
         const workoutsArr = await firebase.getFutureWorkouts(
-          user.plannedWorkouts
+          shownUser.plannedWorkouts
         );
         setWorkouts(workoutsArr);
         setInitialLoading(false);
@@ -56,7 +59,7 @@ const FutureWorkoutsScreen = () => {
         await firebase.removeAllNewWorkoutsAlerts(user.id);
       };
       getWorkouts();
-      if (Object.keys(newWorkoutsAlerts).length > 0) {
+      if (isMyUser && Object.keys(newWorkoutsAlerts).length > 0) {
         setNewWorkouts(newWorkoutsAlerts);
         scheduleNotificationsForNewWorkouts();
         setNewWorkoutsAlerts({});
@@ -67,7 +70,7 @@ const FutureWorkoutsScreen = () => {
     }, [])
   );
   useEffect(() => {
-    scheduleNotificationsForNewWorkouts();
+    // scheduleNotificationsForNewWorkouts();
   }, [workouts]);
   return (
     <View style={safeAreaStyle()}>
