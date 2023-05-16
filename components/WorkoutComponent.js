@@ -62,6 +62,11 @@ const WorkoutComponent = (props) => {
           setUserMemberStatus("rejected");
           setWorkout(null);
         }
+      } else if (
+        (workout.sex == "men" && !user.isMale) ||
+        (workout.sex == "women" && user.isMale)
+      ) {
+        setUserMemberStatus("cannot");
       } else {
         setUserMemberStatus("not");
       }
@@ -286,6 +291,21 @@ const WorkoutComponent = (props) => {
                   ]}
             </Text>
           </TouchableOpacity>
+        );
+      case "cannot":
+        return (
+          <View
+            className={`h-8 flex-1 justify-center ${
+              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+            }`}
+            style={style.actionButton}
+          >
+            <Text className="text-center" style={style.actionButtonText}>
+              {user.isMale
+                ? languageService[user.language].womenOnly
+                : languageService[user.language].maleOnly}
+            </Text>
+          </View>
         );
       default:
         return <></>;
