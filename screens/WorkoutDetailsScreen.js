@@ -256,18 +256,15 @@ const WorkoutDetailsScreen = ({ route }) => {
                     )}
                   </View>
                   <View className="mt-2 items-center">
-                    <View
-                      className="flex-row justify-center items-center rounded p-2"
-                      style={{ backgroundColor: appStyle.color_primary }}
-                    >
+                    <View className="flex-row justify-center items-center rounded p-2">
                       <FontAwesomeIcon
                         icon={faUserGroup}
                         size={25}
-                        color={appStyle.color_on_primary}
+                        color={appStyle.color_primary}
                       />
                       <Text
                         className="text-md"
-                        style={{ color: appStyle.color_on_primary }}
+                        style={{ color: appStyle.color_primary }}
                       >
                         {languageService[user.language].members}
                       </Text>
