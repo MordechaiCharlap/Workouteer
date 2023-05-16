@@ -78,7 +78,7 @@ const WorkoutStartingTime = (props) => {
     showTrue();
   };
   return (
-    <View>
+    <View className="flex-1">
       <TouchableOpacity
         style={[
           styles.input,
