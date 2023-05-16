@@ -3,6 +3,8 @@ import * as appStyle from "../utilities/appStyleSheet";
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 const NextWeekDropdown = (props) => {
   const minDate = props.minDate;
@@ -127,8 +129,16 @@ const NextWeekDropdown = (props) => {
   return (
     <View>
       <View
-        className={`gap-x-4 flex-row${language == "hebrew" ? "-reverse" : ""}`}
+        className={`items-center flex-row${
+          language == "hebrew" ? "-reverse" : ""
+        }`}
       >
+        <FontAwesomeIcon
+          icon={faCalendarDays}
+          size={30}
+          color={appStyle.color_primary}
+        />
+        <View style={{ width: 10 }}></View>
         <Dropdown
           style={[
             style.dropdown,
@@ -152,6 +162,7 @@ const NextWeekDropdown = (props) => {
             setIsWeekdaysFocused(false);
           }}
         />
+        <View style={{ width: 10 }}></View>
         <View className="flex-row">
           <Dropdown
             style={[

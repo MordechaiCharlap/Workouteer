@@ -14,6 +14,12 @@ import languageService from "../services/languageService";
 import { timeString } from "../services/timeFunctions";
 import AwesomeAlert from "react-native-awesome-alerts";
 import AwesomeModal from "./AwesomeModal";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faCalendar,
+  faCalendarDay,
+  faCalendarDays,
+} from "@fortawesome/free-solid-svg-icons";
 
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
@@ -78,7 +84,17 @@ const WorkoutStartingTime = (props) => {
     showTrue();
   };
   return (
-    <View className="flex-1">
+    <View
+      className={`flex-1 items-center flex-row${
+        user.language == "hebrew" && "-reverse"
+      }`}
+    >
+      <FontAwesomeIcon
+        icon={faCalendarDays}
+        size={30}
+        color={appStyle.color_primary}
+      />
+      <View style={{ width: 10 }}></View>
       <TouchableOpacity
         style={[
           styles.input,
@@ -144,11 +160,11 @@ const WorkoutStartingTime = (props) => {
 };
 const styles = StyleSheet.create({
   input: {
+    flex: 1,
     height: 50,
     borderColor: appStyle.color_primary,
     borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+    borderRadius: 4,
   },
   changedVal: {
     backgroundColor: appStyle.color_primary,

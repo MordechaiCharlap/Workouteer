@@ -4,6 +4,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
 const data = [
   { label: "0:30", value: 30 },
   { label: "1:00", value: 60 },
@@ -48,9 +50,14 @@ const WorkoutMinutes = (props) => {
         user.language == "hebrew" && "-reverse"
       }`}
     >
-      <Text style={{ fontSize: 16 }}>
-        {languageService[props.language].workoutTimePeiod}:
-      </Text>
+      {/* <Text style={{ fontSize: 16 }}>
+        {languageService[props.language].hoursMinutes}:
+      </Text> */}
+      <FontAwesomeIcon
+        icon={faStopwatch}
+        color={appStyle.color_primary}
+        size={30}
+      />
       <View style={{ width: 10 }}></View>
       <Dropdown
         style={[
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: appStyle.color_primary,
     borderWidth: 0.5,
-    borderRadius: 8,
+    borderRadius: 4,
     paddingHorizontal: 8,
   },
   valueNotChanged: {
