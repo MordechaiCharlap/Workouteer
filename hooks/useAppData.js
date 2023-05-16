@@ -7,28 +7,26 @@ const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
   const [appData, setAppData] = useState();
   const [isVersionUpToDate, setIsVersionUpToDate] = useState(true);
-
-  const IsVersionUpToDateFunc = () => {
-    const latestVersion = appData.version;
-    if (Platform.OS == "web") return true;
-    function compareVersions(versionA, versionB) {
-      const a = versionA.split(".");
-      const b = versionB.split(".");
-      for (let i = 0; i < 3; i++) {
-        const numA = parseInt(a[i] || 0, 10);
-        const numB = parseInt(b[i] || 0, 10);
-        if (numA > numB) {
-          return 1;
-        }
-        if (numB > numA) {
-          return -1;
-        }
+  const compareVersions = (versionA, versionB) => {
+    const a = versionA.split(".");
+    const b = versionB.split(".");
+    for (let i = 0; i < 3; i++) {
+      const numA = parseInt(a[i] || 0, 10);
+      const numB = parseInt(b[i] || 0, 10);
+      if (numA > numB) {
+        return 1;
       }
-      return 0;
+      if (numB > numA) {
+        return -1;
+      }
     }
+    return 0;
+  };
+  const isVersionUpToDateFunc = () => {
+    const minimumRequiredVersion = appData.minimumRequiredVersion;
     const currentAppVersion = Constants.manifest.version;
 
-    if (compareVersions(currentAppVersion, latestVersion) < 0) {
+    if (compareVersions(currentAppVersion, minimumRequiredVersion) < 0) {
       return false;
     } else {
       return true;
@@ -42,7 +40,7 @@ export const AppDataProvider = ({ children }) => {
     getAppData();
   }, []);
   useEffect(() => {
-    if (appData) setIsVersionUpToDate(IsVersionUpToDateFunc());
+    if (appData) setIsVersionUpToDate(isVersionUpToDateFunc());
   }, [appData]);
   return (
     <AppDataContext.Provider value={{ appData, isVersionUpToDate }}>
