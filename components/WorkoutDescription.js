@@ -13,7 +13,7 @@ const WorkoutDescription = (props) => {
         style={{
           textAlignVertical: "top",
           backgroundColor: appStyle.color_primary,
-          borderRadius: 8,
+          borderRadius: 4,
           padding: 8,
           color: appStyle.color_on_primary,
         }}

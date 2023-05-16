@@ -228,7 +228,7 @@ const EditProfileData = (props) => {
                 textAlignVertical: "top",
                 color: appStyle.color_on_primary,
                 backgroundColor: appStyle.color_bg_variant,
-                borderRadius: 8,
+                borderRadius: 4,
                 padding: 8,
                 borderWidth: 1,
                 borderColor: appStyle.color_primary,

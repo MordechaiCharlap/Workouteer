@@ -143,7 +143,7 @@ const ReportUserScreen = ({ route }) => {
               borderWidth: 1.5,
               textAlignVertical: "top",
               backgroundColor: appStyle.color_primary,
-              borderRadius: 8,
+              borderRadius: 4,
               padding: 8,
               color: appStyle.color_on_primary,
               fontSize: 16,
@@ -197,7 +197,7 @@ const style = StyleSheet.create({
     backgroundColor: appStyle.color_primary,
     height: 50,
     borderWidth: 1.5,
-    borderRadius: 8,
+    borderRadius:4,
     paddingHorizontal: 8,
   },
   icon: {
