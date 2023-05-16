@@ -43,7 +43,7 @@ const languageService = {
     newWorkout: "New workout",
     details: "Details",
     optionalText: "Optional text",
-    workoutTimePeiod: "Duration",
+    workoutTimePeiod: "Duration (hours:minutes)",
     language: "Language",
     chooseLanguage: "Choose language",
     showOnlineStatus: "Show online status",
@@ -279,6 +279,12 @@ const languageService = {
     locationPermissionOrInternetProblem:
       "It seems that we couldn't get your current location. You may not gave us permission/you were having some connection problems",
     tryAgain: ["Try again", "Try again"],
+    whatAreYouLookingFor: [
+      "What are you looking for?",
+      "What are you looking for?",
+    ],
+    where: "Where?",
+    choose: ["Choose", "Choose"],
   },
   hebrew: {
     login: "התחבר",
@@ -315,7 +321,7 @@ const languageService = {
     details: "פרטים",
     optionalText: "לא חובה",
     workoutTypes: ["הכל", "אימון כוח", "הליכה", "ריצה", "רכיבת אופניים"],
-    workoutTimePeiod: "זמן אימון (דקות)",
+    workoutTimePeiod: "זמן אימון (דקות:שעות)",
     language: "שפה",
     chooseLanguage: "בחר/י שפה",
     showOnlineStatus: "הראה כשאני מחובר",
@@ -538,6 +544,9 @@ const languageService = {
     locationPermissionOrInternetProblem:
       "לא הצלחנו לקבל את המיקום הנוכחי שלך. כנראה שיש לך בעיות תקשורת/לא קיבלנו ממך אישור להשתמש במיקום שלך",
     tryAgain: ["נסי שוב", "נסה שוב"],
+    whatAreYouLookingFor: ["מה את מחפשת?", "מה אתה מחפש?"],
+    where: "איפה?",
+    choose: ["בחרי", "בחר"],
   },
 };
 export default languageService;
