@@ -1,6 +1,6 @@
 {
   "name": "workouteer-rn",
-  "version": "1.01.00",
+  "version": "1.1.02",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -8,14 +8,13 @@
     "web": "expo start --web",
     "build-dev": "webpack --env mode=development",
     "build-prod": "webpack --env mode=production",
-    "update-version-code": "node scripts/update-android-version-code.js",
     "predeploy": "expo export:web",
-    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && firebase deploy --only hosting && node scripts/update-last-web-deploy.js",
-    "build-apk": "node scripts/update-last-android-deploy.js && eas build --profile preview --platform android",
-    "deploy-and-build-apk": "npm run deploy-hosting && npm run build-apk",
     "update-version": "node scripts/update-version.js",
-    "build-aab": "node scripts/update-last-playstore-deploy.js && eas build --platform android",
-    "deploy-and-build-aab": "npm run update-version-code && npm run deploy-hosting && npm run build-aab"
+    "build-apk": "node scripts/update-last-android-deploy.js && eas build --profile apk-preview --platform android",
+    "build-aab": "node scripts/update-last-playstore-deploy.js && eas build --profile play-store --platform android",
+    "deploy-and-build-apk": "npm run deploy-hosting && npm run build-apk",
+    "deploy-and-build-aab": "npm run deploy-hosting && npm run build-aab",
+    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && firebase deploy --only hosting && node scripts/update-last-web-deploy.js"
   },
   "dependencies": {
     "@expo/dev-server": "0.1.120",
