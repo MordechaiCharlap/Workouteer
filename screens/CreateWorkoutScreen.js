@@ -340,7 +340,6 @@ const CreateWorkoutScreen = () => {
           <View>
             <WorkoutLocation
               value={user.lastWorkoutCreation?.location}
-              initialShow={true}
               language={user.language}
               locationChanged={setLocation}
             />
