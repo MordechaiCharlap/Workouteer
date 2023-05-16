@@ -36,7 +36,6 @@ const WorkoutLocation = (props) => {
   const getCurrentLocation = async () => {
     setIsLoading(true);
     const latLongLocation = await geoService.getCurrentLocation(user);
-    console.log(latLongLocation);
     setLocation(latLongLocation);
   };
   const locationPinned = (coords) => {
