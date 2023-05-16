@@ -26,6 +26,8 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import NextWeekDropdown from "../components/NextWeekDropdown";
 import { isWebOnPC } from "../services/webScreenService";
 import { convertHexToRgba } from "../utilities/stylingFunctions";
+import BackOrExitButton from "../components/slides/BackOrExitButton";
+import { Title } from "../components/slides/Title";
 const SearchWorkoutsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -39,17 +41,22 @@ const SearchWorkoutsScreen = () => {
   const fixedWidth = isWebOnPC ? (9 / 19) * fixedHeight : width;
   const scrollViewRef = useRef(null);
   const currentPageIndexRef = useRef(0);
+  const [pageIndex, setPageIndex] = useState(0);
   const handleNextPage = () => {
     if (pages.length == currentPageIndexRef.current + 1) return;
     currentPageIndexRef.current++;
-    checkIfLastPage();
+    setPageIndex((prev) => prev + 1);
+
     scroll();
   };
   const handlePrevPage = () => {
-    if (currentPageIndexRef.current == 0) return;
+    if (currentPageIndexRef.current == 0) {
+      navigation.goBack();
+      return;
+    }
+    setPageIndex((prev) => prev - 1);
     currentPageIndexRef.current--;
 
-    checkIfLastPage();
     scroll();
   };
 
@@ -57,23 +64,19 @@ const SearchWorkoutsScreen = () => {
     const offset = event.nativeEvent.contentOffset.x;
     const index = Math.round(offset / fixedWidth);
     currentPageIndexRef.current = index;
-    checkIfLastPage();
+    setPageIndex(index);
   };
-
   const scroll = () => {
     scrollViewRef.current.scrollTo({
       animated: true,
-      x: currentPageIndexRef.current * width,
+      x: currentPageIndexRef.current * fixedWidth,
       y: 0,
     });
   };
-  const checkIfLastPage = () => {
-    if (currentPageIndexRef.current + 1 == pages.length) {
-      setLastPage(true);
-    } else setLastPage(false);
-  };
   const style = StyleSheet.create({
     slideStyle: {
+      rowGap: 15,
+      paddingTop: 20,
       paddingHorizontal: 10,
       width: fixedWidth,
     },
@@ -118,7 +121,6 @@ const SearchWorkoutsScreen = () => {
   });
 
   const now = new Date();
-  const [lastPage, setLastPage] = useState(false);
   const [country, setCountry] = useState(user.defaultCountry);
   const [city, setCity] = useState(user.defaultCity);
   const [type, setType] = useState(0);
@@ -144,6 +146,9 @@ const SearchWorkoutsScreen = () => {
       setCountriesArr(await firebase.getCountries());
     };
     updateCountries();
+    console.log(
+      `defaultCountry: ${user.defaultCountry}, defaultCity:${user.defaultCity}`
+    );
   }, []);
   useEffect(() => {
     if (country != null) {
@@ -154,12 +159,16 @@ const SearchWorkoutsScreen = () => {
     }
   }, [country]);
   useEffect(() => {
-    if (city == null || country == null) {
+    if (pageIndex == 1) setCity();
+  }, [citiesArr]);
+  useEffect(() => {
+    console.log(`city:${city}`);
+    if (city == null) {
       setIsSearchDisabled(true);
     } else {
       setIsSearchDisabled(false);
     }
-  }, [city, country]);
+  }, [city]);
   const getCurrentLocation = async () => {
     const currentLocation = await geoService.getCurrentLocation(user);
     setCurrentLocation(currentLocation);
@@ -191,13 +200,15 @@ const SearchWorkoutsScreen = () => {
       location: currentLocation,
     });
   };
+  const backOrExitButtonStyle = { color: appStyle.color_primary, size: 30 };
+
   return (
     <View style={safeAreaStyle()}>
-      <Header
-        title={languageService[user.language].searchWorkout}
-        goBackOption={true}
+      <BackOrExitButton
+        style={backOrExitButtonStyle}
+        firstPage={pageIndex == 0}
+        handlePrevPage={handlePrevPage}
       />
-      <View className="flex-row"></View>
       <ScrollView
         showsHorizontalScrollIndicator={Platform.OS == "web" ? false : true}
         horizontal={true}
@@ -205,7 +216,14 @@ const SearchWorkoutsScreen = () => {
         pagingEnabled={true}
         onMomentumScrollEnd={handleScrollEnd}
       >
-        <View title={"Workout type"} style={style.slideStyle}>
+        <View style={style.slideStyle}>
+          <Title
+            title={
+              languageService[user.language].whatAreYouLookingFor[
+                user.isMale ? 1 : 0
+              ]
+            }
+          />
           <WorkoutType
             language={user.language}
             typeSelected={setType}
@@ -213,30 +231,29 @@ const SearchWorkoutsScreen = () => {
           />
         </View>
         <View style={style.slideStyle}>
-          <View className="mt-5">
-            <Dropdown
-              style={[
-                style.dropdown,
-                countryIsFocus && { borderColor: appStyle.color_primary },
-              ]}
-              placeholder={languageService[user.language].country}
-              placeholderStyle={style.placeholderStyle}
-              selectedTextStyle={style.selectedTextStyle}
-              inputSearchStyle={style.inputSearchStyle}
-              iconStyle={style.iconStyle}
-              data={countriesArr}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              value={country}
-              onFocus={() => setCountryIsFocus(true)}
-              onBlur={() => setCountryIsFocus(false)}
-              onChange={(item) => {
-                setCountry(item.value);
-                setCountryIsFocus(false);
-              }}
-            />
-          </View>
+          <Title title={languageService[user.language].where} />
+          <Dropdown
+            style={[
+              style.dropdown,
+              countryIsFocus && { borderColor: appStyle.color_primary },
+            ]}
+            placeholder={languageService[user.language].country}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={countriesArr}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={country}
+            onFocus={() => setCountryIsFocus(true)}
+            onBlur={() => setCountryIsFocus(false)}
+            onChange={(item) => {
+              setCountry(item.value);
+              setCountryIsFocus(false);
+            }}
+          />
           <View className="mt-5">
             <Dropdown
               style={[
@@ -291,66 +308,47 @@ const SearchWorkoutsScreen = () => {
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          padding: 10,
-          columnGap: 10,
-        }}
-      >
+
+      {pageIndex == pages.length - 1 ? (
         <TouchableOpacity
-          onPress={handlePrevPage}
-          className="w-1 rounded grow items-center justify-center py-3"
+          disabled={isSearchDisabled}
+          onPress={handleSearch}
+          className="rounded-full items-center h-16 justify-center"
           style={{
-            borderWidth: 2,
-            borderColor: convertHexToRgba(appStyle.color_primary, 0.15),
+            margin: 10,
+            backgroundColor: appStyle.color_primary,
           }}
         >
           <Text
-            className="font-black"
-            style={{ color: appStyle.color_primary }}
+            className="font-black text-lg"
+            style={{ color: appStyle.color_on_primary }}
           >
-            {languageService[user.language].back.toUpperCase()}
+            {searching
+              ? languageService[user.language].searching.toUpperCase()
+              : languageService[user.language].search.toUpperCase()}
           </Text>
         </TouchableOpacity>
-        {lastPage ? (
-          <TouchableOpacity
-            onPress={handleSearch}
-            className="w-1 rounded grow items-center justify-center py-3"
+      ) : (
+        <TouchableOpacity
+          onPress={handleNextPage}
+          className="rounded-full items-center h-16 justify-center"
+          style={{
+            margin: 10,
+            backgroundColor: appStyle.color_bg_variant,
+          }}
+        >
+          <Text
+            className="font-black text-lg"
             style={{
-              backgroundColor: appStyle.color_primary_variant,
-              borderWidth: 1,
-              borderColor: convertHexToRgba(appStyle.color_on_primary, 0.6),
+              color: appStyle.color_on_primary,
             }}
           >
-            <Text
-              className="font-black"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              {searching
-                ? languageService[user.language].searching.toUpperCase()
-                : languageService[user.language].search.toUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            disabled={isSearchDisabled}
-            onPress={handleNextPage}
-            className="w-1 rounded grow items-center justify-center py-3"
-            style={{ backgroundColor: appStyle.color_primary }}
-          >
-            <Text
-              className="font-black"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              {languageService[user.language].continue[
-                user.isMale ? 1 : 0
-              ].toUpperCase()}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
+            {languageService[user.language].continue[
+              user.isMale ? 1 : 0
+            ].toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
