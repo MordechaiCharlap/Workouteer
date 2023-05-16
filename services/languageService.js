@@ -285,6 +285,7 @@ const languageService = {
     ],
     where: "Where?",
     choose: ["Choose", "Choose"],
+    hoursMinutes: "hours:minutes",
   },
   hebrew: {
     login: "התחבר",
@@ -547,6 +548,7 @@ const languageService = {
     whatAreYouLookingFor: ["מה את מחפשת?", "מה אתה מחפש?"],
     where: "איפה?",
     choose: ["בחרי", "בחר"],
+    hoursMinutes: "דקות:שעות",
   },
 };
 export default languageService;
