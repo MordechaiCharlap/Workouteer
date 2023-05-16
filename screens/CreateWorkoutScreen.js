@@ -298,17 +298,21 @@ const CreateWorkoutScreen = () => {
               <View
                 className={`flex-row${user.language == "hebrew" && "-reverse"}`}
               >
-                <WorkoutMinutes
-                  value={user.lastWorkoutCreation?.minutes}
-                  language={user.language}
-                  minutesSelected={setMinutes}
-                />
+                <View className="w-1 grow">
+                  <WorkoutMinutes
+                    value={user.lastWorkoutCreation?.minutes}
+                    language={user.language}
+                    minutesSelected={setMinutes}
+                  />
+                </View>
                 <View style={{ width: 10 }}></View>
-                <WorkoutStartingTime
-                  value={startingTime}
-                  startingTimeChanged={setStartingTime}
-                  minDate={now}
-                />
+                <View className="w-1 grow">
+                  <WorkoutStartingTime
+                    value={startingTime}
+                    startingTimeChanged={setStartingTime}
+                    minDate={now}
+                  />
+                </View>
               </View>
             )}
           </View>
