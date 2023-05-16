@@ -24,6 +24,9 @@ import {
   faCheck,
   faX,
   faShield,
+  faClock,
+  faExclamationCircle,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
@@ -33,6 +36,7 @@ import languageService from "../services/languageService";
 import NameAndAge from "../components/profileScreen/NameAndAge";
 import UserStats from "../components/profileScreen/UserStats";
 import AwesomeModal from "../components/AwesomeModal";
+import UserDetailsButton from "../components/profileScreen/UserDetailsButton";
 
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -44,6 +48,7 @@ const UserScreen = ({ route }) => {
     sendPushNotificationUserAcceptedYourFriendRequest,
   } = usePushNotifications();
   const [showReportModal, setShowReportModal] = useState(false);
+  const [futureWorkoutsCount, setFutureWorkoutsCount] = useState(0);
   const shownUser = route.params.shownUser;
   useFocusEffect(
     useCallback(() => {
@@ -89,6 +94,25 @@ const UserScreen = ({ route }) => {
     }
     return age;
   };
+  const countFutureWorkouts = () => {
+    const now = new Date(); // Get the current time
+    const count = Object.values(shownUser.plannedWorkouts).reduce(
+      (acc, element) => {
+        const startingDate = new Date(element[0].toDate());
+
+        if (startingDate > now) {
+          return acc + 1;
+        }
+        return acc;
+      },
+      0
+    );
+
+    setFutureWorkoutsCount(count);
+  };
+  useEffect(() => {
+    countFutureWorkouts();
+  }, []);
   const renderFriendshipButton = () => {
     if (friendshipStatus == "None")
       return (
@@ -162,7 +186,7 @@ const UserScreen = ({ route }) => {
               {languageService[user.language].accept}
             </Text>
             <FontAwesomeIcon
-              icon={faCheck}
+              icon={faExcelamtion}
               size={20}
               color={appStyle.color_on_primary}
             />
@@ -214,60 +238,62 @@ const UserScreen = ({ route }) => {
                   />
                 </TouchableOpacity>
               </View>
-              <View className="flex-row h-48 items-center">
-                <Image
-                  source={{
-                    uri: shownUser.img,
-                  }}
-                  className="h-32 w-32 bg-white rounded-full"
+              <View className="flex-row h-48 justify-between">
+                <View className="justify-center">
+                  <Image
+                    source={{
+                      uri: shownUser.img,
+                    }}
+                    className="h-32 w-32 bg-white rounded-full"
+                    style={{
+                      borderWidth: 1,
+                      borderColor: appStyle.color_primary,
+                    }}
+                  />
+                </View>
+                <View
                   style={{
-                    borderWidth: 1,
-                    borderColor: appStyle.color_primary,
+                    justifyContent: "space-around",
+                    alignItems: "flex-end",
                   }}
-                />
-
-                <View className="absolute right-0 gap-y-3">
-                  <TouchableOpacity
-                    className="items-center flex-row rounded-2xl p-3 gap-x-3"
-                    style={{ backgroundColor: appStyle.color_primary }}
-                    onPress={() =>
-                      navigation.navigate("PastWorkouts", {
-                        shownUser: shownUser,
-                      })
-                    }
-                  >
-                    <Text
-                      style={{ fontSize: 30, color: appStyle.color_on_primary }}
-                    >
-                      {shownUser.workoutsCount}
-                    </Text>
-                    <FontAwesomeIcon
+                >
+                  <View className="flex-row items-center">
+                    {futureWorkoutsCount > 0 && (
+                      <UserDetailsButton
+                        onPress={() =>
+                          navigation.navigate("FutureWorkouts", {
+                            shownUser: shownUser,
+                          })
+                        }
+                        text={futureWorkoutsCount}
+                        icon={faClock}
+                        smallIcon={faExclamationCircle}
+                        specialButton={true}
+                      />
+                    )}
+                    <View style={{ width: 10 }}></View>
+                    <UserDetailsButton
+                      onPress={() =>
+                        navigation.navigate("PastWorkouts", {
+                          shownUser: shownUser,
+                        })
+                      }
+                      text={shownUser.workoutsCount}
                       icon={faDumbbell}
-                      size={40}
-                      color={appStyle.color_on_primary}
+                      smallIcon={faCircleCheck}
                     />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    className="items-center flex-row rounded-2xl p-3 gap-x-3"
-                    style={{ backgroundColor: appStyle.color_primary }}
+                  </View>
+
+                  <UserDetailsButton
                     onPress={() =>
                       navigation.navigate("Friends", {
                         user: shownUser,
                         isMyUser: false,
                       })
                     }
-                  >
-                    <Text
-                      style={{ fontSize: 30, color: appStyle.color_on_primary }}
-                    >
-                      {shownUser.friendsCount}
-                    </Text>
-                    <FontAwesomeIcon
-                      icon={faUserGroup}
-                      size={40}
-                      color={appStyle.color_on_primary}
-                    />
-                  </TouchableOpacity>
+                    text={shownUser.friendsCount}
+                    icon={faUserGroup}
+                  />
                 </View>
               </View>
               <View>
