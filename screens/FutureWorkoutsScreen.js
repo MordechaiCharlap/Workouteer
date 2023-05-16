@@ -20,7 +20,7 @@ const FutureWorkoutsScreen = ({ route }) => {
   const { schedulePushNotification } = usePushNotifications();
   const { user } = useAuth();
   const shownUser =
-    route.params.shownUser != null ? route.params.shownUser : user;
+    route.params?.shownUser != null ? route.params.shownUser : user;
   const isMyUser = shownUser.id == user.id;
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const [newWorkouts, setNewWorkouts] = useState();
