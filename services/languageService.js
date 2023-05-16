@@ -272,6 +272,13 @@ const languageService = {
     appRequiresInternetConnection:
       "The app requires internet connection to work",
     connectAndComeBack: "Connect and try again :)",
+    clickForLocation: [
+      "Click for personalized map",
+      "Click for personalized map",
+    ],
+    locationPermissionOrInternetProblem:
+      "It seems that we couldn't get your current location. You may not gave us permission/you were having some connection problems",
+    tryAgain: ["Try again", "Try again"],
   },
   hebrew: {
     login: "התחבר",
@@ -295,6 +302,10 @@ const languageService = {
     when: "מתי?",
     openForEveryone: "מעורב",
     location: "מיקום",
+    clickForLocation: [
+      "לחצי כאן לקבלת מפה מותאמת אישית",
+      "לחץ כאן לקבלת מפה מותאמת אישית",
+    ],
     gettingCurrentLocation: "טוען מיקום נוכחי...",
     setLocation: "בחירת מיקום",
     clickToChangeLocation: "שינוי מיקום",
@@ -524,6 +535,9 @@ const languageService = {
     appRequiresInternetConnection:
       "אי אפשר להשתמש באפליקציה ללא חיבור לאינטרנט",
     connectAndComeBack: "התחברו וחזרו מאוחר יותר :)",
+    locationPermissionOrInternetProblem:
+      "לא הצלחנו לקבל את המיקום הנוכחי שלך. כנראה שיש לך בעיות תקשורת/לא קיבלנו ממך אישור להשתמש במיקום שלך",
+    tryAgain: ["נסי שוב", "נסה שוב"],
   },
 };
 export default languageService;
