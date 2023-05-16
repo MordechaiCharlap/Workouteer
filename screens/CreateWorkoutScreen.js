@@ -33,6 +33,8 @@ import { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft, faX } from "@fortawesome/free-solid-svg-icons";
 import AwesomeModal from "../components/AwesomeModal";
+import { Title } from "../components/slides/Title";
+import BackOrExitButton from "../components/slides/BackOrExitButton";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -91,7 +93,7 @@ const CreateWorkoutScreen = () => {
   const scroll = () => {
     scrollViewRef.current.scrollTo({
       animated: true,
-      x: currentPageIndexRef.current * width,
+      x: currentPageIndexRef.current * fixedWidth,
       y: 0,
     });
   };
@@ -157,20 +159,7 @@ const CreateWorkoutScreen = () => {
       fontSize: 16,
     },
   });
-  const upperIconStyle = { color: appStyle.color_primary, size: 30 };
-  const Title = (props) => {
-    return (
-      <View>
-        <View className="flex-1"></View>
-        <Text
-          className="text-center text-lg"
-          style={{ color: appStyle.color_primary }}
-        >
-          {props.title}
-        </Text>
-      </View>
-    );
-  };
+  const backOrExitButtonStyle = { color: appStyle.color_primary, size: 30 };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("CreateWorkout");
@@ -254,16 +243,12 @@ const CreateWorkoutScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <TouchableOpacity
-        onPress={handlePrevPage}
-        style={{ marginTop: 20, marginHorizontal: 20 }}
-      >
-        <FontAwesomeIcon
-          icon={pageIndex == 0 ? faX : faChevronLeft}
-          size={upperIconStyle.size}
-          color={upperIconStyle.color}
-        />
-      </TouchableOpacity>
+      <BackOrExitButton
+        style={backOrExitButtonStyle}
+        firstPage={pageIndex == 0}
+        handlePrevPage={handlePrevPage}
+      />
+
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal={true}
@@ -295,37 +280,35 @@ const CreateWorkoutScreen = () => {
           />
           <View>
             {Platform.OS == "web" ? (
-              <View>
+              <>
                 <NextWeekDropdown
                   value={startingTime}
                   language={user.language}
                   now={now}
                   selectedDateChanged={setStartingTime}
                 />
+                <View style={{ height: 10 }}></View>
                 <WorkoutMinutes
                   value={user.lastWorkoutCreation?.minutes}
                   language={user.language}
                   minutesSelected={setMinutes}
                 />
-              </View>
+              </>
             ) : (
-              <View>
-                <View className="flex-row">
-                  <View className="w-1/2">
-                    <WorkoutStartingTime
-                      value={startingTime}
-                      startingTimeChanged={setStartingTime}
-                      minDate={now}
-                    />
-                  </View>
-                  <View className="w-1/2">
-                    <WorkoutMinutes
-                      value={user.lastWorkoutCreation?.minutes}
-                      language={user.language}
-                      minutesSelected={setMinutes}
-                    />
-                  </View>
-                </View>
+              <View
+                className={`flex-row${user.language == "hebrew" && "-reverse"}`}
+              >
+                <WorkoutMinutes
+                  value={user.lastWorkoutCreation?.minutes}
+                  language={user.language}
+                  minutesSelected={setMinutes}
+                />
+                <View style={{ width: 10 }}></View>
+                <WorkoutStartingTime
+                  value={startingTime}
+                  startingTimeChanged={setStartingTime}
+                  minDate={now}
+                />
               </View>
             )}
           </View>
