@@ -3,6 +3,7 @@ import { React, useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
 import * as appStyle from "../utilities/appStyleSheet";
+import useAuth from "../hooks/useAuth";
 const data = [
   { label: "0:30", value: 30 },
   { label: "1:00", value: 60 },
@@ -13,6 +14,7 @@ const data = [
 ];
 
 const WorkoutMinutes = (props) => {
+  const { user } = useAuth();
   const [value, setValue] = useState(props.value);
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
@@ -41,7 +43,15 @@ const WorkoutMinutes = (props) => {
   };
 
   return (
-    <View>
+    <View
+      className={`flex-1 items-center flex-row${
+        user.language == "hebrew" && "-reverse"
+      }`}
+    >
+      <Text style={{ fontSize: 16 }}>
+        {languageService[props.language].workoutTimePeiod}:
+      </Text>
+      <View style={{ width: 10 }}></View>
       <Dropdown
         style={[
           styles.dropdown,
@@ -57,7 +67,9 @@ const WorkoutMinutes = (props) => {
         labelField="label"
         valueField="value"
         placeholder={
-          !isFocus ? languageService[props.language].workoutTimePeiod : "..."
+          !isFocus
+            ? languageService[props.language].choose[user.isMale ? 1 : 0]
+            : "..."
         }
         value={value}
         onFocus={() => setIsFocus(true)}
@@ -74,6 +86,7 @@ export default WorkoutMinutes;
 
 const styles = StyleSheet.create({
   dropdown: {
+    flex: 1,
     height: 50,
     borderColor: appStyle.color_primary,
     borderWidth: 0.5,
