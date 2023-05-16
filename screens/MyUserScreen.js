@@ -17,6 +17,9 @@ import {
   faGear,
   faDumbbell,
   faUserGroup,
+  faCircleCheck,
+  faExclamationCircle,
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
@@ -28,6 +31,7 @@ import NameAndAge from "../components/profileScreen/NameAndAge";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { Platform } from "react-native";
+import UserDetailsButton from "../components/profileScreen/UserDetailsButton";
 
 const MyUserScreen = () => {
   const navigation = useNavigation();
@@ -94,37 +98,75 @@ const MyUserScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row h-48 items-center">
-              <Image
-                source={{
-                  uri: user.img,
+            <View className="flex-row h-48 justify-between">
+              <View className="justify-center">
+                <Image
+                  source={{
+                    uri: user.img,
+                  }}
+                  className="h-32 w-32 bg-white rounded-full"
+                  style={{
+                    borderWidth: 1,
+                    borderColor: appStyle.color_primary,
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  justifyContent: "space-around",
+                  alignItems: "flex-end",
                 }}
-                className="h-32 w-32 bg-white rounded-full"
-                style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
-              />
-
-              <View className="absolute right-0 gap-y-3">
-                <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-x-3"
-                  style={{ backgroundColor: appStyle.color_primary }}
-                  onPress={() =>
-                    navigation.navigate("PastWorkouts", { shownUser: user })
-                  }
-                >
-                  <Text
-                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
+              >
+                <View className="flex-row items-center">
+                  {Object.keys(user.plannedWorkouts).length > 0 && (
+                    <UserDetailsButton
+                      onPress={() => navigation.navigate("FutureWorkouts")}
+                      text={Object.keys(user.plannedWorkouts).length}
+                      icon={faClock}
+                      smallIcon={faExclamationCircle}
+                      specialButton={true}
+                    />
+                  )}
+                  {/* <View
+                    className="rounded-full"
+                    style={{
+                      backgroundColor: appStyle.color_on_primary,
+                      padding: 3,
+                    }}
                   >
-                    {user.workoutsCount}
-                  </Text>
-                  <FontAwesomeIcon
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      color={appStyle.color_primary}
+                      size={60}
+                    />
+                    <View
+                      className="absolute rounded-full items-center justify-center right-0 bottom-0"
+                      style={{
+                        height: 30,
+                        aspectRatio: 1,
+                        backgroundColor: appStyle.color_primary,
+                        borderWidth: 3,
+                        borderColor: appStyle.color_on_primary,
+                      }}
+                    >
+                      <Text style={{ color: appStyle.color_on_primary }}>
+                        {Object.keys(user.plannedWorkouts).length}
+                      </Text>
+                    </View>
+                  </View> */}
+                  <View style={{ width: 10 }}></View>
+                  <UserDetailsButton
+                    onPress={() => navigation.navigate("PastWorkouts")}
+                    text={user.workoutsCount}
                     icon={faDumbbell}
-                    size={40}
-                    color={appStyle.color_on_primary}
+                    smallIcon={faCircleCheck}
                   />
-                </TouchableOpacity>
+                </View>
                 <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3 gap-x-3"
-                  style={{ backgroundColor: appStyle.color_primary }}
+                  className="items-center flex-row rounded-2xl p-3"
+                  style={{
+                    backgroundColor: appStyle.color_primary,
+                  }}
                   onPress={() =>
                     navigation.navigate("Friends", {
                       user: user,
@@ -137,6 +179,7 @@ const MyUserScreen = () => {
                   >
                     {user.friendsCount}
                   </Text>
+                  <View style={{ width: 10 }}></View>
                   <FontAwesomeIcon
                     icon={faUserGroup}
                     size={40}
