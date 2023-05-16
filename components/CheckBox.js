@@ -36,7 +36,10 @@ const CheckBox = (props) => {
   return (
     <TouchableOpacity
       className="aspect-square items-center justify-center"
-      style={[style.checkBoxStyle, props.style ? props.style : {}]}
+      style={[
+        style.checkBoxStyle,
+        props.style ? props.style : { borderRadius: 3 },
+      ]}
       onPress={changeValue}
     >
       {renderValue()}
