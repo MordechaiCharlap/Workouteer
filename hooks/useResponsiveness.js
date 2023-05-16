@@ -12,11 +12,12 @@ export const ResponsivenessProvider = ({ children }) => {
   const [windowHeight, setWindowHeight] = useState();
   const [orientation, setOrientation] = useState();
   const [windowTooSmall, setWindowTooSmall] = useState(false);
-  const resizeHandler = () => {
+  const webResizeHandler = () => {
     setTimeout(() => {
-      setWindowHeight(Dimensions.get("window").height);
+      setWindowHeight(window.innerHeight);
+
       setWindowWidth(window.innerWidth);
-      if (Dimensions.get("window").height <= 572 || window.innerWidth <= 271) {
+      if (window.innerHeight <= 572 || window.innerWidth <= 271) {
         setWindowTooSmall(true);
       } else {
         setWindowTooSmall(false);
@@ -36,10 +37,10 @@ export const ResponsivenessProvider = ({ children }) => {
           Dimensions.removeEventListener("change", orientationHandler);
         };
       } else {
-        resizeHandler();
-        window.addEventListener("resize", resizeHandler);
+        webResizeHandler();
+        window.addEventListener("resize", webResizeHandler);
         return () => {
-          window.removeEventListener("resize", resizeHandler);
+          window.removeEventListener("resize", webResizeHandler);
         };
       }
     } else {
