@@ -8,7 +8,7 @@ function wait(ms) {
 
 async function getLocationOrTimeout() {
   const locationPromise = getLocation();
-  const timeoutPromise = wait(3000);
+  const timeoutPromise = wait(10000);
 
   try {
     const location = await Promise.race([locationPromise, timeoutPromise]);
@@ -22,6 +22,8 @@ const getLocation = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== "granted") {
     return false;
+  } else {
+    console.log("permission granted");
   }
   const location = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.Highest,
