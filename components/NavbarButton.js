@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -11,7 +11,9 @@ import {
   faRankingStar,
 } from "@fortawesome/free-solid-svg-icons";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import useAuth from "../hooks/useAuth";
 const NavbarButton = (props) => {
+  const { user } = useAuth();
   const navigation = useNavigation();
   const { currentScreen } = useNavbarDisplay();
   const getIcon = () => {
@@ -42,25 +44,50 @@ const NavbarButton = (props) => {
           />
         </View>
       )}
-
-      <View>
-        <FontAwesomeIcon
-          icon={getIcon()}
-          size={props.screen == "Home" ? 45 : 30}
-          color={appStyle.color_on_primary}
-        />
-
-        {props.alert != null && props.alert == true && (
-          <View
-            className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
-            style={{
-              backgroundColor: appStyle.color_error,
-              borderColor: appStyle.color_on_primary,
-              borderWidth: 2,
+      {props.screen == "MyUser" ? (
+        <View>
+          <Image
+            source={{
+              uri: user?.img,
             }}
-          ></View>
-        )}
-      </View>
+            className="bg-white rounded-full"
+            style={{
+              height: 38,
+              width: 38,
+              borderWidth: 1,
+              borderColor: appStyle.color_on_primary,
+            }}
+          />
+          {props.alert != null && props.alert == true && (
+            <View
+              className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
+              style={{
+                backgroundColor: appStyle.color_error,
+                borderColor: appStyle.color_on_primary,
+                borderWidth: 2,
+              }}
+            ></View>
+          )}
+        </View>
+      ) : (
+        <View>
+          <FontAwesomeIcon
+            icon={getIcon()}
+            size={props.screen == "Home" ? 45 : 30}
+            color={appStyle.color_on_primary}
+          />
+          {props.alert != null && props.alert == true && (
+            <View
+              className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
+              style={{
+                backgroundColor: appStyle.color_error,
+                borderColor: appStyle.color_on_primary,
+                borderWidth: 2,
+              }}
+            ></View>
+          )}
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
