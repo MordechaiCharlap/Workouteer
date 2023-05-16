@@ -11,7 +11,7 @@ export const checkIfDateAvailableAndReturnClosestWorkout = (
       return false;
     } else if (
       value[0].toDate() > dateToCheck &&
-      (closestWorkoutDate == null || closestWorkoutDate > value[0].toDate())
+      (closestWorkoutDate == null || value[0].toDate() < closestWorkoutDate)
     )
       closestWorkoutDate = value[0].toDate();
   }
