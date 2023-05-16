@@ -135,7 +135,7 @@ const WorkoutComponent = (props) => {
     );
   };
   const requestToJoinWorkout = async () => {
-    if (checkIfWorkoutOnPlannedWorkoutTime(workout) != null) return;
+    if (checkIfWorkoutOnPlannedWorkoutTime(user, workout) != null) return;
     setUserMemberStatus("pending");
     const workoutClone = workout;
     workoutClone.requests[user.id] = true;
