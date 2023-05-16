@@ -19,7 +19,7 @@ export const WorkoutLogicProvider = ({ children }) => {
     //resetting the overlapped id
     if (!showModal) overlappedWorkoutId.current = null;
   }, [showModal]);
-  const checkIfWorkoutOnPlannedWorkoutTime = (workout) => {
+  const checkIfWorkoutOnPlannedWorkoutTime = (user, workout) => {
     console.log("test1");
     var closestWorkoutAfter = null;
     for (var [key, value] of Object.entries(user?.plannedWorkouts)) {
