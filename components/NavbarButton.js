@@ -33,14 +33,33 @@ const NavbarButton = (props) => {
       onPress={() => {
         navigation.navigate(props.screen);
       }}
-      style={props.screen != currentScreen ? style.button : style.currentButton}
     >
+      {props.screen == currentScreen && (
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              borderRadius: props.screen == "MyUser" ? 999 : 10,
+              height: "90%",
+              aspectRatio: props.screen == "MyUser" ? 1 / 1 : 1 / 0.9,
+              backgroundColor: appStyle.color_primary,
+            }}
+          ></View>
+        </View>
+      )}
       {props.screen == "Home" && (
         <View className="absolute h-full w-full items-center justify-center">
           <FontAwesomeIcon
             icon={getIcon()}
             size={50}
-            color={appStyle.color_bg}
+            color={appStyle.color_primary}
           />
         </View>
       )}
@@ -74,7 +93,11 @@ const NavbarButton = (props) => {
           <FontAwesomeIcon
             icon={getIcon()}
             size={props.screen == "Home" ? 45 : 30}
-            color={appStyle.color_on_primary}
+            color={
+              props.screen == currentScreen
+                ? appStyle.color_bg
+                : appStyle.color_secondary
+            }
           />
           {props.alert != null && props.alert == true && (
             <View
@@ -91,11 +114,5 @@ const NavbarButton = (props) => {
     </TouchableOpacity>
   );
 };
-const style = StyleSheet.create({
-  button: {},
-  currentButton: {
-    backgroundColor: appStyle.color_primary_variant, // invisible color
-  },
-});
 
 export default NavbarButton;
