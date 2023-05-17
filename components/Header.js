@@ -10,7 +10,7 @@ const Header = (props) => {
     <View
       className="flex-row items-center h-10 mt-4 mb-2"
       style={{
-        backgroundColor: appStyle.color_bg,
+        backgroundColor: appStyle.color_background,
         justifyContent: props.goBackOption ? "space-between" : "center",
       }}
     >
@@ -42,7 +42,7 @@ const Header = (props) => {
         <FontAwesomeIcon
           icon={faChevronLeft}
           size={40}
-          color={appStyle.color_bg}
+          color={appStyle.color_background}
         />
       ) : (
         <></>

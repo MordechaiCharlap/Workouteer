@@ -17,7 +17,7 @@ const WindowTooSmallScreen = () => {
   return (
     <View
       className="flex-1 justify-center items-center p-10"
-      style={{ backgroundColor: appStyle.color_bg }}
+      style={{ backgroundColor: appStyle.color_background }}
     >
       <Text
         className="text-5xl font-bold text-center"

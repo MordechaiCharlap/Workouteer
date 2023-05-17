@@ -92,7 +92,10 @@ const AnimatedSlides = (props) => {
           className="w-1 rounded grow items-center justify-center py-3"
           style={{ backgroundColor: appStyle.color_primary }}
         >
-          <Text className="font-black" style={{ color: appStyle.color_bg }}>
+          <Text
+            className="font-black"
+            style={{ color: appStyle.color_background }}
+          >
             {languageService[user.language].continue[
               user.isMale ? 1 : 0
             ].toUpperCase()}

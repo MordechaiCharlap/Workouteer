@@ -19,7 +19,7 @@ const AwesomeModal = (props) => {
     <AwesomeAlert
       overlayStyle={fixedWidth ? { width: fixedWidth } : {}}
       contentContainerStyle={{
-        backgroundColor: appStyle.color_bg,
+        backgroundColor: appStyle.color_background,
       }}
       confirmButtonStyle={{ backgroundColor: appStyle.color_primary }}
       cancelButtonTextStyle={{ color: appStyle.color_primary }}

@@ -385,8 +385,8 @@ const CreateWorkoutScreen = () => {
           style={{
             margin: 10,
             backgroundColor: continueDisabled
-              ? convertHexToRgba(appStyle.color_bg_variant, 0.4)
-              : appStyle.color_bg_variant,
+              ? convertHexToRgba(appStyle.color_background_variant, 0.4)
+              : appStyle.color_background_variant,
           }}
         >
           <Text

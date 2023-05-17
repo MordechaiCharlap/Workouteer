@@ -2,7 +2,7 @@
   "expo": {
     "name": "Workouteer",
     "slug": "workouteer-rn",
-    "version": "1.1.04",
+    "version": "1.1.05",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/app-icon.png",
@@ -50,7 +50,7 @@
       "bundleIdentifier": "com.charlap.workouteer"
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ"

@@ -40,7 +40,7 @@ const LinkUserWithGoogleScreen = ({ route }) => {
       ) : forgotPassword ? (
         <View
           style={{
-            backgroundColor: appStyle.color_bg_variant,
+            backgroundColor: appStyle.color_background_variant,
             borderWidth: 1,
             borderColor: appStyle.color_primary,
           }}
@@ -70,7 +70,7 @@ const LinkUserWithGoogleScreen = ({ route }) => {
           </Text>
           <View
             style={{
-              backgroundColor: appStyle.color_bg_variant,
+              backgroundColor: appStyle.color_background_variant,
               borderWidth: 1,
               borderColor: appStyle.color_primary,
             }}
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     borderColor: appStyle.color_primary,
-    backgroundColor: appStyle.color_bg,
+    backgroundColor: appStyle.color_background,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 4,

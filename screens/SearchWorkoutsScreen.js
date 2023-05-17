@@ -334,7 +334,7 @@ const SearchWorkoutsScreen = () => {
           className="rounded-full items-center h-16 justify-center"
           style={{
             margin: 10,
-            backgroundColor: appStyle.color_bg_variant,
+            backgroundColor: appStyle.color_background_variant,
           }}
         >
           <Text
@@ -354,7 +354,10 @@ const SearchWorkoutsScreen = () => {
 };
 const StartingTimeComp = (props) => {
   return Platform.OS == "web" ? (
-    <View className="rounded-xl" style={{ backgroundColor: appStyle.color_bg }}>
+    <View
+      className="rounded-xl"
+      style={{ backgroundColor: appStyle.color_background }}
+    >
       <Text
         className="text-xl font-semibold text-center"
         style={{ color: appStyle.color_primary }}
@@ -372,7 +375,7 @@ const StartingTimeComp = (props) => {
   ) : (
     <View
       className="rounded-xl p-2 pb-4 px-4 items-center"
-      style={{ backgroundColor: appStyle.color_bg }}
+      style={{ backgroundColor: appStyle.color_background }}
     >
       <Text
         className="text-xl font-semibold"

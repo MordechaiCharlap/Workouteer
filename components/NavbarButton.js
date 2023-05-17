@@ -95,7 +95,7 @@ const NavbarButton = (props) => {
             size={props.screen == "Home" ? 45 : 30}
             color={
               props.screen == currentScreen
-                ? appStyle.color_bg
+                ? appStyle.color_background
                 : appStyle.color_secondary
             }
           />

@@ -6,14 +6,8 @@ import {
   color_secondary,
 } from "../../utilities/appStyleSheet";
 
-const CustomText = ({ children, type }) => {
-  return (
-    <Text
-      style={{ color: type == "primary" ? color_primary : color_on_primary }}
-    >
-      {children}
-    </Text>
-  );
+const CustomText = ({ children, style }) => {
+  return <Text style={[style]}>{children}</Text>;
 };
 
 export default CustomText;

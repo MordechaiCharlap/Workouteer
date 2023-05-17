@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: appStyle.color_primary,
   },
   notChangedVal: {
-    backgroundColor: appStyle.color_bg_variant,
+    backgroundColor: appStyle.color_background_variant,
   },
 });
 export default WorkoutStartingTime;

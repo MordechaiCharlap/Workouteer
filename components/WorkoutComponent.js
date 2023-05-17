@@ -469,7 +469,7 @@ const style = StyleSheet.create({
   workoutIcon: { color: appStyle.color_on_primary },
   dividers: {
     width: 2,
-    color: appStyle.color_bg,
+    color: appStyle.color_background,
   },
   creatorText: {
     color: appStyle.color_on_primary,
@@ -484,7 +484,7 @@ const style = StyleSheet.create({
     color: appStyle.color_on_primary,
   },
   actionButton: {
-    backgroundColor: appStyle.color_primary_variant,
+    backgroundColor: appStyle.color_primary,
   },
   actionButtonText: {
     color: appStyle.color_on_primary,

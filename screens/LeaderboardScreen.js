@@ -89,7 +89,7 @@ const LeaderboardScreen = () => {
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
                   style={{
-                    backgroundColor: appStyle.color_bg,
+                    backgroundColor: appStyle.color_background,
                     color: appStyle.color_primary,
                   }}
                 >
@@ -102,7 +102,7 @@ const LeaderboardScreen = () => {
                 <Text
                   className="font-semibold text-lg rounded-sm p-2"
                   style={{
-                    backgroundColor: appStyle.color_bg,
+                    backgroundColor: appStyle.color_background,
                     color: appStyle.color_primary,
                   }}
                 >
@@ -131,7 +131,7 @@ const LeaderboardScreen = () => {
                 className="flex-row flex-1 items-center py-1"
                 style={
                   item[0] == user.id
-                    ? { backgroundColor: appStyle.color_bg_variant }
+                    ? { backgroundColor: appStyle.color_background_variant }
                     : {}
                 }
               >

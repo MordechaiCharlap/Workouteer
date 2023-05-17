@@ -52,7 +52,7 @@ const SuggestionForm = (props) => {
       <View
         className="rounded px-3 py-2 gap-y-3"
         style={{
-          backgroundColor: appStyle.color_bg,
+          backgroundColor: appStyle.color_background,
           borderColor: appStyle.color_primary,
           borderWidth: 1,
         }}
@@ -145,7 +145,7 @@ const style = StyleSheet.create({
     borderRadius: 2,
   },
   submitButtonDisabled: {
-    backgroundColor: appStyle.color_bg_variant,
+    backgroundColor: appStyle.color_background_variant,
     paddingVertical: 4,
     paddingHorizontal: 15,
     borderRadius: 2,

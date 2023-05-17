@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   valueNotChanged: {
-    backgroundColor: appStyle.color_bg_variant,
+    backgroundColor: appStyle.color_background_variant,
   },
   valueChanged: {
     backgroundColor: appStyle.color_primary,

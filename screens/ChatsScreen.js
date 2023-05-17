@@ -177,7 +177,7 @@ const ChatsScreen = () => {
                           <View className="mr-0.5">
                             <FontAwesomeIcon
                               icon={faCheckDouble}
-                              color={appStyle.color_bg_variant}
+                              color={appStyle.color_background_variant}
                               size={15}
                             />
                           </View>
@@ -185,7 +185,7 @@ const ChatsScreen = () => {
                           <View className="mr-0.5">
                             <FontAwesomeIcon
                               icon={faCheck}
-                              color={appStyle.color_bg_variant}
+                              color={appStyle.color_background_variant}
                               size={15}
                             />
                           </View>
@@ -248,7 +248,7 @@ const ChatsScreen = () => {
       <View
         className="flex-row items-center h-10 mt-4 mb-2 justify-center"
         style={{
-          borderBottomColor: appStyle.color_bg_variant,
+          borderBottomColor: appStyle.color_background_variant,
           borderBottomWidth: 0.7,
         }}
       >
@@ -362,7 +362,7 @@ const ChatsScreen = () => {
       >
         <View className="justify-center flex-1">
           <View
-            style={{ backgroundColor: appStyle.color_bg_variant }}
+            style={{ backgroundColor: appStyle.color_background_variant }}
             className="items-center rounded mx-3 gap-y-2 py-2"
           >
             <Text

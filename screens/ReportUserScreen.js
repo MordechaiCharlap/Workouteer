@@ -168,7 +168,7 @@ const ReportUserScreen = ({ route }) => {
         >
           <Text
             className="text-center text-lg  font-semibold tracking-widest"
-            style={{ color: appStyle.color_bg }}
+            style={{ color: appStyle.color_background }}
           >
             {submitting
               ? languageService[user.language].submitting
@@ -197,7 +197,7 @@ const style = StyleSheet.create({
     backgroundColor: appStyle.color_primary,
     height: 50,
     borderWidth: 1.5,
-    borderRadius:4,
+    borderRadius: 4,
     paddingHorizontal: 8,
   },
   icon: {

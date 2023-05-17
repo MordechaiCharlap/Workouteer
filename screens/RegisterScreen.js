@@ -186,8 +186,8 @@ const RegisterScreen = () => {
             onPress={createAccountClicked}
             className={`flex-1 rounded p-2 justify-center mt-5`}
             style={{
-              backgroundColor: appStyle.color_bg,
-              shadowColor: appStyle.color_bg,
+              backgroundColor: appStyle.color_background,
+              shadowColor: appStyle.color_background,
             }}
           >
             <Text
@@ -217,7 +217,7 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     height: 40,
     borderWidth: 2,
-    borderColor: appStyle.color_bg,
+    borderColor: appStyle.color_background,
     borderRadius: 4,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,

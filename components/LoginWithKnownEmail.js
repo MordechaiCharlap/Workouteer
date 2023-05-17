@@ -33,7 +33,7 @@ const LoginWithKnownEmail = (props) => {
   return (
     <View
       style={{
-        backgroundColor: appStyle.color_bg_variant,
+        backgroundColor: appStyle.color_background_variant,
         borderWidth: 1,
         borderColor: appStyle.color_primary,
       }}
@@ -58,7 +58,7 @@ const LoginWithKnownEmail = (props) => {
         <View className="flex-row gap-x-1">
           <TouchableOpacity
             onPress={loginAndLink}
-            style={{ backgroundColor: appStyle.color_bg }}
+            style={{ backgroundColor: appStyle.color_background }}
             className="w-1 grow items-center py-2"
           >
             <Text
@@ -100,7 +100,7 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     height: 40,
     borderWidth: 2,
-    borderColor: appStyle.color_bg,
+    borderColor: appStyle.color_background,
     borderRadius: 4,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,

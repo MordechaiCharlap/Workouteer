@@ -19,14 +19,14 @@ const BottomNavbar = () => {
           (windowHeight ? windowHeight : Dimensions.get("window").height) / 13,
           30
         ),
-        backgroundColor: appStyle.color_bg,
+        backgroundColor: appStyle.color_background,
       }}
     >
       <View
         className={`flex-row justify-around h-full`}
         style={{
           width: fixedWidth,
-          backgroundColor: appStyle.color_bg_variant,
+          backgroundColor: appStyle.color_background_variant,
         }}
       >
         <NavbarButton

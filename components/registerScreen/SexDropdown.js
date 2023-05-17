@@ -16,7 +16,7 @@ const SexDropdown = (props) => {
           borderBottomWidth: 2,
           borderRightWidth: 2,
           borderLeftWidth: 2,
-          borderColor: appStyle.color_bg,
+          borderColor: appStyle.color_background,
         }}
         itemContainerStyle={{
           position: "relative",

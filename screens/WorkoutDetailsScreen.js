@@ -434,7 +434,7 @@ const WorkoutPinnedLocation = (props) => {
         className="bottom-4 rounded py-2 px-6 absolute"
         style={{
           backgroundColor: appStyle.color_primary,
-          borderColor: appStyle.color_bg,
+          borderColor: appStyle.color_background,
           borderWidth: 1,
         }}
         onPress={() => showDirections()}

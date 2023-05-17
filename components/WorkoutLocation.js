@@ -60,7 +60,7 @@ const WorkoutLocation = (props) => {
             style={{
               borderWidth: 0.5,
               borderColor: appStyle.color_on_primary,
-              backgroundColor: appStyle.color_bg_variant,
+              backgroundColor: appStyle.color_background_variant,
             }}
           >
             <Text
@@ -107,7 +107,7 @@ const WorkoutLocation = (props) => {
             <TouchableOpacity
               className="px-3 py-1 rounded-full m-2"
               onPress={getCurrentLocation}
-              style={{ backgroundColor: appStyle.color_bg }}
+              style={{ backgroundColor: appStyle.color_background }}
             >
               <Text
                 className="text-lg"

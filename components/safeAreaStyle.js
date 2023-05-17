@@ -15,13 +15,13 @@ export const safeAreaStyle = () => {
       alignSelf: "center",
       aspectRatio: fixedWidth,
       width: fixedWidth,
-      backgroundColor: appStyle.color_bg,
+      backgroundColor: appStyle.color_background,
     };
   } else {
     style = {
       height: "100%",
       flex: 1,
-      backgroundColor: appStyle.color_bg,
+      backgroundColor: appStyle.color_background,
     };
   }
   return style;

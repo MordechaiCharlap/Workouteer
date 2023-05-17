@@ -35,7 +35,7 @@ const UpdateAppScreen = () => {
         <View className="flex-row gap-x-2 mt-3">
           <TouchableOpacity
             className="flex-1 rounded py-1"
-            style={{ backgroundColor: appStyle.color_bg }}
+            style={{ backgroundColor: appStyle.color_background }}
           >
             <Text
               className="text-2xl text-center font-semibold"

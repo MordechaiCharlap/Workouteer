@@ -223,7 +223,7 @@ const style = StyleSheet.create({
   dropdown: {
     backgroundColor: appStyle.color_primary,
     height: 50,
-    borderColor: appStyle.color_bg_variant,
+    borderColor: appStyle.color_background_variant,
     borderWidth: 0.5,
     borderRadius: 4,
     paddingHorizontal: 8,

@@ -22,7 +22,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
       }}
     >
       <View
-        style={{ backgroundColor: appStyle.color_primary_variant, padding: 7 }}
+        style={{ backgroundColor: appStyle.color_primary, padding: 7 }}
         className="rounded-l"
       >
         <FontAwesomeIcon

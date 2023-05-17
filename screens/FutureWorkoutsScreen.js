@@ -100,10 +100,10 @@ const FutureWorkoutsScreen = ({ route }) => {
                       text={languageService[user.language].new}
                       textColor={appStyle.color_on_primary}
                       borderWidth={2}
-                      borderColor={appStyle.color_bg}
+                      borderColor={appStyle.color_background}
                       fontSize={15}
                       size={55}
-                      color={appStyle.color_primary_variant}
+                      color={appStyle.color_primary}
                     />
                   </View>
                 ) : (

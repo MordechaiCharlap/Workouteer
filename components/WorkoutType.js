@@ -44,7 +44,7 @@ const WorkoutType = (props) => {
       height: iconSize * 2,
       borderWidth: 1,
       borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_bg_variant,
+      backgroundColor: appStyle.color_background_variant,
     },
     chosenTypeButton: {
       width: "48%",
@@ -56,7 +56,7 @@ const WorkoutType = (props) => {
     everythingButton: {
       borderWidth: 1,
       borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_bg_variant,
+      backgroundColor: appStyle.color_background_variant,
     },
     chosenEverythingButton: {
       borderWidth: 1,

@@ -63,7 +63,7 @@ const InviteFriendsScreen = ({ route }) => {
         <View
           className="py-1 w-28 rounded"
           style={{
-            backgroundColor: appStyle.color_bg_variant,
+            backgroundColor: appStyle.color_background_variant,
             borderWidth: 0.8,
             borderColor: appStyle.color_primary,
           }}
@@ -100,7 +100,7 @@ const InviteFriendsScreen = ({ route }) => {
         onPress={async () => inviteFriend(friend)}
         className="py-1 w-28 rounded"
         style={{
-          backgroundColor: appStyle.color_bg,
+          backgroundColor: appStyle.color_background,
           borderColor: appStyle.color_primary,
           borderWidth: 0.5,
         }}
@@ -126,7 +126,7 @@ const InviteFriendsScreen = ({ route }) => {
       />
       <View
         className="rounded-xl p-3 mx-2"
-        style={{ backgroundColor: appStyle.color_bg_variant }}
+        style={{ backgroundColor: appStyle.color_background_variant }}
       >
         <View className="flex-row items-center">
           <TouchableOpacity>

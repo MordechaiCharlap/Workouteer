@@ -322,7 +322,7 @@ const UserScreen = ({ route }) => {
             </View>
           </ScrollView>
           <View
-            style={{ backgroundColor: appStyle.color_bg_variant }}
+            style={{ backgroundColor: appStyle.color_background_variant }}
             className="flex-row justify-center px-4 py-2"
           >
             <View className="mr-4">{renderFriendshipButton()}</View>
@@ -411,7 +411,7 @@ const style = StyleSheet.create({
     backgroundColor: appStyle.color_primary,
     padding: 8,
     borderRightRadius: 5,
-    backgroundColor: appStyle.color_bg,
+    backgroundColor: appStyle.color_background,
     borderColor: appStyle.color_primary,
     borderRightWidth: 1,
     borderBottomWidth: 1,

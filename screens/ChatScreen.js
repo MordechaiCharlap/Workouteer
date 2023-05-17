@@ -134,7 +134,7 @@ const ChatScreen = ({ route }) => {
         style={{
           backgroundColor: appStyle.color_primary,
           height: 70,
-          borderBottomColor: appStyle.color_bg,
+          borderBottomColor: appStyle.color_background,
           borderBottomWidth: 0.5,
         }}
       >
@@ -198,7 +198,7 @@ const ChatScreen = ({ route }) => {
         {!user.isDeleted ? (
           <View
             className="flex-row p-2 items-center"
-            style={{ backgroundColor: appStyle.color_bg_variant }}
+            style={{ backgroundColor: appStyle.color_background_variant }}
           >
             <TextInput
               className="text-2xl flex-1 mr-2 rounded py-1 px-4"
@@ -209,7 +209,7 @@ const ChatScreen = ({ route }) => {
               }
               placeholderTextColor={appStyle.color_primary}
               style={{
-                backgroundColor: appStyle.color_bg,
+                backgroundColor: appStyle.color_background,
                 color: appStyle.color_primary,
               }}
               onChangeText={(text) => {
@@ -219,7 +219,7 @@ const ChatScreen = ({ route }) => {
             ></TextInput>
             <View
               className="rounded-full w-10 h-10 items-center justify-center"
-              style={{ backgroundColor: appStyle.color_bg }}
+              style={{ backgroundColor: appStyle.color_background }}
             >
               <TouchableOpacity onPress={() => sendMessage()}>
                 <FontAwesomeIcon
@@ -239,7 +239,10 @@ const ChatScreen = ({ route }) => {
               borderTopWidth: 1,
             }}
           >
-            <Text className="text-center" style={{ color: appStyle.color_bg }}>
+            <Text
+              className="text-center"
+              style={{ color: appStyle.color_background }}
+            >
               {languageService[user.language].cannotSendMessagesToDeletedUser}
             </Text>
           </View>

@@ -24,6 +24,8 @@ import {
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import CustomButton from "../components/basic/CustomButton";
+import CustomText from "../components/basic/CustomText";
 const LoginScreen = () => {
   const windowHeight = useWindowDimensions().height;
   const { setCurrentScreen } = useNavbarDisplay();
@@ -96,25 +98,25 @@ const LoginScreen = () => {
           <View
             className={`mb-3 rounded-t-xl p-3 justify-between`}
             style={{
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: appStyle.color_surface_variant,
               shadowColor: "#000",
             }}
           >
             <View className="my-3 items-center">
               <FontAwesomeIcon
                 icon={faCircleUser}
-                color={appStyle.color_on_primary}
+                color={appStyle.color_on_surface_variant}
                 size={50}
               />
-              <Text
-                style={{ color: appStyle.color_on_primary }}
+              <CustomText
+                style={{ color: appStyle.color_on_surface_variant }}
                 className="text-2xl my-4"
               >
                 {"Welcome :)"}
-              </Text>
-              <Text style={{ color: appStyle.color_on_primary }}>
+              </CustomText>
+              <CustomText style={{ color: appStyle.color_on_surface_variant }}>
                 Sign in and find a partner for your next workout TODAY!
-              </Text>
+              </CustomText>
             </View>
             <KeyboardAvoidingView
               behavior={Platform.OS == "android" ? null : "padding"}
@@ -125,7 +127,7 @@ const LoginScreen = () => {
                   className="rounded mb-5 px-3 py-1 focus:"
                   style={style.input}
                   placeholder="Email"
-                  placeholderTextColor={"#5f6b8b"}
+                  placeholderTextColor={appStyle.color_outline}
                   onChangeText={(text) => setEmail(text)}
                 ></TextInput>
                 <View className="mb-5">
@@ -134,12 +136,12 @@ const LoginScreen = () => {
                     secureTextEntry={!showPassword}
                     style={style.input}
                     placeholder="Password"
-                    placeholderTextColor={"#5f6b8b"}
+                    placeholderTextColor={appStyle.color_outline}
                     onChangeText={(text) => setPassword(text)}
                   ></TextInput>
                   {password != "" && (
-                    <View className="absolute right-3 top-0 bottom-0 justify-center">
-                      <TouchableOpacity
+                    <View className="absolute right-0 top-0 bottom-0 justify-center">
+                      <CustomButton
                         onPress={() => {
                           setShowPassword(!showPassword);
                         }}
@@ -148,89 +150,86 @@ const LoginScreen = () => {
                           <FontAwesomeIcon
                             icon={faEyeSlash}
                             size={25}
-                            color={appStyle.color_primary}
+                            color={appStyle.color_on_surface}
                           />
                         ) : (
                           <FontAwesomeIcon
                             icon={faEye}
                             size={25}
-                            color={appStyle.color_primary}
+                            color={appStyle.color_on_surface}
                           />
                         )}
-                      </TouchableOpacity>
+                      </CustomButton>
                     </View>
                   )}
                 </View>
                 <View className="flex-row items-center mb-5">
                   <CheckBox
-                    valueColor={appStyle.color_primary}
-                    backgroundColor={appStyle.color_bg}
+                    valueColor={appStyle.color_on_primary}
+                    backgroundColor={appStyle.color_primary}
                     value={false}
                     onValueChange={(value) => setRememberMe(value)}
                   />
-                  <Text
+                  <CustomText
                     className="ml-2"
-                    style={{ color: appStyle.color_on_primary }}
+                    style={{ color: appStyle.color_primary }}
                   >
                     Remember me!
-                  </Text>
+                  </CustomText>
                 </View>
-                <Text
+                <CustomText
                   className="text-center my-2 text-lg h-8"
                   style={{ color: appStyle.color_error }}
                 >
                   {errorText}
-                </Text>
+                </CustomText>
               </ScrollView>
             </KeyboardAvoidingView>
-            <TouchableOpacity
+            <CustomButton
               onPress={loginEmailPassword}
               className={`self-center py-2 px-8 w-full mb-3`}
-              style={{
-                backgroundColor: appStyle.color_bg,
-              }}
+              style={{ backgroundColor: appStyle.color_primary }}
             >
-              <Text
+              <CustomText
                 className="text-center tracking-widest font-bold text-xl"
                 style={{
-                  color: appStyle.color_primary,
+                  color: appStyle.color_on_primary,
                 }}
               >
                 {loginLoading == true ? "Loading" : "Login"}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              </CustomText>
+            </CustomButton>
+            <CustomButton
+              style={{ backgroundColor: appStyle.color_primary }}
               onPress={() => signInGoogleAccount()}
               className={`self-center py-2 w-full items-center`}
-              style={{
-                backgroundColor: appStyle.color_on_primary,
-              }}
             >
-              <Text
+              <CustomText
                 className="tracking-widest font-bold text-xl"
                 style={{
-                  color: appStyle.color_primary,
+                  color: appStyle.color_on_primary,
                 }}
               >
                 Continue with Google
-              </Text>
-            </TouchableOpacity>
+              </CustomText>
+            </CustomButton>
           </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Register")}
-            className={`flex-1 rounded-b-xl justify-center p-3`}
+          <CustomButton
             style={{
-              backgroundColor: appStyle.color_primary,
-              shadowColor: appStyle.color_bg,
+              borderWidth: 1,
+              borderColor: appStyle.color_outline,
+              backgroundColor: appStyle.color_surface_variant,
             }}
+            onPress={() => navigation.navigate("Register")}
+            className={`flex-1 justify-center p-3`}
           >
-            <Text
-              className="text-center font-bold text-xl tracking-widest"
-              style={{ color: appStyle.color_on_primary }}
+            <CustomText
+              className="text-center text-xl tracking-widest"
+              style={{ color: appStyle.color_on_surface_variant }}
             >
               Register
-            </Text>
-          </TouchableOpacity>
+            </CustomText>
+          </CustomButton>
         </View>
       </View>
     </View>
@@ -243,7 +242,7 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     height: 40,
     borderWidth: 2,
-    borderColor: appStyle.color_bg,
+    borderColor: appStyle.color_background,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
   },

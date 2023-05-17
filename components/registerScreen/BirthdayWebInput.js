@@ -123,7 +123,7 @@ const style = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 2,
-    borderColor: appStyle.color_bg,
+    borderColor: appStyle.color_background,
     borderRadius: 4,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,

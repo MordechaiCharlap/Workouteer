@@ -160,7 +160,7 @@ const EditProfileData = (props) => {
               style={{
                 borderWidth: 1,
                 borderColor: appStyle.color_primary,
-                backgroundColor: appStyle.color_bg,
+                backgroundColor: appStyle.color_background,
               }}
             >
               <Text
@@ -184,7 +184,7 @@ const EditProfileData = (props) => {
             className="absolute right-0 bottom-0 rounded-full p-2"
             style={{
               backgroundColor: appStyle.color_primary,
-              borderColor: appStyle.color_bg,
+              borderColor: appStyle.color_background,
               borderWidth: 3,
             }}
           >
@@ -227,7 +227,7 @@ const EditProfileData = (props) => {
               style={{
                 textAlignVertical: "top",
                 color: appStyle.color_on_primary,
-                backgroundColor: appStyle.color_bg_variant,
+                backgroundColor: appStyle.color_background_variant,
                 borderRadius: 4,
                 padding: 8,
                 borderWidth: 1,
@@ -312,10 +312,10 @@ const EditProfileData = (props) => {
 //   };
 //   const SaveButton = () => {
 //     const getBackgroundColor = () => {
-//       if (invalidInput || !changesMade) return appStyle.color_bg_variant;
+//       if (invalidInput || !changesMade) return appStyle.color_background_variant;
 //       return updated == false
 //         ? appStyle.color_primary
-//         : appStyle.color_bg_variant;
+//         : appStyle.color_background_variant;
 //     };
 //     return (
 //       <TouchableOpacity
@@ -429,7 +429,7 @@ const EditProfileData = (props) => {
 // };
 const style = StyleSheet.create({
   input: {
-    backgroundColor: appStyle.color_bg_variant,
+    backgroundColor: appStyle.color_background_variant,
     borderWidth: 1,
     borderColor: appStyle.color_primary,
     color: appStyle.color_on_primary,
@@ -440,6 +440,6 @@ const style = StyleSheet.create({
   },
   otherTab: {
     color: appStyle.color_on_primary,
-    backgroundColor: appStyle.color_primary_variant,
+    backgroundColor: appStyle.color_primary,
   },
 });

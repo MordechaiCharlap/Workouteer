@@ -41,8 +41,8 @@ const ChatMessage = (props) => {
         style={{
           maxWidth: "90%",
           backgroundColor: isSelfMessage
-            ? appStyle.color_primary_variant
-            : appStyle.color_bg_variant,
+            ? appStyle.color_primary
+            : appStyle.color_background_variant,
         }}
       >
         <Text

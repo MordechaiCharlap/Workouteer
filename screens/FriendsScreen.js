@@ -107,7 +107,7 @@ const FriendsScreen = ({ route }) => {
           <FontAwesomeIcon
             icon={faCircleUser}
             size={40}
-            color={appStyle.color_bg}
+            color={appStyle.color_background}
           />
           {isMyUser && user.friendRequestsCount > 0 && (
             <TouchableOpacity
@@ -117,9 +117,9 @@ const FriendsScreen = ({ route }) => {
             >
               <AlertDot
                 text={user.friendRequestsCount}
-                textColor={appStyle.color_bg}
+                textColor={appStyle.color_background}
                 fontSize={17}
-                borderColor={appStyle.color_bg}
+                borderColor={appStyle.color_background}
                 borderWidth={1}
                 size={43}
                 color={appStyle.color_primary}
@@ -128,7 +128,7 @@ const FriendsScreen = ({ route }) => {
                 <FontAwesomeIcon
                   icon={faUserClock}
                   size={40}
-                  color={appStyle.color_bg}
+                  color={appStyle.color_background}
                 />
               </View>
             </TouchableOpacity>
@@ -136,7 +136,7 @@ const FriendsScreen = ({ route }) => {
         </View>
         <View
           className="rounded-xl p-3"
-          style={{ backgroundColor: appStyle.color_bg_variant }}
+          style={{ backgroundColor: appStyle.color_background_variant }}
         >
           <View
             className={`items-center gap-x-1 flex-row${
@@ -205,13 +205,13 @@ const FriendsScreen = ({ route }) => {
                   borderWidth: 1,
                 }}
               >
-                <Text style={{ color: appStyle.color_bg }}>
+                <Text style={{ color: appStyle.color_background }}>
                   {languageService[user.language].message[user.isMale ? 1 : 0]}
                 </Text>
                 <FontAwesomeIcon
                   icon={faPaperPlane}
                   size={15}
-                  color={appStyle.color_bg}
+                  color={appStyle.color_background}
                 />
               </TouchableOpacity>
             </View>
@@ -220,7 +220,7 @@ const FriendsScreen = ({ route }) => {
         {isMyUser && (
           <View
             className="items-center"
-            style={{ backgroundColor: appStyle.color_bg }}
+            style={{ backgroundColor: appStyle.color_background }}
           >
             <TouchableOpacity
               onPress={() => navigation.navigate("SearchUsers")}

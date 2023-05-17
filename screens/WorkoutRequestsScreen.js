@@ -62,7 +62,7 @@ const WorkoutRequestsScreen = ({ route }) => {
     <View style={safeAreaStyle()}>
       <Header title={"Requests"} goBackOption={true} />
       <View
-        style={{ backgroundColor: appStyle.color_bg }}
+        style={{ backgroundColor: appStyle.color_background }}
         className="rounded flex-1"
       >
         <FlatList
@@ -109,7 +109,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                     onPress={() => rejectUser(item.user, index)}
                     className="justify-center py-2 px-4 rounded ml-2"
                     style={{
-                      backgroundColor: appStyle.color_bg_variant,
+                      backgroundColor: appStyle.color_background_variant,
                       borderColor: appStyle.color_primary,
                       borderWidth: 1,
                     }}

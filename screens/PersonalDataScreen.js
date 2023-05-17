@@ -66,7 +66,7 @@ const PersonalDataScreen = () => {
         <View>
           <View
             className="mb-5 rounded-t"
-            style={{ backgroundColor: appStyle.color_bg }}
+            style={{ backgroundColor: appStyle.color_background }}
           >
             <Text className="text-center text-xl py-2 px-10">
               Personal data
@@ -108,7 +108,7 @@ const PersonalDataScreen = () => {
                 borderBottomWidth: 2,
                 borderRightWidth: 2,
                 borderLeftWidth: 2,
-                borderColor: appStyle.color_bg,
+                borderColor: appStyle.color_background,
               }}
               itemContainerStyle={{
                 position: "relative",
@@ -143,7 +143,7 @@ const PersonalDataScreen = () => {
                 borderBottomWidth: 2,
                 borderRightWidth: 2,
                 borderLeftWidth: 2,
-                borderColor: appStyle.color_bg,
+                borderColor: appStyle.color_background,
               }}
               itemContainerStyle={{
                 position: "relative",
@@ -177,7 +177,7 @@ const PersonalDataScreen = () => {
             onPress={createAccountPressed}
             className={`justify-center py-3`}
             style={{
-              backgroundColor: appStyle.color_bg,
+              backgroundColor: appStyle.color_background,
               shadowColor: appStyle.color_primary,
             }}
           >
@@ -201,7 +201,7 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     height: 40,
     borderWidth: 2,
-    borderColor: appStyle.color_bg,
+    borderColor: appStyle.color_background,
     color: appStyle.color_primary,
     backgroundColor: appStyle.color_on_primary,
   },
