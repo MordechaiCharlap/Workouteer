@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
-
+import { calculateAge } from "../utilities/calculateAge";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
@@ -29,8 +29,10 @@ import ConfirmPassword from "../components/registerScreen/ConfirmPassword";
 import TermsAndConditionsCB from "../components/registerScreen/TermsAndConditionsCB";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import CustomText from "../components/basic/CustomText";
+import CustomTextInput from "../components/basic/CustomTextInput";
+import CustomButton from "../components/basic/CustomButton";
 const RegisterScreen = () => {
-  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
 
   const {
@@ -49,10 +51,13 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [inputErrorText, setInputErrorText] = useState();
-  const [sexError, setSexError] = useState(null);
-  const [termsCBError, setTermsCBError] = useState(null);
+  const [birthdateError, setBirthdateError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
+  const [sexError, setSexError] = useState(false);
+  const [termsCBError, setTermsCBError] = useState(false);
   //Datepicker state
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   //loading state
   const [loading, setLoading] = useState(false);
   useFocusEffect(
@@ -71,15 +76,16 @@ const RegisterScreen = () => {
       !username ||
       (!googleUserInfo && !password) ||
       (!googleUserInfo && !confirmPassword) ||
-      !date
+      !date ||
+      f(date && calculateAge(date.getDate()) < 16())
     ) {
-      setInputErrorText("You have to fill all fields correctly");
-      if (isMale == null) setSexError("You have to choose gender");
-      else setSexError(null);
-      if (!acceptTerms)
-        setTermsCBError("You have to agree in order to register");
-      else setTermsCBError(null);
-
+      if (isMale == null) setSexError(true);
+      else setSexError(false);
+      if (!acceptTerms) setTermsCBError(true);
+      else setTermsCBError(false);
+      if (!date || (date && calculateAge(date.getDate()) < 16()))
+        setBirthdateError(true);
+      else setBirthdateError(false);
       setLoading(false);
       return false;
     } else {
@@ -87,12 +93,22 @@ const RegisterScreen = () => {
       return true;
     }
   };
+  useEffect(() => {
+    if (emailError) setEmailError(false);
+  }, [email]);
+  useEffect(() => {
+    if (usernameError) setUsernameError(false);
+  }, [usernameError]);
+  useEffect(() => {
+    if (sexError) setSexError(false);
+  }, [isMale]);
   const createAccountClicked = async () => {
     if (!loading) {
       setLoading(true);
       if (checkIfValidData())
         if (!googleUserInfo && !(await firebase.checkIfEmailAvailable(email))) {
           setInputErrorText("Email is already used");
+          setEmailError(true);
           setLoading(false);
         } else if (
           !(await firebase.checkIfUsernameAvailable(username.toLowerCase()))
@@ -123,90 +139,108 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={safeAreaStyle()} className="justify-center">
-      {loginLoading ? (
-        <LoadingAnimation />
-      ) : (
-        <View
-          className={`mx-6 rounded-xl p-4`}
+    <View
+      style={[
+        safeAreaStyle(),
+        { justifyContent: "center", marginHorizontal: 24 },
+      ]}
+    >
+      <View
+        className={`rounded-xl`}
+        style={{
+          padding: 12,
+          backgroundColor: appStyle.color_surface,
+          borderWidth: 1,
+          borderColor: appStyle.color_outline,
+        }}
+      >
+        <View className="items-center">
+          <CustomText
+            className="text-3xl tracking-widest"
+            style={{ color: appStyle.color_on_surface }}
+          >
+            Register
+          </CustomText>
+        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "android" ? "padding" : "padding"}
+          enabled={true}
+        >
+          <ScrollView>
+            {!googleUserInfo && (
+              <EmailInput style={style} valueChanged={setEmail} />
+            )}
+            <UsernameInput style={style} valueChanged={setUsername} />
+            {Platform.OS != "web" ? (
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ width: 1, flexGrow: 1 }}>
+                  <BirthdayDatePicker
+                    style={style}
+                    valueChanged={setDate}
+                    error={birthdateError}
+                  />
+                </View>
+                <View style={{ width: 10 }}></View>
+                <View style={{ width: 1, flexGrow: 1 }}>
+                  <SexDropdown
+                    style={style}
+                    valueChanged={setIsMale}
+                    error={sexError}
+                  />
+                </View>
+              </View>
+            ) : (
+              <>
+                <BirthdayWebInput style={style} valueChanged={setDate} />
+                <SexDropdown
+                  style={style}
+                  valueChanged={setIsMale}
+                  error={sexError}
+                />
+              </>
+            )}
+            {!googleUserInfo && (
+              <>
+                <Password style={style} valueChanged={setPassword} />
+                <ConfirmPassword
+                  style={style}
+                  valueChanged={setConfirmPassword}
+                  password={password}
+                />
+              </>
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <TermsAndConditionsCB
+          style={style}
+          valueChanged={setAcceptTerms}
+          setError={setTermsCBError}
+          error={termsCBError}
+        />
+
+        <CustomButton
+          onPress={createAccountClicked}
+          className={`flex-1 rounded-full p-2 justify-center mt-5`}
           style={{
             backgroundColor: appStyle.color_primary,
-            shadowColor: "#000",
           }}
         >
-          <View className="mb-8 items-center">
-            <View className="items-center">
-              <Text
-                className="text-3xl tracking-widest"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                Register
-              </Text>
-            </View>
-          </View>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "android" ? "padding" : "padding"}
-            enabled={true}
+          <CustomText
+            className="text-center font-semibold text-xl tracking-widest"
+            style={{ color: appStyle.color_on_primary }}
           >
-            <ScrollView>
-              {!googleUserInfo && (
-                <EmailInput style={style} valueChanged={setEmail} />
-              )}
-              <UsernameInput style={style} valueChanged={setUsername} />
-              {Platform.OS != "web" ? (
-                <BirthdayDatePicker style={style} valueChanged={setDate} />
-              ) : (
-                <BirthdayWebInput style={style} valueChanged={setDate} />
-              )}
-              <SexDropdown
-                style={style}
-                valueChanged={setIsMale}
-                error={sexError}
-              />
-              {!googleUserInfo && (
-                <>
-                  <Password style={style} valueChanged={setPassword} />
-                  <ConfirmPassword
-                    style={style}
-                    valueChanged={setConfirmPassword}
-                    password={password}
-                  />
-                </>
-              )}
-            </ScrollView>
-          </KeyboardAvoidingView>
-          <TermsAndConditionsCB
-            style={style}
-            valueChanged={setAcceptTerms}
-            setError={setTermsCBError}
-            error={termsCBError}
-          />
-
-          <TouchableOpacity
-            onPress={createAccountClicked}
-            className={`flex-1 rounded p-2 justify-center mt-5`}
-            style={{
-              backgroundColor: appStyle.color_background,
-              shadowColor: appStyle.color_background,
-            }}
-          >
-            <Text
-              className="text-center font-bold text-xl tracking-widest"
-              style={{ color: appStyle.color_primary }}
-            >
-              {loading ? "Loading" : "Create Account"}
-            </Text>
-          </TouchableOpacity>
-          <Text
-            className="text-center"
-            style={{
-              color: appStyle.color_error,
-            }}
-          >
-            {inputErrorText}
-          </Text>
-        </View>
-      )}
+            {loading ? "Loading" : "Create Account"}
+          </CustomText>
+        </CustomButton>
+      </View>
+      <Text
+        className="text-center"
+        style={{
+          color: appStyle.color_error,
+        }}
+      >
+        {inputErrorText}
+      </Text>
     </View>
   );
 };
@@ -214,33 +248,29 @@ const RegisterScreen = () => {
 export default RegisterScreen;
 const style = StyleSheet.create({
   input: {
-    paddingLeft: 10,
-    height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_background,
     borderRadius: 4,
-    color: appStyle.color_primary,
-    backgroundColor: appStyle.color_on_primary,
-    paddingHorizontal: 5,
     justifyContent: "center",
+    paddingHorizontal: 10,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: appStyle.color_outline,
+    backgroundColor: appStyle.color_surface_variant,
   },
   badInput: {
-    paddingLeft: 10,
-    height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_error,
-    color: appStyle.color_primary,
-    backgroundColor: appStyle.color_on_primary,
     borderRadius: 4,
-    paddingHorizontal: 5,
     justifyContent: "center",
+    paddingHorizontal: 10,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: appStyle.color_error,
+    backgroundColor: appStyle.color_surface_variant,
   },
 
   inputError: {
-    color: appStyle.color_on_primary,
+    color: appStyle.color_error,
   },
   inputContainer: { marginBottom: 10 },
-  text: { color: appStyle.color_on_primary },
+  text: { color: appStyle.color_on_surface_variant },
   label: {
     position: "absolute",
     color: "#ffffff",
