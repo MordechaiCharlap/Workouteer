@@ -26,6 +26,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import CustomText from "../components/basic/CustomText";
+import CustomTextInput from "../components/basic/CustomTextInput";
 const LoginScreen = () => {
   const windowHeight = useWindowDimensions().height;
   const { setCurrentScreen } = useNavbarDisplay();
@@ -91,54 +92,64 @@ const LoginScreen = () => {
         setErrorText("");
     }
   }, [authErrorCode]);
+  const verticalMargin = 10;
   return (
     <View style={safeAreaStyle()}>
-      <View className="flex-1 justify-center">
-        <View className="mx-6">
+      <View className="flex-1 justify-center px-6">
+        <View>
           <View
-            className={`mb-3 rounded-t-xl p-3 justify-between`}
+            className={`rounded-t-xl p-3 justify-between`}
             style={{
-              backgroundColor: appStyle.color_surface_variant,
-              shadowColor: "#000",
+              backgroundColor: appStyle.color_surface,
+              borderWidth: 1,
+              borderColor: appStyle.color_outline,
             }}
           >
-            <View className="my-3 items-center">
+            <View className="items-center">
               <FontAwesomeIcon
                 icon={faCircleUser}
-                color={appStyle.color_on_surface_variant}
+                color={appStyle.color_on_surface}
                 size={50}
               />
+              <View style={{ height: verticalMargin }}></View>
               <CustomText
-                style={{ color: appStyle.color_on_surface_variant }}
-                className="text-2xl my-4"
+                style={{ color: appStyle.color_on_surface }}
+                className="text-2xl"
               >
                 {"Welcome :)"}
               </CustomText>
-              <CustomText style={{ color: appStyle.color_on_surface_variant }}>
+              <View style={{ height: verticalMargin }}></View>
+              <CustomText style={{ color: appStyle.color_on_surface }}>
                 Sign in and find a partner for your next workout TODAY!
               </CustomText>
+              <View style={{ height: verticalMargin }}></View>
             </View>
             <KeyboardAvoidingView
               behavior={Platform.OS == "android" ? null : "padding"}
               enabled={true}
             >
               <ScrollView scrollEnabled={false}>
-                <TextInput
-                  className="rounded mb-5 px-3 py-1 focus:"
-                  style={style.input}
-                  placeholder="Email"
-                  placeholderTextColor={appStyle.color_outline}
+                <CustomTextInput
+                  style={{
+                    backgroundColor: appStyle.color_surface_variant,
+                    borderWidth: 1,
+                    borderBottomColor: appStyle.color_outline,
+                  }}
                   onChangeText={(text) => setEmail(text)}
-                ></TextInput>
-                <View className="mb-5">
-                  <TextInput
-                    className="rounded px-3 py-1"
-                    secureTextEntry={!showPassword}
-                    style={style.input}
-                    placeholder="Password"
-                    placeholderTextColor={appStyle.color_outline}
+                  placeholder="Email"
+                />
+                <View style={{ height: verticalMargin }}></View>
+                <View>
+                  <CustomTextInput
+                    style={{
+                      backgroundColor: appStyle.color_surface_variant,
+                      borderWidth: 1,
+                      borderBottomColor: appStyle.color_outline,
+                    }}
                     onChangeText={(text) => setPassword(text)}
-                  ></TextInput>
+                    placeholder="Password"
+                    secureTextEntry={!showPassword}
+                  />
                   {password != "" && (
                     <View className="absolute right-0 top-0 bottom-0 justify-center">
                       <CustomButton
@@ -163,7 +174,8 @@ const LoginScreen = () => {
                     </View>
                   )}
                 </View>
-                <View className="flex-row items-center mb-5">
+                <View style={{ height: verticalMargin }}></View>
+                <View className="flex-row items-center">
                   <CheckBox
                     valueColor={appStyle.color_on_primary}
                     backgroundColor={appStyle.color_primary}
@@ -178,8 +190,8 @@ const LoginScreen = () => {
                   </CustomText>
                 </View>
                 <CustomText
-                  className="text-center my-2 text-lg h-8"
-                  style={{ color: appStyle.color_error }}
+                  className="text-center h-8"
+                  style={{ color: appStyle.color_error, paddingVertical: 5 }}
                 >
                   {errorText}
                 </CustomText>
@@ -187,7 +199,6 @@ const LoginScreen = () => {
             </KeyboardAvoidingView>
             <CustomButton
               onPress={loginEmailPassword}
-              className={`self-center py-2 px-8 w-full mb-3`}
               style={{ backgroundColor: appStyle.color_primary }}
             >
               <CustomText
@@ -199,6 +210,8 @@ const LoginScreen = () => {
                 {loginLoading == true ? "Loading" : "Login"}
               </CustomText>
             </CustomButton>
+            <View style={{ height: verticalMargin }}></View>
+
             <CustomButton
               style={{ backgroundColor: appStyle.color_primary }}
               onPress={() => signInGoogleAccount()}
@@ -214,6 +227,8 @@ const LoginScreen = () => {
               </CustomText>
             </CustomButton>
           </View>
+          <View style={{ height: verticalMargin }}></View>
+
           <CustomButton
             style={{
               borderWidth: 1,
@@ -225,7 +240,7 @@ const LoginScreen = () => {
           >
             <CustomText
               className="text-center text-xl tracking-widest"
-              style={{ color: appStyle.color_on_surface_variant }}
+              style={{ color: appStyle.color_on_surface }}
             >
               Register
             </CustomText>
