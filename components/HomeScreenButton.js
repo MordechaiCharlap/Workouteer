@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "./AlertDot";
 import * as appStyle from "../utilities/appStyleSheet";
+import CustomButton from "./basic/CustomButton";
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -17,12 +18,12 @@ const HomeScreenButton = (props) => {
           style={{ width: props.style.size, height: props.style.size }}
         ></View>
       ) : (
-        <TouchableOpacity
-          className={`items-center justify-center rounded-lg p-2`}
+        <CustomButton
+          type={"primary"}
           style={{
-            backgroundColor: props.style.backgroundColor,
             width: props.style.size,
             height: props.style.size,
+            borderRadius: 10,
           }}
           onPress={() =>
             navigation.navigate(props.navigateScreen, { user: user })
@@ -54,7 +55,7 @@ const HomeScreenButton = (props) => {
           >
             {props.buttonText}
           </Text>
-        </TouchableOpacity>
+        </CustomButton>
       )}
     </View>
   );
