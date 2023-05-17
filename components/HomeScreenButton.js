@@ -19,8 +19,8 @@ const HomeScreenButton = (props) => {
         ></View>
       ) : (
         <CustomButton
-          type={"primary"}
           style={{
+            backgroundColor: props.style.backgroundColor,
             width: props.style.size,
             height: props.style.size,
             borderRadius: 10,
