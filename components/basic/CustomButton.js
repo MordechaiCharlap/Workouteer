@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { color_on_primary, color_primary } from "../../utilities/appStyleSheet";
 
 const CustomButton = ({ children, type, style, onPress, disabled }) => {
   return (
