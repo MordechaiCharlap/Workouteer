@@ -50,9 +50,6 @@ const HomeScreen = () => {
     justifyContent: "space-between",
   };
   const menuContainerStyle = {
-    marginTop: windowHeight
-      ? windowHeight / 16.5
-      : Dimensions.get("window").height / 16.5,
     width: "85%",
     height: "80%",
     justifyContent: "space-between",
@@ -64,7 +61,7 @@ const HomeScreen = () => {
     }, [])
   );
   return (
-    <View style={safeAreaStyle()}>
+    <View style={safeAreaStyle()} className="justify-center">
       <View style={menuContainerStyle} className="self-center">
         <View style={rowStyle}>
           <HomeScreenButton
@@ -134,7 +131,7 @@ const HomeScreen = () => {
       {appData.isBetaVersion && (
         <Text
           style={{ color: appStyle.color_primary }}
-          className="absolute text-xs m-1"
+          className="absolute text-xs m-1 top-0 left-0"
         >
           {languageService[user.language].betaVersion}
         </Text>
