@@ -57,9 +57,9 @@ const styleSheet = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 10,
     height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_background,
-    color: appStyle.color_primary,
+    borderBottomWidth: 1,
+    borderBottomColor: appStyle.color_outline,
+    color: appStyle.color_on_surface,
     backgroundColor: appStyle.color_surface,
   },
 });
