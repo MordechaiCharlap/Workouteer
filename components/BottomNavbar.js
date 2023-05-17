@@ -1,5 +1,5 @@
 import { View, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarButton from "./NavbarButton";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAlerts from "../hooks/useAlerts";
@@ -10,7 +10,7 @@ const BottomNavbar = () => {
   const { windowHeight } = useResponsiveness();
   const fixedWidth = isWebOnPC
     ? (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height)
-    : "100%";
+    : Dimensions.get("window").width;
   return (
     <View
       className="items-center"
@@ -19,16 +19,14 @@ const BottomNavbar = () => {
           (windowHeight ? windowHeight : Dimensions.get("window").height) / 13,
           30
         ),
-        backgroundColor: "#f2f2f2",
+        backgroundColor: appStyle.color_bg,
       }}
     >
       <View
         className={`flex-row justify-around h-full`}
         style={{
           width: fixedWidth,
-          backgroundColor: appStyle.color_primary,
-          borderTopWidth: 1,
-          borderTopColor: appStyle.color_bg_variant,
+          backgroundColor: appStyle.color_bg_variant,
         }}
       >
         <NavbarButton
