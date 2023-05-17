@@ -56,6 +56,7 @@ const CreateWorkoutScreen = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [delayPassed, setDelayPassed] = useState(false);
   const pages = [
     "Workout Type",
     "Date and Duration",
@@ -97,6 +98,11 @@ const CreateWorkoutScreen = () => {
       y: 0,
     });
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setDelayPassed(true);
+    }, 500);
+  }, []);
   useEffect(() => {
     let disabled = false;
     switch (pageIndex) {
@@ -325,11 +331,13 @@ const CreateWorkoutScreen = () => {
             icon={faChevronLeft}
           />
           <View>
-            <WorkoutLocation
-              value={user.lastWorkoutCreation?.location}
-              language={user.language}
-              locationChanged={setLocation}
-            />
+            {delayPassed && (
+              <WorkoutLocation
+                value={user.lastWorkoutCreation?.location}
+                language={user.language}
+                locationChanged={setLocation}
+              />
+            )}
           </View>
         </View>
         <View style={style.slideStyle}>
