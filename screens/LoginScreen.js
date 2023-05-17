@@ -139,41 +139,17 @@ const LoginScreen = () => {
                   placeholder="Email"
                 />
                 <View style={{ height: verticalMargin }}></View>
-                <View>
-                  <CustomTextInput
-                    style={{
-                      backgroundColor: appStyle.color_surface_variant,
-                      borderWidth: 1,
-                      borderBottomColor: appStyle.color_outline,
-                    }}
-                    onChangeText={(text) => setPassword(text)}
-                    placeholder="Password"
-                    secureTextEntry={!showPassword}
-                  />
-                  {password != "" && (
-                    <View className="absolute right-0 top-0 bottom-0 justify-center">
-                      <CustomButton
-                        onPress={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      >
-                        {showPassword ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            size={25}
-                            color={appStyle.color_on_surface}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            size={25}
-                            color={appStyle.color_on_surface}
-                          />
-                        )}
-                      </CustomButton>
-                    </View>
-                  )}
-                </View>
+                <CustomTextInput
+                  password={true}
+                  style={{
+                    backgroundColor: appStyle.color_surface_variant,
+                    borderWidth: 1,
+                    borderBottomColor: appStyle.color_outline,
+                  }}
+                  onChangeText={(text) => setPassword(text)}
+                  placeholder="Password"
+                  secureTextEntry={!showPassword}
+                />
                 <View style={{ height: verticalMargin }}></View>
                 <View className="flex-row items-center">
                   <CheckBox
