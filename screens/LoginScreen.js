@@ -94,134 +94,134 @@ const LoginScreen = () => {
   }, [authErrorCode]);
   const verticalMargin = 10;
   return (
-    <View style={safeAreaStyle()}>
-      <View className="flex-1 justify-center px-6">
-        <View>
-          <View
-            className={`rounded-t-xl p-3 justify-between`}
-            style={{
-              backgroundColor: appStyle.color_surface,
-              borderWidth: 1,
-              borderColor: appStyle.color_outline,
-            }}
+    <View
+      style={[
+        safeAreaStyle(),
+        { justifyContent: "center", marginHorizontal: 24 },
+      ]}
+    >
+      <View>
+        <View
+          className={`rounded-t-xl`}
+          style={{
+            padding: 12,
+            backgroundColor: appStyle.color_surface,
+            borderWidth: 1,
+            borderColor: appStyle.color_outline,
+          }}
+        >
+          <View className="items-center">
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              color={appStyle.color_on_surface}
+              size={50}
+            />
+            <View style={{ height: verticalMargin }}></View>
+            <CustomText
+              style={{ color: appStyle.color_on_surface }}
+              className="text-2xl"
+            >
+              {"Welcome :)"}
+            </CustomText>
+            <View style={{ height: verticalMargin }}></View>
+            <CustomText style={{ color: appStyle.color_on_surface }}>
+              Sign in and find a partner for your next workout TODAY!
+            </CustomText>
+            <View style={{ height: verticalMargin }}></View>
+          </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "android" ? null : "padding"}
+            enabled={true}
           >
-            <View className="items-center">
-              <FontAwesomeIcon
-                icon={faCircleUser}
-                color={appStyle.color_on_surface}
-                size={50}
+            <ScrollView scrollEnabled={false}>
+              <CustomTextInput
+                style={{
+                  backgroundColor: appStyle.color_surface_variant,
+                }}
+                onChangeText={setEmail}
+                placeholder="Email"
               />
               <View style={{ height: verticalMargin }}></View>
-              <CustomText
-                style={{ color: appStyle.color_on_surface }}
-                className="text-2xl"
-              >
-                {"Welcome :)"}
-              </CustomText>
+              <CustomTextInput
+                password={true}
+                style={{
+                  backgroundColor: appStyle.color_surface_variant,
+                }}
+                onChangeText={setPassword}
+                placeholder="Password"
+                secureTextEntry={!showPassword}
+              />
               <View style={{ height: verticalMargin }}></View>
-              <CustomText style={{ color: appStyle.color_on_surface }}>
-                Sign in and find a partner for your next workout TODAY!
-              </CustomText>
-              <View style={{ height: verticalMargin }}></View>
-            </View>
-            <KeyboardAvoidingView
-              behavior={Platform.OS == "android" ? null : "padding"}
-              enabled={true}
-            >
-              <ScrollView scrollEnabled={false}>
-                <CustomTextInput
-                  style={{
-                    backgroundColor: appStyle.color_surface_variant,
-                    borderWidth: 1,
-                    borderBottomColor: appStyle.color_outline,
-                  }}
-                  onChangeText={(text) => setEmail(text)}
-                  placeholder="Email"
+              <View className="flex-row items-center">
+                <CheckBox
+                  valueColor={appStyle.color_on_primary}
+                  backgroundColor={appStyle.color_primary}
+                  value={false}
+                  onValueChange={(value) => setRememberMe(value)}
                 />
-                <View style={{ height: verticalMargin }}></View>
-                <CustomTextInput
-                  password={true}
-                  style={{
-                    backgroundColor: appStyle.color_surface_variant,
-                    borderWidth: 1,
-                    borderBottomColor: appStyle.color_outline,
-                  }}
-                  onChangeText={(text) => setPassword(text)}
-                  placeholder="Password"
-                  secureTextEntry={!showPassword}
-                />
-                <View style={{ height: verticalMargin }}></View>
-                <View className="flex-row items-center">
-                  <CheckBox
-                    valueColor={appStyle.color_on_primary}
-                    backgroundColor={appStyle.color_primary}
-                    value={false}
-                    onValueChange={(value) => setRememberMe(value)}
-                  />
-                  <CustomText
-                    className="ml-2"
-                    style={{ color: appStyle.color_primary }}
-                  >
-                    Remember me!
-                  </CustomText>
-                </View>
                 <CustomText
-                  className="text-center h-8"
-                  style={{ color: appStyle.color_error, paddingVertical: 5 }}
+                  className="ml-2"
+                  style={{ color: appStyle.color_primary }}
                 >
-                  {errorText}
+                  Remember me!
                 </CustomText>
-              </ScrollView>
-            </KeyboardAvoidingView>
-            <CustomButton
-              onPress={loginEmailPassword}
-              style={{ backgroundColor: appStyle.color_primary }}
-            >
+              </View>
               <CustomText
-                className="text-center tracking-widest font-bold text-xl"
-                style={{
-                  color: appStyle.color_on_primary,
-                }}
+                className="text-center h-8"
+                style={{ color: appStyle.color_error, paddingVertical: 5 }}
               >
-                {loginLoading == true ? "Loading" : "Login"}
+                {errorText}
               </CustomText>
-            </CustomButton>
-            <View style={{ height: verticalMargin }}></View>
-
-            <CustomButton
-              style={{ backgroundColor: appStyle.color_primary }}
-              onPress={() => signInGoogleAccount()}
-              className={`self-center py-2 w-full items-center`}
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <CustomButton
+            onPress={loginEmailPassword}
+            style={{ backgroundColor: appStyle.color_primary }}
+          >
+            <CustomText
+              className="text-center tracking-widest font-bold text-xl"
+              style={{
+                color: appStyle.color_on_primary,
+              }}
             >
-              <CustomText
-                className="tracking-widest font-bold text-xl"
-                style={{
-                  color: appStyle.color_on_primary,
-                }}
-              >
-                Continue with Google
-              </CustomText>
-            </CustomButton>
-          </View>
+              {loginLoading == true ? "Loading" : "Login"}
+            </CustomText>
+          </CustomButton>
           <View style={{ height: verticalMargin }}></View>
 
           <CustomButton
-            style={{
-              borderWidth: 1,
-              borderColor: appStyle.color_outline,
-              backgroundColor: appStyle.color_surface_variant,
-            }}
-            onPress={() => navigation.navigate("Register")}
-            className={`flex-1 justify-center p-3`}
+            style={{ backgroundColor: appStyle.color_primary }}
+            onPress={() => signInGoogleAccount()}
+            className={`self-center py-2 w-full items-center`}
           >
             <CustomText
-              className="text-center text-xl tracking-widest"
-              style={{ color: appStyle.color_on_surface }}
+              className="tracking-widest font-bold text-xl"
+              style={{
+                color: appStyle.color_on_primary,
+              }}
             >
-              Register
+              Continue with Google
             </CustomText>
           </CustomButton>
         </View>
+        <View style={{ height: verticalMargin }}></View>
+
+        <CustomButton
+          style={{
+            borderWidth: 1,
+            borderColor: appStyle.color_outline,
+            backgroundColor: appStyle.color_surface_variant,
+          }}
+          onPress={() => navigation.navigate("Register")}
+          className={`flex-1 justify-center p-3`}
+        >
+          <CustomText
+            className="text-center text-xl tracking-widest"
+            style={{ color: appStyle.color_on_surface }}
+          >
+            Register
+          </CustomText>
+        </CustomButton>
       </View>
     </View>
   );
