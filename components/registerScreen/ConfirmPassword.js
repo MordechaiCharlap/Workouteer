@@ -10,8 +10,9 @@ const ConfirmPassword = (props) => {
   );
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState(null);
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const handleChangdText = (text) => {
+    setConfirmPassword(text);
     if (props.password != null) {
       if (text == props.password) {
         setConfirmPasswordStyle(props.style.input);
@@ -23,6 +24,8 @@ const ConfirmPassword = (props) => {
         props.valueChanged(null);
       }
     } else {
+      setConfirmPasswordStyle(props.style.badInput);
+      s;
       setError("Fill out the first password and then come back");
     }
   };
@@ -49,25 +52,27 @@ const ConfirmPassword = (props) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity
-            onPress={() => {
-              setShowConfirmPassword(!showConfirmPassword);
-            }}
-          >
-            {showConfirmPassword ? (
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faEye}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            )}
-          </TouchableOpacity>
+          {confirmPassword != "" && (
+            <TouchableOpacity
+              onPress={() => {
+                setShowConfirmPassword(!showConfirmPassword);
+              }}
+            >
+              {showConfirmPassword ? (
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  size={25}
+                  color={appStyle.color_on_surface}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faEye}
+                  size={25}
+                  color={appStyle.color_on_surface}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <Text

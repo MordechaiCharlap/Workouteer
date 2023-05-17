@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
+import CustomButton from "../basic/CustomButton";
 const Password = (props) => {
   const [passwordStyle, setPasswordStyle] = useState(props.style.input);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
-
+  const [passowrd, setPassowrd] = useState("");
   const handleChangedText = (text) => {
+    setPassowrd(text);
     const validPassword = /^[a-zA-Z0-9]{6,20}$/.test(text);
     if (validPassword) {
       setPasswordStyle(props.style.input);
@@ -40,25 +42,27 @@ const Password = (props) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity
-            onPress={() => {
-              setShowPassword(!showPassword);
-            }}
-          >
-            {showPassword ? (
-              <FontAwesomeIcon
-                icon={faEyeSlash}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faEye}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            )}
-          </TouchableOpacity>
+          {passowrd != "" && (
+            <TouchableOpacity
+              onPress={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? (
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  size={25}
+                  color={appStyle.color_on_surface}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faEye}
+                  size={25}
+                  color={appStyle.color_on_surface}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <Text

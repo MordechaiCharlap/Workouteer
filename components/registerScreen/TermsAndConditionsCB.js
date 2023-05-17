@@ -9,16 +9,24 @@ const TermsAndConditionsCB = (props) => {
     props.valueChanged(value);
   };
   return (
-    <View style={props.style.inputContainer}>
+    <View>
       <View className="flex-row items-center">
         <CheckBox
-          backgroundColor={appStyle.color_on_primary}
-          valueColor={appStyle.color_primary}
+          backgroundColor={
+            props.error ? appStyle.color_error : appStyle.color_primary
+          }
+          valueColor={appStyle.color_on_primary}
           value={false}
           onValueChange={handleValueChanged}
         />
         <View className="ml-3 flex-1 flex-row flex-wrap">
-          <Text style={{ color: appStyle.color_on_primary }}>
+          <Text
+            style={{
+              color: props.error
+                ? appStyle.color_error
+                : appStyle.color_primary,
+            }}
+          >
             {"I agree to the "}
           </Text>
           <TouchableOpacity
@@ -27,13 +35,22 @@ const TermsAndConditionsCB = (props) => {
             <Text
               className={Platform.OS != "web" ? "font-semibold underline" : ""}
               style={{
-                color: appStyle.color_on_primary,
+                color: props.error
+                  ? appStyle.color_error
+                  : appStyle.color_primary,
               }}
             >
               Terms of Service
             </Text>
           </TouchableOpacity>
-          <Text style={{ color: appStyle.color_on_primary, marginLeft: 5 }}>
+          <Text
+            style={{
+              color: props.error
+                ? appStyle.color_error
+                : appStyle.color_primary,
+              marginLeft: 5,
+            }}
+          >
             {"and the "}
           </Text>
           <TouchableOpacity
@@ -42,7 +59,9 @@ const TermsAndConditionsCB = (props) => {
             <Text
               className={Platform.OS != "web" ? "font-semibold underline" : ""}
               style={{
-                color: appStyle.color_on_primary,
+                color: props.error
+                  ? appStyle.color_error
+                  : appStyle.color_primary,
               }}
             >
               Privacy Policy
@@ -50,15 +69,6 @@ const TermsAndConditionsCB = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <Text
-        style={{
-          color: appStyle.color_error,
-          display: props.error ? "flex" : "none",
-        }}
-      >
-        {props.error}
-      </Text>
     </View>
   );
 };

@@ -10,7 +10,7 @@ const SexDropdown = (props) => {
   return (
     <View style={props.style.inputContainer}>
       <Dropdown
-        style={props.style.input}
+        style={props.error ? props.style.badInput : props.style.input}
         containerStyle={{
           borderTopWidth: 0,
           borderBottomWidth: 2,
@@ -28,7 +28,10 @@ const SexDropdown = (props) => {
           fontSize: 16,
         }}
         selectedTextStyle={{ fontSize: 16 }}
-        placeholderStyle={{ color: "#5f6b8b", fontSize: 16 }}
+        placeholderStyle={{
+          color: props.error ? appStyle.color_error : appStyle.color_outline,
+          fontSize: 16,
+        }}
         dropdownPosition="bottom"
         placeholder="Sex"
         data={[
@@ -43,14 +46,6 @@ const SexDropdown = (props) => {
           setIsMale(item.value);
         }}
       />
-      <Text
-        style={{
-          color: appStyle.color_error,
-          display: props.error ? "flex" : "none",
-        }}
-      >
-        {props.error}
-      </Text>
     </View>
   );
 };

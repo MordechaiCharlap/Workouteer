@@ -2,9 +2,13 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as appStyle from "../../utilities/appStyleSheet";
+import CustomButton from "../basic/CustomButton";
+import CustomText from "../basic/CustomText";
 
 const BirthdayDatePicker = (props) => {
-  const [dateStyle, setDateStyle] = useState(props.style.input);
+  const [dateStyle, setDateStyle] = useState(
+    props.error ? props.style.badInput : props.style.input
+  );
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
   const [changedOnce, setChangeOnce] = useState(false);
@@ -47,14 +51,30 @@ const BirthdayDatePicker = (props) => {
   return (
     // Added view to remove error when compiling DatePicker
     <View>
-      <View className="gap-1" style={props.style.inputContainer}>
-        <TouchableOpacity style={dateStyle} onPress={showDatepicker}>
+      <View>
+        <CustomButton style={dateStyle} onPress={showDatepicker}>
           {!changedOnce ? (
-            <Text style={{ color: "#5f6b8b" }}>Birthdate</Text>
+            <CustomText
+              style={{
+                color: props.error
+                  ? appStyle.color_error
+                  : appStyle.color_outline,
+              }}
+            >
+              Birthdate
+            </CustomText>
           ) : (
-            <Text style={{ color: "#5f6b8b" }}>{date.toDateString()}</Text>
+            <CustomText
+              style={{
+                color: error
+                  ? appStyle.color_error
+                  : appStyle.color_on_surface_variant,
+              }}
+            >
+              {date.toDateString()}
+            </CustomText>
           )}
-        </TouchableOpacity>
+        </CustomButton>
         <Text
           style={{
             color: appStyle.color_error,
@@ -65,14 +85,12 @@ const BirthdayDatePicker = (props) => {
         </Text>
       </View>
       {show && (
-        <View>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            onChange={onDateChange}
-          />
-        </View>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          onChange={onDateChange}
+        />
       )}
     </View>
   );
