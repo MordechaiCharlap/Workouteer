@@ -78,7 +78,7 @@ const FutureWorkoutsScreen = ({ route }) => {
         title={languageService[user.language].futureWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-4">
+      <View className="flex-1 px-2">
         {initialLoading ? (
           <LoadingAnimation />
         ) : (

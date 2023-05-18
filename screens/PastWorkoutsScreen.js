@@ -13,7 +13,7 @@ import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 import useAuth from "../hooks/useAuth";
 const PastWorkoutsScreen = ({ route }) => {
   const { user } = useAuth();
-  const shownUser = route.params.shownUser ? route.params.shownUser : user;
+  const shownUser = route.params?.shownUser ? route.params.shownUser : user;
   const { setCurrentScreen } = useNavbarDisplay();
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
     useConfirmedWorkouts();
@@ -54,7 +54,7 @@ const PastWorkoutsScreen = ({ route }) => {
         title={languageService[user.language].pastWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-4">
+      <View className="flex-1 px-2">
         {initialLoading ? (
           <LoadingAnimation />
         ) : (
