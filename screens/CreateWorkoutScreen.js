@@ -165,7 +165,11 @@ const CreateWorkoutScreen = () => {
       fontSize: 16,
     },
   });
-  const backOrExitButtonStyle = { color: appStyle.color_primary, size: 30 };
+  const backOrExitButtonStyle = {
+    color: appStyle.color_on_background,
+    size: 30,
+  };
+  const componentsColor = appStyle.color_on_background;
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("CreateWorkout");
@@ -267,9 +271,11 @@ const CreateWorkoutScreen = () => {
           <Title
             title={languageService[user.language].workoutType}
             icon={faX}
+            color={componentsColor}
           />
           <View>
             <WorkoutType
+              color={componentsColor}
               value={user.lastWorkoutCreation?.type}
               language={user.language}
               typeSelected={(type) => {
@@ -281,6 +287,7 @@ const CreateWorkoutScreen = () => {
 
         <View style={style.slideStyle}>
           <Title
+            color={componentsColor}
             title={languageService[user.language].dateAndDuration}
             icon={faChevronLeft}
           />
@@ -288,6 +295,7 @@ const CreateWorkoutScreen = () => {
             {Platform.OS == "web" ? (
               <>
                 <NextWeekDropdown
+                  color={componentsColor}
                   value={startingTime}
                   language={user.language}
                   now={now}
@@ -295,6 +303,7 @@ const CreateWorkoutScreen = () => {
                 />
                 <View style={{ height: 10 }}></View>
                 <WorkoutMinutes
+                  color={componentsColor}
                   value={user.lastWorkoutCreation?.minutes}
                   language={user.language}
                   minutesSelected={setMinutes}
@@ -302,10 +311,14 @@ const CreateWorkoutScreen = () => {
               </>
             ) : (
               <View
-                className={`flex-row${user.language == "hebrew" && "-reverse"}`}
+                style={{
+                  flexDirection:
+                    user.language == "hebrew" ? "row" : "row-reverse",
+                }}
               >
                 <View className="w-1 grow">
                   <WorkoutMinutes
+                    color={componentsColor}
                     value={user.lastWorkoutCreation?.minutes}
                     language={user.language}
                     minutesSelected={setMinutes}
@@ -314,6 +327,7 @@ const CreateWorkoutScreen = () => {
                 <View style={{ width: 10 }}></View>
                 <View className="w-1 grow">
                   <WorkoutStartingTime
+                    color={componentsColor}
                     value={startingTime}
                     startingTimeChanged={setStartingTime}
                     minDate={now}
@@ -325,6 +339,7 @@ const CreateWorkoutScreen = () => {
         </View>
         <View style={style.slideStyle}>
           <Title
+            color={componentsColor}
             title={
               languageService[user.language].chooseLocation[user.isMale ? 1 : 0]
             }
@@ -333,6 +348,7 @@ const CreateWorkoutScreen = () => {
           <View>
             {delayPassed && (
               <WorkoutLocation
+                color={componentsColor}
                 value={user.lastWorkoutCreation?.location}
                 language={user.language}
                 locationChanged={setLocation}
@@ -342,10 +358,12 @@ const CreateWorkoutScreen = () => {
         </View>
         <View style={style.slideStyle}>
           <Title
+            color={componentsColor}
             title={languageService[user.language].preferences}
             icon={faChevronLeft}
           />
           <WorkoutSex
+            color={componentsColor}
             value={user.lastWorkoutCreation?.sex}
             size={40}
             isMale={user.isMale}
@@ -353,7 +371,7 @@ const CreateWorkoutScreen = () => {
             sexChanged={setWorkoutSex}
           />
           <WorkoutDescription
-            language={user.language}
+            color={componentsColor}
             descChanged={setDescription}
           />
         </View>
@@ -385,15 +403,15 @@ const CreateWorkoutScreen = () => {
           style={{
             margin: 10,
             backgroundColor: continueDisabled
-              ? convertHexToRgba(appStyle.color_background_variant, 0.4)
-              : appStyle.color_background_variant,
+              ? appStyle.color_surface_variant
+              : appStyle.color_primary,
           }}
         >
           <Text
             className="font-black text-lg"
             style={{
               color: continueDisabled
-                ? convertHexToRgba(appStyle.color_on_primary, 0.4)
+                ? appStyle.color_on_surface_variant
                 : appStyle.color_on_primary,
             }}
           >
