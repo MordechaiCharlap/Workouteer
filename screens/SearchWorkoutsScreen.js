@@ -28,6 +28,7 @@ import { isWebOnPC } from "../services/webScreenService";
 import { convertHexToRgba } from "../utilities/stylingFunctions";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
 import { Title } from "../components/slides/Title";
+import CustomButton from "../components/basic/CustomButton";
 const SearchWorkoutsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -90,7 +91,7 @@ const SearchWorkoutsScreen = () => {
       paddingHorizontal: 16,
     },
     dropdown: {
-      backgroundColor: appStyle.color_primary,
+      backgroundColor: appStyle.color_on_background,
       height: 50,
       borderColor: appStyle.color_on_primary,
       borderWidth: 0.5,
@@ -146,9 +147,6 @@ const SearchWorkoutsScreen = () => {
       setCountriesArr(await firebase.getCountries());
     };
     updateCountries();
-    console.log(
-      `defaultCountry: ${user.defaultCountry}, defaultCity:${user.defaultCity}`
-    );
   }, []);
   useEffect(() => {
     if (country != null) {
@@ -162,7 +160,6 @@ const SearchWorkoutsScreen = () => {
     if (pageIndex == 1) setCity();
   }, [citiesArr]);
   useEffect(() => {
-    console.log(`city:${city}`);
     if (city == null) {
       setIsSearchDisabled(true);
     } else {
@@ -200,7 +197,10 @@ const SearchWorkoutsScreen = () => {
       location: currentLocation,
     });
   };
-  const backOrExitButtonStyle = { color: appStyle.color_primary, size: 30 };
+  const backOrExitButtonStyle = {
+    color: appStyle.color_on_background,
+    size: 25,
+  };
 
   return (
     <View style={safeAreaStyle()}>
@@ -233,10 +233,7 @@ const SearchWorkoutsScreen = () => {
         <View style={style.slideStyle}>
           <Title title={languageService[user.language].where} />
           <Dropdown
-            style={[
-              style.dropdown,
-              countryIsFocus && { borderColor: appStyle.color_primary },
-            ]}
+            style={[style.dropdown]}
             placeholder={languageService[user.language].country}
             placeholderStyle={style.placeholderStyle}
             selectedTextStyle={style.selectedTextStyle}
@@ -256,10 +253,7 @@ const SearchWorkoutsScreen = () => {
           />
           <View className="mt-5">
             <Dropdown
-              style={[
-                style.dropdown,
-                cityIsFocus && { borderColor: appStyle.color_primary },
-              ]}
+              style={[style.dropdown]}
               placeholder={languageService[user.language].city}
               placeholderStyle={style.placeholderStyle}
               selectedTextStyle={style.selectedTextStyle}
@@ -287,7 +281,7 @@ const SearchWorkoutsScreen = () => {
             >
               <CheckBox
                 size={40}
-                backgroundColor={appStyle.color_primary}
+                backgroundColor={appStyle.color_on_background}
                 value={false}
                 valueColor={appStyle.color_on_primary}
                 onValueChange={(value) =>
@@ -299,7 +293,7 @@ const SearchWorkoutsScreen = () => {
                 }
               />
               <View className="w-2" />
-              <Text style={{ color: appStyle.color_primary }}>
+              <Text style={{ color: appStyle.color_on_background }}>
                 {user.isMale
                   ? languageService[user.language].showMenOnlyWorkouts
                   : languageService[user.language].showWomenOnlyWorkouts}
@@ -310,11 +304,12 @@ const SearchWorkoutsScreen = () => {
       </ScrollView>
 
       {pageIndex == pages.length - 1 ? (
-        <TouchableOpacity
+        <CustomButton
           disabled={isSearchDisabled}
           onPress={handleSearch}
-          className="rounded-full items-center h-16 justify-center"
           style={{
+            padding: 16,
+            borderRadius: 999,
             margin: 10,
             backgroundColor: appStyle.color_primary,
           }}
@@ -327,14 +322,15 @@ const SearchWorkoutsScreen = () => {
               ? languageService[user.language].searching.toUpperCase()
               : languageService[user.language].search.toUpperCase()}
           </Text>
-        </TouchableOpacity>
+        </CustomButton>
       ) : (
-        <TouchableOpacity
+        <CustomButton
           onPress={handleNextPage}
-          className="rounded-full items-center h-16 justify-center"
           style={{
+            padding: 16,
+            borderRadius: 999,
             margin: 10,
-            backgroundColor: appStyle.color_background_variant,
+            backgroundColor: appStyle.color_primary,
           }}
         >
           <Text
@@ -347,7 +343,7 @@ const SearchWorkoutsScreen = () => {
               user.isMale ? 1 : 0
             ].toUpperCase()}
           </Text>
-        </TouchableOpacity>
+        </CustomButton>
       )}
     </View>
   );
