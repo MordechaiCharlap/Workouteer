@@ -14,6 +14,8 @@ import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { faPersonBiking } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
+import CustomButton from "./basic/CustomButton";
+import CustomText from "./basic/CustomText";
 export const workoutTypes = [
   {
     id: 0,
@@ -38,30 +40,35 @@ export const workoutTypes = [
 
 const WorkoutType = (props) => {
   const iconSize = 60;
+  const genericStyle = {
+    marginBottom: 12,
+    paddingVertical: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+  };
   const style = StyleSheet.create({
     typeButton: {
       width: "48%",
-      height: iconSize * 2,
-      borderWidth: 1,
-      borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_background_variant,
+      backgroundColor: appStyle.color_surface_variant,
+      ...genericStyle,
     },
     chosenTypeButton: {
       width: "48%",
+      backgroundColor: appStyle.color_primary_container,
+      borderColor: appStyle.color_outline,
       borderWidth: 1,
-      height: iconSize * 2,
-      borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_primary,
+      ...genericStyle,
     },
     everythingButton: {
-      borderWidth: 1,
-      borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_background_variant,
+      backgroundColor: appStyle.color_surface_variant,
+      ...genericStyle,
     },
     chosenEverythingButton: {
+      backgroundColor: appStyle.color_primary_container,
+      borderColor: appStyle.color_outline,
       borderWidth: 1,
-      borderColor: appStyle.color_primary,
-      backgroundColor: appStyle.color_primary,
+      ...genericStyle,
     },
   });
   const [chosenType, setChosenType] = useState(
@@ -75,58 +82,61 @@ const WorkoutType = (props) => {
   }, [chosenType]);
   const renderWorkoutTypeButton = (type) => {
     return (
-      <TouchableOpacity
+      <CustomButton
         onPress={() => {
           typeClicked(type.id);
         }}
-        className="items-center justify-center rounded-lg mb-3"
         style={
           type.id == chosenType ? style.chosenTypeButton : style.typeButton
         }
       >
         <FontAwesomeIcon
-          color={appStyle.color_on_primary}
+          color={
+            type.id == chosenType
+              ? appStyle.color_primary
+              : appStyle.color_on_surface_variant
+          }
           icon={type.icon}
           size={iconSize}
         />
-        <Text
-          className="text-center"
+        <CustomText
           style={{
-            color: appStyle.color_on_primary,
+            color:
+              type.id == chosenType
+                ? appStyle.color_on_primary_container
+                : appStyle.color_on_surface_variant,
           }}
         >
           {languageService[props.language].workoutTypes[type.id]}
-        </Text>
-      </TouchableOpacity>
+        </CustomText>
+      </CustomButton>
     );
   };
   return (
     <View>
       {props.everythingOption == true && (
-        <TouchableOpacity
+        <CustomButton
           onPress={() => {
             typeClicked(workoutTypes[0].id);
           }}
-          className="rounded-lg mb-3"
+          style={
+            workoutTypes[0].id == chosenType
+              ? style.chosenEverythingButton
+              : style.everythingButton
+          }
         >
-          <View
-            style={
-              workoutTypes[0].id == chosenType
-                ? style.chosenEverythingButton
-                : style.everythingButton
-            }
-            className={`p-4 items-center rounded-lg`}
+          <CustomText
+            className="text-center font-bold tracking-widest"
+            style={{
+              color:
+                workoutTypes[0].id == chosenType
+                  ? appStyle.color_primary
+                  : appStyle.color_on_surface_variant,
+            }}
           >
-            <Text
-              className="text-center font-bold tracking-widest"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {languageService[props.language].workoutTypes[0]}
-            </Text>
-          </View>
-        </TouchableOpacity>
+            {languageService[props.language].workoutTypes[0]}
+          </CustomText>
+        </CustomButton>
       )}
       <View className="flex-row flex-wrap justify-between">
         {renderWorkoutTypeButton(workoutTypes[1])}
