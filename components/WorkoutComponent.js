@@ -27,6 +27,8 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
 import languageService from "../services/languageService";
 import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
+import CustomButton from "../components/basic/CustomButton";
+import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -190,9 +192,8 @@ const WorkoutComponent = (props) => {
       case "invited":
         return (
           <View className={`gap-x-0.5 flex-row`}>
-            <TouchableOpacity
+            <CustomButton
               onPress={acceptWorkoutInvite}
-              className="h-8 flex-1 justify-center rounded-bl-lg"
               style={style.actionButton}
             >
               <Text
@@ -205,10 +206,9 @@ const WorkoutComponent = (props) => {
                       user.isMale ? 1 : 0
                     ]}
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+            </CustomButton>
+            <CustomButton
               onPress={rejectWorkoutInvite}
-              className="h-8 flex-1 justify-center rounded-br-lg"
               style={style.actionButton}
             >
               <Text
@@ -221,48 +221,33 @@ const WorkoutComponent = (props) => {
                       user.isMale ? 1 : 0
                     ]}
               </Text>
-            </TouchableOpacity>
+            </CustomButton>
           </View>
         );
       case "creator":
         return (
-          <TouchableOpacity
-            onPress={cancelWorkout}
-            className={`h-8 flex-1 justify-center ${
-              userMemberStatus == "invited" ? "" : "rounded-br-lg"
-            }`}
-            style={style.actionButton}
-          >
+          <CustomButton onPress={cancelWorkout} style={style.actionButton}>
             <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].cancelWorkout}
             </Text>
-          </TouchableOpacity>
+          </CustomButton>
         );
       case "member":
         return (
-          <TouchableOpacity
-            onPress={leaveWorkout}
-            className={`h-8 flex-1 justify-center ${
-              userMemberStatus == "invited" ? "" : "rounded-br-lg"
-            }`}
-            style={style.actionButton}
-          >
+          <CustomButton onPress={leaveWorkout} style={style.actionButton}>
             <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
                 : languageService[user.language].leave[user.isMale ? 1 : 0]}
             </Text>
-          </TouchableOpacity>
+          </CustomButton>
         );
       case "pending":
         return (
-          <TouchableOpacity
+          <CustomButton
             onPress={cancelWorkoutRequest}
-            className={`h-8 flex-1 justify-center ${
-              userMemberStatus == "invited" ? "" : "rounded-br-lg"
-            }`}
             style={style.actionButton}
           >
             <Text className="text-center" style={style.actionButtonText}>
@@ -272,15 +257,12 @@ const WorkoutComponent = (props) => {
                     user.isMale ? 1 : 0
                   ]}
             </Text>
-          </TouchableOpacity>
+          </CustomButton>
         );
       case "not":
         return (
-          <TouchableOpacity
+          <CustomButton
             onPress={requestToJoinWorkout}
-            className={`h-8 flex-1 justify-center ${
-              userMemberStatus == "invited" ? "" : "rounded-br-lg"
-            }`}
             style={style.actionButton}
           >
             <Text className="text-center" style={style.actionButtonText}>
@@ -290,13 +272,13 @@ const WorkoutComponent = (props) => {
                     user.isMale ? 1 : 0
                   ]}
             </Text>
-          </TouchableOpacity>
+          </CustomButton>
         );
       case "cannot":
         return (
           <View
             className={`h-8 flex-1 justify-center ${
-              userMemberStatus == "invited" ? "" : "rounded-br-lg"
+              userMemberStatus == "invited" ? "" : ""
             }`}
             style={style.actionButton}
           >
@@ -409,14 +391,7 @@ const WorkoutComponent = (props) => {
             columnGap: userMemberStatus == "invited" ? 0 : 3,
           }}
         >
-          <TouchableOpacity
-            className={`h-8 flex-1 justify-center flex-row items-center ${
-              userMemberStatus == "invited"
-                ? ""
-                : !isPastWorkout
-                ? "rounded-bl-lg"
-                : "rounded-b-lg"
-            }`}
+          <CustomButton
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: workout,
@@ -425,7 +400,7 @@ const WorkoutComponent = (props) => {
                 userMemberStatus: userMemberStatus,
               })
             }
-            style={style.actionButton}
+            style={{ ...style.actionButton, flexDirection: "row" }}
           >
             <Text style={style.actionButtonText}>
               {languageService[user.language].details}
@@ -437,12 +412,12 @@ const WorkoutComponent = (props) => {
                 <View className="ml-5">
                   <AlertDot
                     text={workoutRequestsAlerts[workout.id].requestsCount}
-                    color={appStyle.color_on_primary}
+                    color={appStyle.color_on_primary_container}
                     size={20}
                   />
                 </View>
               )}
-          </TouchableOpacity>
+          </CustomButton>
           {!isPastWorkout &&
             userMemberStatus != "invited" &&
             getWorkoutActionButtons()}
@@ -455,35 +430,42 @@ const WorkoutComponent = (props) => {
 };
 const topSectionFontSize = 16;
 const style = StyleSheet.create({
-  container: { marginBottom: 15, rowGap: 3 },
-  topSection: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    backgroundColor: appStyle.color_primary,
+  container: {
+    borderRadius: 8,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: appStyle.color_outline,
+    marginBottom: 15,
+    rowGap: 3,
+    backgroundColor: appStyle.color_primary_container,
   },
+  topSection: {},
   middleSection: {
     paddingHorizontal: 7,
-    backgroundColor: appStyle.color_primary,
   },
   BottomSection: {},
-  workoutIcon: { color: appStyle.color_on_primary },
+  workoutIcon: { color: appStyle.color_on_primary_container },
   dividers: {
     width: 2,
     color: appStyle.color_background,
   },
   creatorText: {
-    color: appStyle.color_on_primary,
+    color: appStyle.color_on_primary_container,
     fontSize: topSectionFontSize,
   },
-  dateText: { color: appStyle.color_on_primary, fontSize: topSectionFontSize },
+  dateText: {
+    color: appStyle.color_on_primary_container,
+    fontSize: topSectionFontSize,
+  },
   basicDetailsText: {
-    color: appStyle.color_on_primary,
+    color: appStyle.color_on_primary_container,
   },
   detailsIcons: {
     size: 20,
-    color: appStyle.color_on_primary,
+    color: appStyle.color_on_primary_container,
   },
   actionButton: {
+    flex: 1,
     backgroundColor: appStyle.color_primary,
   },
   actionButtonText: {
