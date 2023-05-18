@@ -33,8 +33,10 @@ const HomeScreen = () => {
   const { currentWorkout } = useCurrentWorkout();
   const { windowHeight } = useResponsiveness();
   const buttonStyle = {
-    color: appStyle.color_on_primary,
-    backgroundColor: appStyle.color_primary,
+    button: {},
+    iconColor: appStyle.color_primary,
+    textColor: appStyle.color_on_surface_variant,
+    backgroundColor: appStyle.color_surface_variant,
     size: windowHeight
       ? windowHeight / 5.5
       : Dimensions.get("window").height / 5.5,
@@ -119,13 +121,18 @@ const HomeScreen = () => {
         </View>
       </View>
       {currentWorkout != null && (
-        <View className="justify-center items-center flex-1">
-          <View style={{ width: "85%" }}>
-            <ConfirmCurrentWorkoutButton
-              currentWorkout={currentWorkout}
-              user={user}
-            />
-          </View>
+        <View
+          style={{
+            bottom: 0,
+            width: "100%",
+            position: "absolute",
+            alignItems: "center",
+          }}
+        >
+          <ConfirmCurrentWorkoutButton
+            currentWorkout={currentWorkout}
+            user={user}
+          />
         </View>
       )}
       {appData.isBetaVersion && (
