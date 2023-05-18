@@ -1,18 +1,22 @@
 import { View, Text } from "react-native";
 import React from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
-const NameAndAge = (props) => {
+import CustomText from "../basic/CustomText";
+const NameAndAge = ({ name, age, color }) => {
   return (
-    <View className="flex-row">
-      <Text
-        className="px-4 py-2 rounded-xl text-3xl"
+    <View style={{ flexDirection: "row" }}>
+      <CustomText
         style={{
-          color: appStyle.color_on_primary,
-          backgroundColor: appStyle.color_primary,
+          fontSize: 16,
+          color: appStyle.color_surface,
+          borderRadius: 5,
+          paddingVertical: 3,
+          paddingHorizontal: 5,
+          backgroundColor: color,
         }}
       >
-        {props.name} {props.age}
-      </Text>
+        {name + " " + age}
+      </CustomText>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -10,25 +10,30 @@ import * as appStyle from "../../utilities/appStyleSheet";
 import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
 import languageService from "../../services/languageService";
-const UserStats = (props) => {
+import CustomText from "../basic/CustomText";
+const UserStats = ({ shownUser, color, backgroundColor }) => {
   const { user } = useAuth();
-  const shownUser = props.shownUser;
   const iconSize = 30;
-  const iconColor = appStyle.color_primary;
   const renderStat = (icon, data) => {
     return (
-      <View className="flex-row items-center py-2 w-1/3 rounded justify-center gap-x-1">
-        <FontAwesomeIcon icon={icon} size={iconSize} color={iconColor} />
-        <Text className="text-lg font-semibold">{data}</Text>
+      <View style={styleSheet.stat}>
+        <FontAwesomeIcon icon={icon} size={iconSize} color={color} />
+        <CustomText style={{ color: color, fontSize: 20, fontWeight: 600 }}>
+          {data}
+        </CustomText>
       </View>
     );
   };
-  const renderStreak = () => {};
   return (
-    <View className="gap-y-2">
+    <View>
       <View
-        className="flex-row items-center justify-evenly rounded-full"
-        style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          borderRadius: 20,
+          backgroundColor: backgroundColor,
+        }}
       >
         {renderStat(faBolt, shownUser.totalPoints)}
         {renderStat(
@@ -36,13 +41,29 @@ const UserStats = (props) => {
           languageService[user.language].leagues[shownUser.league]
         )}
         {renderStat(faFire, shownUser.streak)}
-        {renderStreak()}
       </View>
-      <View style={{ height: 180 }}>
-        <WorkoutsStats shownUser={shownUser} />
+      <View style={{ height: 10 }}></View>
+      <View style={{ height: 200 }}>
+        <WorkoutsStats
+          shownUser={shownUser}
+          color={color}
+          backgroundColor={backgroundColor}
+        />
       </View>
+
+      <View className="flex-row items-center py-2 w-1/3 justify-center gap-x-1"></View>
     </View>
   );
 };
 
+export const styleSheet = StyleSheet.create({
+  stat: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
+    justifyContent: "center",
+    columnGap: 4,
+    width: "33.33%",
+  },
+});
 export default UserStats;

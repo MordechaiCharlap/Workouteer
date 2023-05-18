@@ -2,45 +2,39 @@ import { TouchableOpacity, Text, View } from "react-native";
 import React from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-const UserDetailsButton = (props) => {
+import CustomButton from "../basic/CustomButton";
+import CustomText from "../basic/CustomText";
+const UserDetailsButton = ({
+  specialButton,
+  onPress,
+  text,
+  icon,
+  smallIcon,
+  buttonStyle,
+  color,
+  iconColor,
+}) => {
+  const buttonProps = buttonStyle;
   return (
-    <TouchableOpacity
-      className="items-center flex-row rounded-2xl p-3"
-      style={[
-        {
-          backgroundColor: appStyle.color_primary,
-        },
-        props.specialButton && {
-          borderColor: appStyle.color_on_primary,
-          borderWidth: 2,
-        },
-      ]}
-      onPress={() => props.onPress()}
-    >
-      <Text style={{ fontSize: 30, color: appStyle.color_on_primary }}>
-        {props.text}
-      </Text>
+    <CustomButton style={buttonProps} onPress={() => onPress()}>
+      <CustomText style={{ fontSize: 25, color: color }}>{text}</CustomText>
       <View style={{ width: 10 }}></View>
       <View>
-        <FontAwesomeIcon
-          icon={props.icon}
-          size={40}
-          color={appStyle.color_on_primary}
-        />
+        <FontAwesomeIcon icon={icon} size={30} color={iconColor} />
+        {smallIcon && (
+          <View
+            className="absolute rounded-full right-0 bottom-0 items-center justify-center"
+            style={{
+              borderWidth: 1.5,
+              borderColor: buttonProps.backgroundColor,
+              backgroundColor: buttonProps.backgroundColor,
+            }}
+          >
+            <FontAwesomeIcon icon={smallIcon} size={10} color={iconColor} />
+          </View>
+        )}
       </View>
-      {props.smallIcon && (
-        <View
-          className="absolute rounded-full right-1 bottom-2 items-center justify-center"
-          style={{ borderWidth: 1.5, borderColor: appStyle.color_primary }}
-        >
-          <FontAwesomeIcon
-            icon={props.smallIcon}
-            size={15}
-            color={appStyle.color_on_primary}
-          />
-        </View>
-      )}
-    </TouchableOpacity>
+    </CustomButton>
   );
 };
 
