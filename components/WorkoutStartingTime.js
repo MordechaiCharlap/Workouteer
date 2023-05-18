@@ -20,11 +20,14 @@ import {
   faCalendarDay,
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
+import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import CustomText from "./basic/CustomText";
+import CustomButton from "./basic/CustomButton";
 
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [mode, setMode] = useState("date");
@@ -58,6 +61,7 @@ const WorkoutStartingTime = (props) => {
         ) {
           setShowAlert(true);
           setDateChangedOnce(false);
+          setDate();
           props.startingTimeChanged(null);
         } else {
           setDateChangedOnce(true);
@@ -92,36 +96,33 @@ const WorkoutStartingTime = (props) => {
       <FontAwesomeIcon
         icon={faCalendarDays}
         size={30}
-        color={appStyle.color_primary}
+        color={appStyle.color_on_background}
       />
       <View style={{ width: 10 }}></View>
-      <TouchableOpacity
-        style={[
-          styles.input,
-          !dateChangedOnce || !props.value
-            ? styles.notChangedVal
-            : styles.changedVal,
-        ]}
-        className="px-3 justify-center items-center"
+      <CustomButton
+        style={
+          date
+            ? {
+                ...appComponentsDefaultStyles.input,
+                flex: 1,
+              }
+            : {
+                ...appComponentsDefaultStyles.errorInput,
+                flex: 1,
+              }
+        }
         onPress={showDatepicker}
       >
         {!dateChangedOnce || !props.value ? (
-          <Text
-            style={{
-              color: appStyle.color_on_primary,
-              textAlign: "center",
-            }}
-          >
+          <CustomText style={appComponentsDefaultStyles.textOnInput}>
             {languageService[user.language].when}
-          </Text>
+          </CustomText>
         ) : (
-          <Text
-            style={{ color: appStyle.color_on_primary, textAlign: "center" }}
-          >
+          <CustomText style={appComponentsDefaultStyles.textOnInput}>
             {timeString(date, user.language)}
-          </Text>
+          </CustomText>
         )}
-      </TouchableOpacity>
+      </CustomButton>
       {show && (
         <DateTimePicker
           minimumDate={props.minDate}
@@ -159,13 +160,6 @@ const WorkoutStartingTime = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  input: {
-    flex: 1,
-    height: 50,
-    borderColor: appStyle.color_primary,
-    borderWidth: 0.5,
-    borderRadius: 4,
-  },
   changedVal: {
     backgroundColor: appStyle.color_primary,
   },
