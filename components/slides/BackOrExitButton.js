@@ -6,10 +6,10 @@ import React from "react";
 
 const BackOrExitButton = (props) => {
   return (
-    <View className="flex-row">
+    <View className="flex-row px-2">
       <TouchableOpacity
         onPress={props.handlePrevPage}
-        style={{ marginTop: 20, marginHorizontal: 20 }}
+        style={{ marginTop: 20 }}
       >
         <FontAwesomeIcon
           icon={props.firstPage ? faX : faChevronLeft}
