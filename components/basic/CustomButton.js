@@ -1,16 +1,14 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
 
 const CustomButton = ({ children, style, onPress, disabled }) => {
-  const buttonStyle = {
-    borderRadius: 4,
-    padding: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  const merged = { ...buttonStyle, ...style };
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress} style={merged}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      style={{ ...appComponentsDefaultStyles.button, ...style }}
+    >
       {children}
     </TouchableOpacity>
   );
