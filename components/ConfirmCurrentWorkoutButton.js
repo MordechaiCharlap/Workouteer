@@ -6,6 +6,8 @@ import * as appStyle from "../utilities/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
 import useResponsiveness from "../hooks/useResponsiveness";
+import CustomButton from "./basic/CustomButton";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
   const user = props.user;
@@ -14,30 +16,38 @@ const ConfirmCurrentWorkoutButton = (props) => {
     ? windowHeight / 15
     : Dimensions.get("window").height / 15;
   return (
-    <TouchableOpacity
+    <CustomButton
       onPress={() => navigation.navigate("ConfirmWorkout")}
-      className="flex-row items-center w-full rounded"
       style={{
-        backgroundColor: appStyle.color_primary,
+        flexDirection: "row",
+        padding: 10,
+        borderRadius: 999,
+        justifyContent: "center",
+        itemsAlign: "center",
+        backgroundColor: appStyle.color_tertiary,
       }}
     >
+      <FontAwesomeIcon
+        icon={workoutTypes[props.currentWorkout.type].icon}
+        size={iconSize}
+        color={appStyle.color_on_primary}
+      />
       <View
-        style={{ backgroundColor: appStyle.color_primary, padding: 7 }}
-        className="rounded-l"
+        style={{
+          position: "absolute",
+          bottom: 2,
+          left: 2,
+          borderRadius: 999,
+          backgroundColor: appStyle.color_background,
+        }}
       >
         <FontAwesomeIcon
-          icon={workoutTypes[props.currentWorkout.type].icon}
-          size={iconSize}
-          color={appStyle.color_on_primary}
+          icon={faExclamation}
+          size={iconSize / 2}
+          color={appStyle.color_tertiary}
         />
       </View>
-      <Text
-        className="text-center flex-1 tracking-widest font-semibold text-lg"
-        style={{ color: appStyle.color_on_primary }}
-      >
-        {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
-      </Text>
-    </TouchableOpacity>
+    </CustomButton>
   );
 };
 
