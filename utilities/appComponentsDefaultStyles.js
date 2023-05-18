@@ -19,6 +19,12 @@ const appComponentsDefaultStyles = StyleSheet.create({
     borderBottomColor: appStyle.color_error,
     backgroundColor: appStyle.color_surface_variant,
   },
+  button: {
+    borderRadius: 4,
+    padding: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   textOnInput: {
     color: appStyle.color_on_surface_variant,
   },
