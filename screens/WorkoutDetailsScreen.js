@@ -30,6 +30,7 @@ import AlertDot from "../components/AlertDot";
 import { onSnapshot, doc } from "firebase/firestore";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CustomButton from "../components/basic/CustomButton";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -74,7 +75,8 @@ const WorkoutDetailsScreen = ({ route }) => {
     }
     return age;
   };
-  const showDirections = () => {};
+  const containerColor = appStyle.color_primary_container;
+  const onContainerColor = appStyle.color_on_primary_container;
   return (
     <View style={safeAreaStyle()}>
       <Header
@@ -97,13 +99,13 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View
                         className="rounded justify-center px-2"
                         style={{
-                          backgroundColor: appStyle.color_primary,
+                          backgroundColor: containerColor,
                           height: 40,
                         }}
                       >
                         <Text
                           className="text-md text-left"
-                          style={{ color: appStyle.color_on_primary }}
+                          style={{ color: onContainerColor }}
                         >
                           {timeString(
                             workout.startingTime.toDate(),
@@ -116,13 +118,13 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View
                         className="rounded-full p-2 mx-2"
                         style={{
-                          backgroundColor: appStyle.color_primary,
+                          backgroundColor: containerColor,
                         }}
                       >
                         <FontAwesomeIcon
                           icon={workoutTypes[workout.type].icon}
                           size={25}
-                          color={appStyle.color_on_primary}
+                          color={onContainerColor}
                         />
                       </View>
                     </View>
@@ -130,13 +132,13 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View
                         className="rounded px-2 justify-center"
                         style={{
-                          backgroundColor: appStyle.color_primary,
+                          backgroundColor: containerColor,
                           height: 40,
                         }}
                       >
                         <Text
                           className="text-md text-right"
-                          style={{ color: appStyle.color_on_primary }}
+                          style={{ color: onContainerColor }}
                         >
                           {workout.city[user.language]
                             ? workout.city[user.language]
@@ -148,7 +150,7 @@ const WorkoutDetailsScreen = ({ route }) => {
 
                   <View
                     className="p-3 rounded mt-2"
-                    style={{ backgroundColor: appStyle.color_primary }}
+                    style={{ backgroundColor: containerColor }}
                   >
                     <View
                       className={`items-center justify-between flex-row${
@@ -163,7 +165,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         <FontAwesomeIcon
                           icon={faVenusMars}
                           size={25}
-                          color={appStyle.color_on_primary}
+                          color={onContainerColor}
                         />
                         <Text
                           className={
@@ -172,7 +174,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                               : "text-sm font-semibold"
                           }
                           style={{
-                            color: appStyle.color_on_primary,
+                            color: onContainerColor,
                           }}
                         >
                           {workout.sex == "everyone"
@@ -190,7 +192,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         <FontAwesomeIcon
                           icon={faClock}
                           size={25}
-                          color={appStyle.color_on_primary}
+                          color={onContainerColor}
                         />
                         <Text
                           className={
@@ -199,7 +201,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                               : "text-sm font-semibold ml-1"
                           }
                           style={{
-                            color: appStyle.color_on_primary,
+                            color: onContainerColor,
                           }}
                         >
                           {workout.minutes +
@@ -213,7 +215,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                         className={
                           Platform.OS != "web" ? "text-sm mt-2" : "mt-2"
                         }
-                        style={{ color: appStyle.color_on_primary }}
+                        style={{ color: onContainerColor }}
                       >
                         {workout.description}
                       </Text>
@@ -225,6 +227,7 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View>
                         <View className="mt-2 items-center justify-center">
                           <WorkoutPinnedLocation
+                            backgroundColor={appStyle.color_outline}
                             ltLng={workout.location}
                             language={user.language}
                           />
@@ -234,12 +237,12 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <View
                         className="mt-2 rounded"
                         style={{
-                          backgroundColor: appStyle.color_primary,
+                          backgroundColor: containerColor,
                         }}
                       >
                         <Text
                           style={{
-                            color: appStyle.color_on_primary,
+                            color: onContainerColor,
                           }}
                           className={
                             Platform.OS != "web"
@@ -260,11 +263,11 @@ const WorkoutDetailsScreen = ({ route }) => {
                       <FontAwesomeIcon
                         icon={faUserGroup}
                         size={25}
-                        color={appStyle.color_primary}
+                        color={onContainerColor}
                       />
                       <Text
                         className="text-md"
-                        style={{ color: appStyle.color_primary }}
+                        style={{ color: onContainerColor }}
                       >
                         {languageService[user.language].members}
                       </Text>
@@ -301,14 +304,14 @@ const WorkoutDetailsScreen = ({ route }) => {
                     <View className="ml-2">
                       <Text
                         className="text-md font-semibold tracking-wider"
-                        style={{ color: appStyle.color_primary }}
+                        style={{ color: appStyle.color_on_background }}
                       >
                         {calculateAge(item.birthdate.toDate())},{" "}
                         {item.displayName}
                       </Text>
                       <Text
                         className="text-sm opacity-60 tracking-wider"
-                        style={{ color: appStyle.color_primary }}
+                        style={{ color: appStyle.color_on_background }}
                       >
                         {item.id}
                       </Text>
@@ -319,12 +322,12 @@ const WorkoutDetailsScreen = ({ route }) => {
                       className="rounded-lg p-1"
                       style={{
                         marginRight: item.id == workout.creator ? 0 : 20,
-                        backgroundColor: appStyle.color_primary,
+                        backgroundColor: appStyle.color_on_background,
                       }}
                     >
                       <Text
                         style={{
-                          color: appStyle.color_on_primary,
+                          color: appStyle.color_on_on_background,
                         }}
                       >
                         {
@@ -338,7 +341,7 @@ const WorkoutDetailsScreen = ({ route }) => {
 
                   {item.id == workout.creator && (
                     <Text
-                      style={{ color: appStyle.color_primary }}
+                      style={{ color: appStyle.color_on_background }}
                       className="mr-5"
                     >
                       {
@@ -385,22 +388,31 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
             />
           </View>
-          {isCreator && !isPastWorkout && members.length < 10 && (
-            <TouchableOpacity
-              className="rounded p-1 my-1"
-              style={{
-                backgroundColor: appStyle.color_primary,
-              }}
-              onPress={inviteFriends}
+        </View>
+      )}
+      {isCreator && !isPastWorkout && members.length < 10 && (
+        <View
+          className="px-2"
+          style={{
+            borderTopWidth: 1,
+            borderTopColor: appStyle.color_outline,
+          }}
+        >
+          <CustomButton
+            style={{
+              borderRadius: 999,
+              marginVertical: 5,
+              backgroundColor: appStyle.color_primary,
+            }}
+            onPress={inviteFriends}
+          >
+            <Text
+              className="text-xl text-center font-semibold"
+              style={{ color: appStyle.color_on_primary }}
             >
-              <Text
-                className="text-xl text-center font-semibold"
-                style={{ color: appStyle.color_on_primary }}
-              >
-                {languageService[user.language].inviteFriendsToJoin}
-              </Text>
-            </TouchableOpacity>
-          )}
+              {languageService[user.language].inviteFriendsToJoin}
+            </Text>
+          </CustomButton>
         </View>
       )}
     </View>
@@ -414,7 +426,9 @@ const WorkoutPinnedLocation = (props) => {
     <View
       className="items-center justify-center p-2 rounded-lg w-full aspect-square"
       style={{
-        backgroundColor: appStyle.color_primary,
+        backgroundColor: props.backgroundColor
+          ? props.backgroundColor
+          : appStyle.color_on_background,
       }}
     >
       <MapView
