@@ -32,13 +32,12 @@ const HomeScreenButton = (props) => {
           }
         >
           {props.alert && (
-            <View className="absolute left-3 top-3">
+            <View className="absolute left-2 top-2">
               <AlertDot
                 size={26}
-                color={appStyle.color_on_primary}
-                borderColor={appStyle.color_primary}
                 text={props.alertNumber}
-                textColor={appStyle.color_primary}
+                textColor={appStyle.color_on_primary}
+                color={appStyle.color_primary}
               />
             </View>
           )}
