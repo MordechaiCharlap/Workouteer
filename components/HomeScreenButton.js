@@ -24,6 +24,8 @@ const HomeScreenButton = (props) => {
             width: props.style.size,
             height: props.style.size,
             borderRadius: 10,
+            borderWidth: 1,
+            borderColor: appStyle.color_outline,
           }}
           onPress={() =>
             navigation.navigate(props.navigateScreen, { user: user })
@@ -43,11 +45,11 @@ const HomeScreenButton = (props) => {
           <FontAwesomeIcon
             icon={props.icon}
             size={props.style.iconSize}
-            color={props.style.color}
+            color={props.style.iconColor}
           />
           <Text
             style={{
-              color: props.style.color,
+              color: props.style.textColor,
               fontSize: props.style.fontSize,
               fontWeight: 700,
               textAlign: "center",
