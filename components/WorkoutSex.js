@@ -4,39 +4,37 @@ import CheckBox from "../components/CheckBox";
 import * as appStyle from "../utilities/appStyleSheet";
 import { useEffect } from "react";
 import languageService from "../services/languageService";
-const WorkoutSex = (props) => {
+import useAuth from "../hooks/useAuth";
+const WorkoutSex = ({ value, size, isMale, sexChanged, color }) => {
   const [workoutSex, setWorkoutSex] = useState(
-    props.value != null ? props.value : "everyone"
+    value != null ? value : "everyone"
   );
+  const { user } = useAuth();
   useEffect(() => {
-    props.sexChanged(workoutSex);
+    sexChanged(workoutSex);
   }, [workoutSex]);
   return (
     <View
       className={`items-center gap-x-2 ${
-        props.language == "hebrew" ? "flex-row-reverse" : "flex-row"
+        user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
       }`}
     >
       <View>
         <CheckBox
           style={{ borderRadius: 4 }}
-          size={props.size}
+          size={size}
           onValueChange={(value) =>
             value == true
-              ? setWorkoutSex(props.isMale == true ? "men" : "women")
+              ? setWorkoutSex(isMale == true ? "men" : "women")
               : setWorkoutSex("everyone")
           }
-          backgroundColor={appStyle.color_primary}
+          backgroundColor={color}
           valueColor={appStyle.color_on_primary}
           value={workoutSex != "everyone"}
         />
       </View>
       <Text style={{ color: appStyle.color_primary }}>
-        {
-          languageService[props.language][
-            props.isMale ? "menOnly" : "womenOnly"
-          ]
-        }
+        {languageService[user.language][isMale ? "menOnly" : "womenOnly"]}
       </Text>
     </View>
   );

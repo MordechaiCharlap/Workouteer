@@ -6,6 +6,7 @@ import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
+import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
 const data = [
   { label: "0:30", value: 30 },
   { label: "1:00", value: 60 },
@@ -15,58 +16,40 @@ const data = [
   { label: "3:00", value: 180 },
 ];
 
-const WorkoutMinutes = (props) => {
+const WorkoutMinutes = ({ value, minutesSelected, color }) => {
   const { user } = useAuth();
-  const [value, setValue] = useState(props.value);
+  const [minutes, setMinutes] = useState(value);
   const [isFocus, setIsFocus] = useState(false);
   useEffect(() => {
-    props.minutesSelected(value);
-  }, [value]);
+    minutesSelected(minutes);
+  }, [minutes]);
   const handleMinutesChange = (item) => {
-    setValue(item.value);
+    setMinutes(item.value);
     setIsFocus(false);
   };
-
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text
-          className="rounded"
-          style={[
-            styles.label,
-            isFocus && { color: appStyle.color_on_primary },
-          ]}
-        >
-          {languageService[props.language].workoutMinutesPlaceholder}
-        </Text>
-      );
-    }
-    return null;
-  };
-
   return (
     <View
       className={`flex-1 items-center flex-row${
         user.language == "hebrew" && "-reverse"
       }`}
     >
-      {/* <Text style={{ fontSize: 16 }}>
-        {languageService[props.language].hoursMinutes}:
-      </Text> */}
-      <FontAwesomeIcon
-        icon={faStopwatch}
-        color={appStyle.color_primary}
-        size={30}
-      />
+      <FontAwesomeIcon icon={faStopwatch} color={color} size={30} />
       <View style={{ width: 10 }}></View>
       <Dropdown
         style={[
-          styles.dropdown,
-          value ? styles.valueChanged : styles.valueNotChanged,
-          isFocus && { borderColor: appStyle.color_on_primary },
+          minutes
+            ? appComponentsDefaultStyles.input
+            : appComponentsDefaultStyles.errorInput,
+          { flex: 1 },
         ]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
+        placeholderStyle={[
+          appComponentsDefaultStyles.textOnInput,
+          { textAlign: "center" },
+        ]}
+        selectedTextStyle={[
+          appComponentsDefaultStyles.textOnInput,
+          { textAlign: "center" },
+        ]}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
@@ -75,10 +58,10 @@ const WorkoutMinutes = (props) => {
         valueField="value"
         placeholder={
           !isFocus
-            ? languageService[props.language].choose[user.isMale ? 1 : 0]
+            ? languageService[user.language].choose[user.isMale ? 1 : 0]
             : "..."
         }
-        value={value}
+        value={minutes}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
@@ -112,22 +95,12 @@ const styles = StyleSheet.create({
   },
   label: {
     position: "absolute",
-    color: appStyle.color_on_primary,
+    color: appComponentsDefaultStyles.textOnInput,
     backgroundColor: appStyle.color_primary,
     left: 22,
     top: -10,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 16,
-  },
-  placeholderStyle: {
-    textAlign: "center",
-    color: appStyle.color_on_primary,
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    textAlign: "center",
-    color: appStyle.color_on_primary,
     fontSize: 16,
   },
   iconStyle: {

@@ -2,27 +2,29 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import React from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 
-const WorkoutDescription = (props) => {
+const WorkoutDescription = ({ descChanged, color }) => {
+  const { user } = useAuth();
   return (
     <View>
       <Text style={{ color: appStyle.color_primary, fontSize: 15 }}>
-        {languageService[props.language].details}:
+        {languageService[user.language].details}:
       </Text>
       <TextInput
         style={{
           textAlignVertical: "top",
-          backgroundColor: appStyle.color_primary,
+          backgroundColor: color,
           borderRadius: 4,
           padding: 8,
           color: appStyle.color_on_primary,
         }}
         autoCorrect={false}
         multiline
-        placeholder={languageService[props.language].optionalText}
+        placeholder={languageService[user.language].optionalText}
         placeholderTextColor={appStyle.color_lighter}
-        numberOfLines={4}
-        onChangeText={(text) => props.descChanged(text)}
+        numberOfLines={10}
+        onChangeText={(text) => descChanged(text)}
       ></TextInput>
     </View>
   );

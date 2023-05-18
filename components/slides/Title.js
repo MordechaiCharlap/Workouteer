@@ -1,15 +1,16 @@
 import { View, Text } from "react-native";
 import * as appStyle from "../../utilities/appStyleSheet";
-export const Title = (props) => {
+import CustomText from "../basic/CustomText";
+export const Title = ({ title, color }) => {
   return (
     <View>
       <View className="flex-1"></View>
-      <Text
+      <CustomText
         className="text-center text-lg"
-        style={{ color: appStyle.color_primary }}
+        style={{ color: color ? color : appStyle.color_on_background }}
       >
-        {props.title}
-      </Text>
+        {title}
+      </CustomText>
     </View>
   );
 };

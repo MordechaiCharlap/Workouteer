@@ -18,15 +18,15 @@ import PinOnMap from "./PinOnMap";
 import useAuth from "../hooks/useAuth";
 import { mapsApiKey } from "../utilities/mapsApiKey";
 import { convertHexToRgba } from "../utilities/stylingFunctions";
-const WorkoutLocation = (props) => {
+const WorkoutLocation = ({ value, locationChanged, color }) => {
   const { user } = useAuth();
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [address, setAddress] = useState(null);
   useEffect(() => {
-    if (props.value) {
-      setLocation(props.value);
+    if (value) {
+      setLocation(value);
     } else {
       if (user.lastLocation) {
         setLocation(user.lastLocation);
@@ -46,7 +46,7 @@ const WorkoutLocation = (props) => {
   };
   useEffect(() => {
     if (location) {
-      props.locationChanged(location);
+      locationChanged(location);
       setShowMap(true);
     }
     setIsLoading(false);
@@ -72,6 +72,7 @@ const WorkoutLocation = (props) => {
           </View>
         ) : showMap ? (
           <PinOnMap
+            backgroundColor={color}
             language={user.language}
             defaultMarker={location}
             saveLocation={locationPinned}
