@@ -8,7 +8,7 @@ const Header = (props) => {
   const navigation = useNavigation();
   return (
     <View
-      className="flex-row items-center h-10 mt-4 mb-2"
+      className="flex-row items-center h-10 mt-4 mb-2 px-2"
       style={{
         backgroundColor: appStyle.color_background,
         justifyContent: props.goBackOption ? "space-between" : "center",
@@ -19,9 +19,9 @@ const Header = (props) => {
           onPress={props.navigate ? props.navigate : () => navigation.goBack()}
         >
           <FontAwesomeIcon
-            icon={props.icon == "x" ? faX : faChevronLeft}
-            size={40}
-            color={props.color ? props.color : appStyle.color_primary}
+            icon={props.icon == "<" ? faChevronLeft : faX}
+            size={30}
+            color={props.color ? props.color : appStyle.color_on_background}
           />
         </TouchableOpacity>
       ) : (
@@ -29,12 +29,8 @@ const Header = (props) => {
       )}
 
       <Text
-        className={
-          Platform.OS == "web"
-            ? "text-2xl font-semibold"
-            : "text-4xl font-semibold"
-        }
-        style={{ color: appStyle.color_primary }}
+        className="text-2xl font-semibold"
+        style={{ color: appStyle.color_on_background }}
       >
         {props.title}
       </Text>
