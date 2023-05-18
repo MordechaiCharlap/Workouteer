@@ -5,18 +5,19 @@ import languageService from "../../../services/languageService";
 import useAuth from "../../../hooks/useAuth";
 import useConfirmedWorkouts from "../../../hooks/useConfirmedWorkouts";
 import { useEffect } from "react";
-const WorkoutsStats = (props) => {
+import CustomText from "../../basic/CustomText";
+const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
   const { user } = useAuth();
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
     useConfirmedWorkouts();
   const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
-    user.id == props.shownUser.id ? confirmedWorkouts : []
+    user.id == shownUser.id ? confirmedWorkouts : []
   );
   useEffect(() => {
-    if (user.id == props.shownUser.id) return;
+    if (user.id == shownUser.id) return;
     const getShownUserConfirmedWorkouts = async () => {
       setConfirmedWorkoutsArray(
-        await getConfirmedWorkoutsByUserId(props.shownUser.id)
+        await getConfirmedWorkoutsByUserId(shownUser.id)
       );
     };
     getShownUserConfirmedWorkouts();
@@ -38,11 +39,8 @@ const WorkoutsStats = (props) => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    if (
-      props.shownUser.workoutsCount != 0 &&
-      confirmedWorkoutsArray.length != 0
-    )
-      for (var i = props.shownUser.workoutsCount - 1; i >= 0, i--; ) {
+    if (shownUser.workoutsCount != 0 && confirmedWorkoutsArray.length != 0)
+      for (var i = shownUser.workoutsCount - 1; i >= 0, i--; ) {
         const workout = confirmedWorkoutsArray[i];
         if (workout.startingTime.toDate() < weekAgo) break;
 
@@ -59,23 +57,23 @@ const WorkoutsStats = (props) => {
     const renderColumn = (index) => {
       return (
         <View className="self-end items-center">
-          <Text
+          <CustomText
             className="text-center"
-            style={{ fontSize: 10, color: appStyle.color_primary }}
+            style={{ fontSize: 10, color: color }}
           >
             {weekWorkoutMinutes[week[index].dayIndex]}
-          </Text>
+          </CustomText>
           <View
             className="w-4"
             style={{
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: color,
               height: pointHeight * weekWorkoutMinutes[week[index].dayIndex],
             }}
           ></View>
           <View
             className="w-4"
             style={{
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: color,
               height: 5,
             }}
           ></View>
@@ -84,7 +82,7 @@ const WorkoutsStats = (props) => {
             className="text-center"
             style={{
               fontSize: 10,
-              color: appStyle.color_primary,
+              color: color,
               height: 15,
             }}
           >
@@ -94,22 +92,27 @@ const WorkoutsStats = (props) => {
       );
     };
     return (
-      <View style={{ height: 180 }}>
+      <View
+        style={{
+          backgroundColor: backgroundColor,
+          borderRadius: 5,
+          height: 200,
+          justifyContent: "center",
+        }}
+      >
         <View
-          className="rounded-xl"
           style={{
-            borderWidth: 1,
-            borderColor: appStyle.color_primary,
+            height: 180,
           }}
         >
-          <Text
+          <CustomText
             className="text-center"
             style={{
-              color: appStyle.color_primary,
+              color: color,
             }}
           >
             {languageService[user.language].weeklyStatisticsChart}
-          </Text>
+          </CustomText>
           <View
             className={`justify-between rounded px-2 ${
               user.language == "hebrew" ? "flex-row" : "flex-row-reverse"
@@ -118,21 +121,6 @@ const WorkoutsStats = (props) => {
               height: 160,
             }}
           >
-            {/* <View
-              className="absolute bottom-0 right-0 left-0 flex-row items-center gap-x-1 px-1 mx-1"
-              style={{
-                height: 140,
-                borderColor: appStyle.color_primary,
-                borderTopWidth: 0.5,
-              }}
-            >
-              <Text
-                className="absolute top-0 right-0"
-                style={{ fontSize: 10, color: appStyle.color_primary }}
-              >
-                {highestPoints}
-              </Text>
-            </View> */}
             {renderColumn(0)}
             {renderColumn(1)}
             {renderColumn(2)}
