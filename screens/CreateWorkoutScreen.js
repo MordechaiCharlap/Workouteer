@@ -35,6 +35,7 @@ import { faChevronLeft, faX } from "@fortawesome/free-solid-svg-icons";
 import AwesomeModal from "../components/AwesomeModal";
 import { Title } from "../components/slides/Title";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
+import CustomButton from "../components/basic/CustomButton";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -167,7 +168,7 @@ const CreateWorkoutScreen = () => {
   });
   const backOrExitButtonStyle = {
     color: appStyle.color_on_background,
-    size: 30,
+    size: 25,
   };
   const componentsColor = appStyle.color_on_background;
   useFocusEffect(
@@ -377,11 +378,12 @@ const CreateWorkoutScreen = () => {
         </View>
       </ScrollView>
       {pageIndex == pages.length - 1 ? (
-        <TouchableOpacity
+        <CustomButton
           disabled={isCreateDisabled}
           onPress={createWorkout}
-          className="rounded-full items-center h-16 justify-center"
           style={{
+            padding: 16,
+            borderRadius: 999,
             margin: 10,
             backgroundColor: appStyle.color_primary,
           }}
@@ -394,16 +396,17 @@ const CreateWorkoutScreen = () => {
               ? languageService[user.language].loading.toUpperCase()
               : languageService[user.language].createWorkout.toUpperCase()}
           </Text>
-        </TouchableOpacity>
+        </CustomButton>
       ) : (
-        <TouchableOpacity
+        <CustomButton
           disabled={continueDisabled}
           onPress={handleNextPage}
-          className="rounded-full items-center h-16 justify-center"
           style={{
+            padding: 16,
+            borderRadius: 999,
             margin: 10,
             backgroundColor: continueDisabled
-              ? appStyle.color_surface_variant
+              ? appStyle.color_primary_container
               : appStyle.color_primary,
           }}
         >
@@ -419,7 +422,7 @@ const CreateWorkoutScreen = () => {
               user.isMale ? 1 : 0
             ].toUpperCase()}
           </Text>
-        </TouchableOpacity>
+        </CustomButton>
       )}
       <AwesomeModal
         showModal={showAlert}
