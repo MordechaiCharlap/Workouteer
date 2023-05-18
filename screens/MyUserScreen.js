@@ -32,6 +32,8 @@ import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { Platform } from "react-native";
 import UserDetailsButton from "../components/profileScreen/UserDetailsButton";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 
 const MyUserScreen = () => {
   const navigation = useNavigation();
@@ -63,63 +65,87 @@ const MyUserScreen = () => {
       }
     }, [])
   );
+  const buttonStyle = {
+    color: appStyle.color_on_primary,
+    backgroundColor: appStyle.color_primary,
+    paddingHorizontal: 15,
+    borderRadius: 999,
+    flexDirection: "row",
+  };
   return (
     <View style={safeAreaStyle()}>
-      <View className="flex-1">
-        <ScrollView
-          showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
+      <ScrollView
+        showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
+      >
+        <View
+          style={{
+            rowGap: 16,
+          }}
         >
-          <View className="p-4 gap-y-4">
-            <View className="flex-row items-center justify-between">
-              <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
-                <FontAwesomeIcon
-                  icon={faUserPen}
-                  size={30}
-                  color={appStyle.color_primary}
-                />
-              </TouchableOpacity>
+          <View
+            className="flex-row items-center justify-between"
+            style={{
+              paddingHorizontal: 16,
+            }}
+          >
+            <CustomButton onPress={() => navigation.navigate("EditData")}>
+              <FontAwesomeIcon
+                icon={faUserPen}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </CustomButton>
 
-              <Text
-                className="text-3xl tracking-widest"
-                style={{ color: appStyle.color_primary }}
-              >
-                {user.id}
-              </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Settings", { language: user.language })
-                }
-              >
-                <FontAwesomeIcon
-                  icon={faGear}
-                  size={30}
-                  color={appStyle.color_primary}
-                />
-              </TouchableOpacity>
-            </View>
+            <CustomButton
+              onPress={() =>
+                navigation.navigate("Settings", { language: user.language })
+              }
+            >
+              <FontAwesomeIcon
+                icon={faGear}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </CustomButton>
+          </View>
 
-            <View className="flex-row h-48 justify-between">
-              <View className="justify-center">
+          <View
+            style={{
+              paddingHorizontal: 16,
+            }}
+          >
+            <View
+              style={{
+                borderRadius: 20,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
                 <Image
                   source={{
                     uri: user.img,
                   }}
-                  className="h-32 w-32 bg-white rounded-full"
+                  className=" bg-white rounded-full"
                   style={{
+                    height: 120,
+                    aspectRatio: 1 / 1,
                     borderWidth: 1,
-                    borderColor: appStyle.color_primary,
+                    borderColor: appStyle.color_outline,
                   }}
                 />
               </View>
               <View
                 style={{
-                  justifyContent: "space-around",
                   alignItems: "flex-end",
                 }}
               >
                 <View className="flex-row items-center">
                   {Object.keys(user.plannedWorkouts).length > 0 && (
                     <UserDetailsButton
+                      buttonStyle={buttonStyle}
+                      color={buttonStyle.color}
+                      iconColor={buttonStyle.color}
                       onPress={() => navigation.navigate("FutureWorkouts")}
                       text={Object.keys(user.plannedWorkouts).length}
                       icon={faClock}
@@ -127,46 +153,21 @@ const MyUserScreen = () => {
                       specialButton={true}
                     />
                   )}
-                  {/* <View
-                    className="rounded-full"
-                    style={{
-                      backgroundColor: appStyle.color_on_primary,
-                      padding: 3,
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faClock}
-                      color={appStyle.color_primary}
-                      size={60}
-                    />
-                    <View
-                      className="absolute rounded-full items-center justify-center right-0 bottom-0"
-                      style={{
-                        height: 30,
-                        aspectRatio: 1,
-                        backgroundColor: appStyle.color_primary,
-                        borderWidth: 3,
-                        borderColor: appStyle.color_on_primary,
-                      }}
-                    >
-                      <Text style={{ color: appStyle.color_on_primary }}>
-                        {Object.keys(user.plannedWorkouts).length}
-                      </Text>
-                    </View>
-                  </View> */}
-                  <View style={{ width: 10 }}></View>
+
+                  <View style={{ width: 20 }}></View>
                   <UserDetailsButton
+                    buttonStyle={buttonStyle}
+                    color={buttonStyle.color}
+                    iconColor={buttonStyle.color}
                     onPress={() => navigation.navigate("PastWorkouts")}
                     text={user.workoutsCount}
                     icon={faDumbbell}
                     smallIcon={faCircleCheck}
                   />
                 </View>
-                <TouchableOpacity
-                  className="items-center flex-row rounded-2xl p-3"
-                  style={{
-                    backgroundColor: appStyle.color_primary,
-                  }}
+                <View style={{ height: 20 }}></View>
+                <CustomButton
+                  style={buttonStyle}
                   onPress={() =>
                     navigation.navigate("Friends", {
                       user: user,
@@ -174,57 +175,83 @@ const MyUserScreen = () => {
                     })
                   }
                 >
-                  <Text
-                    style={{ fontSize: 30, color: appStyle.color_on_primary }}
+                  <CustomText
+                    style={{ fontSize: 25, color: buttonStyle.color }}
                   >
                     {user.friendsCount}
-                  </Text>
+                  </CustomText>
                   <View style={{ width: 10 }}></View>
                   <FontAwesomeIcon
                     icon={faUserGroup}
-                    size={40}
-                    color={appStyle.color_on_primary}
+                    size={30}
+                    color={buttonStyle.color}
                   />
                   {user.friendRequestsCount > 0 ? (
-                    <View className="absolute left-0 bottom-0">
+                    <View className="absolute right-0 bottom-0">
                       <AlertDot
                         text={user.friendRequestsCount}
-                        color={appStyle.color_on_primary}
-                        borderColor={appStyle.color_primary}
-                        textColor={appStyle.color_primary}
-                        borderWidth={1.5}
-                        fontSize={10}
+                        color={buttonStyle.backgroundColor}
+                        borderColor={appStyle.color_surface}
+                        textColor={buttonStyle.color}
+                        borderWidth={1}
+                        fontSize={13}
                         size={23}
                       />
                     </View>
                   ) : (
                     <></>
                   )}
-                </TouchableOpacity>
+                </CustomButton>
               </View>
             </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: appStyle.color_surface,
+              rowGap: 16,
+              paddingHorizontal: 16,
+              borderTopColor: appStyle.color_outline,
+              borderTopWidth: 0.8,
+            }}
+          >
             <View>
-              <NameAndAge name={user.displayName} age={calculateAge()} />
+              <CustomText
+                style={{
+                  fontSize: 16,
+                  color: appStyle.color_on_surface,
+                }}
+              >
+                #{user.id}
+              </CustomText>
+              <NameAndAge
+                name={user.displayName}
+                age={calculateAge()}
+                color={appStyle.color_on_surface}
+              />
             </View>
             <View>
-              <UserStats shownUser={user} />
+              <UserStats
+                shownUser={user}
+                color={appStyle.color_on_primary_container}
+                backgroundColor={appStyle.color_primary_container}
+              />
             </View>
             <View
               className="rounded-xl p-4"
-              style={{ backgroundColor: appStyle.color_primary }}
+              style={{ backgroundColor: appStyle.color_primary_container }}
             >
-              <Text
-                style={{ color: appStyle.color_on_primary }}
+              <CustomText
+                style={{ color: appStyle.color_on_primary_container }}
                 className="text-lg"
               >
                 {user.description == ""
                   ? languageService[user.language].noDescriptionYet
                   : user.description}
-              </Text>
+              </CustomText>
             </View>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
