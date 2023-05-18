@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import languageService from "../services/languageService";
-const PinOnMap = (props) => {
+const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
-  const [coords, setCoords] = useState(props.defaultMarker);
+  const [coords, setCoords] = useState(defaultMarker);
   const pressed = (event) => {
     Platform.OS != "web"
       ? setCoords(event.nativeEvent.coordinate)
@@ -20,14 +20,16 @@ const PinOnMap = (props) => {
           latitude: event.latLng.lat(),
           longitude: event.latLng.lng(),
         });
-    props.saveLocation(coords);
+    saveLocation(coords);
   };
   return (
     <View className="items-center">
       <View
         className="items-center justify-center p-2 rounded-lg w-full aspect-square"
         style={{
-          backgroundColor: appStyle.color_primary,
+          backgroundColor: backgroundColor
+            ? backgroundColor
+            : appStyle.color_on_background,
         }}
       >
         <MapView
