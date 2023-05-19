@@ -56,9 +56,9 @@ const SuggestionForm = (props) => {
         className="px-3 py-2"
         style={{
           borderRadius: 8,
-          borderColor: appStyle.color_on_background,
+          borderColor: appStyle.color_outline,
           borderWidth: 1,
-          backgroundColor: appStyle.color_primary_container,
+          backgroundColor: appStyle.color_surface,
         }}
       >
         <CustomText style={style.title}>
@@ -75,7 +75,10 @@ const SuggestionForm = (props) => {
             </CustomText>
             <View style={{ width: 10 }} />
             <CustomTextInput
-              style={{ flex: 1 }}
+              style={{
+                flex: 1,
+                backgroundColor: appStyle.color_surface_variant,
+              }}
               maxLength={20}
               onChangeText={(text) => setTitle(text)}
               spellCheck={false}
@@ -96,6 +99,7 @@ const SuggestionForm = (props) => {
             </CustomText>
             <CustomTextInput
               style={{
+                backgroundColor: appStyle.color_surface_variant,
                 padding: 7,
                 textAlignVertical: "top",
               }}
@@ -129,7 +133,7 @@ const SuggestionForm = (props) => {
               color:
                 !isContentValid || !isTitleValid
                   ? appStyle.color_on_surface_variant
-                  : appStyle.color_primary,
+                  : appStyle.color_background,
             }}
           >
             {isSubmitting == null
@@ -149,16 +153,17 @@ const style = StyleSheet.create({
     color: "red",
   },
   submitButton: {
-    backgroundColor: appStyle.color_primary,
+    borderRadius: 999,
+    backgroundColor: appStyle.color_on_background,
     paddingVertical: 4,
     paddingHorizontal: 15,
-    borderRadius: 2,
   },
   submitButtonDisabled: {
+    borderRadius: 999,
+
     backgroundColor: appStyle.color_surface_variant,
     paddingVertical: 4,
     paddingHorizontal: 15,
-    borderRadius: 2,
   },
   titleInput: {
     backgroundColor: appStyle.color_on_primary,
