@@ -32,6 +32,7 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CustomTextInput from "../components/basic/CustomTextInput";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -132,9 +133,9 @@ const ChatScreen = ({ route }) => {
       <View
         className="flex-row items-center"
         style={{
-          backgroundColor: appStyle.color_primary,
+          backgroundColor: appStyle.color_surface,
           height: 70,
-          borderBottomColor: appStyle.color_background,
+          borderBottomColor: appStyle.color_outline,
           borderBottomWidth: 0.5,
         }}
       >
@@ -142,7 +143,7 @@ const ChatScreen = ({ route }) => {
           <FontAwesomeIcon
             icon={faChevronLeft}
             size={40}
-            color={appStyle.color_on_primary}
+            color={appStyle.color_on_surface}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -165,7 +166,7 @@ const ChatScreen = ({ route }) => {
           />
           <Text
             className="text-2xl font-semibold"
-            style={{ color: appStyle.color_on_primary }}
+            style={{ color: appStyle.color_on_surface }}
           >
             {otherUser.displayName}
           </Text>
@@ -178,6 +179,7 @@ const ChatScreen = ({ route }) => {
         keyboardVerticalOffset={-200}
       >
         <FlatList
+          style={{ backgroundColor: appStyle.color_surface_variant }}
           contentContainerStyle={{ justifyContent: "flex-end", flexGrow: 1 }}
           className="p-2"
           showsVerticalScrollIndicator={false}
@@ -207,9 +209,10 @@ const ChatScreen = ({ route }) => {
               placeholder={
                 languageService[user.language].message[user.isMale ? 1 : 0]
               }
-              placeholderTextColor={appStyle.color_primary}
+              placeholderTextColor={appStyle.color_on_surface_variant}
               style={{
-                backgroundColor: appStyle.color_background,
+                maxHeight: 80,
+                backgroundColor: appStyle.color_surface_variant,
                 color: appStyle.color_primary,
               }}
               onChangeText={(text) => {

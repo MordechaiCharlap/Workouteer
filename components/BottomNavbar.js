@@ -5,8 +5,10 @@ import * as appStyle from "../utilities/appStyleSheet";
 import useAlerts from "../hooks/useAlerts";
 import useResponsiveness from "../hooks/useResponsiveness";
 import { isWebOnPC } from "../services/webScreenService";
+import useCurrentWorkout from "../hooks/useCurrentWorkout";
 const BottomNavbar = () => {
   const { chatsAlerts, friendRequestsAlerts } = useAlerts();
+  const { currentWorkout } = useCurrentWorkout();
   const { windowHeight } = useResponsiveness();
   const fixedWidth = isWebOnPC
     ? (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height)
@@ -32,11 +34,11 @@ const BottomNavbar = () => {
         }}
       >
         <NavbarButton
-          screen="MyUser"
+          screen="MyProfile"
           alert={Object.keys(friendRequestsAlerts).length > 0}
         />
         <NavbarButton screen="Leaderboard" />
-        <NavbarButton screen="Home" />
+        <NavbarButton screen="Home" alert={currentWorkout != null} />
         <NavbarButton
           screen="Chats"
           alert={Object.keys(chatsAlerts).length > 0}
