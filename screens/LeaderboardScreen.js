@@ -115,15 +115,15 @@ const LeaderboardScreen = () => {
           </View>
         ) : (
           <FlatList
-            style={{ backgroundColor: appStyle.color_surface_variant }}
+            style={{ backgroundColor: appStyle.color_surface }}
             data={leaderboardList}
             keyExtractor={(item) => item[0]}
             renderItem={({ item, index }) => (
               <CustomButton
                 onPress={async () =>
                   item[0] == user.id
-                    ? navigation.navigate("MyUser")
-                    : navigation.navigate("User", {
+                    ? navigation.navigate("MyProfile")
+                    : navigation.navigate("Profile", {
                         shownUser: await firebase.getUserDataById(item[0]),
                         friendshipStatus: await firebase.checkFriendShipStatus(
                           user,
@@ -162,7 +162,7 @@ const LeaderboardScreen = () => {
                       color:
                         item[0] == user.id
                           ? appStyle.color_on_primary_container
-                          : appStyle.color_on_surface_variant,
+                          : appStyle.color_on_surface,
                       width: 48,
                       textAlign: "center",
                     }}
@@ -185,7 +185,7 @@ const LeaderboardScreen = () => {
                     color:
                       item[0] == user.id
                         ? appStyle.color_on_primary_container
-                        : appStyle.color_on_surface_variant,
+                        : appStyle.color_on_surface,
                   }}
                 >
                   {item[1].displayName}
@@ -196,7 +196,7 @@ const LeaderboardScreen = () => {
                   style={
                     item[0] == user.id
                       ? { color: appStyle.color_on_primary_container }
-                      : { color: appStyle.color_on_surface_variant }
+                      : { color: appStyle.color_on_surface }
                   }
                 >
                   {item[1].points}XP

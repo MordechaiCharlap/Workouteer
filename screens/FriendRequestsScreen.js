@@ -62,7 +62,7 @@ const FriendRequestsScreen = () => {
               <View className="flex-row items-center mt-2">
                 <TouchableOpacity
                   onPress={async () =>
-                    navigation.navigate("User", {
+                    navigation.navigate("Profile", {
                       shownUser: item.user,
                       friendshipStatus: await firebase.checkFriendShipStatus(
                         user,

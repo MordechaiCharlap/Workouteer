@@ -112,7 +112,7 @@ const EditProfileData = (props) => {
       setLoading(false);
       setChangesMade(false);
       setUpdated(false);
-      props.navigation.navigate("MyUser");
+      props.navigation.navigate("MyProfile");
     }, 500);
   };
 
@@ -312,7 +312,7 @@ const EditProfileData = (props) => {
 //       setLoading(false);
 //       setChangesMade(false);
 //       setUpdated(false);
-//       props.navigation.navigate("MyUser");
+//       props.navigation.navigate("MyProfile");
 //     }, 1000);
 //   };
 //   const saveButtonClicked = () => {

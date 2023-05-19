@@ -3,7 +3,7 @@ import { View, Platform, StatusBar } from "react-native";
 import * as appStyle from "./utilities/appStyleSheet";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
-import MyUserScreen from "./screens/MyUserScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import ExploreScreen from "./screens/ExploreScreen";
@@ -49,6 +49,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 import { useConnection } from "./hooks/useConnection";
 import ConnectToInternetScreen from "./screens/ConnectToInternetScreen";
+import MyProfileScreen from "./screens/MyProfileScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -143,15 +144,14 @@ const StackNavigator = () => {
               component={HomeScreen}
               options={homeNavigationOptions.current}
             />
-
             <Stack.Screen
-              name="MyUser"
-              component={MyUserScreen}
+              name="MyProfile"
+              component={MyProfileScreen}
               options={myUserNavigationOptions.current}
             />
             <Stack.Screen
-              name="User"
-              component={UserScreen}
+              name="Profile"
+              component={ProfileScreen}
               options={verticalAnimation}
             />
             <Stack.Screen

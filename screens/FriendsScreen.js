@@ -166,7 +166,7 @@ const FriendsScreen = ({ route }) => {
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("User", {
+                  navigation.navigate("Profile", {
                     shownUser: item,
                     friendshipStatus: isMyUser
                       ? "Friends"

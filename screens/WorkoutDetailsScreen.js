@@ -279,8 +279,8 @@ const WorkoutDetailsScreen = ({ route }) => {
                 <TouchableOpacity
                   onPress={async () =>
                     item.id == user.id
-                      ? navigation.navigate("MyUser")
-                      : navigation.navigate("User", {
+                      ? navigation.navigate("MyProfile")
+                      : navigation.navigate("Profile", {
                           shownUser: item,
                           friendshipStatus:
                             await firebase.checkFriendShipStatus(user, item.id),

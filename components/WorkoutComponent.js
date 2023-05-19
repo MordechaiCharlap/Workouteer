@@ -409,10 +409,12 @@ const WorkoutComponent = (props) => {
               isCreator &&
               workoutRequestsAlerts[workout.id] &&
               workoutRequestsAlerts[workout.id].requestsCount > 0 && (
-                <View className="ml-5">
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: 5 }} />
                   <AlertDot
                     text={workoutRequestsAlerts[workout.id].requestsCount}
-                    color={appStyle.color_on_primary_container}
+                    textColor={appStyle.color_on_background}
+                    color={appStyle.color_on_primary}
                     size={20}
                   />
                 </View>
@@ -433,11 +435,9 @@ const style = StyleSheet.create({
   container: {
     borderRadius: 8,
     padding: 5,
-    borderWidth: 1,
-    borderColor: appStyle.color_outline,
     marginBottom: 15,
     rowGap: 3,
-    backgroundColor: appStyle.color_primary_container,
+    backgroundColor: appStyle.color_surface_variant,
   },
   topSection: {},
   middleSection: {
@@ -466,7 +466,7 @@ const style = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_background,
   },
   actionButtonText: {
     color: appStyle.color_on_primary,

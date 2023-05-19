@@ -41,7 +41,11 @@ import UserDetailsButton from "../components/profileScreen/UserDetailsButton";
 const UserScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
-
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentScreen("User");
+    }, [])
+  );
   const { user } = useAuth();
   const {
     sendPushNotificationUserWantsToBeYourFriend,
@@ -50,11 +54,7 @@ const UserScreen = ({ route }) => {
   const [showReportModal, setShowReportModal] = useState(false);
   const [futureWorkoutsCount, setFutureWorkoutsCount] = useState(0);
   const shownUser = route.params.shownUser;
-  useFocusEffect(
-    useCallback(() => {
-      setCurrentScreen("User");
-    }, [])
-  );
+
   const [friendshipStatus, setFriendshipStatus] = useState(
     route.params.friendshipStatus
   );

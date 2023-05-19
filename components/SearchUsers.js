@@ -33,7 +33,7 @@ const SearchUsers = (props) => {
       user,
       userData.id
     );
-    navigation.navigate("User", {
+    navigation.navigate("Profile", {
       shownUser: userData,
       friendshipStatus: friendshipStatus,
     });

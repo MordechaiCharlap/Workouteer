@@ -154,7 +154,12 @@ const InviteFriendsScreen = ({ route }) => {
           workout.requests[item.id] != true ? (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
-                onPress={() => navigation.navigate("User", { shownUser: item })}
+                onPress={() =>
+                  navigation.navigate("Profile", {
+                    shownUser: item,
+                    friendshipStatus: "Friends",
+                  })
+                }
                 className="flex-row flex-1 items-center"
               >
                 <Image

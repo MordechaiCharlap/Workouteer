@@ -34,7 +34,7 @@ export const NavbarNavigationProvider = ({ children }) => {
   const exploreNavigationOptions = useRef(upAnimation());
   const setScreen = (screenName) => {
     switch (screenName) {
-      case "MyUser":
+      case "MyProfile":
         leaderboardNavigationOptions.current = rightAnimation();
         homeNavigationOptions.current = rightAnimation();
         chatsNavigationOptions.current = rightAnimation();
