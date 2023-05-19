@@ -7,7 +7,10 @@ import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
 import useResponsiveness from "../hooks/useResponsiveness";
 import CustomButton from "./basic/CustomButton";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamation,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
   const user = props.user;
@@ -35,16 +38,17 @@ const ConfirmCurrentWorkoutButton = (props) => {
       <View
         style={{
           position: "absolute",
+          padding: 2,
           bottom: 2,
           left: 2,
           borderRadius: 999,
-          backgroundColor: appStyle.color_background,
+          backgroundColor: appStyle.color_tertiary,
         }}
       >
         <FontAwesomeIcon
-          icon={faExclamation}
+          icon={faExclamationCircle}
           size={iconSize / 2}
-          color={appStyle.color_tertiary}
+          color={appStyle.color_background}
         />
       </View>
     </CustomButton>
