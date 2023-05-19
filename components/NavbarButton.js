@@ -46,9 +46,9 @@ const NavbarButton = (props) => {
         >
           <View
             style={{
-              borderRadius: props.screen == "MyUser" ? 999 : 10,
+              borderRadius: props.screen == "MyProfile" ? 999 : 10,
               height: "90%",
-              aspectRatio: props.screen == "MyUser" ? 1 / 1 : 1 / 0.9,
+              aspectRatio: props.screen == "MyProfile" ? 1 / 1 : 1 / 0.9,
               backgroundColor: appStyle.color_primary,
             }}
           ></View>
@@ -63,7 +63,7 @@ const NavbarButton = (props) => {
           />
         </View>
       )}
-      {props.screen == "MyUser" ? (
+      {props.screen == "MyProfile" ? (
         <View>
           <Image
             source={{
@@ -96,7 +96,7 @@ const NavbarButton = (props) => {
             color={
               props.screen == currentScreen
                 ? appStyle.color_background
-                : appStyle.color_secondary
+                : appStyle.color_on_surface_variant
             }
           />
           {props.alert != null && props.alert == true && (
