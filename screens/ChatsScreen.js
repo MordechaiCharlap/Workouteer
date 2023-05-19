@@ -129,7 +129,9 @@ const ChatsScreen = () => {
               shownText = shownText.slice(0, 44).trim() + "...";
           }
       }
-      return <Text style={{ color: appStyle.color_primary }}>{shownText}</Text>;
+      return (
+        <Text style={{ color: appStyle.color_on_background }}>{shownText}</Text>
+      );
     };
     return (
       <FlatList
@@ -145,6 +147,10 @@ const ChatsScreen = () => {
             >
               <View className="flex-row">
                 <Image
+                  style={{
+                    borderWidth: 0.5,
+                    borderColor: appStyle.color_outline,
+                  }}
                   source={{
                     uri: item.user.img,
                   }}
@@ -154,13 +160,16 @@ const ChatsScreen = () => {
                   <View className="flex-row justify-between">
                     <Text
                       className="text-xl font-semibold tracking-wider"
-                      style={{ color: appStyle.color_primary }}
+                      style={{ color: appStyle.color_on_background }}
                     >
                       {item.user.displayName}
                     </Text>
                     <Text
                       className="mt-1"
-                      style={{ color: appStyle.color_primary, fontSize: 12 }}
+                      style={{
+                        color: appStyle.color_on_background,
+                        fontSize: 12,
+                      }}
                     >
                       {messageTimeString(
                         item.chat.lastMessage.sentAt.toDate(),
@@ -201,8 +210,8 @@ const ChatsScreen = () => {
                       <View>
                         <AlertDot
                           text={chatsAlerts[item.chat.id]}
-                          textColor={appStyle.color_on_primary}
-                          color={appStyle.color_primary}
+                          textColor={appStyle.color_background}
+                          color={appStyle.color_on_background}
                           fontSize={10}
                           size={23}
                         />
@@ -228,7 +237,7 @@ const ChatsScreen = () => {
                           ? faCheckCircle
                           : faCircle
                       }
-                      color={appStyle.color_primary}
+                      color={appStyle.color_on_background}
                       size={30}
                     />
                   </View>
@@ -254,7 +263,7 @@ const ChatsScreen = () => {
       >
         <Text
           className="text-4xl font-semibold"
-          style={{ color: appStyle.color_primary }}
+          style={{ color: appStyle.color_on_background }}
         >
           {languageService[user.language].chats}
         </Text>
@@ -262,8 +271,8 @@ const ChatsScreen = () => {
           <View className="absolute right-0 mr-4">
             <AlertDot
               text={Object.keys(chatsAlerts).length}
-              textColor={appStyle.color_on_primary}
-              color={appStyle.color_primary}
+              textColor={appStyle.color_background}
+              color={appStyle.color_on_background}
               size={35}
             />
           </View>
@@ -301,13 +310,13 @@ const ChatsScreen = () => {
               <FontAwesomeIcon
                 icon={faArrowLeft}
                 size={24}
-                color={appStyle.color_primary}
+                color={appStyle.color_on_background}
               />
             </TouchableOpacity>
 
             <Text
               className="text-2xl font-bold ml-4"
-              style={{ color: appStyle.color_primary }}
+              style={{ color: appStyle.color_on_background }}
             >
               {selectedChats.length}
             </Text>
@@ -315,7 +324,7 @@ const ChatsScreen = () => {
               <FontAwesomeIcon
                 icon={faTrash}
                 size={24}
-                color={appStyle.color_primary}
+                color={appStyle.color_on_background}
               />
             </TouchableOpacity>
           </View>
@@ -324,7 +333,7 @@ const ChatsScreen = () => {
           {chatsArr == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
-              style={{ color: appStyle.color_primary }}
+              style={{ color: appStyle.color_on_background }}
             >
               {languageService[user.language].loading}
             </Text>
@@ -374,7 +383,7 @@ const ChatsScreen = () => {
             <View className="flex-row w-10/12 justify-between">
               <TouchableOpacity
                 className="w-1/3 p-1"
-                style={{ backgroundColor: appStyle.color_primary }}
+                style={{ backgroundColor: appStyle.color_on_background }}
                 onPress={async () => {
                   setModalVisible(!modalVisible);
                   await deleteSelectedChats();
@@ -389,7 +398,7 @@ const ChatsScreen = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 className="w-1/3 p-1"
-                style={{ backgroundColor: appStyle.color_primary }}
+                style={{ backgroundColor: appStyle.color_on_background }}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   setSelectedChats([]);
