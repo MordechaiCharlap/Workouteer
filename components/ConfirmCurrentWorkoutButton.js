@@ -15,6 +15,9 @@ const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
   const user = props.user;
   const navigation = useNavigation();
+  buttonHeight = windowHeight
+    ? windowHeight / 10
+    : Dimensions.get("window").height / 10;
   const iconSize = windowHeight
     ? windowHeight / 15
     : Dimensions.get("window").height / 15;
@@ -22,12 +25,14 @@ const ConfirmCurrentWorkoutButton = (props) => {
     <CustomButton
       onPress={() => navigation.navigate("ConfirmWorkout")}
       style={{
-        flexDirection: "row",
-        padding: 10,
-        borderRadius: 999,
-        justifyContent: "center",
+        height: buttonHeight,
+        aspectRatio: 2,
+        borderTopRightRadius: 999,
+        borderTopLeftRadius: 999,
         itemsAlign: "center",
-        backgroundColor: appStyle.color_tertiary,
+        justifyContent: "flex-end",
+        backgroundColor: appStyle.color_primary,
+        paddingBottom: 2,
       }}
     >
       <FontAwesomeIcon
@@ -35,7 +40,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
         size={iconSize}
         color={appStyle.color_on_primary}
       />
-      <View
+      {/* <View
         style={{
           position: "absolute",
           padding: 2,
@@ -50,7 +55,7 @@ const ConfirmCurrentWorkoutButton = (props) => {
           size={iconSize / 2}
           color={appStyle.color_background}
         />
-      </View>
+      </View> */}
     </CustomButton>
   );
 };
