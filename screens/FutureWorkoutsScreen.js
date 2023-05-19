@@ -94,15 +94,15 @@ const FutureWorkoutsScreen = ({ route }) => {
                   isPastWorkout={false}
                   screen={"FutureWorkouts"}
                 />
-                {newWorkouts[item.id] != null ? (
-                  <View className="absolute left-1 top-6">
+                {isMyUser && newWorkouts[item.id] != null ? (
+                  <View className="absolute left-1 top-8">
                     <AlertDot
                       text={languageService[user.language].new}
                       textColor={appStyle.color_on_primary}
-                      borderWidth={2}
-                      borderColor={appStyle.color_background}
+                      borderWidth={1}
+                      borderColor={appStyle.color_outline}
                       fontSize={15}
-                      size={55}
+                      size={45}
                       color={appStyle.color_primary}
                     />
                   </View>
