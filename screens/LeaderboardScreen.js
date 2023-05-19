@@ -73,44 +73,46 @@ const LeaderboardScreen = () => {
           <View
             className="p-2 gap-y-2"
             style={{
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: appStyle.color_surface_variant,
             }}
           >
             <Text
               className="text-center font-semibold text-lg"
               style={{
-                color: appStyle.color_on_primary,
+                color: appStyle.color_on_surface_variant,
               }}
             >
               {languageService[user.language].getPointsToCompete}
             </Text>
             <View className="flex-row items-center justify-center gap-x-2">
-              <TouchableOpacity
+              <CustomButton
+                style={{ backgroundColor: appStyle.color_on_background }}
+                round
                 onPress={() => navigation.navigate("SearchWorkouts")}
               >
                 <Text
-                  className="font-semibold text-lg rounded-sm p-2"
+                  className="font-semibold text-lg"
                   style={{
-                    backgroundColor: appStyle.color_background,
-                    color: appStyle.color_primary,
+                    color: appStyle.color_background,
                   }}
                 >
                   {languageService[user.language].searchWorkout}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </CustomButton>
+              <CustomButton
+                round
+                style={{ backgroundColor: appStyle.color_on_background }}
                 onPress={() => navigation.navigate("CreateWorkout")}
               >
                 <Text
-                  className="font-semibold text-lg rounded-sm p-2"
+                  className="font-semibold text-lg rounded-sm"
                   style={{
-                    backgroundColor: appStyle.color_background,
-                    color: appStyle.color_primary,
+                    color: appStyle.color_background,
                   }}
                 >
                   {languageService[user.language].createWorkout}
                 </Text>
-              </TouchableOpacity>
+              </CustomButton>
             </View>
           </View>
         ) : (
