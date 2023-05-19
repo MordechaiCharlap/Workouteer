@@ -192,7 +192,6 @@ const LoginScreen = () => {
           <CustomButton
             style={{ backgroundColor: appStyle.color_primary }}
             onPress={() => signInGoogleAccount()}
-            className={`self-center py-2 w-full items-center`}
           >
             <CustomText
               className="tracking-widest font-bold text-xl"
@@ -208,16 +207,13 @@ const LoginScreen = () => {
 
         <CustomButton
           style={{
-            borderWidth: 1,
-            borderColor: appStyle.color_outline,
-            backgroundColor: appStyle.color_surface_variant,
+            backgroundColor: appStyle.color_primary_container,
           }}
           onPress={() => navigation.navigate("Register")}
-          className={`flex-1 justify-center p-3`}
         >
           <CustomText
             className="text-center text-xl tracking-widest"
-            style={{ color: appStyle.color_on_surface }}
+            style={{ color: appStyle.color_on_primary_container }}
           >
             Register
           </CustomText>
