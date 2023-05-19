@@ -18,6 +18,8 @@ import { doc, getDoc } from "firebase/firestore";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CountdownTimer from "../components/leaderboardScreen/CountdownTimer";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -113,10 +115,11 @@ const LeaderboardScreen = () => {
           </View>
         ) : (
           <FlatList
+            style={{ backgroundColor: appStyle.color_surface_variant }}
             data={leaderboardList}
             keyExtractor={(item) => item[0]}
             renderItem={({ item, index }) => (
-              <TouchableOpacity
+              <CustomButton
                 onPress={async () =>
                   item[0] == user.id
                     ? navigation.navigate("MyUser")
@@ -128,12 +131,16 @@ const LeaderboardScreen = () => {
                         ),
                       })
                 }
-                className="flex-row flex-1 items-center py-1"
-                style={
-                  item[0] == user.id
-                    ? { backgroundColor: appStyle.color_background_variant }
-                    : {}
-                }
+                style={{
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: appStyle.color_outline,
+                  justifyContent: "flex-start",
+                  borderRadius: 0,
+                  flex: 1,
+                  flexDirection: "row",
+                  backgroundColor:
+                    item[0] == user.id ? appStyle.color_primary_container : "",
+                }}
               >
                 {index < 3 ? (
                   <Image
@@ -148,16 +155,20 @@ const LeaderboardScreen = () => {
                     className="w-12 h-12"
                   />
                 ) : (
-                  <Text
+                  <CustomText
                     className="text-4xl w-12 text-center"
-                    style={
-                      item[0] == user.id
-                        ? { color: appStyle.color_on_primary }
-                        : { color: appStyle.color_primary }
-                    }
+                    style={{
+                      fontSize: 36,
+                      color:
+                        item[0] == user.id
+                          ? appStyle.color_on_primary_container
+                          : appStyle.color_on_surface_variant,
+                      width: 48,
+                      textAlign: "center",
+                    }}
                   >
                     {index + 1}
-                  </Text>
+                  </CustomText>
                 )}
 
                 <Image
@@ -166,28 +177,31 @@ const LeaderboardScreen = () => {
                   }}
                   className="h-14 w-14 bg-white rounded-full mr-4"
                 />
-                <Text
-                  className="text-2xl font-semibold tracking-wider"
-                  style={
-                    item[0] == user.id
-                      ? { color: appStyle.color_on_primary }
-                      : { color: appStyle.color_primary }
-                  }
+                <CustomText
+                  className="tracking-wider"
+                  style={{
+                    fontSize: 24,
+                    fontWeight: 600,
+                    color:
+                      item[0] == user.id
+                        ? appStyle.color_on_primary_container
+                        : appStyle.color_on_surface_variant,
+                  }}
                 >
                   {item[1].displayName}
-                </Text>
+                </CustomText>
 
-                <Text
+                <CustomText
                   className="absolute right-3 my-auto text-2xl"
                   style={
                     item[0] == user.id
-                      ? { color: appStyle.color_on_primary }
-                      : { color: appStyle.color_primary }
+                      ? { color: appStyle.color_on_primary_container }
+                      : { color: appStyle.color_on_surface_variant }
                   }
                 >
                   {item[1].points}XP
-                </Text>
-              </TouchableOpacity>
+                </CustomText>
+              </CustomButton>
             )}
           />
         )}
