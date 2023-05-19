@@ -137,7 +137,7 @@ const RegisterScreen = () => {
     await firebase.createUser(newUserData);
     await startListenToUserAsync(newUserData.id);
   };
-
+  const verticalMargin = 10;
   return (
     <View
       style={[
@@ -154,14 +154,13 @@ const RegisterScreen = () => {
           borderColor: appStyle.color_outline,
         }}
       >
-        <View className="items-center">
-          <CustomText
-            className="text-3xl tracking-widest"
-            style={{ color: appStyle.color_on_surface }}
-          >
-            Register
-          </CustomText>
-        </View>
+        <CustomText
+          className="text-3xl tracking-widest"
+          style={{ color: appStyle.color_on_surface, textAlign: "center" }}
+        >
+          Register
+        </CustomText>
+        <View style={{ height: verticalMargin }} />
         <KeyboardAvoidingView
           behavior={Platform.OS == "android" ? "padding" : "padding"}
           enabled={true}
@@ -170,28 +169,33 @@ const RegisterScreen = () => {
             {!googleUserInfo && (
               <EmailInput style={style} valueChanged={setEmail} />
             )}
+            <View style={{ height: verticalMargin }} />
             <UsernameInput style={style} valueChanged={setUsername} />
+            <View style={{ height: verticalMargin }} />
             {Platform.OS != "web" ? (
-              <View style={{ flexDirection: "row" }}>
-                <View style={{ width: 1, flexGrow: 1 }}>
-                  <BirthdayDatePicker
-                    style={style}
-                    valueChanged={setDate}
-                    error={birthdateError}
-                  />
+              <>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ width: 1, flexGrow: 1 }}>
+                    <BirthdayDatePicker
+                      style={style}
+                      valueChanged={setDate}
+                      error={birthdateError}
+                    />
+                  </View>
+                  <View style={{ width: 10 }}></View>
+                  <View style={{ width: 1, flexGrow: 1 }}>
+                    <SexDropdown
+                      style={style}
+                      valueChanged={setIsMale}
+                      error={sexError}
+                    />
+                  </View>
                 </View>
-                <View style={{ width: 10 }}></View>
-                <View style={{ width: 1, flexGrow: 1 }}>
-                  <SexDropdown
-                    style={style}
-                    valueChanged={setIsMale}
-                    error={sexError}
-                  />
-                </View>
-              </View>
+              </>
             ) : (
               <>
                 <BirthdayWebInput style={style} valueChanged={setDate} />
+                <View style={{ height: verticalMargin }} />
                 <SexDropdown
                   style={style}
                   valueChanged={setIsMale}
@@ -199,14 +203,17 @@ const RegisterScreen = () => {
                 />
               </>
             )}
+            <View style={{ height: verticalMargin }} />
             {!googleUserInfo && (
               <>
                 <Password style={style} valueChanged={setPassword} />
+                <View style={{ height: verticalMargin }} />
                 <ConfirmPassword
                   style={style}
                   valueChanged={setConfirmPassword}
                   password={password}
                 />
+                <View style={{ height: verticalMargin }} />
               </>
             )}
           </ScrollView>
@@ -217,10 +224,10 @@ const RegisterScreen = () => {
           setError={setTermsCBError}
           error={termsCBError}
         />
+        <View style={{ height: verticalMargin }} />
 
         <CustomButton
           onPress={createAccountClicked}
-          className={`flex-1 rounded-full p-2 justify-center mt-5`}
           style={{
             backgroundColor: appStyle.color_primary,
           }}
@@ -269,7 +276,6 @@ const style = StyleSheet.create({
   inputError: {
     color: appStyle.color_error,
   },
-  inputContainer: { marginBottom: 10 },
   text: { color: appStyle.color_on_surface_variant },
   label: {
     position: "absolute",
