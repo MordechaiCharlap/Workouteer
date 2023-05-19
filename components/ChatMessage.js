@@ -41,16 +41,16 @@ const ChatMessage = (props) => {
         style={{
           maxWidth: "90%",
           backgroundColor: isSelfMessage
-            ? appStyle.color_primary
-            : appStyle.color_background_variant,
+            ? appStyle.color_on_surface_variant
+            : appStyle.color_surface,
         }}
       >
         <Text
           className="text-xl"
           style={{
             color: isSelfMessage
-              ? appStyle.color_on_primary
-              : appStyle.color_on_primary,
+              ? appStyle.color_surface
+              : appStyle.color_on_surface,
           }}
         >
           {props.message.content}
@@ -59,8 +59,8 @@ const ChatMessage = (props) => {
           <Text
             style={{
               color: isSelfMessage
-                ? appStyle.color_on_primary
-                : appStyle.color_on_primary,
+                ? appStyle.color_surface
+                : appStyle.color_on_surface,
             }}
           >
             {messageTimeString(
@@ -73,7 +73,7 @@ const ChatMessage = (props) => {
               <FontAwesomeIcon
                 icon={checksNum == 1 ? faCheck : faCheckDouble}
                 size={15}
-                color={appStyle.color_on_primary}
+                color={appStyle.color_surface}
               />
             </View>
           ) : (
