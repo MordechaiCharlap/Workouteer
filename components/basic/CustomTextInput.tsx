@@ -1,15 +1,46 @@
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  TextInputProps,
+  StyleProp,
+  ViewStyle,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-const CustomTextInput = ({ placeholder, style, onChangeText, password }) => {
+import CustomButton from "./CustomButton";
+interface CustomTextInputProps extends TextInputProps {
+  title: string;
+  style?: StyleProp<ViewStyle>;
+  password: boolean;
+}
+const CustomTextInput: React.FC<CustomTextInputProps> = ({
+  placeholder,
+  style,
+  onChangeText,
+  password,
+  ...restProps
+}) => {
   const [text, setText] = useState("");
   const [secureText, setSecureText] = useState(password && true);
   useEffect(() => {
-    onChangeText(text);
-  }, [text]);
-  return (
+    if (onChangeText) {
+      onChangeText(text);
+    }
+  }, [text, onChangeText]);
+  return !password ? (
+    <TextInput
+      style={[styleSheet.input, style]}
+      placeholder={placeholder}
+      placeholderTextColor={appStyle.color_outline}
+      onChangeText={(text) => setText(text)}
+      secureTextEntry={secureText}
+      {...restProps}
+    />
+  ) : (
     <View>
       <TextInput
         style={[styleSheet.input, style]}
@@ -17,6 +48,7 @@ const CustomTextInput = ({ placeholder, style, onChangeText, password }) => {
         placeholderTextColor={appStyle.color_outline}
         onChangeText={(text) => setText(text)}
         secureTextEntry={secureText}
+        {...restProps}
       />
       {password && text != "" && (
         <View
@@ -29,7 +61,7 @@ const CustomTextInput = ({ placeholder, style, onChangeText, password }) => {
             marginHorizontal: 8,
           }}
         >
-          <TouchableOpacity onPress={() => setSecureText(!secureText)}>
+          <CustomButton onPress={() => setSecureText(!secureText)}>
             {secureText ? (
               <FontAwesomeIcon
                 icon={faEye}
@@ -43,7 +75,7 @@ const CustomTextInput = ({ placeholder, style, onChangeText, password }) => {
                 size={25}
               />
             )}
-          </TouchableOpacity>
+          </CustomButton>
         </View>
       )}
     </View>
@@ -56,7 +88,6 @@ const styleSheet = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     paddingHorizontal: 10,
-    height: 40,
     borderBottomWidth: 1,
     borderBottomColor: appStyle.color_outline,
     color: appStyle.color_on_surface,

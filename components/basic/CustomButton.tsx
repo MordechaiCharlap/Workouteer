@@ -8,7 +8,6 @@ import React from "react";
 import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
 
 interface CustomButtonProps extends TouchableOpacityProps {
-  title: string;
   style?: StyleProp<ViewStyle>;
 }
 const CustomButton: React.FC<CustomButtonProps> = ({
