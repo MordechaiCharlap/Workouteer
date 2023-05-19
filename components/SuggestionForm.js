@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db as dbImport } from "../services/firebase";
+import CustomTextInput from "./basic/CustomTextInput";
+import CustomText from "./basic/CustomText";
+import CustomButton from "./basic/CustomButton";
 const SuggestionForm = (props) => {
   const db = dbImport;
   const id = props.id;
@@ -50,65 +53,67 @@ const SuggestionForm = (props) => {
       style={{ backgroundColor: `rgba(0, 0, 0, 0.6)` }}
     >
       <View
-        className="rounded px-3 py-2 gap-y-3"
+        className="px-3 py-2"
         style={{
-          backgroundColor: appStyle.color_background,
-          borderColor: appStyle.color_primary,
+          borderRadius: 8,
+          borderColor: appStyle.color_on_background,
           borderWidth: 1,
+          backgroundColor: appStyle.color_primary_container,
         }}
       >
-        <View className="items-center">
-          <Text style={style.title}>
-            {languageService[props.language].helpUsMakeAppBetter}
-          </Text>
-        </View>
+        <CustomText style={style.title}>
+          {languageService[props.language].helpUsMakeAppBetter}
+        </CustomText>
         <View class="titleStuff">
           <View
-            className={`gap-x-2 items-center flex-row${
+            className={`items-center flex-row${
               props.language == "hebrew" ? "-reverse" : ""
             }`}
           >
-            <Text style={style.text}>
+            <CustomText style={style.text}>
               {languageService[props.language].title + ":"}
-            </Text>
-            <TextInput
-              style={style.titleInput}
+            </CustomText>
+            <View style={{ width: 10 }} />
+            <CustomTextInput
+              style={{ flex: 1 }}
               maxLength={20}
               onChangeText={(text) => setTitle(text)}
               spellCheck={false}
               autoCorrect={false}
             />
           </View>
-          <Text style={style.textInstruction}>
+          <CustomText style={style.textInstruction}>
             {isTitleValid
               ? ""
               : languageService[props.language].titleInstruction}
-          </Text>
+          </CustomText>
         </View>
-        <View class="contentStuff">
-          <View className="gap-y-2">
-            <Text style={style.text}>
+        <View style={{ height: 10 }} />
+        <View>
+          <View>
+            <CustomText>
               {languageService[props.language].details + ":"}
-            </Text>
-            <TextInput
+            </CustomText>
+            <CustomTextInput
+              style={{
+                padding: 7,
+                textAlignVertical: "top",
+              }}
               spellCheck={false}
               autoCorrect={false}
               multiline
               numberOfLines={15}
-              className=""
-              style={style.contentInput}
               maxLength={200}
               onChangeText={(text) => setContent(text)}
             />
           </View>
-          <Text style={style.textInstruction}>
+          <CustomText style={style.textInstruction}>
             {isContentValid
               ? ""
               : languageService[props.language].contentInstruction}
-          </Text>
+          </CustomText>
         </View>
-
-        <TouchableOpacity
+        <CustomButton
           style={
             !isContentValid || !isTitleValid
               ? style.submitButtonDisabled
@@ -118,23 +123,28 @@ const SuggestionForm = (props) => {
           disabled={!isContentValid || !isTitleValid || isSubmitting != null}
           onPress={submitSuggestion}
         >
-          <Text
+          <CustomText
             className="tracking-widest font-semibold text-xl"
-            style={style.submitButtonText}
+            style={{
+              color:
+                !isContentValid || !isTitleValid
+                  ? appStyle.color_on_surface_variant
+                  : appStyle.color_primary,
+            }}
           >
             {isSubmitting == null
               ? languageService[props.language].submit
               : isSubmitting == true
               ? languageService[props.language].submitting
               : languageService[props.language].submittedSuccesfully}
-          </Text>
-        </TouchableOpacity>
+          </CustomText>
+        </CustomButton>
       </View>
     </View>
   );
 };
 const style = StyleSheet.create({
-  text: { color: appStyle.color_primary },
+  text: { color: appStyle.color_on_background },
   textInstruction: {
     color: "red",
   },
@@ -145,13 +155,10 @@ const style = StyleSheet.create({
     borderRadius: 2,
   },
   submitButtonDisabled: {
-    backgroundColor: appStyle.color_background_variant,
+    backgroundColor: appStyle.color_surface_variant,
     paddingVertical: 4,
     paddingHorizontal: 15,
     borderRadius: 2,
-  },
-  submitButtonText: {
-    color: appStyle.color_on_primary,
   },
   titleInput: {
     backgroundColor: appStyle.color_on_primary,
@@ -168,10 +175,11 @@ const style = StyleSheet.create({
     textAlignVertical: "top",
   },
   title: {
+    textAlign: "center",
     borderRadius: 5,
     padding: 10,
     fontSize: 24,
-    color: appStyle.color_primary,
+    color: appStyle.color_on_background,
   },
 });
 export default SuggestionForm;
