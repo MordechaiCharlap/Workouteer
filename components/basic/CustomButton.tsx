@@ -3,24 +3,29 @@ import {
   TouchableOpacityProps,
   StyleProp,
   ViewStyle,
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
 
 interface CustomButtonProps extends TouchableOpacityProps {
   style?: StyleProp<ViewStyle>;
+  round?: true;
 }
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   style,
-  onPress,
-  disabled,
+  round,
+  ...restProps
 }) => {
+  const anotherStyleProp = round
+    ? { borderRadius: 999, paddingHorizontal: 12 }
+    : {};
+  const merged = StyleSheet.compose(style, anotherStyleProp);
   return (
     <TouchableOpacity
-      disabled={disabled}
-      onPress={onPress}
-      style={[appComponentsDefaultStyles.button, style]}
+      style={[appComponentsDefaultStyles.button, merged]}
+      {...restProps}
     >
       {children}
     </TouchableOpacity>

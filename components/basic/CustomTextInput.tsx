@@ -13,15 +13,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import CustomButton from "./CustomButton";
 interface CustomTextInputProps extends TextInputProps {
-  title: string;
   style?: StyleProp<ViewStyle>;
   password: boolean;
 }
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
+  password,
   placeholder,
   style,
   onChangeText,
-  password,
   ...restProps
 }) => {
   const [text, setText] = useState("");
