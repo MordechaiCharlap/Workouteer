@@ -11,7 +11,6 @@ import FriendsScreen from "./screens/FriendsScreen";
 import ChatsScreen from "./screens/ChatsScreen";
 import ChangePreferencesScreen from "./screens/ChangePreferencesScreen";
 import SearchUsersScreen from "./screens/SearchUsersScreen";
-import UserScreen from "./screens/UserScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
 import EditDataScreen from "./screens/EditDataScreen";
 import SettingsScreen from "./screens/SettingsScreen";
