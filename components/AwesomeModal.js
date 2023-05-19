@@ -21,8 +21,12 @@ const AwesomeModal = (props) => {
       contentContainerStyle={{
         backgroundColor: appStyle.color_background,
       }}
-      confirmButtonStyle={{ backgroundColor: appStyle.color_primary }}
-      cancelButtonTextStyle={{ color: appStyle.color_primary }}
+      confirmButtonStyle={{ borderRadius: 999, paddingHorizontal: 16 }}
+      cancelButtonStyle={{ borderRadius: 999, paddingHorizontal: 16 }}
+      confirmButtonTextStyle={{ color: appStyle.color_on_primary }}
+      cancelButtonTextStyle={{ color: appStyle.color_background }}
+      confirmButtonColor={appStyle.color_primary}
+      cancelButtonColor={appStyle.color_on_background}
       titleStyle={{ color: appStyle.color_primary, textAlign: "center" }}
       messageStyle={{ color: appStyle.color_primary }}
       show={props.showModal}
@@ -54,7 +58,6 @@ const AwesomeModal = (props) => {
           ? props.confirmText
           : languageService[user.language].continue[user.isMale ? 1 : 0]
       }
-      confirmButtonColor="#DD6B55"
       showCancelButton={
         props.showCancelButton != null ? props.showCancelButton : true
       }
