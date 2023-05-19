@@ -26,6 +26,7 @@ import * as defaultValues from "../services/defaultValues";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
+import CustomButton from "../components/basic/CustomButton";
 
 const EditDataScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -122,17 +123,22 @@ const EditProfileData = (props) => {
   };
   const SaveButton = () => {
     return (
-      <TouchableOpacity
+      <CustomButton
         onPress={saveButtonClicked}
-        className="self-center py-1 px-5 w-9/12 rounded"
         style={{
-          backgroundColor:
-            updated == false ? appStyle.color_primary : appStyle.color_primary,
+          borderRadius: 999,
+          backgroundColor: !changesMade
+            ? appStyle.color_surface_variant
+            : appStyle.color_on_background,
         }}
       >
         <Text
           className="text-2xl text-center"
-          style={{ color: appStyle.color_on_primary }}
+          style={{
+            color: !changesMade
+              ? appStyle.color_on_surface_variant
+              : appStyle.color_background,
+          }}
         >
           {updated == true && languageService[user.language].changesSaved}
           {updated == false &&
@@ -147,7 +153,7 @@ const EditProfileData = (props) => {
             isLoading == true &&
             languageService[user.language].loading}
         </Text>
-      </TouchableOpacity>
+      </CustomButton>
     );
   };
   return (
@@ -159,13 +165,13 @@ const EditProfileData = (props) => {
               className="h-32 w-32 rounded-full mb-2 items-center justify-center"
               style={{
                 borderWidth: 1,
-                borderColor: appStyle.color_primary,
+                borderColor: appStyle.color_outline,
                 backgroundColor: appStyle.color_background,
               }}
             >
               <Text
                 className="text-xl font-bold"
-                style={{ color: appStyle.color_primary }}
+                style={{ color: appStyle.color_on_background }}
               >
                 {languageService[user.language].loading}
               </Text>
@@ -176,14 +182,14 @@ const EditProfileData = (props) => {
                 uri: image,
               }}
               className="h-32 w-32 bg-white rounded-full mb-2"
-              style={{ borderWidth: 1, borderColor: appStyle.color_primary }}
+              style={{ borderWidth: 1, borderColor: appStyle.color_outline }}
             />
           )}
           <TouchableOpacity
             onPress={onImageLibraryPress}
             className="absolute right-0 bottom-0 rounded-full p-2"
             style={{
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: appStyle.color_on_background,
               borderColor: appStyle.color_background,
               borderWidth: 3,
             }}
@@ -191,7 +197,7 @@ const EditProfileData = (props) => {
             <FontAwesomeIcon
               icon={faPen}
               size={20}
-              color={appStyle.color_on_primary}
+              color={appStyle.color_background}
             />
           </TouchableOpacity>
         </View>
@@ -206,7 +212,10 @@ const EditProfileData = (props) => {
               user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
             }`}
           >
-            <Text className="text-lg" style={{ color: appStyle.color_primary }}>
+            <Text
+              className="text-lg"
+              style={{ color: appStyle.color_on_background }}
+            >
               {languageService[user.language].displayName}:
             </Text>
             <TextInput
@@ -220,24 +229,27 @@ const EditProfileData = (props) => {
             />
           </View>
           <View className="mb-5">
-            <Text className="text-lg" style={{ color: appStyle.color_primary }}>
+            <Text
+              className="text-lg"
+              style={{ color: appStyle.color_on_background }}
+            >
               {languageService[user.language].description}:
             </Text>
             <TextInput
               style={{
                 textAlignVertical: "top",
-                color: appStyle.color_on_primary,
-                backgroundColor: appStyle.color_background_variant,
+                color: appStyle.color_on_surface,
+                backgroundColor: appStyle.color_surface,
                 borderRadius: 4,
                 padding: 8,
                 borderWidth: 1,
-                borderColor: appStyle.color_primary,
+                borderColor: appStyle.color_outline,
               }}
               multiline
               spellCheck={false}
               autoCorrect={false}
               placeholder={languageService[user.language].optionalText}
-              placeholderTextColor={appStyle.color_primary}
+              placeholderTextColor={appStyle.color_on_surface_variant}
               numberOfLines={12}
               maxLength={350}
               onChangeText={(text) => setDescription(text)}
@@ -429,17 +441,17 @@ const EditProfileData = (props) => {
 // };
 const style = StyleSheet.create({
   input: {
-    backgroundColor: appStyle.color_background_variant,
+    color: appStyle.color_on_surface,
+    backgroundColor: appStyle.color_surface,
     borderWidth: 1,
-    borderColor: appStyle.color_primary,
-    color: appStyle.color_on_primary,
+    borderColor: appStyle.color_outline,
   },
   currentTab: {
-    color: appStyle.color_primary,
+    color: appStyle.color_on_background,
     textDecorationLine: "underline",
   },
   otherTab: {
     color: appStyle.color_on_primary,
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_on_background,
   },
 });
