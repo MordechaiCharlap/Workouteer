@@ -30,6 +30,7 @@ import { useState } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
+import AwesomeModal from "../components/AwesomeModal";
 
 const ConfirmWorkoutScreen = () => {
   const navigation = useNavigation();
@@ -232,7 +233,6 @@ const ConfirmWorkoutScreen = () => {
       return null; // Return a default value or handle the error as appropriate for your use case
     }
   };
-
   return confirmed == true || workout == null ? (
     <View style={safeAreaStyle()} className="justify-center">
       <View className="items-center gap-y-7">
@@ -246,7 +246,11 @@ const ConfirmWorkoutScreen = () => {
           {confirmationPoints} {languageService[user.language].pointsAdded}
         </Text>
         <CustomButton
-          style={{ borderColor: appStyle.color_primary, borderWidth: 1 }}
+          style={{
+            backgroundColor: appStyle.color_on_background,
+            borderRadius: 999,
+            paddingHorizontal: 16,
+          }}
           onPress={() => {
             navigation.goBack();
             setCurrentWorkout(null);
@@ -255,7 +259,7 @@ const ConfirmWorkoutScreen = () => {
           <CustomText
             className="font-semibold text-lg text-center"
             style={{
-              color: appStyle.color_primary,
+              color: appStyle.color_background,
             }}
           >
             {languageService[user.language].exit}
@@ -271,9 +275,7 @@ const ConfirmWorkoutScreen = () => {
       <CustomText
         className="rounded py-2 px-4 font-semibold text-xl"
         style={{
-          borderColor: appStyle.color_primary,
-          borderWidth: 0.3,
-          color: appStyle.color_primary,
+          color: appStyle.color_on_background,
         }}
       >
         {languageService[user.language].getInsideTheCircle[user.isMale ? 1 : 0]}
@@ -281,7 +283,7 @@ const ConfirmWorkoutScreen = () => {
       <View
         className="items-center justify-center p-2 rounded-lg w-full aspect-square"
         style={{
-          backgroundColor: appStyle.color_primary,
+          backgroundColor: appStyle.color_outline,
         }}
       >
         <MapView
@@ -309,9 +311,9 @@ const ConfirmWorkoutScreen = () => {
 
       <CustomButton
         style={{
-          backgroundColor: appStyle.color_primary,
-          borderWidth: 1,
-          borderColor: appStyle.color_primary,
+          backgroundColor: appStyle.color_on_background,
+          borderRadius: 999,
+          paddingHorizontal: 16,
         }}
         onPress={async () =>
           checkingDistance ? {} : await checkConfirmation()
@@ -320,7 +322,7 @@ const ConfirmWorkoutScreen = () => {
         <CustomText
           className="font-semibold text-lg"
           style={{
-            color: appStyle.color_primary,
+            color: appStyle.color_background,
           }}
         >
           {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
@@ -341,8 +343,8 @@ const ConfirmWorkoutScreen = () => {
       ) : (
         <></>
       )}
-      <AwesomeAlert
-        show={showAlert}
+      <AwesomeModal
+        showModal={showAlert}
         showProgress={!exitableAlert}
         title={alertTitle}
         message={alertMessage}
@@ -350,11 +352,8 @@ const ConfirmWorkoutScreen = () => {
         closeOnHardwareBackPress={true}
         onDismiss={() => setShowAlert(false)}
         showConfirmButton={exitableAlert}
+        showCancelButton={false}
         confirmText={languageService[user.language].gotIt}
-        confirmButtonColor="#DD6B55"
-        onCancelPressed={() => {
-          setShowAlert(false);
-        }}
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
