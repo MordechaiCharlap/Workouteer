@@ -22,6 +22,8 @@ import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { UserDeleted } from "../components/settingsScreen/UserDeleted";
 import SuggestionForm from "../components/SuggestionForm";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 const SettingsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
@@ -79,23 +81,25 @@ const SettingsScreen = ({ route }) => {
               title={languageService[lastLanguage].settings}
               goBackOption={true}
             />
-            <Text
+            <CustomText
               className="text-center"
-              style={{ color: appStyle.color_primary }}
+              style={{ color: appStyle.color_on_background }}
             >
               {languageService[lastLanguage].privacy}
-            </Text>
+            </CustomText>
             <View
               className={`justify-between items-center h-10 ${
                 lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
-              style={{ color: appStyle.color_primary }}
             >
-              <Text style={{ color: appStyle.color_primary }}>
+              <CustomText style={{ color: appStyle.color_on_background }}>
                 {languageService[lastLanguage].publicAccount}:
-              </Text>
+              </CustomText>
               <Switch
-                trackColor={{ false: "#767577", true: appStyle.color_primary }}
+                trackColor={{
+                  false: appStyle.color_surface_variant,
+                  true: appStyle.color_primary,
+                }}
                 thumbColor={"#f4f3f4"}
                 value={isPublic}
                 onValueChange={() => setIsPublic((prev) => !prev)}
@@ -105,13 +109,15 @@ const SettingsScreen = ({ route }) => {
               className={`justify-between items-center h-10 ${
                 lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
-              style={{ color: appStyle.color_primary }}
             >
-              <Text style={{ color: appStyle.color_primary }}>
+              <CustomText style={{ color: appStyle.color_on_background }}>
                 {languageService[lastLanguage].showOnlineStatus}:
-              </Text>
+              </CustomText>
               <Switch
-                trackColor={{ false: "#767577", true: appStyle.color_primary }}
+                trackColor={{
+                  false: appStyle.color_surface_variant,
+                  true: appStyle.color_primary,
+                }}
                 thumbColor={"#f4f3f4"}
                 value={showOnline}
                 onValueChange={() => setShowOnline((prev) => !prev)}
@@ -121,127 +127,155 @@ const SettingsScreen = ({ route }) => {
               className={`justify-between items-center h-10 ${
                 lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
               }`}
-              style={{ color: appStyle.color_primary }}
             >
-              <Text style={{ color: appStyle.color_primary }}>
+              <CustomText style={{ color: appStyle.color_on_background }}>
                 {languageService[lastLanguage].chooseLanguage}:
-              </Text>
+              </CustomText>
               <View className="flex-row gap-x-2">
-                <TouchableOpacity
+                <CustomButton
                   disabled={language == "hebrew"}
                   onPress={() => setLanguage("hebrew")}
                   style={{
                     backgroundColor:
                       language == "hebrew"
-                        ? appStyle.color_lighter
-                        : appStyle.color_primary,
+                        ? appStyle.color_surface_variant
+                        : appStyle.color_on_background,
                   }}
-                  className="py-1 px-2"
                 >
-                  <Text
+                  <CustomText
                     style={{
                       color:
                         language == "hebrew"
-                          ? "gray"
+                          ? appStyle.color_on_surface_variant
                           : appStyle.color_on_primary,
                     }}
                   >
                     עברית
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                  </CustomText>
+                </CustomButton>
+                <CustomButton
                   disabled={language == "english"}
                   onPress={() => setLanguage("english")}
                   style={{
                     backgroundColor:
                       language == "english"
-                        ? appStyle.color_lighter
-                        : appStyle.color_primary,
+                        ? appStyle.color_surface_variant
+                        : appStyle.color_on_background,
                   }}
-                  className="py-1 px-2"
                 >
-                  <Text
+                  <CustomText
                     style={{
                       color:
                         language == "english"
-                          ? "gray"
+                          ? appStyle.color_on_surface_variant
                           : appStyle.color_on_primary,
                     }}
                   >
                     English
-                  </Text>
-                </TouchableOpacity>
+                  </CustomText>
+                </CustomButton>
               </View>
             </View>
             <View className="flex-row items-center justify-between mt-5">
-              <TouchableOpacity
+              <CustomButton
                 className="w-5/12"
                 onPress={() => setShowDeleteUserModal(!showDeleteUserModal)}
+                style={{
+                  backgroundColor: appStyle.color_surface_variant,
+                }}
               >
-                <Text
-                  className="text-center py-1 px-1"
+                <CustomText
+                  className="py-1 px-1"
                   style={{
-                    backgroundColor: appStyle.color_primary,
-                    color: appStyle.color_on_primary,
+                    color: appStyle.color_on_surface_variant,
                   }}
                 >
                   {languageService[lastLanguage].deleteUser}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={signOut} className="w-5/12">
-                <Text
-                  className="text-center py-1 px-1"
+                </CustomText>
+              </CustomButton>
+              <CustomButton
+                onPress={signOut}
+                className="w-5/12"
+                style={{
+                  backgroundColor: appStyle.color_surface_variant,
+                }}
+              >
+                <CustomText
+                  className="py-1 px-1"
                   style={{
-                    backgroundColor: appStyle.color_primary,
-                    color: appStyle.color_on_primary,
+                    color: appStyle.color_on_surface_variant,
                   }}
                 >
                   {languageService[lastLanguage].logOut}
-                </Text>
-              </TouchableOpacity>
+                </CustomText>
+              </CustomButton>
             </View>
-
-            <View className="absolute bottom-8 right-0 left-0 items-center">
-              <TouchableOpacity
+            <View style={{ flex: 1 }}></View>
+            <View
+              style={{
+                borderRadius: 8,
+                backgroundColor: appStyle.color_surface_variant,
+              }}
+            >
+              <CustomButton
                 onPress={() => setShowSuggestionForm(true)}
-                style={{
-                  backgroundColor: appStyle.color_primary,
-                }}
                 className="items-center rounded-xl p-3"
               >
-                <FontAwesomeIcon
-                  color={appStyle.color_on_primary}
-                  icon={faBug}
-                  size={30}
-                />
-              </TouchableOpacity>
-              <Text
+                <View
+                  style={{
+                    backgroundColor: appStyle.color_on_background,
+                    borderRadius: 16,
+                    padding: 7,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    color={appStyle.color_on_primary}
+                    icon={faBug}
+                    size={30}
+                  />
+                </View>
+              </CustomButton>
+              <CustomText
                 className="text-lg text-center font-semibold"
                 style={{
-                  color: appStyle.color_primary,
+                  color: appStyle.color_on_surface_variant,
                 }}
               >
                 {languageService[lastLanguage].reportABug}
-              </Text>
+              </CustomText>
             </View>
           </View>
           <View
-            style={{ backgroundColor: appStyle.color_primary }}
+            style={{
+              backgroundColor: appStyle.color_surface_variant,
+              borderTopWidth: 0.5,
+              borderTopColor: appStyle.color_outline,
+            }}
             className="h-16 p-2 justify-center items-center"
           >
-            <TouchableOpacity
+            <CustomButton
+              disabled={!changesMade}
               onPress={applyChanges}
-              className="bg-gray-100 p-1 rounded"
+              className="p-1 rounded"
+              style={
+                changesMade && {
+                  backgroundColor: appStyle.color_primary,
+                }
+              }
             >
               <Text
                 className="text-xl text-center"
-                style={{ color: appStyle.color_primary }}
+                style={{
+                  color: changesMade
+                    ? appStyle.color_on_primary
+                    : appStyle.color_on_background,
+                }}
               >
                 {changesMade == false
                   ? languageService[lastLanguage].noChangesWereMade
                   : languageService[lastLanguage].applyChanges}
               </Text>
-            </TouchableOpacity>
+            </CustomButton>
           </View>
         </>
       )}
