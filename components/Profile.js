@@ -122,99 +122,84 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
     if (!isMyUser) countFutureWorkouts();
   }, []);
   const renderFriendshipButton = () => {
-    if (friendshipStatus == "None")
+    if (friendshipStatus != "ReceivedRequest") {
+      var onPressFunc;
+      var buttonText;
+      var icon;
+      switch (friendshipStatus) {
+        case "None":
+          onPressFunc = sendFriendRequest;
+          buttonText = languageService[user.language].friendRequest;
+          icon = faUserPlus;
+          break;
+        case "Friends":
+          onPressFunc = removeFriend;
+          buttonText =
+            languageService[user.language].removeFriend[user.isMale ? 1 : 0];
+          icon = faUserXmark;
+          break;
+        case "SentRequest":
+          onPressFunc = cancelFriendRequest;
+          buttonText =
+            languageService[user.language].cancelRequest[user.isMale ? 1 : 0];
+          icon = faUserMinus;
+          break;
+        default:
+          break;
+      }
       return (
-        <TouchableOpacity
-          className="flex-row items-center justify-center"
-          onPress={sendFriendRequest}
+        <CustomButton
+          className="flex-row"
+          round
+          onPress={onPressFunc}
           style={style.socialButton}
         >
-          <Text
+          <CustomText
             className="text-center text-xl mr-2"
-            style={{ color: appStyle.color_on_primary }}
+            style={{ color: appStyle.color_on_surface_variant }}
           >
-            {languageService[user.language].friendRequest}
+            {buttonText}
+          </CustomText>
+          <FontAwesomeIcon
+            icon={icon}
+            size={20}
+            color={appStyle.color_primary}
+          />
+        </CustomButton>
+      );
+    }
+    return (
+      <View className="flex-row items-center justify-center">
+        <TouchableOpacity
+          className="rounded-l-lg flex-row items-center justify-center"
+          onPress={acceptFriendRequest}
+          style={style.leftSocialButton}
+        >
+          <Text className="text-xl mr-2" style={style.leftText}>
+            {languageService[user.language].accept}
           </Text>
           <FontAwesomeIcon
-            icon={faUserPlus}
+            icon={faExcelamtion}
             size={20}
             color={appStyle.color_on_primary}
           />
         </TouchableOpacity>
-      );
-    else if (friendshipStatus == "Friends")
-      return (
         <TouchableOpacity
-          className="flex-row items-center justify-center"
-          onPress={removeFriend}
-          style={style.socialButton}
+          className="rounded-r-lg flex-row items-center justify-center"
+          onPress={rejectFriendRequest}
+          style={style.rightSocialButton}
         >
-          <Text
-            className="text-center text-xl mr-2"
-            style={{ color: appStyle.color_on_primary }}
-          >
-            {languageService[user.language].removeFriend[user.isMale ? 1 : 0]}
+          <Text className="text-xl mr-2" style={style.rightText}>
+            {languageService[user.language].reject}
           </Text>
           <FontAwesomeIcon
-            icon={faUserXmark}
+            icon={faX}
             size={20}
-            color={appStyle.color_on_primary}
+            color={appStyle.color_primary}
           />
         </TouchableOpacity>
-      );
-    else if (friendshipStatus == "SentRequest")
-      return (
-        <TouchableOpacity
-          className="flex-row items-center justify-center"
-          onPress={cancelFriendRequest}
-          style={style.socialButton}
-        >
-          <Text
-            className="text-center text-xl mr-2"
-            style={{ color: appStyle.color_on_primary }}
-          >
-            {languageService[user.language].cancelRequest[user.isMale ? 1 : 0]}
-          </Text>
-          <FontAwesomeIcon
-            icon={faUserMinus}
-            size={20}
-            color={appStyle.color_on_primary}
-          />
-        </TouchableOpacity>
-      );
-    else if (friendshipStatus == "ReceivedRequest")
-      return (
-        <View className="flex-row items-center justify-center">
-          <TouchableOpacity
-            className="rounded-l-lg flex-row items-center justify-center"
-            onPress={acceptFriendRequest}
-            style={style.leftSocialButton}
-          >
-            <Text className="text-xl mr-2" style={style.leftText}>
-              {languageService[user.language].accept}
-            </Text>
-            <FontAwesomeIcon
-              icon={faExcelamtion}
-              size={20}
-              color={appStyle.color_on_primary}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            className="rounded-r-lg flex-row items-center justify-center"
-            onPress={rejectFriendRequest}
-            style={style.rightSocialButton}
-          >
-            <Text className="text-xl mr-2" style={style.rightText}>
-              {languageService[user.language].reject}
-            </Text>
-            <FontAwesomeIcon
-              icon={faX}
-              size={20}
-              color={appStyle.color_primary}
-            />
-          </TouchableOpacity>
-        </View>
-      );
+      </View>
+    );
   };
   return user.userIsDeleted ? (
     <View
@@ -229,125 +214,109 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       </Text>
     </View>
   ) : (
-    <View className="flex-1 mt-3">
+    <View className="flex-1 mt-3" style={{ paddingHorizontal: 16 }}>
       <ScrollView
         showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
       >
-        <View
-          style={{
-            rowGap: 16,
-          }}
-        >
+        <View>
           <View
             style={{
-              paddingHorizontal: 16,
+              borderRadius: 20,
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
+            <View>
+              <Image
+                source={{
+                  uri: shownUser.img,
+                }}
+                className=" bg-white rounded-full"
+                style={{
+                  height: 120,
+                  aspectRatio: 1 / 1,
+                  borderWidth: 1,
+                  borderColor: appStyle.color_outline,
+                }}
+              />
+            </View>
             <View
               style={{
-                borderRadius: 20,
-                flexDirection: "row",
-                justifyContent: "space-between",
+                alignItems: "flex-end",
               }}
             >
-              <View>
-                <Image
-                  source={{
-                    uri: shownUser.img,
-                  }}
-                  className=" bg-white rounded-full"
-                  style={{
-                    height: 120,
-                    aspectRatio: 1 / 1,
-                    borderWidth: 1,
-                    borderColor: appStyle.color_outline,
-                  }}
+              <View className="flex-row items-center">
+                {futureWorkoutsCount > 0 && (
+                  <UserDetailsButton
+                    buttonStyle={plannedButtonStyle}
+                    color={plannedButtonStyle.color}
+                    iconColor={plannedButtonStyle.color}
+                    onPress={() => navigation.navigate("FutureWorkouts")}
+                    text={futureWorkoutsCount}
+                    icon={faClock}
+                    smallIcon={faExclamationCircle}
+                    specialButton={true}
+                  />
+                )}
+
+                <View style={{ width: 20 }}></View>
+                <UserDetailsButton
+                  buttonStyle={buttonStyle}
+                  color={buttonStyle.color}
+                  iconColor={buttonStyle.color}
+                  onPress={() => navigation.navigate("PastWorkouts")}
+                  text={shownUser.workoutsCount}
+                  icon={faDumbbell}
+                  smallIcon={faCircleCheck}
                 />
               </View>
-              <View
-                style={{
-                  alignItems: "flex-end",
-                }}
+              <View style={{ height: 20 }}></View>
+              <CustomButton
+                round
+                style={buttonStyle}
+                onPress={() =>
+                  navigation.navigate("Friends", {
+                    user: shownUser,
+                    isMyUser: isMyUser,
+                  })
+                }
               >
-                <View className="flex-row items-center">
-                  {futureWorkoutsCount > 0 && (
-                    <UserDetailsButton
-                      buttonStyle={plannedButtonStyle}
-                      color={plannedButtonStyle.color}
-                      iconColor={plannedButtonStyle.color}
-                      onPress={() => navigation.navigate("FutureWorkouts")}
-                      text={futureWorkoutsCount}
-                      icon={faClock}
-                      smallIcon={faExclamationCircle}
-                      specialButton={true}
+                <CustomText style={{ fontSize: 25, color: buttonStyle.color }}>
+                  {shownUser.friendsCount}
+                </CustomText>
+                <View style={{ width: 10 }}></View>
+                <FontAwesomeIcon
+                  icon={faUserGroup}
+                  size={30}
+                  color={buttonStyle.color}
+                />
+                {isMyUser && shownUser.friendRequestsCount > 0 ? (
+                  <View className="absolute right-0 bottom-0">
+                    <AlertDot
+                      text={user.friendRequestsCount}
+                      color={buttonStyle.backgroundColor}
+                      borderColor={appStyle.color_surface}
+                      textColor={buttonStyle.color}
+                      borderWidth={1}
+                      fontSize={13}
+                      size={23}
                     />
-                  )}
-
-                  <View style={{ width: 20 }}></View>
-                  <UserDetailsButton
-                    buttonStyle={buttonStyle}
-                    color={buttonStyle.color}
-                    iconColor={buttonStyle.color}
-                    onPress={() => navigation.navigate("PastWorkouts")}
-                    text={shownUser.workoutsCount}
-                    icon={faDumbbell}
-                    smallIcon={faCircleCheck}
-                  />
-                </View>
-                <View style={{ height: 20 }}></View>
-                <CustomButton
-                  round
-                  style={buttonStyle}
-                  onPress={() =>
-                    navigation.navigate("Friends", {
-                      user: shownUser,
-                      isMyUser: isMyUser,
-                    })
-                  }
-                >
-                  <CustomText
-                    style={{ fontSize: 25, color: buttonStyle.color }}
-                  >
-                    {shownUser.friendsCount}
-                  </CustomText>
-                  <View style={{ width: 10 }}></View>
-                  <FontAwesomeIcon
-                    icon={faUserGroup}
-                    size={30}
-                    color={buttonStyle.color}
-                  />
-                  {isMyUser && shownUser.friendRequestsCount > 0 ? (
-                    <View className="absolute right-0 bottom-0">
-                      <AlertDot
-                        text={user.friendRequestsCount}
-                        color={buttonStyle.backgroundColor}
-                        borderColor={appStyle.color_surface}
-                        textColor={buttonStyle.color}
-                        borderWidth={1}
-                        fontSize={13}
-                        size={23}
-                      />
-                    </View>
-                  ) : (
-                    <></>
-                  )}
-                </CustomButton>
-              </View>
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </CustomButton>
             </View>
           </View>
           <View
             style={{
-              backgroundColor: appStyle.color_surface,
               rowGap: 16,
-              paddingHorizontal: 16,
-              borderTopColor: appStyle.color_outline,
-              borderTopWidth: 0.8,
             }}
           >
-            <View>
+            <View style={{ marginTop: 10 }}>
               <CustomText
                 style={{
-                  fontSize: 16,
+                  fontSize: 12,
                   color: appStyle.color_on_surface,
                 }}
               >
@@ -356,7 +325,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
               <NameAndAge
                 name={shownUser.displayName}
                 age={calculateAge()}
-                color={appStyle.color_on_surface}
+                color={appStyle.color_on_background}
               />
             </View>
             <View>
@@ -385,27 +354,28 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       {!isMyUser && (
         <View
           style={{ backgroundColor: appStyle.color_background_variant }}
-          className="flex-row justify-center px-4 py-2"
+          className="flex-row justify-center py-2"
         >
           <View className="mr-4">{renderFriendshipButton()}</View>
           {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
-            <TouchableOpacity
-              className="flex-row items-center justify-center"
+            <CustomButton
+              className="flex-row"
+              round
               onPress={() => openPrivateChat()}
               style={style.socialButton}
             >
               <Text
                 className="text-center text-xl mr-2"
-                style={{ color: appStyle.color_on_primary }}
+                style={{ color: appStyle.color_on_surface_variant }}
               >
                 {languageService[user.language].message[user.isMale ? 1 : 0]}
               </Text>
               <FontAwesomeIcon
                 icon={faPaperPlane}
                 size={20}
-                color={appStyle.color_on_primary}
+                color={appStyle.color_primary}
               />
-            </TouchableOpacity>
+            </CustomButton>
           )}
         </View>
       )}
@@ -431,13 +401,9 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   );
 };
 const style = StyleSheet.create({
-  text: {
-    fontSize: 20,
-    color: appStyle.color_primary,
-  },
   socialButton: {
     flexGrow: 1,
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_surface_variant,
     padding: 8,
     borderRadius: 5,
   },
