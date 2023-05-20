@@ -95,14 +95,13 @@ const FutureWorkoutsScreen = ({ route }) => {
                   screen={"FutureWorkouts"}
                 />
                 {isMyUser && newWorkouts[item.id] != null ? (
-                  <View className="absolute left-1 top-8">
+                  <View className="absolute right-1 bottom-1">
                     <AlertDot
-                      text={languageService[user.language].new}
-                      textColor={appStyle.color_on_primary}
-                      borderWidth={1}
-                      borderColor={appStyle.color_outline}
+                      textColor={appStyle.color_on_primary_container}
+                      borderWidth={4}
+                      borderColor={appStyle.color_surface_variant}
                       fontSize={15}
-                      size={45}
+                      size={30}
                       color={appStyle.color_primary}
                     />
                   </View>
