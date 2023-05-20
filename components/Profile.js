@@ -216,8 +216,50 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   ) : (
     <View className="flex-1 mt-3" style={{ paddingHorizontal: 16 }}>
       <ScrollView
+        className="flex-1"
         showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
       >
+        {isMyUser ? (
+          <View className="flex-row items-center justify-between mb-5">
+            <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
+              <FontAwesomeIcon
+                icon={faUserPen}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Settings", { language: user.language })
+              }
+            >
+              <FontAwesomeIcon
+                icon={faGear}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View className="flex-row justify-between items-center mb-5">
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowReportModal(true)}>
+              <FontAwesomeIcon
+                icon={faShield}
+                size={30}
+                color={appStyle.color_on_background}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View>
           <View
             style={{
@@ -382,7 +424,9 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       <AwesomeModal
         closeOnTouchOutside={false}
         showModal={showReportModal}
-        setShowModal={setShowReportModal}
+        onDismiss={() => setShowReportModal(false)}
+        showCancelButton={true}
+        onCancelPressed={() => setShowReportModal(false)}
         title={
           languageService[user.language].doYouWantToReportThisUser[
             user.isMale ? 1 : 0
@@ -391,7 +435,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
         message={
           languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
         }
-        onConfirm={() =>
+        onConfirmPressed={() =>
           navigation.navigate("ReportUser", {
             reported: shownUser,
           })
