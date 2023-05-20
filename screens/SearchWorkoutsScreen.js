@@ -307,16 +307,16 @@ const SearchWorkoutsScreen = () => {
         <CustomButton
           disabled={isSearchDisabled}
           onPress={handleSearch}
+          round
           style={{
             padding: 16,
-            borderRadius: 999,
-            margin: 10,
-            backgroundColor: appStyle.color_primary,
+            margin: 16,
+            backgroundColor: appStyle.color_on_background,
           }}
         >
           <Text
             className="font-black text-lg"
-            style={{ color: appStyle.color_on_primary }}
+            style={{ color: appStyle.color_background }}
           >
             {searching
               ? languageService[user.language].searching.toUpperCase()
@@ -326,17 +326,17 @@ const SearchWorkoutsScreen = () => {
       ) : (
         <CustomButton
           onPress={handleNextPage}
+          round
           style={{
             padding: 16,
-            borderRadius: 999,
-            margin: 10,
-            backgroundColor: appStyle.color_primary,
+            margin: 16,
+            backgroundColor: appStyle.color_on_background,
           }}
         >
           <Text
             className="font-black text-lg"
             style={{
-              color: appStyle.color_on_primary,
+              color: appStyle.color_background,
             }}
           >
             {languageService[user.language].continue[
@@ -345,44 +345,6 @@ const SearchWorkoutsScreen = () => {
           </Text>
         </CustomButton>
       )}
-    </View>
-  );
-};
-const StartingTimeComp = (props) => {
-  return Platform.OS == "web" ? (
-    <View
-      className="rounded-xl"
-      style={{ backgroundColor: appStyle.color_background }}
-    >
-      <Text
-        className="text-xl font-semibold text-center"
-        style={{ color: appStyle.color_primary }}
-      >
-        {props.title}
-      </Text>
-      <NextWeekDropdown
-        setLast={props.setLast}
-        language={props.language}
-        now={props.now}
-        minDate={props.minDate}
-        selectedDateChanged={props.startingTimeChanged}
-      ></NextWeekDropdown>
-    </View>
-  ) : (
-    <View
-      className="rounded-xl p-2 pb-4 px-4 items-center"
-      style={{ backgroundColor: appStyle.color_background }}
-    >
-      <Text
-        className="text-xl font-semibold"
-        style={{ color: appStyle.color_primary }}
-      >
-        {props.title}
-      </Text>
-      <WorkoutStartingTime
-        startingTimeChanged={props.startingTimeChanged}
-        minDate={props.minDate ? props.minDate : new Date()}
-      />
     </View>
   );
 };
