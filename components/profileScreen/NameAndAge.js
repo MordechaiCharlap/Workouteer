@@ -15,7 +15,7 @@ const NameAndAge = ({ name, age, color }) => {
           backgroundColor: color,
         }}
       >
-        {name + " " + age}
+        {name + "," + " " + age}
       </CustomText>
     </View>
   );
