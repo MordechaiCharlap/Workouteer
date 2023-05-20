@@ -444,25 +444,25 @@ const style = StyleSheet.create({
     paddingHorizontal: 7,
   },
   BottomSection: {},
-  workoutIcon: { color: appStyle.color_on_primary_container },
+  workoutIcon: { color: appStyle.color_on_surface },
   dividers: {
     width: 2,
     color: appStyle.color_background,
   },
   creatorText: {
-    color: appStyle.color_on_primary_container,
+    color: appStyle.color_on_surface,
     fontSize: topSectionFontSize,
   },
   dateText: {
-    color: appStyle.color_on_primary_container,
+    color: appStyle.color_on_surface,
     fontSize: topSectionFontSize,
   },
   basicDetailsText: {
-    color: appStyle.color_on_primary_container,
+    color: appStyle.color_on_surface,
   },
   detailsIcons: {
     size: 20,
-    color: appStyle.color_on_primary_container,
+    color: appStyle.color_on_surface,
   },
   actionButton: {
     flex: 1,
