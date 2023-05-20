@@ -435,11 +435,12 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
         message={
           languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
         }
-        onConfirmPressed={() =>
+        onConfirmPressed={() => {
           navigation.navigate("ReportUser", {
             reported: shownUser,
-          })
-        }
+          });
+          setShowReportModal(false);
+        }}
       />
     </View>
   );
