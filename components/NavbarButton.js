@@ -34,7 +34,7 @@ const NavbarButton = (props) => {
         navigation.navigate(props.screen);
       }}
     >
-      {/* {props.screen == currentScreen && (
+      {props.screen == "MyProfile" && props.screen == currentScreen && (
         <View
           style={{
             position: "absolute",
@@ -46,14 +46,14 @@ const NavbarButton = (props) => {
         >
           <View
             style={{
-              borderRadius: props.screen == "MyProfile" ? 999 : 10,
-              height: "90%",
-              aspectRatio: props.screen == "MyProfile" ? 1 / 1 : 1 / 0.9,
-              backgroundColor: appStyle.color_primary,
+              borderRadius: 999,
+              height: "85%",
+              aspectRatio: 1 / 1,
+              backgroundColor: appStyle.color_on_background,
             }}
           ></View>
         </View>
-      )} */}
+      )}
       {props.screen == "Home" && (
         <View className="absolute h-full w-full items-center justify-center">
           <FontAwesomeIcon
