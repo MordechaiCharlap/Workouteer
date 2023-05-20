@@ -85,15 +85,11 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const buttonStyle = {
     color: appStyle.color_on_surface_variant,
     backgroundColor: appStyle.color_surface_variant,
-    paddingHorizontal: 15,
-    borderRadius: 999,
     flexDirection: "row",
   };
   const plannedButtonStyle = {
     color: appStyle.color_background,
     backgroundColor: appStyle.color_on_background,
-    paddingHorizontal: 15,
-    borderRadius: 999,
     flexDirection: "row",
   };
   const calculateAge = () => {
@@ -300,6 +296,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                 </View>
                 <View style={{ height: 20 }}></View>
                 <CustomButton
+                  round
                   style={buttonStyle}
                   onPress={() =>
                     navigation.navigate("Friends", {

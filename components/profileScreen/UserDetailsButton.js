@@ -16,7 +16,7 @@ const UserDetailsButton = ({
 }) => {
   const buttonProps = buttonStyle;
   return (
-    <CustomButton style={buttonProps} onPress={() => onPress()}>
+    <CustomButton round style={buttonProps} onPress={() => onPress()}>
       <CustomText style={{ fontSize: 25, color: color }}>{text}</CustomText>
       <View style={{ width: 10 }}></View>
       <View>
