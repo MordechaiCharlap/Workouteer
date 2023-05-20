@@ -352,7 +352,6 @@ const ConfirmWorkoutScreen = () => {
         closeOnHardwareBackPress={true}
         onDismiss={() => setShowAlert(false)}
         showConfirmButton={exitableAlert}
-        showCancelButton={false}
         confirmText={languageService[user.language].gotIt}
         onConfirmPressed={() => {
           setShowAlert(false);

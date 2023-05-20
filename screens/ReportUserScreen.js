@@ -178,7 +178,10 @@ const ReportUserScreen = ({ route }) => {
       </View>
       {showSubmittedModal && (
         <AwesomeModal
-          onDismiss={() => navigation.goBack()}
+          onDismiss={() => {
+            navigation.goBack();
+            setShowSubmittedModal(false);
+          }}
           onConfirm={() => navigation.goBack()}
           showCancelButton={false}
           showModal={showSubmittedModal}

@@ -409,7 +409,6 @@ const CreateWorkoutScreen = () => {
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
-        showCancelButton={false}
       />
     </View>
   );
