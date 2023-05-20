@@ -148,13 +148,9 @@ const WorkoutStartingTime = (props) => {
         showConfirmButton={true}
         confirmText={languageService[user.language].gotIt}
         confirmButtonColor="#DD6B55"
-        onCancelPressed={() => {
-          setShowAlert(false);
-        }}
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
-        showCancelButton={false}
       />
     </View>
   );

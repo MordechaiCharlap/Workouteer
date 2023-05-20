@@ -24,6 +24,7 @@ import { UserDeleted } from "../components/settingsScreen/UserDeleted";
 import SuggestionForm from "../components/SuggestionForm";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
+import AwesomeModal from "../components/AwesomeModal";
 const SettingsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
@@ -259,19 +260,24 @@ const SettingsScreen = ({ route }) => {
               disabled={!changesMade}
               onPress={applyChanges}
               className="flex-row"
-              style={
+              style={[
+                {
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_surface_variant,
+                },
                 changesMade && {
                   backgroundColor: appStyle.color_background,
-                  borderWidth: 0.5,
                   borderColor: appStyle.color_outline,
-                }
-              }
+                },
+              ]}
             >
-              <FontAwesomeIcon
-                icon={faFloppyDisk}
-                color={appStyle.color_primary}
-                size={25}
-              />
+              {changesMade && (
+                <FontAwesomeIcon
+                  icon={faFloppyDisk}
+                  color={appStyle.color_primary}
+                  size={25}
+                />
+              )}
               <View style={{ width: 10 }} />
               <Text
                 className="text-xl text-center"
@@ -303,23 +309,18 @@ const SettingsScreen = ({ route }) => {
         />
       </Modal>
 
-      <AwesomeAlert
-        overlayStyle={{
-          width: safeAreaStyle().width,
-          height: "100%",
-        }}
-        show={showDeleteUserModal}
+      <AwesomeModal
+        showModal={showDeleteUserModal}
         showProgress={false}
-        title={"Are you sure?"}
-        message={"Are you sure?"}
+        title={languageService[user.language].areYouSure[user.isMale ? 1 : 0]}
+        message={languageService[user.language].thisActionIsIrreversable}
         closeOnTouchOutside={true}
         onDismiss={() => setShowDeleteUserModal(false)}
         closeOnHardwareBackPress={true}
         showConfirmButton={true}
         showCancelButton={true}
-        confirmText="yes"
-        cancelText="no"
-        confirmButtonColor="#DD6B55"
+        confirmText={languageService[user.language].yes}
+        cancelText={languageService[user.language].no}
         onCancelPressed={() => {
           setShowDeleteUserModal(false);
         }}
