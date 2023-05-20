@@ -34,7 +34,7 @@ const NavbarButton = (props) => {
         navigation.navigate(props.screen);
       }}
     >
-      {props.screen == currentScreen && (
+      {/* {props.screen == currentScreen && (
         <View
           style={{
             position: "absolute",
@@ -53,7 +53,7 @@ const NavbarButton = (props) => {
             }}
           ></View>
         </View>
-      )}
+      )} */}
       {props.screen == "Home" && (
         <View className="absolute h-full w-full items-center justify-center">
           <FontAwesomeIcon
@@ -95,7 +95,7 @@ const NavbarButton = (props) => {
             size={props.screen == "Home" ? 45 : 30}
             color={
               props.screen == currentScreen
-                ? appStyle.color_background
+                ? appStyle.color_on_background
                 : appStyle.color_on_surface_variant
             }
           />
@@ -103,7 +103,7 @@ const NavbarButton = (props) => {
             <View
               className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
               style={{
-                backgroundColor: appStyle.color_error,
+                backgroundColor: appStyle.color_tertiary_container,
                 borderColor: appStyle.color_on_primary,
                 borderWidth: 2,
               }}
