@@ -11,17 +11,27 @@ import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyl
 interface CustomButtonProps extends TouchableOpacityProps {
   style?: StyleProp<ViewStyle>;
   round?: true;
+  outline?: true;
 }
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   style,
   round,
+  outline,
   ...restProps
 }) => {
-  const anotherStyleProp = round
-    ? { borderRadius: 999, paddingHorizontal: 12 }
-    : {};
-  const merged = StyleSheet.compose(style, anotherStyleProp);
+  var styleToMerge = {};
+  if (round)
+    styleToMerge = {
+      ...styleToMerge,
+      ...appComponentsDefaultStyles.round,
+    };
+  if (outline)
+    styleToMerge = {
+      ...styleToMerge,
+      ...appComponentsDefaultStyles.outline,
+    };
+  const merged = StyleSheet.compose(style, styleToMerge);
   return (
     <TouchableOpacity
       style={[appComponentsDefaultStyles.button, merged]}
