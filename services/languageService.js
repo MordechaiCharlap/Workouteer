@@ -286,6 +286,7 @@ const languageService = {
     where: "Where?",
     choose: ["Choose", "Choose"],
     hoursMinutes: "hours:minutes",
+    thisActionIsIrreversable: "This action is irreversable",
   },
   hebrew: {
     login: "התחבר",
@@ -509,8 +510,8 @@ const languageService = {
     place: "דירוג",
     new: "חדש!",
     doYouWantToReportThisUser: [
-      "Do you want to report this user?",
-      "Do you want to report this user?",
+      "את בטוחה שאת רוצה לדווח על המשתמש הזה?",
+      "אתה בטוח שאתה רוצה לדווח על המשתמש הזה?",
     ],
     reportUserMessage: [
       "באמצעות דיווח על התנהגות לא הולמת, את עוזרת לנו לשמור על האפליקציה שלנו כמקום בטוח ונעים לשימוש.",
@@ -549,6 +550,7 @@ const languageService = {
     where: "איפה?",
     choose: ["בחרי", "בחר"],
     hoursMinutes: "דקות:שעות",
+    thisActionIsIrreversable: "הפעולה הזאת בלתי הפיכה",
   },
 };
 export default languageService;
