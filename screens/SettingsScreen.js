@@ -15,7 +15,7 @@ import { saveSettingsChanges } from "../services/firebase";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBug } from "@fortawesome/free-solid-svg-icons";
+import { faBug, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
@@ -133,11 +133,12 @@ const SettingsScreen = ({ route }) => {
               </CustomText>
               <View className="flex-row gap-x-2">
                 <CustomButton
+                  round
                   disabled={language == "hebrew"}
                   onPress={() => setLanguage("hebrew")}
                   style={{
                     backgroundColor:
-                      language == "hebrew"
+                      language != "hebrew"
                         ? appStyle.color_surface_variant
                         : appStyle.color_on_background,
                   }}
@@ -145,7 +146,7 @@ const SettingsScreen = ({ route }) => {
                   <CustomText
                     style={{
                       color:
-                        language == "hebrew"
+                        language != "hebrew"
                           ? appStyle.color_on_surface_variant
                           : appStyle.color_on_primary,
                     }}
@@ -154,11 +155,12 @@ const SettingsScreen = ({ route }) => {
                   </CustomText>
                 </CustomButton>
                 <CustomButton
+                  round
                   disabled={language == "english"}
                   onPress={() => setLanguage("english")}
                   style={{
                     backgroundColor:
-                      language == "english"
+                      language != "english"
                         ? appStyle.color_surface_variant
                         : appStyle.color_on_background,
                   }}
@@ -166,7 +168,7 @@ const SettingsScreen = ({ route }) => {
                   <CustomText
                     style={{
                       color:
-                        language == "english"
+                        language != "english"
                           ? appStyle.color_on_surface_variant
                           : appStyle.color_on_primary,
                     }}
@@ -251,24 +253,30 @@ const SettingsScreen = ({ route }) => {
               borderTopWidth: 0.5,
               borderTopColor: appStyle.color_outline,
             }}
-            className="h-16 p-2 justify-center items-center"
+            className="p-2 justify-center items-center"
           >
             <CustomButton
               disabled={!changesMade}
               onPress={applyChanges}
-              className="p-1 rounded"
+              className="flex-row"
               style={
                 changesMade && {
-                  backgroundColor: appStyle.color_primary,
+                  backgroundColor: appStyle.color_background,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_outline,
                 }
               }
             >
+              <FontAwesomeIcon
+                icon={faFloppyDisk}
+                color={appStyle.color_primary}
+                size={25}
+              />
+              <View style={{ width: 10 }} />
               <Text
                 className="text-xl text-center"
                 style={{
-                  color: changesMade
-                    ? appStyle.color_on_primary
-                    : appStyle.color_on_background,
+                  color: appStyle.color_on_background,
                 }}
               >
                 {changesMade == false

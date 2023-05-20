@@ -19,12 +19,15 @@ import {
   faCircleUser,
   faUserClock,
   faPaperPlane,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CustomTextInput from "../components/basic/CustomTextInput";
+import CustomButton from "../components/basic/CustomButton";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -91,7 +94,7 @@ const FriendsScreen = ({ route }) => {
             <FontAwesomeIcon
               icon={faChevronLeft}
               size={40}
-              color={appStyle.color_primary}
+              color={appStyle.color_on_background}
             />
           </TouchableOpacity>
           <Text
@@ -100,7 +103,7 @@ const FriendsScreen = ({ route }) => {
                 ? "text-2xl font-semibold"
                 : "text-4xl font-semibold"
             }
-            style={{ color: appStyle.color_primary }}
+            style={{ color: appStyle.color_on_background }}
           >
             {languageService[user.language].friends}
           </Text>
@@ -112,17 +115,17 @@ const FriendsScreen = ({ route }) => {
           {isMyUser && user.friendRequestsCount > 0 && (
             <TouchableOpacity
               onPress={() => navigation.navigate("FriendRequests")}
-              className="flex-row p-2 items-center rounded-xl absolute right-0"
-              style={{ backgroundColor: appStyle.color_primary }}
+              className="flex-row p-2 items-center rounded-full absolute right-0"
+              style={{ backgroundColor: appStyle.color_on_background }}
             >
               <AlertDot
                 text={user.friendRequestsCount}
-                textColor={appStyle.color_background}
+                textColor={appStyle.color_on_background}
                 fontSize={17}
                 borderColor={appStyle.color_background}
                 borderWidth={1}
                 size={43}
-                color={appStyle.color_primary}
+                color={appStyle.color_background}
               />
               <View className="ml-2">
                 <FontAwesomeIcon
@@ -136,7 +139,7 @@ const FriendsScreen = ({ route }) => {
         </View>
         <View
           className="rounded-xl p-3"
-          style={{ backgroundColor: appStyle.color_background_variant }}
+          style={{ backgroundColor: appStyle.color_surface_variant }}
         >
           <View
             className={`items-center gap-x-1 flex-row${
@@ -146,13 +149,12 @@ const FriendsScreen = ({ route }) => {
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               size={20}
-              color={appStyle.color_primary}
+              color={appStyle.color_on_background}
             />
             <TextInput
               onChangeText={(text) => setSearchText(text)}
-              style={{ color: appStyle.color_on_primary }}
               placeholder={languageService[user.language].search}
-              placeholderTextColor={appStyle.color_primary}
+              style={{ flex: 1 }}
               className="text-xl"
             />
           </View>
@@ -184,13 +186,13 @@ const FriendsScreen = ({ route }) => {
                 <View>
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.id}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.displayName}
                   </Text>
@@ -200,18 +202,16 @@ const FriendsScreen = ({ route }) => {
                 onPress={() => openPrivateChat(item)}
                 className="p-2 rounded items-center justify-center flex-row gap-x-1"
                 style={{
-                  backgroundColor: appStyle.color_primary,
-                  borderColor: appStyle.color_primary,
-                  borderWidth: 1,
+                  backgroundColor: appStyle.color_surface_variant,
                 }}
               >
-                <Text style={{ color: appStyle.color_background }}>
+                <Text style={{ color: appStyle.color_on_surface_variant }}>
                   {languageService[user.language].message[user.isMale ? 1 : 0]}
                 </Text>
                 <FontAwesomeIcon
                   icon={faPaperPlane}
                   size={15}
-                  color={appStyle.color_background}
+                  color={appStyle.color_on_surface_variant}
                 />
               </TouchableOpacity>
             </View>
@@ -222,15 +222,24 @@ const FriendsScreen = ({ route }) => {
             className="items-center"
             style={{ backgroundColor: appStyle.color_background }}
           >
-            <TouchableOpacity
+            <CustomButton
               onPress={() => navigation.navigate("SearchUsers")}
-              className="m-3 py-3 px-8"
-              style={{ backgroundColor: appStyle.color_primary }}
+              className="m-3 flex-row"
+              outline
+              style={{
+                backgroundColor: appStyle.color_surface,
+              }}
             >
-              <Text style={{ color: appStyle.color_on_primary }}>
+              <FontAwesomeIcon
+                icon={faUserPlus}
+                color={appStyle.color_primary}
+                size={25}
+              />
+              <View style={{ width: 10 }} />
+              <Text style={{ color: appStyle.color_on_surface }}>
                 {languageService[user.language].addANewFriend}
               </Text>
-            </TouchableOpacity>
+            </CustomButton>
           </View>
         )}
       </View>

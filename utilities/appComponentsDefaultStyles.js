@@ -10,6 +10,8 @@ const appComponentsDefaultStyles = StyleSheet.create({
     borderBottomColor: appStyle.color_outline,
     backgroundColor: appStyle.color_surface_variant,
   },
+  round: { borderRadius: 999, paddingHorizontal: 12 },
+  outline: { borderWidth: 0.5, borderColor: appStyle.color_outline },
   errorInput: {
     borderRadius: 4,
     justifyContent: "center",
@@ -20,7 +22,7 @@ const appComponentsDefaultStyles = StyleSheet.create({
     backgroundColor: appStyle.color_surface_variant,
   },
   button: {
-    borderRadius: 4,
+    borderRadius: 8,
     padding: 8,
     justifyContent: "center",
     alignItems: "center",

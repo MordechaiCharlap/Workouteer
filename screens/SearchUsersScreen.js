@@ -32,19 +32,4 @@ const SearchUsersScreen = () => {
     </View>
   );
 };
-const style = StyleSheet.create({
-  profileImg: {
-    borderColor: appStyle.color_primary,
-    borderWidth: 0.1,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0 /* Make the picture taking the size of it's parent */,
-    // width: "100%" /* This if for the object-fit */,
-    width: "100%" /* This if for the object-fit */,
-    objectFit:
-      "cover" /* Equivalent of the background-size: cover; of a background-image */,
-    objectPosition: "center",
-  },
-});
 export default SearchUsersScreen;

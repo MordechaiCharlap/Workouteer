@@ -19,7 +19,9 @@ interface CustomTextInputProps extends TextInputProps {
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
   password,
   placeholder,
+  placeholderTextColor,
   style,
+
   onChangeText,
   ...restProps
 }) => {
@@ -34,7 +36,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     <TextInput
       style={[styleSheet.input, style]}
       placeholder={placeholder}
-      placeholderTextColor={appStyle.color_outline}
+      placeholderTextColor={
+        placeholderTextColor ? placeholderTextColor : appStyle.color_outline
+      }
       onChangeText={(text) => setText(text)}
       secureTextEntry={secureText}
       {...restProps}

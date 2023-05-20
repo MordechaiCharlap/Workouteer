@@ -71,7 +71,7 @@ const SearchUsers = (props) => {
     <ScrollView>
       <View
         className="rounded-xl mt-4 p-3"
-        style={{ backgroundColor: appStyle.color_darker }}
+        style={{ backgroundColor: appStyle.color_surface_variant }}
       >
         <View
           className={`items-center gap-x-2 flex-row${
@@ -81,13 +81,13 @@ const SearchUsers = (props) => {
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             size={24}
-            color={appStyle.color_on_primary}
+            color={appStyle.color_on_surface_variant}
           />
           <TextInput
             onChangeText={(text) => textChanged(text)}
             style={{ color: appStyle.color_on_primary }}
             placeholder={languageService[props.language].searchUser}
-            placeholderTextColor={appStyle.color_on_primary}
+            placeholderTextColor={appStyle.color_on_surface_variant}
             className="text-xl"
           />
         </View>

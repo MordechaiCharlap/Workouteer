@@ -118,6 +118,7 @@ const SuggestionForm = (props) => {
           </CustomText>
         </View>
         <CustomButton
+          round
           style={
             !isContentValid || !isTitleValid
               ? style.submitButtonDisabled
@@ -153,17 +154,12 @@ const style = StyleSheet.create({
     color: "red",
   },
   submitButton: {
-    borderRadius: 999,
     backgroundColor: appStyle.color_on_background,
     paddingVertical: 4,
-    paddingHorizontal: 15,
   },
   submitButtonDisabled: {
-    borderRadius: 999,
-
     backgroundColor: appStyle.color_surface_variant,
     paddingVertical: 4,
-    paddingHorizontal: 15,
   },
   titleInput: {
     backgroundColor: appStyle.color_on_primary,
