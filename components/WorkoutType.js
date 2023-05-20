@@ -37,37 +37,40 @@ export const workoutTypes = [
     icon: faPersonBiking,
   },
 ];
-
+const iconSize = 60;
+const genericStyle = {
+  marginBottom: 12,
+  paddingVertical: 15,
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 8,
+};
+const chosenBackgroundStyle = {
+  backgroundColor: appStyle.color_on_background,
+};
+const notChosenBackgroundStyle = {
+  backgroundColor: appStyle.color_surface_variant,
+};
 const WorkoutType = (props) => {
-  const iconSize = 60;
-  const genericStyle = {
-    marginBottom: 12,
-    paddingVertical: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-  };
   const style = StyleSheet.create({
     typeButton: {
       width: "48%",
-      backgroundColor: appStyle.color_surface_variant,
+      ...notChosenBackgroundStyle,
       ...genericStyle,
     },
     chosenTypeButton: {
       width: "48%",
-      backgroundColor: appStyle.color_primary_container,
+      ...chosenBackgroundStyle,
       borderColor: appStyle.color_outline,
-      borderWidth: 1,
       ...genericStyle,
     },
     everythingButton: {
-      backgroundColor: appStyle.color_surface_variant,
+      ...notChosenBackgroundStyle,
       ...genericStyle,
     },
     chosenEverythingButton: {
-      backgroundColor: appStyle.color_primary_container,
+      ...chosenBackgroundStyle,
       borderColor: appStyle.color_outline,
-      borderWidth: 1,
       ...genericStyle,
     },
   });
@@ -93,7 +96,7 @@ const WorkoutType = (props) => {
         <FontAwesomeIcon
           color={
             type.id == chosenType
-              ? appStyle.color_primary
+              ? appStyle.color_background
               : appStyle.color_on_surface_variant
           }
           icon={type.icon}
@@ -103,7 +106,7 @@ const WorkoutType = (props) => {
           style={{
             color:
               type.id == chosenType
-                ? appStyle.color_on_primary_container
+                ? appStyle.color_background
                 : appStyle.color_on_surface_variant,
           }}
         >
@@ -130,7 +133,7 @@ const WorkoutType = (props) => {
             style={{
               color:
                 workoutTypes[0].id == chosenType
-                  ? appStyle.color_primary
+                  ? appStyle.color_background
                   : appStyle.color_on_surface_variant,
             }}
           >
