@@ -91,8 +91,10 @@ const ReportUserScreen = ({ route }) => {
     if (
       violationType == "profileImageContainsNudity" &&
       reported.img == defaultValues.defaultProfilePic
-    )
+    ) {
+      navigation.goBack();
       return;
+    }
     await reportUser();
   };
   return (
@@ -104,7 +106,7 @@ const ReportUserScreen = ({ route }) => {
             style={[
               style.dropdown,
               isViolationsFocused
-                ? { borderColor: appStyle.color_primary }
+                ? { borderColor: appStyle.color_outline }
                 : isTypeEmptyError && { borderColor: appStyle.color_error },
             ]}
             placeholder={languageService[user.language].violationType}
@@ -139,19 +141,19 @@ const ReportUserScreen = ({ route }) => {
             style={{
               borderColor: isContentEmptyError
                 ? appStyle.color_error
-                : appStyle.color_primary,
-              borderWidth: 1.5,
+                : appStyle.color_outline,
+              borderWidth: 0.5,
               textAlignVertical: "top",
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: appStyle.color_surface_variant,
               borderRadius: 4,
               padding: 8,
-              color: appStyle.color_on_primary,
+              color: appStyle.color_on_background,
               fontSize: 16,
             }}
             autoCorrect={false}
             multiline
             placeholder={languageService[user.language].details}
-            placeholderTextColor={appStyle.color_lighter}
+            placeholderTextColor={appStyle.color_on_surface_variant}
             onChangeText={(text) => {
               content.current = text;
               if (text != "" && isContentEmptyError)
@@ -197,9 +199,9 @@ const ReportUserScreen = ({ route }) => {
 export default ReportUserScreen;
 const style = StyleSheet.create({
   dropdown: {
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_surface_variant,
     height: 50,
-    borderWidth: 1.5,
+    borderWidth: 0.5,
     borderRadius: 4,
     paddingHorizontal: 8,
   },
@@ -209,7 +211,7 @@ const style = StyleSheet.create({
   },
   label: {
     position: "absolute",
-    color: appStyle.color_on_primary,
+    color: appStyle.color_on_background,
     backgroundColor: appStyle.color_primary,
     left: 22,
     top: -10,
@@ -219,12 +221,12 @@ const style = StyleSheet.create({
   },
   placeholderStyle: {
     textAlign: "center",
-    color: appStyle.color_lighter,
+    color: appStyle.color_on_surface_variant,
     fontSize: 16,
   },
   selectedTextStyle: {
     textAlign: "center",
-    color: appStyle.color_on_primary,
+    color: appStyle.color_on_background,
     fontSize: 16,
   },
   iconStyle: {
