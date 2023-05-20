@@ -41,9 +41,11 @@ const AwesomeModal = (props) => {
           ? () => {
               props.onDismiss();
             }
-          : () => {
+          : props.onCancelPressed
+          ? () => {
               props.onCancelPressed();
             }
+          : () => props.setShowModal(false)
       }
       closeOnTouchOutside={
         props.closeOnTouchOutside != null ? props.closeOnTouchOutside : true
