@@ -127,42 +127,14 @@ const CreateWorkoutScreen = () => {
     slideStyle: {
       rowGap: 15,
       paddingTop: 20,
-      paddingHorizontal: 10,
       width: fixedWidth,
+      paddingHorizontal: 16,
     },
-    input: {
-      borderWidth: 1,
-      borderColor: "#5f6b8b",
-      color: appStyle.color_on_primary,
-    },
-    text: { color: appStyle.color_on_primary },
     container: {
       paddingHorizontal: 16,
     },
-    dropdown: {
-      backgroundColor: appStyle.color_primary,
-      height: 50,
-      borderColor: appStyle.color_on_primary,
-      borderWidth: 0.5,
-      borderRadius: 4,
-      paddingHorizontal: 8,
-    },
-    icon: {
-      marginRight: 5,
-      color: "white",
-    },
     placeholderStyle: {
       color: "#5f6b8b",
-      fontSize: 16,
-    },
-    selectedTextStyle: {
-      textAlign: "center",
-      color: appStyle.color_on_primary,
-      fontSize: 16,
-    },
-
-    inputSearchStyle: {
-      height: 40,
       fontSize: 16,
     },
   });
@@ -382,15 +354,14 @@ const CreateWorkoutScreen = () => {
           disabled={isCreateDisabled}
           onPress={createWorkout}
           style={{
+            margin: 16,
             padding: 16,
-            borderRadius: 999,
-            margin: 10,
-            backgroundColor: appStyle.color_primary,
+            backgroundColor: appStyle.color_on_background,
           }}
         >
           <Text
             className="font-black text-lg"
-            style={{ color: appStyle.color_on_primary }}
+            style={{ color: appStyle.color_background }}
           >
             {loading
               ? languageService[user.language].loading.toUpperCase()
@@ -402,12 +373,12 @@ const CreateWorkoutScreen = () => {
           disabled={continueDisabled}
           onPress={handleNextPage}
           style={{
+            margin: 16,
             padding: 16,
             borderRadius: 999,
-            margin: 10,
             backgroundColor: continueDisabled
-              ? appStyle.color_primary_container
-              : appStyle.color_primary,
+              ? appStyle.color_surface_variant
+              : appStyle.color_on_background,
           }}
         >
           <Text
@@ -415,7 +386,7 @@ const CreateWorkoutScreen = () => {
             style={{
               color: continueDisabled
                 ? appStyle.color_on_surface_variant
-                : appStyle.color_on_primary,
+                : appStyle.color_background,
             }}
           >
             {languageService[user.language].continue[
