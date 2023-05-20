@@ -64,7 +64,7 @@ const AwesomeModal = (props) => {
           : languageService[user.language].continue[user.isMale ? 1 : 0]
       }
       showCancelButton={
-        props.showCancelButton != null ? props.showCancelButton : true
+        props.showCancelButton != null ? props.showCancelButton : false
       }
       cancelText={
         props.cancelText
