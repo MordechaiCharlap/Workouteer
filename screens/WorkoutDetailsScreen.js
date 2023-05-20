@@ -75,8 +75,8 @@ const WorkoutDetailsScreen = ({ route }) => {
     }
     return age;
   };
-  const containerColor = appStyle.color_primary_container;
-  const onContainerColor = appStyle.color_on_primary_container;
+  const containerColor = appStyle.color_surface_variant;
+  const onContainerColor = appStyle.color_on_background;
   return (
     <View style={safeAreaStyle()}>
       <Header
@@ -402,13 +402,13 @@ const WorkoutDetailsScreen = ({ route }) => {
             style={{
               borderRadius: 999,
               marginVertical: 5,
-              backgroundColor: appStyle.color_primary,
+              backgroundColor: appStyle.color_on_background,
             }}
             onPress={inviteFriends}
           >
             <Text
               className="text-xl text-center font-semibold"
-              style={{ color: appStyle.color_on_primary }}
+              style={{ color: appStyle.color_background }}
             >
               {languageService[user.language].inviteFriendsToJoin}
             </Text>
