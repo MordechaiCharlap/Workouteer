@@ -65,7 +65,7 @@ export const WorkoutLogicProvider = ({ children }) => {
       {children}
       {user && (
         <AwesomeModal
-          setShowModal={setShowModal}
+          onDismiss={() => setShowModal(false)}
           showModal={showModal}
           confirmText={languageService[user.language].showPlannedWorkout}
           cancelText={languageService[user.language].gotIt}
@@ -78,6 +78,7 @@ export const WorkoutLogicProvider = ({ children }) => {
           message={
             languageService[user.language].thisWorkoutOverlapsPlannedWorkout
           }
+          onCancelPressed={() => setShowModal(false)}
           showCancelButton={true}
         />
       )}
