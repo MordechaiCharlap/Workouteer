@@ -6,6 +6,7 @@ import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { isWebOnPC } from "../services/webScreenService";
 import useResponsiveness from "../hooks/useResponsiveness";
+import { safeAreaStyle } from "./safeAreaStyle";
 const AwesomeModal = (props) => {
   const { user } = useAuth();
   var fixedWidth;
@@ -17,9 +18,11 @@ const AwesomeModal = (props) => {
   }
   return (
     <AwesomeAlert
-      overlayStyle={fixedWidth ? { width: fixedWidth } : {}}
+      overlayStyle={{ width: safeAreaStyle().width, height: "100%" }}
       contentContainerStyle={{
-        backgroundColor: appStyle.color_background,
+        borderWidth: 0.5,
+        borderColor: appStyle.color_outline,
+        backgroundColor: appStyle.color_surface,
       }}
       confirmButtonStyle={{ borderRadius: 999, paddingHorizontal: 16 }}
       cancelButtonStyle={{ borderRadius: 999, paddingHorizontal: 16 }}
@@ -27,8 +30,8 @@ const AwesomeModal = (props) => {
       cancelButtonTextStyle={{ color: appStyle.color_background }}
       confirmButtonColor={appStyle.color_primary}
       cancelButtonColor={appStyle.color_on_background}
-      titleStyle={{ color: appStyle.color_primary, textAlign: "center" }}
-      messageStyle={{ color: appStyle.color_primary }}
+      titleStyle={{ color: appStyle.color_on_surface, textAlign: "center" }}
+      messageStyle={{ color: appStyle.color_on_surface }}
       show={props.showModal}
       showProgress={props.showProgress ? props.showProgress : false}
       title={props.title ? props.title : ""}
@@ -39,7 +42,7 @@ const AwesomeModal = (props) => {
               props.onDismiss();
             }
           : () => {
-              props.setShowModal(false);
+              props.onCancelPressed();
             }
       }
       closeOnTouchOutside={
@@ -67,7 +70,7 @@ const AwesomeModal = (props) => {
           : languageService[user.language].cancel
       }
       onCancelPressed={() => {
-        props.setShowModal(false);
+        props.onCancelPressed();
       }}
       onConfirmPressed={
         props.onConfirmPressed
