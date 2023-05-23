@@ -16,7 +16,6 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { AntDesign } from "@expo/vector-icons";
 
 import {
   faCircleUser,
@@ -198,11 +197,11 @@ const LoginScreen = () => {
             onPress={() => signInGoogleAccount()}
           >
             <View className="absolute left-1 h-full justify-center">
-              <AntDesign
+              {/* <AntDesign
                 name="google"
                 size={24}
                 color={appStyle.color_primary}
-              />
+              /> */}
             </View>
             <CustomText
               className="tracking-widest font-bold text-xl"
