@@ -131,8 +131,8 @@ export const AuthPrvider = ({ children }) => {
     } else if (!user) setUserLoaded(false);
   }, [user]);
   useEffect(() => {
+    setInitialLoading(false);
     if (!userLoaded) return;
-
     const getLocation = async () => {
       await getCurrentLocation(user);
     };
