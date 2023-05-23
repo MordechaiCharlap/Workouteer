@@ -73,8 +73,6 @@ const NavbarButton = (props) => {
             style={{
               height: 38,
               width: 38,
-              borderWidth: 1,
-              borderColor: appStyle.color_on_primary,
             }}
           />
           {props.alert != null && props.alert == true && (
