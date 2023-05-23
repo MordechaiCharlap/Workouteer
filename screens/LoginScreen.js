@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCircleUser,
   faEye,
+  faGoogle,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
@@ -44,7 +45,6 @@ const LoginScreen = () => {
     loginLoading,
     setRememberMe,
   } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -149,7 +149,6 @@ const LoginScreen = () => {
                 }}
                 onChangeText={setPassword}
                 placeholder="Password"
-                secureTextEntry={!showPassword}
               />
               <View style={{ height: verticalMargin }}></View>
               <View className="flex-row items-center">
@@ -190,13 +189,15 @@ const LoginScreen = () => {
           <View style={{ height: verticalMargin }}></View>
 
           <CustomButton
-            style={{ backgroundColor: appStyle.color_primary }}
+            style={{
+              backgroundColor: appStyle.color_surface,
+            }}
             onPress={() => signInGoogleAccount()}
           >
             <CustomText
               className="tracking-widest font-bold text-xl"
               style={{
-                color: appStyle.color_on_primary,
+                color: appStyle.color_on_surface,
               }}
             >
               Continue with Google
