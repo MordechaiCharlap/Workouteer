@@ -98,7 +98,7 @@ export const AuthPrvider = ({ children }) => {
       );
       getUserData(response.authentication.accessToken);
     } else {
-      setInitialLoading(false);
+      setLoginLoading(false);
     }
   }, [response]);
   useEffect(() => {
@@ -122,27 +122,24 @@ export const AuthPrvider = ({ children }) => {
       }
     };
     if (googleUserInfo && googleUserInfo.credential) {
-      setGoogleUserAsync().then(() => {
-        setLoginLoading(false);
-      });
+      setGoogleUserAsync().then(() => {});
     }
   }, [googleUserInfo]);
   useEffect(() => {
     if (user && !userLoaded) {
       setUserLoaded(true);
-      setTimeout(() => {
-        setInitialLoading(false);
-      }, 1000);
     } else if (!user) setUserLoaded(false);
   }, [user]);
   useEffect(() => {
-    setLoginLoading(false);
     if (!userLoaded) return;
 
     const getLocation = async () => {
       await getCurrentLocation(user);
     };
     getLocation();
+    setTimeout(() => {
+      setLoginLoading(false);
+    }, 5000);
   }, [userLoaded]);
   const signInGoogleAccount = async () => {
     setLoginLoading(true);
@@ -195,9 +192,6 @@ export const AuthPrvider = ({ children }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setAuthErrorCode(null);
-      setTimeout(() => {
-        setLoginLoading(false);
-      }, 5000);
       return true;
     } catch (error) {
       console.log(`error: ${error.code}`);
