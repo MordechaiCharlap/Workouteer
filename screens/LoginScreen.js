@@ -16,19 +16,20 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
 import {
   faCircleUser,
   faEye,
-  faGoogle,
   faEyeSlash,
+  faLongArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle, faGooglePlay } from "@fortawesome/free-brands-svg-icons";
 import useAuth from "../hooks/useAuth";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import CustomText from "../components/basic/CustomText";
 import CustomTextInput from "../components/basic/CustomTextInput";
+import { isWebOnPC } from "../services/webScreenService";
 const LoginScreen = () => {
   const windowHeight = useWindowDimensions().height;
   const { setCurrentScreen } = useNavbarDisplay();
@@ -98,13 +99,17 @@ const LoginScreen = () => {
     <View
       style={[
         safeAreaStyle(),
-        { justifyContent: "center", marginHorizontal: 24 },
+        {
+          justifyContent: "center",
+          paddingHorizontal: 16,
+        },
       ]}
     >
       <View>
         <View
-          className={`rounded-t-xl`}
+          className={`rounded-xl`}
           style={{
+            backgroundColor: appStyle.color_surface,
             padding: 12,
             borderWidth: 1,
             borderColor: appStyle.color_outline,
@@ -192,21 +197,21 @@ const LoginScreen = () => {
             style={{
               borderWidth: 0.5,
               borderColor: appStyle.color_primary,
-              backgroundColor: appStyle.color_surface,
+              backgroundColor: appStyle.color_background,
             }}
             onPress={() => signInGoogleAccount()}
           >
-            <View className="absolute left-1 h-full justify-center">
-              {/* <AntDesign
-                name="google"
-                size={24}
+            <View className="absolute left-2 h-full justify-center items-center">
+              <FontAwesomeIcon
+                icon={faGoogle}
+                size={25}
                 color={appStyle.color_primary}
-              /> */}
+              />
             </View>
             <CustomText
               className="tracking-widest font-bold text-xl"
               style={{
-                color: appStyle.color_primary,
+                color: appStyle.color_on_background,
               }}
             >
               Continue with Google
@@ -215,15 +220,38 @@ const LoginScreen = () => {
         </View>
         <View style={{ height: verticalMargin }}></View>
 
-        <CustomButton onPress={() => navigation.navigate("Register")}>
+        <CustomButton
+          onPress={() => navigation.navigate("Register")}
+          style={{ padding: 0 }}
+        >
           <CustomText
-            className="text-center tracking-widest"
+            className="text-center font-semibold tracking-widest"
             style={{ color: appStyle.color_on_background }}
           >
             New here? click here to register
           </CustomText>
         </CustomButton>
       </View>
+      {Platform.OS == "web" && (
+        <View className="absolute left-2 top-2">
+          <CustomButton
+            style={{
+              flexDirection: "row",
+              backgroundColor: appStyle.color_tertiary,
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faGooglePlay}
+              size={25}
+              color={appStyle.color_on_tertiary}
+            />
+            <View style={{ width: 10 }}></View>
+            <Text style={{ color: appStyle.color_on_tertiary }}>
+              Open on google play
+            </Text>
+          </CustomButton>
+        </View>
+      )}
     </View>
   );
 };
