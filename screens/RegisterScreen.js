@@ -32,7 +32,10 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomText from "../components/basic/CustomText";
 import CustomTextInput from "../components/basic/CustomTextInput";
 import CustomButton from "../components/basic/CustomButton";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 const RegisterScreen = () => {
+  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
 
   const {
@@ -142,9 +145,23 @@ const RegisterScreen = () => {
     <View
       style={[
         safeAreaStyle(),
-        { justifyContent: "center", marginHorizontal: 24 },
+        {
+          justifyContent: "center",
+          paddingHorizontal: 16,
+        },
       ]}
     >
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        className="absolute left-0 top-0"
+        style={{ padding: 16 }}
+      >
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          color={appStyle.color_on_background}
+          size={25}
+        />
+      </TouchableOpacity>
       <View
         className={`rounded-xl`}
         style={{
