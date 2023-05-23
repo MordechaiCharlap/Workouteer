@@ -24,7 +24,7 @@ const HomeScreenButton = (props) => {
             width: props.style.size,
             height: props.style.size,
             borderRadius: 10,
-            borderWidth: 1,
+            borderWidth: 0.5,
             borderColor: appStyle.color_outline,
           }}
           onPress={() =>
