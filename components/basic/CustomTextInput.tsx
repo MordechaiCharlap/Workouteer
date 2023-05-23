@@ -26,14 +26,16 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   ...restProps
 }) => {
   const [text, setText] = useState("");
-  const [secureText, setSecureText] = useState(password && true);
+  const [secureText, setSecureText] = useState(password ? password : false);
   useEffect(() => {
     if (onChangeText) {
       onChangeText(text);
     }
-  }, [text, onChangeText]);
+  }, [text]);
   return !password ? (
     <TextInput
+      spellCheck={false}
+      autoCorrect={false}
       style={[styleSheet.input, style]}
       placeholder={placeholder}
       placeholderTextColor={
@@ -46,6 +48,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   ) : (
     <View>
       <TextInput
+        spellCheck={false}
+        autoCorrect={false}
         style={[styleSheet.input, style]}
         placeholder={placeholder}
         placeholderTextColor={appStyle.color_outline}
@@ -61,7 +65,6 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
             bottom: 0,
             top: 0,
             justifyContent: "center",
-            marginHorizontal: 8,
           }}
         >
           <CustomButton onPress={() => setSecureText(!secureText)}>
@@ -91,6 +94,7 @@ const styleSheet = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     paddingHorizontal: 10,
+    paddingVertical: 4,
     borderBottomWidth: 1,
     borderBottomColor: appStyle.color_outline,
     color: appStyle.color_on_surface,
