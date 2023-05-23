@@ -94,7 +94,7 @@ const styleSheet = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: appStyle.color_outline,
     color: appStyle.color_on_surface,
