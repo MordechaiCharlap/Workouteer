@@ -114,7 +114,7 @@ const ChatsScreen = () => {
   };
   const chatsList = () => {
     const lastMessageConverter = (lastMessage, isAlert, isMyMessage) => {
-      var shownText = lastMessage.content;
+      var shownText = lastMessage.content.replace(/[\r\n]+/g, " ");
       switch (isAlert) {
         case true:
           if (shownText.length > 40)
@@ -137,17 +137,21 @@ const ChatsScreen = () => {
       <FlatList
         data={chatsArr}
         keyExtractor={(item) => item.chat.id}
-        renderItem={({ item }) =>
+        renderItem={({ item, index }) =>
           item.chat.messagesCount > 0 && (
             <TouchableOpacity
               onLongPress={() => chatLongClicked(item)}
               onPress={() => chatClicked(item)}
               className="relative py-2"
-              style={{
-                paddingHorizontal: 16,
-                borderBottomColor: appStyle.color_outline,
-                borderBottomWidth: 0.3,
-              }}
+              style={[
+                {
+                  paddingHorizontal: 16,
+                },
+                index != chatsArr.length - 1 && {
+                  borderBottomColor: appStyle.color_outline,
+                  borderBottomWidth: 0.3,
+                },
+              ]}
             >
               <View className="flex-row">
                 <Image
@@ -190,7 +194,7 @@ const ChatsScreen = () => {
                           <View className="mr-0.5">
                             <FontAwesomeIcon
                               icon={faCheckDouble}
-                              color={appStyle.color_background_variant}
+                              color={appStyle.color_on_background}
                               size={15}
                             />
                           </View>
@@ -198,7 +202,7 @@ const ChatsScreen = () => {
                           <View className="mr-0.5">
                             <FontAwesomeIcon
                               icon={faCheck}
-                              color={appStyle.color_background_variant}
+                              color={appStyle.color_on_background}
                               size={15}
                             />
                           </View>
@@ -355,6 +359,7 @@ const ChatsScreen = () => {
             onPress={showFriends}
             className="rounded-full aspect-square w-16 items-center justify-center absolute"
             style={{
+              elevation: 4,
               backgroundColor: appStyle.color_primary,
               right: 16,
               bottom: 40,
