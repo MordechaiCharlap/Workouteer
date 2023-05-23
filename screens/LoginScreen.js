@@ -16,6 +16,8 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { AntDesign } from "@expo/vector-icons";
+
 import {
   faCircleUser,
   faEye,
@@ -105,7 +107,6 @@ const LoginScreen = () => {
           className={`rounded-t-xl`}
           style={{
             padding: 12,
-            backgroundColor: appStyle.color_surface,
             borderWidth: 1,
             borderColor: appStyle.color_outline,
           }}
@@ -113,7 +114,7 @@ const LoginScreen = () => {
           <View className="items-center">
             <FontAwesomeIcon
               icon={faCircleUser}
-              color={appStyle.color_on_surface}
+              color={appStyle.color_primary}
               size={50}
             />
             <View style={{ height: verticalMargin }}></View>
@@ -190,14 +191,23 @@ const LoginScreen = () => {
 
           <CustomButton
             style={{
+              borderWidth: 0.5,
+              borderColor: appStyle.color_primary,
               backgroundColor: appStyle.color_surface,
             }}
             onPress={() => signInGoogleAccount()}
           >
+            <View className="absolute left-1 h-full justify-center">
+              <AntDesign
+                name="google"
+                size={24}
+                color={appStyle.color_primary}
+              />
+            </View>
             <CustomText
               className="tracking-widest font-bold text-xl"
               style={{
-                color: appStyle.color_on_surface,
+                color: appStyle.color_primary,
               }}
             >
               Continue with Google
@@ -206,17 +216,12 @@ const LoginScreen = () => {
         </View>
         <View style={{ height: verticalMargin }}></View>
 
-        <CustomButton
-          style={{
-            backgroundColor: appStyle.color_primary_container,
-          }}
-          onPress={() => navigation.navigate("Register")}
-        >
+        <CustomButton onPress={() => navigation.navigate("Register")}>
           <CustomText
-            className="text-center text-xl tracking-widest"
-            style={{ color: appStyle.color_on_primary_container }}
+            className="text-center tracking-widest"
+            style={{ color: appStyle.color_on_background }}
           >
-            Register
+            New here? click here to register
           </CustomText>
         </CustomButton>
       </View>
