@@ -1,6 +1,6 @@
 {
   "name": "workouteer-rn",
-  "version": "1.1.12",
+  "version": "1.1.14",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
