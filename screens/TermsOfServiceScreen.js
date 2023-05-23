@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect } from "@react-navigation/native";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import Header from "../components/Header";
 
 const TermsOfServiceScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -14,14 +15,9 @@ const TermsOfServiceScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <ScrollView className="px-3 gap-y-3">
-        <Text
-          style={{ color: appStyle.color_primary }}
-          className="text-center font-semibold text-2xl"
-        >
-          Privacy Policy
-        </Text>
-        <Text style={{ color: appStyle.color_primary }}>
+      <Header goBackOption={true} title="Terms of service" />
+      <ScrollView style={{ padding: 16 }}>
+        <Text style={{ color: appStyle.color_on_background }}>
           {`This is a beta version. for now all you gotta agree to, is the fact the all the data would be deleted in the near future when the app gets updated with new planned features like: group chats, workout tracking, interval timer for sets etc.
           
           Be nice to other users if you don't wanna get banned.

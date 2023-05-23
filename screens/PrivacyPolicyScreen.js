@@ -5,6 +5,7 @@ import { View, Text, StatusBar } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { ScrollView } from "react-native";
+import Header from "../components/Header";
 
 const PrivacyPolicyScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -15,14 +16,9 @@ const PrivacyPolicyScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <ScrollView className="px-3 gap-y-3">
-        <Text
-          style={{ color: appStyle.color_primary }}
-          className="text-center font-semibold text-2xl"
-        >
-          Privacy Policy
-        </Text>
-        <Text style={{ color: appStyle.color_primary }}>
+      <Header goBackOption={true} title="Privacy Policy" />
+      <ScrollView style={{ padding: 16 }}>
+        <Text style={{ color: appStyle.color_on_background }}>
           {`Workouteer operates the workouteer.co.il website, which provides the SERVICE.
 
 This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the Workouteer website.
