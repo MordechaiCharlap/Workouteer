@@ -136,14 +136,18 @@ const ChatsScreen = () => {
     return (
       <FlatList
         data={chatsArr}
-        className="mt-2"
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item }) =>
           item.chat.messagesCount > 0 && (
             <TouchableOpacity
               onLongPress={() => chatLongClicked(item)}
               onPress={() => chatClicked(item)}
-              className="relative my-3"
+              className="relative py-2"
+              style={{
+                paddingHorizontal: 16,
+                borderBottomColor: appStyle.color_outline,
+                borderBottomWidth: 0.3,
+              }}
             >
               <View className="flex-row">
                 <Image
@@ -219,30 +223,31 @@ const ChatsScreen = () => {
                     )}
                   </View>
                 </View>
-              </View>
-              {selectedChats.length > 0 && (
-                <View className="absolute top-0 bottom-0 justify-center right-0">
-                  <View
-                    className="rounded-full"
-                    style={{
-                      backgroundColor: appStyle.color_on_primary,
-                      padding: 1,
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={
-                        selectedChats.some(
-                          (selectedItem) => selectedItem.chat.id == item.chat.id
-                        )
-                          ? faCheckCircle
-                          : faCircle
-                      }
-                      color={appStyle.color_on_background}
-                      size={30}
-                    />
+                {selectedChats.length > 0 && (
+                  <View className="absolute top-0 bottom-0 justify-center right-0">
+                    <View
+                      className="rounded-full"
+                      style={{
+                        backgroundColor: appStyle.color_on_primary,
+                        padding: 1,
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={
+                          selectedChats.some(
+                            (selectedItem) =>
+                              selectedItem.chat.id == item.chat.id
+                          )
+                            ? faCheckCircle
+                            : faCircle
+                        }
+                        color={appStyle.color_on_background}
+                        size={30}
+                      />
+                    </View>
                   </View>
-                </View>
-              )}
+                )}
+              </View>
             </TouchableOpacity>
           )
         }
@@ -257,7 +262,7 @@ const ChatsScreen = () => {
       <View
         className="flex-row items-center h-10 mt-4 mb-2 justify-center"
         style={{
-          borderBottomColor: appStyle.color_background_variant,
+          borderBottomColor: appStyle.color_outline,
           borderBottomWidth: 0.7,
         }}
       >
@@ -278,7 +283,7 @@ const ChatsScreen = () => {
           </View>
         )}
       </View>
-      <View className="px-4 flex-1">
+      <View className="flex-1">
         {selectedChats.length == 0 ? (
           <>
             {/* {chatsArr != null && chatsArr.length != 0 && (
@@ -305,7 +310,12 @@ const ChatsScreen = () => {
             )} */}
           </>
         ) : (
-          <View className="flex-row items-center h-12 justify-between">
+          <View
+            className="flex-row items-center h-12 justify-between"
+            style={{
+              paddingHorizontal: 16,
+            }}
+          >
             <TouchableOpacity onPress={() => setSelectedChats([])}>
               <FontAwesomeIcon
                 icon={faArrowLeft}
@@ -343,8 +353,12 @@ const ChatsScreen = () => {
 
           <TouchableOpacity
             onPress={showFriends}
-            className="rounded-full aspect-square w-16 items-center justify-center absolute right-0 bottom-10"
-            style={{ backgroundColor: appStyle.color_primary }}
+            className="rounded-full aspect-square w-16 items-center justify-center absolute"
+            style={{
+              backgroundColor: appStyle.color_primary,
+              right: 16,
+              bottom: 40,
+            }}
           >
             <FontAwesomeIcon
               icon={faPenToSquare}
