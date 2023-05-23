@@ -15,6 +15,7 @@ import languageService from "../services/languageService";
 import * as firebase from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
+import CustomTextInput from "./basic/CustomTextInput";
 const SearchUsers = (props) => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -53,13 +54,13 @@ const SearchUsers = (props) => {
         <View>
           <Text
             className="text-xl font-semibold tracking-wider"
-            style={{ color: appStyle.color_primary }}
+            style={{ color: appStyle.color_on_background }}
           >
             {searchedUser.id}
           </Text>
           <Text
             className="text-md opacity-60 tracking-wider"
-            style={{ color: appStyle.color_primary }}
+            style={{ color: appStyle.color_on_background }}
           >
             {searchedUser.displayName}
           </Text>
@@ -85,7 +86,7 @@ const SearchUsers = (props) => {
           />
           <TextInput
             onChangeText={(text) => textChanged(text)}
-            style={{ color: appStyle.color_on_primary }}
+            style={{ color: appStyle.color_on_surface_variant, flex: 1 }}
             placeholder={languageService[props.language].searchUser}
             placeholderTextColor={appStyle.color_on_surface_variant}
             className="text-xl"
