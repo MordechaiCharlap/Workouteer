@@ -77,219 +77,221 @@ const SettingsScreen = ({ route }) => {
         <UserDeleted id={user.id} language={language} />
       ) : (
         <>
-          <View className="flex-1 p-4">
+          <View className="flex-1">
             <Header
               title={languageService[lastLanguage].settings}
               goBackOption={true}
             />
-            <CustomText
-              className="text-center"
-              style={{ color: appStyle.color_on_background }}
-            >
-              {languageService[lastLanguage].privacy}
-            </CustomText>
-            <View
-              className={`justify-between items-center h-10 ${
-                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
-              }`}
-            >
-              <CustomText style={{ color: appStyle.color_on_background }}>
-                {languageService[lastLanguage].publicAccount}:
+            <View style={{ paddingHorizontal: 16, flex: 1 }}>
+              <CustomText
+                className="text-center"
+                style={{ color: appStyle.color_on_background }}
+              >
+                {languageService[lastLanguage].privacy}
               </CustomText>
-              <Switch
-                trackColor={{
-                  false: appStyle.color_surface_variant,
-                  true: appStyle.color_primary,
-                }}
-                thumbColor={"#f4f3f4"}
-                value={isPublic}
-                onValueChange={() => setIsPublic((prev) => !prev)}
-              />
-            </View>
-            <View
-              className={`justify-between items-center h-10 ${
-                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
-              }`}
-            >
-              <CustomText style={{ color: appStyle.color_on_background }}>
-                {languageService[lastLanguage].showOnlineStatus}:
-              </CustomText>
-              <Switch
-                trackColor={{
-                  false: appStyle.color_surface_variant,
-                  true: appStyle.color_primary,
-                }}
-                thumbColor={"#f4f3f4"}
-                value={showOnline}
-                onValueChange={() => setShowOnline((prev) => !prev)}
-              />
-            </View>
-            <View
-              className={`justify-between items-center h-10 ${
-                lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
-              }`}
-            >
-              <CustomText style={{ color: appStyle.color_on_background }}>
-                {languageService[lastLanguage].chooseLanguage}:
-              </CustomText>
-              <View className="flex-row gap-x-2">
+              <View
+                className={`justify-between items-center h-10 ${
+                  lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
+                }`}
+              >
+                <CustomText style={{ color: appStyle.color_on_background }}>
+                  {languageService[lastLanguage].publicAccount}:
+                </CustomText>
+                <Switch
+                  trackColor={{
+                    false: appStyle.color_surface_variant,
+                    true: appStyle.color_primary,
+                  }}
+                  thumbColor={"#f4f3f4"}
+                  value={isPublic}
+                  onValueChange={() => setIsPublic((prev) => !prev)}
+                />
+              </View>
+              <View
+                className={`justify-between items-center h-10 ${
+                  lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
+                }`}
+              >
+                <CustomText style={{ color: appStyle.color_on_background }}>
+                  {languageService[lastLanguage].showOnlineStatus}:
+                </CustomText>
+                <Switch
+                  trackColor={{
+                    false: appStyle.color_surface_variant,
+                    true: appStyle.color_primary,
+                  }}
+                  thumbColor={"#f4f3f4"}
+                  value={showOnline}
+                  onValueChange={() => setShowOnline((prev) => !prev)}
+                />
+              </View>
+              <View
+                className={`justify-between items-center h-10 ${
+                  lastLanguage == "hebrew" ? "flex-row-reverse" : "flex-row"
+                }`}
+              >
+                <CustomText style={{ color: appStyle.color_on_background }}>
+                  {languageService[lastLanguage].chooseLanguage}:
+                </CustomText>
+                <View className="flex-row gap-x-2">
+                  <CustomButton
+                    round
+                    disabled={language == "hebrew"}
+                    onPress={() => setLanguage("hebrew")}
+                    style={{
+                      backgroundColor:
+                        language != "hebrew"
+                          ? appStyle.color_surface_variant
+                          : appStyle.color_on_background,
+                    }}
+                  >
+                    <CustomText
+                      style={{
+                        color:
+                          language != "hebrew"
+                            ? appStyle.color_on_surface_variant
+                            : appStyle.color_on_primary,
+                      }}
+                    >
+                      עברית
+                    </CustomText>
+                  </CustomButton>
+                  <CustomButton
+                    round
+                    disabled={language == "english"}
+                    onPress={() => setLanguage("english")}
+                    style={{
+                      backgroundColor:
+                        language != "english"
+                          ? appStyle.color_surface_variant
+                          : appStyle.color_on_background,
+                    }}
+                  >
+                    <CustomText
+                      style={{
+                        color:
+                          language != "english"
+                            ? appStyle.color_on_surface_variant
+                            : appStyle.color_on_primary,
+                      }}
+                    >
+                      English
+                    </CustomText>
+                  </CustomButton>
+                </View>
+              </View>
+              <View className="flex-row items-center justify-between mt-5">
                 <CustomButton
-                  round
-                  disabled={language == "hebrew"}
-                  onPress={() => setLanguage("hebrew")}
+                  className="w-5/12"
+                  onPress={() => setShowDeleteUserModal(!showDeleteUserModal)}
                   style={{
-                    backgroundColor:
-                      language != "hebrew"
-                        ? appStyle.color_surface_variant
-                        : appStyle.color_on_background,
+                    backgroundColor: appStyle.color_surface_variant,
                   }}
                 >
                   <CustomText
+                    className="py-1 px-1"
                     style={{
-                      color:
-                        language != "hebrew"
-                          ? appStyle.color_on_surface_variant
-                          : appStyle.color_on_primary,
+                      color: appStyle.color_on_surface_variant,
                     }}
                   >
-                    עברית
+                    {languageService[lastLanguage].deleteUser}
                   </CustomText>
                 </CustomButton>
                 <CustomButton
-                  round
-                  disabled={language == "english"}
-                  onPress={() => setLanguage("english")}
+                  onPress={signOut}
+                  className="w-5/12"
                   style={{
-                    backgroundColor:
-                      language != "english"
-                        ? appStyle.color_surface_variant
-                        : appStyle.color_on_background,
+                    backgroundColor: appStyle.color_surface_variant,
                   }}
                 >
                   <CustomText
+                    className="py-1 px-1"
                     style={{
-                      color:
-                        language != "english"
-                          ? appStyle.color_on_surface_variant
-                          : appStyle.color_on_primary,
+                      color: appStyle.color_on_surface_variant,
                     }}
                   >
-                    English
+                    {languageService[lastLanguage].logOut}
                   </CustomText>
                 </CustomButton>
               </View>
-            </View>
-            <View className="flex-row items-center justify-between mt-5">
-              <CustomButton
-                className="w-5/12"
-                onPress={() => setShowDeleteUserModal(!showDeleteUserModal)}
+              <View className="flex-1"></View>
+              <View
                 style={{
+                  borderRadius: 8,
                   backgroundColor: appStyle.color_surface_variant,
                 }}
               >
+                <CustomButton
+                  onPress={() => setShowSuggestionForm(true)}
+                  className="items-center rounded-xl p-3"
+                >
+                  <View
+                    style={{
+                      backgroundColor: appStyle.color_on_background,
+                      borderRadius: 16,
+                      padding: 7,
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      color={appStyle.color_on_primary}
+                      icon={faBug}
+                      size={30}
+                    />
+                  </View>
+                </CustomButton>
                 <CustomText
-                  className="py-1 px-1"
+                  className="text-lg text-center font-semibold"
                   style={{
                     color: appStyle.color_on_surface_variant,
                   }}
                 >
-                  {languageService[lastLanguage].deleteUser}
+                  {languageService[lastLanguage].reportABug}
                 </CustomText>
-              </CustomButton>
-              <CustomButton
-                onPress={signOut}
-                className="w-5/12"
-                style={{
-                  backgroundColor: appStyle.color_surface_variant,
-                }}
-              >
-                <CustomText
-                  className="py-1 px-1"
-                  style={{
-                    color: appStyle.color_on_surface_variant,
-                  }}
-                >
-                  {languageService[lastLanguage].logOut}
-                </CustomText>
-              </CustomButton>
+              </View>
             </View>
-            <View style={{ flex: 1 }}></View>
             <View
               style={{
-                borderRadius: 8,
                 backgroundColor: appStyle.color_surface_variant,
+                borderTopWidth: 0.5,
+                borderTopColor: appStyle.color_outline,
               }}
+              className="p-2 justify-center items-center"
             >
               <CustomButton
-                onPress={() => setShowSuggestionForm(true)}
-                className="items-center rounded-xl p-3"
+                disabled={!changesMade}
+                onPress={applyChanges}
+                className="flex-row"
+                style={[
+                  {
+                    borderWidth: 0.5,
+                    borderColor: appStyle.color_surface_variant,
+                  },
+                  changesMade && {
+                    backgroundColor: appStyle.color_background,
+                    borderColor: appStyle.color_outline,
+                  },
+                ]}
               >
-                <View
+                {changesMade && (
+                  <FontAwesomeIcon
+                    icon={faFloppyDisk}
+                    color={appStyle.color_primary}
+                    size={25}
+                  />
+                )}
+                <View style={{ width: 10 }} />
+                <Text
+                  className="text-xl text-center"
                   style={{
-                    backgroundColor: appStyle.color_on_background,
-                    borderRadius: 16,
-                    padding: 7,
+                    color: appStyle.color_on_background,
                   }}
                 >
-                  <FontAwesomeIcon
-                    color={appStyle.color_on_primary}
-                    icon={faBug}
-                    size={30}
-                  />
-                </View>
+                  {changesMade == false
+                    ? languageService[lastLanguage].noChangesWereMade
+                    : languageService[lastLanguage].applyChanges}
+                </Text>
               </CustomButton>
-              <CustomText
-                className="text-lg text-center font-semibold"
-                style={{
-                  color: appStyle.color_on_surface_variant,
-                }}
-              >
-                {languageService[lastLanguage].reportABug}
-              </CustomText>
             </View>
-          </View>
-          <View
-            style={{
-              backgroundColor: appStyle.color_surface_variant,
-              borderTopWidth: 0.5,
-              borderTopColor: appStyle.color_outline,
-            }}
-            className="p-2 justify-center items-center"
-          >
-            <CustomButton
-              disabled={!changesMade}
-              onPress={applyChanges}
-              className="flex-row"
-              style={[
-                {
-                  borderWidth: 0.5,
-                  borderColor: appStyle.color_surface_variant,
-                },
-                changesMade && {
-                  backgroundColor: appStyle.color_background,
-                  borderColor: appStyle.color_outline,
-                },
-              ]}
-            >
-              {changesMade && (
-                <FontAwesomeIcon
-                  icon={faFloppyDisk}
-                  color={appStyle.color_primary}
-                  size={25}
-                />
-              )}
-              <View style={{ width: 10 }} />
-              <Text
-                className="text-xl text-center"
-                style={{
-                  color: appStyle.color_on_background,
-                }}
-              >
-                {changesMade == false
-                  ? languageService[lastLanguage].noChangesWereMade
-                  : languageService[lastLanguage].applyChanges}
-              </Text>
-            </CustomButton>
           </View>
         </>
       )}
