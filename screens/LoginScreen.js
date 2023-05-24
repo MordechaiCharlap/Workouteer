@@ -7,6 +7,8 @@ import {
   Platform,
   useWindowDimensions,
   Linking,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -231,8 +233,23 @@ const LoginScreen = () => {
         </CustomButton>
       </View>
       {Platform.OS == "web" && (
-        <View className="absolute left-2 top-2">
-          <CustomButton
+        <View className="absolute left-0 bottom-0 top-0 right-0">
+          <View className="items-start">
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(
+                  "https://play.google.com/store/apps/details?id=com.charlap.workouteer"
+                )
+              }
+              style={{ margin: 10 }}
+            >
+              <Image
+                style={{ height: 50, aspectRatio: 3.377 }}
+                source={require("../assets/google-play-badge.png")}
+              />
+            </TouchableOpacity>
+          </View>
+          {/* <CustomButton
             onPress={() =>
               Linking.openURL(
                 "https://play.google.com/store/apps/details?id=com.charlap.workouteer"
@@ -252,7 +269,7 @@ const LoginScreen = () => {
             <Text style={{ color: appStyle.color_on_tertiary }}>
               Open on google play
             </Text>
-          </CustomButton>
+          </CustomButton> */}
         </View>
       )}
     </View>
