@@ -3,7 +3,7 @@ import { React, useCallback, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
-import calculateAge from "../utilities/calculateAge";
+import { calculateAge } from "../utilities/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
