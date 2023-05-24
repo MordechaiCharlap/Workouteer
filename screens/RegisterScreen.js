@@ -80,14 +80,13 @@ const RegisterScreen = () => {
       (!googleUserInfo && !password) ||
       (!googleUserInfo && !confirmPassword) ||
       !date ||
-      f(date && calculateAge(date.getDate()) < 16())
+      (date && calculateAge(date) < 16())
     ) {
       if (isMale == null) setSexError(true);
       else setSexError(false);
       if (!acceptTerms) setTermsCBError(true);
       else setTermsCBError(false);
-      if (!date || (date && calculateAge(date.getDate()) < 16()))
-        setBirthdateError(true);
+      if (!date || (date && calculateAge(date) < 16())) setBirthdateError(true);
       else setBirthdateError(false);
       setLoading(false);
       return false;
