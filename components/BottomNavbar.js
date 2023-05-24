@@ -17,20 +17,19 @@ const BottomNavbar = () => {
     <View
       className="items-center"
       style={{
-        borderTopColor: appStyle.color_outline,
-        borderTopWidth: 0.5,
         height: Math.max(
           (windowHeight ? windowHeight : Dimensions.get("window").height) / 13,
           30
         ),
-        backgroundColor: appStyle.color_surface,
       }}
     >
       <View
         className={`flex-row justify-around h-full`}
         style={{
+          borderTopColor: appStyle.color_outline,
+          borderTopWidth: 0.5,
           width: fixedWidth,
-          backgroundColor: appStyle.color_background_variant,
+          backgroundColor: appStyle.color_surface,
         }}
       >
         <NavbarButton

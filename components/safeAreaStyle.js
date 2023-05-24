@@ -12,7 +12,6 @@ export const safeAreaStyle = () => {
     style = {
       height: "100%",
       flex: 1,
-      alignSelf: "center",
       aspectRatio: fixedWidth,
       width: fixedWidth,
       backgroundColor: appStyle.color_background,
