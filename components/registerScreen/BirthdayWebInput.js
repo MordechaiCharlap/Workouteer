@@ -1,13 +1,17 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
+import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
+import CustomTextInput from "../basic/CustomTextInput";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
-  const [dayStyle, setDayStyle] = useState(style.input);
+  const [dayStyle, setDayStyle] = useState(appComponentsDefaultStyles.input);
   const [month, setMonth] = useState();
-  const [monthStyle, setMonthStyle] = useState(style.input);
+  const [monthStyle, setMonthStyle] = useState(
+    appComponentsDefaultStyles.input
+  );
   const [year, setYear] = useState();
-  const [yearStyle, setYearStyle] = useState(style.input);
+  const [yearStyle, setYearStyle] = useState(appComponentsDefaultStyles.input);
   const [error, setError] = useState(null);
 
   const handleDayChanged = (dayInput) => {
@@ -17,10 +21,10 @@ const BirthdayWebInput = (props) => {
       parseInt(dayInput) >= 1 &&
       parseInt(dayInput) <= 31
     ) {
-      setDayStyle(style.input);
+      setDayStyle(appComponentsDefaultStyles.input);
       setDay(dayInput);
     } else {
-      setDayStyle(style.badInput);
+      setDayStyle(appComponentsDefaultStyles.errorInput);
       setDay(null);
     }
   };
@@ -31,20 +35,20 @@ const BirthdayWebInput = (props) => {
       parseInt(monthInput) >= 1 &&
       parseInt(monthInput) <= 12
     ) {
-      setMonthStyle(style.input);
+      setMonthStyle(appComponentsDefaultStyles.input);
       setMonth(monthInput);
     } else {
-      setMonthStyle(style.badInput);
+      setMonthStyle(appComponentsDefaultStyles.errorInput);
       setMonth(null);
     }
   };
   const handleYearChanged = (yearInput) => {
     var validRegex = /[0-9]{4}/;
     if (yearInput.match(validRegex) && yearInput >= 1900) {
-      setYearStyle(style.input);
+      setYearStyle(appComponentsDefaultStyles.input);
       setYear(yearInput);
     } else {
-      setYearStyle(style.badInput);
+      setYearStyle(appComponentsDefaultStyles.errorInput);
       setYear(null);
     }
   };
@@ -81,19 +85,19 @@ const BirthdayWebInput = (props) => {
       >
         <Text
           style={{
-            color: appStyle.color_on_primary,
+            color: appStyle.color_on_surface,
           }}
         >
           {"Birthdate: "}
         </Text>
-        <TextInput
+        <CustomTextInput
           keyboardType="numeric"
           onChangeText={(text) => handleDayChanged(text)}
           maxLength={2}
           placeholderTextColor={"#5f6b8b"}
           placeholder="dd"
           style={[dayStyle, { width: "6ch", textAlign: "center" }]}
-        ></TextInput>
+        ></CustomTextInput>
         <TextInput
           keyboardType="numeric"
           onChangeText={(text) => handleMonthChanged(text)}
