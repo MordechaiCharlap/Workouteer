@@ -2,7 +2,10 @@
 
 <p>
     <a href="https://workouteer.co.il" target="_blank" rel="noopener noreferrer">
-  <img src="/assets/app-icon.png" width="100" title="Workouteer">
+  <img src="/assets/app-icon.png" width="100" title="Workouteer website">
+  </a>
+    <a href="https://play.google.com/store/apps/details?id=com.charlap.workouteer" target="_blank" rel="noopener noreferrer">
+  <img src="/assets/google-play-badge.png" width="100" title="Google play link">
   </a>
 </p>
 
