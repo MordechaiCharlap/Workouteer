@@ -1,6 +1,6 @@
 # Workouteer - app for fitness-driven people, created by fitness-driven people
 
-<p align="center">
+<p justify="center" align="center">
     <a href="https://workouteer.co.il" target="_blank" rel="noopener noreferrer">
   <img src="/assets/app-icon.png" width="100" title="Workouteer website">
   </a>
