@@ -80,7 +80,7 @@ const RegisterScreen = () => {
       (!googleUserInfo && !password) ||
       (!googleUserInfo && !confirmPassword) ||
       !date ||
-      (date && calculateAge(date) < 16())
+      (date && calculateAge(date) < 16)
     ) {
       if (isMale == null) setSexError(true);
       else setSexError(false);
