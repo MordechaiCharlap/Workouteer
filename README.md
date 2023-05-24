@@ -2,7 +2,7 @@
 
 <p>
     <a href="https://workouteer.co.il" target="_blank" rel="noopener noreferrer">
-  <img src="/assets/app-icon.png" width="70" title="Workouteer">
+  <img src="/assets/app-icon.png" width="100" title="Workouteer">
   </a>
 </p>
 
