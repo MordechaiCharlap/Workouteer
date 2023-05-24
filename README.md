@@ -1,9 +1,11 @@
 # Workouteer - app for fitness-driven people, created by fitness-driven people
 
 <p align="center">
-  <img src="/assets/app-icon.png" width="70" title="hover text">
+    <a href="https://google.com" target="_blank" rel="noopener noreferrer">
+
+  <img src="/assets/app-icon.png" width="70" title="Workouteer">
+  </a>
 </p>
-[https://workouteer.co.il](https://workouteer.co.il)
 
 ### Description
 
