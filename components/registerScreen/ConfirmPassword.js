@@ -25,7 +25,6 @@ const ConfirmPassword = (props) => {
       }
     } else {
       setConfirmPasswordStyle(props.style.badInput);
-      s;
       setError("Fill out the first password and then come back");
     }
   };
