@@ -1,4 +1,4 @@
-const calculateAge = (dateToCheck) => {
+export const calculateAge = (dateToCheck) => {
   var today = new Date();
   var age = today.getFullYear() - dateToCheck.getFullYear();
   var m = today.getMonth() - dateToCheck.getMonth();
@@ -7,4 +7,3 @@ const calculateAge = (dateToCheck) => {
   }
   return age;
 };
-export default calculateAge;
