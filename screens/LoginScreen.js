@@ -1,14 +1,12 @@
 import {
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
   StyleSheet,
-  StatusBar,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   useWindowDimensions,
+  Linking,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
@@ -235,6 +233,11 @@ const LoginScreen = () => {
       {Platform.OS == "web" && (
         <View className="absolute left-2 top-2">
           <CustomButton
+            onPress={() =>
+              Linking.openURL(
+                "https://play.google.com/store/apps/details?id=com.charlap.workouteer"
+              )
+            }
             style={{
               flexDirection: "row",
               backgroundColor: appStyle.color_tertiary,
