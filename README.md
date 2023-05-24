@@ -1,102 +1,39 @@
-# **An app that connects people that working out outside.**
+# Workouteer - app for fitness-driven people, created by fitness-driven people
 
-## Domains:
+![[https://workouteer.co.il](https://workouteer.co.il)](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/65620ef3-290e-4763-b6c9-8949a83f98d5/app-icon.png)
 
-[workouteer.com](http://workouteer.com) & [workouteer.co.il](http://workouteer.co.il)
+[https://workouteer.co.il](https://workouteer.co.il)
 
-**Other option:** [outsidersclub.co.il](http://outsidersclub.co.il)
+![[https://play.google.com/store/apps/details?id=com.charlap.workouteer](https://play.google.com/store/apps/details?id=com.charlap.workouteer)](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6b1536c6-d395-4bcb-b449-0771ae2da10a/google-play-badge.png)
 
-קניתי את כל השלושה אבל עדיין לא שמתי את האפליקציה על השרת, יקרה כשתהיה מוכנה.
+[https://play.google.com/store/apps/details?id=com.charlap.workouteer](https://play.google.com/store/apps/details?id=com.charlap.workouteer)
 
-## Screens:
+### Description
 
-### Home
+Welcome to Workouteer, the social app for outdoor fitness enthusiasts! Are you tired of working out alone? Do you want to connect with like-minded people who share your passion for fitness and the great outdoors? Look no further than Workouteer!
 
-Create-new-workout button.
+With Workouteer, you'll have access to a community of fitness enthusiasts who are just as motivated and dedicated to their health as you are. Whether you're a seasoned athlete or a beginner looking to get into shape, our app has everything you need to stay motivated and on track.
 
-Options to choose:
+### **Platforms:**
 
-**Workout type:**
+**Android**: [Google Play](https://play.google.com/store/apps/details?id=com.charlap.workouteer)
 
-walking/running/biking/resistance training
+**Web**: [https://workouteer.co.il](https://workouteer.co.il)
 
-**When:**
+## Features
 
-Every quater hour option (16:00/16:30 etc)
+- **Create workouts:** Create a workout using type of workout, time and a place (The location won’t be showing to people until you accept/invite them)
+- **Find Workouts:** Look for other’s planned workouts by workout type, and a city. and get results based on the distance from your current location. and ask to join!
+- **Find new workout buddies:** Add your workout parteners on the app so you could get notify whenever one of your Workouteer friends create a new workout plan!
+- **Get to the top of the leaderboard!** Compete with other Workouteer members on the weekly leaderboard to get to the next league. You earn points by confirming workouts you’ve planned.
+- **Chat with friends:** The app has a chat feature so you could plan with your friend a good-for-everyone workout date.
+- **Get notify whenever one of your friends planned a workout:** Choose to get notify whenever one of your friends planned a workout!
 
-**How long:**
+## Planned features
 
-0:30/1:00/1:30/2:00/2:30/3:00
-
-**How much can you wait:**
-
-0:15/0:30/0:45/1:00/1:15/1:30
-
-**Starting location:**
-
-choose on map/”my house” (saved already when register)
-
-**Age window and gender of the people you want the app to share your workout to**
-
-age bar with two pointers, one for minimum one for maximum.
-
-two boxes
-
-- [ ] male
-- [ ] female
-
-Have to choose one at least
-
-### User
-
-Profile picture
-
-Name
-
-workouts count
-
-maybe a graph of workouts on the app, can see by week/month/year
-
-Friends count
-
-League medal
-
-Achievements
-
-Pictures from workouts (?)
-
-option to set profile private (just friends can see) or public (for everyone)
-
-some sort of achievements/winnings in weekly competitions
-
-- Achievements
-  - “First” - winning one week
-  - “Streak” - winnning 4 weeks in a row
-  - “Popular” - Have 10 friends (maybe with levels I, II, III, IV, V 5, 10, 30, 50, 100 friends)
-  -
-
-### Calendar
-
-See your previous and Future workouts
-
-### Explore
-
-Random people that shared their workout pictures with other Workouteers.
-
-Share your achievements and streaks
-
-**Friends section:**
-
-See if one of your friends Future a workout to join to/send a message/watch the profile
-
-### Leaderboard
-
-Leaderboard of your current leauge that counts weekly workouts with other workouteers/other kind of points maybe? Refreshes every week.
-
-- League
-  You start at bronze, every week you are in the leaderboard with more 49 random people that use the application and in your league.
-  Every Sunday first X move on, last Y move down a league, and all the rest stay in the same league
-
-### Other screen ideas that I am not sure about (Even if ill do it its gonna happen after the rest of the app is working):
-
-### Workout Program
+- **Get or create an workout routine:** Get a plan that is according to your goals, and match with other people with the same workout plan.
+- **Interval timer:** Track your sets and rest windows using a built in interval timer.
+- **Achievements:** Get awarded by winning the leaderboard/get the most workouts in a month etc..
+- **Track your wearable device:** Track more! Get the calories burnt in a workout, the distance ran etc.
+- **Levels:** Level up by gaining points confirming workouts and adding friends.
+- **Workout Group Chat:** Group chat for whoever joined the workout!
