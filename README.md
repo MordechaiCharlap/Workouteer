@@ -1,7 +1,7 @@
 # Workouteer - app for fitness-driven people, created by fitness-driven people
 
 ![[https://workouteer.co.il](https://workouteer.co.il)](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/65620ef3-290e-4763-b6c9-8949a83f98d5/app-icon.png)
-
+![Alt text](/assets/app-icon.png?raw=true "Title")
 [https://workouteer.co.il](https://workouteer.co.il)
 
 ![[https://play.google.com/store/apps/details?id=com.charlap.workouteer](https://play.google.com/store/apps/details?id=com.charlap.workouteer)](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6b1536c6-d395-4bcb-b449-0771ae2da10a/google-play-badge.png)
