@@ -214,7 +214,7 @@ const LoginScreen = () => {
                 color: appStyle.color_on_background,
               }}
             >
-              Continue with Google
+              Use Google
             </CustomText>
           </CustomButton>
         </View>
@@ -233,7 +233,7 @@ const LoginScreen = () => {
         </CustomButton>
       </View>
       {Platform.OS == "web" && (
-        <View className="absolute left-0 bottom-0 top-0 right-0">
+        <View className="absolute left-0 top-0">
           <View className="items-start">
             <TouchableOpacity
               onPress={() =>
@@ -249,27 +249,6 @@ const LoginScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          {/* <CustomButton
-            onPress={() =>
-              Linking.openURL(
-                "https://play.google.com/store/apps/details?id=com.charlap.workouteer"
-              )
-            }
-            style={{
-              flexDirection: "row",
-              backgroundColor: appStyle.color_tertiary,
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faGooglePlay}
-              size={25}
-              color={appStyle.color_on_tertiary}
-            />
-            <View style={{ width: 10 }}></View>
-            <Text style={{ color: appStyle.color_on_tertiary }}>
-              Open on google play
-            </Text>
-          </CustomButton> */}
         </View>
       )}
     </View>
