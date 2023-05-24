@@ -58,6 +58,10 @@ const MyProfileScreen = () => {
     }, [])
   );
 
-  return <Profile isMyUser={true} shownUser={user} />;
+  return (
+    <View style={safeAreaStyle()}>
+      <Profile isMyUser={true} shownUser={user} />
+    </View>
+  );
 };
 export default MyProfileScreen;

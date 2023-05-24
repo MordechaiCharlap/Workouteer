@@ -27,11 +27,13 @@ const ProfileScreen = ({ route }) => {
     }, [])
   );
   return (
-    <Profile
-      isMyUser={false}
-      shownUser={route.params.shownUser}
-      initialFriendshipStatus={route.params.friendshipStatus}
-    />
+    <View style={safeAreaStyle()}>
+      <Profile
+        isMyUser={false}
+        shownUser={route.params.shownUser}
+        initialFriendshipStatus={route.params.friendshipStatus}
+      />
+    </View>
   );
 };
 export default ProfileScreen;
