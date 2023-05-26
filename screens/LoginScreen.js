@@ -61,9 +61,6 @@ const LoginScreen = () => {
     }
   };
   useEffect(() => {
-    console.log("Login page");
-  }, []);
-  useEffect(() => {
     if (!authErrorCode) return;
     switch (authErrorCode) {
       case "auth/wrong-password":
