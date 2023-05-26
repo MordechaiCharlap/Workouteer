@@ -24,7 +24,7 @@ const TermsAndConditionsCB = (props) => {
             style={{
               color: props.error
                 ? appStyle.color_error
-                : appStyle.color_primary,
+                : appStyle.color_on_surface,
             }}
           >
             {"I agree to the "}
@@ -47,7 +47,7 @@ const TermsAndConditionsCB = (props) => {
             style={{
               color: props.error
                 ? appStyle.color_error
-                : appStyle.color_primary,
+                : appStyle.color_on_surface,
               marginLeft: 5,
             }}
           >
