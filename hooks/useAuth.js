@@ -158,29 +158,19 @@ export const AuthPrvider = ({ children }) => {
       setPersistence(auth, inMemoryPersistence).then(() => {
         signInWithCredential(auth, googleUserInfo.credential)
           .then((result) => {
-            // setGoogleUserInfo({
-            //   uid: result.user.uid,
-            //   email: result.user.email,
-            // });
+            const googleData = googleUserInfo;
+            setGoogleUserInfo({ ...googleData, uid: result.user.uid });
           })
           .catch((error) => console.log(`error:${error}`));
       });
     } else {
       signInWithCredential(auth, googleUserInfo.credential)
         .then((result) => {
-          // setGoogleUserInfo({
-          //   uid: result.user.uid,
-          //   email: result.user.email,
-          // });
+          const googleData = googleUserInfo;
+          setGoogleUserInfo({ ...googleData, uid: result.user.uid });
         })
         .catch((error) => console.log(`error:${error}`));
     }
-  };
-
-  const startListenToUserAsync = async (userId) => {
-    unsubscribeUser.current = onSnapshot(doc(db, "users", userId), (doc) => {
-      setUser(doc.data());
-    });
   };
   const signInEmailPassword = async (email, password) => {
     setLoginLoading(true);
@@ -220,7 +210,7 @@ export const AuthPrvider = ({ children }) => {
         setUser,
         setRememberMe,
         googleUserInfo,
-        startListenToUserAsync,
+        // startListenToUserAsync,
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
