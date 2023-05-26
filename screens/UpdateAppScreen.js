@@ -1,4 +1,4 @@
-import { View, StatusBar, Text, TouchableOpacity } from "react-native";
+import { View, StatusBar, Text, TouchableOpacity, Linking } from "react-native";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as firebase from "../services/firebase";
@@ -34,6 +34,11 @@ const UpdateAppScreen = () => {
         </Text>
         <View className="flex-row gap-x-2 mt-3">
           <TouchableOpacity
+            onPress={() =>
+              Linking.openURL(
+                "https://play.google.com/store/apps/details?id=com.charlap.workouteer"
+              )
+            }
             className="flex-1 rounded py-1"
             style={{ backgroundColor: appStyle.color_background }}
           >
