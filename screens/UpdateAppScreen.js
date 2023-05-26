@@ -22,11 +22,15 @@ const UpdateAppScreen = () => {
     >
       <View
         className="rounded-lg p-2 self-center w-11/12"
-        style={{ backgroundColor: appStyle.color_primary }}
+        style={{
+          backgroundColor: appStyle.color_surface,
+          borderWidth: 0.5,
+          borderColor: appStyle.color_outline,
+        }}
       >
         <Text
           className="text-2xl text-center"
-          style={{ color: appStyle.color_on_primary }}
+          style={{ color: appStyle.color_on_surface }}
         >
           {user
             ? languageService[user.language].updateAppToUseIt
@@ -40,11 +44,11 @@ const UpdateAppScreen = () => {
               )
             }
             className="flex-1 rounded py-1"
-            style={{ backgroundColor: appStyle.color_background }}
+            style={{ backgroundColor: appStyle.color_tertiary }}
           >
             <Text
               className="text-2xl text-center font-semibold"
-              style={{ color: appStyle.color_on_background }}
+              style={{ color: appStyle.color_on_tertiary }}
             >
               {user ? languageService[user.language].update : "Update"}
             </Text>
