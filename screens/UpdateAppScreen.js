@@ -44,7 +44,7 @@ const UpdateAppScreen = () => {
           >
             <Text
               className="text-2xl text-center font-semibold"
-              style={{ color: appStyle.color_primary }}
+              style={{ color: appStyle.color_on_background }}
             >
               {user ? languageService[user.language].update : "Update"}
             </Text>
