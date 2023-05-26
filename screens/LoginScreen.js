@@ -31,7 +31,6 @@ import CustomText from "../components/basic/CustomText";
 import CustomTextInput from "../components/basic/CustomTextInput";
 import { isWebOnPC } from "../services/webScreenService";
 const LoginScreen = () => {
-  const windowHeight = useWindowDimensions().height;
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
@@ -41,7 +40,6 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const {
     signInEmailPassword,
-    initialLoading,
     signInGoogleAccount,
     authErrorCode,
     loginLoading,
@@ -62,7 +60,9 @@ const LoginScreen = () => {
       else if (!loginLoading) await signInEmailPassword(email, password);
     }
   };
-
+  useEffect(() => {
+    console.log("Login page");
+  }, []);
   useEffect(() => {
     if (!authErrorCode) return;
     switch (authErrorCode) {
@@ -256,13 +256,3 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-const style = StyleSheet.create({
-  input: {
-    paddingLeft: 10,
-    height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_background,
-    color: appStyle.color_primary,
-    backgroundColor: appStyle.color_on_primary,
-  },
-});
