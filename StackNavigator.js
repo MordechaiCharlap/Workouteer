@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Platform, StatusBar } from "react-native";
+import { View, Platform, StatusBar, Text } from "react-native";
 import * as appStyle from "./utilities/appStyleSheet";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
@@ -106,7 +106,12 @@ const StackNavigator = () => {
   }, [initialLoading]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
-    <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
+    <View
+      style={[
+        { flex: 1 },
+        Platform.OS == "web" && { width: "100%", alignItems: "center" },
+      ]}
+    >
       <View style={safeAreaStyle()}>
         <StatusBar
           backgroundColor={appStyle.statusBarStyle.backgroundColor}
