@@ -40,9 +40,8 @@ const RegisterScreen = () => {
 
   const {
     googleUserInfo,
-    startListenToUserAsync,
-    loginLoading,
     createUserEmailAndPassword,
+    signInWithCredentialGoogle,
   } = useAuth();
   const { pushToken } = usePushNotifications();
   const [isMale, setIsMale] = useState();
@@ -120,11 +119,31 @@ const RegisterScreen = () => {
         } else await handleRegister();
     }
   };
-
+  useEffect(() => {
+    const handleGoogleRegister = async () => {
+      const newUserData = {
+        displayName: username,
+        id: username.toLowerCase(),
+        birthdate: date,
+        email: email.toLowerCase(),
+        pushToken: pushToken ? pushToken : null,
+        isMale: isMale,
+        uid: googleUserInfo.uid,
+        authEmail: googleUserInfo ? false : true,
+        authGoogle: googleUserInfo ? true : false,
+      };
+      await firebase.createUser(newUserData);
+    };
+    if (googleUserInfo?.uid) {
+      handleGoogleRegister();
+    }
+  }, [googleUserInfo?.uid]);
   const handleRegister = async () => {
-    const uid = googleUserInfo
-      ? googleUserInfo.uid
-      : await createUserEmailAndPassword(email, password);
+    if (googleUserInfo) {
+      signInWithCredentialGoogle();
+      return;
+    }
+    const uid = await createUserEmailAndPassword(email, password);
     const newUserData = {
       displayName: username,
       id: username.toLowerCase(),
@@ -137,7 +156,7 @@ const RegisterScreen = () => {
       authGoogle: googleUserInfo ? true : false,
     };
     await firebase.createUser(newUserData);
-    await startListenToUserAsync(newUserData.id);
+    // await startListenToUserAsync(newUserData.id);
   };
   const verticalMargin = 10;
   return (
