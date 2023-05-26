@@ -438,20 +438,19 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
     var apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
       latLong.latitude
     },${latLong.longitude}&key=${mapsApiKey}&language=${"he"}`;
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const results = data.results;
-        for (var element of results) {
-          if (element.types.includes("locality")) {
-            cityHe = element.formatted_address.split(",")[0];
-            break;
-          }
-        }
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const results = data.results;
+    for (var element of results) {
+      if (element.types.includes("locality")) {
+        console.log("found city");
+        console.log(element.formatted_address.split(",")[0]);
+        cityHe = element.formatted_address.split(",")[0];
+        break;
+      } else {
+        console.log("not found city");
+      }
+    }
   }
   const countryDoc = await getDoc(doc(db, "countriesData", countryId));
   if (!countryDoc.exists()) {
@@ -484,12 +483,14 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
       }
     }
   }
-  if (cityHe)
+  if (cityHe) {
+    console.log("cityHe");
     return {
       country: { id: countryId, english: countryEn },
       city: { id: cityId, english: cityEn, hebrew: cityHe },
     };
-  else {
+  } else {
+    console.log("no cityHe");
     return {
       country: { id: countryId, english: countryEn },
       city: { id: cityId, english: cityEn },
