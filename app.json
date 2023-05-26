@@ -50,7 +50,7 @@
       "bundleIdentifier": "com.charlap.workouteer"
     },
     "android": {
-      "versionCode": 23,
+      "versionCode": 24,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyB82d0m9dRBff144fQmGIIHQYYOrNdDdWQ"
