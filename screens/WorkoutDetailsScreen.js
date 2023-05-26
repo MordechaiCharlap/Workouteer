@@ -83,9 +83,7 @@ const WorkoutDetailsScreen = ({ route }) => {
         title={languageService[user.language].details}
         goBackOption={true}
       />
-      {initalLoading ? (
-        <LoadingAnimation />
-      ) : (
+      {!initalLoading && (
         <View className="flex-1 mx-4">
           <View className="flex-1 ">
             <FlatList
@@ -340,16 +338,23 @@ const WorkoutDetailsScreen = ({ route }) => {
                   )} */}
 
                   {item.id == workout.creator && (
-                    <Text
-                      style={{ color: appStyle.color_on_background }}
+                    <View
                       className="mr-5"
+                      style={{
+                        borderRadius: 999,
+                        backgroundColor: appStyle.color_surface_variant,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                      }}
                     >
-                      {
-                        languageService[user.language].creator[
-                          user.isMale ? 1 : 0
-                        ]
-                      }
-                    </Text>
+                      <Text style={{ color: appStyle.color_on_background }}>
+                        {
+                          languageService[user.language].creator[
+                            user.isMale ? 1 : 0
+                          ]
+                        }
+                      </Text>
+                    </View>
                   )}
                 </TouchableOpacity>
               )}
@@ -391,24 +396,18 @@ const WorkoutDetailsScreen = ({ route }) => {
         </View>
       )}
       {isCreator && !isPastWorkout && members.length < 10 && (
-        <View
-          className="px-2"
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: appStyle.color_outline,
-          }}
-        >
+        <View className="px-2">
           <CustomButton
             style={{
               borderRadius: 999,
               marginVertical: 5,
-              backgroundColor: appStyle.color_on_background,
+              backgroundColor: appStyle.color_tertiary,
             }}
             onPress={inviteFriends}
           >
             <Text
               className="text-xl text-center font-semibold"
-              style={{ color: appStyle.color_background }}
+              style={{ color: appStyle.color_on_tertiary }}
             >
               {languageService[user.language].inviteFriendsToJoin}
             </Text>
