@@ -47,9 +47,9 @@ const NavbarButton = (props) => {
           <View
             style={{
               borderRadius: 999,
-              height: "85%",
+              height: "78%",
               aspectRatio: 1 / 1,
-              backgroundColor: appStyle.color_on_background,
+              backgroundColor: appStyle.color_primary,
             }}
           ></View>
         </View>
