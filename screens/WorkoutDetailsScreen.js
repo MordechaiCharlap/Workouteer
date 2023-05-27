@@ -315,28 +315,6 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  {/* {item.id == user.id && (
-                    <View
-                      className="rounded-lg p-1"
-                      style={{
-                        marginRight: item.id == workout.creator ? 0 : 20,
-                        backgroundColor: appStyle.color_on_background,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: appStyle.color_on_on_background,
-                        }}
-                      >
-                        {
-                          languageService[user.language].you[
-                            user.isMale ? 1 : 0
-                          ]
-                        }
-                      </Text>
-                    </View>
-                  )} */}
-
                   {item.id == workout.creator && (
                     <View
                       className="mr-5"
@@ -395,7 +373,7 @@ const WorkoutDetailsScreen = ({ route }) => {
           </View>
         </View>
       )}
-      {isCreator && !isPastWorkout && members.length < 10 && (
+      {!initalLoading && isCreator && !isPastWorkout && members.length < 10 && (
         <View className="px-2">
           <CustomButton
             style={{
