@@ -85,7 +85,7 @@ const RegisterScreen = () => {
       else setSexError(false);
       if (!acceptTerms) setTermsCBError(true);
       else setTermsCBError(false);
-      if (!date || (date && calculateAge(date) < 16())) setBirthdateError(true);
+      if (!date || (date && calculateAge(date) < 16)) setBirthdateError(true);
       else setBirthdateError(false);
       setLoading(false);
       return false;
