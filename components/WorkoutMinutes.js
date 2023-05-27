@@ -29,8 +29,8 @@ const WorkoutMinutes = ({ value, minutesSelected, color }) => {
   };
   return (
     <View
-      className={`flex-1 items-center flex-row${
-        user.language == "hebrew" && "-reverse"
+      className={`flex-1 items-center ${
+        user.language == "hebrew" ? "flex-row-reverse" : "flex-row"
       }`}
     >
       <FontAwesomeIcon icon={faStopwatch} color={color} size={30} />
