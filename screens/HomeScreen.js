@@ -45,7 +45,7 @@ const HomeScreen = () => {
       : Dimensions.get("window").height / 16.5,
     fontSize: windowHeight
       ? windowHeight / 35
-      : Dimensions.get("window").height / 35,
+      : Dimensions.get("window").height / 45,
   };
   const rowStyle = {
     flexDirection: "row",
