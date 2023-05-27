@@ -100,13 +100,10 @@ const EditProfileData = (props) => {
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.id);
-    await firebase.saveProfileChanges(
-      user.id,
-      displayName == null ? "" : displayName,
-      description == null ? "" : description,
-      image == null ? defaultValues.defaultProfilePic : image
-    );
-
+    const userClone = { ...user };
+    userClone.displayName = displayName == null ? "" : displayName;
+    userClone.description = description == null ? "" : description;
+    userClone.img = image == null ? defaultValues.defaultProfilePic : image;
     setUpdated(true);
     setTimeout(() => {
       setLoading(false);
@@ -114,6 +111,12 @@ const EditProfileData = (props) => {
       setUpdated(false);
       props.navigation.navigate("MyProfile");
     }, 500);
+    await firebase.saveProfileChanges(
+      user.id,
+      displayName == null ? "" : displayName,
+      description == null ? "" : description,
+      image == null ? defaultValues.defaultProfilePic : image
+    );
   };
 
   const saveButtonClicked = () => {
