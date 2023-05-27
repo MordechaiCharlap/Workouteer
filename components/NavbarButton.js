@@ -34,7 +34,7 @@ const NavbarButton = (props) => {
         navigation.navigate(props.screen);
       }}
     >
-      {props.screen == "MyProfile" && props.screen == currentScreen && (
+      {/* {props.screen == "MyProfile" && props.screen == currentScreen && (
         <View
           style={{
             position: "absolute",
@@ -53,7 +53,7 @@ const NavbarButton = (props) => {
             }}
           ></View>
         </View>
-      )}
+      )} */}
       {props.screen == "Home" && (
         <View className="absolute h-full w-full items-center justify-center">
           <FontAwesomeIcon
