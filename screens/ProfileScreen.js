@@ -1,23 +1,10 @@
-import {
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
-import { React, useCallback, useEffect, useState } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { View } from "react-native";
+import { React, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
-import * as appStyle from "../utilities/appStyleSheet";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import languageService from "../services/languageService";
-import AwesomeModal from "../components/AwesomeModal";
 import Profile from "../components/Profile";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft, faShield } from "@fortawesome/free-solid-svg-icons";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 
 const ProfileScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
