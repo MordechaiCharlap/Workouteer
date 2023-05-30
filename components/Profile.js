@@ -201,11 +201,8 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       </View>
     );
   };
-  return user.userIsDeleted ? (
-    <View
-      style={safeAreaStyle()}
-      className="flex-1 justify-center items-center px-2"
-    >
+  return shownUser.isDeleted ? (
+    <View className="flex-1 justify-center items-center px-2">
       <Text
         className="text-4xl font-semibold text-center"
         style={{ color: appStyle.color_on_background }}
