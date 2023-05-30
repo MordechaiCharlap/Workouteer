@@ -443,12 +443,9 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
     const results = data.results;
     for (var element of results) {
       if (element.types.includes("locality")) {
-        console.log("found city");
-        console.log(element.formatted_address.split(",")[0]);
         cityHe = element.formatted_address.split(",")[0];
         break;
       } else {
-        console.log("not found city");
       }
     }
   }
@@ -484,13 +481,11 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
     }
   }
   if (cityHe) {
-    console.log("cityHe");
     return {
       country: { id: countryId, english: countryEn },
       city: { id: cityId, english: cityEn, hebrew: cityHe },
     };
   } else {
-    console.log("no cityHe");
     return {
       country: { id: countryId, english: countryEn },
       city: { id: cityId, english: cityEn },
