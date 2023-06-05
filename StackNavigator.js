@@ -47,8 +47,10 @@ import SearchWorkoutsScreen from "./screens/SearchWorkoutsScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 import { useConnection } from "./hooks/useConnection";
+import { useMaintenance } from "./hooks/useMaintenance";
 import ConnectToInternetScreen from "./screens/ConnectToInternetScreen";
 import MyProfileScreen from "./screens/MyProfileScreen";
+import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -63,6 +65,7 @@ const StackNavigator = () => {
   const { notificationListenerFunction } = usePushNotifications();
   const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
+  const { underMaintenance } = useMaintenance();
   const { isVersionUpToDate } = useAppData();
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
@@ -140,6 +143,12 @@ const StackNavigator = () => {
             <Stack.Screen
               name="ConnectToInternet"
               component={ConnectToInternetScreen}
+              options={verticalAnimation}
+            />
+          ) : underMaintenance == true ? (
+            <Stack.Screen
+              name="UnderMaintenance"
+              component={UnderMaintenanceScreen}
               options={verticalAnimation}
             />
           ) : user ? (
