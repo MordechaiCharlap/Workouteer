@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../services/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import Constants from "expo-constants";
 const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
@@ -32,11 +32,13 @@ export const AppDataProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    const getAppData = async () => {
-      const appDataFromDB = (await getDoc(doc(db, "appData/specs"))).data();
-      setAppData(appDataFromDB);
+    const unsubscribe = onSnapshot(doc(db, `appData/specs`), (doc) => {
+      setAppData(doc.data());
+    });
+
+    return () => {
+      unsubscribe();
     };
-    getAppData();
   }, []);
   useEffect(() => {
     if (appData) setIsVersionUpToDate(isVersionUpToDateFunc());
