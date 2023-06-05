@@ -173,7 +173,7 @@ const languageService = {
     requestToJoin: ["Request to join", "Request to join"],
     lessThan: "Less than ",
     kmAway: "kilometer away",
-    kmAway: "kilometers away",
+    kmsAway: "kilometers away",
     members: "Members",
     alreadyScheduledAWorkoutThisDate:
       "You have a scheduled workout in this date",
