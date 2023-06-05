@@ -288,7 +288,7 @@ const languageService = {
     hoursMinutes: "hours:minutes",
     thisActionIsIrreversable: "This action is irreversable",
     appIsUnderMaintenance: "The app is under maintenance",
-    comeBackLater: "Come back late :)",
+    comeBackLater: "Come back later :)",
   },
   hebrew: {
     login: "התחבר",
