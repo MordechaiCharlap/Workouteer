@@ -5,13 +5,11 @@ const ConnectionContext = createContext({});
 export const ConnectionProvider = ({ children }) => {
   const [connected, setConnected] = useState(true);
   useEffect(() => {
-    console.log("subscribing");
     const unsubscribe = NetInfo.addEventListener((state) => {
       setConnected(state.isConnected);
     });
 
     return () => {
-      console.log("unsubscribing");
       unsubscribe();
     };
   }, []);
