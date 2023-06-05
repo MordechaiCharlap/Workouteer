@@ -211,13 +211,18 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       </Text>
     </View>
   ) : (
-    <View className="flex-1 mt-3" style={{ paddingHorizontal: 16 }}>
-      <ScrollView
-        className="flex-1"
-        showsVerticalScrollIndicator={Platform.OS == "web" ? false : true}
+    <View className="flex-1">
+      <View
+        className="py-3"
+        style={{
+          backgroundColor: appStyle.color_surface_variant,
+          paddingHorizontal: 16,
+          borderBottomColor: appStyle.color_outline,
+          borderBottomWidth: 0.5,
+        }}
       >
         {isMyUser ? (
-          <View className="flex-row items-center justify-between mb-5">
+          <View className="flex-row items-center justify-between">
             <TouchableOpacity onPress={() => navigation.navigate("EditData")}>
               <FontAwesomeIcon
                 icon={faUserPen}
@@ -239,7 +244,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="flex-row justify-between items-center mb-5">
+          <View className="flex-row justify-between items-center">
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <FontAwesomeIcon
                 icon={faChevronLeft}
@@ -256,7 +261,15 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
             </TouchableOpacity>
           </View>
         )}
-
+      </View>
+      <ScrollView
+        className="flex-1"
+        style={{
+          paddingHorizontal: 16,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{ height: 10 }} />
         <View>
           <View
             style={{
@@ -389,6 +402,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
             </View>
           </View>
         </View>
+        <View style={{ height: 10 }} />
       </ScrollView>
       {!isMyUser && (
         <View
