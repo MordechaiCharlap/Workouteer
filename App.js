@@ -21,6 +21,7 @@ import { Timestamp, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "./services/firebase";
 import { WorkoutLogicProvider } from "./hooks/useWorkoutLogic";
 import { ConnectionProvider } from "./hooks/useConnection";
+import { MaintenanceProvider } from "./hooks/useMaintenance";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -49,33 +50,35 @@ export default function App() {
   return (
     <NavigationContainer>
       <AppDataProvider>
-        <AuthPrvider>
-          <ResponsivenessProvider>
-            <ConnectionProvider>
-              <NavbarDisplayProvider>
-                <AlertsProvider>
-                  <CurrentWorkoutProvider>
-                    <FriendsWorkoutsProvider>
-                      <NotificationsProvider>
-                        <LeaderboardUpdatesProvider>
-                          <ConfirmedWorkoutsProvider>
-                            <WorkoutLogicProvider>
-                              <NavbarNavigationProvider>
-                                <TailwindProvider>
-                                  <StackNavigator />
-                                </TailwindProvider>
-                              </NavbarNavigationProvider>
-                            </WorkoutLogicProvider>
-                          </ConfirmedWorkoutsProvider>
-                        </LeaderboardUpdatesProvider>
-                      </NotificationsProvider>
-                    </FriendsWorkoutsProvider>
-                  </CurrentWorkoutProvider>
-                </AlertsProvider>
-              </NavbarDisplayProvider>
-            </ConnectionProvider>
-          </ResponsivenessProvider>
-        </AuthPrvider>
+        <MaintenanceProvider>
+          <AuthPrvider>
+            <ResponsivenessProvider>
+              <ConnectionProvider>
+                <NavbarDisplayProvider>
+                  <AlertsProvider>
+                    <CurrentWorkoutProvider>
+                      <FriendsWorkoutsProvider>
+                        <NotificationsProvider>
+                          <LeaderboardUpdatesProvider>
+                            <ConfirmedWorkoutsProvider>
+                              <WorkoutLogicProvider>
+                                <NavbarNavigationProvider>
+                                  <TailwindProvider>
+                                    <StackNavigator />
+                                  </TailwindProvider>
+                                </NavbarNavigationProvider>
+                              </WorkoutLogicProvider>
+                            </ConfirmedWorkoutsProvider>
+                          </LeaderboardUpdatesProvider>
+                        </NotificationsProvider>
+                      </FriendsWorkoutsProvider>
+                    </CurrentWorkoutProvider>
+                  </AlertsProvider>
+                </NavbarDisplayProvider>
+              </ConnectionProvider>
+            </ResponsivenessProvider>
+          </AuthPrvider>
+        </MaintenanceProvider>
       </AppDataProvider>
     </NavigationContainer>
   );
