@@ -287,6 +287,8 @@ const languageService = {
     choose: ["Choose", "Choose"],
     hoursMinutes: "hours:minutes",
     thisActionIsIrreversable: "This action is irreversable",
+    appIsUnderMaintenance: "The app is under maintenance",
+    comeBackLater: "Come back late :)",
   },
   hebrew: {
     login: "התחבר",
@@ -551,6 +553,8 @@ const languageService = {
     choose: ["בחרי", "בחר"],
     hoursMinutes: "דקות:שעות",
     thisActionIsIrreversable: "הפעולה הזאת בלתי הפיכה",
+    appIsUnderMaintenance: "האפליקציה בשיפוצים",
+    comeBackLater: "תחזרו מאוחר יותר :)",
   },
 };
 export default languageService;

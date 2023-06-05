@@ -23,7 +23,6 @@ const getLocation = async () => {
   if (status !== "granted") {
     return false;
   } else {
-    console.log("permission granted");
   }
   const location = await Location.getCurrentPositionAsync({
     accuracy: Location.Accuracy.Highest,
