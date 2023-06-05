@@ -26,7 +26,7 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
     }
   }, [userLoaded]);
   useEffect(() => {
-    if (!userLoaded) return;
+    if (!user?.leaderboard?.leaderboardUpdated) return;
     const leaderboardUpdated = testing
       ? { lastPlace: 1 }
       : user.leaderboard.leaderboardUpdated;
@@ -40,7 +40,7 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
       );
       setShowModal(true);
     }
-  }, [userLoaded]);
+  }, [user?.leaderboard?.leaderboardUpdated]);
   return (
     <LeaderboardUpdatesContext.Provider value={{}}>
       {children}
