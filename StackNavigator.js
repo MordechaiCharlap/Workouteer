@@ -47,10 +47,10 @@ import SearchWorkoutsScreen from "./screens/SearchWorkoutsScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 import { useConnection } from "./hooks/useConnection";
-import { useMaintenance } from "./hooks/useMaintenance";
 import ConnectToInternetScreen from "./screens/ConnectToInternetScreen";
 import MyProfileScreen from "./screens/MyProfileScreen";
 import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
+import { useMaintenance } from "./hooks/useMaintenance";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
