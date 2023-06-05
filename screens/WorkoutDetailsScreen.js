@@ -23,7 +23,6 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { timeString } from "../services/timeFunctions";
 import * as firebase from "../services/firebase";
-import LoadingAnimation from "../components/LoadingAnimation";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
