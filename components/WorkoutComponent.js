@@ -74,7 +74,11 @@ const WorkoutComponent = (props) => {
       }
     }
     if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
-    if (props.screen != "FutureWorkouts" && user.lastLocation) {
+    if (
+      props.screen != "FutureWorkouts" &&
+      !isPastWorkout &&
+      user.lastLocation
+    ) {
       const distanceCalc = getDistance(user.lastLocation, workout.location);
 
       const dist = Math.max(Math.ceil(distanceCalc / 1000), 1);
