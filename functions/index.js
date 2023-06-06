@@ -17,6 +17,7 @@ exports.deleteUserData = functions.firestore
       try {
         await admin.auth().deleteUser(uid);
       } catch (error) {
+        console.log(error);
       }
     }
     const batch = db.batch();
@@ -187,3 +188,29 @@ exports.weeklyLeaderboardReset = functions.pubsub
 
     console.log("Leaderboard reset successful.");
   });
+exports.helloWorld = functions.https.onRequest(async (request, response) => {
+  response.send("Respowwwnse");
+  console.log("Helloww Wowwwrld");
+  await sendPushNotification();
+});
+const sendPushNotification = async (userToSend, title, body, data) => {
+  if (isWeb) return;
+  if (userToSend.pushToken) {
+    const pushNotification = {
+      to: userToSend.pushToken,
+      sound: "default",
+      title: "",
+      body: body,
+      data: data ? data : {},
+    };
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pushNotification),
+    });
+  }
+};
