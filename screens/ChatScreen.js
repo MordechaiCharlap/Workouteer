@@ -44,7 +44,7 @@ const ChatScreen = ({ route }) => {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
   const { sendPushNotificationChatMessage } = usePushNotifications();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { chatsAlerts, setChatsAlerts } = useAlerts();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
@@ -196,7 +196,7 @@ const ChatScreen = ({ route }) => {
             />
           )}
         />
-        {!user.isDeleted ? (
+        {!otherUser.isDeleted ? (
           <View
             className="flex-row p-2 items-center"
             style={{ backgroundColor: appStyle.color_background_variant }}
@@ -238,8 +238,8 @@ const ChatScreen = ({ route }) => {
           <View
             className="p-2"
             style={{
-              backgroundColor: appStyle.color_primary,
-              borderTopColor: appStyle.color_on_primary,
+              backgroundColor: appStyle.color_tertiary,
+              borderTopColor: appStyle.color_on_tertiary,
               borderTopWidth: 1,
             }}
           >
