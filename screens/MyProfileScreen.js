@@ -7,6 +7,7 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import Profile from "../components/Profile";
+import useAuth from "../hooks/useAuth";
 
 const MyProfileScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
