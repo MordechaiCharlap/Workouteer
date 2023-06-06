@@ -48,33 +48,33 @@ export const NotificationsProvider = ({ children }) => {
   };
   async function registerForPushNotificationsAsync() {
     let token;
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        console.log("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      if (token && token != user.pushToken) {
+        await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
+        const updatedUser = { ...user, pushToken: token };
+        await firebase.updateUser(updatedUser);
+      }
+      if (Platform.OS === "android") {
+        Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
+      }
     }
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      console.log("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    if (token && token != user.pushToken) {
-      await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-      const updatedUser = { ...user, pushToken: token };
-      console.log(updatedUser);
-      await firebase.updateUser(updatedUser);
-    }
-
     return token;
   }
 
