@@ -1,4 +1,4 @@
-import { createContext, useState, useRef, useContext } from "react";
+import { createContext, useState, useRef, useContext, useEffect } from "react";
 import * as Device from "expo-device";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
@@ -10,8 +10,15 @@ export const NotificationsProvider = ({ children }) => {
   const [pushToken, setPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user } = useAuth();
+  const { user, userLoaded } = useAuth();
   const isWeb = Platform.OS == "web";
+  useEffect(() => {
+    if (!userLoaded || Platform.OS == "web") return;
+    const addListenerAsync = async () => {
+      await notificationListenerFunction();
+    };
+    addListenerAsync();
+  }, [userLoaded]);
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
       registerForPushNotificationsAsync().then((token) => setPushToken(token));
@@ -61,9 +68,10 @@ export const NotificationsProvider = ({ children }) => {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    if (token && token != user.token) {
+    if (token && token != user.pushToken) {
       await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
       const updatedUser = { ...user, pushToken: token };
+      console.log(updatedUser);
       await firebase.updateUser(updatedUser);
     }
 

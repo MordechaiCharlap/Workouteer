@@ -192,15 +192,12 @@ export const AuthPrvider = ({ children }) => {
   };
   const userSignOut = () => {
     setInitialLoading(true);
-    if (googleUserInfo) {
-      if (unsubscribeUser) unsubscribeUser.current();
-      setGoogleUserInfo(null);
-    } else
-      signOut(auth)
-        .then(() => {})
-        .catch((error) => {});
-
+    if (unsubscribeUser) unsubscribeUser.current();
+    setGoogleUserInfo(null);
     setUser(null);
+    signOut(auth)
+      .then(() => {})
+      .catch((error) => {});
   };
   return (
     <AuthContext.Provider

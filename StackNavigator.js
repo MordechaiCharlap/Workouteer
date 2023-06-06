@@ -61,7 +61,6 @@ const StackNavigator = () => {
     exploreNavigationOptions,
   } = useNavbarNavigation();
   const { showNavbar } = useNavbarDisplay();
-  const { notificationListenerFunction } = usePushNotifications();
   const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
   const { underMaintenance } = useMaintenance();
@@ -86,13 +85,9 @@ const StackNavigator = () => {
         await firebase.updateUser(updatedUser);
       }
     };
-    const addListenerAsync = async () => {
-      await notificationListenerFunction();
-    };
 
     if (!notificationsListenersAdded && userLoaded && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
-      addListenerAsync(user);
     }
     if (userLoaded) {
       removeUnconfirmedOldWorkouts();
