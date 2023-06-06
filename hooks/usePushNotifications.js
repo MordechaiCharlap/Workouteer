@@ -14,7 +14,7 @@ export const NotificationsProvider = ({ children }) => {
   const isWeb = Platform.OS == "web";
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
-      registerForPushNotifications().then((token) => setPushToken(token));
+      registerForPushNotificationsAsync().then((token) => setPushToken(token));
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
@@ -39,40 +39,37 @@ export const NotificationsProvider = ({ children }) => {
       };
     }
   };
-  const registerForPushNotifications = async () => {
+  async function registerForPushNotificationsAsync() {
     let token;
-    if (Device.isDevice) {
-      if (Platform.OS === "android") {
-        Notifications.setNotificationChannelAsync("default", {
-          name: "default",
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: "#FF231F7C",
-        });
-      }
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        try {
-          const { status } = await Notifications.requestPermissionsAsync();
-          finalStatus = status;
-        } catch (error) {}
-      }
-      if (finalStatus !== "granted") {
-        return;
-      }
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      if (token && token != user.token) {
-        await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-        const updatedUser = { ...user, pushToken: token };
-        await firebase.updateUser(updatedUser);
-      }
-    } else {
-      // Must use physical device for Push Notifications
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
     }
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      console.log("Failed to get push token for push notification!");
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    if (token && token != user.token) {
+      await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
+      const updatedUser = { ...user, pushToken: token };
+      await firebase.updateUser(updatedUser);
+    }
+
     return token;
-  };
+  }
+
   const sendPushNotificationUserLeftWorkout = async (
     workout,
     leavingUserId,
@@ -283,7 +280,6 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotificationChatMessage,
         sendPushNotificationInviteFriendToWorkout,
         pushToken,
-        setPushToken,
         notificationListenerFunction,
         schedulePushNotification,
         cancelScheduledPushNotification,
