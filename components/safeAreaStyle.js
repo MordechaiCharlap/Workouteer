@@ -19,6 +19,7 @@ export const safeAreaStyle = () => {
   } else {
     style = {
       height: "100%",
+      width: "100%",
       flex: 1,
       backgroundColor: appStyle.color_background,
     };

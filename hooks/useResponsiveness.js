@@ -3,11 +3,8 @@ import { Platform } from "react-native";
 import { Dimensions } from "react-native";
 import { isWebOnMobileDevice } from "../services/webScreenService";
 const WebDeviceResponsivenessContext = createContext({});
-const isPortrait = () => {
-  return window.innerWidth <= Dimensions.get("window").height;
-};
+
 export const ResponsivenessProvider = ({ children }) => {
-  const [isWeb, setIsWeb] = useState();
   const [windowWidth, setWindowWidth] = useState();
   const [windowHeight, setWindowHeight] = useState();
   const [orientation, setOrientation] = useState();
@@ -24,13 +21,17 @@ export const ResponsivenessProvider = ({ children }) => {
       }
     }, 100);
   };
+  const isPortrait = () => {
+    return Dimensions.get("window").width <= Dimensions.get("window").height;
+  };
+  const orientationHandler = () => {
+    setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
+  };
   useEffect(() => {
     if (Platform.OS == "web") {
-      const orientationHandler = () => {
-        setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
-      };
-
       if (isWebOnMobileDevice) {
+        setWindowHeight(Dimensions.get("window").height);
+        setWindowWidth(Dimensions.get("window").width);
         orientationHandler();
         Dimensions.addEventListener("change", orientationHandler);
         return () => {
@@ -49,8 +50,6 @@ export const ResponsivenessProvider = ({ children }) => {
   return (
     <WebDeviceResponsivenessContext.Provider
       value={{
-        isWeb,
-        setIsWeb,
         windowWidth,
         windowHeight,
         orientation,
