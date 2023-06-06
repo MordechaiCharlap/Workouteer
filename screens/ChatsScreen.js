@@ -151,16 +151,31 @@ const ChatsScreen = () => {
               ]}
             >
               <View className="flex-row">
-                <Image
-                  style={{
-                    borderWidth: 0.5,
-                    borderColor: appStyle.color_outline,
-                  }}
-                  source={{
-                    uri: item.user.img,
-                  }}
-                  className="h-14 w-14 bg-white rounded-full mr-4"
-                />
+                <View className="h-14 w-14 mr-4">
+                  {selectedChats.length > 0 &&
+                  selectedChats.some(
+                    (selectedItem) => selectedItem.chat.id == item.chat.id
+                  ) ? (
+                    <View className="absolute h-full w-full justify-center items-center">
+                      <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        color={appStyle.color_primary}
+                        size={55}
+                      />
+                    </View>
+                  ) : (
+                    <Image
+                      style={{
+                        borderWidth: 0.5,
+                        borderColor: appStyle.color_outline,
+                      }}
+                      source={{
+                        uri: item.user.img,
+                      }}
+                      className="h-full w-full bg-white rounded-full"
+                    />
+                  )}
+                </View>
                 <View className="flex-1">
                   <View className="flex-row justify-between">
                     <Text
@@ -224,30 +239,6 @@ const ChatsScreen = () => {
                     )}
                   </View>
                 </View>
-                {selectedChats.length > 0 && (
-                  <View className="absolute top-0 bottom-0 justify-center right-0">
-                    <View
-                      className="rounded-full"
-                      style={{
-                        backgroundColor: appStyle.color_on_primary,
-                        padding: 1,
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={
-                          selectedChats.some(
-                            (selectedItem) =>
-                              selectedItem.chat.id == item.chat.id
-                          )
-                            ? faCheckCircle
-                            : faCircle
-                        }
-                        color={appStyle.color_on_background}
-                        size={30}
-                      />
-                    </View>
-                  </View>
-                )}
               </View>
             </TouchableOpacity>
           )
