@@ -5,12 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  StatusBar,
-  Platform,
 } from "react-native";
-import { React, useCallback, useEffect, useState } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { safeAreaStyle } from "./safeAreaStyle";
+import { React, useEffect, useState } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -19,7 +15,6 @@ import {
   faUserMinus,
   faUserPlus,
   faUserXmark,
-  faCheck,
   faX,
   faShield,
   faUserPen,
@@ -406,7 +401,10 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
       </ScrollView>
       {!isMyUser && (
         <View
-          style={{ backgroundColor: appStyle.color_background_variant }}
+          style={{
+            backgroundColor: appStyle.color_background_variant,
+            paddingHorizontal: 16,
+          }}
           className="flex-row justify-center py-2"
         >
           <View className="mr-4">{renderFriendshipButton()}</View>
