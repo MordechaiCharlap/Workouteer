@@ -35,6 +35,7 @@ import AwesomeModal from "./AwesomeModal";
 import UserDetailsButton from "./profileScreen/UserDetailsButton";
 import CustomButton from "./basic/CustomButton";
 import CustomText from "./basic/CustomText";
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const navigation = useNavigation();
