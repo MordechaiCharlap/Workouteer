@@ -34,26 +34,6 @@ const NavbarButton = (props) => {
         navigation.navigate(props.screen);
       }}
     >
-      {/* {props.screen == "MyProfile" && props.screen == currentScreen && (
-        <View
-          style={{
-            position: "absolute",
-            height: "100%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              borderRadius: 999,
-              height: "78%",
-              aspectRatio: 1 / 1,
-              backgroundColor: appStyle.color_primary,
-            }}
-          ></View>
-        </View>
-      )} */}
       {props.screen == "Home" && (
         <View className="absolute h-full w-full items-center justify-center">
           <FontAwesomeIcon
@@ -70,10 +50,18 @@ const NavbarButton = (props) => {
               uri: user?.img,
             }}
             className="bg-white rounded-full"
-            style={{
-              height: 38,
-              width: 38,
-            }}
+            style={[
+              {
+                height: 38,
+                width: 38,
+              },
+              props.screen == currentScreen
+                ? {
+                    borderColor: appStyle.color_on_background,
+                    borderWidth: 1,
+                  }
+                : {},
+            ]}
           />
           {props.alert != null && props.alert == true && (
             <View
