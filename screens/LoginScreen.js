@@ -16,20 +16,13 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCircleUser,
-  faEye,
-  faEyeSlash,
-  faLongArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { faGoogle, faGooglePlay } from "@fortawesome/free-brands-svg-icons";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import useAuth from "../hooks/useAuth";
-import LoadingAnimation from "../components/LoadingAnimation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import CustomText from "../components/basic/CustomText";
 import CustomTextInput from "../components/basic/CustomTextInput";
-import { isWebOnPC } from "../services/webScreenService";
 const LoginScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(

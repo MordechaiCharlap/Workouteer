@@ -11,7 +11,6 @@ export const NotificationsProvider = ({ children }) => {
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user, userLoaded } = useAuth();
-  const isWeb = Platform.OS == "web";
   useEffect(() => {
     if (!userLoaded || Platform.OS == "web") return;
     const addListenerAsync = async () => {
@@ -208,7 +207,7 @@ export const NotificationsProvider = ({ children }) => {
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
   const sendPushNotification = async (userToSend, title, body, data) => {
-    if (isWeb) return;
+    if (Platform.OS == "web") return;
     if (userToSend.pushToken) {
       const pushNotification = {
         to: userToSend.pushToken,
