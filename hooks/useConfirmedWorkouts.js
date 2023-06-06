@@ -38,9 +38,16 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
       cleanListener();
     };
   }, []);
+  const unsubscribeConfirmedWorkouts = () => {
+    cleanListener();
+  };
   return (
     <ConfirmedWorkoutContext.Provider
-      value={{ confirmedWorkouts, getConfirmedWorkoutsByUserId }}
+      value={{
+        confirmedWorkouts,
+        getConfirmedWorkoutsByUserId,
+        unsubscribeConfirmedWorkouts,
+      }}
     >
       {children}
     </ConfirmedWorkoutContext.Provider>
