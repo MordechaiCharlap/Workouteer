@@ -1005,7 +1005,7 @@ export const deletePushTokenForUserWhoIsNotMe = async (userId, pushToken) => {
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot.size > 0) {
-    for (var docRef of querySnapshot) {
+    for (var docRef of querySnapshot.docs) {
       const data = docRef.data();
       await updateDoc(doc(db, `users/${data.id}`), {
         pushToken: null,
