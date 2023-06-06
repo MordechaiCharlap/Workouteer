@@ -14,12 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCheck,
   faCheckDouble,
-  faMagnifyingGlass,
   faPenToSquare,
   faArrowLeft,
   faTrash,
-  faSquare,
-  faCheckSquare,
   faCheckCircle,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -260,34 +257,70 @@ const ChatsScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <View
-        className="flex-row items-center h-10 mt-4 mb-2 justify-center"
-        style={{
-          borderBottomColor: appStyle.color_outline,
-          borderBottomWidth: 0.7,
-        }}
-      >
-        <Text
-          className="text-4xl font-semibold"
-          style={{ color: appStyle.color_on_background }}
+      {selectedChats.length == 0 ? (
+        <View
+          className="flex-row items-center mb-2 justify-center"
+          style={{
+            paddingVertical: 16,
+            borderBottomColor: appStyle.color_outline,
+            borderBottomWidth: 0.7,
+          }}
         >
-          {languageService[user.language].chats}
-        </Text>
-        {Object.keys(chatsAlerts).length > 0 && (
-          <View className="absolute right-0 mr-4">
-            <AlertDot
-              text={Object.keys(chatsAlerts).length}
-              textColor={appStyle.color_background}
+          <Text
+            className="text-2xl font-semibold"
+            style={{ color: appStyle.color_on_background }}
+          >
+            {languageService[user.language].chats}
+          </Text>
+          {Object.keys(chatsAlerts).length > 0 && (
+            <View
+              className="absolute top-0 bottom-0 right-0 justify-center"
+              style={{ paddingHorizontal: 16 }}
+            >
+              <AlertDot
+                text={Object.keys(chatsAlerts).length}
+                textColor={appStyle.color_background}
+                color={appStyle.color_on_background}
+                size={35}
+              />
+            </View>
+          )}
+        </View>
+      ) : (
+        <View
+          className="flex-row items-center mb-2 justify-between"
+          style={{
+            paddingHorizontal: 16,
+            paddingVertical: 16,
+            borderBottomColor: appStyle.color_outline,
+            borderBottomWidth: 0.7,
+          }}
+        >
+          <TouchableOpacity onPress={() => setSelectedChats([])}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              size={24}
               color={appStyle.color_on_background}
-              size={35}
             />
-          </View>
-        )}
-      </View>
+          </TouchableOpacity>
+
+          <Text
+            className="text-2xl font-bold ml-4"
+            style={{ color: appStyle.color_on_background }}
+          >
+            {selectedChats.length}
+          </Text>
+          <TouchableOpacity onPress={() => deleteSelectedChatsPopup()}>
+            <FontAwesomeIcon
+              icon={faTrash}
+              size={24}
+              color={appStyle.color_on_background}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
       <View className="flex-1">
-        {selectedChats.length == 0 ? (
-          <>
-            {/* {chatsArr != null && chatsArr.length != 0 && (
+        {/* {chatsArr != null && chatsArr.length != 0 && (
               <View
                 className="rounded-xl"
                 style={{ backgroundColor: appStyle.color_darker }}
@@ -309,37 +342,7 @@ const ChatsScreen = () => {
                 </View>
               </View>
             )} */}
-          </>
-        ) : (
-          <View
-            className="flex-row items-center h-12 justify-between"
-            style={{
-              paddingHorizontal: 16,
-            }}
-          >
-            <TouchableOpacity onPress={() => setSelectedChats([])}>
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                size={24}
-                color={appStyle.color_on_background}
-              />
-            </TouchableOpacity>
 
-            <Text
-              className="text-2xl font-bold ml-4"
-              style={{ color: appStyle.color_on_background }}
-            >
-              {selectedChats.length}
-            </Text>
-            <TouchableOpacity onPress={() => deleteSelectedChatsPopup()}>
-              <FontAwesomeIcon
-                icon={faTrash}
-                size={24}
-                color={appStyle.color_on_background}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
         <View className="flex-1">
           {chatsArr == null ? (
             <Text
