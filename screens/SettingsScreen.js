@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Switch,
-  Modal,
-} from "react-native";
+import { Text, View, TouchableOpacity, Switch, Modal } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -24,8 +18,12 @@ import SuggestionForm from "../components/SuggestionForm";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
+import useAlerts from "../hooks/useAlerts";
+import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 const SettingsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
+  const { unsubscribeAlerts, setUnsubscribeAlerts } = useAlerts();
+  const { unsubscribeConfirmedWorkouts } = useConfirmedWorkouts();
   const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
@@ -36,6 +34,11 @@ const SettingsScreen = ({ route }) => {
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
   const signOut = async () => {
+    if (unsubscribeAlerts) {
+      unsubscribeAlerts();
+      setUnsubscribeAlerts();
+    }
+    unsubscribeConfirmedWorkouts();
     await updateDoc(doc(db, "users", user.id), {
       pushToken: null,
     });
