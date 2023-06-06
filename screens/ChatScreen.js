@@ -223,13 +223,13 @@ const ChatScreen = ({ route }) => {
             ></TextInput>
             <View
               className="rounded-full w-10 h-10 items-center justify-center"
-              style={{ backgroundColor: appStyle.color_background }}
+              style={{ backgroundColor: appStyle.color_tertiary }}
             >
               <TouchableOpacity onPress={() => sendMessage()}>
                 <FontAwesomeIcon
                   icon={faChevronRight}
                   size={25}
-                  color={appStyle.color_primary}
+                  color={appStyle.color_on_tertiary}
                 />
               </TouchableOpacity>
             </View>
