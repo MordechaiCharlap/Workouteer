@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  StatusBar,
-} from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";

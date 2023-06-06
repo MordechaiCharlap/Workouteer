@@ -1,5 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text } from "react-native";
 import { React } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";

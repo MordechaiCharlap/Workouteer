@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { View, Platform, StatusBar, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Platform, StatusBar } from "react-native";
 import * as appStyle from "./utilities/appStyleSheet";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
@@ -24,7 +24,6 @@ import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
 import InviteFriendsScreen from "./screens/InviteFriendsScreen";
 import usePushNotifications from "./hooks/usePushNotifications";
 import useAuth from "./hooks/useAuth";
-import useAlerts from "./hooks/useAlerts";
 import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
 import useNavbarNavigation from "./hooks/useNavbarNavigation";

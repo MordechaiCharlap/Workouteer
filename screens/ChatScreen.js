@@ -1,5 +1,4 @@
 import {
-  StatusBar,
   Text,
   View,
   Image,

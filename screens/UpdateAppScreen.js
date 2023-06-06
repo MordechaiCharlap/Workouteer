@@ -1,7 +1,6 @@
-import { View, StatusBar, Text, TouchableOpacity, Linking } from "react-native";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as firebase from "../services/firebase";
 import * as appStyle from "../utilities/appStyleSheet";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";

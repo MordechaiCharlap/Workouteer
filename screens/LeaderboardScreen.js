@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, FlatList, Image } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { React, useCallback, useEffect, useState } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";

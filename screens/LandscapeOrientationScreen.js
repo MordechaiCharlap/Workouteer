@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import { View, Text } from "react-native";
 import React, { useCallback } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import { useFocusEffect } from "@react-navigation/native";

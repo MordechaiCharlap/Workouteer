@@ -1,4 +1,4 @@
-import { View, StatusBar, Dimensions, Text } from "react-native";
+import { View, Dimensions, Text } from "react-native";
 import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";

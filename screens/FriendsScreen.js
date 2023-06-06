@@ -1,6 +1,4 @@
 import {
-  StatusBar,
-  Text,
   View,
   Image,
   FlatList,

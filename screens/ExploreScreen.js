@@ -1,10 +1,7 @@
-import { View, StatusBar, Text } from "react-native";
+import { View, Text } from "react-native";
 import { React, useState, useCallback } from "react";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import * as appStyle from "../utilities/appStyleSheet";
+import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import SearchUsers from "../components/SearchUsers";
-import Explore from "../components/Explore";
 import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";

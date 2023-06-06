@@ -3,7 +3,6 @@ import {
   View,
   TouchableOpacity,
   Switch,
-  StatusBar,
   Modal,
 } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";

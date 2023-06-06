@@ -4,11 +4,10 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  StatusBar,
   Platform,
 } from "react-native";
 import { React, useCallback, useState } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utilities/appStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
@@ -24,7 +23,6 @@ const PersonalDataScreen = () => {
     }, [])
   );
   const { user } = useAuth();
-  const navigation = useNavigation();
   const [isMale, setIsMale] = useState(null);
   const [country, setCountry] = useState(null);
   const [firstNameVal, setFirstNameVal] = useState("");

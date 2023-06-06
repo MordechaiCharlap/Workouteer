@@ -1,4 +1,4 @@
-import { View, FlatList, StatusBar, Platform } from "react-native";
+import { View, FlatList, Platform } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect } from "@react-navigation/native";

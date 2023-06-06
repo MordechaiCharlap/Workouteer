@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Alert,
   Image,
-  StatusBar,
   Platform,
   ScrollView,
   KeyboardAvoidingView,

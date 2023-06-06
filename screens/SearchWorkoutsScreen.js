@@ -1,5 +1,4 @@
 import {
-  StatusBar,
   View,
   Text,
   TouchableOpacity,
@@ -8,12 +7,10 @@ import {
   Platform,
   useWindowDimensions,
 } from "react-native";
-import React, { useCallback, useRef, useState, Children } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import Header from "../components/Header";
 import WorkoutType from "../components/WorkoutType";
-import WorkoutStartingTime from "../components/WorkoutStartingTime";
 import { useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
@@ -23,9 +20,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import NextWeekDropdown from "../components/NextWeekDropdown";
 import { isWebOnPC } from "../services/webScreenService";
-import { convertHexToRgba } from "../utilities/stylingFunctions";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
 import { Title } from "../components/slides/Title";
 import CustomButton from "../components/basic/CustomButton";

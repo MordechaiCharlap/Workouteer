@@ -2,9 +2,6 @@ import {
   View,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  Alert,
-  StatusBar,
 } from "react-native";
 import React, { useCallback, useEffect } from "react";
 import * as firebase from "../services/firebase";
