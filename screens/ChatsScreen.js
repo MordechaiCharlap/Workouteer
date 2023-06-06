@@ -76,8 +76,10 @@ const ChatsScreen = () => {
       );
       if (index > -1) {
         selectedChatsClone.splice(index, 1);
-        setSelectedChats(selectedChatsClone);
+      } else {
+        selectedChatsClone.push(item);
       }
+      setSelectedChats(selectedChatsClone);
     }
   };
   const deleteSelectedChatsPopup = async () => {
