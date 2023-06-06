@@ -28,6 +28,7 @@ import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import { messageTimeString } from "../services/timeFunctions";
+import AwesomeModal from "../components/AwesomeModal";
 const ChatsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -380,60 +381,22 @@ const ChatsScreen = () => {
           opacity: modalVisible ? 0.8 : 0,
         }}
       ></View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
+      <AwesomeModal
+        closeOnTouchOutside={false}
+        showModal={modalVisible}
+        onDismiss={() => setModalVisible(false)}
+        showCancelButton={true}
+        onCancelPressed={() => setModalVisible(false)}
+        title={languageService[user.language].areYouSure[user.isMale ? 1 : 0]}
+        message={
+          languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
+        }
+        onConfirmPressed={async () => {
           setModalVisible(!modalVisible);
+          await deleteSelectedChats();
         }}
-      >
-        <View className="justify-center flex-1">
-          <View
-            style={{ backgroundColor: appStyle.color_background_variant }}
-            className="items-center rounded mx-3 gap-y-2 py-2"
-          >
-            <Text
-              className="font-bold text-xl"
-              style={{ color: appStyle.color_on_primary }}
-            >
-              {languageService[user.language].areYouSure[user.isMale ? 1 : 0]}
-            </Text>
-            <View className="flex-row w-10/12 justify-between">
-              <TouchableOpacity
-                className="w-1/3 p-1"
-                style={{ backgroundColor: appStyle.color_on_background }}
-                onPress={async () => {
-                  setModalVisible(!modalVisible);
-                  await deleteSelectedChats();
-                }}
-              >
-                <Text
-                  className="text-center"
-                  style={{ color: appStyle.color_on_primary }}
-                >
-                  {languageService[user.language].deleteChats}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="w-1/3 p-1"
-                style={{ backgroundColor: appStyle.color_on_background }}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  setSelectedChats([]);
-                }}
-              >
-                <Text
-                  className="text-center"
-                  style={{ color: appStyle.color_on_primary }}
-                >
-                  {languageService[user.language].cancel}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+        confirmText={languageService[user.language].deleteChats}
+      />
     </View>
   );
 };
