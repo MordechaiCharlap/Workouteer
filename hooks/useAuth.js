@@ -63,9 +63,6 @@ export const AuthPrvider = ({ children }) => {
         setUserAsync();
       } else {
         setInitialLoading(false);
-        if (unsubscribeUser.current) {
-          unsubscribeUser.current();
-        }
         if (user) {
           setUser(null);
         }
@@ -101,11 +98,6 @@ export const AuthPrvider = ({ children }) => {
       setLoginLoading(false);
     }
   }, [response]);
-  useEffect(() => {
-    return () => {
-      if (unsubscribeUser.current) unsubscribeUser.current();
-    };
-  }, []);
   useEffect(() => {
     const setGoogleUserAsync = async () => {
       if (!(await checkIfEmailAvailable(googleUserInfo.email.toLowerCase()))) {
@@ -192,8 +184,8 @@ export const AuthPrvider = ({ children }) => {
   };
   const userSignOut = () => {
     setInitialLoading(true);
-    if (unsubscribeUser) unsubscribeUser.current();
     setGoogleUserInfo(null);
+    if (unsubscribeUser.current) unsubscribeUser.current();
     setUser(null);
     signOut(auth)
       .then(() => {})
@@ -207,7 +199,6 @@ export const AuthPrvider = ({ children }) => {
         setUser,
         setRememberMe,
         googleUserInfo,
-        // startListenToUserAsync,
         createUserEmailAndPassword,
         signInEmailPassword,
         signInGoogleAccount,
