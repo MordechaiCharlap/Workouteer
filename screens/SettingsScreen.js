@@ -30,14 +30,14 @@ const SettingsScreen = ({ route }) => {
   const [language, setLanguage] = useState(user.language);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
-  const { pushToken } = usePushNotifications();
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
   const signOut = async () => {
     if (pushToken) {
-      await updateDoc(doc(db, "users", user.id), {
-        pushToken: null,
-      });
+      if (user.pushToken)
+        await updateDoc(doc(db, "users", user.id), {
+          pushToken: null,
+        });
     }
     userSignOut();
   };

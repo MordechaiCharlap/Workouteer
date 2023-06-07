@@ -5,9 +5,17 @@ import * as Notifications from "expo-notifications";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 import languageService from "../services/languageService";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../services/firebase";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
-  const [pushToken, setPushToken] = useState();
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
   const notificationListener = useRef();
   const responseListener = useRef();
   const { user, userLoaded, rememberMe } = useAuth();
@@ -26,7 +34,6 @@ export const NotificationsProvider = ({ children }) => {
       await notificationListenerFunction();
     };
     if (!userLoaded || Platform.OS == "web") {
-      setPushToken();
       clearListeners();
     } else if (rememberMe) addListenerAsync();
     return () => {
@@ -35,14 +42,12 @@ export const NotificationsProvider = ({ children }) => {
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
-      registerForPushNotificationsAsync().then((token) => setPushToken(token));
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: true,
-        }),
+      registerForPushNotificationsAsync().then(async (token) => {
+        if (token && token != user.token) {
+          await tokenUpdateLogic(token);
+        }
       });
+
       // This listener is fired whenever a notification is received while the app is foregrounded
       notificationListener.current =
         Notifications.addNotificationReceivedListener((notification) => {});
@@ -52,19 +57,6 @@ export const NotificationsProvider = ({ children }) => {
         Notifications.addNotificationResponseReceivedListener((response) => {});
     }
   };
-  useEffect(() => {
-    const tokenUpdateLogic = async () => {
-      await firebase.deletePushTokenForUserWhoIsNotMe(user.id, pushToken);
-      const updatedUser = { ...user };
-      updatedUser.pushToken = pushToken;
-      await firebase.updateUser(updatedUser);
-    };
-    if (pushToken && pushToken != user.pushToken) {
-      setTimeout(() => {
-        tokenUpdateLogic();
-      }, 1500);
-    }
-  }, [pushToken]);
   async function registerForPushNotificationsAsync() {
     let token;
     if (Platform.OS != "web") {
@@ -92,7 +84,12 @@ export const NotificationsProvider = ({ children }) => {
     }
     return token;
   }
-
+  const tokenUpdateLogic = async (token) => {
+    await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
+    setTimeout(async () => {
+      await updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
+    }, 5000);
+  };
   const sendPushNotificationUserLeftWorkout = async (
     workout,
     leavingUserId,
@@ -302,7 +299,6 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotificationUserJoinedYouwWorkout,
         sendPushNotificationChatMessage,
         sendPushNotificationInviteFriendToWorkout,
-        pushToken,
         schedulePushNotification,
         cancelScheduledPushNotification,
       }}
