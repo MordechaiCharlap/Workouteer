@@ -5,12 +5,12 @@ import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyl
 import CustomTextInput from "../basic/CustomTextInput";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
-  const [dayStyle, setDayStyle] = useState(appComponentsDefaultStyles.input);
   const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+  const [dayStyle, setDayStyle] = useState(appComponentsDefaultStyles.input);
   const [monthStyle, setMonthStyle] = useState(
     appComponentsDefaultStyles.input
   );
-  const [year, setYear] = useState();
   const [yearStyle, setYearStyle] = useState(appComponentsDefaultStyles.input);
   const [error, setError] = useState(null);
 
@@ -90,14 +90,14 @@ const BirthdayWebInput = (props) => {
         >
           {"Birthdate: "}
         </Text>
-        <CustomTextInput
+        <TextInput
           keyboardType="numeric"
           onChangeText={(text) => handleDayChanged(text)}
           maxLength={2}
           placeholderTextColor={"#5f6b8b"}
           placeholder="dd"
           style={[dayStyle, { width: "6ch", textAlign: "center" }]}
-        ></CustomTextInput>
+        ></TextInput>
         <TextInput
           keyboardType="numeric"
           onChangeText={(text) => handleMonthChanged(text)}
@@ -122,24 +122,3 @@ const BirthdayWebInput = (props) => {
 };
 
 export default BirthdayWebInput;
-
-const style = StyleSheet.create({
-  input: {
-    height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_background,
-    borderRadius: 4,
-    color: appStyle.color_primary,
-    backgroundColor: appStyle.color_on_primary,
-    justifyContent: "center",
-  },
-  badInput: {
-    height: 40,
-    borderWidth: 2,
-    borderColor: appStyle.color_error,
-    color: appStyle.color_primary,
-    backgroundColor: appStyle.color_on_primary,
-    borderRadius: 4,
-    justifyContent: "center",
-  },
-});
