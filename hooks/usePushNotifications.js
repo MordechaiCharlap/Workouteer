@@ -24,9 +24,11 @@ export const NotificationsProvider = ({ children }) => {
     };
     addListenerAsync();
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
+      if (notificationListener.current != null) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
     };
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
