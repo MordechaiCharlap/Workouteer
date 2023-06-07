@@ -1,8 +1,7 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
 import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
-import CustomTextInput from "../basic/CustomTextInput";
 const BirthdayWebInput = (props) => {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
@@ -91,6 +90,7 @@ const BirthdayWebInput = (props) => {
           {"Birthdate: "}
         </Text>
         <TextInput
+          autoComplete="off"
           keyboardType="numeric"
           onChangeText={(text) => handleDayChanged(text)}
           maxLength={2}
@@ -99,6 +99,7 @@ const BirthdayWebInput = (props) => {
           style={[dayStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
+          autoComplete="off"
           keyboardType="numeric"
           onChangeText={(text) => handleMonthChanged(text)}
           maxLength={2}
@@ -107,6 +108,7 @@ const BirthdayWebInput = (props) => {
           style={[monthStyle, { width: "6ch", textAlign: "center" }]}
         ></TextInput>
         <TextInput
+          autoComplete="off"
           keyboardType="numeric"
           onChangeText={(text) => handleYearChanged(text)}
           maxLength={4}
