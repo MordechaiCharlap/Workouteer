@@ -33,7 +33,6 @@ const PastWorkoutsScreen = ({ route }) => {
       const shownUserWorkouts = await getConfirmedWorkoutsByUserId(
         shownUser.id
       );
-      console.log(shownUserWorkouts);
       setConfirmedWorkoutsArray(shownUserWorkouts);
     };
     getShownUserConfirmedWorkouts();

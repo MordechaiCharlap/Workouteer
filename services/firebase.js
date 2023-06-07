@@ -782,7 +782,7 @@ export const getFriendsFutureWorkouts = async (user) => {
 };
 
 export const updateUser = async (user) => {
-  await setDoc(doc(db, "users", user.id), { ...user });
+  await updateDoc(doc(db, "users", user.id), { ...user });
 };
 
 export const addChatAlert = async (userId, chatId) => {
@@ -915,7 +915,7 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
     //remove unconfirmed only if nobody in the workout confirmed it
     if (
       workout != null &&
-      !Object.values(workout.members).some((user) => user.confirmedWorkout)
+      !Object.values(workout.members).some((member) => member.confirmedWorkout)
     ) {
       await deleteDoc(doc(db, `workouts/${key}`));
     }
