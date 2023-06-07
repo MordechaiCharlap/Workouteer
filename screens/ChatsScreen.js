@@ -159,7 +159,7 @@ const ChatsScreen = () => {
                     <View className="absolute h-full w-full justify-center items-center">
                       <FontAwesomeIcon
                         icon={faCheckCircle}
-                        color={appStyle.color_primary}
+                        color={appStyle.color_on_background}
                         size={55}
                       />
                     </View>
@@ -381,9 +381,6 @@ const ChatsScreen = () => {
         showCancelButton={true}
         onCancelPressed={() => setModalVisible(false)}
         title={languageService[user.language].areYouSure[user.isMale ? 1 : 0]}
-        message={
-          languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
-        }
         onConfirmPressed={async () => {
           setModalVisible(!modalVisible);
           await deleteSelectedChats();
