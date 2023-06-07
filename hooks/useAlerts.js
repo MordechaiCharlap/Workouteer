@@ -61,8 +61,6 @@ export const AlertsProvider = ({ children }) => {
         setFriendRequestsAlerts,
         newWorkoutsAlerts,
         setNewWorkoutsAlerts,
-        unsubscribeAlerts,
-        setUnsubscribeAlerts,
       }}
     >
       {children}
