@@ -113,7 +113,7 @@ export const AuthPrvider = ({ children }) => {
         navigation.navigate("Register");
       }
     };
-    if (googleUserInfo && googleUserInfo.credential) {
+    if (googleUserInfo && googleUserInfo.credential && user == null) {
       setGoogleUserAsync().then(() => {});
     }
   }, [googleUserInfo]);
@@ -183,9 +183,9 @@ export const AuthPrvider = ({ children }) => {
     }
   };
   const userSignOut = () => {
-    setInitialLoading(true);
-    setGoogleUserInfo(null);
+    setLoginLoading(false);
     if (unsubscribeUser.current) unsubscribeUser.current();
+    setGoogleUserInfo(null);
     setUser(null);
     signOut(auth)
       .then(() => {})
