@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import * as appStyle from "../../utilities/appStyleSheet";
-import CustomButton from "../basic/CustomButton";
 const Password = (props) => {
   const [passwordStyle, setPasswordStyle] = useState(props.style.input);
   const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +26,7 @@ const Password = (props) => {
     <View style={props.style.inputContainer}>
       <View>
         <TextInput
+          autoComplete="off"
           secureTextEntry={!showPassword}
           style={passwordStyle}
           placeholder="Password"

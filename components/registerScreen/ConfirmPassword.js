@@ -33,6 +33,7 @@ const ConfirmPassword = (props) => {
     <View style={props.style.inputContainer}>
       <View>
         <TextInput
+          autoComplete="off"
           secureTextEntry={!showConfirmPassword}
           style={confirmPasswordStyle}
           placeholder="Confirm Password"
