@@ -7,7 +7,7 @@ import * as firebase from "../services/firebase";
 
 const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user, userLoaded } = useAuth();
   const [confirmedWorkouts, setConfirmedWorkouts] = useState([]);
   const unsubscribeRef = useRef();
   const db = firebase.db;
@@ -22,7 +22,7 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
       .confirmedWorkouts;
   };
   useEffect(() => {
-    if (user && !unsubscribeRef.current) {
+    if (userLoaded) {
       unsubscribeRef.current = onSnapshot(
         doc(db, "usersConfirmedWorkouts", user.id),
         (doc) => {
@@ -31,22 +31,16 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
             setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
         }
       );
-    }
-  }, [user]);
-  useEffect(() => {
+    } else cleanListener();
     return () => {
       cleanListener();
     };
-  }, []);
-  const unsubscribeConfirmedWorkouts = () => {
-    cleanListener();
-  };
+  }, [userLoaded]);
   return (
     <ConfirmedWorkoutContext.Provider
       value={{
         confirmedWorkouts,
         getConfirmedWorkoutsByUserId,
-        unsubscribeConfirmedWorkouts,
       }}
     >
       {children}
