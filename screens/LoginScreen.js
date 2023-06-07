@@ -145,7 +145,7 @@ const LoginScreen = () => {
                 onChangeText={setPassword}
                 placeholder="Password"
               />
-              <View style={{ height: verticalMargin }}></View>
+              {/* <View style={{ height: verticalMargin }}></View>
               <View className="flex-row items-center">
                 <CheckBox
                   valueColor={appStyle.color_on_primary}
@@ -159,7 +159,7 @@ const LoginScreen = () => {
                 >
                   Remember me!
                 </CustomText>
-              </View>
+              </View> */}
               <CustomText
                 className="text-center h-8"
                 style={{ color: appStyle.color_error, paddingVertical: 5 }}

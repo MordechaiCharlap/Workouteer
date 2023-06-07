@@ -31,7 +31,7 @@ export const AuthPrvider = ({ children }) => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [userLoaded, setUserLoaded] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const unsubscribeUser = useRef();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
@@ -183,7 +183,7 @@ export const AuthPrvider = ({ children }) => {
     }
   };
   const userSignOut = () => {
-    setRememberMe(false);
+    // setRememberMe(false);
     setLoginLoading(false);
     if (unsubscribeUser.current) unsubscribeUser.current();
     setGoogleUserInfo(null);
