@@ -194,7 +194,6 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
   await sendPushNotification();
 });
 const sendPushNotification = async (userToSend, title, body, data) => {
-  if (isWeb) return;
   if (userToSend.pushToken) {
     const pushNotification = {
       to: userToSend.pushToken,
