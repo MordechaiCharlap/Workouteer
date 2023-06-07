@@ -12,11 +12,22 @@ export const NotificationsProvider = ({ children }) => {
   const responseListener = useRef();
   const { user, userLoaded } = useAuth();
   useEffect(() => {
-    if (!userLoaded || Platform.OS == "web") return;
+    if (!userLoaded || Platform.OS == "web") {
+      if (notificationListener.current != null) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+    }
     const addListenerAsync = async () => {
       await notificationListenerFunction();
     };
     addListenerAsync();
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+    };
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web") {
@@ -35,14 +46,6 @@ export const NotificationsProvider = ({ children }) => {
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current =
         Notifications.addNotificationResponseReceivedListener((response) => {});
-
-      return () => {
-        if (responseListener) {
-          Notifications.removeNotificationSubscription(
-            notificationListener.current
-          );
-        }
-      };
     }
   };
   async function registerForPushNotificationsAsync() {
