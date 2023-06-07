@@ -4,6 +4,7 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+  Text,
   Platform,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
@@ -24,7 +25,6 @@ import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
-import CustomTextInput from "../components/basic/CustomTextInput";
 import CustomButton from "../components/basic/CustomButton";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
