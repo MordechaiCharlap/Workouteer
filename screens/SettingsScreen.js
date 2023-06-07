@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Switch, Modal } from "react-native";
+import { Text, View, Switch, Modal } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -20,10 +20,9 @@ import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
 import useAlerts from "../hooks/useAlerts";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
+import usePushNotifications from "../hooks/usePushNotifications";
 const SettingsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
-  const { unsubscribeAlerts, setUnsubscribeAlerts } = useAlerts();
-  const { unsubscribeConfirmedWorkouts } = useConfirmedWorkouts();
   const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
   const [isPublic, setIsPublic] = useState(user.isPublic);
@@ -31,17 +30,15 @@ const SettingsScreen = ({ route }) => {
   const [language, setLanguage] = useState(user.language);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
+  const { pushToken } = usePushNotifications();
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
   const signOut = async () => {
-    if (unsubscribeAlerts) {
-      unsubscribeAlerts();
-      setUnsubscribeAlerts();
+    if (pushToken) {
+      await updateDoc(doc(db, "users", user.id), {
+        pushToken: null,
+      });
     }
-    unsubscribeConfirmedWorkouts();
-    await updateDoc(doc(db, "users", user.id), {
-      pushToken: null,
-    });
     userSignOut();
   };
   useFocusEffect(
