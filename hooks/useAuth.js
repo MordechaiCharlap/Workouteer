@@ -183,6 +183,7 @@ export const AuthPrvider = ({ children }) => {
     }
   };
   const userSignOut = () => {
+    setRememberMe(false);
     setLoginLoading(false);
     if (unsubscribeUser.current) unsubscribeUser.current();
     setGoogleUserInfo(null);
@@ -198,6 +199,7 @@ export const AuthPrvider = ({ children }) => {
         user,
         setUser,
         setRememberMe,
+        rememberMe,
         googleUserInfo,
         createUserEmailAndPassword,
         signInEmailPassword,

@@ -7,28 +7,30 @@ import useAuth from "./useAuth";
 import languageService from "../services/languageService";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
-  const [pushToken, setPushToken] = useState("");
+  const [pushToken, setPushToken] = useState();
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user, userLoaded } = useAuth();
-  useEffect(() => {
-    if (!userLoaded || Platform.OS == "web") {
-      if (notificationListener.current != null) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
+  const { user, userLoaded, rememberMe } = useAuth();
+  const clearListeners = () => {
+    if (notificationListener.current != null) {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      if (responseListener.current != null) {
+        Notifications.removeNotificationSubscription(responseListener.current);
       }
     }
+  };
+  useEffect(() => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
     };
-    addListenerAsync();
+    if (!userLoaded || Platform.OS == "web") {
+      setPushToken();
+      clearListeners();
+    } else if (rememberMe) addListenerAsync();
     return () => {
-      if (notificationListener.current != null) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      }
+      clearListeners();
     };
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
@@ -50,9 +52,22 @@ export const NotificationsProvider = ({ children }) => {
         Notifications.addNotificationResponseReceivedListener((response) => {});
     }
   };
+  useEffect(() => {
+    const tokenUpdateLogic = async () => {
+      await firebase.deletePushTokenForUserWhoIsNotMe(user.id, pushToken);
+      const updatedUser = { ...user };
+      updatedUser.pushToken = pushToken;
+      await firebase.updateUser(updatedUser);
+    };
+    if (pushToken && pushToken != user.pushToken) {
+      setTimeout(() => {
+        tokenUpdateLogic();
+      }, 1500);
+    }
+  }, [pushToken]);
   async function registerForPushNotificationsAsync() {
     let token;
-    if (Device.isDevice) {
+    if (Platform.OS != "web") {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -65,11 +80,7 @@ export const NotificationsProvider = ({ children }) => {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      if (token && token != user.pushToken) {
-        await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-        const updatedUser = { ...user, pushToken: token };
-        await firebase.updateUser(updatedUser);
-      }
+
       if (Platform.OS === "android") {
         Notifications.setNotificationChannelAsync("default", {
           name: "default",
@@ -292,7 +303,6 @@ export const NotificationsProvider = ({ children }) => {
         sendPushNotificationChatMessage,
         sendPushNotificationInviteFriendToWorkout,
         pushToken,
-        notificationListenerFunction,
         schedulePushNotification,
         cancelScheduledPushNotification,
       }}
