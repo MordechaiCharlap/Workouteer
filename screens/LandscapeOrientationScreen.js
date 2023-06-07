@@ -5,6 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
+import { safeAreaStyle } from "../components/safeAreaStyle";
 const LandscapeOrientationScreen = () => {
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
