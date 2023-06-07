@@ -12,7 +12,6 @@ export const ResponsivenessProvider = ({ children }) => {
   const webResizeHandler = () => {
     setTimeout(() => {
       setWindowHeight(window.innerHeight);
-
       setWindowWidth(window.innerWidth);
       if (window.innerHeight <= 572 || window.innerWidth <= 271) {
         setWindowTooSmall(true);
@@ -25,7 +24,9 @@ export const ResponsivenessProvider = ({ children }) => {
     return Dimensions.get("window").width <= Dimensions.get("window").height;
   };
   const orientationHandler = () => {
-    setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
+    setTimeout(() => {
+      setOrientation(isPortrait() ? "PORTRAIT" : "LANDSCAPE");
+    }, 100);
   };
   useEffect(() => {
     if (Platform.OS == "web") {
