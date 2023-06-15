@@ -15,17 +15,17 @@ import {
   db,
   userDataByEmail,
   checkIfEmailAvailable,
-  auth as firebaseAuth,
 } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { useNavigation } from "@react-navigation/native";
 import { getCurrentLocation } from "../services/geoService";
+import useFirebase from "./useFirebase";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
-  const auth = firebaseAuth;
+  const { auth } = useFirebase();
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
@@ -123,8 +123,10 @@ export const AuthPrvider = ({ children }) => {
     } else if (!user) setUserLoaded(false);
   }, [user]);
   useEffect(() => {
-    setInitialLoading(false);
-    if (!userLoaded) return;
+    if (!userLoaded) {
+      setInitialLoading(false);
+      return;
+    }
     const getLocation = async () => {
       await getCurrentLocation(user);
     };

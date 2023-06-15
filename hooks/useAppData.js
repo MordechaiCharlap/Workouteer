@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { db } from "../services/firebase";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import Constants from "expo-constants";
+import useFirebase from "./useFirebase";
 const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
+  const { db } = useFirebase();
   const [appData, setAppData] = useState();
   const [isVersionUpToDate, setIsVersionUpToDate] = useState(true);
   const compareVersions = (versionA, versionB) => {
