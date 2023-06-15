@@ -19,6 +19,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { WorkoutLogicProvider } from "./hooks/useWorkoutLogic";
 import { ConnectionProvider } from "./hooks/useConnection";
 import { MaintenanceProvider } from "./hooks/useMaintenance";
+import { FirebaseProvider } from "./hooks/useFirebase";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -31,37 +32,39 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AppDataProvider>
-        <MaintenanceProvider>
-          <AuthPrvider>
-            <ResponsivenessProvider>
-              <ConnectionProvider>
-                <NavbarDisplayProvider>
-                  <AlertsProvider>
-                    <CurrentWorkoutProvider>
-                      <FriendsWorkoutsProvider>
-                        <NotificationsProvider>
-                          <LeaderboardUpdatesProvider>
-                            <ConfirmedWorkoutsProvider>
-                              <WorkoutLogicProvider>
-                                <NavbarNavigationProvider>
-                                  <TailwindProvider>
-                                    <StackNavigator />
-                                  </TailwindProvider>
-                                </NavbarNavigationProvider>
-                              </WorkoutLogicProvider>
-                            </ConfirmedWorkoutsProvider>
-                          </LeaderboardUpdatesProvider>
-                        </NotificationsProvider>
-                      </FriendsWorkoutsProvider>
-                    </CurrentWorkoutProvider>
-                  </AlertsProvider>
-                </NavbarDisplayProvider>
-              </ConnectionProvider>
-            </ResponsivenessProvider>
-          </AuthPrvider>
-        </MaintenanceProvider>
-      </AppDataProvider>
+      <FirebaseProvider>
+        <AppDataProvider>
+          <MaintenanceProvider>
+            <AuthPrvider>
+              <ResponsivenessProvider>
+                <ConnectionProvider>
+                  <NavbarDisplayProvider>
+                    <AlertsProvider>
+                      <CurrentWorkoutProvider>
+                        <FriendsWorkoutsProvider>
+                          <NotificationsProvider>
+                            <LeaderboardUpdatesProvider>
+                              <ConfirmedWorkoutsProvider>
+                                <WorkoutLogicProvider>
+                                  <NavbarNavigationProvider>
+                                    <TailwindProvider>
+                                      <StackNavigator />
+                                    </TailwindProvider>
+                                  </NavbarNavigationProvider>
+                                </WorkoutLogicProvider>
+                              </ConfirmedWorkoutsProvider>
+                            </LeaderboardUpdatesProvider>
+                          </NotificationsProvider>
+                        </FriendsWorkoutsProvider>
+                      </CurrentWorkoutProvider>
+                    </AlertsProvider>
+                  </NavbarDisplayProvider>
+                </ConnectionProvider>
+              </ResponsivenessProvider>
+            </AuthPrvider>
+          </MaintenanceProvider>
+        </AppDataProvider>
+      </FirebaseProvider>
     </NavigationContainer>
   );
 }
