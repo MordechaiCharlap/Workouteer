@@ -9,17 +9,26 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithCredential,
+  getAuth,
 } from "firebase/auth";
-import { onSnapshot, doc } from "firebase/firestore";
+import {
+  onSnapshot,
+  doc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { userDataByEmail, checkIfEmailAvailable } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { useNavigation } from "@react-navigation/native";
 import { getCurrentLocation } from "../services/geoService";
-import useFirebase from "./useFirebase";
+import { getDb } from "../services/db";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
-  const { db, auth } = useFirebase();
+  const auth = getAuth();
+  const db = getDb();
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -41,7 +50,17 @@ export const AuthPrvider = ({ children }) => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         const getData = async () => {
-          const userData = await userDataByEmail(authUser.email.toLowerCase());
+          var userData;
+          const q = query(
+            collection(db, "users"),
+            where("email", "==", authUser.email)
+          );
+
+          await getDocs(q).then((snapshot) => {
+            snapshot.forEach((doc) => {
+              userData = doc.data();
+            });
+          });
           return userData;
         };
         const setUserAsync = async () => {

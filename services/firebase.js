@@ -26,9 +26,9 @@ import {
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
 import { mapsApiKey } from "../utilities/mapsApiKey";
-import useFirebase from "../hooks/useFirebase";
+import { getDb } from "./db";
 export const firebaseApp = initializeApp(firebaseConfig);
-export const db = getFirestore(firebaseApp);
+export const db = getDb();
 export const storage = getStorage(firebaseApp);
 export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
