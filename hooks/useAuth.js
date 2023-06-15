@@ -10,12 +10,8 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
-import { onSnapshot, doc, updateDoc } from "firebase/firestore";
-import {
-  db,
-  userDataByEmail,
-  checkIfEmailAvailable,
-} from "../services/firebase";
+import { onSnapshot, doc } from "firebase/firestore";
+import { userDataByEmail, checkIfEmailAvailable } from "../services/firebase";
 import * as Google from "expo-auth-session/providers/google";
 import { useNavigation } from "@react-navigation/native";
 import { getCurrentLocation } from "../services/geoService";
@@ -23,9 +19,9 @@ import useFirebase from "./useFirebase";
 const AuthContext = createContext({});
 
 export const AuthPrvider = ({ children }) => {
+  const { db, auth } = useFirebase();
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
-  const { auth } = useFirebase();
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);

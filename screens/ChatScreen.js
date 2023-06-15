@@ -32,6 +32,7 @@ import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomTextInput from "../components/basic/CustomTextInput";
+import useFirebase from "../hooks/useFirebase";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -48,7 +49,7 @@ const ChatScreen = ({ route }) => {
   const { chatsAlerts, setChatsAlerts } = useAlerts();
   const [chat, setChat] = useState(route.params.chat);
   const otherUser = route.params.otherUser;
-  const db = firebase.db;
+  const { db } = useFirebase();
   const [messageText, setMessageText] = useState("");
   const now = () => {
     const today = new Date();

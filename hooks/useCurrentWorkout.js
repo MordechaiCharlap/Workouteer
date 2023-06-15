@@ -9,8 +9,10 @@ import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 import useAlerts from "./useAlerts";
 import { deleteField, doc, updateDoc } from "firebase/firestore";
+import useFirebase from "./useFirebase";
 const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
+  const { db } = useFirebase();
   const { user } = useAuth();
   const { newWorkoutsAlerts } = useAlerts();
   const [currentWorkout, setCurrentWorkout] = useState(null);
@@ -44,7 +46,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
         ) {
           if (newWorkoutsAlerts[key] != null) {
             try {
-              await updateDoc(doc(firebase.db, `alerts/${user.id}`), {
+              await updateDoc(doc(db, `alerts/${user.id}`), {
                 [`newWorkouts.${key}`]: deleteField(),
               });
             } catch (error) {

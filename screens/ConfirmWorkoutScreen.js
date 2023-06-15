@@ -1,8 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-} from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import React, { useCallback, useEffect } from "react";
 import * as firebase from "../services/firebase";
 import {
@@ -24,17 +20,17 @@ import useAuth from "../hooks/useAuth";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 import languageService from "../services/languageService";
 import { useState } from "react";
-import AwesomeAlert from "react-native-awesome-alerts";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
+import useFirebase from "../hooks/useFirebase";
 
 const ConfirmWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setCurrentWorkout, currentWorkout } = useCurrentWorkout();
   const { user } = useAuth();
-  const db = firebase.db;
+  const { db } = useFirebase();
   const [confirmed, setConfirmed] = useState(false);
   const [checkingDistance, setCheckingDistance] = useState(false);
   const workout = currentWorkout;

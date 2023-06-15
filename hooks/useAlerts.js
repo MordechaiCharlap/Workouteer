@@ -2,8 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import useAuth from "./useAuth";
 import { onSnapshot, doc } from "firebase/firestore";
 import * as firebase from "../services/firebase";
+import useFirebase from "./useFirebase";
 const AlertsContext = createContext({});
 export const AlertsProvider = ({ children }) => {
+  const { db } = useFirebase();
   const { user, userLoaded } = useAuth();
   const [chatsAlerts, setChatsAlerts] = useState({});
   const [workoutRequestsAlerts, setWorkoutRequestsAlerts] = useState({});
@@ -24,7 +26,7 @@ export const AlertsProvider = ({ children }) => {
     if (userLoaded) {
       removingBadWorkoutAlerts();
       setUnsubscribeAlerts(
-        onSnapshot(doc(firebase.db, "alerts", user.id), (doc) => {
+        onSnapshot(doc(db, "alerts", user.id), (doc) => {
           const alertsData = doc.data();
           if (alertsData != null) {
             setChatsAlerts(alertsData.chats);

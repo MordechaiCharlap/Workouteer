@@ -4,13 +4,14 @@ import { createContext } from "react";
 import useAuth from "./useAuth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import * as firebase from "../services/firebase";
+import useFirebase from "./useFirebase";
 
 const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const [confirmedWorkouts, setConfirmedWorkouts] = useState([]);
   const unsubscribeRef = useRef();
-  const db = firebase.db;
+  const { db } = useFirebase();
   const cleanListener = () => {
     if (unsubscribeRef.current) {
       unsubscribeRef.current();

@@ -6,9 +6,10 @@ import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 import languageService from "../services/languageService";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../services/firebase";
+import useFirebase from "./useFirebase";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
+  const { db } = useFirebase();
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,

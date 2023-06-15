@@ -14,10 +14,12 @@ import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { doc, updateDoc } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 
 const FutureWorkoutsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { schedulePushNotification } = usePushNotifications();
+  const { db } = useFirebase();
   const { user } = useAuth();
   const shownUser =
     route.params?.shownUser != null ? route.params.shownUser : user;
@@ -38,7 +40,7 @@ const FutureWorkoutsScreen = ({ route }) => {
               "Don't forget to confirm your workout to get your points :)"
             );
           }
-          await updateDoc(doc(firebase.db, `workouts/${workout.id}`), {
+          await updateDoc(doc(db, `workouts/${workout.id}`), {
             [`members.${user.id}.notificationId`]: scheduledNotificationId,
           });
         }
