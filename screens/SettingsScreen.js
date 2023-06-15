@@ -12,16 +12,14 @@ import { faBug, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../services/firebase";
 import { UserDeleted } from "../components/settingsScreen/UserDeleted";
 import SuggestionForm from "../components/SuggestionForm";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
-import useAlerts from "../hooks/useAlerts";
-import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
-import usePushNotifications from "../hooks/usePushNotifications";
+import useFirebase from "../hooks/useFirebase";
 const SettingsScreen = ({ route }) => {
+  const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);

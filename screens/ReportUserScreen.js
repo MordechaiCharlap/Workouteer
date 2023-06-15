@@ -7,7 +7,6 @@ import { StatusBar } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
-import { db, storage } from "../services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Dropdown } from "react-native-element-dropdown";
 import { TextInput } from "react-native";
@@ -15,7 +14,9 @@ import { useRef } from "react";
 import AwesomeModal from "../components/AwesomeModal";
 import { addDoc, collection, doc } from "firebase/firestore";
 import * as defaultValues from "../services/defaultValues";
+import useFirebase from "../hooks/useFirebase";
 const ReportUserScreen = ({ route }) => {
+  const { db, storage } = useFirebase();
   const navigation = useNavigation();
   const { reported } = route.params;
   const { user } = useAuth();

@@ -13,8 +13,10 @@ import languageService from "../services/languageService";
 import CountdownTimer from "../components/leaderboardScreen/CountdownTimer";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
+import useFirebase from "../hooks/useFirebase";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
+  const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
@@ -34,7 +36,7 @@ const LeaderboardScreen = () => {
       const leaderboardData = (
         await getDoc(
           doc(
-            firebase.db,
+            db,
             `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
           )
         )

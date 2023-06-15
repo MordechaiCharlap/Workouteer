@@ -29,6 +29,7 @@ import { onSnapshot, doc } from "firebase/firestore";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomButton from "../components/basic/CustomButton";
+import useFirebase from "../hooks/useFirebase";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -38,7 +39,7 @@ const WorkoutDetailsScreen = ({ route }) => {
     }, [])
   );
   const navigation = useNavigation();
-  const db = firebase.db;
+  const { db } = useFirebase();
   const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
   const isPastWorkout = route.params.isPastWorkout;

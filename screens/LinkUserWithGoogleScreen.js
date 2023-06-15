@@ -7,9 +7,10 @@ import { calculateAge } from "../utilities/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
-import { db } from "../services/firebase";
 import { updateDoc, doc } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 const LinkUserWithGoogleScreen = ({ route }) => {
+  const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
     useCallback(() => {
