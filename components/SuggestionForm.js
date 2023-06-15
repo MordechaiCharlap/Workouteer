@@ -5,12 +5,12 @@ import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db as dbImport } from "../services/firebase";
 import CustomTextInput from "./basic/CustomTextInput";
 import CustomText from "./basic/CustomText";
 import CustomButton from "./basic/CustomButton";
+import useFirebase from "../hooks/useFirebase";
 const SuggestionForm = (props) => {
-  const db = dbImport;
+  const { db } = useFirebase();
   const id = props.id;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

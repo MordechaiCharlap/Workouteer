@@ -28,9 +28,10 @@ import { deleteField, doc, updateDoc } from "firebase/firestore";
 import languageService from "../services/languageService";
 import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
 import CustomButton from "../components/basic/CustomButton";
-import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import useFirebase from "../hooks/useFirebase";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
+  const { db } = useFirebase();
   const { user } = useAuth();
   const { updateArrayIfNeedForWorkout } = useFriendsWorkouts();
   const { workoutRequestsAlerts } = useAlerts();
@@ -134,7 +135,7 @@ const WorkoutComponent = (props) => {
         user.displayName,
         newCreatorIsMale
       );
-      await updateDoc(doc(firebase.db, `workouts/${workoutRef.id}`), {
+      await updateDoc(doc(db, `workouts/${workoutRef.id}`), {
         creator: workoutRef.creator,
         [`members.${user.id}`]: deleteField(),
       });
