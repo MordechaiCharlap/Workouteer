@@ -105,12 +105,14 @@ exports.weeklyLeaderboardReset = functions.pubsub
           (a, b) => a[1].points < b[1].points
         );
         for (let index = 0; index < usersArray.length; index++) {
-          console.log(usersArray[index][0]);
           if (index < 10 && usersArray[index][1].points != 0) {
             newLeagues[Math.min(9, leagueNum + 1)].push(usersArray[index][0]);
           } else if (index < 40 && usersArray[index][1].points != 0) {
             newLeagues[leagueNum].push(usersArray[index][0]);
           } else {
+            // A condition that is here to remove non active users from the leaderboard cycle whenever they
+            // get to 0 points on 0 league
+            // if (usersArray[index][1].points != 0 || leagueNum != 0)
             newLeagues[Math.max(0, leagueNum - 1)].push(usersArray[index][0]);
           }
         }
