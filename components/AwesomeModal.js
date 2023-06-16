@@ -12,9 +12,7 @@ const AwesomeModal = (props) => {
   var fixedWidth;
   if (isWebOnPC) {
     const { windowHeight } = useResponsiveness();
-    fixedWidth =
-      (9 / 19) *
-      (windowHeight ? windowHeight : Dimensions.get("window").height);
+    fixedWidth = (9 / 19) * (windowHeight || Dimensions.get("window").height);
   }
   return (
     <AwesomeAlert
@@ -34,18 +32,12 @@ const AwesomeModal = (props) => {
       messageStyle={{ color: appStyle.color_on_surface }}
       show={props.showModal}
       showProgress={props.showProgress ? props.showProgress : false}
-      title={props.title ? props.title : ""}
-      message={props.message ? props.message : ""}
+      title={props.title || ""}
+      message={props.message || ""}
       onDismiss={
-        props.onDismiss
-          ? () => {
-              props.onDismiss();
-            }
-          : props.onCancelPressed
-          ? () => {
-              props.onCancelPressed();
-            }
-          : () => props.setShowModal(false)
+        props.onDismiss ||
+        props.onCancelPressed ||
+        (() => props.setShowModal(false))
       }
       closeOnTouchOutside={
         props.closeOnTouchOutside != null ? props.closeOnTouchOutside : true
@@ -59,9 +51,8 @@ const AwesomeModal = (props) => {
         props.showConfirmButton != null ? props.showConfirmButton : true
       }
       confirmText={
-        props.confirmText
-          ? props.confirmText
-          : languageService[user.language].continue[user.isMale ? 1 : 0]
+        props.confirmText ||
+        languageService[user.language].continue[user.isMale ? 1 : 0]
       }
       showCancelButton={
         props.showCancelButton != null ? props.showCancelButton : false
@@ -71,19 +62,11 @@ const AwesomeModal = (props) => {
           ? props.cancelText
           : languageService[user.language].cancel
       }
-      onCancelPressed={() => {
-        props.onCancelPressed();
-      }}
+      onCancelPressed={props.onCancelPressed}
       onConfirmPressed={
-        props.onConfirmPressed
-          ? () => {
-              props.onConfirmPressed();
-            }
-          : () => {
-              props.setShowModal(false);
-            }
+        props.onConfirmPressed || (() => props.setShowModal(false))
       }
-      customView={props.customView ? props.customView : null}
+      customView={props.customView || null}
     />
   );
 };
