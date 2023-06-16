@@ -55,12 +55,10 @@ const NavbarButton = (props) => {
                 height: 38,
                 width: 38,
               },
-              props.screen == currentScreen
-                ? {
-                    borderColor: appStyle.color_on_background,
-                    borderWidth: 1,
-                  }
-                : {},
+              props.screen == currentScreen && {
+                borderColor: appStyle.color_on_background,
+                borderWidth: 1,
+              },
             ]}
           />
           {props.alert != null && props.alert == true && (

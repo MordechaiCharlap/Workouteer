@@ -7,8 +7,7 @@ export const safeAreaStyle = () => {
   if (isWebOnPC) {
     const { windowHeight } = useResponsiveness();
     const fixedWidth =
-      (9 / 19) *
-      (windowHeight ? windowHeight : Dimensions.get("window").height);
+      (9 / 19) * (windowHeight || Dimensions.get("window").height);
     style = {
       height: "100%",
       flex: 1,

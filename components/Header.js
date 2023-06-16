@@ -16,18 +16,16 @@ const Header = (props) => {
         justifyContent: props.goBackOption ? "space-between" : "center",
       }}
     >
-      {props.goBackOption ? (
+      {props.goBackOption && (
         <TouchableOpacity
-          onPress={props.navigate ? props.navigate : () => navigation.goBack()}
+          onPress={props.navigate || (() => navigation.goBack())}
         >
           <FontAwesomeIcon
             icon={props.icon == "<" ? faChevronLeft : faX}
             size={30}
-            color={props.color ? props.color : appStyle.color_on_background}
+            color={props.color || appStyle.color_on_background}
           />
         </TouchableOpacity>
-      ) : (
-        <></>
       )}
 
       <Text
@@ -36,14 +34,12 @@ const Header = (props) => {
       >
         {props.title}
       </Text>
-      {props.goBackOption ? (
+      {props.goBackOption && (
         <FontAwesomeIcon
           icon={faChevronLeft}
           size={40}
           color={appStyle.color_background}
         />
-      ) : (
-        <></>
       )}
     </View>
   );

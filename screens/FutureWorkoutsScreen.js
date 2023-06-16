@@ -96,7 +96,7 @@ const FutureWorkoutsScreen = ({ route }) => {
                   isPastWorkout={false}
                   screen={"FutureWorkouts"}
                 />
-                {isMyUser && newWorkouts[item.id] != null ? (
+                {isMyUser && newWorkouts[item.id] && (
                   <View className="absolute right-1 bottom-1">
                     <AlertDot
                       textColor={appStyle.color_on_primary_container}
@@ -107,8 +107,6 @@ const FutureWorkoutsScreen = ({ route }) => {
                       color={appStyle.color_primary}
                     />
                   </View>
-                ) : (
-                  <></>
                 )}
               </View>
             )}

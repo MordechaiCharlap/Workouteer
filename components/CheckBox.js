@@ -10,14 +10,13 @@ const CheckBox = (props) => {
   };
   const style = StyleSheet.create({
     valueStyle: {
-      color: props.valueColor == null ? "black" : props.valueColor,
+      color: props.valueColor || "black",
       size: props.size == null ? 25 : props.size / 1.5,
     },
     checkBoxStyle: {
-      backgroundColor:
-        props.backgroundColor == null ? "white" : props.backgroundColor,
-      width: props.size == null ? 25 : props.size,
-      height: props.size == null ? 25 : props.size,
+      backgroundColor: props.backgroundColor || "white",
+      width: props.size || 25,
+      height: props.size || 25,
     },
   });
   const renderValue = () => {
@@ -36,10 +35,7 @@ const CheckBox = (props) => {
   return (
     <TouchableOpacity
       className="aspect-square items-center justify-center"
-      style={[
-        style.checkBoxStyle,
-        props.style ? props.style : { borderRadius: 3 },
-      ]}
+      style={[style.checkBoxStyle, props.style || { borderRadius: 3 }]}
       onPress={changeValue}
     >
       {renderValue()}

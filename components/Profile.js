@@ -338,7 +338,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                   size={30}
                   color={buttonStyle.color}
                 />
-                {isMyUser && shownUser.friendRequestsCount > 0 ? (
+                {isMyUser && shownUser.friendRequestsCount > 0 && (
                   <View className="absolute right-0 bottom-0">
                     <AlertDot
                       text={user.friendRequestsCount}
@@ -350,8 +350,6 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                       size={23}
                     />
                   </View>
-                ) : (
-                  <></>
                 )}
               </CustomButton>
             </View>

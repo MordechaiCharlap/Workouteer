@@ -11,14 +11,14 @@ const BottomNavbar = () => {
   const { currentWorkout } = useCurrentWorkout();
   const { windowHeight } = useResponsiveness();
   const fixedWidth = isWebOnPC
-    ? (9 / 19) * (windowHeight ? windowHeight : Dimensions.get("window").height)
+    ? (9 / 19) * (windowHeight || Dimensions.get("window").height)
     : Dimensions.get("window").width;
   return (
     <View
       className="items-center"
       style={{
         height: Math.max(
-          (windowHeight ? windowHeight : Dimensions.get("window").height) / 13,
+          (windowHeight || Dimensions.get("window").height) / 13,
           30
         ),
       }}

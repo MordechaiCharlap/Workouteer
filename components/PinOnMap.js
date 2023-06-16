@@ -27,9 +27,7 @@ const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
       <View
         className="items-center justify-center p-2 rounded-lg w-full aspect-square"
         style={{
-          backgroundColor: backgroundColor
-            ? backgroundColor
-            : appStyle.color_on_background,
+          backgroundColor: backgroundColor || appStyle.color_on_background,
         }}
       >
         <MapView

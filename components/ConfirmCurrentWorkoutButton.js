@@ -7,13 +7,8 @@ import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
 import useResponsiveness from "../hooks/useResponsiveness";
 import CustomButton from "./basic/CustomButton";
-import {
-  faExclamation,
-  faExclamationCircle,
-} from "@fortawesome/free-solid-svg-icons";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
-  const user = props.user;
   const navigation = useNavigation();
   buttonHeight = windowHeight
     ? windowHeight / 10

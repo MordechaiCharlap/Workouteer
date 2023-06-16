@@ -68,7 +68,7 @@ const ChatMessage = (props) => {
               props.user.language
             )}
           </Text>
-          {isSelfMessage ? (
+          {isSelfMessage && (
             <View className="ml-2">
               <FontAwesomeIcon
                 icon={checksNum == 1 ? faCheck : faCheckDouble}
@@ -76,8 +76,6 @@ const ChatMessage = (props) => {
                 color={appStyle.color_surface}
               />
             </View>
-          ) : (
-            <></>
           )}
         </View>
       </TouchableOpacity>

@@ -150,7 +150,7 @@ const InviteFriendsScreen = ({ route }) => {
         data={shownFriendsArray}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) =>
-          workout.requests[item.id] != true ? (
+          !workout.requests[item.id] && (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
                 onPress={() =>
@@ -184,8 +184,6 @@ const InviteFriendsScreen = ({ route }) => {
               </TouchableOpacity>
               {getButton(item)}
             </View>
-          ) : (
-            <></>
           )
         }
       />
