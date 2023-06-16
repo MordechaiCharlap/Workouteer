@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   View,
@@ -8,7 +8,6 @@ import {
   Platform,
 } from "react-native";
 import * as appStyle from "../utilities/appStyleSheet";
-import languageService from "../services/languageService";
 const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");
@@ -20,8 +19,10 @@ const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
           latitude: event.latLng.lat(),
           longitude: event.latLng.lng(),
         });
-    saveLocation(coords);
   };
+  useEffect(() => {
+    saveLocation(coords);
+  }, [coords]);
   return (
     <View className="items-center">
       <View
