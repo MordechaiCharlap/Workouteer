@@ -321,7 +321,7 @@ const ConfirmWorkoutScreen = () => {
           {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
         </CustomText>
       </CustomButton>
-      {checkingDistance == true && (
+      {checkingDistance == true ? (
         <View className="absolute top-0 bottom-0 left-0 right-0 justify-center items-center">
           <Text
             className="rounded py-2 px-4 font-semibold text-xl text-center"
@@ -333,7 +333,9 @@ const ConfirmWorkoutScreen = () => {
             {languageService[user.language].checkingDistance + "..."}
           </Text>
         </View>
-      ) }
+      ) : (
+        <></>
+      )}
       <AwesomeModal
         showModal={showAlert}
         showProgress={!exitableAlert}

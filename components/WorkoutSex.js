@@ -6,9 +6,7 @@ import { useEffect } from "react";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 const WorkoutSex = ({ value, size, isMale, sexChanged, color }) => {
-  const [workoutSex, setWorkoutSex] = useState(
-    value != null ? value : "everyone"
-  );
+  const [workoutSex, setWorkoutSex] = useState(value || "everyone");
   const { user } = useAuth();
   useEffect(() => {
     sexChanged(workoutSex);

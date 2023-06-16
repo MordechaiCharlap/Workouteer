@@ -128,7 +128,7 @@ const WorkoutStartingTime = (props) => {
           minimumDate={props.minDate}
           maximumDate={maxDate}
           testID="dateTimePicker"
-          value={date ? date : new Date()}
+          value={date || new Date()}
           mode={mode}
           is24Hour={true}
           minuteInterval={15}

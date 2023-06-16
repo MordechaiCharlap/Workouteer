@@ -75,7 +75,7 @@ const WorkoutType = (props) => {
     },
   });
   const [chosenType, setChosenType] = useState(
-    props.value != null ? props.value : 0
+    props.value||0
   );
   const typeClicked = (id) => {
     setChosenType(id);

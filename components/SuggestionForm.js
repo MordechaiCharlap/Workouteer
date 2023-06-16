@@ -120,9 +120,9 @@ const SuggestionForm = (props) => {
         <CustomButton
           round
           style={
-            !isContentValid || !isTitleValid
-              ? style.submitButtonDisabled
-              : style.submitButton
+            isContentValid && isTitleValid
+              ? style.submitButton
+              : style.submitButtonDisabled
           }
           className="self-center"
           disabled={!isContentValid || !isTitleValid || isSubmitting != null}

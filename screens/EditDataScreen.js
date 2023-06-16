@@ -51,7 +51,7 @@ const EditDataScreen = () => {
 export default EditDataScreen;
 
 const EditProfileData = (props) => {
-  const user = props.user;
+  const { user, setUser } = useAuth();
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
   const [image, setImage] = useState(user.img);
@@ -99,23 +99,19 @@ const EditProfileData = (props) => {
   const saveProfileChanges = async () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.id);
-    const userClone = { ...user };
-    userClone.displayName = displayName == null ? "" : displayName;
-    userClone.description = description == null ? "" : description;
+    const userClone = { id: user.id };
+    userClone.displayName = displayName || user.id;
+    userClone.description = description || "";
     userClone.img = image == null ? defaultValues.defaultProfilePic : image;
+    setUser(userClone);
     setUpdated(true);
     setTimeout(() => {
+      props.navigation.navigate("MyProfile");
       setLoading(false);
       setChangesMade(false);
       setUpdated(false);
-      props.navigation.navigate("MyProfile");
-    }, 500);
-    await firebase.saveProfileChanges(
-      user.id,
-      displayName == null ? "" : displayName,
-      description == null ? "" : description,
-      image == null ? defaultValues.defaultProfilePic : image
-    );
+    }, 250);
+    await firebase.updateUser(userClone);
   };
 
   const saveButtonClicked = () => {
