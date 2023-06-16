@@ -136,14 +136,16 @@ const NextWeekDropdown = (props) => {
         <FontAwesomeIcon
           icon={faCalendarDays}
           size={30}
-          color={appStyle.color_primary}
+          color={props.color || appStyle.color_primary}
         />
         <View style={{ width: 10 }}></View>
         <Dropdown
           style={[
             style.dropdown,
             { flexGrow: 1 },
-            isWeekdaysFocused && { borderColor: appStyle.color_primary },
+            isWeekdaysFocused && {
+              borderColor: props.color || appStyle.color_primary,
+            },
           ]}
           placeholder={languageService[language].day}
           placeholderStyle={style.placeholderStyle}
@@ -168,7 +170,9 @@ const NextWeekDropdown = (props) => {
             style={[
               style.dropdown,
               { width: 70 },
-              isHoursFocused && { borderColor: appStyle.color_primary },
+              isHoursFocused && {
+                borderColor: props.color || appStyle.color_primary,
+              },
             ]}
             placeholder={languageService[language].hour}
             placeholderStyle={style.placeholderStyle}
@@ -190,8 +194,13 @@ const NextWeekDropdown = (props) => {
           <Dropdown
             style={[
               style.dropdown,
-              { width: 70 },
-              isMinutesFocused && { borderColor: appStyle.color_primary },
+              {
+                width: 70,
+                backgroundColor: props.color || appStyle.color_primary,
+              },
+              isMinutesFocused && {
+                borderColor: props.color || appStyle.color_primary,
+              },
             ]}
             placeholder={languageService[language].minutes}
             placeholderStyle={style.placeholderStyle}
@@ -221,7 +230,6 @@ const style = StyleSheet.create({
     paddingHorizontal: 16,
   },
   dropdown: {
-    backgroundColor: appStyle.color_primary,
     height: 50,
     borderColor: appStyle.color_background_variant,
     borderWidth: 0.5,
