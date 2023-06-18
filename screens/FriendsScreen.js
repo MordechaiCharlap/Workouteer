@@ -26,6 +26,7 @@ import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomButton from "../components/basic/CustomButton";
+import Header from "../components/Header";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -82,7 +83,37 @@ const FriendsScreen = ({ route }) => {
   return (
     <View style={safeAreaStyle()}>
       <View className="flex-1 px-2">
-        <View
+        <Header title={"Friends"} goBackOption={true}>
+          {isMyUser && user.friendRequestsCount > 0 && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FriendRequests")}
+              className="flex-row py-2 px-4 items-center rounded-full absolute right-0"
+              style={{ backgroundColor: appStyle.color_surface_variant }}
+            >
+              <FontAwesomeIcon
+                icon={faUserClock}
+                size={40}
+                color={appStyle.color_on_surface_variant}
+              />
+              <View className="absolute left-0 bottom-0">
+                <AlertDot
+                  text={
+                    user.friendRequestsCount < 100
+                      ? user.friendRequestsCount
+                      : "99+"
+                  }
+                  textColor={appStyle.color_on_primary_container}
+                  fontSize={15}
+                  borderColor={appStyle.color_background}
+                  borderWidth={1}
+                  size={25}
+                  color={appStyle.color_primary_container}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+        </Header>
+        {/* <View
           className="flex-row items-center mt-4 mb-4"
           style={{
             justifyContent: "space-between",
@@ -134,7 +165,7 @@ const FriendsScreen = ({ route }) => {
               </View>
             </TouchableOpacity>
           )}
-        </View>
+        </View> */}
         <View
           className="rounded-xl p-3"
           style={{ backgroundColor: appStyle.color_surface_variant }}
