@@ -41,6 +41,7 @@ const Header = (props) => {
           color={appStyle.color_background}
         />
       )}
+      {props.children}
     </View>
   );
 };
