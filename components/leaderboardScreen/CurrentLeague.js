@@ -35,7 +35,7 @@ const CurrentLeague = ({ league }) => {
                     : appStyle.color_error,
               }}
             >
-              {!index > league &&
+              {!(index > league) &&
                 (index == league ? (
                   <View
                     style={{
