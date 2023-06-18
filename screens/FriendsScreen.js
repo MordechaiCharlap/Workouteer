@@ -97,11 +97,7 @@ const FriendsScreen = ({ route }) => {
               />
               <View className="absolute left-0 bottom-0">
                 <AlertDot
-                  text={
-                    user.friendRequestsCount < 100
-                      ? user.friendRequestsCount
-                      : "99+"
-                  }
+                  text={user.friendRequestsCount}
                   textColor={appStyle.color_on_primary_container}
                   fontSize={15}
                   borderColor={appStyle.color_background}
