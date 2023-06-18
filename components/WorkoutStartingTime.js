@@ -6,7 +6,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
@@ -38,15 +38,29 @@ const WorkoutStartingTime = (props) => {
   const [alertMessage, setAlertMessage] = useState(
     languageService[user.language].scheduleLater[user.isMale ? 1 : 0]
   );
+
   useEffect(() => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
     setMaxDate(maximumDate);
   }, []);
+  const getMinDate = () => {
+    const now = new Date();
+    const nowMinutes = now.getMinutes();
+    const minutesToAdd = 15 - (nowMinutes % 15);
+
+    now.setMinutes(now.getMinutes() + minutesToAdd);
+    now.setMilliseconds(0);
+    if (now) return now;
+  };
+  const minDate = useRef(getMinDate());
+
   const onDateChange = (event, selectedDate) => {
     const currentDate = new Date(selectedDate);
     currentDate.setSeconds(0);
     currentDate.setMilliseconds(0);
+    console.log(currentDate.toTimeString());
+    console.log(currentDate);
     if (event.type == "set") {
       if (mode == "date") {
         setDate(currentDate);
@@ -55,10 +69,7 @@ const WorkoutStartingTime = (props) => {
         //mode=time
         setShow(false);
         setMode("date");
-        if (
-          date.getDate() == props.minDate.getDate() &&
-          currentDate.getTime() < props.minDate.getTime()
-        ) {
+        if (currentDate < minDate.current) {
           setShowAlert(true);
           setDateChangedOnce(false);
           setDate();
@@ -113,7 +124,7 @@ const WorkoutStartingTime = (props) => {
         }
         onPress={showDatepicker}
       >
-        {!dateChangedOnce || !props.value ? (
+        {!date || !dateChangedOnce ? (
           <CustomText style={appComponentsDefaultStyles.textOnInput}>
             {languageService[user.language].when}
           </CustomText>
@@ -125,10 +136,10 @@ const WorkoutStartingTime = (props) => {
       </CustomButton>
       {show && (
         <DateTimePicker
-          minimumDate={props.minDate}
+          minimumDate={minDate.current}
           maximumDate={maxDate}
           testID="dateTimePicker"
-          value={date || new Date()}
+          value={date || minDate.current}
           mode={mode}
           is24Hour={true}
           minuteInterval={15}
