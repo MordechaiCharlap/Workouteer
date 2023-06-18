@@ -3,7 +3,7 @@ import React from "react";
 const AlertDot = (props) => {
   return (
     <View
-      className="rounded-full justify-center"
+      className="rounded-full justify-center items-center"
       style={{
         width: props.size,
         height: props.size,
