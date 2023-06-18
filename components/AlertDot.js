@@ -17,7 +17,7 @@ const AlertDot = (props) => {
           className="text-center"
           style={{ color: props.textColor, fontSize: props.fontSize }}
         >
-          {props.text}
+          {Number.isInteger(props.text) && props.text > 99 ? "99+" : props.text}
         </Text>
       )}
     </View>
