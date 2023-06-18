@@ -174,6 +174,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
               leaderboard: {
                 weekId: newWeekId,
                 id: leaderboardRef.id,
+                points: 0,
               },
               league: league,
             });

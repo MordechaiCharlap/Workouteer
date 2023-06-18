@@ -46,8 +46,8 @@ const ConfirmWorkoutScreen = () => {
       const distance = await getDistanceWithTimeout();
       if (distance == null) {
         setRefresh(true);
-      }
-      if (distance <= 100) {
+        return;
+      } else if (distance <= 100) {
         setAlertTitle(
           languageService[user.language].workoutConfirmedDontLeave[
             user.isMale ? 1 : 0
@@ -77,6 +77,7 @@ const ConfirmWorkoutScreen = () => {
             lastConfirmedWorkoutDate: Timestamp.now(),
             [`plannedWorkouts.${workout.id}`]: deleteField(),
             totalPoints: increment(confirmationPoints),
+            ["leaderboard.points"]: increment(confirmationPoints),
             workoutsCount: increment(1),
           });
         else
@@ -85,6 +86,7 @@ const ConfirmWorkoutScreen = () => {
             lastConfirmedWorkoutDate: Timestamp.now(),
             [`plannedWorkouts.${workout.id}`]: deleteField(),
             totalPoints: increment(confirmationPoints),
+            ["leaderboard.points"]: increment(confirmationPoints),
             workoutsCount: increment(1),
           });
 

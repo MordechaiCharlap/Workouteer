@@ -14,6 +14,7 @@ import CountdownTimer from "../components/leaderboardScreen/CountdownTimer";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
+import CurrentLeague from "../components/leaderboardScreen/CurrentLeague";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
   const { db } = useFirebase();
@@ -60,14 +61,16 @@ const LeaderboardScreen = () => {
                 languageService[user.language].league
           }
         />
-        <CountdownTimer language={user.language} />
-
-        {leaderboardList.findIndex(
-          (element) => element[0] == user.id && element[1].points == 0
-        ) != -1 ? (
+        <View style={{ paddingHorizontal: 16 }}>
+          <CurrentLeague league={user.league} />
+          <CountdownTimer language={user.language} />
+        </View>
+        {!user.leaderboard?.points ? (
           <View
-            className="p-2 gap-y-2"
+            className="gap-y-2"
             style={{
+              paddingHorizontal: 16,
+              paddingVertical: 8,
               backgroundColor: appStyle.color_surface_variant,
             }}
           >

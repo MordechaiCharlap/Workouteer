@@ -990,8 +990,11 @@ export const getNewLeaderboard = async (user, pointsNumber) => {
     leaderboardId = newLeaderboard.id;
   }
   await updateDoc(doc(db, "users", user.id), {
-    ["leaderboard.id"]: leaderboardId,
-    ["leaderboard.weekId"]: lastWeekId,
+    leaderboard: {
+      id: leaderboardId,
+      weekId: lastWeekId,
+      points: 0,
+    },
   });
 };
 export const deletePushTokenForUserWhoIsNotMe = async (userId, pushToken) => {
