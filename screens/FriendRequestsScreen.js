@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CustomButton from "../components/basic/CustomButton";
 
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
@@ -74,46 +75,39 @@ const FriendRequestsScreen = () => {
                   <View>
                     <Text
                       className="text-xl font-semibold tracking-wider"
-                      style={{ color: appStyle.color_primary }}
+                      style={{ color: appStyle.color_on_background }}
                     >
                       {item.user.id}
                     </Text>
                     <Text
                       className="text-md opacity-60 tracking-wider"
-                      style={{ color: appStyle.color_primary }}
+                      style={{ color: appStyle.color_on_background }}
                     >
                       {item.user.displayName}
                     </Text>
                   </View>
                 </TouchableOpacity>
                 <View className="flex-row">
-                  <TouchableOpacity
+                  <CustomButton
                     onPress={async () => acceptFriendRequest(item.user, index)}
-                    className="py-1 px-2 rounded"
-                    style={{ backgroundColor: appStyle.color_primary }}
+                    style={{ backgroundColor: appStyle.color_on_background }}
                   >
-                    <Text
-                      className="text-xl"
-                      style={{ color: appStyle.color_on_primary }}
-                    >
+                    <Text style={{ color: appStyle.color_on_primary }}>
                       {languageService[user.language].accept}
                     </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </CustomButton>
+                  <CustomButton
                     onPress={async () => rejectFriendRequest(item.user, index)}
-                    className="ml-2 py-1 px-2 rounded"
+                    className="ml-2"
                     style={{
                       borderWidth: 1,
-                      borderColor: appStyle.color_primary,
+                      borderColor: appStyle.color_on_background,
                     }}
                   >
-                    <Text
-                      className="text-xl"
-                      style={{ color: appStyle.color_primary }}
-                    >
+                    <Text style={{ color: appStyle.color_on_background }}>
                       {languageService[user.language].reject}
                     </Text>
-                  </TouchableOpacity>
+                  </CustomButton>
                 </View>
               </View>
             )}
@@ -123,7 +117,7 @@ const FriendRequestsScreen = () => {
             <Text
               style={{
                 padding: 10,
-                backgroundColor: appStyle.color_primary,
+                backgroundColor: appStyle.color_on_background,
                 color: appStyle.color_on_primary,
               }}
               className="text-center text-xl"
