@@ -35,7 +35,7 @@ export const color_circle_fill = "rgba(142, 202, 230, 0.5)";
 export const color_circle_border = "rgba(142, 202, 230, 0.8)";
 export const color_lighter = "rgba(255, 255, 255, 0.5)";
 export const color_darker = "rgba(2,48,71, 0.8)";
-export const color_success = "#0bbc5c";
+export const color_success = "#04aa6d";
 
 export const color_male = "#369ac6";
 export const color_female = "#e0379f";
