@@ -36,6 +36,7 @@ import UserDetailsButton from "./profileScreen/UserDetailsButton";
 import CustomButton from "./basic/CustomButton";
 import CustomText from "./basic/CustomText";
 import { useNavigation } from "@react-navigation/native";
+import AlertDot from "./AlertDot";
 
 const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const navigation = useNavigation();
@@ -342,9 +343,9 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                   <View className="absolute right-0 bottom-0">
                     <AlertDot
                       text={user.friendRequestsCount}
-                      color={buttonStyle.backgroundColor}
+                      color={appStyle.color_primary}
                       borderColor={appStyle.color_surface}
-                      textColor={buttonStyle.color}
+                      textColor={appStyle.color_on_primary}
                       borderWidth={1}
                       fontSize={13}
                       size={23}
