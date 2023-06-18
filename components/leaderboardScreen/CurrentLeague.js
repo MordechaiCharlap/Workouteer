@@ -21,7 +21,7 @@ const CurrentLeague = ({ league }) => {
             <View
               style={{
                 borderRadius: 6,
-                borderWidth: 2,
+                borderWidth: 1,
                 borderColor: appStyle.color_outline,
                 width: "100%",
                 height: "100%",
@@ -32,7 +32,7 @@ const CurrentLeague = ({ league }) => {
                     ? appStyle.color_tertiary
                     : index < league
                     ? appStyle.color_success
-                    : appStyle.color_error,
+                    : appStyle.color_surface_variant,
               }}
             >
               {!(index > league) &&
