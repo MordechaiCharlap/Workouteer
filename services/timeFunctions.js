@@ -2,12 +2,15 @@ import languageService from "./languageService";
 
 export const timeString = (date, language) => {
   const now = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(now.getDate() + 1);
+  const yasterday = new Date();
+  yasterday.setDate(now.getDate() - 1);
   var day;
   var time;
-  if (now.getDate() == date.getDate()) day = languageService[language].today;
-  else if (now.getDate() + 1 == date.getDate())
-    day = languageService[language].tomorrow;
-  else if (now.getDate() + 1 == date.getDate())
+  if (isSameDay(now, date)) day = languageService[language].today;
+  else if (isSameDay(tomorrow, date)) day = languageService[language].tomorrow;
+  else if (isSameDay(yasterday, date))
     day = languageService[language].yasterday;
   else {
     const dd = date.getDate();
