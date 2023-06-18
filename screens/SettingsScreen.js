@@ -31,12 +31,10 @@ const SettingsScreen = ({ route }) => {
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
   const signOut = async () => {
-    if (pushToken) {
-      if (user.pushToken)
-        await updateDoc(doc(db, "users", user.id), {
-          pushToken: null,
-        });
-    }
+    if (user.pushToken)
+      await updateDoc(doc(db, "users", user.id), {
+        pushToken: null,
+      });
     userSignOut();
   };
   useFocusEffect(
