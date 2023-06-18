@@ -21,7 +21,7 @@ import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
 import CheckBox from "../components/CheckBox";
 import useAuth from "../hooks/useAuth";
-import * as defaultValues from "../services/defaultValues";
+import * as defaultValues from "../utilities/defaultValues";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";

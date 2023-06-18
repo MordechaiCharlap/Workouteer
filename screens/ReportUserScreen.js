@@ -13,7 +13,7 @@ import { TextInput } from "react-native";
 import { useRef } from "react";
 import AwesomeModal from "../components/AwesomeModal";
 import { addDoc, collection, doc } from "firebase/firestore";
-import * as defaultValues from "../services/defaultValues";
+import * as defaultValues from "../utilities/defaultValues";
 import useFirebase from "../hooks/useFirebase";
 const ReportUserScreen = ({ route }) => {
   const { db, storage } = useFirebase();

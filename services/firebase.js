@@ -3,7 +3,7 @@ import { getReactNativePersistence } from "firebase/auth/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import * as defaultValues from "./defaultValues";
+import * as defaultValues from "../utilities/defaultValues";
 import Geocoder from "react-native-geocoding";
 import {
   getFirestore,
