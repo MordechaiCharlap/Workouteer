@@ -65,7 +65,9 @@ const LeaderboardScreen = () => {
           <CurrentLeague league={user.league} />
           <CountdownTimer language={user.language} />
         </View>
-        {!user.leaderboard?.points || user.leaderboard?.points == 0 ? (
+        {leaderboardList.findIndex(
+          (element) => element[0] == user.id && element[1].points > 0
+        ) == -1 || user.leaderboard?.points == 0 ? (
           <View
             style={{
               paddingHorizontal: 16,
