@@ -65,9 +65,8 @@ const LeaderboardScreen = () => {
           <CurrentLeague league={user.league} />
           <CountdownTimer language={user.language} />
         </View>
-        {!user.leaderboard?.points ? (
+        {!user.leaderboard?.points || user.leaderboard?.points == 0 ? (
           <View
-            className="gap-y-2"
             style={{
               paddingHorizontal: 16,
               paddingVertical: 8,
@@ -82,7 +81,10 @@ const LeaderboardScreen = () => {
             >
               {languageService[user.language].getPointsToCompete}
             </Text>
-            <View className="flex-row items-center justify-center gap-x-2">
+            <View
+              className="flex-row items-center justify-center gap-x-2"
+              style={{ paddingVertical: 8 }}
+            >
               <CustomButton
                 style={{ backgroundColor: appStyle.color_on_background }}
                 round
