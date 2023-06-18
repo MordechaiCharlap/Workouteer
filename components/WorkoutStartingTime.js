@@ -50,6 +50,7 @@ const WorkoutStartingTime = (props) => {
     const minutesToAdd = 15 - (nowMinutes % 15);
 
     now.setMinutes(now.getMinutes() + minutesToAdd);
+    now.setSeconds(0);
     now.setMilliseconds(0);
     if (now) return now;
   };
@@ -59,11 +60,11 @@ const WorkoutStartingTime = (props) => {
     const currentDate = new Date(selectedDate);
     currentDate.setSeconds(0);
     currentDate.setMilliseconds(0);
-    console.log(currentDate.toTimeString());
-    console.log(currentDate);
     if (event.type == "set") {
       if (mode == "date") {
         setDate(currentDate);
+        setDateChangedOnce(false);
+        props.startingTimeChanged(null);
         setMode("time");
       } else {
         //mode=time
@@ -80,10 +81,7 @@ const WorkoutStartingTime = (props) => {
           props.startingTimeChanged(currentDate);
         }
       }
-    } else if (event.type == "dismissed" && !dateChangedOnce) {
-      setShow(false);
-      setMode("date");
-    } else if (event.type == "dismissed" && dateChangedOnce) {
+    } else if (event.type == "dismissed") {
       setShow(false);
       setMode("date");
     }
@@ -112,7 +110,7 @@ const WorkoutStartingTime = (props) => {
       <View style={{ width: 10 }}></View>
       <CustomButton
         style={
-          date
+          date && dateChangedOnce
             ? {
                 ...appComponentsDefaultStyles.input,
                 flex: 1,
