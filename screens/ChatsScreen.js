@@ -273,8 +273,8 @@ const ChatsScreen = () => {
             >
               <AlertDot
                 text={Object.keys(chatsAlerts).length}
-                textColor={appStyle.color_background}
-                color={appStyle.color_on_background}
+                textColor={appStyle.color_on_surface_variant}
+                color={appStyle.color_surface_variant}
                 size={35}
               />
             </View>
