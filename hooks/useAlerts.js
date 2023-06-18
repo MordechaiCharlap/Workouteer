@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import useAuth from "./useAuth";
 import { onSnapshot, doc } from "firebase/firestore";
 import * as firebase from "../services/firebase";
@@ -12,8 +18,7 @@ export const AlertsProvider = ({ children }) => {
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
-
-  const [unsubscribeAlerts, setUnsubscribeAlerts] = useState();
+  const unsubscribeAlerts = useRef();
   useEffect(() => {
     const removingBadWorkoutAlerts = async () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
@@ -25,8 +30,9 @@ export const AlertsProvider = ({ children }) => {
     };
     if (userLoaded) {
       removingBadWorkoutAlerts();
-      setUnsubscribeAlerts(
-        onSnapshot(doc(db, "alerts", user.id), (doc) => {
+      unsubscribeAlerts.current = onSnapshot(
+        doc(db, "alerts", user.id),
+        (doc) => {
           const alertsData = doc.data();
           if (alertsData != null) {
             setChatsAlerts(alertsData.chats);
@@ -35,18 +41,18 @@ export const AlertsProvider = ({ children }) => {
             setFriendRequestsAlerts(alertsData.friendRequests);
             setNewWorkoutsAlerts(alertsData.newWorkouts);
           }
-        })
+        }
       );
     } else {
-      if (unsubscribeAlerts != null) {
-        unsubscribeAlerts();
-        setUnsubscribeAlerts(null);
+      if (unsubscribeAlerts.current != null) {
+        unsubscribeAlerts.current();
+        unsubscribeAlerts.current = null;
       }
     }
     return () => {
-      if (unsubscribeAlerts != null) {
-        unsubscribeAlerts();
-        setUnsubscribeAlerts(null);
+      if (unsubscribeAlerts.current != null) {
+        unsubscribeAlerts.current();
+        unsubscribeAlerts.current = null;
       }
     };
   }, [userLoaded]);
