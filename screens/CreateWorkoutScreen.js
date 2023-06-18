@@ -303,7 +303,6 @@ const CreateWorkoutScreen = () => {
                     color={componentsColor}
                     value={startingTime}
                     startingTimeChanged={setStartingTime}
-                    minDate={now}
                   />
                 </View>
               </View>
