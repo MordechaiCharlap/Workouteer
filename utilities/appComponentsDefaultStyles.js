@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import * as appStyle from "./appStyleSheet";
 const appComponentsDefaultStyles = StyleSheet.create({
   input: {
+    flex: 1,
     borderRadius: 4,
     justifyContent: "center",
     paddingHorizontal: 10,
