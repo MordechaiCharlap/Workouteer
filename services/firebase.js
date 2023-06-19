@@ -491,10 +491,13 @@ export const addCountryAndCityToDbIfNeeded = async (latLong) => {
 };
 export const createWorkout = async (workout) => {
   const cityAndCountry = await addCountryAndCityToDbIfNeeded(workout.location);
-  workout.city = cityAndCountry.city;
-  workout.country = cityAndCountry.country;
-  workout.startingTime = Timestamp.fromDate(workout.startingTime);
-
+  workout = {
+    ...workout,
+    city: cityAndCountry.city,
+    country: cityAndCountry.country,
+    startingTime: Timestamp.fromDate(workout.startingTime),
+    confirmed: false,
+  };
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
   await updateDoc(doc(db, "users", workout.creator), {
     lastWorkoutCreation: {
@@ -910,10 +913,7 @@ export const removeUnconfirmedOldWorkouts = async (user) => {
     delete unconfirmedWorkouts[key];
     const workout = await getWorkout(key);
     //remove unconfirmed only if nobody in the workout confirmed it
-    if (
-      workout != null &&
-      !Object.values(workout.members).some((member) => member.confirmedWorkout)
-    ) {
+    if (workout != null && workout.confirmed == false) {
       await deleteDoc(doc(db, `workouts/${key}`));
     }
   }
