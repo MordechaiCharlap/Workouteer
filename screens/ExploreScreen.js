@@ -6,13 +6,12 @@ import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import SearchUsers from "../components/SearchUsers";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
-
-  const [renderOption, setRenderOption] = useState("Explore");
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
   useFocusEffect(
     useCallback(() => {
@@ -27,13 +26,11 @@ const ExploreScreen = () => {
         <Text className="text-3xl font-semibold">
           {languageService[user.language].comingSoon}
         </Text>
-        {/* {renderOption == "Explore" && (
-          <SearchUsers
-            language={user.language}
-            setIsEmpty={(isEmpty) => setSearchInputEmpty(isEmpty)}
-          />
-        )}
-        {renderOption == "Explore" && searchInputEmpty == true && <Explore />} */}
+        <SearchUsers
+          language={user.language}
+          setIsEmpty={setSearchInputEmpty}
+        />
+        {searchInputEmpty == true && <Explore />}
       </View>
     </View>
   );
