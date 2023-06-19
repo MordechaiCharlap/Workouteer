@@ -272,6 +272,8 @@ const ChatsScreen = () => {
               style={{ paddingHorizontal: 16 }}
             >
               <AlertDot
+                borderColor={appStyle.color_on_surface_variant}
+                borderWidth={0.5}
                 text={Object.keys(chatsAlerts).length}
                 textColor={appStyle.color_on_surface_variant}
                 color={appStyle.color_surface_variant}

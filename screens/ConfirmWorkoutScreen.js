@@ -152,6 +152,7 @@ const ConfirmWorkoutScreen = () => {
         await updateDoc(doc(db, `users/${user.id}`), {
           lastConfirmedWorkoutDate: Timestamp.now(),
           [`plannedWorkouts.${workout.id}`]: deleteField(),
+          ["leaderboard.points"]: increment(confirmationPoints),
           totalPoints: increment(confirmationPoints),
           workoutsCount: increment(1),
         });
@@ -160,6 +161,7 @@ const ConfirmWorkoutScreen = () => {
           streak: increment(1),
           lastConfirmedWorkoutDate: Timestamp.now(),
           [`plannedWorkouts.${workout.id}`]: deleteField(),
+          ["leaderboard.points"]: increment(confirmationPoints),
           totalPoints: increment(confirmationPoints),
           workoutsCount: increment(1),
         });
@@ -230,21 +232,26 @@ const ConfirmWorkoutScreen = () => {
   };
   return confirmed == true || workout == null ? (
     <View style={safeAreaStyle()} className="justify-center">
-      <View className="items-center gap-y-7">
+      <View
+        className="items-center gap-y-7"
+        style={{
+          marginHorizontal: 16,
+          backgroundColor: appStyle.color_surface_variant,
+          borderRadius: 16,
+        }}
+      >
         <Text
-          className="rounded p-2 font-semibold text-xl text-center"
+          className="p-2 font-semibold text-xl text-center"
           style={{
-            backgroundColor: appStyle.color_primary,
-            color: appStyle.color_on_primary,
+            color: appStyle.color_on_surface_variant,
           }}
         >
           {confirmationPoints} {languageService[user.language].pointsAdded}
         </Text>
         <CustomButton
+          round
           style={{
             backgroundColor: appStyle.color_on_background,
-            borderRadius: 999,
-            paddingHorizontal: 16,
           }}
           onPress={() => {
             navigation.goBack();
@@ -254,6 +261,7 @@ const ConfirmWorkoutScreen = () => {
           <CustomText
             className="font-semibold text-lg text-center"
             style={{
+              marginHorizontal: 16,
               color: appStyle.color_background,
             }}
           >
