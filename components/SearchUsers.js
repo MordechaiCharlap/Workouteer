@@ -22,11 +22,11 @@ const SearchUsers = (props) => {
   const [searchedUser, setSearchedUser] = useState(null);
   const textChanged = async (text) => {
     if (text != "") {
-      if (props.setIsEmpty != null) props.setIsEmpty(false);
+      props.isEmpty?.(false);
       const searchedUserDoc = await firebase.searchUser(text);
       if (searchedUserDoc != null) setSearchedUser(searchedUserDoc.data());
     } else {
-      if (props.setIsEmpty != null) setIsEmpty(true);
+      props.isEmpty?.(true);
     }
   };
   const userClicked = async (userData) => {
