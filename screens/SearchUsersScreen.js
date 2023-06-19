@@ -17,9 +17,7 @@ const SearchUsersScreen = () => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <View className="px-2">
-        <SearchUsers language={user.language} />
-      </View>
+      <SearchUsers language={user.language} />
     </View>
   );
 };
