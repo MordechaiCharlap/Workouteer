@@ -14,6 +14,7 @@ const appComponentsDefaultStyles = StyleSheet.create({
   round: { borderRadius: 999, paddingHorizontal: 12 },
   outline: { borderWidth: 0.5, borderColor: appStyle.color_outline },
   errorInput: {
+    flex: 1,
     borderRadius: 4,
     justifyContent: "center",
     paddingHorizontal: 10,
