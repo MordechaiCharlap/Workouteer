@@ -22,14 +22,9 @@ const ExploreScreen = () => {
   );
 
   return (
-    <View style={safeAreaStyle()}>
-      <View className="flex-1">
-        <SearchUsers
-          language={user.language}
-          setIsEmpty={setSearchInputEmpty}
-        />
-        {searchInputEmpty == true && <Explore />}
-      </View>
+    <View style={[safeAreaStyle(), { flex: 1 }]}>
+      <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} />
+      {searchInputEmpty == true && <Explore />}
     </View>
   );
 };
