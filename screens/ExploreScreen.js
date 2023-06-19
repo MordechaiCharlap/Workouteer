@@ -7,6 +7,7 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import SearchUsers from "../components/SearchUsers";
+import Explore from "../components/Explore";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -22,10 +23,7 @@ const ExploreScreen = () => {
 
   return (
     <View style={safeAreaStyle()}>
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-3xl font-semibold">
-          {languageService[user.language].comingSoon}
-        </Text>
+      <View className="flex-1">
         <SearchUsers
           language={user.language}
           setIsEmpty={setSearchInputEmpty}
