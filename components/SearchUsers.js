@@ -70,7 +70,7 @@ const SearchUsers = (props) => {
     );
   };
   return (
-    <ScrollView>
+    <View>
       <View
         className="p-3"
         style={{ backgroundColor: appStyle.color_surface_variant }}
@@ -95,7 +95,7 @@ const SearchUsers = (props) => {
         </View>
       </View>
       {searchedUser != null && renderSearchedUser()}
-    </ScrollView>
+    </View>
   );
 };
 export default SearchUsers;
