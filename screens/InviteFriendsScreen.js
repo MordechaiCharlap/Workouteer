@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  TextInput,
-  Image,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import React, { useCallback, useState } from "react";
 import * as appStyle from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
@@ -18,6 +11,9 @@ import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import languageService from "../services/languageService";
+import CustomTextInput from "../components/basic/CustomTextInput";
+import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import CustomButton from "../components/basic/CustomButton";
 
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -62,15 +58,15 @@ const InviteFriendsScreen = ({ route }) => {
         <View
           className="py-1 w-28 rounded"
           style={{
-            backgroundColor: appStyle.color_background_variant,
+            backgroundColor: appStyle.color_success,
             borderWidth: 0.8,
-            borderColor: appStyle.color_primary,
+            borderColor: appStyle.color_on_background,
           }}
         >
           <Text
             className="text-lg text-center font-semibold"
             style={{
-              color: appStyle.color_on_primary,
+              color: appStyle.color_on_background,
             }}
           >
             {languageService[user.language].invited[friend.isMale ? 1 : 0]}
@@ -95,24 +91,24 @@ const InviteFriendsScreen = ({ route }) => {
       );
     }
     return (
-      <TouchableOpacity
+      <CustomButton
         onPress={async () => inviteFriend(friend)}
-        className="py-1 w-28 rounded"
+        className="w-28"
         style={{
-          backgroundColor: appStyle.color_background,
-          borderColor: appStyle.color_primary,
+          backgroundColor: appStyle.color_surface_variant,
+          borderColor: appStyle.color_on_background,
           borderWidth: 0.5,
         }}
       >
         <Text
           className="text-lg text-center font-semibold"
-          style={{ color: appStyle.color_primary }}
+          style={{ color: appStyle.color_on_background }}
         >
           {buttonLoading == friend.id
             ? languageService[user.language].loading
             : languageService[user.language].invite[user.isMale ? 1 : 0]}
         </Text>
-      </TouchableOpacity>
+      </CustomButton>
     );
   };
   return (
@@ -128,18 +124,18 @@ const InviteFriendsScreen = ({ route }) => {
         style={{ backgroundColor: appStyle.color_background_variant }}
       >
         <View className="flex-row items-center">
-          <TouchableOpacity>
+          <CustomButton>
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               size={20}
-              color={appStyle.color_primary}
+              color={appStyle.color_on_background}
             />
-          </TouchableOpacity>
-          <TextInput
+          </CustomButton>
+          <CustomTextInput
             onChangeText={(text) => setSearchText(text)}
-            style={{ color: appStyle.color_on_primary }}
+            style={appComponentsDefaultStyles.input}
             placeholder={languageService[user.language].search}
-            placeholderTextColor={appStyle.color_primary}
+            placeholderTextColor={appStyle.color_on_background}
             className="text-xl ml-3"
           />
         </View>
@@ -170,13 +166,13 @@ const InviteFriendsScreen = ({ route }) => {
                 <View>
                   <Text
                     className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.id}
                   </Text>
                   <Text
                     className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.displayName}
                   </Text>
