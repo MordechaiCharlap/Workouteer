@@ -16,6 +16,7 @@ import * as firebase from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import CustomTextInput from "./basic/CustomTextInput";
+import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
 const SearchUsers = (props) => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -71,7 +72,7 @@ const SearchUsers = (props) => {
   return (
     <ScrollView>
       <View
-        className="rounded-xl mt-4 p-3"
+        className="p-3"
         style={{ backgroundColor: appStyle.color_surface_variant }}
       >
         <View
@@ -84,7 +85,7 @@ const SearchUsers = (props) => {
             size={24}
             color={appStyle.color_on_surface_variant}
           />
-          <TextInput
+          <CustomTextInput
             onChangeText={(text) => textChanged(text)}
             style={{ color: appStyle.color_on_surface_variant, flex: 1 }}
             placeholder={languageService[props.language].searchUser}
