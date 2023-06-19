@@ -227,7 +227,7 @@ export const NotificationsProvider = ({ children }) => {
         sound: "default",
         title: "",
         body: body,
-        data: data ? data : {},
+        data: data ?? {},
       };
       await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
