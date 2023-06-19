@@ -142,7 +142,7 @@ const ConfirmWorkoutScreen = () => {
         }),
       });
       await updateDoc(doc(db, `workouts/${workout.id}`), {
-        confirmedBySomeUser: true,
+        confirmed: true,
         [`members.${user.id}.confirmedWorkout`]: true,
       });
       await firebase.addLeaderboardPoints(user, confirmationPoints);
