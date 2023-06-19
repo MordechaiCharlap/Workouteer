@@ -308,8 +308,8 @@ const StackNavigator = () => {
             options={verticalAnimation}
           />
         </Stack.Navigator>
-        {showNavbar && <BottomNavbar />}
       </View>
+      {showNavbar && <BottomNavbar />}
     </View>
   );
 };
