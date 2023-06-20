@@ -20,6 +20,7 @@ import { WorkoutLogicProvider } from "./hooks/useWorkoutLogic";
 import { ConnectionProvider } from "./hooks/useConnection";
 import { MaintenanceProvider } from "./hooks/useMaintenance";
 import { FirebaseProvider } from "./hooks/useFirebase";
+import { ChatsProvider } from "./hooks/useChats";
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -40,23 +41,25 @@ export default function App() {
                 <ConnectionProvider>
                   <NavbarDisplayProvider>
                     <AlertsProvider>
-                      <CurrentWorkoutProvider>
-                        <FriendsWorkoutsProvider>
-                          <NotificationsProvider>
-                            <LeaderboardUpdatesProvider>
-                              <ConfirmedWorkoutsProvider>
-                                <WorkoutLogicProvider>
-                                  <NavbarNavigationProvider>
-                                    <TailwindProvider>
-                                      <StackNavigator />
-                                    </TailwindProvider>
-                                  </NavbarNavigationProvider>
-                                </WorkoutLogicProvider>
-                              </ConfirmedWorkoutsProvider>
-                            </LeaderboardUpdatesProvider>
-                          </NotificationsProvider>
-                        </FriendsWorkoutsProvider>
-                      </CurrentWorkoutProvider>
+                      <ChatsProvider>
+                        <CurrentWorkoutProvider>
+                          <FriendsWorkoutsProvider>
+                            <NotificationsProvider>
+                              <LeaderboardUpdatesProvider>
+                                <ConfirmedWorkoutsProvider>
+                                  <WorkoutLogicProvider>
+                                    <NavbarNavigationProvider>
+                                      <TailwindProvider>
+                                        <StackNavigator />
+                                      </TailwindProvider>
+                                    </NavbarNavigationProvider>
+                                  </WorkoutLogicProvider>
+                                </ConfirmedWorkoutsProvider>
+                              </LeaderboardUpdatesProvider>
+                            </NotificationsProvider>
+                          </FriendsWorkoutsProvider>
+                        </CurrentWorkoutProvider>
+                      </ChatsProvider>
                     </AlertsProvider>
                   </NavbarDisplayProvider>
                 </ConnectionProvider>
