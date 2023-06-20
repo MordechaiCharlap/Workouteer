@@ -83,7 +83,10 @@ const FriendsScreen = ({ route }) => {
   return (
     <View style={safeAreaStyle()}>
       <View className="flex-1 px-2">
-        <Header title={"Friends"} goBackOption={true}>
+        <Header
+          title={languageService[user.language].friends}
+          goBackOption={true}
+        >
           {isMyUser && user.friendRequestsCount > 0 && (
             <TouchableOpacity
               onPress={() => navigation.navigate("FriendRequests")}
