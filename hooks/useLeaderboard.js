@@ -4,8 +4,8 @@ import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { color_primary } from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
-const LeaderboardUpdatesContext = createContext({});
-export const LeaderboardUpdatesProvider = ({ children }) => {
+const LeaderboardContext = createContext({});
+export const LeaderboardProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +42,7 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
     }
   }, [user?.leaderboard?.leaderboardUpdated]);
   return (
-    <LeaderboardUpdatesContext.Provider value={{}}>
+    <LeaderboardContext.Provider value={{}}>
       {children}
       {showModal && (
         <AwesomeAlert
@@ -64,9 +64,9 @@ export const LeaderboardUpdatesProvider = ({ children }) => {
           }}
         />
       )}
-    </LeaderboardUpdatesContext.Provider>
+    </LeaderboardContext.Provider>
   );
 };
-export default function useLeaderboardUpdates() {
-  return useContext(LeaderboardUpdatesContext);
+export default function useLeaderboard() {
+  return useContext(LeaderboardContext);
 }
