@@ -27,6 +27,11 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomButton from "../components/basic/CustomButton";
 import Header from "../components/Header";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -36,6 +41,14 @@ const FriendsScreen = ({ route }) => {
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  const listOpacity = useSharedValue(0);
+  const listMarginTop = useSharedValue(50);
+  const animatedListStyle = useAnimatedStyle(() => {
+    return {
+      opacity: listOpacity.value,
+      marginTop: listMarginTop.value,
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Friends");
@@ -58,6 +71,12 @@ const FriendsScreen = ({ route }) => {
     };
     showFriends();
   }, [user.friends]);
+  useEffect(() => {
+    if (friendsArray) {
+      listMarginTop.value = withTiming(0, { duration: 500 });
+      listOpacity.value = withTiming(1, { duration: 500 });
+    }
+  }, [friendsArray]);
   useEffect(() => {
     if (searchText != "") {
       const searchTextLower = searchText.toLocaleLowerCase();
@@ -187,7 +206,8 @@ const FriendsScreen = ({ route }) => {
             />
           </View>
         </View>
-        <FlatList
+        <Animated.FlatList
+          style={[animatedListStyle]}
           showsVerticalScrollIndicator={false}
           className="flex-1 px-4 pt-3"
           data={shownFriendsArray}
