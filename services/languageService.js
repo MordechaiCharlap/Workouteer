@@ -291,6 +291,7 @@ const languageService = {
     comeBackLater: "Come back later :)",
     latestWorkouts: "Latest confirmed workouts",
     explore: "Explore",
+    intervalTimer: "INTERVAL TIMER",
   },
   hebrew: {
     login: "התחבר",
@@ -559,6 +560,7 @@ const languageService = {
     comeBackLater: "תחזרו מאוחר יותר :)",
     latestWorkouts: "האימונים האחרונים שאושרו",
     explore: "סקירה",
+    intervalTimer: "אינטרוואלים",
   },
 };
 export default languageService;
