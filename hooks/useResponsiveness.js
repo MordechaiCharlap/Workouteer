@@ -46,6 +46,8 @@ export const ResponsivenessProvider = ({ children }) => {
         };
       }
     } else {
+      setWindowHeight(Dimensions.get("window").height);
+      setWindowWidth(Dimensions.get("window").width);
     }
   }, []);
   return (
