@@ -29,43 +29,23 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import { messageTimeString } from "../services/timeFunctions";
 import AwesomeModal from "../components/AwesomeModal";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
 import useResponsiveness from "../hooks/useResponsiveness";
+import useChats from "../hooks/useChats";
+import Animated from "react-native-reanimated";
 const ChatsScreen = () => {
-  const { windowHeight } = useResponsiveness();
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { chats, setChats } = useChats();
   const { setScreen } = useNavbarNavigation();
   const { chatsAlerts } = useAlerts();
   const [modalVisible, setModalVisible] = useState(false);
-  const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
-  const flatlistMarginTop = useSharedValue(windowHeight / 2);
-  const flatlistOpacity = useSharedValue(0);
-  const animatedFlatlist = useAnimatedStyle(() => {
-    return {
-      marginTop: flatlistMarginTop.value,
-      opacity: flatlistOpacity.value,
-    };
-  }, []);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Chats");
       setScreen("Chats");
-      const getChats = async () => {
-        var arr = await firebase.getChatsArrayIncludeUsers(user);
-        setChatsArr(arr);
-        flatlistOpacity.value = withTiming(1, { duration: 500 });
-        flatlistMarginTop.value = withTiming(0, { duration: 500 });
-      };
-      getChats();
-    }, [chatsAlerts])
+    }, [])
   );
 
   const chatLongClicked = (item) => {
@@ -104,7 +84,7 @@ const ChatsScreen = () => {
     setModalVisible(true);
   };
   const deleteSelectedChats = async () => {
-    const chatsArrClone = chatsArr.slice();
+    const chatsArrClone = chats.slice();
     // Loop through the selectedChats array and remove the corresponding
     // elements from the arr array.
     for (let selectedChat of selectedChats) {
@@ -113,7 +93,7 @@ const ChatsScreen = () => {
       );
       chatsArrClone.splice(index, 1);
     }
-    setChatsArr(chatsArrClone);
+    setChats(chatsArrClone);
     setSelectedChats([]);
     for (var selectedChat of selectedChats) {
       if (selectedChat.chat.isGroupChat) {
@@ -150,8 +130,7 @@ const ChatsScreen = () => {
     };
     return (
       <Animated.FlatList
-        style={[animatedFlatlist]}
-        data={chatsArr}
+        data={chats}
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item, index }) =>
           item.chat.messagesCount > 0 && (
@@ -163,7 +142,7 @@ const ChatsScreen = () => {
                 {
                   paddingHorizontal: 16,
                 },
-                index != chatsArr.length - 1 && {
+                index != chats.length - 1 && {
                   borderBottomColor: appStyle.color_outline,
                   borderBottomWidth: 0.3,
                 },
@@ -335,7 +314,7 @@ const ChatsScreen = () => {
         </View>
       )}
       <View className="flex-1">
-        {/* {chatsArr != null && chatsArr.length != 0 && (
+        {/* {chats != null && chats.length != 0 && (
               <View
                 className="rounded-xl"
                 style={{ backgroundColor: appStyle.color_darker }}
@@ -359,7 +338,7 @@ const ChatsScreen = () => {
             )} */}
 
         <View className="flex-1">
-          {chatsArr == null ? (
+          {chats == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
               style={{ color: appStyle.color_on_background }}
