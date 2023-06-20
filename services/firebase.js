@@ -1,12 +1,8 @@
-import { initializeAuth } from "firebase/auth";
-import { getReactNativePersistence } from "firebase/auth/react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as defaultValues from "../utilities/defaultValues";
 import Geocoder from "react-native-geocoding";
 import {
-  getFirestore,
   deleteField,
   doc,
   addDoc,
@@ -22,14 +18,14 @@ import {
   orderBy,
   limit,
   deleteDoc,
+  getFirestore,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
 import { mapsApiKey } from "../utilities/mapsApiKey";
-import { getDb } from "./db";
-export const firebaseApp = initializeApp(firebaseConfig);
-export const db = getDb();
-export const storage = getStorage(firebaseApp);
+initializeApp(firebaseConfig);
+export const db = getFirestore();
+export const storage = getStorage();
 export const updateContext = async (userId) => {
   const updatedDoc = await getDoc(doc(db, "users", userId));
   return updatedDoc.data();
