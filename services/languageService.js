@@ -289,6 +289,8 @@ const languageService = {
     thisActionIsIrreversable: "This action is irreversable",
     appIsUnderMaintenance: "The app is under maintenance",
     comeBackLater: "Come back later :)",
+    latestWorkouts: "Latest confirmed workouts",
+    explore: "Explore",
   },
   hebrew: {
     login: "התחבר",
@@ -555,6 +557,8 @@ const languageService = {
     thisActionIsIrreversable: "הפעולה הזאת בלתי הפיכה",
     appIsUnderMaintenance: "האפליקציה בשיפוצים",
     comeBackLater: "תחזרו מאוחר יותר :)",
+    latestWorkouts: "האימונים האחרונים שאושרו",
+    explore: "סקירה",
   },
 };
 export default languageService;
