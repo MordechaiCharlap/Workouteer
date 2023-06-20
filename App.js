@@ -12,7 +12,7 @@ import { NavbarDisplayProvider } from "./hooks/useNavbarDisplay";
 import { CurrentWorkoutProvider } from "./hooks/useCurrentWorkout";
 import { ResponsivenessProvider } from "./hooks/useResponsiveness";
 import { FriendsWorkoutsProvider } from "./hooks/useFriendsWorkouts";
-import { LeaderboardUpdatesProvider } from "./hooks/useLeaderboardUpdates";
+import { LeaderboardProvider } from "./hooks/useLeaderboard";
 import { ConfirmedWorkoutsProvider } from "./hooks/useConfirmedWorkouts";
 import { AppDataProvider } from "./hooks/useAppData";
 import * as SplashScreen from "expo-splash-screen";
@@ -21,7 +21,6 @@ import { ConnectionProvider } from "./hooks/useConnection";
 import { MaintenanceProvider } from "./hooks/useMaintenance";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { ChatsProvider } from "./hooks/useChats";
-
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   WebBrowser.maybeCompleteAuthSession();
@@ -45,7 +44,7 @@ export default function App() {
                         <CurrentWorkoutProvider>
                           <FriendsWorkoutsProvider>
                             <NotificationsProvider>
-                              <LeaderboardUpdatesProvider>
+                              <LeaderboardProvider>
                                 <ConfirmedWorkoutsProvider>
                                   <WorkoutLogicProvider>
                                     <NavbarNavigationProvider>
@@ -55,7 +54,7 @@ export default function App() {
                                     </NavbarNavigationProvider>
                                   </WorkoutLogicProvider>
                                 </ConfirmedWorkoutsProvider>
-                              </LeaderboardUpdatesProvider>
+                              </LeaderboardProvider>
                             </NotificationsProvider>
                           </FriendsWorkoutsProvider>
                         </CurrentWorkoutProvider>
