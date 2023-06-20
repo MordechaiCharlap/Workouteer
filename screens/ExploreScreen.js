@@ -8,6 +8,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import SearchUsers from "../components/SearchUsers";
 import Explore from "../components/Explore";
+import Header from "../components/Header";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -23,7 +24,8 @@ const ExploreScreen = () => {
 
   return (
     <View style={[safeAreaStyle(), { flex: 1 }]}>
-      <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} />
+      <Header title={languageService[user.language].latestWorkouts} />
+      {/* <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} /> */}
       {searchInputEmpty == true && <Explore />}
     </View>
   );
