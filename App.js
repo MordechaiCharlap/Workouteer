@@ -21,6 +21,7 @@ import { ConnectionProvider } from "./hooks/useConnection";
 import { MaintenanceProvider } from "./hooks/useMaintenance";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { ChatsProvider } from "./hooks/useChats";
+import { ExploreProvider } from "./hooks/useExplore";
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   WebBrowser.maybeCompleteAuthSession();
@@ -45,15 +46,17 @@ export default function App() {
                           <FriendsWorkoutsProvider>
                             <NotificationsProvider>
                               <LeaderboardProvider>
-                                <ConfirmedWorkoutsProvider>
-                                  <WorkoutLogicProvider>
-                                    <NavbarNavigationProvider>
-                                      <TailwindProvider>
-                                        <StackNavigator />
-                                      </TailwindProvider>
-                                    </NavbarNavigationProvider>
-                                  </WorkoutLogicProvider>
-                                </ConfirmedWorkoutsProvider>
+                                <ExploreProvider>
+                                  <ConfirmedWorkoutsProvider>
+                                    <WorkoutLogicProvider>
+                                      <NavbarNavigationProvider>
+                                        <TailwindProvider>
+                                          <StackNavigator />
+                                        </TailwindProvider>
+                                      </NavbarNavigationProvider>
+                                    </WorkoutLogicProvider>
+                                  </ConfirmedWorkoutsProvider>
+                                </ExploreProvider>
                               </LeaderboardProvider>
                             </NotificationsProvider>
                           </FriendsWorkoutsProvider>
