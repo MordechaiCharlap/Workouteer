@@ -1,4 +1,9 @@
-import { getAuth, initializeAuth } from "firebase/auth";
+import {
+  getAuth,
+  initializeAuth,
+  browserLocalPersistence,
+  setPersistence,
+} from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getReactNativePersistence } from "firebase/auth/react-native";
 import { getFirestore } from "firebase/firestore";
@@ -12,19 +17,28 @@ export const FirebaseProvider = ({ children }) => {
   let app, auth, storage, db;
 
   if (!getApps().length) {
+    console.log("fb not exists");
     try {
       app = initializeApp(firebaseConfig);
       auth = initializeAuth(app, {
         persistence: getReactNativePersistence(AsyncStorage),
       });
+      db = getFirestore(app);
+      storage = getStorage(app);
     } catch (error) {
       console.log("Error initializing app: " + error);
     }
   } else {
     app = getApp();
-    auth = getAuth(app);
+    try {
+      auth = initializeAuth(app, {
+        persistence: getReactNativePersistence(AsyncStorage),
+      });
+    } catch (error) {
+      auth = getAuth(app);
+    }
     db = getFirestore();
-    storage = getStorage(app);
+    storage = getStorage();
   }
 
   if (auth && db && storage && app)
