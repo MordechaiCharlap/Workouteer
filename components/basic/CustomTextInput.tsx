@@ -12,6 +12,7 @@ import * as appStyle from "../../utilities/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import CustomButton from "./CustomButton";
+import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
 interface CustomTextInputProps extends TextInputProps {
   style?: StyleProp<ViewStyle>;
   password: boolean;
@@ -36,7 +37,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     <TextInput
       spellCheck={false}
       autoCorrect={false}
-      style={[styleSheet.input, style]}
+      style={[appComponentsDefaultStyles.input, style]}
       placeholder={placeholder}
       placeholderTextColor={
         placeholderTextColor ? placeholderTextColor : appStyle.color_outline
@@ -50,7 +51,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       <TextInput
         spellCheck={false}
         autoCorrect={false}
-        style={[styleSheet.input, style]}
+        style={[appComponentsDefaultStyles.input, style]}
         placeholder={placeholder}
         placeholderTextColor={appStyle.color_outline}
         onChangeText={(text) => setText(text)}
@@ -89,15 +90,3 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 };
 
 export default CustomTextInput;
-const styleSheet = StyleSheet.create({
-  input: {
-    borderRadius: 4,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: appStyle.color_outline,
-    color: appStyle.color_on_surface,
-    backgroundColor: appStyle.color_surface,
-  },
-});
