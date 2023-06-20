@@ -49,7 +49,9 @@ import { useConnection } from "./hooks/useConnection";
 import ConnectToInternetScreen from "./screens/ConnectToInternetScreen";
 import MyProfileScreen from "./screens/MyProfileScreen";
 import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
+import IntervalTimerScreen from "./screens/IntervalTimerScreen";
 import { useMaintenance } from "./hooks/useMaintenance";
+import { isWebOnPC } from "./services/webScreenService";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -109,207 +111,222 @@ const StackNavigator = () => {
         Platform.OS == "web" && { width: "100%", alignItems: "center" },
       ]}
     >
-      <View style={safeAreaStyle()}>
-        <StatusBar
-          backgroundColor={appStyle.statusBarStyle.backgroundColor}
-          barStyle={appStyle.statusBarStyle.barStyle}
-        />
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
-          {orientation == "LANDSCAPE" ? (
-            <Stack.Screen
-              name="LandscapeOrientationScreen"
-              component={LandscapeOrientationScreen}
-              options={verticalAnimation}
-            />
-          ) : windowTooSmall ? (
-            <Stack.Screen
-              name="WindowTooSmallScreen"
-              component={WindowTooSmallScreen}
-              options={verticalAnimation}
-            />
-          ) : !isVersionUpToDate ? (
-            <Stack.Screen
-              name="UpdateApp"
-              component={UpdateAppScreen}
-              options={verticalAnimation}
-            />
-          ) : !connected ? (
-            <Stack.Screen
-              name="ConnectToInternet"
-              component={ConnectToInternetScreen}
-              options={verticalAnimation}
-            />
-          ) : underMaintenance == true ? (
-            <Stack.Screen
-              name="UnderMaintenance"
-              component={UnderMaintenanceScreen}
-              options={verticalAnimation}
-            />
-          ) : user ? (
-            <>
-              <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={homeNavigationOptions.current}
-              />
-              <Stack.Screen
-                name="MyProfile"
-                component={MyProfileScreen}
-                options={myUserNavigationOptions.current}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="Explore"
-                component={ExploreScreen}
-                options={exploreNavigationOptions.current}
-              />
-              <Stack.Screen
-                name="Friends"
-                component={FriendsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="Chats"
-                component={ChatsScreen}
-                options={chatsNavigationOptions.current}
-              />
-              <Stack.Screen
-                name="Chat"
-                component={ChatScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="Leaderboard"
-                component={LeaderboardScreen}
-                options={leaderboardNavigationOptions.current}
-              />
-              <Stack.Screen
-                name="Notifications"
-                component={NotificationsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="SearchUsers"
-                component={SearchUsersScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="EditData"
-                component={EditDataScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="Settings"
-                component={SettingsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="FriendsWorkouts"
-                component={FriendsWorkoutsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="CreateWorkout"
-                component={CreateWorkoutScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="FutureWorkouts"
-                component={FutureWorkoutsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="PastWorkouts"
-                component={PastWorkoutsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="WorkoutInvites"
-                component={WorkoutInvitesScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="ChangePreferences"
-                component={ChangePreferencesScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="SearchedWorkouts"
-                component={SearchedWorkoutsScreen}
-                options={horizontalRightAnimation}
-              />
-              <Stack.Screen
-                name="WorkoutDetails"
-                component={WorkoutDetailsScreen}
-                options={horizontalRightAnimation}
-              />
-              <Stack.Screen
-                name="WorkoutRequests"
-                component={WorkoutRequestsScreen}
-                options={horizontalRightAnimation}
-              />
-              <Stack.Screen
-                name="InviteFriends"
-                component={InviteFriendsScreen}
-                options={horizontalRightAnimation}
-              />
-              <Stack.Screen
-                name="FriendRequests"
-                component={FriendRequestsScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="ConfirmWorkout"
-                component={ConfirmWorkoutScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="ReportUser"
-                component={ReportUserScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="SearchWorkouts"
-                component={SearchWorkoutsScreen}
-                options={verticalAnimation}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={verticalAnimation}
-              />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-                options={horizontalLeftAnimation}
-              />
-              <Stack.Screen
-                name="LinkUserWithGoogle"
-                component={LinkUserWithGoogleScreen}
-                options={horizontalLeftAnimation}
-              />
-            </>
-          )}
-          <Stack.Screen
-            name="TermsOfService"
-            component={TermsOfServiceScreen}
-            options={verticalAnimation}
+      <View
+        style={[
+          { flex: 1 },
+          isWebOnPC && {
+            borderWidth: 0.5,
+            borderColor: "#cdcdcd",
+          },
+        ]}
+      >
+        <View style={safeAreaStyle()}>
+          <StatusBar
+            backgroundColor={appStyle.statusBarStyle.backgroundColor}
+            barStyle={appStyle.statusBarStyle.barStyle}
           />
-          <Stack.Screen
-            name="PrivacyPolicy"
-            component={PrivacyPolicyScreen}
-            options={verticalAnimation}
-          />
-        </Stack.Navigator>
+          <Stack.Navigator screenOptions={{ headerShown: true }}>
+            {orientation == "LANDSCAPE" ? (
+              <Stack.Screen
+                name="LandscapeOrientationScreen"
+                component={LandscapeOrientationScreen}
+                options={verticalAnimation}
+              />
+            ) : windowTooSmall ? (
+              <Stack.Screen
+                name="WindowTooSmallScreen"
+                component={WindowTooSmallScreen}
+                options={verticalAnimation}
+              />
+            ) : !isVersionUpToDate ? (
+              <Stack.Screen
+                name="UpdateApp"
+                component={UpdateAppScreen}
+                options={verticalAnimation}
+              />
+            ) : !connected ? (
+              <Stack.Screen
+                name="ConnectToInternet"
+                component={ConnectToInternetScreen}
+                options={verticalAnimation}
+              />
+            ) : underMaintenance == true ? (
+              <Stack.Screen
+                name="UnderMaintenance"
+                component={UnderMaintenanceScreen}
+                options={verticalAnimation}
+              />
+            ) : user ? (
+              <>
+                <Stack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={homeNavigationOptions.current}
+                />
+                <Stack.Screen
+                  name="MyProfile"
+                  component={MyProfileScreen}
+                  options={myUserNavigationOptions.current}
+                />
+                <Stack.Screen
+                  name="Profile"
+                  component={ProfileScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Explore"
+                  component={ExploreScreen}
+                  options={exploreNavigationOptions.current}
+                />
+                <Stack.Screen
+                  name="Friends"
+                  component={FriendsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Chats"
+                  component={ChatsScreen}
+                  options={chatsNavigationOptions.current}
+                />
+                <Stack.Screen
+                  name="Chat"
+                  component={ChatScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Leaderboard"
+                  component={LeaderboardScreen}
+                  options={leaderboardNavigationOptions.current}
+                />
+                <Stack.Screen
+                  name="Notifications"
+                  component={NotificationsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="SearchUsers"
+                  component={SearchUsersScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="EditData"
+                  component={EditDataScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Settings"
+                  component={SettingsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="FriendsWorkouts"
+                  component={FriendsWorkoutsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="CreateWorkout"
+                  component={CreateWorkoutScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="FutureWorkouts"
+                  component={FutureWorkoutsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="PastWorkouts"
+                  component={PastWorkoutsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="WorkoutInvites"
+                  component={WorkoutInvitesScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="ChangePreferences"
+                  component={ChangePreferencesScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="SearchedWorkouts"
+                  component={SearchedWorkoutsScreen}
+                  options={horizontalRightAnimation}
+                />
+                <Stack.Screen
+                  name="WorkoutDetails"
+                  component={WorkoutDetailsScreen}
+                  options={horizontalRightAnimation}
+                />
+                <Stack.Screen
+                  name="WorkoutRequests"
+                  component={WorkoutRequestsScreen}
+                  options={horizontalRightAnimation}
+                />
+                <Stack.Screen
+                  name="InviteFriends"
+                  component={InviteFriendsScreen}
+                  options={horizontalRightAnimation}
+                />
+                <Stack.Screen
+                  name="FriendRequests"
+                  component={FriendRequestsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="ConfirmWorkout"
+                  component={ConfirmWorkoutScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="ReportUser"
+                  component={ReportUserScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="SearchWorkouts"
+                  component={SearchWorkoutsScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="IntervalTimer"
+                  component={IntervalTimerScreen}
+                  options={verticalAnimation}
+                />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Register"
+                  component={RegisterScreen}
+                  options={horizontalLeftAnimation}
+                />
+                <Stack.Screen
+                  name="LinkUserWithGoogle"
+                  component={LinkUserWithGoogleScreen}
+                  options={horizontalLeftAnimation}
+                />
+              </>
+            )}
+            <Stack.Screen
+              name="TermsOfService"
+              component={TermsOfServiceScreen}
+              options={verticalAnimation}
+            />
+            <Stack.Screen
+              name="PrivacyPolicy"
+              component={PrivacyPolicyScreen}
+              options={verticalAnimation}
+            />
+          </Stack.Navigator>
+        </View>
+        {showNavbar && <BottomNavbar />}
       </View>
-      {showNavbar && <BottomNavbar />}
     </View>
   );
 };
