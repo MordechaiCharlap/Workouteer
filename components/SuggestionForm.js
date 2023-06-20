@@ -76,7 +76,6 @@ const SuggestionForm = (props) => {
             <View style={{ width: 10 }} />
             <CustomTextInput
               style={{
-                flex: 1,
                 backgroundColor: appStyle.color_surface_variant,
               }}
               maxLength={20}
@@ -97,7 +96,7 @@ const SuggestionForm = (props) => {
             <CustomText>
               {languageService[props.language].details + ":"}
             </CustomText>
-            <CustomTextInput
+            <TextInput
               style={{
                 backgroundColor: appStyle.color_surface_variant,
                 padding: 7,

@@ -87,7 +87,7 @@ const SearchUsers = (props) => {
           />
           <CustomTextInput
             onChangeText={(text) => textChanged(text)}
-            style={{ color: appStyle.color_on_surface_variant, flex: 1 }}
+            style={{ color: appStyle.color_on_surface_variant }}
             placeholder={languageService[props.language].searchUser}
             placeholderTextColor={appStyle.color_on_surface_variant}
             className="text-xl"
