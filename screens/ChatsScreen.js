@@ -29,7 +29,15 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
 import { messageTimeString } from "../services/timeFunctions";
 import AwesomeModal from "../components/AwesomeModal";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import useResponsiveness from "../hooks/useResponsiveness";
 const ChatsScreen = () => {
+  const { windowHeight } = useResponsiveness();
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -38,6 +46,14 @@ const ChatsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [chatsArr, setChatsArr] = useState(null);
   const [selectedChats, setSelectedChats] = useState([]);
+  const flatlistMarginTop = useSharedValue(windowHeight / 2);
+  const flatlistOpacity = useSharedValue(0);
+  const animatedFlatlist = useAnimatedStyle(() => {
+    return {
+      marginTop: flatlistMarginTop.value,
+      opacity: flatlistOpacity.value,
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Chats");
@@ -45,6 +61,8 @@ const ChatsScreen = () => {
       const getChats = async () => {
         var arr = await firebase.getChatsArrayIncludeUsers(user);
         setChatsArr(arr);
+        flatlistOpacity.value = withTiming(1, { duration: 500 });
+        flatlistMarginTop.value = withTiming(0, { duration: 500 });
       };
       getChats();
     }, [chatsAlerts])
@@ -131,7 +149,8 @@ const ChatsScreen = () => {
       );
     };
     return (
-      <FlatList
+      <Animated.FlatList
+        style={[animatedFlatlist]}
         data={chatsArr}
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item, index }) =>
