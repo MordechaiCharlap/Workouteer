@@ -22,6 +22,19 @@ export const LeaderboardProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    const updateUserPointsDoc = async () => {
+      const userClone = { ...user };
+      const userIndex = leaderboardList.findIndex(
+        (element) => element[0] == user.id
+      );
+      userClone.leaderboard.points = leaderboardList[userIndex][1].points;
+      await firebase.updateUser(userClone);
+    };
+    if (leaderboardList != null && user.leaderboard.points == null) {
+      updateUserPointsDoc();
+    }
+  }, [leaderboardList]);
+  useEffect(() => {
     const listenToLeaderboard = async () => {
       unsubscribeLeaderboard.current = onSnapshot(
         doc(
@@ -39,12 +52,14 @@ export const LeaderboardProvider = ({ children }) => {
       );
     };
     if (
-      user?.leaderboard?.points &&
+      user?.leaderboard?.points != 0 &&
       userLoaded &&
       !unsubscribeLeaderboard.current
-    )
+    ) {
       listenToLeaderboard();
-    else cleanListener();
+    } else {
+      cleanListener();
+    }
     return () => cleanListener();
   }, [user?.leaderboard?.points, userLoaded]);
   const getPlaceString = (place, language) => {
