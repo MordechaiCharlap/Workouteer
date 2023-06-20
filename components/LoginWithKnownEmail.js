@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import Password from "./registerScreen/Password";
 import * as appStyle from "../utilities/appStyleSheet";
 import useAuth from "../hooks/useAuth";
-import { getAuth, linkWithCredential } from "firebase/auth";
+import { linkWithCredential } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
 const LoginWithKnownEmail = (props) => {
-  const auth = getAuth();
-  const { db } = useFirebase();
+  const { db, auth } = useFirebase();
   const { signInEmailPassword, googleUserInfo } = useAuth();
   const [password, setPassword] = useState("");
   const loginAndLink = async () => {
