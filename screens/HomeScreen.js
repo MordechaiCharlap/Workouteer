@@ -11,6 +11,7 @@ import {
   faUserGroup,
   faCalendarCheck,
   faEnvelopeOpenText,
+  faStopwatch,
 } from "@fortawesome/free-solid-svg-icons";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
@@ -118,6 +119,17 @@ const HomeScreen = () => {
             navigateScreen="WorkoutInvites"
             icon={faEnvelopeOpenText}
           />
+        </View>
+        <View style={rowStyle}>
+          <HomeScreenButton
+            alert={friendsWorkouts.length > 0}
+            alertNumber={friendsWorkouts.length}
+            buttonText={languageService[user.language].intervalTimer}
+            style={buttonStyle}
+            navigateScreen="IntervalTimer"
+            icon={faStopwatch}
+          />
+          <HomeScreenButton spaceHolderButton={true} style={buttonStyle} />
         </View>
       </View>
       {currentWorkout != null && (
