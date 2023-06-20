@@ -15,40 +15,20 @@ import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
 import CurrentLeague from "../components/leaderboardScreen/CurrentLeague";
+import useLeaderboard from "../hooks/useLeaderboard";
 const LeaderboardScreen = () => {
   const navigation = useNavigation();
-  const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
-  const [leaderboardList, setLeaderboardList] = useState([]);
+  const { leaderboardList } = useLeaderboard();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Leaderboard");
       setScreen("Leaderboard");
     }, [])
   );
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      if (user.leaderboard.weekId != firebase.getLastWeekId()) {
-        setLeaderboardList();
-        return;
-      }
-      const leaderboardData = (
-        await getDoc(
-          doc(
-            db,
-            `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
-          )
-        )
-      ).data();
-      const usersArray = Array.from(Object.entries(leaderboardData.users)).sort(
-        (a, b) => b[1].points - a[1].points
-      );
-      setLeaderboardList(usersArray);
-    };
-    fetchLeaderboard();
-  }, []);
+
   return (
     <View style={safeAreaStyle()}>
       <View className="flex-1">

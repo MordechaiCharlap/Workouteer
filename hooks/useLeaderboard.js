@@ -1,15 +1,53 @@
-import { useEffect, createContext, useContext, useState } from "react";
+import { useEffect, createContext, useContext, useState, useRef } from "react";
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { color_primary } from "../utilities/appStyleSheet";
 import * as firebase from "../services/firebase";
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import useFirebase from "./useFirebase";
 const LeaderboardContext = createContext({});
 export const LeaderboardProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [leaderboardList, setLeaderboardList] = useState();
+  const { db } = useFirebase();
+  const unsubscribeLeaderboard = useRef();
+  const cleanListener = () => {
+    if (unsubscribeLeaderboard.current) {
+      unsubscribeLeaderboard.current();
+      unsubscribeLeaderboard.current = null;
+    }
+  };
+  useEffect(() => {
+    const listenToLeaderboard = async () => {
+      unsubscribeLeaderboard.current = onSnapshot(
+        doc(
+          db,
+          `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
+        ),
+        (doc) => {
+          const leaderboardData = doc.data();
+
+          const usersArray = Array.from(
+            Object.entries(leaderboardData.users)
+          ).sort((a, b) => b[1].points - a[1].points);
+          console.log(usersArray);
+          setLeaderboardList(usersArray);
+        }
+      );
+    };
+    if (
+      user?.leaderboard?.points &&
+      userLoaded &&
+      !unsubscribeLeaderboard.current
+    )
+      listenToLeaderboard();
+    else cleanListener();
+    return () => cleanListener();
+  }, [user?.leaderboard?.points, userLoaded]);
   const getPlaceString = (place, language) => {
     if (language == "english") {
       return `${place} ${languageService[language].place}`;
@@ -42,7 +80,7 @@ export const LeaderboardProvider = ({ children }) => {
     }
   }, [user?.leaderboard?.leaderboardUpdated]);
   return (
-    <LeaderboardContext.Provider value={{}}>
+    <LeaderboardContext.Provider value={{ leaderboardList }}>
       {children}
       {showModal && (
         <AwesomeAlert
