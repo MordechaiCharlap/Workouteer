@@ -34,7 +34,6 @@ export const LeaderboardProvider = ({ children }) => {
           const usersArray = Array.from(
             Object.entries(leaderboardData.users)
           ).sort((a, b) => b[1].points - a[1].points);
-          console.log(usersArray);
           setLeaderboardList(usersArray);
         }
       );
