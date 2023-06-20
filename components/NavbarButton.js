@@ -12,6 +12,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useAuth from "../hooks/useAuth";
+import AlertDot from "./AlertDot";
+const renderAlert = () => {
+  return (
+    <View className="absolute left-0 bottom-0">
+      <AlertDot
+        size={17}
+        color={appStyle.color_error}
+        borderColor={appStyle.color_background}
+        borderWidth={2}
+      />
+    </View>
+  );
+};
 const NavbarButton = (props) => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -61,16 +74,7 @@ const NavbarButton = (props) => {
               },
             ]}
           />
-          {props.alert != null && props.alert == true && (
-            <View
-              className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
-              style={{
-                backgroundColor: appStyle.color_error,
-                borderColor: appStyle.color_on_primary,
-                borderWidth: 2,
-              }}
-            ></View>
-          )}
+          {props.alert == true && renderAlert()}
         </View>
       ) : (
         <View>
@@ -83,16 +87,7 @@ const NavbarButton = (props) => {
                 : appStyle.color_on_surface_variant
             }
           />
-          {props.alert != null && props.alert == true && (
-            <View
-              className="absolute w-4 h-4 left-0 bottom-0 rounded-full justify-center items-center"
-              style={{
-                backgroundColor: appStyle.color_tertiary_container,
-                borderColor: appStyle.color_on_primary,
-                borderWidth: 2,
-              }}
-            ></View>
-          )}
+          {props.alert == true && renderAlert()}
         </View>
       )}
     </TouchableOpacity>
