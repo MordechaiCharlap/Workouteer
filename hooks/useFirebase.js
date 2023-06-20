@@ -17,7 +17,6 @@ export const FirebaseProvider = ({ children }) => {
   let app, auth, storage, db;
 
   if (!getApps().length) {
-    console.log("fb not exists");
     try {
       app = initializeApp(firebaseConfig);
       auth = initializeAuth(app, {
@@ -26,7 +25,6 @@ export const FirebaseProvider = ({ children }) => {
       db = getFirestore(app);
       storage = getStorage(app);
     } catch (error) {
-      console.log("Error initializing app: " + error);
     }
   } else {
     app = getApp();
