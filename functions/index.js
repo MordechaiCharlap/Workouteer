@@ -6,15 +6,24 @@ const db = admin.firestore();
 const bucket = admin.storage().bucket();
 const app = express();
 const usersRouter = require("./api/users");
+const workoutsRouter = require("./api/workouts");
+app.use("/workouts", workoutsRouter);
 app.use("/users", usersRouter);
+
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
     const userId = snap.id;
     //delete user's picture
-    const file = bucket.file(`profile-pics/${userId}.jpg`);
-    await file.delete();
     const user = (await db.doc(`users/${userId}`).get()).data();
+    if (
+      user.img !=
+      "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2"
+    ) {
+      const file = bucket.file(`profile-pics/${userId}.jpg`);
+      await file.delete();
+    }
+
     const uid = user.uid;
     if (uid) {
       try {
