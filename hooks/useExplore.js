@@ -15,7 +15,7 @@ export const ExploreProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const { db } = useFirebase();
   const [latestWorkouts, setLatestWorkouts] = useState();
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     if (!userLoaded) return;
 
@@ -34,8 +34,25 @@ export const ExploreProvider = ({ children }) => {
     };
     getLatestWorkouts();
   }, [userLoaded]);
+  const refreshLatestWorkouts = async () => {
+    setRefreshing(true);
+    const data = [];
+    const q = query(
+      collection(db, "workouts"),
+      where("confirmed", "==", true),
+      orderBy("startingTime", "desc"),
+      limit(10)
+    );
+    (await getDocs(q)).forEach((doc) => {
+      data.push({ ...doc.data(), id: doc.id });
+    });
+    setLatestWorkouts(data);
+    setRefreshing(false);
+  };
   return (
-    <ExploreContext.Provider value={{ latestWorkouts, setLatestWorkouts }}>
+    <ExploreContext.Provider
+      value={{ latestWorkouts, refreshLatestWorkouts, refreshing }}
+    >
       {children}
     </ExploreContext.Provider>
   );
