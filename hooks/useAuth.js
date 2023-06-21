@@ -29,6 +29,7 @@ export const AuthPrvider = ({ children }) => {
   const { db, auth } = useFirebase();
   const navigation = useNavigation();
   const [googleUserInfo, setGoogleUserInfo] = useState(null);
+  const [authUser, setAuthUser] = useState();
   const [initialLoading, setInitialLoading] = useState(true);
   const [authErrorCode, setAuthErrorCode] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
@@ -47,6 +48,7 @@ export const AuthPrvider = ({ children }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
+        setAuthUser(authUser);
         const getData = async () => {
           var userData;
           const q = query(
@@ -75,6 +77,7 @@ export const AuthPrvider = ({ children }) => {
         };
         setUserAsync();
       } else {
+        setAuthUser();
         setInitialLoading(false);
         if (user) {
           setUser(null);
@@ -224,6 +227,7 @@ export const AuthPrvider = ({ children }) => {
         initialLoading,
         loginLoading,
         authErrorCode,
+        authUser,
       }}
     >
       {children}
