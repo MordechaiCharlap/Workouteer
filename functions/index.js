@@ -7,9 +7,12 @@ const bucket = admin.storage().bucket();
 const app = express();
 const usersRouter = require("./api/users");
 const workoutsRouter = require("./api/workouts");
+const alertsRouter = require("./api/alerts");
+const friendRequestsRouter = require("./api/friendRequests");
 app.use("/workouts", workoutsRouter);
 app.use("/users", usersRouter);
-
+app.use("alerts", alertsRouter);
+app.use("friendRequests", friendRequestsRouter);
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
