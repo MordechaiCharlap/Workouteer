@@ -3,9 +3,7 @@ import { useState } from "react";
 import { createContext } from "react";
 import useAuth from "./useAuth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import * as firebase from "../services/firebase";
 import useFirebase from "./useFirebase";
-
 const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
