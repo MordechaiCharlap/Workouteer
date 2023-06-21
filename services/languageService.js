@@ -292,6 +292,7 @@ const languageService = {
     latestWorkouts: "Latest confirmed workouts",
     explore: "Explore",
     intervalTimer: "INTERVAL TIMER",
+    refresh: "Refresh",
   },
   hebrew: {
     login: "התחבר",
@@ -561,6 +562,7 @@ const languageService = {
     latestWorkouts: "האימונים האחרונים שאושרו",
     explore: "סקירה",
     intervalTimer: "אינטרוואלים",
+    refresh: "רענון",
   },
 };
 export default languageService;
