@@ -120,17 +120,14 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
-        <View style={rowStyle}>
-          <HomeScreenButton
-            alert={friendsWorkouts.length > 0}
-            alertNumber={friendsWorkouts.length}
-            buttonText={languageService[user.language].intervalTimer}
+        {/* <View style={rowStyle}>
+          <HomeScreenButton            buttonText={languageService[user.language].intervalTimer}
             style={buttonStyle}
             navigateScreen="IntervalTimer"
             icon={faStopwatch}
           />
           <HomeScreenButton spaceHolderButton={true} style={buttonStyle} />
-        </View>
+        </View> */}
       </View>
       {currentWorkout != null && (
         <View
