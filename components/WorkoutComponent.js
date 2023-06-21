@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { workoutTypes } from "../components/WorkoutType";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

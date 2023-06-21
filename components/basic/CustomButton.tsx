@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import React from "react";
-import appComponentsDefaultStyles from "../../utilities/appComponentsDefaultStyles";
+import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 
 interface CustomButtonProps extends TouchableOpacityProps {
   style?: StyleProp<ViewStyle>;

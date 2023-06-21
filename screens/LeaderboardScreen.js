@@ -2,7 +2,7 @@ import { View, Text, FlatList, Image } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { React, useCallback, useEffect, useState } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";

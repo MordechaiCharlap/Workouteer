@@ -12,7 +12,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import WorkoutType from "../components/WorkoutType";
 import { useEffect } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import CheckBox from "../components/CheckBox";

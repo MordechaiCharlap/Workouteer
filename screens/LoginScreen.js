@@ -14,7 +14,7 @@ import { React, useCallback, useEffect, useState } from "react";
 import CheckBox from "../components/CheckBox";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";

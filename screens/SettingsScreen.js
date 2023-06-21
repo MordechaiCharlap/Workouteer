@@ -2,7 +2,7 @@ import { Text, View, Switch, Modal } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { saveSettingsChanges } from "../services/firebase";
 import Header from "../components/Header";

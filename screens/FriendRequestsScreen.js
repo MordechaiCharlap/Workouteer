@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import React, { useCallback, useState, useEffect } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";

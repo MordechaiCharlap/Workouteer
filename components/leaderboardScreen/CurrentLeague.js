@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
-import { leagues } from "../../utilities/defaultValues";
-import * as appStyle from "../../utilities/appStyleSheet";
+import { leagues } from "../../utils/defaultValues";
+import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const CurrentLeague = ({ league }) => {

@@ -5,7 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 
 import React, { useRef, Children } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
 import languageService from "../../services/languageService";
-import { convertHexToRgba } from "../../utilities/stylingFunctions";
+import { convertHexToRgba } from "../../utils/stylingFunctions";
 const AnimatedSlides = (props) => {
   const { user } = useAuth();
   const scrollViewRef = useRef(null);

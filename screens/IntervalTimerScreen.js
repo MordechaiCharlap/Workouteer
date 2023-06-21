@@ -5,7 +5,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
-import * as appStlye from "../utilities/appStyleSheet";
+import * as appStlye from "../utils/appStyleSheet";
 const IntervalTimerScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(

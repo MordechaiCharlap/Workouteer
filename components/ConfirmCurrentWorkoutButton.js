@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { workoutTypes } from "./WorkoutType";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 import languageService from "../services/languageService";
 import useResponsiveness from "../hooks/useResponsiveness";

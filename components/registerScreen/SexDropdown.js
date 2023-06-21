@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 const SexDropdown = (props) => {
   const [isMale, setIsMale] = useState();
   useEffect(() => {

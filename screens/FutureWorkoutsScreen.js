@@ -4,7 +4,7 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import { useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";

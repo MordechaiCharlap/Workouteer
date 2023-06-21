@@ -1,6 +1,6 @@
 import { TextInput, View, Text } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 
 const EmailInput = (props) => {
   const [emailStyle, setEmailStyle] = useState(props.style.input);

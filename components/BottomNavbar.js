@@ -1,7 +1,7 @@
 import { View, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import NavbarButton from "./NavbarButton";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useAlerts from "../hooks/useAlerts";
 import useResponsiveness from "../hooks/useResponsiveness";
 import { isWebOnPC } from "../services/webScreenService";

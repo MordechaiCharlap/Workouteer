@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCircleUser,

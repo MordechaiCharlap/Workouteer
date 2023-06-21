@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
 

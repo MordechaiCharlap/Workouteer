@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { React, useState } from "react";
 
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import languageService from "../services/languageService";
@@ -16,7 +16,7 @@ import * as firebase from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import CustomTextInput from "./basic/CustomTextInput";
-import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const SearchUsers = (props) => {
   const { user } = useAuth();
   const navigation = useNavigation();

@@ -1,7 +1,7 @@
 import { View, Text, Image } from "react-native";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
 import { useFocusEffect } from "@react-navigation/native";

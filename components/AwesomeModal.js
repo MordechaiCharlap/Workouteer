@@ -2,7 +2,7 @@ import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import languageService from "../services/languageService";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { isWebOnPC } from "../services/webScreenService";
 import useResponsiveness from "../hooks/useResponsiveness";

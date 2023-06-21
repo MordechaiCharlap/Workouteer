@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Platform, StatusBar } from "react-native";
-import * as appStyle from "./utilities/appStyleSheet";
+import * as appStyle from "./utils/appStyleSheet";
 import BottomNavbar from "./components/BottomNavbar";
 import HomeScreen from "./screens/HomeScreen";
 import ProfileScreen from "./screens/ProfileScreen";

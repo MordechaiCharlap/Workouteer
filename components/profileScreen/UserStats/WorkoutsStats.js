@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
-import * as appStyle from "../../../utilities/appStyleSheet";
+import * as appStyle from "../../../utils/appStyleSheet";
 import languageService from "../../../services/languageService";
 import useAuth from "../../../hooks/useAuth";
 import useConfirmedWorkouts from "../../../hooks/useConfirmedWorkouts";

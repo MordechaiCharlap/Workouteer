@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import languageService from "../../services/languageService";
 export const UserDeleted = (props) => {
   return (

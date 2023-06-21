@@ -17,7 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 import CustomButton from "./basic/CustomButton";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import WorkoutComponent from "./WorkoutComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faRotateRight, faSpinner } from "@fortawesome/free-solid-svg-icons";

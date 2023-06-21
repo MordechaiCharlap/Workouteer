@@ -9,7 +9,7 @@ import {
 import { React, useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { Dropdown } from "react-native-element-dropdown";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";

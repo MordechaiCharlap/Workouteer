@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
   const { default: MapView, PROVIDER_GOOGLE } = require("react-native-maps");
   const { Marker } = require("../services/mapsService");

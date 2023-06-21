@@ -11,10 +11,10 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { React, useCallback, useEffect, useState } from "react";
-import { calculateAge } from "../utilities/calculateAge";
+import { calculateAge } from "../utils/calculateAge";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAuth from "../hooks/useAuth";

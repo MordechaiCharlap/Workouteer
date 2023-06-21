@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { faPersonWalking } from "@fortawesome/free-solid-svg-icons";
@@ -74,9 +74,7 @@ const WorkoutType = (props) => {
       ...genericStyle,
     },
   });
-  const [chosenType, setChosenType] = useState(
-    props.value||0
-  );
+  const [chosenType, setChosenType] = useState(props.value || 0);
   const typeClicked = (id) => {
     setChosenType(id);
   };

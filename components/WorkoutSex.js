@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { React, useState } from "react";
 import CheckBox from "../components/CheckBox";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { useEffect } from "react";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";

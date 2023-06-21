@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import languageService from "../services/languageService";
 import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import CustomTextInput from "./basic/CustomTextInput";
 import CustomText from "./basic/CustomText";

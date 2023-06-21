@@ -2,7 +2,7 @@ import { useEffect, createContext, useContext, useState, useRef } from "react";
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { color_primary } from "../utilities/appStyleSheet";
+import { color_primary } from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import useFirebase from "./useFirebase";

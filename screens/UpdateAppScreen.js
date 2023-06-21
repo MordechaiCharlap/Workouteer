@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Linking } from "react-native";
 import React, { useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";

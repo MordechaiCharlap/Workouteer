@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React, { useState, useEffect } from "react";
 import CheckBox from "../CheckBox";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 const TermsAndConditionsCB = (props) => {
   const navigation = useNavigation();

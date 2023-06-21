@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useAuth from "../hooks/useAuth";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import languageService from "../services/languageService";
 const ConnectToInternetScreen = () => {
   const { user } = useAuth();

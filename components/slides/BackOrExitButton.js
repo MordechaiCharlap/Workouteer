@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faX, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import React from "react";

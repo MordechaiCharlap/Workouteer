@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { React, useEffect, useRef, useState } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
@@ -20,7 +20,7 @@ import {
   faCalendarDay,
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
-import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import CustomText from "./basic/CustomText";
 import CustomButton from "./basic/CustomButton";
 

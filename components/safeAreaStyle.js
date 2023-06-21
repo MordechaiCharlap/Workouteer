@@ -1,4 +1,4 @@
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { isWebOnPC } from "../services/webScreenService";
 import useResponsiveness from "../hooks/useResponsiveness";
 import { Dimensions } from "react-native";

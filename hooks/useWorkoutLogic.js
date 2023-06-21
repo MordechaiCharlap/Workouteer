@@ -3,7 +3,7 @@ import AwesomeModal from "../components/AwesomeModal";
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import { Text, View, TouchableOpacity } from "react-native";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
 import { useRef } from "react";
 import { useEffect } from "react";

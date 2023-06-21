@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import * as defaultValues from "../utilities/defaultValues";
+import * as defaultValues from "../utils/defaultValues";
 import Geocoder from "react-native-geocoding";
 import {
   deleteField,
@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
-import { mapsApiKey } from "../utilities/mapsApiKey";
+import { mapsApiKey } from "../utils/mapsApiKey";
 initializeApp(firebaseConfig);
 const db = getFirestore();
 const storage = getStorage();

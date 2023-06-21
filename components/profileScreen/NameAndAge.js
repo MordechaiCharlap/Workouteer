@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import CustomText from "../basic/CustomText";
 const NameAndAge = ({ name, age, color }) => {
   return (

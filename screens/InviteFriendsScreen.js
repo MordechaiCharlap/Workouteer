@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import React, { useCallback, useState } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
@@ -12,7 +12,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import languageService from "../services/languageService";
 import CustomTextInput from "../components/basic/CustomTextInput";
-import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import CustomButton from "../components/basic/CustomButton";
 
 const InviteFriendsScreen = ({ route }) => {

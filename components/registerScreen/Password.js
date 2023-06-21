@@ -2,7 +2,7 @@ import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 const Password = (props) => {
   const [passwordStyle, setPasswordStyle] = useState(props.style.input);
   const [showPassword, setShowPassword] = useState(false);

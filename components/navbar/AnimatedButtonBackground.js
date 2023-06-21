@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { color_primary } from "../../utilities/appStyleSheet";
+import { color_primary } from "../../utils/appStyleSheet";
 
 export const AnimatedButtonBackround = ({ index, fixedWidth }) => {
   const position = useSharedValue(2);

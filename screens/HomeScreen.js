@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import HomeScreenButton from "../components/HomeScreenButton";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import {
   faClock,
   faPlus,

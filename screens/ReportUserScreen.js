@@ -4,7 +4,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { StatusBar } from "react-native";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -13,7 +13,7 @@ import { TextInput } from "react-native";
 import { useRef } from "react";
 import AwesomeModal from "../components/AwesomeModal";
 import { addDoc, collection, doc } from "firebase/firestore";
-import * as defaultValues from "../utilities/defaultValues";
+import * as defaultValues from "../utils/defaultValues";
 import useFirebase from "../hooks/useFirebase";
 const ReportUserScreen = ({ route }) => {
   const { db, storage } = useFirebase();

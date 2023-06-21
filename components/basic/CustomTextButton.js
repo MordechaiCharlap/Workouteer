@@ -1,5 +1,5 @@
 import React from "react";
-import { color_on_primary, color_primary } from "../../utilities/appStyleSheet";
+import { color_on_primary, color_primary } from "../../utils/appStyleSheet";
 import { View, TouchableOpacity } from "react-native";
 import CustomText from "./CustomText";
 const CustomTextButton = ({ type, children, onPress }) => {

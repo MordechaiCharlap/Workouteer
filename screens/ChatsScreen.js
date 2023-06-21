@@ -20,7 +20,7 @@ import {
   faCheckCircle,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";

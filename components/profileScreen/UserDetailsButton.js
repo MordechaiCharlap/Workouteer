@@ -1,6 +1,6 @@
 import { TouchableOpacity, Text, View } from "react-native";
 import React from "react";
-import * as appStyle from "../../utilities/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";

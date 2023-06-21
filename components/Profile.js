@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { React, useEffect, useState } from "react";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,

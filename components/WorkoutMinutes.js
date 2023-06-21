@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 import { React, useEffect, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
-import * as appStyle from "../utilities/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import useAuth from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
-import appComponentsDefaultStyles from "../utilities/appComponentsDefaultStyles";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const data = [
   { label: "0:30", value: 30 },
   { label: "1:00", value: 60 },
