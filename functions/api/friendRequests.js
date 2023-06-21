@@ -19,7 +19,7 @@ const getFriendRequestsById = async (req, res) => {
 
 const createFriendRequests = async (req, res) => {
   const friendRequestsData = req.body;
-  await create("friendRequests", friendRequestsData);
+  await create("friendRequests", friendRequestsData, req.params.id);
   res.sendStatus(201);
 };
 
