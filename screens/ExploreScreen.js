@@ -23,7 +23,7 @@ const ExploreScreen = () => {
   );
 
   return (
-    <View style={[safeAreaStyle(), { flex: 1 }]}>
+    <View style={[safeAreaStyle()]}>
       <Header title={languageService[user.language].latestWorkouts} />
       {/* <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} /> */}
       {searchInputEmpty == true && <Explore />}
