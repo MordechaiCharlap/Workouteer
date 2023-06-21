@@ -10,9 +10,9 @@ const getById = async (collection, id) => {
   return docSnapshot.data();
 };
 
-const create = async (collection, data) => {
-  if (data.id != null) {
-    return await db.doc(`${collection}/${data.id}`).set(data);
+const create = async (collection, data, id) => {
+  if (id != null) {
+    return await db.doc(`${collection}/${id}`).set(data);
   } else {
     return await db.collection(collection).add(data);
   }
