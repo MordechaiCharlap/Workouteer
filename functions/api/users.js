@@ -19,7 +19,7 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
   const userData = req.body;
-  await create("users", userData);
+  await create("users", userData, req.params.id);
   res.sendStatus(201);
 };
 
@@ -38,7 +38,7 @@ const deleteUser = async (req, res) => {
 
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);
-router.post("/", createUser);
+router.post("/:id", createUser);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
