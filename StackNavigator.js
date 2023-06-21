@@ -116,7 +116,7 @@ const StackNavigator = () => {
           { flex: 1 },
           isWebOnPC && {
             borderWidth: 0.5,
-            borderColor: "#cdcdcd",
+            borderColor: appStyle.color_outline,
           },
         ]}
       >
