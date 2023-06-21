@@ -23,7 +23,7 @@ export const color_on_background = "#001f25";
 export const color_surface = "#f8fdff";
 export const color_on_surface = "#001f25";
 
-export const color_outline = "#74777f";
+export const color_outline = "#c2c2c2";
 export const color_surface_variant = "#e0e2ec";
 export const color_on_surface_variant = "#43474e";
 
