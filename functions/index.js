@@ -1,9 +1,12 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const express = require("express");
 admin.initializeApp();
-
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
+const app = express();
+const usersRouter = require("./api/users");
+app.use("/users", usersRouter);
 exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
@@ -197,7 +200,7 @@ exports.helloWorld = functions.https.onRequest(async (request, response) => {
   await sendPushNotification();
 });
 const sendPushNotification = async (userToSend, title, body, data) => {
-  if (userToSend?.pushToken) {
+  if (userToSend && userToSend.pushToken) {
     const pushNotification = {
       to: userToSend.pushToken,
       sound: "default",
@@ -216,3 +219,4 @@ const sendPushNotification = async (userToSend, title, body, data) => {
     });
   }
 };
+exports.api = functions.https.onRequest(app);
