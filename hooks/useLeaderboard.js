@@ -21,6 +21,7 @@ export const LeaderboardProvider = ({ children }) => {
       unsubscribeLeaderboard.current = null;
     }
   };
+  //Update points at user doc if old firestore system.
   useEffect(() => {
     const updateUserPointsDoc = async () => {
       const userClone = { ...user };
@@ -30,7 +31,11 @@ export const LeaderboardProvider = ({ children }) => {
       userClone.leaderboard.points = leaderboardList[userIndex][1].points;
       await firebase.updateUser(userClone);
     };
-    if (leaderboardList != null && user.leaderboard.points == null) {
+    if (
+      leaderboardList != null &&
+      userLoaded &&
+      user.leaderboard.points == null
+    ) {
       updateUserPointsDoc();
     }
   }, [leaderboardList]);
