@@ -2,6 +2,11 @@ import { TouchableOpacity, StyleSheet } from "react-native";
 import { React, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  color_on_background,
+  color_outline,
+  color_surface_variant,
+} from "../utils/appStyleSheet";
 const CheckBox = (props) => {
   const [value, setValue] = useState(props.value == null ? false : props.value);
   const changeValue = () => {
@@ -14,7 +19,9 @@ const CheckBox = (props) => {
       size: props.size == null ? 25 : props.size / 1.5,
     },
     checkBoxStyle: {
-      backgroundColor: props.backgroundColor || "white",
+      borderColor: props.borderColor || color_outline,
+      borderWidth: props.borderWidth || 1,
+      backgroundColor: props.backgroundColor || color_surface_variant,
       width: props.size || 25,
       height: props.size || 25,
     },
