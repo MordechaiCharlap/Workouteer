@@ -13,9 +13,9 @@ const TermsAndConditionsCB = (props) => {
       <View className="flex-row items-center">
         <CheckBox
           backgroundColor={
-            props.error ? appStyle.color_error : appStyle.color_primary
+            props.error ? appStyle.color_error : appStyle.color_surface_variant
           }
-          valueColor={appStyle.color_on_primary}
+          valueColor={appStyle.color_on_surface_variant}
           value={false}
           onValueChange={handleValueChanged}
         />
