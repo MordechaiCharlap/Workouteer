@@ -16,7 +16,7 @@ export const LeaderboardProvider = ({ children }) => {
   const { db } = useFirebase();
   const unsubscribeLeaderboard = useRef();
   const cleanListener = () => {
-    if (unsubscribeLeaderboard.current) {
+    if (unsubscribeLeaderboard.current != null) {
       unsubscribeLeaderboard.current();
       unsubscribeLeaderboard.current = null;
     }
@@ -59,6 +59,7 @@ export const LeaderboardProvider = ({ children }) => {
     if (
       user?.leaderboard?.points != 0 &&
       userLoaded &&
+      user &&
       !unsubscribeLeaderboard.current
     ) {
       listenToLeaderboard();
