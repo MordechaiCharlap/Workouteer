@@ -40,7 +40,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       style={[appComponentsDefaultStyles.input, style]}
       placeholder={placeholder}
       placeholderTextColor={
-        placeholderTextColor ? placeholderTextColor : appStyle.color_outline
+        placeholderTextColor || appStyle.color_on_surface_variant
       }
       onChangeText={(text) => setText(text)}
       secureTextEntry={secureText}
@@ -53,7 +53,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         autoCorrect={false}
         style={[appComponentsDefaultStyles.input, style]}
         placeholder={placeholder}
-        placeholderTextColor={appStyle.color_outline}
+        placeholderTextColor={
+          placeholderTextColor || appStyle.color_on_surface_variant
+        }
         onChangeText={(text) => setText(text)}
         secureTextEntry={secureText}
         {...restProps}
