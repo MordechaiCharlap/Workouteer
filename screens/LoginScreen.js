@@ -128,7 +128,10 @@ const LoginScreen = () => {
             behavior={Platform.OS == "android" ? null : "padding"}
             enabled={true}
           >
-            <ScrollView scrollEnabled={false}>
+            <ScrollView
+              scrollEnabled={false}
+              keyboardShouldPersistTaps={"handled"}
+            >
               <CustomTextInput
                 style={{
                   backgroundColor: appStyle.color_surface_variant,
