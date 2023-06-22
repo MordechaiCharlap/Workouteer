@@ -26,12 +26,10 @@ const WorkoutSex = ({ value, size, isMale, sexChanged, color }) => {
               ? setWorkoutSex(isMale == true ? "men" : "women")
               : setWorkoutSex("everyone")
           }
-          backgroundColor={color}
-          valueColor={appStyle.color_on_primary}
           value={workoutSex != "everyone"}
         />
       </View>
-      <Text style={{ color: appStyle.color_primary }}>
+      <Text style={{ color: color }}>
         {languageService[user.language][isMale ? "menOnly" : "womenOnly"]}
       </Text>
     </View>
