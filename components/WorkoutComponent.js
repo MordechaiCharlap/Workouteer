@@ -122,7 +122,7 @@ const WorkoutComponent = (props) => {
   const cancelWorkout = async () => {
     var workoutRef = workout;
     setWorkout(null);
-    if (Object.entries(workoutRef.members).size > 1) {
+    if (Object.entries(workoutRef.members).length > 1) {
       for (var member of Object.keys(workoutRef.members)) {
         if (member != user.id) {
           workoutRef.creator = member;
