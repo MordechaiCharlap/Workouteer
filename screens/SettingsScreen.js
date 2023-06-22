@@ -28,9 +28,11 @@ const SettingsScreen = ({ route }) => {
   const [language, setLanguage] = useState(user.language);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
   const signOut = async () => {
+    setLoggingOut(true);
     if (user.pushToken)
       await updateDoc(doc(db, "users", user.id), {
         pushToken: null,
@@ -205,7 +207,9 @@ const SettingsScreen = ({ route }) => {
                       color: appStyle.color_on_surface_variant,
                     }}
                   >
-                    {languageService[lastLanguage].logOut}
+                    {loggingOut
+                      ? languageService[lastLanguage].loading
+                      : languageService[lastLanguage].logOut}
                   </CustomText>
                 </CustomButton>
               </View>
