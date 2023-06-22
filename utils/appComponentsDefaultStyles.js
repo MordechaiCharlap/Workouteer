@@ -25,6 +25,12 @@ const appComponentsDefaultStyles = StyleSheet.create({
     color: appStyle.color_on_surface,
     backgroundColor: appStyle.color_surface,
   },
+  inputPlaceHolder: {
+    color: appStyle.color_on_surface,
+  },
+  inputText: {
+    color: appStyle.color_on_surface,
+  },
   button: {
     borderRadius: 8,
     padding: 8,
