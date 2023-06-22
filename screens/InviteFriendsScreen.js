@@ -55,8 +55,9 @@ const InviteFriendsScreen = ({ route }) => {
   const getButton = (friend) => {
     if (workout.invites && workout.invites[friend.id] != null) {
       return (
-        <View
-          className="py-1 w-28 rounded"
+        <CustomButton
+          disabled={true}
+          className="w-28"
           style={{
             backgroundColor: appStyle.color_success,
             borderWidth: 0.8,
@@ -71,12 +72,13 @@ const InviteFriendsScreen = ({ route }) => {
           >
             {languageService[user.language].invited[friend.isMale ? 1 : 0]}
           </Text>
-        </View>
+        </CustomButton>
       );
     } else if (workout.members[friend.id]) {
       return (
-        <View
-          className="py-1 w-28 rounded"
+        <CustomButton
+          disabled={true}
+          className="w-28"
           style={{
             backgroundColor: appStyle.color_primary,
           }}
@@ -87,7 +89,7 @@ const InviteFriendsScreen = ({ route }) => {
           >
             {languageService[user.language].joined[friend.isMale ? 1 : 0]}
           </Text>
-        </View>
+        </CustomButton>
       );
     }
     return (
