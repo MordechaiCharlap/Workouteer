@@ -5,6 +5,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import languageService from "../services/languageService";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 
 const NextWeekDropdown = (props) => {
   const minDate = props.minDate;
@@ -73,6 +74,7 @@ const NextWeekDropdown = (props) => {
     );
   }, [minDate]);
   useEffect(() => {
+    console.log(weekday);
     const isToday = minDate
       ? minDate.getDate() == weekday.getDate()
       : weekday.getDay() === now.getDay();
@@ -98,8 +100,9 @@ const NextWeekDropdown = (props) => {
     }
     setHours(hoursInterval);
 
-    if (props.setLast) setHour(hoursInterval[hoursInterval.length - 1].value);
-    else setHour(hoursInterval[0].value);
+    props.setLast
+      ? setHour(hoursInterval[hoursInterval.length - 1].value)
+      : setHour(hoursInterval[0].value);
   }, [weekday]);
   useEffect(() => {
     const isToday = minDate
@@ -141,15 +144,18 @@ const NextWeekDropdown = (props) => {
         <View style={{ width: 10 }}></View>
         <Dropdown
           style={[
-            style.dropdown,
-            { flexGrow: 1 },
+            weekday != null
+              ? appComponentsDefaultStyles.input
+              : appComponentsDefaultStyles.errorInput,
+            ,
             isWeekdaysFocused && {
               borderColor: props.color || appStyle.color_primary,
             },
+            { flexGrow: 1 },
           ]}
           placeholder={languageService[language].day}
-          placeholderStyle={style.placeholderStyle}
-          selectedTextStyle={style.selectedTextStyle}
+          placeholderStyle={appComponentsDefaultStyles.inputPlaceHolder}
+          selectedTextStyle={appComponentsDefaultStyles.inputText}
           inputSearchStyle={style.inputSearchStyle}
           iconStyle={style.iconStyle}
           data={weekdays}
@@ -168,15 +174,18 @@ const NextWeekDropdown = (props) => {
         <View className="flex-row">
           <Dropdown
             style={[
-              style.dropdown,
-              { width: 70 },
+              hour != null
+                ? appComponentsDefaultStyles.input
+                : appComponentsDefaultStyles.errorInput,
+              ,
+              { width: 70, flex: 0 },
               isHoursFocused && {
                 borderColor: props.color || appStyle.color_primary,
               },
             ]}
             placeholder={languageService[language].hour}
-            placeholderStyle={style.placeholderStyle}
-            selectedTextStyle={style.selectedTextStyle}
+            placeholderStyle={appComponentsDefaultStyles.inputPlaceHolder}
+            selectedTextStyle={appComponentsDefaultStyles.inputText}
             inputSearchStyle={style.inputSearchStyle}
             iconStyle={style.iconStyle}
             data={hours}
@@ -193,18 +202,20 @@ const NextWeekDropdown = (props) => {
           />
           <Dropdown
             style={[
-              style.dropdown,
+              minute != null
+                ? appComponentsDefaultStyles.input
+                : appComponentsDefaultStyles.errorInput,
               {
                 width: 70,
-                backgroundColor: props.color || appStyle.color_primary,
+                flex: 0,
               },
               isMinutesFocused && {
                 borderColor: props.color || appStyle.color_primary,
               },
             ]}
             placeholder={languageService[language].minutes}
-            placeholderStyle={style.placeholderStyle}
-            selectedTextStyle={style.selectedTextStyle}
+            placeholderStyle={appComponentsDefaultStyles.inputPlaceHolder}
+            selectedTextStyle={appComponentsDefaultStyles.inputText}
             inputSearchStyle={style.inputSearchStyle}
             iconStyle={style.iconStyle}
             data={minutes}
