@@ -235,6 +235,8 @@ const WorkoutComponent = (props) => {
             <Text className="text-center" style={style.actionButtonText}>
               {buttonLoading
                 ? languageService[user.language].loading
+                : Object.entries(workout.members).length > 1
+                ? languageService[user.language].leave[user.isMale ? 1 : 0]
                 : languageService[user.language].cancelWorkout}
             </Text>
           </CustomButton>
