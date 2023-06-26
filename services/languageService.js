@@ -90,7 +90,7 @@ const languageService = {
     removeFriend: ["Remove Friend", "Remove Friend"],
     cancelRequest: ["Cancel Request", "Cancel Request"],
     getPointsToCompete:
-      "You have zero points this week, get some points by participate in workouts in order to see this week's leaderboard!",
+      "You have zero points this week, get some points by participating in workouts in order to see this week's leaderboard!",
     forEveryone: "For everyone",
     menOnly: "Men only",
     womenOnly: "Women only",
