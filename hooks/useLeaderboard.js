@@ -57,9 +57,11 @@ export const LeaderboardProvider = ({ children }) => {
       );
     };
     if (
-      user?.leaderboard?.points != 0 &&
-      userLoaded &&
       user &&
+      user.leaderboard?.id &&
+      user.leaderboard.points != 0 &&
+      user.leaderboard.points != null &&
+      userLoaded &&
       !unsubscribeLeaderboard.current
     ) {
       listenToLeaderboard();
@@ -67,7 +69,7 @@ export const LeaderboardProvider = ({ children }) => {
       cleanListener();
     }
     return () => cleanListener();
-  }, [user?.leaderboard?.points, userLoaded]);
+  }, [user?.leaderboard, userLoaded]);
   const getPlaceString = (place, language) => {
     if (language == "english") {
       return `${place} ${languageService[language].place}`;
