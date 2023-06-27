@@ -15,10 +15,12 @@ export const LeaderboardProvider = ({ children }) => {
   const [leaderboardList, setLeaderboardList] = useState();
   const { db } = useFirebase();
   const unsubscribeLeaderboard = useRef();
-  const cleanListener = () => {
+  const cleanLeaderboardListener = () => {
     if (unsubscribeLeaderboard.current != null) {
       unsubscribeLeaderboard.current();
       unsubscribeLeaderboard.current = null;
+
+      setLeaderboardList(null);
     }
   };
   //Update points at user doc if old firestore system.
@@ -66,9 +68,11 @@ export const LeaderboardProvider = ({ children }) => {
     ) {
       listenToLeaderboard();
     } else {
-      cleanListener();
+      cleanLeaderboardListener();
     }
-    return () => cleanListener();
+    return () => {
+      cleanLeaderboardListener();
+    };
   }, [user?.leaderboard, userLoaded]);
   const getPlaceString = (place, language) => {
     if (language == "english") {
@@ -102,7 +106,9 @@ export const LeaderboardProvider = ({ children }) => {
     }
   }, [user?.leaderboard?.leaderboardUpdated]);
   return (
-    <LeaderboardContext.Provider value={{ leaderboardList }}>
+    <LeaderboardContext.Provider
+      value={{ leaderboardList, cleanLeaderboardListener }}
+    >
       {children}
       {showModal && (
         <AwesomeAlert
