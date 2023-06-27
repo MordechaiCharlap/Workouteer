@@ -12,7 +12,7 @@ export const ChatsProvider = ({ children }) => {
     setChats(arr);
   };
   useEffect(() => {
-    if (!userLoaded) return;
+    if (!userLoaded || !user) return;
     const getChats = async () => {
       var arr = await getChatsArrayIncludeUsers(user);
       setChats(arr);
