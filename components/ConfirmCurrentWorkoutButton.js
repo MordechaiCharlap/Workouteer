@@ -1,10 +1,8 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { workoutTypes } from "./WorkoutType";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import * as appStyle from "../utils/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
-import languageService from "../services/languageService";
 import useResponsiveness from "../hooks/useResponsiveness";
 import CustomButton from "./basic/CustomButton";
 const ConfirmCurrentWorkoutButton = (props) => {
@@ -31,22 +29,6 @@ const ConfirmCurrentWorkoutButton = (props) => {
         size={iconSize}
         color={appStyle.color_on_primary}
       />
-      {/* <View
-        style={{
-          position: "absolute",
-          padding: 2,
-          bottom: 2,
-          left: 2,
-          borderRadius: 999,
-          backgroundColor: appStyle.color_tertiary,
-        }}
-      >
-        <FontAwesomeIcon
-          icon={faExclamationCircle}
-          size={iconSize / 2}
-          color={appStyle.color_background}
-        />
-      </View> */}
     </CustomButton>
   );
 };
