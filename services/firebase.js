@@ -329,22 +329,15 @@ export const sendPrivateMessage = async (
     sender: userId,
     sentAt: Timestamp.now(),
   };
-  const newMessage = await addDoc(
-    collection(db, `chats/${chat.id}/messages`),
-    message
-  );
-  for (var key of Object.keys(chat.members)) {
-    if (key != userId) {
-      await addChatAlert(key, chat.id);
-    }
-  }
+  addDoc(collection(db, `chats/${chat.id}/messages`), message);
+  //not awaiting alert
+  addChatAlert(otherUserId, chat.id);
   await updateDoc(doc(db, `chats/${chat.id}`), {
     lastMessage: {
       content: content,
       seenBy: { [otherUserId]: false },
       sender: userId,
       sentAt: Timestamp.now(),
-      id: newMessage.id,
     },
     messagesCount: increment(1),
   });
