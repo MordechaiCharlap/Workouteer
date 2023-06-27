@@ -19,6 +19,18 @@ export const AlertsProvider = ({ children }) => {
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
   const unsubscribeAlerts = useRef();
+  const cleanAlertsListener = () => {
+    if (unsubscribeAlerts.current != null) {
+      unsubscribeAlerts.current();
+      unsubscribeAlerts.current = null;
+
+      setWorkoutRequestsAlerts({});
+      setFriendRequestsAlerts({});
+      setWorkoutInvitesAlerts({});
+      setChatsAlerts({});
+      setNewWorkoutsAlerts({});
+    }
+  };
   useEffect(() => {
     const removingBadWorkoutAlerts = async () => {
       await firebase.removePastOrEmptyWorkoutsAlerts(
@@ -35,7 +47,7 @@ export const AlertsProvider = ({ children }) => {
         (doc) => {
           const alertsData = doc.data();
           if (alertsData != null) {
-            setChatsAlerts(alertsData.chats);
+            setChatsAlerts(alertsData?.chats);
             setWorkoutRequestsAlerts(alertsData.workoutRequests);
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
             setFriendRequestsAlerts(alertsData.friendRequests);
@@ -44,16 +56,10 @@ export const AlertsProvider = ({ children }) => {
         }
       );
     } else {
-      if (unsubscribeAlerts.current != null) {
-        unsubscribeAlerts.current();
-        unsubscribeAlerts.current = null;
-      }
+      cleanAlertsListener();
     }
     return () => {
-      if (unsubscribeAlerts.current != null) {
-        unsubscribeAlerts.current();
-        unsubscribeAlerts.current = null;
-      }
+      cleanAlertsListener();
     };
   }, [userLoaded]);
   return (
@@ -69,6 +75,7 @@ export const AlertsProvider = ({ children }) => {
         setFriendRequestsAlerts,
         newWorkoutsAlerts,
         setNewWorkoutsAlerts,
+        cleanAlertsListener,
       }}
     >
       {children}
