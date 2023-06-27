@@ -121,7 +121,7 @@ const HomeScreen = () => {
           />
         </View>
         {/* <View style={rowStyle}>
-          <HomeScreenButton            buttonText={languageService[user.language].intervalTimer}
+          <HomeScreenButton buttonText={languageService[user.language].intervalTimer}
             style={buttonStyle}
             navigateScreen="IntervalTimer"
             icon={faStopwatch}
