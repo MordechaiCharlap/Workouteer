@@ -64,15 +64,13 @@ const ChatScreen = ({ route }) => {
   };
   const currentDay = now();
   useEffect(() => {
-    if (!chat) {
-      const createChat = async () => {
-        const newChat = await firebase.createNewPrivateChat(user, otherUser);
-        setChat(newChat);
-        await firebase.addChatConnection(otherUser.id, user.id, newChat.id);
-        await firebase.addChatConnection(user.id, otherUser.id, newChat.id);
-      };
-      createChat();
-    }
+    const createChat = async () => {
+      const newChat = await firebase.createNewPrivateChat(user, otherUser);
+      setChat(newChat);
+      await firebase.addChatConnection(otherUser.id, user.id, newChat.id);
+      await firebase.addChatConnection(user.id, otherUser.id, newChat.id);
+    };
+    if (!chat) createChat();
   }, [chat]);
   useEffect(() => {
     if (chat && messages.length == 0) {
@@ -114,6 +112,12 @@ const ChatScreen = ({ route }) => {
   const messageSelected = (message) => {};
   const sendMessage = async () => {
     if (messageText != "") {
+      if (!user.chats[chat.id]) {
+        console.log("not exists");
+        firebase.addChatConnection(user.id, otherUser.id, chat.id);
+      } else {
+        console.log("exists");
+      }
       const content = messageText;
       setMessageText("");
       await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
