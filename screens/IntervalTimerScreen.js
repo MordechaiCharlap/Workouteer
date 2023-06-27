@@ -1,52 +1,61 @@
 import { View, Text } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 import * as appStlye from "../utils/appStyleSheet";
-import DropDownPicker from "react-native-dropdown-picker";
+import { collection, doc, onSnapshot } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 const IntervalTimerScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
-  const [hoursOpen, setHoursOpen] = useState(false);
-  const [hours, setHours] = useState([]);
-  const [hour, setHour] = useState(false);
+  const listenerSubscriber = useRef();
+  const { db } = useFirebase();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
     }, [])
   );
+  const stopListen = () => {
+    if (listenerSubscriber) {
+      console.log("stop listen");
+      listenerSubscriber.current();
+      listenerSubscriber.current = null;
+    }
+  };
   useEffect(() => {
-    setHours([
-      { label: "test1", value: 1 },
-      { label: "test2", value: 2 },
-      { label: "test3", value: 3 },
-      { label: "test4", value: 4 },
-      { label: "test5", value: 5 },
-      { label: "test6", value: 6 },
-      { label: "test7", value: 7 },
-      { label: "test8", value: 8 },
-    ]);
+    return () => stopListen();
   }, []);
+  const startListen = async () => {
+    listenerSubscriber.current = onSnapshot(
+      doc(db, "test/testListen"),
+      (doc) => {
+        if (doc.exists()) {
+          console.log("exists");
+          console.log(doc.data());
+        } else {
+          console.log("not exists yet");
+        }
+      }
+    );
+  };
   return (
-    <View style={{ flex: 1, backgroundColor: appStlye.color_primary }}>
-      <CustomButton>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: appStlye.color_primary,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <CustomButton onPress={startListen}>
         <FontAwesomeIcon
           icon={faPlayCircle}
           color={appStlye.color_on_background}
           size={40}
         />
       </CustomButton>
-      <DropDownPicker
-        style={{}}
-        open={hoursOpen}
-        value={hour}
-        items={hours}
-        setOpen={setHoursOpen}
-        setValue={setHour}
-        setItems={setHours}
-      />
     </View>
   );
 };
