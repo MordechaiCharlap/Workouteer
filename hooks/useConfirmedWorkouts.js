@@ -10,10 +10,12 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
   const [confirmedWorkouts, setConfirmedWorkouts] = useState([]);
   const unsubscribeRef = useRef();
   const { db } = useFirebase();
-  const cleanListener = () => {
+  const cleanConfirmedWorkoutsListener = () => {
     if (unsubscribeRef.current) {
       unsubscribeRef.current();
       unsubscribeRef.current = null;
+
+      setConfirmedWorkouts([]);
     }
   };
   const getConfirmedWorkoutsByUserId = async (userId) => {
@@ -30,9 +32,11 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
             setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
         }
       );
-    } else cleanListener();
+    } else {
+      cleanConfirmedWorkoutsListener();
+    }
     return () => {
-      cleanListener();
+      cleanConfirmedWorkoutsListener();
     };
   }, [userLoaded]);
   return (
@@ -40,6 +44,7 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
       value={{
         confirmedWorkouts,
         getConfirmedWorkoutsByUserId,
+        cleanConfirmedWorkoutsListener,
       }}
     >
       {children}
