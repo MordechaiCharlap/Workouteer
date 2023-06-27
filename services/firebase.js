@@ -165,18 +165,18 @@ export const createUser = async (newUserData) => {
     isDeleted: false,
   });
 
-  await setDoc(doc(db, "alerts", newUserData.id), {
+  setDoc(doc(db, "alerts", newUserData.id), {
     chats: {},
     friendRequests: {},
     workoutInvites: {},
     workoutRequests: {},
     newWorkouts: {},
   });
-  await setDoc(doc(db, "friendRequests", newUserData.id), {
+  setDoc(doc(db, "friendRequests", newUserData.id), {
     receivedRequests: {},
     sentRequests: {},
   });
-  await setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
+  setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
     confirmedWorkouts: [],
   });
 };
