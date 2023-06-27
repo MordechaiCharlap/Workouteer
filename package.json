@@ -1,6 +1,6 @@
 {
   "name": "workouteer-rn",
-  "version": "1.2.1",
+  "version": "1.2.13",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -63,6 +63,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.8",
     "react-native-awesome-alerts": "^2.0.0",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-element-dropdown": "^2.3.0",
     "react-native-geocoding": "^0.5.0",
     "react-native-gesture-handler": "~2.9.0",
