@@ -18,8 +18,14 @@ import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
 import useFirebase from "../hooks/useFirebase";
+import useLeaderboard from "../hooks/useLeaderboard";
+import useAlerts from "../hooks/useAlerts";
+import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 const SettingsScreen = ({ route }) => {
   const { db } = useFirebase();
+  const { cleanLeaderboardListener } = useLeaderboard();
+  const { cleanAlertsListener } = useAlerts();
+  const { cleanConfirmedWorkoutsListener } = useConfirmedWorkouts();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
   const [changesMade, setChangesMade] = useState(false);
@@ -31,10 +37,11 @@ const SettingsScreen = ({ route }) => {
   const [loggingOut, setLoggingOut] = useState(false);
   const navigation = useNavigation();
   const lastLanguage = route.params.language;
-  const signOut = async () => {
+  const signOut = () => {
     setLoggingOut(true);
+    cleanAllUserData();
     if (user.pushToken)
-      await updateDoc(doc(db, "users", user.id), {
+      updateDoc(doc(db, "users", user.id), {
         pushToken: null,
       });
     userSignOut();
@@ -44,6 +51,11 @@ const SettingsScreen = ({ route }) => {
       setCurrentScreen("Settings");
     }, [])
   );
+  const cleanAllUserData = () => {
+    cleanAlertsListener();
+    cleanLeaderboardListener();
+    cleanConfirmedWorkoutsListener();
+  };
   useEffect(() => {
     if (
       user.isPublic != isPublic ||
