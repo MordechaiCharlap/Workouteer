@@ -10,12 +10,8 @@ import CustomButton from "./basic/CustomButton";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
   const navigation = useNavigation();
-  buttonHeight = windowHeight
-    ? windowHeight / 10
-    : Dimensions.get("window").height / 10;
-  const iconSize = windowHeight
-    ? windowHeight / 15
-    : Dimensions.get("window").height / 15;
+  buttonHeight = windowHeight / 10;
+  const iconSize = windowHeight / 15;
   return (
     <CustomButton
       onPress={() => navigation.navigate("ConfirmWorkout")}
