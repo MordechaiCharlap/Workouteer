@@ -18,7 +18,7 @@ export const ChatsProvider = ({ children }) => {
       setChats(arr);
     };
     getChats();
-  }, [userLoaded, chatsAlerts]);
+  }, [userLoaded, chatsAlerts, user?.chats]);
   return (
     <ChatsContext.Provider value={{ chats, setChats, refreshChats }}>
       {children}
