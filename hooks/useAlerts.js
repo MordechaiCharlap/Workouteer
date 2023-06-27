@@ -45,9 +45,9 @@ export const AlertsProvider = ({ children }) => {
       unsubscribeAlerts.current = onSnapshot(
         doc(db, "alerts", user.id),
         (doc) => {
-          const alertsData = doc.data();
-          if (alertsData != null) {
-            setChatsAlerts(alertsData?.chats);
+          if (doc.exists()) {
+            const alertsData = doc.data();
+            setChatsAlerts(alertsData.chats);
             setWorkoutRequestsAlerts(alertsData.workoutRequests);
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
             setFriendRequestsAlerts(alertsData.friendRequests);

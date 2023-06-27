@@ -27,9 +27,7 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
       unsubscribeRef.current = onSnapshot(
         doc(db, "usersConfirmedWorkouts", user.id),
         (doc) => {
-          const confirmedWorkoutsData = doc.data();
-          if (confirmedWorkoutsData != null)
-            setConfirmedWorkouts(confirmedWorkoutsData.confirmedWorkouts);
+          if (doc.exists()) setConfirmedWorkouts(doc.data().confirmedWorkouts);
         }
       );
     } else {
