@@ -59,25 +59,25 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   };
   const removeFriend = async () => {
     setFriendshipStatus("None");
-    await firebase.removeFriend(user.id, shownUser.id);
+    firebase.removeFriend(user.id, shownUser.id);
   };
   const acceptFriendRequest = async () => {
     setFriendshipStatus("Friends");
-    await firebase.acceptFriendRequest(user.id, shownUser.id);
-    await sendPushNotificationUserAcceptedYourFriendRequest(shownUser);
+    firebase.acceptFriendRequest(user.id, shownUser.id);
+    sendPushNotificationUserAcceptedYourFriendRequest(shownUser);
   };
   const rejectFriendRequest = async () => {
     setFriendshipStatus("None");
-    await firebase.rejectFriendRequest(user.id, shownUser.id);
+    firebase.rejectFriendRequest(user.id, shownUser.id);
   };
   const cancelFriendRequest = async () => {
     setFriendshipStatus("None");
-    await firebase.cancelFriendRequest(user.id, shownUser.id);
+    firebase.cancelFriendRequest(user.id, shownUser.id);
   };
   const sendFriendRequest = async () => {
     setFriendshipStatus("SentRequest");
-    await firebase.sendFriendRequest(user.id, shownUser);
-    await sendPushNotificationUserWantsToBeYourFriend(shownUser);
+    firebase.sendFriendRequest(user.id, shownUser);
+    sendPushNotificationUserWantsToBeYourFriend(shownUser);
   };
   const buttonStyle = {
     color: appStyle.color_on_surface_variant,
