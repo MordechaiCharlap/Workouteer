@@ -488,7 +488,7 @@ export const createWorkout = async (workout) => {
     confirmed: false,
   };
   const newWorkoutRef = await addDoc(collection(db, "workouts"), workout);
-  await updateDoc(doc(db, "users", workout.creator), {
+  updateDoc(doc(db, "users", workout.creator), {
     lastWorkoutCreation: {
       type: workout.type,
       sex: workout.sex,
@@ -500,7 +500,7 @@ export const createWorkout = async (workout) => {
       workout.minutes,
     ],
   });
-  await updateDoc(doc(db, "alerts", workout.creator), {
+  updateDoc(doc(db, "alerts", workout.creator), {
     [`newWorkouts.${newWorkoutRef.id}.dateAdded`]: Timestamp.now(),
     [`newWorkouts.${newWorkoutRef.id}.workoutDate`]: workout.startingTime,
   });
@@ -565,7 +565,7 @@ export const deletePrivateChatForUser = async (
   //getting messages just after joinDate which is leaving date basically
 
   if (chatAlerts) {
-    removeChatAlerts(user.id, chatAndUserItem.chat);
+    await removeChatAlerts(user.id, chatAndUserItem.chat);
   }
 };
 const deleteChatFromExistence = async (chatId) => {
