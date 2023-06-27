@@ -553,14 +553,23 @@ export const deletePrivateChatForUser = async (
 ) => {
   await updateDoc(doc(db, "users", user.id), {
     [`chats.${chatAndUserItem.chat.id}`]: deleteField(),
+    [`chatPals.${chatAndUserItem.user.id}`]: deleteField(),
   });
-  //getting messages just after joinDate which is leaving date basically
-  await updateDoc(doc(db, "chats", chatAndUserItem.chat.id), {
-    [`members.${user.id}.joinDate`]: Timestamp.now(),
-  });
-  if (chatAlerts) {
-    await removeChatAlerts(user.id, chatAndUserItem.chat);
+  if (!chatAndUserItem.user.chats[chatAndUserItem.chat.id]) {
+    deleteChatFromExistence(chatAndUserItem.chat.id);
+  } else {
+    updateDoc(doc(db, "chats", chatAndUserItem.chat.id), {
+      [`members.${user.id}.joinDate`]: Timestamp.now(),
+    });
   }
+  //getting messages just after joinDate which is leaving date basically
+
+  if (chatAlerts) {
+    removeChatAlerts(user.id, chatAndUserItem.chat);
+  }
+};
+const deleteChatFromExistence = async (chatId) => {
+  await deleteDoc(doc(db, "chats", chatId));
 };
 export const deleteGroupChatForUser = async (user, chat) => {
   await updateDoc(doc(db, "users", user.id), {
