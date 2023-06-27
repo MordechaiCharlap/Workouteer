@@ -23,10 +23,10 @@ const SuggestionForm = (props) => {
       await getDoc(doc(db, "suggestions/suggestionsCollectionData"))
     ).data();
     const newNumberOfSuggestions = suggestionsData.numberOfSuggestions + 1;
-    await updateDoc(doc(db, "suggestions/suggestionsCollectionData"), {
+    updateDoc(doc(db, "suggestions/suggestionsCollectionData"), {
       numberOfSuggestions: newNumberOfSuggestions,
     });
-    await setDoc(doc(db, "suggestions", String(newNumberOfSuggestions)), {
+    setDoc(doc(db, "suggestions", String(newNumberOfSuggestions)), {
       senderId: id,
       title: title,
       content: content,
