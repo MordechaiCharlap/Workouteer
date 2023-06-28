@@ -2,11 +2,11 @@ import { Text, View } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import useAuth from "../hooks/useAuth";
-import AlertDot from "./AlertDot";
-import * as appStyle from "../utils/appStyleSheet";
-import CustomButton from "./basic/CustomButton";
-import CustomText from "./basic/CustomText";
+import useAuth from "../../hooks/useAuth";
+import AlertDot from "../AlertDot";
+import * as appStyle from "../../utils/appStyleSheet";
+import CustomButton from "../basic/CustomButton";
+import CustomText from "../basic/CustomText";
 const HomeScreenButton = (props) => {
   const navigation = useNavigation();
   const { user } = useAuth();

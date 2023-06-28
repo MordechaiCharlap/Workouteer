@@ -1,10 +1,10 @@
-import { workoutTypes } from "./WorkoutType";
+import { workoutTypes } from "../WorkoutType";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import * as appStyle from "../utils/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import { useNavigation } from "@react-navigation/native";
-import useResponsiveness from "../hooks/useResponsiveness";
-import CustomButton from "./basic/CustomButton";
+import useResponsiveness from "../../hooks/useResponsiveness";
+import CustomButton from "../basic/CustomButton";
 const ConfirmCurrentWorkoutButton = (props) => {
   const { windowHeight } = useResponsiveness();
   const navigation = useNavigation();
