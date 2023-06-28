@@ -901,23 +901,6 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
-export const removeUnconfirmedOldWorkouts = async (user) => {
-  const now = new Date();
-  const unconfirmedWorkouts = user.plannedWorkouts;
-  for (const [key, value] of Object.entries(user.plannedWorkouts)) {
-    if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
-      continue;
-
-    delete unconfirmedWorkouts[key];
-    const workout = await getWorkout(key);
-    //remove unconfirmed only if nobody in the workout confirmed it
-    if (workout != null && workout.confirmed == false) {
-      await deleteDoc(doc(db, `workouts/${key}`));
-    }
-  }
-  user.plannedWorkouts = unconfirmedWorkouts;
-  await updateUser(user);
-};
 export const getLastWeekId = () => {
   var lastSaturday = new Date();
   lastSaturday.setDate(lastSaturday.getDate() - 1);
