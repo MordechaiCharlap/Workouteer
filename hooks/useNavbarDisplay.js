@@ -17,6 +17,7 @@ export const NavbarDisplayProvider = ({ children }) => {
     "PrivacyPolicy",
     "ConnectToInternet",
     "UnderMaintenance",
+    "AdminHome",
   ];
   useEffect(() => {
     if (dontShowNavbar.includes(currentScreen)) {
