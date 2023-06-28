@@ -100,6 +100,7 @@ const EditProfileData = (props) => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.id);
     const userClone = {
+      ...userClone,
       id: user.id,
       displayName: displayName || user.id,
       description: description || "",
