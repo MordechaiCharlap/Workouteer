@@ -310,7 +310,7 @@ const StackNavigator = () => {
                 />
                 {user.role == "admin" && (
                   <Stack.Screen
-                    name="AdminHine"
+                    name="AdminHome"
                     component={AdminHomeScreen}
                     options={homeNavigationOptions.current}
                   />
