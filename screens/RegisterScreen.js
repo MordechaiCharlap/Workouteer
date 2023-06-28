@@ -197,7 +197,7 @@ const RegisterScreen = () => {
           behavior={Platform.OS == "android" ? "padding" : "padding"}
           enabled={true}
         >
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={"handled"}>
             {!googleUserInfo && (
               <EmailInput style={style} valueChanged={setEmail} />
             )}
