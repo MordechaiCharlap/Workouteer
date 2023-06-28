@@ -16,7 +16,6 @@ const FriendRequestsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const [friendRequests, setFriendRequests] = useState();
   const { user } = useAuth();
-  const [friendsAdded, setFriendsAdded] = useState(false);
   const { sendPushNotificationUserAcceptedYourFriendRequest } =
     usePushNotifications();
   useFocusEffect(
@@ -29,10 +28,10 @@ const FriendRequestsScreen = () => {
       setArray();
     }, [])
   );
+
   const acceptFriendRequest = async (otherUser, index) => {
-    setFriendsAdded(true);
     removeRequestFromArray(index);
-    await sendPushNotificationUserAcceptedYourFriendRequest(otherUser);
+    sendPushNotificationUserAcceptedYourFriendRequest(otherUser);
     await firebase.acceptFriendRequest(user.id, otherUser.id);
   };
   const rejectFriendRequest = async (otherUser, index) => {
