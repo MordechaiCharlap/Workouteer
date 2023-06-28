@@ -71,10 +71,18 @@ const StackNavigator = () => {
     useState(false);
 
   useEffect(() => {
-    const removeUnconfirmedOldWorkouts = async () => {
-      await firebase.removeUnconfirmedOldWorkouts(user);
+    const removeUnconfirmedOldWorkouts = () => {
+      const now = new Date();
+      const unconfirmedWorkouts = { ...user.plannedWorkouts };
+      for (const [key, value] of Object.entries(user.plannedWorkouts)) {
+        if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
+          continue;
+
+        delete unconfirmedWorkouts[key];
+      }
+      return unconfirmedWorkouts;
     };
-    const resetStreakIfNeeded = async () => {
+    const resetStreakIfNeeded = () => {
       var yasterday = new Date();
       yasterday.setDate(new Date(yasterday).getDate() - 1);
       yasterday.setHours(0, 0, 0, 0);
@@ -82,18 +90,24 @@ const StackNavigator = () => {
         user.streak != 0 &&
         user.lastConfirmedWorkoutDate.toDate() < yasterday
       ) {
-        const updatedUser = { ...user };
-        updatedUser.streak = 0;
-        await firebase.updateUser(updatedUser);
-      }
+        return 0;
+      } else return user.streak;
     };
-
+    const updateUser = async (userClone) => {
+      await firebase.updateUser(userClone);
+    };
     if (!notificationsListenersAdded && userLoaded && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
     }
     if (userLoaded) {
-      removeUnconfirmedOldWorkouts();
-      resetStreakIfNeeded();
+      const newPlannedWorkouts = removeUnconfirmedOldWorkouts();
+      const newStreak = resetStreakIfNeeded();
+      const userClone = {
+        ...user,
+        streak: newStreak,
+        plannedWorkouts: newPlannedWorkouts,
+      };
+      updateUser(userClone);
     }
   }, [userLoaded]);
 
