@@ -565,7 +565,7 @@ export const deletePrivateChatForUser = async (
   //getting messages just after joinDate which is leaving date basically
 
   if (chatAlerts) {
-    await removeChatAlerts(user.id, chatAndUserItem.chat);
+    await removeChatAlerts(user.id, chatAndUserItem.chat.id);
   }
 };
 const deleteChatFromExistence = async (chatId) => {
