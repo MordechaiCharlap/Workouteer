@@ -52,6 +52,7 @@ const languageService = {
     privacy: "Privacy",
     changePassword: "Change password",
     logOut: "Log out",
+    suggestionsAndBugs: "Suggestions & Bugs",
     reportABug: "Report a bug or just suggest new features!",
     noChangesWereMade: "No changes were made",
     applyChanges: "Apply changes",
@@ -293,6 +294,7 @@ const languageService = {
     explore: "Explore",
     intervalTimer: "INTERVAL TIMER",
     refresh: "Refresh",
+    controlPanel: "Control Panel",
   },
   hebrew: {
     login: "התחבר",
@@ -338,6 +340,7 @@ const languageService = {
     privacy: "פרטיות",
     changePassword: "שינוי סיסמה",
     logOut: "התנתקות",
+    suggestionsAndBugs: "הצעות ובאגים",
     reportABug: "דווחו על באג או הצע פיצ'ר חדש שתרצו לראות פה! :)",
     noChangesWereMade: "לא נצפו שינויים",
     applyChanges: "שמירה",
@@ -563,6 +566,7 @@ const languageService = {
     explore: "סקירה",
     intervalTimer: "אינטרוואלים",
     refresh: "רענון",
+    controlPanel: "פאנל ניהול",
   },
 };
 export default languageService;
