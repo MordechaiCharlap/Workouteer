@@ -52,6 +52,7 @@ import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
 import IntervalTimerScreen from "./screens/IntervalTimerScreen";
 import { useMaintenance } from "./hooks/useMaintenance";
 import { isWebOnPC } from "./services/webScreenService";
+import AdminHomeScreen from "./screens/AdminHomeScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -307,6 +308,13 @@ const StackNavigator = () => {
                   component={IntervalTimerScreen}
                   options={verticalAnimation}
                 />
+                {user.role == "admin" && (
+                  <Stack.Screen
+                    name="AdminHine"
+                    component={AdminHomeScreen}
+                    options={homeNavigationOptions.current}
+                  />
+                )}
               </>
             ) : (
               <>
