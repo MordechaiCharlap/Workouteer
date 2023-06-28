@@ -100,11 +100,12 @@ const EditProfileData = (props) => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.id);
     const userClone = {
-      ...userClone,
+      ...user,
       displayName: displayName || user.id,
       description: description || "",
       img: image || defaultValues.defaultProfilePic,
     };
+    console.log(userClone);
     setUser(userClone);
     setUpdated(true);
     setTimeout(() => {
