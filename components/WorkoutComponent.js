@@ -172,7 +172,7 @@ const WorkoutComponent = (props) => {
       workoutRef,
       scheduledNotificationId
     );
-    await sendPushNotificationUserJoinedYouwWorkout(workoutRef, user, user.id);
+    sendPushNotificationUserJoinedYouwWorkout(workoutRef, user, user.id);
   };
   const rejectWorkoutInvite = async () => {
     setUserMemberStatus("not");
