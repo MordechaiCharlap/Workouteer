@@ -10,6 +10,7 @@ const workoutsRouter = require("./api/workouts");
 const alertsRouter = require("./api/alerts");
 const friendRequestsRouter = require("./api/friendRequests");
 const { verifyAccessToken } = require("./utils/firebase");
+const { FieldValue } = require("firebase-admin/firestore");
 app.use(verifyAccessToken);
 app.use("/workouts", workoutsRouter);
 app.use("/users", usersRouter);
@@ -19,14 +20,35 @@ exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
     const userId = snap.id;
+
     //delete user's picture
     const user = (await db.doc(`users/${userId}`).get()).data();
+    const now = new Date();
+    for (var [key, value] of Object.entries(user.plannedWorkouts)) {
+      const workout = (await db.doc(db, `workouts/${key}`).get()).data();
+      if (value[0].toDate() > now) {
+        if (Object.entries(workout.members).length > 1) {
+          for (var member of Object.keys(workout.members)) {
+            if (member != user.id) {
+              workout.creator = member;
+              break;
+            }
+          }
+          await db.doc(db, `workouts/${workout.id}`).update({
+            creator: workout.creator,
+            [`members.${user.id}`]: FieldValue.delete(),
+          });
+        } else {
+          await db.doc(db, `workouts/${workout.id}`).delete();
+        }
+      }
+    }
     if (
       user.img !=
       "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2"
     ) {
       const file = bucket.file(`profile-pics/${userId}.jpg`);
-      await file.delete();
+      if (file.exists()) await file.delete();
     }
 
     const uid = user.uid;
@@ -38,7 +60,6 @@ exports.deleteUserData = functions.firestore
       }
     }
     const batch = db.batch();
-    const now = new Date();
     const alerts = snap.data();
     //  delete all invites of future workouts for this user from workouts db
     const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
@@ -87,6 +108,7 @@ exports.deleteUserData = functions.firestore
     }
     await db.doc(`users/${userId}`).update({
       email: admin.firestore.FieldValue.delete(),
+      plannedWorkouts: {},
       isDeleted: true,
       pushToken: null,
       img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
