@@ -581,7 +581,10 @@ export const cancelWorkout = async (user, workout) => {
   await updateDoc(doc(db, "users", user.id), {
     [`plannedWorkouts.${workout.id}`]: deleteField(),
   });
-  await deleteDoc(doc(db, "workouts", workout.id));
+  for (var invitedId of Object.keys(workout.invites)) {
+    removeWorkoutInviteAlert(invitedId, workout);
+  }
+  deleteDoc(doc(db, "workouts", workout.id));
 };
 export const leaveWorkout = async (user, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
@@ -718,8 +721,7 @@ export const acceptWorkoutInvite = async (
   await updateDoc(doc(db, "users", invited.id), {
     [`plannedWorkouts.${workout.id}`]: [workout.startingTime, workout.minutes],
   });
-  const accepted = true;
-  await removeWorkoutInviteAlert(invited.id, workout, accepted);
+  await removeWorkoutInviteAlert(invited.id, workout, true);
 };
 export const requestToJoinWorkout = async (requesterId, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
@@ -820,11 +822,13 @@ export const removeWorkoutInviteAlert = async (
     await updateDoc(doc(db, "alerts", invitedId), {
       [`newWorkouts.${workout.id}.dateAdded`]: Timestamp.now(),
       [`newWorkouts.${workout.id}.workoutDate`]: workout.startingTime,
+      [`workoutInvites.${workout.id}`]: deleteField(),
+    });
+  } else {
+    await updateDoc(doc(db, "alerts", invitedId), {
+      [`workoutInvites.${workout.id}`]: deleteField(),
     });
   }
-  await updateDoc(doc(db, "alerts", invitedId), {
-    [`workoutInvites.${workout.id}`]: deleteField(),
-  });
 };
 export const workoutRequestAcceptedAlert = async (requesterId, workout) => {
   await updateDoc(doc(db, "alerts", requesterId), {
