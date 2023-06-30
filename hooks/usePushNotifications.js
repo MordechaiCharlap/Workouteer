@@ -60,7 +60,7 @@ export const NotificationsProvider = ({ children }) => {
   };
   async function registerForPushNotificationsAsync() {
     let token;
-    if (Platform.OS != "web") {
+    if (Platform.OS != "web" && !Device.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
