@@ -10,20 +10,38 @@ import Header from "../components/Header";
 import CustomButton from "../components/basic/CustomButton";
 import useResponsiveness from "../hooks/useResponsiveness";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBug } from "@fortawesome/free-solid-svg-icons";
+import { faBug, faToiletPaper } from "@fortawesome/free-solid-svg-icons";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import {
+  collection,
+  deleteDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const AdminHomeScreen = () => {
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   const { windowHeight } = useResponsiveness();
+  const { db } = useResponsiveness();
   const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("AdminHome");
     }, [])
   );
-
+  const resetAllAppData = async () => {
+    var collec, q, snap;
+    collec = collection(db, "alerts");
+    q = query(collec);
+    snap = await getDocs(q);
+    snap.forEach((doc) => {
+      if (doc.role != "admin") deleteDoc(doc);
+      else updateDoc(doc, { defaultCity: null });
+    });
+  };
   const rowStyle = {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -70,6 +88,10 @@ const AdminHomeScreen = () => {
           <AdminButton
             icon={faBug}
             title={languageService[user.language].suggestionsAndBugs}
+          />
+          <AdminButton
+            icon={faToiletPaper}
+            title={languageService[user.language].resetAppData}
           />
         </View>
       </View>
