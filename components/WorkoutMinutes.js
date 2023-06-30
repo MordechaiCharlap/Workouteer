@@ -53,7 +53,7 @@ const WorkoutMinutes = ({ value, minutesSelected, color }) => {
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
-        maxHeight={300}
+        maxHeight={600}
         labelField="label"
         valueField="value"
         placeholder={
