@@ -84,6 +84,9 @@ export const AuthPrvider = ({ children }) => {
         }
       }
     });
+    return () => {
+      if (unsubscribeUser.current) unsubscribeUser.current();
+    };
   }, []);
 
   useEffect(() => {
