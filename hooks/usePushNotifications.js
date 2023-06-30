@@ -10,6 +10,15 @@ import useFirebase from "./useFirebase";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   const { db } = useFirebase();
+  const clearNotifications = async () => {
+    const presentedNotifications =
+      await Notifications.getPresentedNotificationsAsync();
+    presentedNotifications.forEach(async (notification) => {
+      await Notifications.dismissNotificationAsync(
+        notification.request.identifier
+      );
+    });
+  };
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -30,6 +39,12 @@ export const NotificationsProvider = ({ children }) => {
       }
     }
   };
+  useEffect(() => {
+    const clearAsyncNotifications = async () => {
+      await clearNotifications();
+    };
+    if (Platform.OS != "web" && Device.isDevice) clearAsyncNotifications();
+  }, []);
   useEffect(() => {
     const addListenerAsync = async () => {
       await notificationListenerFunction();
