@@ -927,11 +927,9 @@ export const addLeaderboardPoints = async (user, pointsNumber) => {
         `leaderboards/${user.league}/${user.leaderboard.weekId}/${user.leaderboard.id}`
       ),
       {
-        [`users.${user.id}`]: {
-          points: increment(pointsNumber),
-          displayName: user.displayName,
-          img: user.img,
-        },
+        [`users.${user.id}.points`]: increment(pointsNumber),
+        [`users.${user.id}.displayName`]: user.displayName,
+        [`users.${user.id}.img`]: user.img,
       }
     );
   } else {
