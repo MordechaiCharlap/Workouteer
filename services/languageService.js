@@ -295,6 +295,7 @@ const languageService = {
     intervalTimer: "INTERVAL TIMER",
     refresh: "Refresh",
     controlPanel: "Control Panel",
+    resetAppData: "Reset all app data",
   },
   hebrew: {
     login: "התחבר",
@@ -567,6 +568,7 @@ const languageService = {
     intervalTimer: "אינטרוואלים",
     refresh: "רענון",
     controlPanel: "פאנל ניהול",
+    resetAppData: "איפוס האפליקציה",
   },
 };
 export default languageService;
