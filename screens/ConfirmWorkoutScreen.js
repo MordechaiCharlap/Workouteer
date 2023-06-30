@@ -24,11 +24,13 @@ import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import AwesomeModal from "../components/AwesomeModal";
 import useFirebase from "../hooks/useFirebase";
+import useAlerts from "../hooks/useAlerts";
 
 const ConfirmWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setCurrentWorkout, currentWorkout } = useCurrentWorkout();
+  const { newWorkoutsAlerts } = useAlerts();
   const { user } = useAuth();
   const { db } = useFirebase();
   const [confirmed, setConfirmed] = useState(false);
@@ -134,6 +136,15 @@ const ConfirmWorkoutScreen = () => {
 
       setCheckingDistance(false);
       const now = new Date();
+      if (newWorkoutsAlerts[workout.id] != null) {
+        const alertsClone = {
+          ...newWorkoutsAlerts,
+        };
+        delete alertsClone[workout.id];
+        updateDoc(doc(db, `alerts/${user.id}`), {
+          newWorkoutsAlerts: alertsClone,
+        });
+      }
       await updateDoc(doc(db, `usersConfirmedWorkouts/${user.id}`), {
         confirmedWorkouts: arrayUnion({
           id: workout.id,
