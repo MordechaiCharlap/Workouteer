@@ -22,7 +22,6 @@ import WorkoutRequestsScreen from "./screens/WorkoutRequestsScreen";
 import SearchedWorkoutsScreen from "./screens/SearchedWorkoutsScreen";
 import FriendsWorkoutsScreen from "./screens/FriendsWorkoutsScreen";
 import InviteFriendsScreen from "./screens/InviteFriendsScreen";
-import usePushNotifications from "./hooks/usePushNotifications";
 import useAuth from "./hooks/useAuth";
 import * as firebase from "./services/firebase";
 import WorkoutInvitesScreen from "./screens/WorkoutInvitesScreen";
@@ -123,7 +122,7 @@ const StackNavigator = () => {
     <View
       style={[
         { flex: 1 },
-        Platform.OS == "web" && { width: "100%", alignItems: "center" },
+        isWebOnPC && { width: "100%", alignItems: "center" },
       ]}
     >
       <View
