@@ -13,9 +13,6 @@ export const ResponsivenessProvider = ({ children }) => {
   );
   const [orientation, setOrientation] = useState();
   const [windowTooSmall, setWindowTooSmall] = useState(false);
-  useEffect(() => {
-    console.log(windowHeight);
-  }, [windowHeight]);
   const webResizeHandler = () => {
     setTimeout(() => {
       setWindowHeight(window.innerHeight);
