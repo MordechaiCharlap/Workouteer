@@ -5,10 +5,17 @@ import { isWebOnMobileDevice } from "../services/webScreenService";
 const WebDeviceResponsivenessContext = createContext({});
 
 export const ResponsivenessProvider = ({ children }) => {
-  const [windowWidth, setWindowWidth] = useState();
-  const [windowHeight, setWindowHeight] = useState();
+  const [windowWidth, setWindowWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [windowHeight, setWindowHeight] = useState(
+    Dimensions.get("window").height
+  );
   const [orientation, setOrientation] = useState();
   const [windowTooSmall, setWindowTooSmall] = useState(false);
+  useEffect(() => {
+    console.log(windowHeight);
+  }, [windowHeight]);
   const webResizeHandler = () => {
     setTimeout(() => {
       setWindowHeight(window.innerHeight);
@@ -45,9 +52,6 @@ export const ResponsivenessProvider = ({ children }) => {
           window.removeEventListener("resize", webResizeHandler);
         };
       }
-    } else {
-      setWindowHeight(Dimensions.get("window").height);
-      setWindowWidth(Dimensions.get("window").width);
     }
   }, []);
   return (
