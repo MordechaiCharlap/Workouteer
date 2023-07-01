@@ -333,8 +333,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                 style={buttonStyle}
                 onPress={() =>
                   navigation.navigate("Friends", {
-                    user: shownUser,
-                    isMyUser: isMyUser,
+                    shownUser: !isMyUser ? shownUser : null,
                   })
                 }
               >
