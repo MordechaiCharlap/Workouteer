@@ -43,6 +43,7 @@ const SearchUsers = (props) => {
   const renderSearchedUser = () => {
     return (
       <TouchableOpacity
+        style={{ paddingHorizontal: 16 }}
         onPress={() => userClicked(searchedUser)}
         className="flex-row items-center mt-2"
       >
@@ -72,8 +73,10 @@ const SearchUsers = (props) => {
   return (
     <View>
       <View
-        className="p-3"
-        style={{ backgroundColor: appStyle.color_surface_variant }}
+        style={{
+          backgroundColor: appStyle.color_surface_variant,
+          padding: 16,
+        }}
       >
         <View
           className={`items-center gap-x-2 flex-row${
