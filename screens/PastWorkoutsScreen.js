@@ -13,7 +13,7 @@ import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 import useAuth from "../hooks/useAuth";
 const PastWorkoutsScreen = ({ route }) => {
   const { user } = useAuth();
-  const shownUser = route.params?.shownUser ? route.params.shownUser : user;
+  const shownUser = route.params?.shownUser || user;
   const { setCurrentScreen } = useNavbarDisplay();
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
     useConfirmedWorkouts();

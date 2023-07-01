@@ -21,8 +21,7 @@ const FutureWorkoutsScreen = ({ route }) => {
   const { schedulePushNotification } = usePushNotifications();
   const { db } = useFirebase();
   const { user } = useAuth();
-  const shownUser =
-    route.params?.shownUser != null ? route.params.shownUser : user;
+  const shownUser = route.params?.shownUser || user;
   const isMyUser = shownUser.id == user.id;
   const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const [newWorkouts, setNewWorkouts] = useState();
