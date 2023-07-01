@@ -21,7 +21,7 @@ const ConnectToInternetScreen = () => {
       style={safeAreaStyle()}
     >
       <Text
-        className="text-5xl font-bold text-center"
+        className="text-3xl font-bold text-center"
         style={{ color: appStyle.color_primary }}
       >
         {user
@@ -29,7 +29,7 @@ const ConnectToInternetScreen = () => {
           : "The app requires internet connection to work"}
       </Text>
       <Text
-        className="text-3xl font-bold text-center"
+        className="text-xl font-bold text-center"
         style={{ color: appStyle.color_primary }}
       >
         {user
