@@ -14,6 +14,7 @@ const MyProfileScreen = () => {
   const { user } = useAuth();
   const { setScreen } = useNavbarNavigation();
   const { friendRequestsAlerts, setFriendRequestsAlerts } = useAlerts();
+
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("MyProfile");

@@ -105,7 +105,6 @@ const EditProfileData = (props) => {
       description: description || "",
       img: image || defaultValues.defaultProfilePic,
     };
-    console.log(userClone);
     setUser(userClone);
     setUpdated(true);
     setTimeout(() => {

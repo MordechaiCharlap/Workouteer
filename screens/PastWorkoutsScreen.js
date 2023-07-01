@@ -24,7 +24,6 @@ const PastWorkoutsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("PastWorkouts");
-      console.log(`past workouts ${shownUser.id}`);
     }, [])
   );
   useEffect(() => {

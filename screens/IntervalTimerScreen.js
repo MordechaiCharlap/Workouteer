@@ -19,7 +19,6 @@ const IntervalTimerScreen = () => {
   );
   const stopListen = () => {
     if (listenerSubscriber) {
-      console.log("stop listen");
       listenerSubscriber.current();
       listenerSubscriber.current = null;
     }
