@@ -6,7 +6,6 @@ import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import WorkoutComponent from "../components/WorkoutComponent";
 import LoadingAnimation from "../components/LoadingAnimation";
-import * as appStyle from "../utils/appStyleSheet";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
@@ -18,13 +17,14 @@ const PastWorkoutsScreen = ({ route }) => {
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
     useConfirmedWorkouts();
   const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
-    shownUser.id == shownUser.id ? confirmedWorkouts : []
+    shownUser.id == user.id ? confirmedWorkouts : []
   );
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("PastWorkouts");
+      console.log(`past workouts ${shownUser.id}`);
     }, [])
   );
   useEffect(() => {
