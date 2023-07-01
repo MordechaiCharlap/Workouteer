@@ -300,7 +300,11 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                     buttonStyle={plannedButtonStyle}
                     color={plannedButtonStyle.color}
                     iconColor={plannedButtonStyle.color}
-                    onPress={() => navigation.navigate("FutureWorkouts")}
+                    onPress={() =>
+                      navigation.navigate("FutureWorkouts", {
+                        shownUser: !isMyUser ? shownUser : null,
+                      })
+                    }
                     text={futureWorkoutsCount}
                     icon={faClock}
                     smallIcon={faExclamationCircle}
@@ -313,7 +317,11 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
                   buttonStyle={buttonStyle}
                   color={buttonStyle.color}
                   iconColor={buttonStyle.color}
-                  onPress={() => navigation.navigate("PastWorkouts")}
+                  onPress={() =>
+                    navigation.navigate("PastWorkouts", {
+                      shownUser: !isMyUser ? shownUser : null,
+                    })
+                  }
                   text={shownUser.workoutsCount}
                   icon={faDumbbell}
                   smallIcon={faCircleCheck}
