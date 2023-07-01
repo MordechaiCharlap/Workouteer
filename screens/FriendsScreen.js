@@ -14,8 +14,6 @@ import * as appStyle from "../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faMagnifyingGlass,
-  faChevronLeft,
-  faCircleUser,
   faUserClock,
   faPaperPlane,
   faUserPlus,
@@ -36,8 +34,8 @@ const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
-  var shownUser = route.params.user ? route.params.user : user;
-  const isMyUser = shownUser.id == user.id;
+  var shownUser = route?.params?.shownUser || user;
+  const isMyUser = route?.params?.user == null;
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
@@ -60,9 +58,7 @@ const FriendsScreen = ({ route }) => {
         return;
       }
       const friendsArr = [];
-      for (var key of Object.keys(
-        isMyUser ? user.friends : shownUser.friends
-      )) {
+      for (var key of Object.keys(shownUser.friends)) {
         var userData = await firebase.userDataById(key);
         friendsArr.push(userData);
       }
