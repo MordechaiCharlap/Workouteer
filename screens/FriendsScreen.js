@@ -35,7 +35,7 @@ const FriendsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
   var shownUser = route?.params?.shownUser || user;
-  const isMyUser = route?.params?.user == null;
+  const isMyUser = route?.params?.shownUser == null;
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState([]);
@@ -50,13 +50,20 @@ const FriendsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Friends");
-    }, [])
+      const getShownUserFriends = async () => {
+        const friendsArr = [];
+        for (var key of Object.keys(shownUser.friends)) {
+          var userData = await firebase.userDataById(key);
+          friendsArr.push(userData);
+        }
+        setFriendsArray(friendsArr);
+        setShownFriendsArray(friendsArr);
+      };
+      if (!isMyUser) getShownUserFriends();
+    }, [isMyUser])
   );
   useEffect(() => {
     const showFriends = async () => {
-      if (!isMyUser) {
-        return;
-      }
       const friendsArr = [];
       for (var key of Object.keys(shownUser.friends)) {
         var userData = await firebase.userDataById(key);
@@ -65,7 +72,7 @@ const FriendsScreen = ({ route }) => {
       setFriendsArray(friendsArr);
       setShownFriendsArray(friendsArr);
     };
-    showFriends();
+    if (isMyUser) showFriends();
   }, [user.friends]);
   useEffect(() => {
     if (friendsArray) {
@@ -153,20 +160,22 @@ const FriendsScreen = ({ route }) => {
         <Animated.FlatList
           style={[animatedListStyle]}
           showsVerticalScrollIndicator={false}
-          className="flex-1 px-4 pt-3"
+          className="flex-1 pt-3"
           data={shownFriendsArray}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View className="flex-row items-center mt-2">
               <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Profile", {
-                    shownUser: item,
-                    friendshipStatus: isMyUser
-                      ? "Friends"
-                      : firebase.checkFriendShipStatus(user, item),
-                  })
-                }
+                onPress={() => {
+                  item.id == user.id
+                    ? navigation.navigate("MyProfile")
+                    : navigation.navigate("Profile", {
+                        shownUser: item,
+                        friendshipStatus: isMyUser
+                          ? "Friends"
+                          : firebase.checkFriendShipStatus(user, item),
+                      });
+                }}
                 className="flex-row flex-1 items-center"
               >
                 <Image
