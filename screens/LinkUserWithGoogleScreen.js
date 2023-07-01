@@ -62,63 +62,59 @@ const LinkUserWithGoogleScreen = ({ route }) => {
           </TouchableOpacity>
         </View>
       ) : (
-        <>
+        <View
+          style={{ flex: 1, paddingHorizontal: 16, justifyContent: "center" }}
+        >
           <Text
             style={{ color: appStyle.color_primary }}
             className="text-lg text-center mb-10"
           >
-            That email is associated with this user: is that you?
+            That email is associated with this user; is that you?
           </Text>
           <View
             style={{
-              backgroundColor: appStyle.color_background_variant,
+              backgroundColor: appStyle.color_on_background,
               borderWidth: 1,
               borderColor: appStyle.color_primary,
             }}
-            className="rounded flex-row p-2 gap-x-2 items-center w-5/6 h-20"
+            className="rounded-full flex-row w-100 p-2 items-center h-20"
           >
-            <View className="h-full aspect-square">
-              <Image
-                source={{
-                  uri: userData.img,
-                }}
-                className="h-full aspect-square bg-white rounded-full"
-              />
-            </View>
-            <View className="justify-between">
-              <View className="flex-row gap-x-1 items-center">
-                <Text
-                  style={{ color: appStyle.color_on_primary }}
-                  className="font-semibold text-lg"
-                >
-                  {userData.id},
-                </Text>
-                <Text
-                  style={{ color: appStyle.color_on_primary }}
-                  className="text-lg"
-                >
-                  {calculateAge(userData.birthdate.toDate())}
-                </Text>
-              </View>
-              <Text style={{ color: appStyle.color_on_primary }}>
-                {userData.email}
+            <Image
+              source={{
+                uri: userData.img,
+              }}
+              className="h-full aspect-square rounded-full"
+            />
+            <View className="flex-row flex-1 gap-x-1 items-center justify-center">
+              <Text
+                style={{ color: appStyle.color_on_primary }}
+                className="font-semibold text-lg"
+              >
+                {userData.id},
+              </Text>
+              <Text
+                style={{ color: appStyle.color_on_primary }}
+                className="text-lg"
+              >
+                {calculateAge(userData.birthdate.toDate())}
               </Text>
             </View>
           </View>
-          <View className="absolute bottom-10 w-2/3 gap-y-2">
-            <TouchableOpacity
-              onPress={() => {
-                setShowLogin(!showLogin);
-              }}
-              style={styles.yesButton}
-            >
-              <Text style={styles.yesText}>Yes.</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.noButton}>
-              <Text style={styles.noText}>No. Delete fake user.</Text>
-            </TouchableOpacity>
-          </View>
-        </>
+          <View style={{ height: 30 }} />
+          <TouchableOpacity
+            className="rounded-xl"
+            onPress={() => {
+              setShowLogin(!showLogin);
+            }}
+            style={styles.yesButton}
+          >
+            <Text style={styles.yesText}>Yes.</Text>
+          </TouchableOpacity>
+          <View style={{ height: 10 }} />
+          <TouchableOpacity className="rounded-xl" style={styles.noButton}>
+            <Text style={styles.noText}>No. Delete fake user.</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -126,7 +122,6 @@ const LinkUserWithGoogleScreen = ({ route }) => {
 const styles = StyleSheet.create({
   yesButton: {
     width: "100%",
-    borderRadius: 4,
     backgroundColor: appStyle.color_primary,
     alignItems: "center",
     justifyContent: "center",
@@ -134,13 +129,12 @@ const styles = StyleSheet.create({
   },
   noButton: {
     width: "100%",
-    borderRadius: 4,
+    paddingVertical: 4,
+    alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: appStyle.color_primary,
     backgroundColor: appStyle.color_background,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 4,
   },
   yesText: {
     fontSize: 20,
