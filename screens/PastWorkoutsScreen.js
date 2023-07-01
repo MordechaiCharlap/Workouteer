@@ -10,6 +10,11 @@ import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 import useAuth from "../hooks/useAuth";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 const PastWorkoutsScreen = ({ route }) => {
   const { user } = useAuth();
   const shownUser = route.params?.shownUser || user;
@@ -19,13 +24,27 @@ const PastWorkoutsScreen = ({ route }) => {
   const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
     shownUser.id == user.id ? confirmedWorkouts : []
   );
-  const [workouts, setWorkouts] = useState([]);
-  const [initialLoading, setInitialLoading] = useState(true);
+  const [workouts, setWorkouts] = useState();
+
+  const listOpacity = useSharedValue(0);
+  const listMarginTop = useSharedValue(50);
+  const animatedListStyle = useAnimatedStyle(() => {
+    return {
+      opacity: listOpacity.value,
+      marginTop: listMarginTop.value,
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("PastWorkouts");
     }, [])
   );
+  useEffect(() => {
+    if (workouts) {
+      listMarginTop.value = withTiming(0, { duration: 500 });
+      listOpacity.value = withTiming(1, { duration: 500 });
+    }
+  }, [workouts]);
   useEffect(() => {
     if (user.id == shownUser.id) return;
     const getShownUserConfirmedWorkouts = async () => {
@@ -42,7 +61,6 @@ const PastWorkoutsScreen = ({ route }) => {
         confirmedWorkoutsArray
       );
       setWorkouts(workoutsArr);
-      setInitialLoading(false);
     };
     getWorkouts();
   }, [confirmedWorkoutsArray]);
@@ -53,10 +71,9 @@ const PastWorkoutsScreen = ({ route }) => {
         goBackOption={true}
       />
       <View className="flex-1 px-2">
-        {initialLoading ? (
-          <LoadingAnimation />
-        ) : (
-          <FlatList
+        {workouts && (
+          <Animated.FlatList
+            style={animatedListStyle}
             className="p-2"
             showsVerticalScrollIndicator={false}
             data={workouts}
