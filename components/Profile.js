@@ -49,7 +49,6 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const [futureWorkoutsCount, setFutureWorkoutsCount] = useState(
     isMyUser ? Object.keys(shownUser.plannedWorkouts).length : 0
   );
-
   const [friendshipStatus, setFriendshipStatus] = useState(
     initialFriendshipStatus
   );
