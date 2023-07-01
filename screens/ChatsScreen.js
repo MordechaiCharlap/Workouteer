@@ -245,7 +245,7 @@ const ChatsScreen = () => {
     );
   };
   const showFriends = async () => {
-    navigation.navigate("Friends", { user: user, isMyUser: true });
+    navigation.navigate("Friends");
   };
   return (
     <View style={safeAreaStyle()}>
