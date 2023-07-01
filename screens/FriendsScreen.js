@@ -131,59 +131,7 @@ const FriendsScreen = ({ route }) => {
             </TouchableOpacity>
           )}
         </Header>
-        {/* <View
-          className="flex-row items-center mt-4 mb-4"
-          style={{
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              size={40}
-              color={appStyle.color_on_background}
-            />
-          </TouchableOpacity>
-          <Text
-            className={
-              Platform.OS == "web"
-                ? "text-2xl font-semibold"
-                : "text-4xl font-semibold"
-            }
-            style={{ color: appStyle.color_on_background }}
-          >
-            {languageService[user.language].friends}
-          </Text>
-          <FontAwesomeIcon
-            icon={faCircleUser}
-            size={40}
-            color={appStyle.color_background}
-          />
-          {isMyUser && user.friendRequestsCount > 0 && (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FriendRequests")}
-              className="flex-row p-2 items-center rounded-full absolute right-0"
-              style={{ backgroundColor: appStyle.color_on_background }}
-            >
-              <AlertDot
-                text={user.friendRequestsCount}
-                textColor={appStyle.color_on_background}
-                fontSize={17}
-                borderColor={appStyle.color_background}
-                borderWidth={1}
-                size={43}
-                color={appStyle.color_background}
-              />
-              <View className="ml-2">
-                <FontAwesomeIcon
-                  icon={faUserClock}
-                  size={40}
-                  color={appStyle.color_background}
-                />
-              </View>
-            </TouchableOpacity>
-          )}
-        </View> */}
+
         <View
           className="rounded-xl p-3"
           style={{ backgroundColor: appStyle.color_surface_variant }}
