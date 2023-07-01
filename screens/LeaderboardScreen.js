@@ -155,7 +155,7 @@ const LeaderboardScreen = () => {
 
                 <Image
                   source={{
-                    uri: item[1].img,
+                    uri: item[0] == user.id ? user.img : item[1].img,
                   }}
                   className="h-14 w-14 bg-white rounded-full mr-4"
                 />
