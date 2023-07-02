@@ -7,8 +7,9 @@ import { calculateAge } from "../utils/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, Timestamp } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
+import CustomButton from "../components/basic/CustomButton";
 const LinkUserWithGoogleScreen = ({ route }) => {
   const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -101,19 +102,22 @@ const LinkUserWithGoogleScreen = ({ route }) => {
             </View>
           </View>
           <View style={{ height: 30 }} />
-          <TouchableOpacity
-            className="rounded-xl"
-            onPress={() => {
-              setShowLogin(!showLogin);
-            }}
-            style={styles.yesButton}
-          >
-            <Text style={styles.yesText}>Yes.</Text>
-          </TouchableOpacity>
-          <View style={{ height: 10 }} />
-          <TouchableOpacity className="rounded-xl" style={styles.noButton}>
-            <Text style={styles.noText}>No. Delete fake user.</Text>
-          </TouchableOpacity>
+          <View>
+            <CustomButton
+              round
+              className="py-2"
+              onPress={() => {
+                setShowLogin(!showLogin);
+              }}
+              style={styles.yesButton}
+            >
+              <Text style={styles.yesText}>Yes.</Text>
+            </CustomButton>
+            <View style={{ height: 10 }} />
+            <CustomButton className="py-2" round style={styles.noButton}>
+              <Text style={styles.noText}>No. Delete fake user.</Text>
+            </CustomButton>
+          </View>
         </View>
       )}
     </View>
