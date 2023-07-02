@@ -66,7 +66,7 @@ const HomeScreenButton = (props) => {
             size={props.style.iconSize}
             color={props.style.iconColor}
           />
-          <Text
+          <CustomText
             style={{
               color: props.style.textColor,
               fontSize: props.style.fontSize,
@@ -75,7 +75,7 @@ const HomeScreenButton = (props) => {
             }}
           >
             {props.buttonText}
-          </Text>
+          </CustomText>
         </CustomButton>
       )}
     </View>

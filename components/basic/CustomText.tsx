@@ -1,4 +1,4 @@
-import { StyleProp, Text, TextProps, ViewStyle } from "react-native";
+import { StyleProp, Text, TextProps, ViewStyle, Platform } from "react-native";
 import React from "react";
 interface CustomTextProps extends TextProps {
   style?: StyleProp<ViewStyle>;

@@ -1,5 +1,5 @@
 import { View, Dimensions, Text } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import HomeScreenButton from "../components/homeScreen/HomeScreenButton";
