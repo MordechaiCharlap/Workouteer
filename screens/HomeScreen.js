@@ -29,7 +29,7 @@ import CustomText from "../components/basic/CustomText";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { appData } = useAppData();
+  const { specs } = useAppData();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
   const { user } = useAuth();
@@ -153,7 +153,7 @@ const HomeScreen = () => {
         </View>
       )}
       <View className="absolute top-0 right-0 left-0 flex-row justify-between p-1">
-        {appData.isBetaVersion && (
+        {specs.isBetaVersion && (
           <Text style={{ color: appStyle.color_primary }} className="text-xs">
             {languageService[user.language].betaVersion}
           </Text>
