@@ -3,12 +3,12 @@ import useAppData from "./useAppData";
 
 const MaintenanceContext = createContext({});
 export const MaintenanceProvider = ({ children }) => {
-  const { appData } = useAppData();
+  const { specs } = useAppData();
   const [underMaintenance, setUnderMaintenance] = useState(false);
   useEffect(() => {
-    if (!appData) return;
-    if (appData.underMaintenance) setUnderMaintenance(true);
-  }, [appData]);
+    if (!specs) return;
+    if (specs.underMaintenance) setUnderMaintenance(true);
+  }, [specs]);
   return (
     <MaintenanceContext.Provider value={{ underMaintenance }}>
       {children}
