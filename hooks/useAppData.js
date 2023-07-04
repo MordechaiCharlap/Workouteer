@@ -5,7 +5,8 @@ import useFirebase from "./useFirebase";
 const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
   const { db } = useFirebase();
-  const [appData, setAppData] = useState();
+  const [specs, setSpecs] = useState();
+  const [usersData, setUsersData] = useState();
   const [isVersionUpToDate, setIsVersionUpToDate] = useState(true);
   const compareVersions = (versionA, versionB) => {
     const a = versionA.split(".");
@@ -23,7 +24,7 @@ export const AppDataProvider = ({ children }) => {
     return 0;
   };
   const isVersionUpToDateFunc = () => {
-    const minimumRequiredVersion = appData.minimumRequiredVersion;
+    const minimumRequiredVersion = specs.minimumRequiredVersion;
     const currentAppVersion = Constants.manifest.version;
 
     if (compareVersions(currentAppVersion, minimumRequiredVersion) < 0) {
@@ -33,19 +34,22 @@ export const AppDataProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, `appData/specs`), (doc) => {
-      setAppData(doc.data());
+    const unsubscribeSpecs = onSnapshot(doc(db, `appData/specs`), (doc) => {
+      setSpecs(doc.data());
     });
-
+    const getUsersData = async () => {
+      setUsersData((await getDoc(doc(db, "appData/usersData"))).data());
+    };
+    getUsersData();
     return () => {
-      unsubscribe();
+      unsubscribeSpecs();
     };
   }, []);
   useEffect(() => {
-    if (appData) setIsVersionUpToDate(isVersionUpToDateFunc());
-  }, [appData]);
+    if (specs) setIsVersionUpToDate(isVersionUpToDateFunc());
+  }, [specs]);
   return (
-    <AppDataContext.Provider value={{ appData, isVersionUpToDate }}>
+    <AppDataContext.Provider value={{ specs, isVersionUpToDate, usersData }}>
       {children}
     </AppDataContext.Provider>
   );
