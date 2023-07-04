@@ -106,6 +106,11 @@ exports.deleteUserData = functions.firestore
         friendsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
+    //deletes from usersData
+    await db
+      .doc("appData/usersData")
+      .update({ allUsersIds: admin.firestore.FieldValue.arrayRemove(userId) });
+    //updating field values
     await db.doc(`users/${userId}`).update({
       email: admin.firestore.FieldValue.delete(),
       plannedWorkouts: {},
