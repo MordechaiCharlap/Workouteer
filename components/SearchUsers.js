@@ -33,13 +33,9 @@ const SearchUsers = (props) => {
     );
     return matchingUserIds;
   };
-  useEffect(() => {
-    console.log(usersData);
-  }, []);
   const textChanged = async (text) => {
     if (text.length >= 3) {
       const matchingUsers = filterIdsBySearchedText(text);
-      console.log(matchingUsers);
       if (matchingUsers.length == 0) return;
       const firstTen = matchingUsers.slice(0, 10);
       const q = query(
@@ -51,11 +47,7 @@ const SearchUsers = (props) => {
       querySnapshot.forEach((doc) => {
         usersDataArr.push(doc.data());
       });
-      console.log(usersDataArr.length);
       setShownUsers(usersDataArr);
-
-      // const searchedUserDoc = await firebase.searchUser(text);
-      // if (searchedUserDoc != null) setSearchedUser(searchedUserDoc.data());
     }
   };
   const userClicked = async (userData) => {
