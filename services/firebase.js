@@ -19,6 +19,7 @@ import {
   limit,
   deleteDoc,
   getFirestore,
+  arrayUnion,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
@@ -178,6 +179,9 @@ export const createUser = async (newUserData) => {
   });
   setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
     confirmedWorkouts: [],
+  });
+  updateDoc(doc(db, "appData/usersData"), {
+    allUserIds: arrayUnion(newUserData.id),
   });
 };
 export const checkFriendShipStatus = async (userData, otherUserId) => {
