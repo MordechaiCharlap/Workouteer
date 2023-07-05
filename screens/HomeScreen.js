@@ -32,7 +32,7 @@ const HomeScreen = () => {
   const { specs } = useAppData();
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
-  const { user } = useAuth();
+  const { user, initialLoading, setInitialLoading } = useAuth();
   const { friendsWorkouts } = useFriendsWorkouts();
   const { workoutRequestsAlerts, newWorkoutsAlerts, workoutInvitesAlerts } =
     useAlerts();
@@ -63,6 +63,9 @@ const HomeScreen = () => {
       setScreen("Home");
     }, [])
   );
+  useEffect(() => {
+    if (initialLoading) setInitialLoading(false);
+  }, [initialLoading]);
   return (
     <View style={safeAreaStyle()} className="justify-center">
       <View style={menuContainerStyle}>
