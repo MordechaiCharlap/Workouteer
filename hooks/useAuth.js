@@ -143,7 +143,7 @@ export const AuthPrvider = ({ children }) => {
   }, [user]);
   useEffect(() => {
     if (!userLoaded) {
-      setInitialLoading(false);
+      // setInitialLoading(false);
       return;
     }
     const getLocation = async () => {
@@ -228,6 +228,7 @@ export const AuthPrvider = ({ children }) => {
         userSignOut,
         signInWithCredentialGoogle,
         initialLoading,
+        setInitialLoading,
         loginLoading,
         authErrorCode,
         authUser,
