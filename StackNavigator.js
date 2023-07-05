@@ -65,8 +65,7 @@ const StackNavigator = () => {
   const { showNavbar } = useNavbarDisplay();
   const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
-  const { underMaintenance } = useMaintenance();
-  const { isVersionUpToDate } = useAppData();
+  const { isVersionUpToDate, underMaintenance } = useAppData();
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
 
