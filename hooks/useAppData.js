@@ -6,6 +6,8 @@ const AppDataContext = createContext({});
 export const AppDataProvider = ({ children }) => {
   const { db } = useFirebase();
   const [specs, setSpecs] = useState();
+  const [underMaintenance, setUnderMaintenance] = useState(false);
+
   const [usersData, setUsersData] = useState();
   const [isVersionUpToDate, setIsVersionUpToDate] = useState(true);
   const compareVersions = (versionA, versionB) => {
@@ -33,6 +35,7 @@ export const AppDataProvider = ({ children }) => {
       return true;
     }
   };
+
   useEffect(() => {
     const unsubscribeSpecs = onSnapshot(doc(db, `appData/specs`), (doc) => {
       setSpecs(doc.data());
@@ -46,10 +49,16 @@ export const AppDataProvider = ({ children }) => {
     };
   }, []);
   useEffect(() => {
+    if (!specs) return;
     if (specs) setIsVersionUpToDate(isVersionUpToDateFunc());
+    specs.underMaintenance
+      ? setUnderMaintenance(true)
+      : setUnderMaintenance(false);
   }, [specs]);
   return (
-    <AppDataContext.Provider value={{ specs, isVersionUpToDate, usersData }}>
+    <AppDataContext.Provider
+      value={{ specs, isVersionUpToDate, usersData, underMaintenance }}
+    >
       {children}
     </AppDataContext.Provider>
   );
