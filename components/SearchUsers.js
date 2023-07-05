@@ -34,20 +34,24 @@ const SearchUsers = (props) => {
     return matchingUserIds;
   };
   const textChanged = async (text) => {
-    if (text.length >= 3) {
+    if (text.length > 3) {
       const matchingUsers = filterIdsBySearchedText(text);
-      if (matchingUsers.length == 0) return;
-      const firstTen = matchingUsers.slice(0, 10);
-      const q = query(
-        collection(db, "users"),
-        where("__name__", "in", firstTen)
-      );
-      const querySnapshot = await getDocs(q);
-      const usersDataArr = [];
-      querySnapshot.forEach((doc) => {
-        usersDataArr.push(doc.data());
-      });
-      setShownUsers(usersDataArr);
+      if (matchingUsers.length == 0) setShownUsers([]);
+      else {
+        const firstTen = matchingUsers.slice(0, 10);
+        const q = query(
+          collection(db, "users"),
+          where("__name__", "in", firstTen)
+        );
+        const querySnapshot = await getDocs(q);
+        const usersDataArr = [];
+        querySnapshot.forEach((doc) => {
+          usersDataArr.push(doc.data());
+        });
+        setShownUsers(usersDataArr);
+      }
+    } else {
+      setShownUsers([]);
     }
   };
   const userClicked = async (userData) => {
