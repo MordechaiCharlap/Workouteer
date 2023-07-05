@@ -18,7 +18,6 @@ import { AppDataProvider } from "./hooks/useAppData";
 import * as SplashScreen from "expo-splash-screen";
 import { WorkoutLogicProvider } from "./hooks/useWorkoutLogic";
 import { ConnectionProvider } from "./hooks/useConnection";
-import { MaintenanceProvider } from "./hooks/useMaintenance";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { ChatsProvider } from "./hooks/useChats";
 import { ExploreProvider } from "./hooks/useExplore";
@@ -35,39 +34,37 @@ export default function App() {
     <NavigationContainer>
       <FirebaseProvider>
         <AppDataProvider>
-          <MaintenanceProvider>
-            <AuthPrvider>
-              <ResponsivenessProvider>
-                <ConnectionProvider>
-                  <NavbarDisplayProvider>
-                    <AlertsProvider>
-                      <ChatsProvider>
-                        <CurrentWorkoutProvider>
-                          <FriendsWorkoutsProvider>
-                            <NotificationsProvider>
-                              <LeaderboardProvider>
-                                <ExploreProvider>
-                                  <ConfirmedWorkoutsProvider>
-                                    <WorkoutLogicProvider>
-                                      <NavbarNavigationProvider>
-                                        <TailwindProvider>
-                                          <StackNavigator />
-                                        </TailwindProvider>
-                                      </NavbarNavigationProvider>
-                                    </WorkoutLogicProvider>
-                                  </ConfirmedWorkoutsProvider>
-                                </ExploreProvider>
-                              </LeaderboardProvider>
-                            </NotificationsProvider>
-                          </FriendsWorkoutsProvider>
-                        </CurrentWorkoutProvider>
-                      </ChatsProvider>
-                    </AlertsProvider>
-                  </NavbarDisplayProvider>
-                </ConnectionProvider>
-              </ResponsivenessProvider>
-            </AuthPrvider>
-          </MaintenanceProvider>
+          <AuthPrvider>
+            <ResponsivenessProvider>
+              <ConnectionProvider>
+                <NavbarDisplayProvider>
+                  <AlertsProvider>
+                    <ChatsProvider>
+                      <CurrentWorkoutProvider>
+                        <FriendsWorkoutsProvider>
+                          <NotificationsProvider>
+                            <LeaderboardProvider>
+                              <ExploreProvider>
+                                <ConfirmedWorkoutsProvider>
+                                  <WorkoutLogicProvider>
+                                    <NavbarNavigationProvider>
+                                      <TailwindProvider>
+                                        <StackNavigator />
+                                      </TailwindProvider>
+                                    </NavbarNavigationProvider>
+                                  </WorkoutLogicProvider>
+                                </ConfirmedWorkoutsProvider>
+                              </ExploreProvider>
+                            </LeaderboardProvider>
+                          </NotificationsProvider>
+                        </FriendsWorkoutsProvider>
+                      </CurrentWorkoutProvider>
+                    </ChatsProvider>
+                  </AlertsProvider>
+                </NavbarDisplayProvider>
+              </ConnectionProvider>
+            </ResponsivenessProvider>
+          </AuthPrvider>
         </AppDataProvider>
       </FirebaseProvider>
     </NavigationContainer>
