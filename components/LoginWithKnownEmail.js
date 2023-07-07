@@ -6,6 +6,8 @@ import useAuth from "../hooks/useAuth";
 import { linkWithCredential } from "firebase/auth";
 import { updateDoc, doc } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
+import CustomButton from "./basic/CustomButton";
+import CustomText from "./basic/CustomText";
 const LoginWithKnownEmail = (props) => {
   const { db, auth } = useFirebase();
   const { signInEmailPassword, googleUserInfo } = useAuth();
@@ -36,19 +38,24 @@ const LoginWithKnownEmail = (props) => {
       style={{
         backgroundColor: appStyle.color_background_variant,
         borderWidth: 1,
-        borderColor: appStyle.color_primary,
+        borderColor: appStyle.color_outline,
       }}
-      className="p-4 rounded gap-y-3 w-5/6"
+      className="p-4 rounded-lg gap-y-3 w-5/6"
     >
       <Text
         className="text-center text-lg"
-        style={{ color: appStyle.color_on_primary }}
+        style={{ color: appStyle.color_on_background }}
       >
         Use your workouteer account to link both identifications.
       </Text>
 
       <View style={style.knownInput}>
-        <Text style={{ color: appStyle.color_on_primary }}>
+        <Text
+          style={{
+            textAlign: "center",
+            color: appStyle.color_on_surface_variant,
+          }}
+        >
           {googleUserInfo.email}
         </Text>
       </View>
@@ -57,41 +64,33 @@ const LoginWithKnownEmail = (props) => {
       </View>
       <View className="gap-y-1">
         <View className="flex-row gap-x-1">
-          <TouchableOpacity
+          <CustomButton
+            round
             onPress={loginAndLink}
-            style={{ backgroundColor: appStyle.color_background }}
+            style={{ backgroundColor: appStyle.color_on_background }}
             className="w-1 grow items-center py-2"
           >
-            <Text
+            <CustomText
               className="text-center tracking-widest font-bold text-xl"
               style={{
-                color: appStyle.color_primary,
+                color: appStyle.color_background,
               }}
             >
               Login
-            </Text>
-          </TouchableOpacity>
+            </CustomText>
+          </CustomButton>
         </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              props.setForgotPassword(true);
-              props.setShowLogin(false);
+        <TouchableOpacity>
+          <CustomText
+            className="text-center"
+            style={{
+              color: appStyle.color_on_surface_variant,
             }}
-            style={{ backgroundColor: appStyle.color_primary }}
-            className="w-full items-center rounded py-2"
           >
-            <Text
-              className="text-center  text-lg"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              I Forgot the password
-            </Text>
-          </TouchableOpacity>
-        </View>
+            I forgot the password
+          </CustomText>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -112,7 +111,7 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     height: 40,
     borderRadius: 4,
-    backgroundColor: appStyle.color_primary,
+    backgroundColor: appStyle.color_surface_variant,
     paddingHorizontal: 5,
     justifyContent: "center",
   },
