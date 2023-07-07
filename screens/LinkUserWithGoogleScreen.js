@@ -7,9 +7,11 @@ import { calculateAge } from "../utils/calculateAge";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
-import { updateDoc, doc, Timestamp } from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
 import CustomButton from "../components/basic/CustomButton";
+import { defaultProfilePic } from "../utils/defaultValues";
+import CustomText from "../components/basic/CustomText";
 const LinkUserWithGoogleScreen = ({ route }) => {
   const { db } = useFirebase();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -21,7 +23,6 @@ const LinkUserWithGoogleScreen = ({ route }) => {
 
   const { signInWithCredentialGoogle } = useAuth();
   const userData = route.params.userData;
-
   const [showLogin, setShowLogin] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const replaceAuthEmailWithAuthGoogle = async () => {
@@ -55,19 +56,19 @@ const LinkUserWithGoogleScreen = ({ route }) => {
             No worries, just use your google account for now until we would add
             a `get new passowrd option`
           </Text>
-          <TouchableOpacity
+          <CustomButton
             onPress={replaceAuthEmailWithAuthGoogle}
             style={styles.yesButton}
           >
             <Text style={styles.yesText}>Use the app!</Text>
-          </TouchableOpacity>
+          </CustomButton>
         </View>
       ) : (
         <View
           style={{ flex: 1, paddingHorizontal: 16, justifyContent: "center" }}
         >
           <Text
-            style={{ color: appStyle.color_primary }}
+            style={{ color: appStyle.color_on_background }}
             className="text-lg text-center mb-10"
           >
             That email is associated with this user; is that you?
@@ -87,12 +88,12 @@ const LinkUserWithGoogleScreen = ({ route }) => {
               className="h-full aspect-square rounded-full"
             />
             <View className="flex-row flex-1 gap-x-1 items-center justify-center">
-              <Text
+              <CustomText
                 style={{ color: appStyle.color_on_primary }}
                 className="font-semibold text-lg"
               >
                 {userData.id},
-              </Text>
+              </CustomText>
               <Text
                 style={{ color: appStyle.color_on_primary }}
                 className="text-lg"
@@ -111,11 +112,22 @@ const LinkUserWithGoogleScreen = ({ route }) => {
               }}
               style={styles.yesButton}
             >
-              <Text style={styles.yesText}>Yes.</Text>
+              <CustomText style={styles.yesText}>Yes.</CustomText>
             </CustomButton>
             <View style={{ height: 10 }} />
-            <CustomButton className="py-2" round style={styles.noButton}>
-              <Text style={styles.noText}>No. Delete fake user.</Text>
+            <CustomButton
+              className="py-2"
+              round
+              style={{ backgroundColor: appStyle.color_surface_variant }}
+            >
+              <CustomText
+                style={{
+                  fontSize: 20,
+                  color: appStyle.color_on_surface_variant,
+                }}
+              >
+                No. Delete fake user.
+              </CustomText>
             </CustomButton>
           </View>
         </View>
