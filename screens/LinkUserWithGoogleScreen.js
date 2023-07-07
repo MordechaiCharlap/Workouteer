@@ -10,7 +10,6 @@ import LoginWithKnownEmail from "../components/LoginWithKnownEmail";
 import { updateDoc, doc } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
 import CustomButton from "../components/basic/CustomButton";
-import { defaultProfilePic } from "../utils/defaultValues";
 import CustomText from "../components/basic/CustomText";
 const LinkUserWithGoogleScreen = ({ route }) => {
   const { db } = useFirebase();
