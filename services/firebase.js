@@ -785,8 +785,8 @@ export const getFriendsFutureWorkouts = async (user) => {
   return friendsFutureWorkouts;
 };
 
-export const updateUser = async (user) => {
-  await updateDoc(doc(db, "users", user.id), { ...user });
+export const updateUser = async (userData) => {
+  await updateDoc(doc(db, "users", userData.id), userData);
 };
 
 export const addChatAlert = async (userId, chatId) => {
