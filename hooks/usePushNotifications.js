@@ -57,12 +57,11 @@ export const NotificationsProvider = ({ children }) => {
     };
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
-    if (Platform.OS != "web") {
-      registerForPushNotificationsAsync().then(async (token) => {
-        if (token && token != user.token) {
-          await tokenUpdateLogic(token);
-        }
-      });
+    if (Platform.OS != "web" && Device.isDevice) {
+      const deviceToken = await registerForPushNotificationsAsync();
+      if (deviceToken && deviceToken != user.token) {
+        tokenUpdateLogic(deviceToken);
+      }
 
       // This listener is fired whenever a notification is received while the app is foregrounded
       notificationListener.current =
@@ -75,34 +74,32 @@ export const NotificationsProvider = ({ children }) => {
   };
   async function registerForPushNotificationsAsync() {
     let token;
-    if (Platform.OS != "web" && !Device.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
 
-      if (Platform.OS === "android") {
-        Notifications.setNotificationChannelAsync("default", {
-          name: "default",
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: "#FF231F7C",
-        });
-      }
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
     }
     return token;
   }
-  const tokenUpdateLogic = async (token) => {
-    await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-    setTimeout(async () => {
-      await updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
+  const tokenUpdateLogic = (token) => {
+    firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
+    setTimeout(() => {
+      updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
     }, 5000);
   };
   const sendPushNotificationUserLeftWorkout = async (
