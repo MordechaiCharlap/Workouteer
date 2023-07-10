@@ -52,9 +52,12 @@ import IntervalTimerScreen from "./screens/IntervalTimerScreen";
 import { useMaintenance } from "./hooks/useMaintenance";
 import { isWebOnPC } from "./services/webScreenService";
 import AdminHomeScreen from "./screens/AdminHomeScreen";
+import useFirebase from "./hooks/useFirebase";
+import { doc, updateDoc } from "firebase/firestore";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
+  const { db } = useFirebase();
   const {
     myUserNavigationOptions,
     leaderboardNavigationOptions,
@@ -69,32 +72,29 @@ const StackNavigator = () => {
   const [notificationsListenersAdded, setNotificationsListenersAdded] =
     useState(false);
 
-  useEffect(() => {
-    const removeUnconfirmedOldWorkouts = () => {
-      const now = new Date();
-      const unconfirmedWorkouts = { ...user.plannedWorkouts };
-      for (const [key, value] of Object.entries(user.plannedWorkouts)) {
-        if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
-          continue;
+  const removeUnconfirmedOldWorkouts = () => {
+    const now = new Date();
+    const unconfirmedWorkouts = { ...user.plannedWorkouts };
+    for (const [key, value] of Object.entries(user.plannedWorkouts)) {
+      if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
+        continue;
 
-        delete unconfirmedWorkouts[key];
-      }
-      return unconfirmedWorkouts;
-    };
-    const resetStreakIfNeeded = () => {
-      var yasterday = new Date();
-      yasterday.setDate(new Date(yasterday).getDate() - 1);
-      yasterday.setHours(0, 0, 0, 0);
-      if (
-        user.streak != 0 &&
-        user.lastConfirmedWorkoutDate.toDate() < yasterday
-      ) {
-        return 0;
-      } else return user.streak;
-    };
-    const updateUser = async (userClone) => {
-      await firebase.updateUser(userClone);
-    };
+      delete unconfirmedWorkouts[key];
+    }
+    return unconfirmedWorkouts;
+  };
+  const resetStreakIfNeeded = () => {
+    var yasterday = new Date();
+    yasterday.setDate(new Date(yasterday).getDate() - 1);
+    yasterday.setHours(0, 0, 0, 0);
+    if (
+      user.streak != 0 &&
+      user.lastConfirmedWorkoutDate.toDate() < yasterday
+    ) {
+      return 0;
+    } else return user.streak;
+  };
+  useEffect(() => {
     if (!notificationsListenersAdded && userLoaded && Platform.OS != "web") {
       setNotificationsListenersAdded(true);
     }
@@ -106,7 +106,7 @@ const StackNavigator = () => {
         streak: newStreak,
         plannedWorkouts: newPlannedWorkouts,
       };
-      updateUser(userClone);
+      updateDoc(doc(db, "users", userData.id), userData);
     }
   }, [userLoaded]);
 
