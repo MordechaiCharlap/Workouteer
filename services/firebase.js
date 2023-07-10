@@ -181,7 +181,7 @@ export const createUser = async (newUserData) => {
     confirmedWorkouts: [],
   });
   updateDoc(doc(db, "appData/usersData"), {
-    allUserIds: arrayUnion(newUserData.id),
+    allUsersIds: arrayUnion(newUserData.id),
   });
 };
 export const checkFriendShipStatus = async (userData, otherUserId) => {
