@@ -58,10 +58,11 @@ export const NotificationsProvider = ({ children }) => {
   }, [userLoaded]);
   const notificationListenerFunction = async () => {
     if (Platform.OS != "web" && Device.isDevice) {
-      const deviceToken = await registerForPushNotificationsAsync();
-      if (deviceToken && deviceToken != user.token) {
-        tokenUpdateLogic(deviceToken);
-      }
+      registerForPushNotificationsAsync().then((token) => {
+        if (token && token != user.token) {
+          tokenUpdateLogic(deviceToken);
+        }
+      });
 
       // This listener is fired whenever a notification is received while the app is foregrounded
       notificationListener.current =
@@ -98,9 +99,7 @@ export const NotificationsProvider = ({ children }) => {
   }
   const tokenUpdateLogic = (token) => {
     firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-    setTimeout(() => {
-      updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
-    }, 5000);
+    updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
   };
   const sendPushNotificationUserLeftWorkout = async (
     workout,
