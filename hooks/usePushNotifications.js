@@ -263,15 +263,21 @@ export const NotificationsProvider = ({ children }) => {
     );
   };
   const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
-    const title =
+    // const title =
+    //   user.displayName +
+    //   " " +
+    //   languageService[friend.language].scheduled[user.isMale ? 1 : 0] +
+    //   " " +
+    //   languageService[friend.language].scheduledWorkout[workoutType];
+    const body =
       user.displayName +
       " " +
       languageService[friend.language].scheduled[user.isMale ? 1 : 0] +
       " " +
-      languageService[friend.language].scheduledWorkout[workoutType];
-    const body =
+      languageService[friend.language].scheduledWorkout[workoutType] +
+      ", " +
       languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
-    await sendPushNotification(friend, title, body);
+    await sendPushNotification(friend, title, `${title + " " + body}`);
   };
   const sendPushNotificationInviteFriendToWorkout = async (friend, workout) => {
     await sendPushNotification(
@@ -292,7 +298,7 @@ export const NotificationsProvider = ({ children }) => {
     for (var friendId of Object.keys(user.friends)) {
       const friend = await firebase.getUserDataById(friendId);
       if (workoutSex == "everyone" || user.isMale == friend.isMale) {
-        await sendFriendsWorkoutNotificationMessage(workoutType, friend);
+        sendFriendsWorkoutNotificationMessage(workoutType, friend);
       }
     }
   };
