@@ -69,9 +69,6 @@ const StackNavigator = () => {
   const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
   const { isVersionUpToDate, underMaintenance } = useAppData();
-  const [notificationsListenersAdded, setNotificationsListenersAdded] =
-    useState(false);
-
   const removeUnconfirmedOldWorkouts = () => {
     const now = new Date();
     const unconfirmedWorkouts = { ...user.plannedWorkouts };
@@ -95,9 +92,6 @@ const StackNavigator = () => {
     } else return user.streak;
   };
   useEffect(() => {
-    if (!notificationsListenersAdded && userLoaded && Platform.OS != "web") {
-      setNotificationsListenersAdded(true);
-    }
     if (userLoaded) {
       const newPlannedWorkouts = removeUnconfirmedOldWorkouts();
       const newStreak = resetStreakIfNeeded();
