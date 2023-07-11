@@ -425,7 +425,7 @@ const languageService = {
       "אישר את בקשת החברות שלך",
     ],
     wantsToBeYourFriend: ["שלחה לך בקשת חברות", "שלח לך בקשת חברות"],
-    joinedYourWorkout: ["הצטרפה לאימון שלך", "הצטרפה לאימון שלך"],
+    joinedYourWorkout: ["הצטרפה לאימון שלך", "הצטרף לאימון שלך"],
     acceptedYourWorkoutRequest: [
       "אישרה את בקשת ההצטרפות שלך לאימון",
       "אישר את בקשת ההצטרפות שלך לאימון",
