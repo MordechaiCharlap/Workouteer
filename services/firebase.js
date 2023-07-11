@@ -880,22 +880,22 @@ export const removePastOrEmptyWorkoutsAlerts = async (
 ) => {
   const now = new Date();
   var changed = 0;
-  const requestAlerts = workoutRequestsAlerts;
-  for (var [key, value] of Object.entries(requestAlerts)) {
+  const requestAlerts = { ...workoutRequestsAlerts };
+  for (var [key, value] of Object.entries(workoutRequestsAlerts)) {
     if (value.workoutDate.toDate() < now || value.requestsCount == 0) {
       delete requestAlerts[key];
       changed++;
     }
   }
-  const newWorkoutsAlertsClone = newWorkoutsAlerts;
-  for (var [key, value] of Object.entries(newWorkoutsAlertsClone)) {
+  const newWorkoutsAlertsClone = { ...newWorkoutsAlerts };
+  for (var [key, value] of Object.entries(newWorkoutsAlerts)) {
     if (value.workoutDate.toDate() < now) {
       delete newWorkoutsAlertsClone[key];
       changed++;
     }
   }
-  const inviteAlerts = workoutInvitesAlerts;
-  for (var [key, value] of Object.entries(inviteAlerts)) {
+  const inviteAlerts = { ...workoutInvitesAlerts };
+  for (var [key, value] of Object.entries(workoutInvitesAlerts)) {
     if (value.workoutDate.toDate() < now) {
       delete inviteAlerts[key];
       changed++;
