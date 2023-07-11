@@ -116,6 +116,9 @@ const WorkoutComponent = (props) => {
   const cancelWorkout = () => {
     var workoutRef = workout;
     setWorkout(null);
+    updateDoc(doc(db, "users", user.id), {
+      [`plannedWorkouts.${workout.id}`]: deleteField(),
+    });
     if (Object.entries(workoutRef.members).length > 1) {
       for (var member of Object.keys(workoutRef.members)) {
         if (member != user.id) {
@@ -133,7 +136,7 @@ const WorkoutComponent = (props) => {
         [`members.${user.id}`]: deleteField(),
       });
     } else {
-      firebase.cancelWorkout(user, workoutRef);
+      firebase.cancelWorkout(workoutRef);
     }
     cancelScheduledPushNotification(workoutRef.members[user.id].notificationId);
   };
