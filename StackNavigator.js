@@ -106,7 +106,7 @@ const StackNavigator = () => {
         streak: newStreak,
         plannedWorkouts: newPlannedWorkouts,
       };
-      updateDoc(doc(db, "users", userData.id), userClone);
+      updateDoc(doc(db, "users", userClone.id), userClone);
     }
   }, [userLoaded]);
 
