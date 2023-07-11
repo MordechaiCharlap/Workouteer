@@ -581,12 +581,9 @@ export const deleteGroupChatForUser = async (user, chat) => {
   });
   await removeUserFromMembersOrDeleteGroupChat(user, chatAndUserItem.chat);
 };
-export const cancelWorkout = async (user, workout) => {
-  await updateDoc(doc(db, "users", user.id), {
-    [`plannedWorkouts.${workout.id}`]: deleteField(),
-  });
+export const cancelWorkout = async (workout) => {
   for (var invitedId of Object.keys(workout.invites)) {
-    removeWorkoutInviteAlert(invitedId, workout);
+    await removeWorkoutInviteAlert(invitedId, workout);
   }
   deleteDoc(doc(db, "workouts", workout.id));
 };
