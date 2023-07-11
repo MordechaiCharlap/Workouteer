@@ -33,15 +33,6 @@ export const AlertsProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    if (!initialDataUpdated) return;
-    firebase.removePastOrEmptyWorkoutsAlerts(
-      workoutRequestsAlerts,
-      newWorkoutsAlerts,
-      workoutInvitesAlerts,
-      user.id
-    );
-  }, [initialDataUpdated]);
-  useEffect(() => {
     if (userLoaded) {
       unsubscribeAlerts.current = onSnapshot(
         doc(db, "alerts", user.id),
@@ -53,7 +44,15 @@ export const AlertsProvider = ({ children }) => {
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
             setFriendRequestsAlerts(alertsData.friendRequests);
             setNewWorkoutsAlerts(alertsData.newWorkouts);
-            if (!initialDataUpdated) setInitialDataUpdated(true);
+            if (!initialDataUpdated) {
+              setInitialDataUpdated(true);
+              firebase.removePastOrEmptyWorkoutsAlerts(
+                workoutRequestsAlerts,
+                newWorkoutsAlerts,
+                workoutInvitesAlerts,
+                user.id
+              );
+            }
           }
         }
       );
