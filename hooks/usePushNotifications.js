@@ -277,7 +277,7 @@ export const NotificationsProvider = ({ children }) => {
       languageService[friend.language].scheduledWorkout[workoutType] +
       ", " +
       languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
-    await sendPushNotification(friend, title, `${title + " " + body}`);
+    await sendPushNotification(friend, "", body);
   };
   const sendPushNotificationInviteFriendToWorkout = async (friend, workout) => {
     await sendPushNotification(
