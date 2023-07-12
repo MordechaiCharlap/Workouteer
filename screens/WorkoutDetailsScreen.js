@@ -12,6 +12,8 @@ import {
   faUserGroup,
   faLocationDot,
   faVenusMars,
+  faPeoplePulling,
+  faUserClock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { workoutTypes } from "../components/WorkoutType";
@@ -335,60 +337,58 @@ const WorkoutDetailsScreen = ({ route }) => {
                   )}
                 </TouchableOpacity>
               )}
-              ListFooterComponent={() => (
-                <View>
-                  {isCreator &&
-                    workoutRequestsAlerts[workout.id] &&
-                    workoutRequestsAlerts[workout.id].requestsCount > 0 && (
-                      <View className="items-center">
-                        <TouchableOpacity
-                          className="m-2 py-2 px-4 rounded flex-row items-center"
-                          onPress={() => {
-                            navigation.navigate("WorkoutRequests", {
-                              workout: workout,
-                            });
-                          }}
-                          style={{ backgroundColor: appStyle.color_primary }}
-                        >
-                          <Text
-                            style={{ color: appStyle.color_on_primary }}
-                            className="text-lg"
-                          >
-                            {languageService[user.language].requests}:{" "}
-                          </Text>
-                          <AlertDot
-                            text={
-                              workoutRequestsAlerts[workout.id].requestsCount
-                            }
-                            color={appStyle.color_on_primary}
-                            size={20}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                </View>
-              )}
             />
           </View>
         </View>
       )}
       {!initalLoading && isCreator && !isPastWorkout && members.length < 10 && (
-        <View className="px-2">
+        <View
+          className="flex-row"
+          style={{ paddingHorizontal: 16, paddingVertical: 6 }}
+        >
           <CustomButton
-            style={{
-              borderRadius: 999,
-              marginVertical: 5,
-              backgroundColor: appStyle.color_tertiary,
-            }}
+            round
+            style={{ flex: 1, backgroundColor: appStyle.color_tertiary }}
             onPress={inviteFriends}
           >
             <Text
-              className="text-xl text-center font-semibold"
+              className="text-xl font-semibold text-center"
               style={{ color: appStyle.color_on_tertiary }}
             >
               {languageService[user.language].inviteFriendsToJoin}
             </Text>
           </CustomButton>
+          {workoutRequestsAlerts[workout.id] &&
+            workoutRequestsAlerts[workout.id].requestsCount > 0 && (
+              <View className="flex-row">
+                <View style={{ width: 10 }} />
+                <CustomButton
+                  round
+                  className={`items-center flex-row${
+                    user.language == "hebrew" ? "-reverse" : ""
+                  }`}
+                  onPress={() => {
+                    navigation.navigate("WorkoutRequests", {
+                      workout: workout,
+                    });
+                  }}
+                  style={{ backgroundColor: appStyle.color_error }}
+                >
+                  <FontAwesomeIcon
+                    icon={faUserClock}
+                    color={appStyle.color_background}
+                    size={30}
+                  />
+                  <View style={{ width: 10 }} />
+                  <AlertDot
+                    text={workoutRequestsAlerts[workout.id].requestsCount}
+                    textColor={appStyle.color_error}
+                    color={appStyle.color_on_primary}
+                    size={20}
+                  />
+                </CustomButton>
+              </View>
+            )}
         </View>
       )}
     </View>
