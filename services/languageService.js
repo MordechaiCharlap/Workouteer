@@ -400,7 +400,7 @@ const languageService = {
     you: ["את", "אתה"],
     creator: ["מנהלת", "מנהל"],
     inviteFriendsToJoin: "הזמנת חברים לאימון",
-    requests: "Requests",
+    requests: "בקשות הצטרפות",
     yourWorkout: "אימון שלך",
     updateAppToUseIt:
       "האפליקציה עברה עדכון מאז השימוש האחרון. למניעת באגים/קריסה יש לעדכן את האפליקציה",
