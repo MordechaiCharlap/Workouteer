@@ -16,6 +16,8 @@ import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
+import CustomButton from "../components/basic/CustomButton";
+import CustomText from "../components/basic/CustomText";
 
 const WorkoutRequestsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -61,14 +63,17 @@ const WorkoutRequestsScreen = ({ route }) => {
     <View style={safeAreaStyle()}>
       <Header title={"Requests"} goBackOption={true} />
       <View
-        style={{ backgroundColor: appStyle.color_background }}
-        className="rounded flex-1"
+        style={{
+          backgroundColor: appStyle.color_background,
+          paddingHorizontal: 16,
+        }}
+        className="flex-1"
       >
         <FlatList
           data={requesters}
           keyExtractor={(item) => item.user.id}
           renderItem={({ item, index }) => (
-            <View className="p-1 flex-row items-center justify-between">
+            <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
                 <Image
                   className="rounded-full"
@@ -78,13 +83,13 @@ const WorkoutRequestsScreen = ({ route }) => {
                 <View className="ml-2">
                   <Text
                     className="text-xl font-semibold"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.user.id}
                   </Text>
                   <Text
                     className="text-md opacity-60"
-                    style={{ color: appStyle.color_primary }}
+                    style={{ color: appStyle.color_on_background }}
                   >
                     {item.user.displayName}
                   </Text>
@@ -92,42 +97,53 @@ const WorkoutRequestsScreen = ({ route }) => {
               </View>
               {item.accepted == null ? (
                 <View className="flex-row">
-                  <TouchableOpacity
+                  <CustomButton
                     onPress={() => acceptUser(item.user, index)}
-                    className="justify-center py-2 px-4 rounded"
-                    style={{ backgroundColor: appStyle.color_primary }}
-                  >
-                    <Text
-                      className="text-center"
-                      style={{ color: appStyle.color_on_primary }}
-                    >
-                      {languageService[user.language].accept}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => rejectUser(item.user, index)}
-                    className="justify-center py-2 px-4 rounded ml-2"
                     style={{
-                      backgroundColor: appStyle.color_background_variant,
-                      borderColor: appStyle.color_primary,
-                      borderWidth: 1,
+                      backgroundColor: appStyle.color_on_background,
+                      borderRadius: 8,
+                      paddingHorizontal: 16,
                     }}
                   >
-                    <Text
-                      style={{ color: appStyle.color_on_primary }}
+                    <CustomText
+                      className="text-center"
+                      style={{ color: appStyle.color_background }}
+                    >
+                      {languageService[user.language].accept}
+                    </CustomText>
+                  </CustomButton>
+                  <View style={{ width: 5 }} />
+                  <CustomButton
+                    onPress={() => rejectUser(item.user, index)}
+                    style={{
+                      backgroundColor: appStyle.color_surface_variant,
+                      borderColor: appStyle.color_primary,
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      paddingHorizontal: 16,
+                    }}
+                  >
+                    <CustomText
+                      style={{ color: appStyle.color_on_surface_variant }}
                       className="text-center"
                     >
                       {languageService[user.language].reject}
-                    </Text>
-                  </TouchableOpacity>
+                    </CustomText>
+                  </CustomButton>
                 </View>
               ) : (
-                <View
-                  className="rounded justify-center py-2 px-4"
+                <CustomButton
+                  disabled
+                  className="justify-center"
                   style={{
-                    backgroundColor: "#228B22",
-                    borderColor: "#87CEEB",
+                    backgroundColor:
+                      item.accepted == false
+                        ? appStyle.color_error
+                        : appStyle.color_success,
+                    borderColor: appStyle.color_outline,
                     borderWidth: 1,
+                    borderRadius: 8,
+                    paddingHorizontal: 24,
                   }}
                 >
                   <Text
@@ -142,7 +158,7 @@ const WorkoutRequestsScreen = ({ route }) => {
                           item.user.isMale ? 1 : 0
                         ]}
                   </Text>
-                </View>
+                </CustomButton>
               )}
             </View>
           )}
@@ -153,8 +169,8 @@ const WorkoutRequestsScreen = ({ route }) => {
 };
 const style = StyleSheet.create({
   image: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderWidth: 0.8,
     borderColor: appStyle.color_primary,
   },
