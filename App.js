@@ -21,6 +21,7 @@ import { ConnectionProvider } from "./hooks/useConnection";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { ChatsProvider } from "./hooks/useChats";
 import { ExploreProvider } from "./hooks/useExplore";
+import ProviderWrapper from "./ProviderWrapper";
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   WebBrowser.maybeCompleteAuthSession();
@@ -32,41 +33,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <FirebaseProvider>
-        <AppDataProvider>
-          <AuthPrvider>
-            <ResponsivenessProvider>
-              <ConnectionProvider>
-                <NavbarDisplayProvider>
-                  <AlertsProvider>
-                    <ChatsProvider>
-                      <CurrentWorkoutProvider>
-                        <FriendsWorkoutsProvider>
-                          <NotificationsProvider>
-                            <LeaderboardProvider>
-                              <ExploreProvider>
-                                <ConfirmedWorkoutsProvider>
-                                  <WorkoutLogicProvider>
-                                    <NavbarNavigationProvider>
-                                      <TailwindProvider>
-                                        <StackNavigator />
-                                      </TailwindProvider>
-                                    </NavbarNavigationProvider>
-                                  </WorkoutLogicProvider>
-                                </ConfirmedWorkoutsProvider>
-                              </ExploreProvider>
-                            </LeaderboardProvider>
-                          </NotificationsProvider>
-                        </FriendsWorkoutsProvider>
-                      </CurrentWorkoutProvider>
-                    </ChatsProvider>
-                  </AlertsProvider>
-                </NavbarDisplayProvider>
-              </ConnectionProvider>
-            </ResponsivenessProvider>
-          </AuthPrvider>
-        </AppDataProvider>
-      </FirebaseProvider>
+      <ProviderWrapper>
+        <StackNavigator />
+      </ProviderWrapper>
     </NavigationContainer>
   );
 }
