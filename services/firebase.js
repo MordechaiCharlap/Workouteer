@@ -739,7 +739,9 @@ export const cancelWorkoutRequest = async (requesterId, workout) => {
 export const acceptWorkoutRequest = async (requester, workout) => {
   await updateDoc(doc(db, "workouts", workout.id), {
     [`requests.${requester.id}`]: deleteField(),
-    [`members.${requester.id}`]: { confirmed: false },
+    [`members.${requester.id}`]: {
+      confirmedWorkout: false,
+    },
   });
   await updateDoc(doc(db, "users", requester.id), {
     [`plannedWorkouts.${workout.id}`]: [workout.startingTime, workout.minutes],
