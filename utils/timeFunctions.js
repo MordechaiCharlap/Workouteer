@@ -1,4 +1,4 @@
-import languageService from "./languageService";
+import languageService from "../services/languageService";
 
 export const timeString = (date, language) => {
   const now = new Date();

@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getDistance } from "geolib";
 import { useNavigation } from "@react-navigation/native";
-import { timeString } from "../services/timeFunctions";
+import { timeString } from "../utils/timeFunctions";
 import AlertDot from "../components/AlertDot";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";

@@ -27,7 +27,7 @@ import useAlerts from "../hooks/useAlerts";
 import AlertDot from "../components/AlertDot";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import languageService from "../services/languageService";
-import { messageTimeString } from "../services/timeFunctions";
+import { messageTimeString } from "../utils/timeFunctions";
 import AwesomeModal from "../components/AwesomeModal";
 import useResponsiveness from "../hooks/useResponsiveness";
 import useChats from "../hooks/useChats";

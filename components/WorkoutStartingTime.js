@@ -11,7 +11,7 @@ import * as appStyle from "../utils/appStyleSheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
-import { timeString } from "../services/timeFunctions";
+import { timeString } from "../utils/timeFunctions";
 import AwesomeAlert from "react-native-awesome-alerts";
 import AwesomeModal from "./AwesomeModal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../services/firebase";
-import { messageTimeString } from "../services/timeFunctions";
+import { messageTimeString } from "../utils/timeFunctions";
 const ChatMessage = (props) => {
   const isSelfMessage = props.message.sender == props.user.id;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);

@@ -20,7 +20,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Header from "../components/Header";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import * as appStyle from "../utils/appStyleSheet";
-import { timeString } from "../services/timeFunctions";
+import { timeString } from "../utils/timeFunctions";
 import * as firebase from "../services/firebase";
 import useAuth from "../hooks/useAuth";
 import useAlerts from "../hooks/useAlerts";

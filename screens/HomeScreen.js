@@ -123,7 +123,7 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
-        {/* {user.role == "admin" && (
+        {user.role == "admin" && (
           <View style={rowStyle}>
             <HomeScreenButton
               buttonText={languageService[user.language].intervalTimer}
@@ -131,14 +131,9 @@ const HomeScreen = () => {
               navigateScreen="IntervalTimer"
               icon={faStopwatch}
             />
-            <HomeScreenButton
-              buttonText={languageService[user.language].controlPanel}
-              style={buttonStyle}
-              navigateScreen="AdminHome"
-              icon={faGamepad}
-            />
+            <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
           </View>
-        )} */}
+        )}
       </View>
       {currentWorkout != null && (
         <View
