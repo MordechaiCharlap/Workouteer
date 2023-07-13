@@ -1,6 +1,6 @@
 {
   "name": "workouteer-rn",
-  "version": "1.2.20",
+  "version": "1.2.24",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -31,6 +31,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@react-navigation/stack": "^6.3.4",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/react": "~18.0.27",
     "axios": "^1.4.0",
     "expo": "~48.0.15",
@@ -78,6 +79,7 @@
     "react-native-system-navigation-bar": "^2.0.0",
     "react-native-web": "~0.18.10",
     "react-native-web-maps": "^0.3.0",
+    "react-redux": "^8.1.1",
     "tailwindcss-react-native": "^1.7.10",
     "typescript": "^4.9.4"
   },
