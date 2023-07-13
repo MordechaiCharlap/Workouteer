@@ -10,9 +10,7 @@ import {
 import {
   faClock,
   faUserGroup,
-  faLocationDot,
   faVenusMars,
-  faPeoplePulling,
   faUserClock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
