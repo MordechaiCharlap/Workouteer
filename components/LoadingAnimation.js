@@ -1,29 +1,28 @@
 import Lottie from "lottie-react-native";
 import * as appStyle from "../utils/appStyleSheet";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Image, ActivityIndicator } from "react-native";
 import React from "react";
-import { safeAreaStyle } from "../components/safeAreaStyle";
-import languageService from "../services/languageService";
-import useAuth from "../hooks/useAuth";
 
 const LoadingAnimation = () => {
-  const { user } = useAuth();
   return (
-    <View style={safeAreaStyle()}>
-      {Platform.OS == "android" && (
-        <Lottie
-          source={require("../animations/initialLoading.json")}
-          autoPlay
-          loop
-        />
-      )}
-      <View className="h-1/3"></View>
-      <Text
-        style={{ color: appStyle.color_primary }}
-        className="text-5xl font-semibold tracking-widest text-center"
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        Workouteer
-      </Text>
+        <ActivityIndicator
+          size={Platform.OS == "android" ? 140 : "large"}
+          color={appStyle.color_primary}
+        />
+        <View className="absolute w-full h-full items-center justify-center">
+          <Image
+            style={{ height: 50, width: 50 }}
+            source={require("../assets/app-icon-transparent.png")}
+          />
+        </View>
+      </View>
     </View>
   );
 };
