@@ -71,7 +71,7 @@ const PastWorkoutsScreen = ({ route }) => {
         goBackOption={true}
       />
       <View className="flex-1 px-2">
-        {workouts && (
+        {workouts ? (
           <Animated.FlatList
             style={animatedListStyle}
             className="p-2"
@@ -82,6 +82,8 @@ const PastWorkoutsScreen = ({ route }) => {
               <WorkoutComponent workout={item} isPastWorkout={true} />
             )}
           />
+        ) : (
+          <LoadingAnimation />
         )}
       </View>
     </View>
