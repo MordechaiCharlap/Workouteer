@@ -13,6 +13,7 @@ import {
   faEnvelopeOpenText,
   faStopwatch,
   faGamepad,
+  faFile,
 } from "@fortawesome/free-solid-svg-icons";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
@@ -126,10 +127,10 @@ const HomeScreen = () => {
         {user.role == "admin" && (
           <View style={rowStyle}>
             <HomeScreenButton
-              buttonText={languageService[user.language].intervalTimer}
+              buttonText={"WorkoutPrograms"}
               style={buttonStyle}
-              navigateScreen="IntervalTimer"
-              icon={faStopwatch}
+              navigateScreen="WorkoutPrograms"
+              icon={faFile}
             />
             <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
           </View>
