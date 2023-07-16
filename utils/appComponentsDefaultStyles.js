@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import * as appStyle from "./appStyleSheet";
 const appComponentsDefaultStyles = StyleSheet.create({
   input: {
@@ -61,6 +61,19 @@ const appComponentsDefaultStyles = StyleSheet.create({
     color: appStyle.color_on_surface_variant,
   },
   placeholder: {},
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
+  },
 });
 
 export default appComponentsDefaultStyles;
