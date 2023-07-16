@@ -6,13 +6,10 @@ import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPause,
-  faPauseCircle,
   faPlay,
-  faPlayCircle,
   faRefresh,
   faRotateRight,
   faStop,
-  faStopCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStlye from "../utils/appStyleSheet";
 import CustomText from "../components/basic/CustomText";
