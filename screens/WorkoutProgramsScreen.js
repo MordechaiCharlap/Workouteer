@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -8,10 +8,14 @@ import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faStopwatch,
+} from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -52,43 +56,77 @@ const WorkoutProgramsScreen = () => {
             onPress={() => navigation.navigate("IntervalTimer")}
             round
             style={{
-              backgroundColor: appStlye.color_on_background,
+              backgroundColor: appStlye.color_surface_variant,
             }}
           >
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
+              size={15}
+              color={appStlye.color_on_background}
+            />
+            <CustomText
+              style={{ color: appStlye.color_on_background, marginLeft: 3 }}
+            >
+              Search new
+            </CustomText>
+          </CustomButton>
+          <CustomButton
+            className="flex-row"
+            onPress={() => navigation.navigate("IntervalTimer")}
+            round
+            style={{ backgroundColor: appStlye.color_on_background }}
+          >
+            <FontAwesomeIcon
+              icon={faStopwatch}
               size={15}
               color={appStlye.color_background}
             />
             <CustomText
               style={{ color: appStlye.color_background, marginLeft: 3 }}
             >
-              Search new
-            </CustomText>
-          </CustomButton>
-          <CustomButton
-            onPress={() => navigation.navigate("IntervalTimer")}
-            round
-            style={{ backgroundColor: appStlye.color_on_background }}
-          >
-            <CustomText style={{ color: appStlye.color_background }}>
               Interval timer
             </CustomText>
           </CustomButton>
         </View>
 
-        <CustomText>Saved Programs</CustomText>
-        {savedWorkoutPrograms && (
+        <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
+          Saved Programs
+        </CustomText>
+        {savedWorkoutPrograms && savedWorkoutPrograms.length > 0 && (
           <FlatList
             data={savedWorkoutPrograms}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View>
-                <CustomText>{item.name}</CustomText>
-              </View>
+              <CustomButton
+                style={[
+                  {
+                    backgroundColor: appStlye.color_surface_variant,
+                    borderRadius: 4,
+                    paddingVertical: 20,
+                    paddingHorizontal: 16,
+                  },
+                  appComponentsDefaultStyles.shadow,
+                ]}
+              >
+                <View className="flex-row w-full justify-between">
+                  <CustomText style={{ fontWeight: 600 }}>
+                    {item.name}
+                  </CustomText>
+                  <CustomText>{item.creator}</CustomText>
+                </View>
+              </CustomButton>
             )}
           />
         )}
+        <CustomButton
+          style={{
+            marginTop: 5,
+            borderRadius: 8,
+            backgroundColor: appStlye.color_surface_variant,
+          }}
+        >
+          <CustomText style={{ fontWeight: 600 }}>Add New</CustomText>
+        </CustomButton>
       </View>
     </View>
   );
