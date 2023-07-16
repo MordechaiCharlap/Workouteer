@@ -2,7 +2,6 @@ import { View, Text } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPause,
@@ -13,8 +12,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStlye from "../utils/appStyleSheet";
 import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { secondsToMinutesPlusSeconds } from "../utils/timeFunctions";
+import Header from "../components/Header";
 const IntervalTimerScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const [intervalSeconds, setIntervalSeconds] = useState(120);
@@ -27,6 +28,7 @@ const IntervalTimerScreen = () => {
   useEffect(() => {}, []);
   return (
     <View style={safeAreaStyle()}>
+      <Header title={"IntervalTimer"} goBackOption={true} icon={"<"} />
       <View className="h-1/3 items-center justify-center">
         <View
           style={{
