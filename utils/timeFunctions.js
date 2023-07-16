@@ -48,3 +48,8 @@ export const isSameDay = (d1, d2) => {
     d1.getDate() === d2.getDate()
   );
 };
+export const secondsToMinutesPlusSeconds = (seconds) => {
+  return `${String(seconds / 60).padStart(2, "0")}:${String(
+    seconds % 60
+  ).padStart(2, "0")}`;
+};
