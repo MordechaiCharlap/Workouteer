@@ -32,22 +32,44 @@ const WorkoutProgramScreen = ({ route }) => {
         style={{ marginHorizontal: 16 }}
         renderItem={({ item }) => (
           <CustomButton
-            className="flex-row justify-between items-center"
             style={{
               backgroundColor: appStyle.color_primary_container,
             }}
           >
-            <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
-              {item.name}
-            </CustomText>
-            <CustomButton
-              style={{ backgroundColor: appStyle.color_on_primary_container }}
-            >
-              <FontAwesomeIcon
-                icon={faPlay}
-                color={appStyle.color_background}
-              />
-            </CustomButton>
+            <View className="flex-row w-full justify-between items-center">
+              <CustomText
+                style={{
+                  fontWeight: 600,
+                  fontSize: 30,
+                  color: appStyle.color_on_background,
+                }}
+              >
+                {item.name}
+              </CustomText>
+              <CustomButton
+                style={{
+                  backgroundColor: appStyle.color_primary,
+                  borderWidth: 2,
+                  borderColor: appStyle.color_background,
+                  borderRadius: 12,
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPlay}
+                  color={appStyle.color_background}
+                />
+              </CustomButton>
+            </View>
+            <FlatList
+              className="w-full mt-1"
+              data={item.exercises}
+              keyExtractor={(exercise, index) => index}
+              renderItem={({ item }) => (
+                <Text style={{ fontSize: 15 }}>
+                  {item.sets} sets of {item.reps} {item.name}
+                </Text>
+              )}
+            />
           </CustomButton>
         )}
       />
