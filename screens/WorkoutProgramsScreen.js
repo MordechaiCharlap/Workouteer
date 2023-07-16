@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -10,6 +10,8 @@ import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faMagnifyingGlass,
+  faPen,
+  faPlusCircle,
   faStopwatch,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
@@ -43,55 +45,44 @@ const WorkoutProgramsScreen = () => {
   }, []);
   return (
     <View style={safeAreaStyle()}>
-      <Header goBackOption={true} title={"My Programs"} />
-      <View style={{ paddingHorizontal: 16 }}>
-        <View
-          className="flex-row justify-end"
-          style={{
-            columnGap: 5,
-          }}
-        >
-          <CustomButton
-            className="flex-row"
+      <Header goBackOption={true} />
+      <View>
+        <ScrollView horizontal={true} style={{ marginLeft: 16 }}>
+          <TopButton
+            icon={faPlusCircle}
+            text={"Create new"}
             onPress={() => navigation.navigate("IntervalTimer")}
-            round
-            style={{
-              backgroundColor: appStyle.color_surface_variant,
-            }}
-          >
+          />
+          <View style={{ width: 5 }} />
+          <TopButton
+            icon={faMagnifyingGlass}
+            text={"Search Programs"}
+            onPress={() => navigation.navigate("IntervalTimer")}
+          />
+          <View style={{ width: 5 }} />
+
+          <TopButton
+            icon={faStopwatch}
+            text={"Interval Timer"}
+            onPress={() => navigation.navigate("IntervalTimer")}
+          />
+        </ScrollView>
+      </View>
+      <View style={{ height: 10 }} />
+      <View>
+        <View className="flex-row justify-between">
+          <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
+            Saved Programs
+          </CustomText>
+          <CustomButton>
             <FontAwesomeIcon
-              icon={faMagnifyingGlass}
+              icon={faPen}
               size={15}
               color={appStyle.color_on_background}
             />
-            <CustomText
-              style={{ color: appStyle.color_on_background, marginLeft: 3 }}
-            >
-              Search new
-            </CustomText>
-          </CustomButton>
-          <CustomButton
-            className="flex-row"
-            onPress={() => navigation.navigate("IntervalTimer")}
-            round
-            style={{ backgroundColor: appStyle.color_on_background }}
-          >
-            <FontAwesomeIcon
-              icon={faStopwatch}
-              size={15}
-              color={appStyle.color_background}
-            />
-            <CustomText
-              style={{ color: appStyle.color_background, marginLeft: 3 }}
-            >
-              Interval timer
-            </CustomText>
           </CustomButton>
         </View>
 
-        <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
-          Saved Programs
-        </CustomText>
         {savedWorkoutPrograms && savedWorkoutPrograms.length > 0 && (
           <FlatList
             data={savedWorkoutPrograms}
@@ -118,7 +109,7 @@ const WorkoutProgramsScreen = () => {
             )}
           />
         )}
-        <CustomButton
+        {/* <CustomButton
           style={{
             marginTop: 5,
             borderRadius: 8,
@@ -126,10 +117,32 @@ const WorkoutProgramsScreen = () => {
           }}
         >
           <CustomText style={{ fontWeight: 600 }}>Add New</CustomText>
-        </CustomButton>
+        </CustomButton> */}
       </View>
     </View>
   );
 };
 
 export default WorkoutProgramsScreen;
+const TopButton = ({ onPress, icon, text }) => {
+  return (
+    <CustomButton
+      className="flex-row rounded-xl"
+      onPress={onPress}
+      style={{
+        backgroundColor: appStyle.color_surface_variant,
+      }}
+    >
+      <FontAwesomeIcon
+        icon={icon}
+        size={15}
+        color={appStyle.color_on_background}
+      />
+      <CustomText
+        style={{ color: appStyle.color_on_background, marginLeft: 3 }}
+      >
+        {text}
+      </CustomText>
+    </CustomButton>
+  );
+};
