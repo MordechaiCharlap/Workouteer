@@ -2,7 +2,7 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import * as appStlye from "../utils/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
@@ -56,16 +56,16 @@ const WorkoutProgramsScreen = () => {
             onPress={() => navigation.navigate("IntervalTimer")}
             round
             style={{
-              backgroundColor: appStlye.color_surface_variant,
+              backgroundColor: appStyle.color_surface_variant,
             }}
           >
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               size={15}
-              color={appStlye.color_on_background}
+              color={appStyle.color_on_background}
             />
             <CustomText
-              style={{ color: appStlye.color_on_background, marginLeft: 3 }}
+              style={{ color: appStyle.color_on_background, marginLeft: 3 }}
             >
               Search new
             </CustomText>
@@ -74,15 +74,15 @@ const WorkoutProgramsScreen = () => {
             className="flex-row"
             onPress={() => navigation.navigate("IntervalTimer")}
             round
-            style={{ backgroundColor: appStlye.color_on_background }}
+            style={{ backgroundColor: appStyle.color_on_background }}
           >
             <FontAwesomeIcon
               icon={faStopwatch}
               size={15}
-              color={appStlye.color_background}
+              color={appStyle.color_background}
             />
             <CustomText
-              style={{ color: appStlye.color_background, marginLeft: 3 }}
+              style={{ color: appStyle.color_background, marginLeft: 3 }}
             >
               Interval timer
             </CustomText>
@@ -100,7 +100,7 @@ const WorkoutProgramsScreen = () => {
               <CustomButton
                 style={[
                   {
-                    backgroundColor: appStlye.color_surface_variant,
+                    backgroundColor: appStyle.color_surface_variant,
                     borderRadius: 4,
                     paddingVertical: 20,
                     paddingHorizontal: 16,
@@ -122,7 +122,7 @@ const WorkoutProgramsScreen = () => {
           style={{
             marginTop: 5,
             borderRadius: 8,
-            backgroundColor: appStlye.color_surface_variant,
+            backgroundColor: appStyle.color_surface_variant,
           }}
         >
           <CustomText style={{ fontWeight: 600 }}>Add New</CustomText>

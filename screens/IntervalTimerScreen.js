@@ -10,7 +10,7 @@ import {
   faRotateRight,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
-import * as appStlye from "../utils/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
@@ -64,15 +64,15 @@ const IntervalTimerScreen = () => {
           style={{
             width: "100%",
             alignItems: "center",
-            backgroundColor: appStlye.color_primary_container,
-            borderColor: appStlye.color_outline,
+            backgroundColor: appStyle.color_primary_container,
+            borderColor: appStyle.color_outline,
             borderWidth: 1,
           }}
         >
           <CustomText
             style={{
               fontSize: 100,
-              color: appStlye.color_on_primary_container,
+              color: appStyle.color_on_primary_container,
             }}
           >
             {secondsToMinutesPlusSeconds(intervalSeconds)}
@@ -86,14 +86,14 @@ const IntervalTimerScreen = () => {
               <FontAwesomeIcon
                 icon={faPause}
                 size={100}
-                color={appStlye.color_success}
+                color={appStyle.color_success}
               />
             </CustomButton>
             <CustomButton onPress={stop}>
               <FontAwesomeIcon
                 icon={faStop}
                 size={100}
-                color={appStlye.color_success}
+                color={appStyle.color_success}
               />
             </CustomButton>
           </View>
@@ -102,7 +102,7 @@ const IntervalTimerScreen = () => {
             <FontAwesomeIcon
               icon={faPlay}
               size={100}
-              color={appStlye.color_success}
+              color={appStyle.color_success}
             />
           </CustomButton>
         ) : (
@@ -110,7 +110,7 @@ const IntervalTimerScreen = () => {
             <FontAwesomeIcon
               icon={faRotateRight}
               size={100}
-              color={appStlye.color_success}
+              color={appStyle.color_success}
             />
           </CustomButton>
         )}
@@ -119,8 +119,8 @@ const IntervalTimerScreen = () => {
         {!isPlaying && (
           <CustomButton
             style={{
-              backgroundColor: appStlye.color_surface_variant,
-              borderColor: appStlye.color_outline,
+              backgroundColor: appStyle.color_surface_variant,
+              borderColor: appStyle.color_outline,
               borderWidth: 1,
             }}
           >
