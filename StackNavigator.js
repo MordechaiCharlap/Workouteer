@@ -310,7 +310,7 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="WorkoutProgram"
                   component={WorkoutProgramScreen}
-                  options={verticalAnimation}
+                  options={noAnimation}
                 />
                 {user.role == "admin" && (
                   <Stack.Screen
@@ -357,10 +357,14 @@ const StackNavigator = () => {
   );
 };
 
+const noAnimation = {
+  headerShown: false,
+  animation: "none",
+};
 const verticalAnimation = () => {
   const options = {
     headerShown: false,
-    animation: "slide_from_bottom",
+    animation: "none",
     animationTypeForReplace: "push",
   };
   return options;
