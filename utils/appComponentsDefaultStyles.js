@@ -70,7 +70,7 @@ const appComponentsDefaultStyles = StyleSheet.create({
         shadowRadius: 4,
       },
       android: {
-        elevation: 8,
+        elevation: 3,
       },
     }),
   },
