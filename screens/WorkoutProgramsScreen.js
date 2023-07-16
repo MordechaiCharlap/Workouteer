@@ -9,10 +9,16 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
+  faCheck,
+  faCheckCircle,
+  faChevronCircleLeft,
   faMagnifyingGlass,
+  faMinus,
+  faMinusCircle,
   faPen,
   faPlusCircle,
   faStopwatch,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -23,7 +29,9 @@ const WorkoutProgramsScreen = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { db } = useFirebase();
-  const [savedWorkoutPrograms, setSavedWorkoutPrograms] = useState();
+  const [editingSavedPrograms, setEditingSavedPrograms] = useState(false);
+  const [savedPrograms, setSavedPrograms] = useState();
+  const [removingProgram, setRemovingProgram] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutPrograms");
@@ -40,14 +48,18 @@ const WorkoutProgramsScreen = () => {
         programs.push({ ...doc.data(), id: doc.id });
       });
 
-      setSavedWorkoutPrograms(programs);
+      setSavedPrograms(programs);
     });
   }, []);
   return (
     <View style={safeAreaStyle()}>
       <Header goBackOption={true} />
       <View>
-        <ScrollView horizontal={true} style={{ marginLeft: 16 }}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          style={{ marginLeft: 16 }}
+        >
           <TopButton
             icon={faPlusCircle}
             text={"Create new"}
@@ -60,50 +72,122 @@ const WorkoutProgramsScreen = () => {
             onPress={() => navigation.navigate("IntervalTimer")}
           />
           <View style={{ width: 5 }} />
-
           <TopButton
             icon={faStopwatch}
             text={"Interval Timer"}
             onPress={() => navigation.navigate("IntervalTimer")}
           />
+          <View style={{ width: 5 }} />
         </ScrollView>
       </View>
       <View style={{ height: 10 }} />
-      <View>
+      <View style={{ paddingHorizontal: 16 }}>
         <View className="flex-row justify-between">
           <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
             Saved Programs
           </CustomText>
-          <CustomButton>
+          <CustomButton
+            onPress={() => setEditingSavedPrograms((prev) => !prev)}
+          >
             <FontAwesomeIcon
-              icon={faPen}
+              icon={!editingSavedPrograms ? faPen : faCheck}
               size={15}
               color={appStyle.color_on_background}
             />
           </CustomButton>
         </View>
 
-        {savedWorkoutPrograms && savedWorkoutPrograms.length > 0 && (
+        {savedPrograms && savedPrograms.length > 0 && (
           <FlatList
-            data={savedWorkoutPrograms}
+            data={savedPrograms}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <CustomButton
+                onPress={() => {
+                  if (removingProgram) setRemovingProgram();
+                  if (editingSavedPrograms) setEditingSavedPrograms();
+                  navigation.navigate("WorkoutProgram", { program: item });
+                }}
                 style={[
                   {
                     backgroundColor: appStyle.color_surface_variant,
                     borderRadius: 4,
-                    paddingVertical: 20,
-                    paddingHorizontal: 16,
+                    padding: 0,
                   },
                   appComponentsDefaultStyles.shadow,
                 ]}
               >
-                <View className="flex-row w-full justify-between">
+                <View
+                  className="flex-row w-full justify-between"
+                  style={{
+                    paddingVertical: 20,
+                    paddingHorizontal: 16,
+                  }}
+                >
                   <CustomText style={{ fontWeight: 600 }}>
                     {item.name}
                   </CustomText>
                   <CustomText>{item.creator}</CustomText>
+                  {editingSavedPrograms && (
+                    <View className="absolute top-0 bottom-0 right-2 items-center justify-center">
+                      {removingProgram != item.id ? (
+                        <CustomButton
+                          onPress={() => {
+                            setRemovingProgram(item.id);
+                          }}
+                          className="rounded-full"
+                          style={{
+                            padding: 0,
+                            borderWidth: 2,
+                            backgroundColor: appStyle.color_background,
+                            borderColor: appStyle.color_surface_variant,
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faMinusCircle}
+                            color={appStyle.color_error}
+                            size={30}
+                          />
+                        </CustomButton>
+                      ) : (
+                        <View className="flex-row">
+                          <CustomButton
+                            onPress={() => {
+                              setRemovingProgram();
+                            }}
+                            className="rounded-full"
+                            style={{
+                              padding: 0,
+                              borderWidth: 2,
+                              backgroundColor: appStyle.color_background,
+                              borderColor: appStyle.color_surface_variant,
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faChevronCircleLeft}
+                              color={appStyle.color_error}
+                              size={30}
+                            />
+                          </CustomButton>
+                          <CustomButton
+                            className="rounded-full"
+                            style={{
+                              padding: 0,
+                              borderWidth: 2,
+                              backgroundColor: appStyle.color_background,
+                              borderColor: appStyle.color_surface_variant,
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCheckCircle}
+                              color={appStyle.color_success}
+                              size={30}
+                            />
+                          </CustomButton>
+                        </View>
+                      )}
+                    </View>
+                  )}
                 </View>
               </CustomButton>
             )}
