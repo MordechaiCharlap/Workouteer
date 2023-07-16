@@ -49,7 +49,7 @@ export const isSameDay = (d1, d2) => {
   );
 };
 export const secondsToMinutesPlusSeconds = (seconds) => {
-  return `${String(seconds / 60).padStart(2, "0")}:${String(
-    seconds % 60
+  return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(
+    Math.floor(seconds % 60)
   ).padStart(2, "0")}`;
 };
