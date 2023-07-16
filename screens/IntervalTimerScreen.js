@@ -18,14 +18,44 @@ import { secondsToMinutesPlusSeconds } from "../utils/timeFunctions";
 import Header from "../components/Header";
 const IntervalTimerScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
-  const [intervalSeconds, setIntervalSeconds] = useState(120);
-  const [isPlaying, setIsPlaying] = useState();
+  const [chosenSeconds, setChosenSeconds] = useState(120);
+  const [intervalSeconds, setIntervalSeconds] = useState(chosenSeconds);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [timer, setTimer] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
     }, [])
   );
-  useEffect(() => {}, []);
+  const restart = () => {
+    setIntervalSeconds(120);
+    setIsPlaying(true);
+    const newTimer = setInterval(() => {
+      setIntervalSeconds((prev) => prev - 1);
+      console.log(intervalSeconds);
+    }, 1000);
+    setTimer(newTimer);
+  };
+  const stop = () => {
+    setIsPlaying(false);
+    setIntervalSeconds(chosenSeconds);
+    clearInterval(timer);
+  };
+  const pause = () => {
+    setIsPlaying(false);
+    clearInterval(timer);
+  };
+  const end = () => {
+    setIsPlaying();
+    clearInterval(timer);
+  };
+  const play = () => {
+    setIsPlaying(true);
+    const newTimer = setInterval(() => {
+      setIntervalSeconds((prev) => prev - 1);
+    }, 1000);
+    setTimer(newTimer);
+  };
   return (
     <View style={safeAreaStyle()}>
       <Header title={"IntervalTimer"} goBackOption={true} icon={"<"} />
@@ -52,23 +82,23 @@ const IntervalTimerScreen = () => {
       <View className="h-1/3 items-center justify-center">
         {isPlaying == true ? (
           <View className="flex-row">
-            <CustomButton>
-              <FontAwesomeIcon
-                icon={faStop}
-                size={100}
-                color={appStlye.color_success}
-              />
-            </CustomButton>
-            <CustomButton>
+            <CustomButton onPress={pause}>
               <FontAwesomeIcon
                 icon={faPause}
                 size={100}
                 color={appStlye.color_success}
               />
             </CustomButton>
+            <CustomButton onPress={stop}>
+              <FontAwesomeIcon
+                icon={faStop}
+                size={100}
+                color={appStlye.color_success}
+              />
+            </CustomButton>
           </View>
         ) : isPlaying == false ? (
-          <CustomButton>
+          <CustomButton onPress={play}>
             <FontAwesomeIcon
               icon={faPlay}
               size={100}
@@ -76,7 +106,7 @@ const IntervalTimerScreen = () => {
             />
           </CustomButton>
         ) : (
-          <CustomButton>
+          <CustomButton onPress={restart}>
             <FontAwesomeIcon
               icon={faRotateRight}
               size={100}
