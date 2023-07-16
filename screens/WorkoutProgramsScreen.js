@@ -87,7 +87,10 @@ const WorkoutProgramsScreen = () => {
             Saved Programs
           </CustomText>
           <CustomButton
-            onPress={() => setEditingSavedPrograms((prev) => !prev)}
+            onPress={() => {
+              if (removingProgram) setRemovingProgram();
+              setEditingSavedPrograms((prev) => !prev);
+            }}
           >
             <FontAwesomeIcon
               icon={!editingSavedPrograms ? faPen : faCheck}
