@@ -54,6 +54,7 @@ import { isWebOnPC } from "./services/webScreenService";
 import AdminHomeScreen from "./screens/AdminHomeScreen";
 import useFirebase from "./hooks/useFirebase";
 import { doc, updateDoc } from "firebase/firestore";
+import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -298,6 +299,11 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="IntervalTimer"
                   component={IntervalTimerScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="WorkoutPrograms"
+                  component={WorkoutProgramsScreen}
                   options={verticalAnimation}
                 />
                 {user.role == "admin" && (
