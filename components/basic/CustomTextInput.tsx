@@ -22,7 +22,6 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   placeholder,
   placeholderTextColor,
   style,
-
   onChangeText,
   ...restProps
 }) => {
