@@ -13,7 +13,11 @@ import CustomButton from "../basic/CustomButton";
 import EditingExercise from "./EditingExercise";
 import RestTimePicker from "./RestTimePicker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faMaximize, faMinimize } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMaximize,
+  faMinimize,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 
 const EditingWorkout = ({
   workout,
@@ -45,7 +49,6 @@ const EditingWorkout = ({
   const updateExercise = (index, newExercise) => {
     const exercisesClone = exercises.slice();
     exercisesClone[index] = newExercise;
-    console.log("exercises Updated!");
     setExercises(exercisesClone);
   };
   useEffect(() => {
@@ -58,6 +61,24 @@ const EditingWorkout = ({
     )
       setHighlightExercisesErrors(false);
   }, [exercises]);
+  const WorkoutHeader = ({ maximized }) => {
+    return (
+      <View className="flex-row items-center" style={{ columnGap: 10 }}>
+        <CustomText>Name:</CustomText>
+        <CustomTextInput
+          value={workoutName}
+          onChangeText={(text) => setWorkoutName(text)}
+        />
+        <CustomButton onPress={maximized ? minimizeWorkout : maximizeWorkout}>
+          <FontAwesomeIcon
+            icon={maximized ? faMinimize : faPen}
+            color={color_on_background}
+            size={15}
+          />
+        </CustomButton>
+      </View>
+    );
+  };
   return !maximized ? (
     <View
       className="flex-row items-center"
@@ -68,18 +89,7 @@ const EditingWorkout = ({
         columnGap: 10,
       }}
     >
-      <CustomText>Workout name:</CustomText>
-      <CustomTextInput
-        value={workoutName}
-        onChangeText={(text) => setWorkoutName(text)}
-      />
-      <CustomButton onPress={maximizeWorkout}>
-        <FontAwesomeIcon
-          icon={faMaximize}
-          color={color_on_background}
-          size={15}
-        />
-      </CustomButton>
+      <WorkoutHeader maximized={false} />
     </View>
   ) : (
     <View
@@ -90,21 +100,7 @@ const EditingWorkout = ({
         rowGap: 15,
       }}
     >
-      <View className="flex-row items-center" style={{ columnGap: 10 }}>
-        <CustomText>Workout name:</CustomText>
-        <CustomTextInput
-          value={workoutName}
-          onChangeText={(text) => setWorkoutName(text)}
-        />
-        <CustomButton onPress={minimizeWorkout}>
-          <FontAwesomeIcon
-            icon={faMinimize}
-            color={color_on_background}
-            size={15}
-          />
-        </CustomButton>
-      </View>
-
+      <WorkoutHeader maximized={true} />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
         <RestTimePicker
