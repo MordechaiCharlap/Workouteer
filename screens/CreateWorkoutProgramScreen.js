@@ -17,8 +17,6 @@ import Header from "../components/Header";
 import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import AwesomeModal from "../components/AwesomeModal";
-import RestTimePicker from "../components/workoutProgram/RestTimePicker";
 import EditingWorkout from "../components/workoutProgram/EditingWorkout";
 
 const CreateWorkoutProgramScreen = () => {
@@ -29,7 +27,6 @@ const CreateWorkoutProgramScreen = () => {
     }, [])
   );
   const [programName, setProgramName] = useState("");
-  const [totalRestSeconds, setTotalRestSeconds] = useState(0);
   const [workouts, setWorkouts] = useState([
     { name: "", exercises: [{ name: "", sets: 0, reps: 0 }] },
   ]);
@@ -53,15 +50,10 @@ const CreateWorkoutProgramScreen = () => {
             style={{ backgroundColor: appStyle.color_surface_variant }}
           />
         </View>
-        <View className="flex-row items-center" style={{ columnGap: 5 }}>
-          <CustomText>Rest time between sets:</CustomText>
-          <RestTimePicker
-            setTotalRestSeconds={setTotalRestSeconds}
-            totalRestSeconds={totalRestSeconds}
-          />
-        </View>
+
         <CustomText>Workouts:</CustomText>
         <FlatList
+          keyboardShouldPersistTaps={"always"}
           data={workouts}
           keyExtractor={(_, index) => index}
           scrollEnabled={true}
