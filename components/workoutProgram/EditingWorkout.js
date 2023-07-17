@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  color_on_background,
   color_outline,
   color_primary_container,
   color_surface,
@@ -11,8 +12,16 @@ import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import EditingExercise from "./EditingExercise";
 import RestTimePicker from "./RestTimePicker";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faMaximize, faMinimize } from "@fortawesome/free-solid-svg-icons";
 
-const EditingWorkout = ({ workout, workoutIndex }) => {
+const EditingWorkout = ({
+  workout,
+  workoutIndex,
+  maximized,
+  minimizeWorkout,
+  maximizeWorkout,
+}) => {
   const [workoutName, setWorkoutName] = useState(workout.name);
   const [totalRestSeconds, setTotalRestSeconds] = useState(0);
   const [exercises, setExercises] = useState(workout.exercises);
@@ -33,8 +42,46 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
     exercisesClone.push({ name: "", sets: 0, reps: 0 });
     setExercises(exercisesClone);
   };
-  const updateExercise = (index, newExercise) => {};
-  return (
+  const updateExercise = (index, newExercise) => {
+    const exercisesClone = exercises.slice();
+    exercisesClone[index] = newExercise;
+    console.log("exercises Updated!");
+    setExercises(exercisesClone);
+  };
+  useEffect(() => {
+    if (
+      highlightExercisesErrors &&
+      exercises.findIndex(
+        (exercise) =>
+          exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
+      ) == -1
+    )
+      setHighlightExercisesErrors(false);
+  }, [exercises]);
+  return !maximized ? (
+    <View
+      className="flex-row items-center"
+      style={{
+        backgroundColor: color_surface_variant,
+        padding: 10,
+        borderRadius: 8,
+        columnGap: 10,
+      }}
+    >
+      <CustomText>Workout name:</CustomText>
+      <CustomTextInput
+        value={workoutName}
+        onChangeText={(text) => setWorkoutName(text)}
+      />
+      <CustomButton onPress={maximizeWorkout}>
+        <FontAwesomeIcon
+          icon={faMaximize}
+          color={color_on_background}
+          size={15}
+        />
+      </CustomButton>
+    </View>
+  ) : (
     <View
       style={{
         backgroundColor: color_surface_variant,
@@ -49,7 +96,15 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
           value={workoutName}
           onChangeText={(text) => setWorkoutName(text)}
         />
+        <CustomButton onPress={minimizeWorkout}>
+          <FontAwesomeIcon
+            icon={faMinimize}
+            color={color_on_background}
+            size={15}
+          />
+        </CustomButton>
       </View>
+
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
         <RestTimePicker
