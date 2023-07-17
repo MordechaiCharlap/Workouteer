@@ -56,6 +56,7 @@ import useFirebase from "./hooks/useFirebase";
 import { doc, updateDoc } from "firebase/firestore";
 import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
+import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -312,6 +313,11 @@ const StackNavigator = () => {
                   component={WorkoutProgramScreen}
                   options={noAnimation}
                 />
+                <Stack.Screen
+                  name="CreateWorkoutProgram"
+                  component={CreateWorkoutProgramScreen}
+                  options={noAnimation}
+                />
                 {user.role == "admin" && (
                   <Stack.Screen
                     name="AdminHome"
@@ -364,7 +370,7 @@ const noAnimation = {
 const verticalAnimation = () => {
   const options = {
     headerShown: false,
-    animation: "none",
+    animation: "slide_from_bottom",
     animationTypeForReplace: "push",
   };
   return options;
