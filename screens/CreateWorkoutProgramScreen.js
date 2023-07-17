@@ -94,13 +94,39 @@ const CreateWorkoutProgramScreen = () => {
             <View>
               <CustomText>minutes</CustomText>
               <View>
-                <CustomTextInput keyboardType="numeric"></CustomTextInput>
+                <CustomTextInput
+                  style={{ backgroundColor: appStyle.color_surface_variant }}
+                  textAlign="center"
+                  value={"00"}
+                  keyboardType="numeric"
+                  maxLength={2}
+                ></CustomTextInput>
               </View>
+            </View>
+            <View>
+              <CustomText></CustomText>
+              <CustomText
+                style={{
+                  minHeight: 37,
+                  fontSize: 20,
+                  textAlign: "center",
+                  textAlignVertical: "center",
+                }}
+              >
+                <Text></Text>:
+              </CustomText>
             </View>
             <View>
               <CustomText>seconds</CustomText>
               <View>
-                <CustomTextInput keyboardType="numeric"></CustomTextInput>
+                <CustomTextInput
+                  style={{ backgroundColor: appStyle.color_surface_variant }}
+                  s
+                  textAlign="center"
+                  value={"00"}
+                  maxLength={2}
+                  keyboardType="numeric"
+                ></CustomTextInput>
               </View>
             </View>
           </View>
