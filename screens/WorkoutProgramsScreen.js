@@ -59,25 +59,23 @@ const WorkoutProgramsScreen = () => {
           showsHorizontalScrollIndicator={false}
           horizontal={true}
           style={{ marginLeft: 16 }}
+          contentContainerStyle={{ columnGap: 5 }}
         >
           <TopButton
             icon={faPlusCircle}
             text={"Create new"}
-            onPress={() => navigation.navigate("IntervalTimer")}
+            onPress={() => navigation.navigate("CreateWorkoutProgram")}
           />
-          <View style={{ width: 5 }} />
           <TopButton
             icon={faMagnifyingGlass}
             text={"Search Programs"}
             onPress={() => navigation.navigate("IntervalTimer")}
           />
-          <View style={{ width: 5 }} />
           <TopButton
             icon={faStopwatch}
             text={"Interval Timer"}
             onPress={() => navigation.navigate("IntervalTimer")}
           />
-          <View style={{ width: 5 }} />
         </ScrollView>
       </View>
       <View style={{ height: 10 }} />
