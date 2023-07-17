@@ -30,16 +30,21 @@ const CreateWorkoutProgramScreen = () => {
   );
   const [programName, setProgramName] = useState("");
   const [totalRestSeconds, setTotalRestSeconds] = useState(0);
-  const [workouts, setWorkouts] = useState([{ name: "", exercises: [] }]);
+  const [workouts, setWorkouts] = useState([
+    { name: "", exercises: [{ name: "", sets: 0, reps: 0 }] },
+  ]);
   const newWorkout = () => {
     const workoutsClone = workouts.slice();
-    workoutsClone.push({ name: "", exercises: [] });
+    workoutsClone.push({
+      name: "",
+      exercises: [{ name: "", sets: 0, reps: 0 }],
+    });
     setWorkouts(workoutsClone);
   };
   return (
     <View style={safeAreaStyle()}>
       <Header title={"Create new program"} goBackOption={true} />
-      <View style={{ paddingHorizontal: 16, rowGap: 10 }}>
+      <View style={{ paddingHorizontal: 16, rowGap: 10, flex: 1 }}>
         <View className="flex-row items-center" style={{ columnGap: 5 }}>
           <CustomText>Program name:</CustomText>
           <CustomTextInput
@@ -59,7 +64,11 @@ const CreateWorkoutProgramScreen = () => {
         <FlatList
           data={workouts}
           keyExtractor={(_, index) => index}
-          renderItem={({ item }) => <EditingWorkout workout={item} />}
+          scrollEnabled={true}
+          contentContainerStyle={{ rowGap: 10 }}
+          renderItem={({ item, index }) => (
+            <EditingWorkout workout={item} workoutIndex={index} />
+          )}
         />
         <CustomButton
           onPress={newWorkout}
