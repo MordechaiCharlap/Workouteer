@@ -16,28 +16,22 @@ const RestTimePicker = ({ setTotalRestSeconds, totalRestSeconds }) => {
   }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
-      console.log("not focused");
       return;
     }
     var validRegex = /(?:[0-5]?[0-9])?/;
     if (text.match(validRegex)) {
-      console.log("match");
       setRestMinutes(String(text));
     } else {
-      console.log("not match");
       setRestMinutes("00");
     }
   };
   const handleSecondsChanged = (text) => {
     if (!secondsFocused) return;
 
-    console.log(text);
     var validRegex = /(?:[0-5]?[0-9])?/;
     if (text.match(validRegex)) {
-      console.log("match");
       setRestSeconds(String(text));
     } else {
-      console.log("not match");
       setRestSeconds("00");
     }
   };
