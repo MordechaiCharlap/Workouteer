@@ -30,6 +30,7 @@ const CreateWorkoutProgramScreen = () => {
   const [workouts, setWorkouts] = useState([
     { name: "", exercises: [{ name: "", sets: 0, reps: 0 }] },
   ]);
+  const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const newWorkout = () => {
     const workoutsClone = workouts.slice();
     workoutsClone.push({
@@ -59,7 +60,13 @@ const CreateWorkoutProgramScreen = () => {
           scrollEnabled={true}
           contentContainerStyle={{ rowGap: 10 }}
           renderItem={({ item, index }) => (
-            <EditingWorkout workout={item} workoutIndex={index} />
+            <EditingWorkout
+              workout={item}
+              workoutIndex={index}
+              maximized={index == maximizedWorkout}
+              minimizeWorkout={() => setMaximizedWorkout(null)}
+              maximizeWorkout={() => setMaximizedWorkout(index)}
+            />
           )}
         />
         <CustomButton
