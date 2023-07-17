@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import AwesomeModal from "../components/AwesomeModal";
 import RestTimePicker from "../components/workoutProgram/RestTimePicker";
+import EditingWorkout from "../components/workoutProgram/EditingWorkout";
 
 const CreateWorkoutProgramScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -29,8 +30,12 @@ const CreateWorkoutProgramScreen = () => {
   );
   const [programName, setProgramName] = useState("");
   const [totalRestSeconds, setTotalRestSeconds] = useState(0);
-  const [workouts, setWorkouts] = useState([]);
-
+  const [workouts, setWorkouts] = useState([{ name: "", exercises: [] }]);
+  const newWorkout = () => {
+    const workoutsClone = workouts.slice();
+    workoutsClone.push({ name: "", exercises: [] });
+    setWorkouts(workoutsClone);
+  };
   return (
     <View style={safeAreaStyle()}>
       <Header title={"Create new program"} goBackOption={true} />
@@ -50,8 +55,14 @@ const CreateWorkoutProgramScreen = () => {
             totalRestSeconds={totalRestSeconds}
           />
         </View>
-        <FlatList data={workouts} />
+        <CustomText>Workouts:</CustomText>
+        <FlatList
+          data={workouts}
+          keyExtractor={(_, index) => index}
+          renderItem={({ item }) => <EditingWorkout workout={item} />}
+        />
         <CustomButton
+          onPress={newWorkout}
           round
           style={{
             backgroundColor: appStyle.color_on_background,
