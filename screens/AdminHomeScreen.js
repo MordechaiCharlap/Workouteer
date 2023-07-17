@@ -10,7 +10,11 @@ import Header from "../components/Header";
 import CustomButton from "../components/basic/CustomButton";
 import useResponsiveness from "../hooks/useResponsiveness";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBug, faToiletPaper } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBug,
+  faFile,
+  faToiletPaper,
+} from "@fortawesome/free-solid-svg-icons";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import {
   collection,
@@ -84,7 +88,7 @@ const AdminHomeScreen = () => {
         goBackOption={true}
       />
       <View style={menuContainerStyle}>
-        <View style={rowStyle}>
+        {/* <View style={rowStyle}>
           <AdminButton
             icon={faBug}
             title={languageService[user.language].suggestionsAndBugs}
@@ -92,6 +96,13 @@ const AdminHomeScreen = () => {
           <AdminButton
             icon={faToiletPaper}
             title={languageService[user.language].resetAppData}
+          />
+        </View> */}
+        <View style={rowStyle}>
+          <AdminButton
+            icon={faFile}
+            title={"WorkoutPrograms"}
+            navigate={"WorkoutPrograms"}
           />
         </View>
       </View>
