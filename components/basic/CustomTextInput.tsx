@@ -16,6 +16,7 @@ import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 interface CustomTextInputProps extends TextInputProps {
   style?: StyleProp<ViewStyle>;
   password: boolean;
+  error?;
 }
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
   password,
@@ -23,6 +24,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   placeholderTextColor,
   style,
   onChangeText,
+  error,
   ...restProps
 }) => {
   const [text, setText] = useState("");
@@ -36,7 +38,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     <TextInput
       spellCheck={false}
       autoCorrect={false}
-      style={[appComponentsDefaultStyles.input, style]}
+      style={[
+        error == true
+          ? appComponentsDefaultStyles.errorInput
+          : appComponentsDefaultStyles.input,
+        style,
+      ]}
       placeholder={placeholder}
       placeholderTextColor={
         placeholderTextColor || appStyle.color_on_surface_variant
@@ -50,7 +57,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       <TextInput
         spellCheck={false}
         autoCorrect={false}
-        style={[appComponentsDefaultStyles.input, style]}
+        style={[
+          error == true
+            ? appComponentsDefaultStyles.errorInput
+            : appComponentsDefaultStyles.input,
+          style,
+        ]}
         placeholder={placeholder}
         placeholderTextColor={
           placeholderTextColor || appStyle.color_on_surface_variant
