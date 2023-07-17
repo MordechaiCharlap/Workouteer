@@ -42,6 +42,11 @@ const CreateWorkoutProgramScreen = () => {
   const deleteWorkout = (index) => {
     const workoutsClone = workouts.slice();
     workoutsClone.splice(index, 1);
+    if (maximizedWorkout == index) {
+      setMaximizedWorkout();
+    } else if (maximizedWorkout > index) {
+      setMaximizedWorkout((prev) => prev - 1);
+    }
     setWorkouts(workoutsClone);
   };
   return (
@@ -101,30 +106,28 @@ const CreateWorkoutProgramScreen = () => {
           )}
         />
 
-        {/* <CustomButton
-          onPress={newWorkout}
+        <CustomButton
           round
           style={{
-            backgroundColor: appStyle.color_on_background,
-            alignSelf: "center",
             flexDirection: "row",
-            columnGap: 10,
+            height: 40,
+            borderColor: appStyle.color_outline,
+            borderWidth: 0.5,
+            columnGap: 3,
+            padding: 10,
+            borderRadius: 8,
+            backgroundColor: appStyle.color_on_background,
           }}
         >
-          <FontAwesomeIcon
-            color={appStyle.color_background}
-            icon={faPlusCircle}
-            size={30}
-          />
           <CustomText
             style={{
               color: appStyle.color_background,
               fontWeight: 600,
             }}
           >
-            New workout
+            Create program
           </CustomText>
-        </CustomButton> */}
+        </CustomButton>
       </View>
     </View>
   );
