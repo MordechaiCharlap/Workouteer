@@ -1,6 +1,8 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
+  color_background,
+  color_error,
   color_on_background,
   color_outline,
   color_primary_container,
@@ -17,6 +19,7 @@ import {
   faMaximize,
   faMinimize,
   faPen,
+  faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
 const EditingWorkout = ({
@@ -69,12 +72,25 @@ const EditingWorkout = ({
           value={workoutName}
           onChangeText={(text) => setWorkoutName(text)}
         />
-        <CustomButton onPress={maximized ? minimizeWorkout : maximizeWorkout}>
+        <CustomButton
+          style={{
+            backgroundColor: color_background,
+          }}
+          onPress={maximized ? minimizeWorkout : maximizeWorkout}
+        >
           <FontAwesomeIcon
             icon={maximized ? faMinimize : faPen}
             color={color_on_background}
             size={15}
           />
+        </CustomButton>
+        <CustomButton
+          style={{
+            backgroundColor: color_background,
+          }}
+          onPress={maximized ? minimizeWorkout : maximizeWorkout}
+        >
+          <FontAwesomeIcon icon={faTrashCan} color={color_error} size={15} />
         </CustomButton>
       </View>
     );
