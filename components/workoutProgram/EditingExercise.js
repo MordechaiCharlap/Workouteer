@@ -6,9 +6,7 @@ import * as appStyle from "../../utils/appStyleSheet";
 const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
   const [name, setName] = useState(exercise.name);
   const [sets, setSets] = useState(exercise.sets);
-  const [setsFocused, setSetsFocused] = useState(false);
   const [reps, setReps] = useState(exercise.reps);
-  const [repsFocused, setRepsFocused] = useState(false);
   useEffect(() => {
     if (name != "" && sets != 0 && reps != 0) {
       updateExercise({ name: name, sets: sets, reps: reps });
@@ -17,26 +15,17 @@ const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
     }
   }, [name, sets, reps]);
   const handleSetsChange = (text) => {
-    // console.log("test4");
-    // if (!setsFocused) {
-    //   console.log("test3");
-    //   return;
-    // }
-
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
-      console.log(text);
-      setSets(text);
+      setSets(text == "" ? text : parseInt(text));
     } else {
       setSets(0);
     }
   };
   const handleRepsChange = (text) => {
-    // if (!repsFocused) return;
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
-      console.log(text);
-      setReps(text);
+      setReps(text == "" ? text : parseInt(text));
     } else {
       setReps(0);
     }
@@ -44,7 +33,7 @@ const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
   return (
     <View className="flex-row items-center w-full" style={{ columnGap: 8 }}>
       <CustomTextInput
-        error={true}
+        error={highlightErrors && name == "" && true}
         value={name}
         className="text-center"
         style={{
@@ -54,24 +43,22 @@ const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
         onChangeText={setName}
       />
       <CustomTextInput
+        error={highlightErrors && sets == 0 && true}
         style={{ flexGrow: 1, backgroundColor: appStyle.color_surface_variant }}
         className="text-center"
         value={String(sets)}
         keyboardType="numeric"
         maxLength={2}
         onChangeText={(text) => handleSetsChange(text)}
-        onFocus={() => setSetsFocused(true)}
-        onBlur={() => setSetsFocused(false)}
       />
       <CustomTextInput
+        error={highlightErrors && reps == 0 && true}
         style={{ flexGrow: 1, backgroundColor: appStyle.color_surface_variant }}
         className="text-center"
         value={String(reps)}
         keyboardType="numeric"
         maxLength={2}
         onChangeText={(text) => handleRepsChange(text)}
-        onFocus={() => setRepsFocused(true)}
-        onBlur={() => setRepsFocused(false)}
       />
     </View>
   );
