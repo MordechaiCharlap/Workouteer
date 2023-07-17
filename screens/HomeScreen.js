@@ -124,7 +124,7 @@ const HomeScreen = () => {
             icon={faEnvelopeOpenText}
           />
         </View>
-        {user.role == "admin" && (
+        {/* {user.role == "admin" && (
           <View style={rowStyle}>
             <HomeScreenButton
               buttonText={"WorkoutPrograms"}
@@ -134,7 +134,7 @@ const HomeScreen = () => {
             />
             <HomeScreenButton style={buttonStyle} spaceHolderButton={true} />
           </View>
-        )}
+        )} */}
       </View>
       {currentWorkout != null && (
         <View
