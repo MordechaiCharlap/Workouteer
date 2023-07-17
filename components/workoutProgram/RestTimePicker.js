@@ -55,7 +55,7 @@ const RestTimePicker = ({ setTotalRestSeconds, totalRestSeconds }) => {
           setShowRestModal(true);
         }}
         style={{
-          backgroundColor: appStyle.color_surface_variant,
+          backgroundColor: appStyle.color_surface,
           width: 80,
         }}
       >
