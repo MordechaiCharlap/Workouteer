@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import CustomTextInput from "../basic/CustomTextInput";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
-const EditingExercise = ({ exercise, updateExercise }) => {
+const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
   const [name, setName] = useState(exercise.name);
   const [sets, setSets] = useState(exercise.sets);
   const [setsFocused, setSetsFocused] = useState(false);
@@ -44,9 +44,13 @@ const EditingExercise = ({ exercise, updateExercise }) => {
   return (
     <View className="flex-row items-center w-full" style={{ columnGap: 8 }}>
       <CustomTextInput
-        placeholder={name}
+        error={true}
+        value={name}
         className="text-center"
-        style={{ flexGrow: 3, backgroundColor: appStyle.color_surface_variant }}
+        style={{
+          flexGrow: 3,
+          backgroundColor: appStyle.color_surface_variant,
+        }}
         onChangeText={setName}
       />
       <CustomTextInput

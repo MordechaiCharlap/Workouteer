@@ -16,15 +16,17 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
   const [workoutName, setWorkoutName] = useState(workout.name);
   const [totalRestSeconds, setTotalRestSeconds] = useState(0);
   const [exercises, setExercises] = useState(workout.exercises);
+  const [highlightExercisesErrors, setHighlightExercisesErrors] =
+    useState(false);
   const addExercise = () => {
-    const lastExercise = exercises[exercises.length - 1];
-
     if (
-      lastExercise.name == "" ||
-      lastExercise.sets == 0 ||
-      lastExercise.reps == 0
+      exercises.findIndex(
+        (exercise) =>
+          exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
+      ) != -1
     ) {
-      console.log(lastExercise);
+      console.log("highlighting errors");
+      setHighlightExercisesErrors(true);
       return;
     }
     const exercisesClone = exercises.slice();
@@ -88,6 +90,7 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
             }
             renderItem={({ item, index }) => (
               <EditingExercise
+                highlightErrors={highlightExercisesErrors}
                 exercise={item}
                 updateExercise={(newExercise) =>
                   updateExercise(index, newExercise)
