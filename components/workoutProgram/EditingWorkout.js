@@ -10,15 +10,28 @@ import CustomTextInput from "../basic/CustomTextInput";
 import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import EditingExercise from "./EditingExercise";
+import RestTimePicker from "./RestTimePicker";
 
 const EditingWorkout = ({ workout, workoutIndex }) => {
   const [workoutName, setWorkoutName] = useState(workout.name);
+  const [totalRestSeconds, setTotalRestSeconds] = useState(0);
   const [exercises, setExercises] = useState(workout.exercises);
   const addExercise = () => {
+    const lastExercise = exercises[exercises.length - 1];
+
+    if (
+      lastExercise.name == "" ||
+      lastExercise.sets == 0 ||
+      lastExercise.reps == 0
+    ) {
+      console.log(lastExercise);
+      return;
+    }
     const exercisesClone = exercises.slice();
     exercisesClone.push({ name: "", sets: 0, reps: 0 });
     setExercises(exercisesClone);
   };
+  const updateExercise = (index, newExercise) => {};
   return (
     <View
       style={{
@@ -35,6 +48,14 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
           onChangeText={(text) => setWorkoutName(text)}
         />
       </View>
+      <View className="flex-row items-center" style={{ columnGap: 5 }}>
+        <CustomText>Rest time between sets:</CustomText>
+        <RestTimePicker
+          setTotalRestSeconds={setTotalRestSeconds}
+          totalRestSeconds={totalRestSeconds}
+        />
+      </View>
+
       <View>
         <CustomText style={{ marginBottom: 5, fontWeight: 500 }}>
           Exercises:
@@ -65,7 +86,14 @@ const EditingWorkout = ({ workout, workoutIndex }) => {
                 </CustomText>
               </View>
             }
-            renderItem={({ item }) => <EditingExercise exercise={item} />}
+            renderItem={({ item, index }) => (
+              <EditingExercise
+                exercise={item}
+                updateExercise={(newExercise) =>
+                  updateExercise(index, newExercise)
+                }
+              />
+            )}
           />
           <CustomButton
             onPress={addExercise}
