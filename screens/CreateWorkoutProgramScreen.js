@@ -39,6 +39,11 @@ const CreateWorkoutProgramScreen = () => {
     });
     setWorkouts(workoutsClone);
   };
+  const deleteWorkout = (index) => {
+    const workoutsClone = workouts.slice();
+    workoutsClone.splice(index, 1);
+    setWorkouts(workoutsClone);
+  };
   return (
     <View style={safeAreaStyle()}>
       <Header title={"Create new program"} goBackOption={true} />
@@ -51,14 +56,39 @@ const CreateWorkoutProgramScreen = () => {
             style={{ backgroundColor: appStyle.color_surface_variant }}
           />
         </View>
-
-        <CustomText>Workouts:</CustomText>
+        <View className="flex-row">
+          <CustomText>Workouts:</CustomText>
+        </View>
         <FlatList
           keyboardShouldPersistTaps={"always"}
           data={workouts}
           keyExtractor={(_, index) => index}
           scrollEnabled={true}
           contentContainerStyle={{ rowGap: 10 }}
+          ListHeaderComponent={
+            <CustomButton
+              className="flex-row"
+              onPress={newWorkout}
+              style={{
+                height: 40,
+                borderColor: appStyle.color_outline,
+                borderWidth: 0.5,
+                columnGap: 3,
+                padding: 10,
+                borderRadius: 8,
+                backgroundColor: appStyle.color_primary,
+              }}
+            >
+              <FontAwesomeIcon
+                color={appStyle.color_on_primary}
+                icon={faPlusCircle}
+                size={15}
+              />
+              <CustomText style={{ color: appStyle.color_on_primary }}>
+                New Workout
+              </CustomText>
+            </CustomButton>
+          }
           renderItem={({ item, index }) => (
             <EditingWorkout
               workout={item}
@@ -66,10 +96,12 @@ const CreateWorkoutProgramScreen = () => {
               maximized={index == maximizedWorkout}
               minimizeWorkout={() => setMaximizedWorkout(null)}
               maximizeWorkout={() => setMaximizedWorkout(index)}
+              deleteWorkout={() => deleteWorkout(index)}
             />
           )}
         />
-        <CustomButton
+
+        {/* <CustomButton
           onPress={newWorkout}
           round
           style={{
@@ -92,7 +124,7 @@ const CreateWorkoutProgramScreen = () => {
           >
             New workout
           </CustomText>
-        </CustomButton>
+        </CustomButton> */}
       </View>
     </View>
   );
