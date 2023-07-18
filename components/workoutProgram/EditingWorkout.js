@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   color_background,
   color_error,
@@ -22,17 +22,20 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
+import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 
 const EditingWorkout = ({
   workout,
+  workoutIndex,
   maximized,
   minimizeWorkout,
   maximizeWorkout,
   deleteWorkout,
 }) => {
-  const [workoutName, setWorkoutName] = useState(workout.name);
-  const [restSeconds, setRestSeconds] = useState(0);
-  const [exercises, setExercises] = useState(workout.exercises);
+  const { programData, setProgramData } = useContext(ProgramContext);
+  const [exercises, setExercises] = useState(
+    programData.workouts[workoutIndex].exercises
+  );
   const [highlightExercisesErrors, setHighlightExercisesErrors] =
     useState(false);
   const addExercise = () => {
@@ -65,7 +68,6 @@ const EditingWorkout = ({
     )
       setHighlightExercisesErrors(false);
   }, [exercises]);
-
   return !maximized ? (
     <View
       className="flex-row items-center"
@@ -77,12 +79,9 @@ const EditingWorkout = ({
       }}
     >
       <EditingWorkoutHeader
-        maximized={maximized}
+        workoutIndex={workoutIndex}
         minimizeWorkout={minimizeWorkout}
         maximizeWorkout={maximizeWorkout}
-        deleteWorkout={deleteWorkout}
-        workoutName={workoutName}
-        setWorkoutName={setWorkoutName}
       />
     </View>
   ) : (
@@ -95,19 +94,13 @@ const EditingWorkout = ({
       }}
     >
       <EditingWorkoutHeader
-        maximized={maximized}
+        workoutIndex={workoutIndex}
         minimizeWorkout={minimizeWorkout}
         maximizeWorkout={maximizeWorkout}
-        deleteWorkout={deleteWorkout}
-        workoutName={workoutName}
-        setWorkoutName={setWorkoutName}
       />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
-        <RestTimePicker
-          setRestSeconds={setRestSeconds}
-          restSeconds={restSeconds}
-        />
+        <RestTimePicker workoutIndex={workoutIndex} />
       </View>
 
       <View>
