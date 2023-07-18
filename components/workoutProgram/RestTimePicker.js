@@ -8,7 +8,8 @@ import * as appStyle from "../../utils/appStyleSheet";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 
 const RestTimePicker = ({ workoutIndex }) => {
-  const { programData, setProgramData } = useContext(ProgramContext);
+  const { programData, setProgramData, maximizedWorkout } =
+    useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
   const [restMinutes, setRestMinutes] = useState(
     programData.workouts[workoutIndex].restSeconds / 60
@@ -24,6 +25,20 @@ const RestTimePicker = ({ workoutIndex }) => {
       restMinutes * 60 + parseInt(restSeconds);
     setProgramData(programDataClone);
   }, [restMinutes, restSeconds]);
+  useEffect(() => {
+    setRestMinutes(
+      String(programData.workouts[workoutIndex].restSeconds / 60).padStart(
+        2,
+        "0"
+      )
+    );
+    setRestSeconds(
+      String(programData.workouts[workoutIndex].restSeconds % 60).padStart(
+        2,
+        "0"
+      )
+    );
+  }, [maximizedWorkout]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
       return;
