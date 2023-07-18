@@ -9,38 +9,21 @@ import {
   color_surface,
   color_surface_variant,
 } from "../../utils/appStyleSheet";
-import CustomTextInput from "../basic/CustomTextInput";
 import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import EditingExercise from "./EditingExercise";
 import RestTimePicker from "./RestTimePicker";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faMaximize,
-  faMinimize,
-  faPen,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 
-const EditingWorkout = ({
-  workout,
-  workoutIndex,
-  maximized,
-  minimizeWorkout,
-  maximizeWorkout,
-  deleteWorkout,
-}) => {
-  const { programData, setProgramData } = useContext(ProgramContext);
-  const [exercises, setExercises] = useState(
-    programData.workouts[workoutIndex].exercises
-  );
+const EditingWorkout = ({ workoutIndex }) => {
+  const { programData, setProgramData, maximizedWorkout } =
+    useContext(ProgramContext);
   const [highlightExercisesErrors, setHighlightExercisesErrors] =
     useState(false);
   const addExercise = () => {
     if (
-      exercises.findIndex(
+      programData.workouts[workoutIndex].exercises.findIndex(
         (exercise) =>
           exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
       ) != -1
@@ -49,26 +32,26 @@ const EditingWorkout = ({
       setHighlightExercisesErrors(true);
       return;
     }
-    const exercisesClone = exercises.slice();
-    exercisesClone.push({ name: "", sets: 0, reps: 0 });
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].exercises.push({
+      name: "",
+      sets: 0,
+      reps: 0,
+    });
     setExercises(exercisesClone);
   };
-  const updateExercise = (index, newExercise) => {
-    const exercisesClone = exercises.slice();
-    exercisesClone[index] = newExercise;
-    setExercises(exercisesClone);
-  };
+
   useEffect(() => {
     if (
       highlightExercisesErrors &&
-      exercises.findIndex(
+      programData.workouts[workoutIndex].exercises.findIndex(
         (exercise) =>
           exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
       ) == -1
     )
       setHighlightExercisesErrors(false);
-  }, [exercises]);
-  return !maximized ? (
+  }, [programData.workouts[workoutIndex].exercises]);
+  return maximizedWorkout != workoutIndex ? (
     <View
       className="flex-row items-center"
       style={{
@@ -78,11 +61,7 @@ const EditingWorkout = ({
         columnGap: 10,
       }}
     >
-      <EditingWorkoutHeader
-        workoutIndex={workoutIndex}
-        minimizeWorkout={minimizeWorkout}
-        maximizeWorkout={maximizeWorkout}
-      />
+      <EditingWorkoutHeader workoutIndex={workoutIndex} />
     </View>
   ) : (
     <View
@@ -93,11 +72,7 @@ const EditingWorkout = ({
         rowGap: 15,
       }}
     >
-      <EditingWorkoutHeader
-        workoutIndex={workoutIndex}
-        minimizeWorkout={minimizeWorkout}
-        maximizeWorkout={maximizeWorkout}
-      />
+      <EditingWorkoutHeader workoutIndex={workoutIndex} />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
         <RestTimePicker workoutIndex={workoutIndex} />
@@ -117,7 +92,7 @@ const EditingWorkout = ({
           }}
         >
           <FlatList
-            data={exercises}
+            data={programData.workouts[workoutIndex].exercises}
             keyExtractor={(_, index) => index}
             style={{ rowGap: 5 }}
             ListHeaderComponent={
@@ -136,10 +111,8 @@ const EditingWorkout = ({
             renderItem={({ item, index }) => (
               <EditingExercise
                 highlightErrors={highlightExercisesErrors}
-                exercise={item}
-                updateExercise={(newExercise) =>
-                  updateExercise(index, newExercise)
-                }
+                workoutIndex={workoutIndex}
+                exerciseIndex={index}
               />
             )}
           />
