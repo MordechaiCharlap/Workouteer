@@ -21,7 +21,16 @@ import {
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  arrayRemove,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutProgramsScreen = () => {
@@ -51,6 +60,17 @@ const WorkoutProgramsScreen = () => {
       setSavedPrograms(programs);
     });
   }, []);
+  const removeProgram = (index) => {
+    const savedProgramsClone = savedPrograms.slice();
+    savedProgramsClone.splice(index, 1);
+    console.log(savedProgramsClone);
+    setSavedPrograms(savedProgramsClone);
+    const programId = user.savedWorkoutPrograms[index];
+    updateDoc(doc(db, "users", user.id), {
+      savedWorkoutPrograms: arrayRemove(programId),
+    });
+    deleteDoc(doc(db, "workoutPrograms", programId));
+  };
   return (
     <View style={safeAreaStyle()}>
       <Header goBackOption={true} />
@@ -100,9 +120,10 @@ const WorkoutProgramsScreen = () => {
 
         {savedPrograms && savedPrograms.length > 0 && (
           <FlatList
+            contentContainerStyle={{ rowGap: 10 }}
             data={savedPrograms}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <CustomButton
                 onPress={() => {
                   if (removingProgram) setRemovingProgram();
@@ -171,6 +192,10 @@ const WorkoutProgramsScreen = () => {
                             />
                           </CustomButton>
                           <CustomButton
+                            onPress={() => {
+                              setRemovingProgram();
+                              removeProgram(index);
+                            }}
                             className="rounded-full"
                             style={{
                               padding: 0,
