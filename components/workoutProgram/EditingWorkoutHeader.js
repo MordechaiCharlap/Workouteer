@@ -13,11 +13,12 @@ import {
   color_on_background,
 } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 const EditingWorkoutHeader = ({ workoutIndex }) => {
   const { programData, setProgramData, maximizedWorkout, setMaximizedWorkout } =
     useContext(ProgramContext);
+  const [isNameFocused, setIsNameFocused] = useState(false);
   const deleteWorkout = () => {
     const programDataClone = { ...programData };
     programDataClone.workouts.splice(workoutIndex, 1);
@@ -27,6 +28,7 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
     setProgramData(programDataClone);
   };
   const handleWorkoutNameChange = (text) => {
+    if (!isNameFocused) return;
     const programDataClone = { ...programData };
     programDataClone.workouts[workoutIndex].name = text;
     setProgramData(programDataClone);
@@ -36,6 +38,8 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
       <CustomText>Name:</CustomText>
       <CustomTextInput
         value={programData.workouts[workoutIndex].name}
+        onFocus={() => setIsNameFocused(true)}
+        onBlur={() => setIsNameFocused(false)}
         onChangeText={handleWorkoutNameChange}
       />
       <CustomButton
