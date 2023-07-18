@@ -21,17 +21,17 @@ import {
   faPen,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import EditingWorkoutHeader from "./EditingWorkoutHeader";
 
 const EditingWorkout = ({
   workout,
-  workoutIndex,
   maximized,
   minimizeWorkout,
   maximizeWorkout,
   deleteWorkout,
 }) => {
   const [workoutName, setWorkoutName] = useState(workout.name);
-  const [totalRestSeconds, setTotalRestSeconds] = useState(0);
+  const [restSeconds, setRestSeconds] = useState(0);
   const [exercises, setExercises] = useState(workout.exercises);
   const [highlightExercisesErrors, setHighlightExercisesErrors] =
     useState(false);
@@ -65,34 +65,7 @@ const EditingWorkout = ({
     )
       setHighlightExercisesErrors(false);
   }, [exercises]);
-  const WorkoutHeader = ({ maximized }) => {
-    return (
-      <View className="flex-row items-center" style={{ columnGap: 10 }}>
-        <CustomText>Name:</CustomText>
-        <CustomTextInput value={workoutName} onChangeText={setWorkoutName} />
-        <CustomButton
-          style={{
-            backgroundColor: color_background,
-          }}
-          onPress={maximized ? minimizeWorkout : maximizeWorkout}
-        >
-          <FontAwesomeIcon
-            icon={maximized ? faMinimize : faPen}
-            color={color_on_background}
-            size={15}
-          />
-        </CustomButton>
-        <CustomButton
-          style={{
-            backgroundColor: color_background,
-          }}
-          onPress={deleteWorkout}
-        >
-          <FontAwesomeIcon icon={faTrashCan} color={color_error} size={15} />
-        </CustomButton>
-      </View>
-    );
-  };
+
   return !maximized ? (
     <View
       className="flex-row items-center"
@@ -103,10 +76,13 @@ const EditingWorkout = ({
         columnGap: 10,
       }}
     >
-      <WorkoutHeader
-        maximized={false}
-        setName={setWorkoutName}
-        name={workoutName}
+      <EditingWorkoutHeader
+        maximized={maximized}
+        minimizeWorkout={minimizeWorkout}
+        maximizeWorkout={maximizeWorkout}
+        deleteWorkout={deleteWorkout}
+        workoutName={workoutName}
+        setWorkoutName={setWorkoutName}
       />
     </View>
   ) : (
@@ -118,16 +94,19 @@ const EditingWorkout = ({
         rowGap: 15,
       }}
     >
-      <WorkoutHeader
-        maximized={true}
-        setName={setWorkoutName}
-        name={workoutName}
+      <EditingWorkoutHeader
+        maximized={maximized}
+        minimizeWorkout={minimizeWorkout}
+        maximizeWorkout={maximizeWorkout}
+        deleteWorkout={deleteWorkout}
+        workoutName={workoutName}
+        setWorkoutName={setWorkoutName}
       />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
         <RestTimePicker
-          setTotalRestSeconds={setTotalRestSeconds}
-          totalRestSeconds={totalRestSeconds}
+          setRestSeconds={setRestSeconds}
+          restSeconds={restSeconds}
         />
       </View>
 
