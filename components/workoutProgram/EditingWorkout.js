@@ -28,6 +28,7 @@ const EditingWorkout = ({
   maximized,
   minimizeWorkout,
   maximizeWorkout,
+  deleteWorkout,
 }) => {
   const [workoutName, setWorkoutName] = useState(workout.name);
   const [totalRestSeconds, setTotalRestSeconds] = useState(0);
@@ -68,10 +69,7 @@ const EditingWorkout = ({
     return (
       <View className="flex-row items-center" style={{ columnGap: 10 }}>
         <CustomText>Name:</CustomText>
-        <CustomTextInput
-          value={workoutName}
-          onChangeText={(text) => setWorkoutName(text)}
-        />
+        <CustomTextInput value={workoutName} onChangeText={setWorkoutName} />
         <CustomButton
           style={{
             backgroundColor: color_background,
@@ -88,7 +86,7 @@ const EditingWorkout = ({
           style={{
             backgroundColor: color_background,
           }}
-          onPress={maximized ? minimizeWorkout : maximizeWorkout}
+          onPress={deleteWorkout}
         >
           <FontAwesomeIcon icon={faTrashCan} color={color_error} size={15} />
         </CustomButton>
@@ -105,7 +103,11 @@ const EditingWorkout = ({
         columnGap: 10,
       }}
     >
-      <WorkoutHeader maximized={false} />
+      <WorkoutHeader
+        maximized={false}
+        setName={setWorkoutName}
+        name={workoutName}
+      />
     </View>
   ) : (
     <View
@@ -116,7 +118,11 @@ const EditingWorkout = ({
         rowGap: 15,
       }}
     >
-      <WorkoutHeader maximized={true} />
+      <WorkoutHeader
+        maximized={true}
+        setName={setWorkoutName}
+        name={workoutName}
+      />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText>Rest time between sets:</CustomText>
         <RestTimePicker
