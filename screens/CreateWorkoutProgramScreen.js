@@ -17,9 +17,20 @@ import CustomButton from "../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import EditingWorkout from "../components/workoutProgram/EditingWorkout";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import useAuth from "../hooks/useAuth";
+import useFirebase from "../hooks/useFirebase";
 export const ProgramContext = createContext();
 const CreateWorkoutProgramScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
+  const { user } = useAuth();
+  const { db } = useFirebase();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("CreateWorkoutProgram");
@@ -50,7 +61,9 @@ const CreateWorkoutProgramScreen = () => {
     dataClone.name = text;
     setProgramData(dataClone);
   };
-  const handleCreateWorkoutProgram = () => {
+  const handleCreateWorkoutProgram = async () => {
+    console.log("test1");
+
     if (
       programData.name == "" ||
       programData.workouts.findIndex(
@@ -63,9 +76,23 @@ const CreateWorkoutProgramScreen = () => {
           ) != -1
       ) != -1
     ) {
+      console.log("test2");
       setHighlightErrors(true);
     } else {
-      console.log("Lets create!");
+      const programDataClone = {
+        ...programData,
+        creator: user.id,
+        curremtUsersCount: 1,
+      };
+      console.log("test");
+      const newWorkoutProgramRef = await addDoc(
+        collection(db, "workoutPrograms"),
+        programDataClone
+      );
+      console.log(newWorkoutProgramRef.id);
+      await updateDoc(doc(db, "users", user.id), {
+        savedWorkoutPrograms: arrayUnion(newWorkoutProgramRef.id),
+      });
     }
   };
   const isWorkoutMissingData = (workout) => {
@@ -96,6 +123,7 @@ const CreateWorkoutProgramScreen = () => {
           <View className="flex-row items-center" style={{ columnGap: 5 }}>
             <CustomText>Program name:</CustomText>
             <CustomTextInput
+              error={highlightErrors && programData.name == ""}
               value={programData.name}
               onChangeText={handleProgramNameChange}
               style={{ backgroundColor: appStyle.color_surface_variant }}
