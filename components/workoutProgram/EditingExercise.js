@@ -1,14 +1,29 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomTextInput from "../basic/CustomTextInput";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
-const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
-  const [name, setName] = useState(exercise.name);
-  const [sets, setSets] = useState(exercise.sets);
-  const [reps, setReps] = useState(exercise.reps);
+import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
+  const { programData, setProgramData } = useContext(ProgramContext);
+  const [name, setName] = useState(
+    programData.workouts[workoutIndex].exercises[exerciseIndex].name
+  );
+  const [sets, setSets] = useState(
+    programData.workouts[workoutIndex].exercises[exerciseIndex].sets
+  );
+  const [reps, setReps] = useState(
+    programData.workouts[workoutIndex].exercises[exerciseIndex].reps
+  );
+
   useEffect(() => {
-    updateExercise({ name: name, sets: sets, reps: reps });
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].exercises[exerciseIndex] = {
+      name: name,
+      sets: sets,
+      reps: reps,
+    };
+    setProgramData(programDataClone);
   }, [name, sets, reps]);
   const handleSetsChange = (text) => {
     var validRegex = /^[0-9]{0,2}$/;
