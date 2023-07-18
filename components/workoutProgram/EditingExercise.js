@@ -5,7 +5,8 @@ import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
-  const { programData, setProgramData } = useContext(ProgramContext);
+  const { programData, setProgramData, maximizedWorkout } =
+    useContext(ProgramContext);
   const [name, setName] = useState(
     programData.workouts[workoutIndex].exercises[exerciseIndex].name
   );
@@ -28,6 +29,13 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
     };
     setProgramData(programDataClone);
   }, [name, sets, reps]);
+  useEffect(() => {
+    const exersiceData =
+      programData.workouts[workoutIndex].exercises[exerciseIndex];
+    setName(exersiceData.name);
+    setSets(exersiceData.sets);
+    setReps(exersiceData.reps);
+  }, [maximizedWorkout]);
   const handleSetsChange = (text) => {
     if (!isSetsFocused) return;
     var validRegex = /^[0-9]{0,2}$/;
