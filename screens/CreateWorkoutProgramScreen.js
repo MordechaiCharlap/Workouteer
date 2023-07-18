@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Modal,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, FlatList, KeyboardAvoidingView } from "react-native";
 import React, {
   createContext,
   useCallback,
@@ -31,6 +24,9 @@ const CreateWorkoutProgramScreen = () => {
     useCallback(() => {
       setCurrentScreen("CreateWorkoutProgram");
     }, [])
+  );
+  const [keyboardAvoidingBehavior, setKeyboardAvoidingBehavior] = useState(
+    Platform.OS === "ios" ? "padding" : "height"
   );
   const [programData, setProgramData] = useState({
     name: "",
@@ -77,7 +73,87 @@ const CreateWorkoutProgramScreen = () => {
           <View className="flex-row">
             <CustomText>Workouts:</CustomText>
           </View>
-          <FlatList
+          <View>
+            <FlatList
+              data={programData.workouts}
+              horizontal={true}
+              keyExtractor={(_, index) => index}
+              contentContainerStyle={{
+                alignItems: "center",
+                columnGap: 10,
+                width: "100%",
+                justifyContent:
+                  programData.workouts.length == 6
+                    ? "space-between"
+                    : "flex-start",
+              }}
+              renderItem={({ item, index }) => (
+                <CustomButton
+                  onPress={() => setMaximizedWorkout(index)}
+                  style={{
+                    backgroundColor:
+                      index == maximizedWorkout
+                        ? appStyle.color_on_surface_variant
+                        : appStyle.color_surface_variant,
+                    minWidth: 50,
+                  }}
+                >
+                  <CustomText
+                    style={{
+                      color:
+                        index == maximizedWorkout
+                          ? appStyle.color_surface_variant
+                          : appStyle.color_on_surface_variant,
+                    }}
+                  >
+                    {item.name != "" ? item.name : index + 1}
+                  </CustomText>
+                </CustomButton>
+              )}
+            />
+          </View>
+          <CustomButton
+            disabled={programData.workouts.length == 6}
+            className="flex-row"
+            onPress={newWorkout}
+            style={{
+              height: 40,
+              borderColor: appStyle.color_outline,
+              borderWidth: 0.5,
+              columnGap: 3,
+              padding: 10,
+              borderRadius: 8,
+              backgroundColor:
+                programData.workouts.length == 6
+                  ? appStyle.color_surface_variant
+                  : appStyle.color_primary,
+            }}
+          >
+            {programData.workouts.length < 6 && (
+              <FontAwesomeIcon
+                color={appStyle.color_on_primary}
+                icon={faPlusCircle}
+                size={15}
+              />
+            )}
+            <CustomText
+              style={{
+                color:
+                  programData.workouts.length == 6
+                    ? appStyle.color_on_surface_variant
+                    : appStyle.color_on_primary,
+              }}
+            >
+              {programData.workouts.length == 6
+                ? "Can't have more than 6 workouts"
+                : "New Workout"}
+            </CustomText>
+          </CustomButton>
+          {maximizedWorkout != null && (
+            <EditingWorkout workoutIndex={maximizedWorkout} />
+          )}
+          <View className="flex-1" />
+          {/* <FlatList
             keyboardShouldPersistTaps={"always"}
             data={programData.workouts}
             keyExtractor={(_, index) => index}
@@ -125,11 +201,11 @@ const CreateWorkoutProgramScreen = () => {
             renderItem={({ item, index }) => (
               <EditingWorkout workoutIndex={index} />
             )}
-          />
-
+          /> */}
           <CustomButton
             round
             style={{
+              alignSelf: "center",
               flexDirection: "row",
               height: 40,
               borderColor: appStyle.color_outline,
@@ -138,6 +214,7 @@ const CreateWorkoutProgramScreen = () => {
               padding: 10,
               borderRadius: 8,
               backgroundColor: appStyle.color_on_background,
+              marginBottom: 20,
             }}
           >
             <CustomText
@@ -146,7 +223,7 @@ const CreateWorkoutProgramScreen = () => {
                 fontWeight: 600,
               }}
             >
-              Create program
+              Create workout program
             </CustomText>
           </CustomButton>
         </View>
