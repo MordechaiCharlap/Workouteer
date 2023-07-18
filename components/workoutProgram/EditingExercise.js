@@ -9,12 +9,15 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
   const [name, setName] = useState(
     programData.workouts[workoutIndex].exercises[exerciseIndex].name
   );
+  const [isNameFocused, setIsNameFocused] = useState(false);
   const [sets, setSets] = useState(
     programData.workouts[workoutIndex].exercises[exerciseIndex].sets
   );
+  const [isSetsFocused, setIsSetsFocused] = useState(false);
   const [reps, setReps] = useState(
     programData.workouts[workoutIndex].exercises[exerciseIndex].reps
   );
+  const [isRepsFocused, setIsRepsFocused] = useState(false);
 
   useEffect(() => {
     const programDataClone = { ...programData };
@@ -26,6 +29,7 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
     setProgramData(programDataClone);
   }, [name, sets, reps]);
   const handleSetsChange = (text) => {
+    if (!isSetsFocused) return;
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
       setSets(text == "" ? text : parseInt(text));
@@ -34,6 +38,7 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
     }
   };
   const handleRepsChange = (text) => {
+    if (!isRepsFocused) return;
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
       setReps(text == "" ? text : parseInt(text));
@@ -51,7 +56,11 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
           flexGrow: 3,
           backgroundColor: appStyle.color_surface_variant,
         }}
-        onChangeText={setName}
+        onFocus={() => setIsNameFocused(true)}
+        onBlur={() => setIsNameFocused(false)}
+        onChangeText={(text) => {
+          if (isNameFocused) setName(text);
+        }}
       />
       <CustomTextInput
         error={highlightErrors && sets == 0 && true}
@@ -60,6 +69,8 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
         value={String(sets)}
         keyboardType="numeric"
         maxLength={2}
+        onFocus={() => setIsSetsFocused(true)}
+        onBlur={() => setIsSetsFocused(false)}
         onChangeText={(text) => handleSetsChange(text)}
       />
       <CustomTextInput
@@ -69,6 +80,8 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
         value={String(reps)}
         keyboardType="numeric"
         maxLength={2}
+        onFocus={() => setIsRepsFocused(true)}
+        onBlur={() => setIsRepsFocused(false)}
         onChangeText={(text) => handleRepsChange(text)}
       />
     </View>
