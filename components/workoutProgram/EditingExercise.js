@@ -4,8 +4,13 @@ import CustomTextInput from "../basic/CustomTextInput";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
-const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
-  const { programData, setProgramData, maximizedWorkout } =
+const EditingExercise = ({
+  exerciseIndex,
+  workoutIndex,
+  highlightExercisesErrors,
+  tryRemoveHighlightErrors,
+}) => {
+  const { programData, setProgramData, maximizedWorkout, highlightErrors } =
     useContext(ProgramContext);
   const [name, setName] = useState(
     programData.workouts[workoutIndex].exercises[exerciseIndex].name
@@ -28,6 +33,7 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
       reps: reps,
     };
     setProgramData(programDataClone);
+    if (highlightExercisesErrors) tryRemoveHighlightErrors();
   }, [name, sets, reps]);
   useEffect(() => {
     const exersiceData =
@@ -57,7 +63,9 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
   return (
     <View className="flex-row items-center w-full" style={{ columnGap: 8 }}>
       <CustomTextInput
-        error={highlightErrors && name == "" && true}
+        error={
+          (highlightExercisesErrors || highlightErrors) && name == "" && true
+        }
         value={name}
         className="text-center"
         style={{
@@ -71,7 +79,9 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
         }}
       />
       <CustomTextInput
-        error={highlightErrors && sets == 0 && true}
+        error={
+          (highlightExercisesErrors || highlightErrors) && sets == 0 && true
+        }
         style={{ flexGrow: 1, backgroundColor: appStyle.color_surface_variant }}
         className="text-center"
         value={String(sets)}
@@ -82,7 +92,9 @@ const EditingExercise = ({ exerciseIndex, workoutIndex, highlightErrors }) => {
         onChangeText={(text) => handleSetsChange(text)}
       />
       <CustomTextInput
-        error={highlightErrors && reps == 0 && true}
+        error={
+          (highlightExercisesErrors || highlightErrors) && reps == 0 && true
+        }
         style={{ flexGrow: 1, backgroundColor: appStyle.color_surface_variant }}
         className="text-center"
         value={String(reps)}
