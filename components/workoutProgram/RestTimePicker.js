@@ -8,7 +8,7 @@ import * as appStyle from "../../utils/appStyleSheet";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 
 const RestTimePicker = ({ workoutIndex }) => {
-  const { programData, setProgramData, maximizedWorkout } =
+  const { programData, setProgramData, maximizedWorkout, highlightErrors } =
     useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
   const [restMinutes, setRestMinutes] = useState(
@@ -82,6 +82,13 @@ const RestTimePicker = ({ workoutIndex }) => {
         style={{
           backgroundColor: appStyle.color_surface,
           width: 80,
+          borderWidth: 1,
+          borderColor:
+            highlightErrors &&
+            parseInt(restSeconds) == 0 &&
+            parseInt(restMinutes) == 0
+              ? appStyle.color_error
+              : appStyle.color_surface,
         }}
       >
         <CustomText>

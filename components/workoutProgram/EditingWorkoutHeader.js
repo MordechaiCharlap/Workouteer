@@ -16,8 +16,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useContext, useState } from "react";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 const EditingWorkoutHeader = ({ workoutIndex }) => {
-  const { programData, setProgramData, maximizedWorkout, setMaximizedWorkout } =
-    useContext(ProgramContext);
+  const {
+    programData,
+    setProgramData,
+    maximizedWorkout,
+    setMaximizedWorkout,
+    highlightErrors,
+  } = useContext(ProgramContext);
   const [isNameFocused, setIsNameFocused] = useState(false);
   const deleteWorkout = () => {
     const programDataClone = { ...programData };
@@ -43,6 +48,7 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
     <View className="flex-row items-center" style={{ columnGap: 10 }}>
       <CustomText>Name:</CustomText>
       <CustomTextInput
+        error={highlightErrors && programData.workouts[workoutIndex].name == ""}
         value={programData.workouts[workoutIndex].name}
         onFocus={() => setIsNameFocused(true)}
         onBlur={() => setIsNameFocused(false)}

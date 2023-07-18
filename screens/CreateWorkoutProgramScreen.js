@@ -25,15 +25,14 @@ const CreateWorkoutProgramScreen = () => {
       setCurrentScreen("CreateWorkoutProgram");
     }, [])
   );
-  const [keyboardAvoidingBehavior, setKeyboardAvoidingBehavior] = useState(
-    Platform.OS === "ios" ? "padding" : "height"
-  );
+
   const [programData, setProgramData] = useState({
     name: "",
     workouts: [
       { name: "", restSeconds: 0, exercises: [{ name: "", sets: 0, reps: 0 }] },
     ],
   });
+  const [highlightErrors, setHighlightErrors] = useState(true);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const newWorkout = () => {
     const programDataClone = { ...programData };
@@ -43,12 +42,43 @@ const CreateWorkoutProgramScreen = () => {
       exercises: [{ name: "", sets: 0, reps: 0 }],
     });
     setProgramData(programDataClone);
+    setMaximizedWorkout(programDataClone.workouts.length - 1);
   };
 
   const handleProgramNameChange = (text) => {
     const dataClone = { ...programData };
     dataClone.name = text;
     setProgramData(dataClone);
+  };
+  const handleCreateWorkoutProgram = () => {
+    if (
+      programData.name == "" ||
+      programData.workouts.findIndex(
+        (workout) =>
+          workout.restSeconds == 0 ||
+          workout.name == "" ||
+          workout.exercises.findIndex(
+            (exercise) =>
+              exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
+          ) != -1
+      ) != -1
+    ) {
+      setHighlightErrors(true);
+    } else {
+      console.log("Lets create!");
+    }
+  };
+  const isWorkoutMissingData = (workout) => {
+    if (
+      workout.restSeconds == 0 ||
+      workout.name == "" ||
+      workout.exercises.findIndex(
+        (exercise) =>
+          exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
+      ) != -1
+    )
+      return true;
+    return false;
   };
   return (
     <ProgramContext.Provider
@@ -57,6 +87,7 @@ const CreateWorkoutProgramScreen = () => {
         setProgramData,
         maximizedWorkout,
         setMaximizedWorkout,
+        highlightErrors,
       }}
     >
       <View style={safeAreaStyle()}>
@@ -73,8 +104,9 @@ const CreateWorkoutProgramScreen = () => {
           <View className="flex-row">
             <CustomText>Workouts:</CustomText>
           </View>
-          <View>
+          <View style={{ height: 50, justifyContent: "center" }}>
             <FlatList
+              keyboardShouldPersistTaps={"always"}
               data={programData.workouts}
               horizontal={true}
               keyExtractor={(_, index) => index}
@@ -96,6 +128,14 @@ const CreateWorkoutProgramScreen = () => {
                         ? appStyle.color_on_surface_variant
                         : appStyle.color_surface_variant,
                     minWidth: 50,
+                    borderWidth: 2,
+                    borderColor:
+                      highlightErrors &&
+                      isWorkoutMissingData(programData.workouts[index])
+                        ? appStyle.color_error
+                        : index == maximizedWorkout
+                        ? appStyle.color_on_surface_variant
+                        : appStyle.color_surface_variant,
                   }}
                 >
                   <CustomText
@@ -149,60 +189,14 @@ const CreateWorkoutProgramScreen = () => {
                 : "New Workout"}
             </CustomText>
           </CustomButton>
-          {maximizedWorkout != null && (
-            <EditingWorkout workoutIndex={maximizedWorkout} />
-          )}
-          <View className="flex-1" />
-          {/* <FlatList
-            keyboardShouldPersistTaps={"always"}
-            data={programData.workouts}
-            keyExtractor={(_, index) => index}
-            scrollEnabled={true}
-            contentContainerStyle={{ rowGap: 10 }}
-            ListHeaderComponent={
-              <CustomButton
-                disabled={programData.workouts.length == 6}
-                className="flex-row"
-                onPress={newWorkout}
-                style={{
-                  height: 40,
-                  borderColor: appStyle.color_outline,
-                  borderWidth: 0.5,
-                  columnGap: 3,
-                  padding: 10,
-                  borderRadius: 8,
-                  backgroundColor:
-                    programData.workouts.length == 6
-                      ? appStyle.color_surface_variant
-                      : appStyle.color_primary,
-                }}
-              >
-                {programData.workouts.length < 6 && (
-                  <FontAwesomeIcon
-                    color={appStyle.color_on_primary}
-                    icon={faPlusCircle}
-                    size={15}
-                  />
-                )}
-                <CustomText
-                  style={{
-                    color:
-                      programData.workouts.length == 6
-                        ? appStyle.color_on_surface_variant
-                        : appStyle.color_on_primary,
-                  }}
-                >
-                  {programData.workouts.length == 6
-                    ? "Can't have more than 6 workouts"
-                    : "New Workout"}
-                </CustomText>
-              </CustomButton>
-            }
-            renderItem={({ item, index }) => (
-              <EditingWorkout workoutIndex={index} />
+          {maximizedWorkout != null &&
+            programData.workouts.length >= maximizedWorkout - 1 && (
+              <EditingWorkout workoutIndex={maximizedWorkout} />
             )}
-          /> */}
+          <View className="flex-1" />
+
           <CustomButton
+            onPress={handleCreateWorkoutProgram}
             round
             style={{
               alignSelf: "center",
