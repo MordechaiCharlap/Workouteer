@@ -5,14 +5,14 @@ import CustomText from "../basic/CustomText";
 import AwesomeModal from "../AwesomeModal";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
-const RestTimePicker = ({ setTotalRestSeconds, totalRestSeconds }) => {
+const RestTimePicker = (props) => {
   const [showRestModal, setShowRestModal] = useState(false);
-  const [restMinutes, setRestMinutes] = useState(totalRestSeconds / 60);
-  const [restSeconds, setRestSeconds] = useState(totalRestSeconds % 60);
+  const [restMinutes, setRestMinutes] = useState(props.restSeconds / 60);
+  const [restSeconds, setRestSeconds] = useState(props.restSeconds % 60);
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
   useEffect(() => {
-    setTotalRestSeconds(restMinutes * 60 + restSeconds);
+    props.setRestSeconds(restMinutes * 60 + restSeconds);
   }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
