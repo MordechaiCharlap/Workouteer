@@ -46,8 +46,10 @@ const EditingWorkoutHeader = ({
         style={{
           backgroundColor: color_background,
         }}
-        onPress={
-          maximizedWorkout == workoutIndex ? minimizeWorkout : maximizeWorkout
+        onPress={() =>
+          maximizedWorkout == workoutIndex
+            ? setMaximizedWorkout(null)
+            : setMaximizedWorkout(workoutIndex)
         }
       >
         <FontAwesomeIcon
