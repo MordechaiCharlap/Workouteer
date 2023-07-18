@@ -108,13 +108,7 @@ const CreateWorkoutProgramScreen = () => {
               </CustomButton>
             }
             renderItem={({ item, index }) => (
-              <EditingWorkout
-                workout={item}
-                workoutIndex={index}
-                maximized={index == maximizedWorkout}
-                minimizeWorkout={() => setMaximizedWorkout(null)}
-                maximizeWorkout={() => setMaximizedWorkout(index)}
-              />
+              <EditingWorkout workoutIndex={index} />
             )}
           />
 
