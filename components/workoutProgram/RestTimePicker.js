@@ -1,18 +1,28 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
 import AwesomeModal from "../AwesomeModal";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
-const RestTimePicker = (props) => {
+import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+
+const RestTimePicker = ({ workoutIndex }) => {
+  const { programData, setProgramData } = useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
-  const [restMinutes, setRestMinutes] = useState(props.restSeconds / 60);
-  const [restSeconds, setRestSeconds] = useState(props.restSeconds % 60);
+  const [restMinutes, setRestMinutes] = useState(
+    programData.workouts[workoutIndex].restSeconds / 60
+  );
+  const [restSeconds, setRestSeconds] = useState(
+    programData.workouts[workoutIndex].restSeconds % 60
+  );
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
   useEffect(() => {
-    props.setRestSeconds(restMinutes * 60 + parseInt(restSeconds));
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].restSeconds =
+      restMinutes * 60 + parseInt(restSeconds);
+    setProgramData(programDataClone);
   }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
