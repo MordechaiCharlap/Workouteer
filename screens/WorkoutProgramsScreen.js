@@ -27,6 +27,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  increment,
   query,
   updateDoc,
   where,
@@ -61,15 +62,33 @@ const WorkoutProgramsScreen = () => {
     });
   }, []);
   const removeProgram = (index) => {
+    const programId = user.savedWorkoutPrograms[index];
     const savedProgramsClone = savedPrograms.slice();
     savedProgramsClone.splice(index, 1);
-    console.log(savedProgramsClone);
     setSavedPrograms(savedProgramsClone);
-    const programId = user.savedWorkoutPrograms[index];
-    updateDoc(doc(db, "users", user.id), {
-      savedWorkoutPrograms: arrayRemove(programId),
-    });
-    deleteDoc(doc(db, "workoutPrograms", programId));
+    //An option for a creator that deletes the program for every user using array contains
+    if (savedPrograms[index].creator == user.id) {
+      const query = query(
+        collection(db, "users"),
+        where(savedWorkoutPrograms, "array-contains", programId)
+      );
+      getDocs(query).then((snapshot) =>
+        snapshot.forEach((document) => {
+          updateDoc(doc(db, "users", document.id), {
+            savedWorkoutPrograms: arrayRemove(programId),
+          });
+        })
+      );
+      deleteDoc(doc(db, "workoutPrograms", programId));
+    } else {
+      //an option for non user, just decrement the currentUsersCount by 1 and remove from saved
+      updateDoc(doc(db, "workoutPrograms", programId), {
+        currentUsersCount: increment(-1),
+      });
+      updateDoc(doc(db, "users", user.id), {
+        savedWorkoutPrograms: arrayRemove(programId),
+      });
+    }
   };
   return (
     <View style={safeAreaStyle()}>
