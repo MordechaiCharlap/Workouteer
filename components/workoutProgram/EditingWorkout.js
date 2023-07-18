@@ -94,7 +94,7 @@ const EditingWorkout = ({ workoutIndex }) => {
           <FlatList
             data={programData.workouts[workoutIndex].exercises}
             keyExtractor={(_, index) => index}
-            style={{ rowGap: 5 }}
+            contentContainerStyle={{ rowGap: 5 }}
             ListHeaderComponent={
               <View className="flex-row w-full" style={{ columnGap: 8 }}>
                 <CustomText className="text-center" style={{ flexGrow: 3 }}>
