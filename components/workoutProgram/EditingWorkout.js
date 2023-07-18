@@ -38,7 +38,7 @@ const EditingWorkout = ({ workoutIndex }) => {
       sets: 0,
       reps: 0,
     });
-    setExercises(exercisesClone);
+    setProgramData(programDataClone);
   };
 
   useEffect(() => {
