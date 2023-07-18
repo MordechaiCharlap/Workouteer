@@ -25,6 +25,12 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
     if (maximizedWorkout == workoutIndex) setMaximizedWorkout();
     else if (maximizedWorkout > workoutIndex)
       setMaximizedWorkout((prev) => prev - 1);
+    if (programDataClone.workouts.length == 0)
+      programDataClone.workouts.push({
+        name: "",
+        restSeconds: 0,
+        exercises: [{ name: "", sets: 0, reps: 0 }],
+      });
     setProgramData(programDataClone);
   };
   const handleWorkoutNameChange = (text) => {
