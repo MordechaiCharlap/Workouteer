@@ -85,6 +85,7 @@ const CreateWorkoutProgramScreen = () => {
             contentContainerStyle={{ rowGap: 10 }}
             ListHeaderComponent={
               <CustomButton
+                disabled={programData.workouts.length == 6}
                 className="flex-row"
                 onPress={newWorkout}
                 style={{
@@ -94,16 +95,30 @@ const CreateWorkoutProgramScreen = () => {
                   columnGap: 3,
                   padding: 10,
                   borderRadius: 8,
-                  backgroundColor: appStyle.color_primary,
+                  backgroundColor:
+                    programData.workouts.length == 6
+                      ? appStyle.color_surface_variant
+                      : appStyle.color_primary,
                 }}
               >
-                <FontAwesomeIcon
-                  color={appStyle.color_on_primary}
-                  icon={faPlusCircle}
-                  size={15}
-                />
-                <CustomText style={{ color: appStyle.color_on_primary }}>
-                  New Workout
+                {programData.workouts.length < 6 && (
+                  <FontAwesomeIcon
+                    color={appStyle.color_on_primary}
+                    icon={faPlusCircle}
+                    size={15}
+                  />
+                )}
+                <CustomText
+                  style={{
+                    color:
+                      programData.workouts.length == 6
+                        ? appStyle.color_on_surface_variant
+                        : appStyle.color_on_primary,
+                  }}
+                >
+                  {programData.workouts.length == 6
+                    ? "Can't have more than 6 workouts"
+                    : "New Workout"}
                 </CustomText>
               </CustomButton>
             }
