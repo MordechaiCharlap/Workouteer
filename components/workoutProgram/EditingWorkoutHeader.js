@@ -13,26 +13,45 @@ import {
   color_on_background,
 } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useContext } from "react";
+import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 const EditingWorkoutHeader = ({
-  maximized,
   minimizeWorkout,
   maximizeWorkout,
-  workoutName,
-  setWorkoutName,
-  deleteWorkout,
+  workoutIndex,
 }) => {
+  const { programData, setProgramData, maximizedWorkout, setMaximizedWorkout } =
+    useContext(ProgramContext);
+  const deleteWorkout = () => {
+    const programDataClone = { ...programData };
+    programDataClone.workouts.splice(workoutIndex, 1);
+    if (maximizedWorkout == workoutIndex) setMaximizedWorkout();
+    else if (maximizeWorkout > workoutIndex)
+      setMaximizedWorkout((prev) => prev - 1);
+    setProgramData(programDataClone);
+  };
+  const handleWorkoutNameChange = (text) => {
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].name = text;
+    setProgramData(programDataClone);
+  };
   return (
     <View className="flex-row items-center" style={{ columnGap: 10 }}>
       <CustomText>Name:</CustomText>
-      <CustomTextInput value={workoutName} onChangeText={setWorkoutName} />
+      <CustomTextInput
+        value={programData.workouts[workoutIndex].name}
+        onChangeText={handleWorkoutNameChange}
+      />
       <CustomButton
         style={{
           backgroundColor: color_background,
         }}
-        onPress={maximized ? minimizeWorkout : maximizeWorkout}
+        onPress={
+          maximizedWorkout == workoutIndex ? minimizeWorkout : maximizeWorkout
+        }
       >
         <FontAwesomeIcon
-          icon={maximized ? faMinimize : faPen}
+          icon={maximizedWorkout == workoutIndex ? faMinimize : faPen}
           color={color_on_background}
           size={15}
         />
