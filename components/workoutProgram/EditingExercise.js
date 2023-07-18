@@ -8,11 +8,7 @@ const EditingExercise = ({ exercise, updateExercise, highlightErrors }) => {
   const [sets, setSets] = useState(exercise.sets);
   const [reps, setReps] = useState(exercise.reps);
   useEffect(() => {
-    if (name != "" && sets != 0 && reps != 0) {
-      updateExercise({ name: name, sets: sets, reps: reps });
-    } else {
-      console.log("not updating yet");
-    }
+    updateExercise({ name: name, sets: sets, reps: reps });
   }, [name, sets, reps]);
   const handleSetsChange = (text) => {
     var validRegex = /^[0-9]{0,2}$/;
