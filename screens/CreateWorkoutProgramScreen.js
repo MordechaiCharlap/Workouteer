@@ -40,13 +40,13 @@ const CreateWorkoutProgramScreen = () => {
   });
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const newWorkout = () => {
-    const workoutsClone = workouts.slice();
-    workoutsClone.push({
+    const programDataClone = { ...programData };
+    programDataClone.workouts.push({
       name: "",
       restSeconds: 0,
       exercises: [{ name: "", sets: 0, reps: 0 }],
     });
-    setWorkouts(workoutsClone);
+    setProgramData(programDataClone);
   };
 
   const handleProgramNameChange = (text) => {
