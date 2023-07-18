@@ -10,7 +10,12 @@ import useAuth from "../hooks/useAuth";
 import useFirebase from "../hooks/useFirebase";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPen, faPlay } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faPenAlt,
+  faPenToSquare,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutProgramScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -47,37 +52,19 @@ const WorkoutProgramScreen = ({ route }) => {
               >
                 {item.name}
               </CustomText>
-              <View className="flex-row">
-                {program.creator == user.id && (
-                  <CustomButton
-                    style={{
-                      marginRight: 5,
-                      backgroundColor: appStyle.color_primary,
-                      borderWidth: 2,
-                      borderColor: appStyle.color_background,
-                      borderRadius: 12,
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={appStyle.color_background}
-                    />
-                  </CustomButton>
-                )}
-                <CustomButton
-                  style={{
-                    backgroundColor: appStyle.color_primary,
-                    borderWidth: 2,
-                    borderColor: appStyle.color_background,
-                    borderRadius: 12,
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faPlay}
-                    color={appStyle.color_background}
-                  />
-                </CustomButton>
-              </View>
+              <CustomButton
+                style={{
+                  backgroundColor: appStyle.color_primary,
+                  borderWidth: 2,
+                  borderColor: appStyle.color_background,
+                  borderRadius: 12,
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPlay}
+                  color={appStyle.color_background}
+                />
+              </CustomButton>
             </View>
             <FlatList
               className="w-full mt-1"
@@ -92,6 +79,21 @@ const WorkoutProgramScreen = ({ route }) => {
           </CustomButton>
         )}
       />
+      <CustomButton
+        className="rounded-full aspect-square w-12 items-center justify-center absolute"
+        style={{
+          elevation: 4,
+          backgroundColor: appStyle.color_tertiary,
+          right: 20,
+          bottom: 20,
+        }}
+      >
+        <FontAwesomeIcon
+          icon={faPenAlt}
+          size={25}
+          color={appStyle.color_on_primary}
+        />
+      </CustomButton>
     </View>
   );
 };
