@@ -12,7 +12,7 @@ const RestTimePicker = (props) => {
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
   useEffect(() => {
-    props.setRestSeconds(restMinutes * 60 + restSeconds);
+    props.setRestSeconds(restMinutes * 60 + parseInt(restSeconds));
   }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
