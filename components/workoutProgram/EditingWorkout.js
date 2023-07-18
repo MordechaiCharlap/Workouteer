@@ -41,7 +41,7 @@ const EditingWorkout = ({ workoutIndex }) => {
     setProgramData(programDataClone);
   };
 
-  useEffect(() => {
+  const tryRemoveHighlightErrors = () => {
     if (
       highlightExercisesErrors &&
       programData.workouts[workoutIndex].exercises.findIndex(
@@ -50,7 +50,7 @@ const EditingWorkout = ({ workoutIndex }) => {
       ) == -1
     )
       setHighlightExercisesErrors(false);
-  }, [programData.workouts[workoutIndex].exercises]);
+  };
   return maximizedWorkout != workoutIndex ? (
     <View
       className="flex-row items-center"
@@ -110,7 +110,8 @@ const EditingWorkout = ({ workoutIndex }) => {
             }
             renderItem={({ item, index }) => (
               <EditingExercise
-                highlightErrors={highlightExercisesErrors}
+                highlightExercisesErrors={highlightExercisesErrors}
+                tryRemoveHighlightErrors={tryRemoveHighlightErrors}
                 workoutIndex={workoutIndex}
                 exerciseIndex={index}
               />
