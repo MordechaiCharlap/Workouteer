@@ -31,11 +31,11 @@ const FriendsWorkoutsScreen = () => {
         title={languageService[user.language].friendsWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-4">
+      <View className="flex-1" style={{ paddingHorizontal: 16 }}>
         <FlatList
-          className="p-2"
           showsVerticalScrollIndicator={false}
           data={friendsWorkouts}
+          contentContainerStyle={{ rowGap: 5 }}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <WorkoutComponent
