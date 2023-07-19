@@ -68,7 +68,6 @@ const WorkoutProgramsScreen = () => {
     const creatorId = savedPrograms[index].creator;
     const savedProgramsClone = savedPrograms.slice();
     savedProgramsClone.splice(index, 1);
-    console.log(savedProgramsClone);
     setSavedPrograms(savedProgramsClone);
     //An option for a creator that deletes the program for every user using array contains
     if (savedPrograms[index].creator == creatorId) {
