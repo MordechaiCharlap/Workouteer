@@ -18,18 +18,12 @@ const WorkoutInvitesScreen = () => {
   const [workouts, setWorkouts] = useState();
   const { workoutInvitesAlerts } = useAlerts();
   const [initialLoading, setInitialLoading] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState();
-
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutInvites");
     }, [])
   );
   useEffect(() => {
-    const getCurrentLocation = async () => {
-      const location = await geoService.getCurrentLocation();
-      setCurrentLocation(location);
-    };
     const getWorkoutsByInvites = async () => {
       const workoutsArr = await firebase.getWorkoutsByInvites(
         workoutInvitesAlerts
@@ -37,7 +31,6 @@ const WorkoutInvitesScreen = () => {
       setWorkouts(workoutsArr);
       setInitialLoading(false);
     };
-    // getCurrentLocation();
     getWorkoutsByInvites();
   }, []);
   return (
@@ -57,7 +50,6 @@ const WorkoutInvitesScreen = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <WorkoutComponent
-                location={currentLocation}
                 userMemberStatus={"invited"}
                 workout={item}
                 isPastWorkout={false}

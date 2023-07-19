@@ -43,7 +43,12 @@ const PinOnMap = ({ defaultMarker, saveLocation, backgroundColor }) => {
             longitudeDelta: 0.0421,
           }}
         >
-          <Marker coordinate={coords} />
+          <Marker
+            coordinate={{
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+            }}
+          />
         </MapView>
       </View>
     </View>

@@ -20,6 +20,7 @@ import {
   deleteDoc,
   getFirestore,
   arrayUnion,
+  GeoPoint,
 } from "firebase/firestore";
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
@@ -149,6 +150,7 @@ export const createUser = async (newUserData) => {
     chatPals: {},
     friends: {},
     chats: {},
+    savedWorkoutPrograms: [],
     description: "",
     language: getLanguage(),
     isPublic: true,

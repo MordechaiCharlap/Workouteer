@@ -7,17 +7,10 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as appStyle from "../utils/appStyleSheet";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faLocationDot,
-  faMapLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
 import * as geoService from "../services/geoService";
 import languageService from "../services/languageService";
 import PinOnMap from "./PinOnMap";
 import useAuth from "../hooks/useAuth";
-import { mapsApiKey } from "../utils/mapsApiKey";
-import { convertHexToRgba } from "../utils/stylingFunctions";
 const WorkoutLocation = ({ value, locationChanged, color }) => {
   const { user } = useAuth();
   const [showMap, setShowMap] = useState(false);

@@ -80,8 +80,16 @@ const WorkoutComponent = (props) => {
       !isPastWorkout &&
       user.lastLocation
     ) {
-      const distanceCalc = getDistance(user.lastLocation, workout.location);
-
+      const distanceCalc = getDistance(
+        {
+          latitude: user.lastLocation.latitude,
+          longitude: user.lastLocation.longitude,
+        },
+        {
+          latitude: workout.location.latitude,
+          longitude: workout.location.longitude,
+        }
+      );
       const dist = Math.max(Math.ceil(distanceCalc / 1000), 1);
       setDistance(dist);
     }

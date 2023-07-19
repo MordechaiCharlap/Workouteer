@@ -1,6 +1,7 @@
 import * as Location from "expo-location";
 import { updateUser } from "./firebase";
 import { addCountryAndCityToDbIfNeeded } from "./firebase";
+import { GeoPoint } from "firebase/firestore";
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(() => resolve(false), ms));
@@ -39,7 +40,11 @@ export const getCurrentLocation = async (user) => {
   if (!latLongLocation) return false;
   if (user) {
     const userClone = { ...user };
-    userClone.lastLocation = latLongLocation;
+
+    userClone.lastLocation = new GeoPoint(
+      latLongLocation.latitude,
+      latLongLocation.longitude
+    );
     if (!userClone.defaultCountry || !userClone.defaultCity) {
       const cityAndCountry = await addCountryAndCityToDbIfNeeded(
         latLongLocation
