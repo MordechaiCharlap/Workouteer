@@ -214,7 +214,16 @@ const ConfirmWorkoutScreen = () => {
   const confirmationPoints = 15;
   const getDistenceFromMe = async () => {
     const currentLocation = await getCurrentLocation();
-    const distance = getDistance(workout.location, currentLocation);
+    const distance = getDistance(
+      {
+        latitude: workout.location.latitude,
+        longitude: workout.location.longitude,
+      },
+      {
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+      }
+    );
     return distance;
   };
   const sameDay = (d1, d2) => {
@@ -312,7 +321,12 @@ const ConfirmWorkoutScreen = () => {
             longitudeDelta: 0.02,
           }}
         >
-          <Marker coordinate={workout.location} />
+          <Marker
+            coordinate={{
+              latitude: workout.location.latitude,
+              longitude: workout.location.longitude,
+            }}
+          />
           <Circle
             center={workout.location}
             radius={100}
