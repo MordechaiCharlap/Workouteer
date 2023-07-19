@@ -100,10 +100,10 @@ const HomeScreen = () => {
             icon={faClock}
           />
           <HomeScreenButton
-            buttonText={languageService[user.language].pastWorkoutsHomeBtn}
+            buttonText={languageService[user.language].workoutProgramsHomeBtn}
             style={buttonStyle}
-            navigateScreen="PastWorkouts"
-            icon={faCalendarCheck}
+            navigateScreen="WorkoutPrograms"
+            icon={faFile}
           />
         </View>
         <View style={rowStyle}>
