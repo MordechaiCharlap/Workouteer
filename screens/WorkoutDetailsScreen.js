@@ -416,7 +416,12 @@ const WorkoutPinnedLocation = (props) => {
           longitudeDelta: 0.0421,
         }}
       >
-        <Marker coordinate={props.ltLng} />
+        <Marker
+          coordinate={{
+            latitude: props.ltLng.latitude,
+            longitude: props.ltLng.longitude,
+          }}
+        />
       </MapView>
       {/* <TouchableOpacity
         className="bottom-4 rounded py-2 px-6 absolute"
