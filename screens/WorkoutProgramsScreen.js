@@ -22,16 +22,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import {
-  arrayRemove,
-  collection,
-  deleteDoc,
   doc,
+  collection,
   getDocs,
+  updateDoc,
+  deleteDoc,
+  arrayRemove,
   increment,
   query,
-  updateDoc,
   where,
 } from "firebase/firestore";
+
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutProgramsScreen = () => {
@@ -48,6 +49,7 @@ const WorkoutProgramsScreen = () => {
     }, [])
   );
   useEffect(() => {
+    if (user.savedWorkoutPrograms.length == 0) return;
     const savedProgramsQuery = query(
       collection(db, "workoutPrograms"),
       where("__name__", "in", user.savedWorkoutPrograms)
@@ -60,19 +62,21 @@ const WorkoutProgramsScreen = () => {
 
       setSavedPrograms(programs);
     });
-  }, []);
+  }, [user.savedWorkoutPrograms]);
   const removeProgram = (index) => {
-    const programId = user.savedWorkoutPrograms[index];
+    const programId = savedPrograms[index].id;
+    const creatorId = savedPrograms[index].creator;
     const savedProgramsClone = savedPrograms.slice();
     savedProgramsClone.splice(index, 1);
+    console.log(savedProgramsClone);
     setSavedPrograms(savedProgramsClone);
     //An option for a creator that deletes the program for every user using array contains
-    if (savedPrograms[index].creator == user.id) {
-      const query = query(
+    if (savedPrograms[index].creator == creatorId) {
+      const q = query(
         collection(db, "users"),
-        where(savedWorkoutPrograms, "array-contains", programId)
+        where("savedWorkoutPrograms", "array-contains", programId)
       );
-      getDocs(query).then((snapshot) =>
+      getDocs(q).then((snapshot) =>
         snapshot.forEach((document) => {
           updateDoc(doc(db, "users", document.id), {
             savedWorkoutPrograms: arrayRemove(programId),
@@ -105,16 +109,16 @@ const WorkoutProgramsScreen = () => {
             text={"Create new"}
             onPress={() => navigation.navigate("CreateWorkoutProgram")}
           />
-          <TopButton
+          {/* <TopButton
             icon={faMagnifyingGlass}
             text={"Search Programs"}
-            onPress={() => navigation.navigate("IntervalTimer")}
-          />
-          <TopButton
+            onPress={() => {}}
+          /> */}
+          {/* <TopButton
             icon={faStopwatch}
             text={"Interval Timer"}
             onPress={() => navigation.navigate("IntervalTimer")}
-          />
+          /> */}
         </ScrollView>
       </View>
       <View style={{ height: 10 }} />
@@ -123,18 +127,20 @@ const WorkoutProgramsScreen = () => {
           <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
             Saved Programs
           </CustomText>
-          <CustomButton
-            onPress={() => {
-              if (removingProgram) setRemovingProgram();
-              setEditingSavedPrograms((prev) => !prev);
-            }}
-          >
-            <FontAwesomeIcon
-              icon={!editingSavedPrograms ? faPen : faCheck}
-              size={15}
-              color={appStyle.color_on_background}
-            />
-          </CustomButton>
+          {savedPrograms && savedPrograms.length > 0 && (
+            <CustomButton
+              onPress={() => {
+                if (removingProgram) setRemovingProgram();
+                setEditingSavedPrograms((prev) => !prev);
+              }}
+            >
+              <FontAwesomeIcon
+                icon={!editingSavedPrograms ? faPen : faCheck}
+                size={15}
+                color={appStyle.color_on_background}
+              />
+            </CustomButton>
+          )}
         </View>
 
         {savedPrograms && savedPrograms.length > 0 && (
