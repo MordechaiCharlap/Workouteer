@@ -10,12 +10,7 @@ import useAuth from "../hooks/useAuth";
 import useFirebase from "../hooks/useFirebase";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faPen,
-  faPenAlt,
-  faPenToSquare,
-  faPlay,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPenAlt, faPlay } from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutProgramScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
