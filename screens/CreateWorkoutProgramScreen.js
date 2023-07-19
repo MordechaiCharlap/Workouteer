@@ -39,9 +39,7 @@ const CreateWorkoutProgramScreen = () => {
 
   const [programData, setProgramData] = useState({
     name: "",
-    workouts: [
-      { name: "", restSeconds: 0, exercises: [{ name: "", sets: 0, reps: 0 }] },
-    ],
+    workouts: [{ name: "", restSeconds: 0, exercises: [] }],
   });
   const [highlightErrors, setHighlightErrors] = useState(true);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
@@ -50,7 +48,7 @@ const CreateWorkoutProgramScreen = () => {
     programDataClone.workouts.push({
       name: "",
       restSeconds: 0,
-      exercises: [{ name: "", sets: 0, reps: 0 }],
+      exercises: [],
     });
     setProgramData(programDataClone);
     setMaximizedWorkout(programDataClone.workouts.length - 1);
@@ -119,7 +117,13 @@ const CreateWorkoutProgramScreen = () => {
     >
       <View style={safeAreaStyle()}>
         <Header title={"Create new program"} goBackOption={true} />
-        <View style={{ paddingHorizontal: 16, rowGap: 10, flex: 1 }}>
+        <View
+          className="flex-1"
+          style={{
+            paddingHorizontal: 16,
+            rowGap: 10,
+          }}
+        >
           <View className="flex-row items-center" style={{ columnGap: 5 }}>
             <CustomText>Program name:</CustomText>
             <CustomTextInput
@@ -156,7 +160,7 @@ const CreateWorkoutProgramScreen = () => {
                         ? appStyle.color_on_surface_variant
                         : appStyle.color_surface_variant,
                     minWidth: 50,
-                    borderWidth: 2,
+                    borderWidth: 1,
                     borderColor:
                       highlightErrors &&
                       isWorkoutMissingData(programData.workouts[index])
@@ -219,10 +223,10 @@ const CreateWorkoutProgramScreen = () => {
           </CustomButton>
           {maximizedWorkout != null &&
             programData.workouts.length >= maximizedWorkout - 1 && (
-              <EditingWorkout workoutIndex={maximizedWorkout} />
+              <View className="flex-1">
+                <EditingWorkout workoutIndex={maximizedWorkout} />
+              </View>
             )}
-          <View className="flex-1" />
-
           <CustomButton
             onPress={handleCreateWorkoutProgram}
             round
