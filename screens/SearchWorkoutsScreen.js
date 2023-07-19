@@ -24,6 +24,7 @@ import { isWebOnPC } from "../services/webScreenService";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
 import { Title } from "../components/slides/Title";
 import CustomButton from "../components/basic/CustomButton";
+import { GeoPoint } from "firebase/firestore";
 const SearchWorkoutsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -189,7 +190,9 @@ const SearchWorkoutsScreen = () => {
     navigation.replace("SearchedWorkouts", {
       workouts: workouts,
       user: user,
-      location: currentLocation,
+      location: !currentLocation
+        ? null
+        : new GeoPoint(currentLocation.latitude, currentLocation.longitude),
     });
   };
   const backOrExitButtonStyle = {
