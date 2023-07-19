@@ -17,17 +17,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import {
-  GeoPoint,
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
   query,
-  setDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
 
@@ -56,9 +52,6 @@ const AdminHomeScreen = () => {
     getDoc(doc(db, "test", "testGeoPoint")).then((doc) => {
       console.log(doc.data().testLocation);
     });
-    // setDoc(doc(db, "test", "testGeoPoint"), {
-    //   testLocation: new GeoPoint(3, 3),
-    // });
   };
   const rowStyle = {
     flexDirection: "row",
