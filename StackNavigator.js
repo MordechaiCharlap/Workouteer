@@ -311,12 +311,12 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="WorkoutProgram"
                   component={WorkoutProgramScreen}
-                  options={noAnimation}
+                  options={verticalAnimation}
                 />
                 <Stack.Screen
                   name="CreateWorkoutProgram"
                   component={CreateWorkoutProgramScreen}
-                  options={noAnimation}
+                  options={verticalAnimation}
                 />
                 {user.role == "admin" && (
                   <Stack.Screen
