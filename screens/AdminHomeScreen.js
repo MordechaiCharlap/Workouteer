@@ -17,19 +17,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import {
+  GeoPoint,
+  addDoc,
   collection,
   deleteDoc,
+  doc,
+  getDoc,
   getDocs,
   query,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 
 const AdminHomeScreen = () => {
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   const { windowHeight } = useResponsiveness();
-  const { db } = useResponsiveness();
+  const { db } = useFirebase();
   const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
@@ -45,6 +51,14 @@ const AdminHomeScreen = () => {
       if (doc.role != "admin") deleteDoc(doc);
       else updateDoc(doc, { defaultCity: null });
     });
+  };
+  const testButtonFunction = () => {
+    getDoc(doc(db, "test", "testGeoPoint")).then((doc) => {
+      console.log(doc.data().testLocation);
+    });
+    // setDoc(doc(db, "test", "testGeoPoint"), {
+    //   testLocation: new GeoPoint(3, 3),
+    // });
   };
   const rowStyle = {
     flexDirection: "row",
@@ -88,7 +102,7 @@ const AdminHomeScreen = () => {
         goBackOption={true}
       />
       <View style={menuContainerStyle}>
-        {/* <View style={rowStyle}>
+        <View style={rowStyle}>
           <AdminButton
             icon={faBug}
             title={languageService[user.language].suggestionsAndBugs}
@@ -97,11 +111,29 @@ const AdminHomeScreen = () => {
             icon={faToiletPaper}
             title={languageService[user.language].resetAppData}
           />
-        </View> */}
+        </View>
         <View style={rowStyle}>
+          <CustomButton
+            onPress={testButtonFunction}
+            style={{ backgroundColor: appStyle.color_surface_variant }}
+          >
+            <CustomText>TEST</CustomText>
+          </CustomButton>
           <AdminButton
             icon={faFile}
             title={"WorkoutPrograms"}
+            navigate={"WorkoutPrograms"}
+          />
+        </View>
+        <View style={rowStyle}>
+          <AdminButton
+            icon={faFile}
+            title={"Reports"}
+            navigate={"WorkoutPrograms"}
+          />
+          <AdminButton
+            icon={faFile}
+            title={"AllUsers"}
             navigate={"WorkoutPrograms"}
           />
         </View>
