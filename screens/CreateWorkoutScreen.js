@@ -36,6 +36,7 @@ import AwesomeModal from "../components/AwesomeModal";
 import { Title } from "../components/slides/Title";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
 import CustomButton from "../components/basic/CustomButton";
+import { GeoPoint } from "firebase/firestore";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -209,7 +210,7 @@ const CreateWorkoutScreen = () => {
       sex: workoutSex,
       startingTime: startingTime,
       minutes: minutes,
-      location: location,
+      location: new GeoPoint(location.latitude, location.longitude),
       description: description,
       invites: {},
       requests: {},
