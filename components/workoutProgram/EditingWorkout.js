@@ -1,9 +1,14 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Modal,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  color_background,
-  color_error,
-  color_on_background,
   color_outline,
   color_primary_container,
   color_surface,
@@ -11,36 +16,44 @@ import {
 } from "../../utils/appStyleSheet";
 import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
-import EditingExercise from "./EditingExercise";
 import RestTimePicker from "./RestTimePicker";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+import EditingExercise from "./EditingExercise";
+import CreatedExercise from "./CreatedExercise";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { programData, setProgramData, maximizedWorkout } =
     useContext(ProgramContext);
   const [highlightExercisesErrors, setHighlightExercisesErrors] =
     useState(false);
-  const addExercise = () => {
-    if (
-      programData.workouts[workoutIndex].exercises.findIndex(
-        (exercise) =>
-          exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
-      ) != -1
-    ) {
-      console.log("highlighting errors");
-      setHighlightExercisesErrors(true);
-      return;
-    }
+  const [editingExerciseIndex, setEditingExerciseIndex] = useState();
+  const [editingExercise, setEditingExercise] = useState();
+  const addNewExercise = (newExercise) => {
     const programDataClone = { ...programData };
-    programDataClone.workouts[workoutIndex].exercises.push({
-      name: "",
-      sets: 0,
-      reps: 0,
-    });
+    programDataClone.workouts[workoutIndex].exercises.push(newExercise);
     setProgramData(programDataClone);
+    setEditingExercise();
   };
-
+  const updateExercise = (updatedExercise) => {
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].exercises[editingExerciseIndex] =
+      updatedExercise;
+    setProgramData(programDataClone);
+    setEditingExercise();
+    setEditingExerciseIndex();
+  };
+  const cancelEditingExercise = () => {
+    setEditingExercise();
+    setEditingExerciseIndex();
+  };
+  const deleteEditingExercise = (index) => {
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].exercises.splice(index, 1);
+    setProgramData(programDataClone);
+    setEditingExercise();
+    setEditingExerciseIndex();
+  };
   const tryRemoveHighlightErrors = () => {
     if (
       highlightExercisesErrors &&
@@ -70,6 +83,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         padding: 10,
         borderRadius: 8,
         rowGap: 15,
+        height: "100%",
       }}
     >
       <EditingWorkoutHeader workoutIndex={workoutIndex} />
@@ -78,7 +92,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         <RestTimePicker workoutIndex={workoutIndex} />
       </View>
 
-      <View>
+      <View className="flex-1">
         <CustomText style={{ marginBottom: 5, fontWeight: 500 }}>
           Exercises:
         </CustomText>
@@ -90,35 +104,47 @@ const EditingWorkout = ({ workoutIndex }) => {
             borderRadius: 8,
             padding: 5,
           }}
+          className="flex-1"
         >
           <FlatList
+            className="flex-1"
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={true}
             data={programData.workouts[workoutIndex].exercises}
             keyExtractor={(_, index) => index}
             contentContainerStyle={{ rowGap: 5 }}
             ListHeaderComponent={
-              <View className="flex-row w-full" style={{ columnGap: 8 }}>
-                <CustomText className="text-center" style={{ flexGrow: 3 }}>
-                  Name
-                </CustomText>
-                <CustomText className="text-center" style={{ flexGrow: 1 }}>
+              <View
+                className="flex-row w-full"
+                style={{ columnGap: 8, padding: 5 }}
+              >
+                <CustomText style={{ width: 1, flexGrow: 3 }}>Name</CustomText>
+                <CustomText
+                  className="text-center"
+                  style={{ width: 1, flexGrow: 1 }}
+                >
                   Sets
                 </CustomText>
-                <CustomText className="text-center" style={{ flexGrow: 1 }}>
+                <CustomText
+                  className="text-center"
+                  style={{ width: 1, flexGrow: 1 }}
+                >
                   Reps
                 </CustomText>
               </View>
             }
             renderItem={({ item, index }) => (
-              <EditingExercise
-                highlightExercisesErrors={highlightExercisesErrors}
-                tryRemoveHighlightErrors={tryRemoveHighlightErrors}
-                workoutIndex={workoutIndex}
-                exerciseIndex={index}
+              <CreatedExercise
+                exercise={item}
+                editExercise={() => {
+                  setEditingExercise(item);
+                  setEditingExerciseIndex(index);
+                }}
               />
             )}
           />
           <CustomButton
-            onPress={addExercise}
+            onPress={() => setEditingExercise(true)}
             style={{
               marginTop: 10,
               alignSelf: "flex-start",
@@ -129,6 +155,18 @@ const EditingWorkout = ({ workoutIndex }) => {
           </CustomButton>
         </View>
       </View>
+      {editingExercise != null && (
+        <Modal transparent={true}>
+          <EditingExercise
+            addNewExercise={addNewExercise}
+            cancelEditingExercise={cancelEditingExercise}
+            deleteEditingExercise={deleteEditingExercise}
+            updateExercise={updateExercise}
+            editingExerciseIndex={editingExerciseIndex}
+            exercise={editingExercise}
+          />
+        </Modal>
+      )}
     </View>
   );
 };
