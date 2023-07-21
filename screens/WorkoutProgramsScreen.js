@@ -12,13 +12,9 @@ import {
   faCheck,
   faCheckCircle,
   faChevronCircleLeft,
-  faMagnifyingGlass,
-  faMinus,
   faMinusCircle,
   faPen,
   faPlusCircle,
-  faStopwatch,
-  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import {
@@ -35,6 +31,7 @@ import {
 
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import languageService from "../services/languageService";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -95,7 +92,10 @@ const WorkoutProgramsScreen = () => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <Header goBackOption={true} />
+      <Header
+        goBackOption={true}
+        title={languageService[user.language].workoutPrograms}
+      />
       <View>
         <ScrollView
           showsHorizontalScrollIndicator={false}
@@ -105,17 +105,17 @@ const WorkoutProgramsScreen = () => {
         >
           <TopButton
             icon={faPlusCircle}
-            text={"Create new"}
+            text={languageService[user.language].buildProgram}
             onPress={() => navigation.navigate("CreateWorkoutProgram")}
           />
           {/* <TopButton
             icon={faMagnifyingGlass}
-            text={"Search Programs"}
+            text={languageService[user.language].search}
             onPress={() => {}}
           /> */}
           {/* <TopButton
             icon={faStopwatch}
-            text={"Interval Timer"}
+            text={languageService[user.language].timer}
             onPress={() => navigation.navigate("IntervalTimer")}
           /> */}
         </ScrollView>
@@ -124,7 +124,7 @@ const WorkoutProgramsScreen = () => {
       <View style={{ paddingHorizontal: 16 }}>
         <View className="flex-row justify-between">
           <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
-            Saved Programs
+            {languageService[user.language].savedPrograms}
           </CustomText>
           {savedPrograms && savedPrograms.length > 0 && (
             <CustomButton
@@ -149,7 +149,11 @@ const WorkoutProgramsScreen = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
               <CustomButton
+                onLongPress={() => {
+                  if (!editingSavedPrograms) setEditingSavedPrograms(true);
+                }}
                 onPress={() => {
+                  if (editingSavedPrograms) return;
                   if (removingProgram) setRemovingProgram();
                   if (editingSavedPrograms) setEditingSavedPrograms();
                   navigation.navigate("WorkoutProgram", { program: item });
@@ -173,7 +177,6 @@ const WorkoutProgramsScreen = () => {
                   <CustomText style={{ fontWeight: 600 }}>
                     {item.name}
                   </CustomText>
-                  <CustomText>{item.creator}</CustomText>
                   {editingSavedPrograms && (
                     <View className="absolute top-0 bottom-0 right-2 items-center justify-center">
                       {removingProgram != item.id ? (
@@ -219,6 +222,7 @@ const WorkoutProgramsScreen = () => {
                             onPress={() => {
                               setRemovingProgram();
                               removeProgram(index);
+                              setEditingSavedPrograms(false);
                             }}
                             className="rounded-full"
                             style={{
@@ -250,7 +254,7 @@ const WorkoutProgramsScreen = () => {
             backgroundColor: appStyle.color_surface_variant,
           }}
         >
-          <CustomText style={{ fontWeight: 600 }}>Add New</CustomText>
+          <CustomText style={{ fontWeight: 600 }}>{languageService[user.language].addNewProgram}</CustomText>
         </CustomButton> */}
       </View>
     </View>
