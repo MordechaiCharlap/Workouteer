@@ -1,15 +1,10 @@
+import { View, FlatList, Modal } from "react-native";
+import React, { useContext, useState } from "react";
 import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  Modal,
-} from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import {
+  color_on_primary,
+  color_on_primary_container,
   color_outline,
+  color_primary,
   color_primary_container,
   color_surface,
   color_surface_variant,
@@ -21,8 +16,13 @@ import EditingWorkoutHeader from "./EditingWorkoutHeader";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
 import EditingExercise from "./EditingExercise";
 import CreatedExercise from "./CreatedExercise";
+import languageService from "../../services/languageService";
+import useAuth from "../../hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 const EditingWorkout = ({ workoutIndex }) => {
+  const { user } = useAuth();
   const { programData, setProgramData, maximizedWorkout } =
     useContext(ProgramContext);
   const [highlightExercisesErrors, setHighlightExercisesErrors] =
@@ -54,51 +54,48 @@ const EditingWorkout = ({ workoutIndex }) => {
     setEditingExercise();
     setEditingExerciseIndex();
   };
-  const tryRemoveHighlightErrors = () => {
-    if (
-      highlightExercisesErrors &&
-      programData.workouts[workoutIndex].exercises.findIndex(
-        (exercise) =>
-          exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
-      ) == -1
-    )
-      setHighlightExercisesErrors(false);
-  };
-  return maximizedWorkout != workoutIndex ? (
-    <View
-      className="flex-row items-center"
-      style={{
-        backgroundColor: color_surface_variant,
-        padding: 10,
-        borderRadius: 8,
-        columnGap: 10,
-      }}
-    >
-      <EditingWorkoutHeader workoutIndex={workoutIndex} />
-    </View>
-  ) : (
+  const containerColor = color_primary_container;
+  const onContainerColor = color_on_primary_container;
+  return (
     <View
       style={{
-        backgroundColor: color_surface_variant,
+        backgroundColor: containerColor,
+        borderWidth: 0.5,
+        borderColor: onContainerColor,
         padding: 10,
         borderRadius: 8,
         rowGap: 15,
         height: "100%",
       }}
     >
-      <EditingWorkoutHeader workoutIndex={workoutIndex} />
+      <CustomText className="font-semibold text-center">
+        {languageService[user.language].workout + " " + (workoutIndex + 1)}
+      </CustomText>
+      <EditingWorkoutHeader
+        workoutIndex={workoutIndex}
+        containerColor={containerColor}
+        onContainerColor={onContainerColor}
+      />
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
-        <CustomText>Rest time between sets:</CustomText>
-        <RestTimePicker workoutIndex={workoutIndex} />
+        <CustomText className="text-lg" style={{ color: onContainerColor }}>
+          {languageService[user.language].restTimeBetweenSets + ":"}
+        </CustomText>
+        <RestTimePicker
+          workoutIndex={workoutIndex}
+          containerColor={containerColor}
+          onContainerColor={onContainerColor}
+        />
       </View>
 
       <View className="flex-1">
-        <CustomText style={{ marginBottom: 5, fontWeight: 500 }}>
-          Exercises:
+        <CustomText
+          style={{ marginBottom: 5, fontWeight: 500, color: onContainerColor }}
+        >
+          {languageService[user.language].exercises + ":"}
         </CustomText>
         <View
           style={{
-            backgroundColor: color_surface,
+            backgroundColor: onContainerColor,
             borderWidth: 1,
             borderColor: color_outline,
             borderRadius: 8,
@@ -118,18 +115,22 @@ const EditingWorkout = ({ workoutIndex }) => {
                 className="flex-row w-full"
                 style={{ columnGap: 8, padding: 5 }}
               >
-                <CustomText style={{ width: 1, flexGrow: 3 }}>Name</CustomText>
                 <CustomText
-                  className="text-center"
-                  style={{ width: 1, flexGrow: 1 }}
+                  style={{ width: 1, flexGrow: 3, color: containerColor }}
                 >
-                  Sets
+                  {languageService[user.language].name}
                 </CustomText>
                 <CustomText
                   className="text-center"
-                  style={{ width: 1, flexGrow: 1 }}
+                  style={{ width: 1, flexGrow: 1, color: containerColor }}
                 >
-                  Reps
+                  {languageService[user.language].sets}
+                </CustomText>
+                <CustomText
+                  className="text-center"
+                  style={{ width: 1, flexGrow: 1, color: containerColor }}
+                >
+                  {languageService[user.language].reps}
                 </CustomText>
               </View>
             }
@@ -144,14 +145,27 @@ const EditingWorkout = ({ workoutIndex }) => {
             )}
           />
           <CustomButton
+            className="absolute bottom-0"
             onPress={() => setEditingExercise(true)}
             style={{
               marginTop: 10,
-              alignSelf: "flex-start",
-              backgroundColor: color_primary_container,
+              alignSelf: "flex-end",
             }}
           >
-            <CustomText>Add exercise</CustomText>
+            <View
+              className="rounded-full"
+              style={{
+                borderWidth: 2,
+                borderColor: containerColor,
+                backgroundColor: containerColor,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faPlusCircle}
+                color={color_primary}
+                size={30}
+              />
+            </View>
           </CustomButton>
         </View>
       </View>
