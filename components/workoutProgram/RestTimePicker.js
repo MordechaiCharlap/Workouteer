@@ -6,8 +6,11 @@ import AwesomeModal from "../AwesomeModal";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+import languageService from "../../services/languageService";
+import useAuth from "../../hooks/useAuth";
 
-const RestTimePicker = ({ workoutIndex }) => {
+const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
+  const { user } = useAuth();
   const { programData, setProgramData, maximizedWorkout, highlightErrors } =
     useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
@@ -80,7 +83,7 @@ const RestTimePicker = ({ workoutIndex }) => {
           setShowRestModal(true);
         }}
         style={{
-          backgroundColor: appStyle.color_surface,
+          backgroundColor: onContainerColor,
           width: 80,
           borderWidth: 1,
           borderColor:
@@ -88,13 +91,13 @@ const RestTimePicker = ({ workoutIndex }) => {
             parseInt(restSeconds) == 0 &&
             parseInt(restMinutes) == 0
               ? appStyle.color_error
-              : appStyle.color_surface,
+              : onContainerColor,
         }}
       >
-        <CustomText>
+        <CustomText style={{ color: containerColor, fontWeight: 500 }}>
           {restSeconds != 0 || restMinutes != 0
             ? `${restMinutes}:${restSeconds}`
-            : "Choose"}
+            : languageService[user.language].choose[user.isMale ? 1 : 0]}
         </CustomText>
       </CustomButton>
       <AwesomeModal
@@ -103,13 +106,17 @@ const RestTimePicker = ({ workoutIndex }) => {
         }}
         onConfirmPressed={() => setShowRestModal(false)}
         setShowModal={setShowRestModal}
-        title={"Choose duration"}
+        title={
+          languageService[user.language].choose[user.isMale ? 1 : 0] +
+          " " +
+          languageService[user.language].duration
+        }
         showModal={showRestModal}
-        confirmText={"Set"}
+        confirmText={languageService[user.language].confirm}
         customView={
           <View className="flex-row" style={{ columnGap: 10, height: 50 }}>
             <View>
-              <CustomText>minutes</CustomText>
+              <CustomText>{languageService[user.language].minutes}</CustomText>
               <View>
                 <CustomTextInput
                   style={{ backgroundColor: appStyle.color_surface_variant }}
@@ -137,7 +144,7 @@ const RestTimePicker = ({ workoutIndex }) => {
               </CustomText>
             </View>
             <View>
-              <CustomText>seconds</CustomText>
+              <CustomText>{languageService[user.language].seconds}</CustomText>
               <View>
                 <CustomTextInput
                   style={{ backgroundColor: appStyle.color_surface_variant }}
