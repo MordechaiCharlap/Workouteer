@@ -5,6 +5,8 @@ import * as appStyle from "../../utils/appStyleSheet";
 import { convertHexToRgba } from "../../utils/stylingFunctions";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
+import languageService from "../../services/languageService";
+import useAuth from "../../hooks/useAuth";
 const EditingExercise = ({
   addNewExercise,
   updateExercise,
@@ -13,6 +15,7 @@ const EditingExercise = ({
   deleteEditingExercise,
   cancelEditingExercise,
 }) => {
+  const { user } = useAuth();
   const [name, setName] = useState(
     editingExerciseIndex != null ? exercise.name : ""
   );
@@ -77,39 +80,46 @@ const EditingExercise = ({
       >
         <View className="items-center">
           <CustomText
+            className=" text-lg tracking-widest"
             style={{
               padding: 7,
+              borderRadius: 999,
+              fontWeight: 500,
               borderRadius: 4,
-              backgroundColor: appStyle.color_on_background,
-              color: appStyle.color_background,
+              backgroundColor: appStyle.color_on_primary_container,
+              color: appStyle.color_primary_container,
             }}
           >
-            {editingExerciseIndex != null ? "Edit exercise" : "New exercise"}
+            {editingExerciseIndex != null
+              ? languageService[user.language].editExercise
+              : languageService[user.language].newExercise}
           </CustomText>
         </View>
 
         <View className="flex-row w-full" style={{ columnGap: 8 }}>
           <CustomText
-            className="text-center"
+            className="text-center font-semibold"
             style={{ flexGrow: 3, color: appStyle.color_on_primary_container }}
           >
-            Name
+            {languageService[user.language].name.charAt(0).toUpperCase() +
+              languageService[user.language].name.slice(1)}
           </CustomText>
           <CustomText
-            className="text-center"
+            className="text-center font-semibold"
             style={{ flexGrow: 1, color: appStyle.color_on_primary_container }}
           >
-            Sets
+            {languageService[user.language].sets}
           </CustomText>
           <CustomText
-            className="text-center"
+            className="text-center font-semibold"
             style={{ flexGrow: 1, color: appStyle.color_on_primary_container }}
           >
-            Reps
+            {languageService[user.language].reps}
           </CustomText>
         </View>
         <View className="flex-row items-center w-full" style={{ columnGap: 8 }}>
           <CustomTextInput
+            maxLength={20}
             error={highlightExercisesErrors && name == "" && true}
             value={name}
             className="text-center"
@@ -168,8 +178,15 @@ const EditingExercise = ({
               backgroundColor: appStyle.color_primary_container,
             }}
           >
-            <CustomText style={{ color: appStyle.color_primary }}>
-              {editingExerciseIndex != null ? "Update" : "Add"}
+            <CustomText
+              style={{
+                color: appStyle.color_on_primary_container,
+                fontWeight: 500,
+              }}
+            >
+              {editingExerciseIndex != null
+                ? languageService[user.language].update
+                : languageService[user.language].add}
             </CustomText>
           </CustomButton>
           {editingExerciseIndex != null && (
@@ -182,15 +199,22 @@ const EditingExercise = ({
                 borderColor: appStyle.color_outline,
               }}
             >
-              <CustomText>Delete</CustomText>
+              <CustomText style={{ fontWeight: 500 }}>
+                {languageService[user.language].remove}
+              </CustomText>
             </CustomButton>
           )}
         </View>
         <CustomButton
           onPress={cancelEditingExercise}
-          style={{ borderWidth: 1, borderColor: appStyle.color_outline }}
+          style={{
+            borderWidth: 1,
+            borderColor: appStyle.color_outline,
+          }}
         >
-          <CustomText>Cancel</CustomText>
+          <CustomText style={{ fontWeight: 500 }}>
+            {languageService[user.language].cancel}
+          </CustomText>
         </CustomButton>
       </View>
     </View>
