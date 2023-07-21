@@ -1,11 +1,9 @@
-import { View, Text } from "react-native";
 import React from "react";
 import CustomText from "../basic/CustomText";
 import {
   color_on_primary_container,
   color_outline,
   color_primary_container,
-  color_surface,
 } from "../../utils/appStyleSheet";
 import CustomButton from "../basic/CustomButton";
 

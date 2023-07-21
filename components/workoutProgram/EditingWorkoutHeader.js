@@ -7,15 +7,7 @@ import {
   faPen,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  color_background,
-  color_error,
-  color_on_background,
-  color_on_primary,
-  color_outline,
-  color_primary,
-  color_surface_variant,
-} from "../../utils/appStyleSheet";
+import { color_outline } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useContext, useState } from "react";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
