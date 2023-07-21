@@ -24,6 +24,8 @@ const WorkoutProgramScreen = ({ route }) => {
       setCurrentScreen("WorkoutProgram");
     }, [])
   );
+  const onContainerColor = appStyle.color_primary_container;
+  const containerColor = appStyle.color_on_primary_container;
   return (
     <View style={safeAreaStyle()}>
       <Header goBackOption={true} icon={"<"} title={program.name} />
@@ -48,7 +50,7 @@ const WorkoutProgramScreen = ({ route }) => {
               >
                 {item.name}
               </CustomText>
-              <CustomButton
+              {/* <CustomButton
                 style={{
                   backgroundColor: appStyle.color_primary,
                   borderWidth: 2,
@@ -60,30 +62,64 @@ const WorkoutProgramScreen = ({ route }) => {
                   icon={faPlay}
                   color={appStyle.color_background}
                 />
-              </CustomButton>
+              </CustomButton> */}
+            </View>
+            <View
+              className="flex-row w-full"
+              style={{ columnGap: 8, padding: 5 }}
+            >
+              <CustomText
+                style={{ width: 1, flexGrow: 3, color: containerColor }}
+              >
+                {languageService[user.language].name}
+              </CustomText>
+              <CustomText
+                className="text-center"
+                style={{ width: 1, flexGrow: 1, color: containerColor }}
+              >
+                {languageService[user.language].sets}
+              </CustomText>
+              <CustomText
+                className="text-center"
+                style={{ width: 1, flexGrow: 1, color: containerColor }}
+              >
+                {languageService[user.language].reps}
+              </CustomText>
             </View>
             <FlatList
               className="w-full mt-1"
               data={item.exercises}
               keyExtractor={(exercise, index) => index}
               renderItem={({ item }) => (
-                <Text style={{ fontSize: 15 }}>
-                  {item.name +
-                    ": " +
-                    item.sets +
-                    " " +
-                    languageService[user.language].setsOf +
-                    " " +
-                    item.reps +
-                    " " +
-                    languageService[user.language].reps}
-                </Text>
+                <View
+                  className="flex-row w-full"
+                  style={{ columnGap: 8, padding: 5 }}
+                >
+                  <CustomText
+                    className="text-left"
+                    style={{ width: 1, flexGrow: 3, color: containerColor }}
+                  >
+                    {item.name}
+                  </CustomText>
+                  <CustomText
+                    className="text-center"
+                    style={{ width: 1, flexGrow: 1, color: containerColor }}
+                  >
+                    {item.sets}
+                  </CustomText>
+                  <CustomText
+                    className="text-center"
+                    style={{ width: 1, flexGrow: 1, color: containerColor }}
+                  >
+                    {item.reps}
+                  </CustomText>
+                </View>
               )}
             />
           </CustomButton>
         )}
       />
-      <CustomButton
+      {/* <CustomButton
         className="rounded-full aspect-square w-12 items-center justify-center absolute"
         style={{
           elevation: 4,
@@ -97,7 +133,7 @@ const WorkoutProgramScreen = ({ route }) => {
           size={25}
           color={appStyle.color_on_primary}
         />
-      </CustomButton>
+      </CustomButton> */}
     </View>
   );
 };
