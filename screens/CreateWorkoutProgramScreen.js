@@ -1,13 +1,7 @@
-import { View, FlatList, KeyboardAvoidingView } from "react-native";
-import React, {
-  createContext,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { View, FlatList } from "react-native";
+import React, { createContext, useCallback, useRef, useState } from "react";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import CustomText from "../components/basic/CustomText";
 import CustomTextInput from "../components/basic/CustomTextInput";
@@ -26,22 +20,25 @@ import {
 } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 import useFirebase from "../hooks/useFirebase";
+import languageService from "../services/languageService";
 export const ProgramContext = createContext();
 const CreateWorkoutProgramScreen = () => {
+  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
   const { db } = useFirebase();
+  const workoutsFlatListRef = useRef();
+  const maxWorkoutsPerProgram = 7;
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("CreateWorkoutProgram");
     }, [])
   );
-
   const [programData, setProgramData] = useState({
     name: "",
     workouts: [{ name: "", restSeconds: 0, exercises: [] }],
   });
-  const [highlightErrors, setHighlightErrors] = useState(true);
+  const [highlightErrors, setHighlightErrors] = useState(false);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const newWorkout = () => {
     const programDataClone = { ...programData };
@@ -60,21 +57,15 @@ const CreateWorkoutProgramScreen = () => {
     setProgramData(dataClone);
   };
   const handleCreateWorkoutProgram = async () => {
-    console.log("test1");
-
     if (
       programData.name == "" ||
       programData.workouts.findIndex(
         (workout) =>
           workout.restSeconds == 0 ||
           workout.name == "" ||
-          workout.exercises.findIndex(
-            (exercise) =>
-              exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
-          ) != -1
+          workout.exercises.length == 0
       ) != -1
     ) {
-      console.log("test2");
       setHighlightErrors(true);
     } else {
       const programDataClone = {
@@ -82,7 +73,6 @@ const CreateWorkoutProgramScreen = () => {
         creator: user.id,
         curremtUsersCount: 1,
       };
-      console.log("test");
       const newWorkoutProgramRef = await addDoc(
         collection(db, "workoutPrograms"),
         programDataClone
@@ -91,12 +81,14 @@ const CreateWorkoutProgramScreen = () => {
       await updateDoc(doc(db, "users", user.id), {
         savedWorkoutPrograms: arrayUnion(newWorkoutProgramRef.id),
       });
+      navigation.goBack();
     }
   };
   const isWorkoutMissingData = (workout) => {
     if (
       workout.restSeconds == 0 ||
       workout.name == "" ||
+      workout.exercises.length == 0 ||
       workout.exercises.findIndex(
         (exercise) =>
           exercise.name == "" || exercise.reps == 0 || exercise.sets == 0
@@ -113,6 +105,7 @@ const CreateWorkoutProgramScreen = () => {
         maximizedWorkout,
         setMaximizedWorkout,
         highlightErrors,
+        workoutsFlatListRef,
       }}
     >
       <View style={safeAreaStyle()}>
@@ -125,67 +118,79 @@ const CreateWorkoutProgramScreen = () => {
           }}
         >
           <View className="flex-row items-center" style={{ columnGap: 5 }}>
-            <CustomText>Program name:</CustomText>
+            <CustomText className="font-semibold text-xl">
+              Program name:
+            </CustomText>
             <CustomTextInput
+              maxLength={20}
               error={highlightErrors && programData.name == ""}
               value={programData.name}
               onChangeText={handleProgramNameChange}
               style={{ backgroundColor: appStyle.color_surface_variant }}
             />
           </View>
-          <View className="flex-row">
-            <CustomText>Workouts:</CustomText>
-          </View>
-          <View style={{ height: 50, justifyContent: "center" }}>
-            <FlatList
-              keyboardShouldPersistTaps={"always"}
-              data={programData.workouts}
-              horizontal={true}
-              keyExtractor={(_, index) => index}
-              contentContainerStyle={{
-                alignItems: "center",
-                columnGap: 10,
-                width: "100%",
-                justifyContent:
-                  programData.workouts.length == 6
-                    ? "space-between"
-                    : "flex-start",
-              }}
-              renderItem={({ item, index }) => (
-                <CustomButton
-                  onPress={() => setMaximizedWorkout(index)}
-                  style={{
-                    backgroundColor:
-                      index == maximizedWorkout
-                        ? appStyle.color_on_surface_variant
-                        : appStyle.color_surface_variant,
-                    minWidth: 50,
-                    borderWidth: 1,
-                    borderColor:
-                      highlightErrors &&
-                      isWorkoutMissingData(programData.workouts[index])
-                        ? appStyle.color_error
-                        : index == maximizedWorkout
-                        ? appStyle.color_on_surface_variant
-                        : appStyle.color_surface_variant,
-                  }}
-                >
-                  <CustomText
+          <View
+            className="rounded p-2"
+            style={{
+              backgroundColor: appStyle.color_primary_container,
+              borderColor: appStyle.color_on_primary_container,
+              borderWidth: 0.5,
+            }}
+          >
+            <CustomText className="font-semibold text-lg">
+              {languageService[user.language].workouts + ":"}
+            </CustomText>
+            <View style={{ height: 50, justifyContent: "center" }}>
+              <FlatList
+                ref={workoutsFlatListRef}
+                style={{}}
+                scrollEnabled={true}
+                keyboardShouldPersistTaps={"always"}
+                data={programData.workouts}
+                horizontal={true}
+                keyExtractor={(_, index) => index}
+                showsHorizontalScrollIndicator
+                contentContainerStyle={{
+                  alignItems: "center",
+                  paddingRight: 5,
+                  columnGap: 10,
+                }}
+                renderItem={({ item, index }) => (
+                  <CustomButton
+                    onPress={() => setMaximizedWorkout(index)}
                     style={{
-                      color:
+                      backgroundColor:
                         index == maximizedWorkout
+                          ? appStyle.color_on_surface_variant
+                          : appStyle.color_surface_variant,
+                      minWidth: 50,
+                      borderWidth: 1,
+                      borderColor:
+                        highlightErrors &&
+                        isWorkoutMissingData(programData.workouts[index])
+                          ? appStyle.color_error
+                          : index == maximizedWorkout
                           ? appStyle.color_surface_variant
-                          : appStyle.color_on_surface_variant,
+                          : appStyle.color_outline,
                     }}
                   >
-                    {item.name != "" ? item.name : index + 1}
-                  </CustomText>
-                </CustomButton>
-              )}
-            />
+                    <CustomText
+                      style={{
+                        color:
+                          index == maximizedWorkout
+                            ? appStyle.color_surface_variant
+                            : appStyle.color_on_surface_variant,
+                      }}
+                    >
+                      {item.name != "" ? item.name : index + 1}
+                    </CustomText>
+                  </CustomButton>
+                )}
+              />
+            </View>
           </View>
           <CustomButton
-            disabled={programData.workouts.length == 6}
+            disabled={programData.workouts.length == maxWorkoutsPerProgram}
             className="flex-row"
             onPress={newWorkout}
             style={{
@@ -196,12 +201,12 @@ const CreateWorkoutProgramScreen = () => {
               padding: 10,
               borderRadius: 8,
               backgroundColor:
-                programData.workouts.length == 6
+                programData.workouts.length == maxWorkoutsPerProgram
                   ? appStyle.color_surface_variant
                   : appStyle.color_primary,
             }}
           >
-            {programData.workouts.length < 6 && (
+            {programData.workouts.length < maxWorkoutsPerProgram && (
               <FontAwesomeIcon
                 color={appStyle.color_on_primary}
                 icon={faPlusCircle}
@@ -211,14 +216,16 @@ const CreateWorkoutProgramScreen = () => {
             <CustomText
               style={{
                 color:
-                  programData.workouts.length == 6
+                  programData.workouts.length == maxWorkoutsPerProgram
                     ? appStyle.color_on_surface_variant
                     : appStyle.color_on_primary,
               }}
             >
-              {programData.workouts.length == 6
-                ? "Can't have more than 6 workouts"
-                : "New Workout"}
+              {programData.workouts.length == maxWorkoutsPerProgram
+                ? languageService[user.language].cantHaveMoreWorkouts(
+                    maxWorkoutsPerProgram
+                  )
+                : languageService[user.language].newWorkout}
             </CustomText>
           </CustomButton>
           {maximizedWorkout != null &&
@@ -249,7 +256,7 @@ const CreateWorkoutProgramScreen = () => {
                 fontWeight: 600,
               }}
             >
-              Create workout program
+              {languageService[user.language].createProgram}
             </CustomText>
           </CustomButton>
         </View>
