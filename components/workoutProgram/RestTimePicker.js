@@ -14,8 +14,8 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
   const { programData, setProgramData, maximizedWorkout, highlightErrors } =
     useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
-  const [restMinutes, setRestMinutes] = useState(0);
-  const [restSeconds, setRestSeconds] = useState(0);
+  const [restMinutes, setRestMinutes] = useState();
+  const [restSeconds, setRestSeconds] = useState();
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
   // useEffect(() => {
