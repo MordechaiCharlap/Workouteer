@@ -12,7 +12,6 @@ const Header = (props) => {
       style={{
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: appStyle.color_background,
         justifyContent: props.goBackOption ? "space-between" : "center",
       }}
     >
