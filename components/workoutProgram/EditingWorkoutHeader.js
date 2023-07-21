@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import CustomTextInput from "../basic/CustomTextInput";
@@ -11,17 +11,29 @@ import {
   color_background,
   color_error,
   color_on_background,
+  color_on_primary,
+  color_outline,
+  color_primary,
+  color_surface_variant,
 } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useContext, useState } from "react";
 import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
-const EditingWorkoutHeader = ({ workoutIndex }) => {
+import languageService from "../../services/languageService";
+import useAuth from "../../hooks/useAuth";
+const EditingWorkoutHeader = ({
+  workoutIndex,
+  containerColor,
+  onContainerColor,
+}) => {
+  const { user } = useAuth();
   const {
     programData,
     setProgramData,
     maximizedWorkout,
     setMaximizedWorkout,
     highlightErrors,
+    workoutsFlatListRef,
   } = useContext(ProgramContext);
   const [isNameFocused, setIsNameFocused] = useState(false);
   const deleteWorkout = () => {
@@ -34,9 +46,10 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
       programDataClone.workouts.push({
         name: "",
         restSeconds: 0,
-        exercises: [{ name: "", sets: 0, reps: 0 }],
+        exercises: [],
       });
     setProgramData(programDataClone);
+    workoutsFlatListRef.current.scrollToOffset({ animated: true, offset: 0 });
   };
   const handleWorkoutNameChange = (text) => {
     if (!isNameFocused) return;
@@ -46,8 +59,17 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
   };
   return (
     <View className="flex-row items-center" style={{ columnGap: 10 }}>
-      <CustomText>Name:</CustomText>
+      <CustomText
+        className="text-lg semibold"
+        style={{ color: onContainerColor }}
+      >
+        {languageService[user.language].name.charAt(0).toUpperCase() +
+          languageService[user.language].name.slice(1) +
+          ":"}
+      </CustomText>
       <CustomTextInput
+        style={{ backgroundColor: onContainerColor, color: containerColor }}
+        maxLength={20}
         error={highlightErrors && programData.workouts[workoutIndex].name == ""}
         value={programData.workouts[workoutIndex].name}
         onFocus={() => setIsNameFocused(true)}
@@ -56,7 +78,9 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
       />
       <CustomButton
         style={{
-          backgroundColor: color_background,
+          borderWidth: 1,
+          borderColor: color_outline,
+          backgroundColor: onContainerColor,
         }}
         onPress={() =>
           maximizedWorkout == workoutIndex
@@ -66,17 +90,19 @@ const EditingWorkoutHeader = ({ workoutIndex }) => {
       >
         <FontAwesomeIcon
           icon={maximizedWorkout == workoutIndex ? faMinimize : faPen}
-          color={color_on_background}
+          color={containerColor}
           size={15}
         />
       </CustomButton>
       <CustomButton
         style={{
-          backgroundColor: color_background,
+          borderWidth: 1,
+          borderColor: color_outline,
+          backgroundColor: onContainerColor,
         }}
         onPress={deleteWorkout}
       >
-        <FontAwesomeIcon icon={faTrashCan} color={color_error} size={15} />
+        <FontAwesomeIcon icon={faTrashCan} color={containerColor} size={15} />
       </CustomButton>
     </View>
   );
