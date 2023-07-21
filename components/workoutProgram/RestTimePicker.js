@@ -14,34 +14,17 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
   const { programData, setProgramData, maximizedWorkout, highlightErrors } =
     useContext(ProgramContext);
   const [showRestModal, setShowRestModal] = useState(false);
-  const [restMinutes, setRestMinutes] = useState(
-    programData.workouts[workoutIndex].restSeconds / 60
-  );
-  const [restSeconds, setRestSeconds] = useState(
-    programData.workouts[workoutIndex].restSeconds % 60
-  );
+  const [restMinutes, setRestMinutes] = useState(0);
+  const [restSeconds, setRestSeconds] = useState(0);
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
-  useEffect(() => {
-    const programDataClone = { ...programData };
-    programDataClone.workouts[workoutIndex].restSeconds =
-      restMinutes * 60 + parseInt(restSeconds);
-    setProgramData(programDataClone);
-  }, [restMinutes, restSeconds]);
-  useEffect(() => {
-    setRestMinutes(
-      String(programData.workouts[workoutIndex].restSeconds / 60).padStart(
-        2,
-        "0"
-      )
-    );
-    setRestSeconds(
-      String(programData.workouts[workoutIndex].restSeconds % 60).padStart(
-        2,
-        "0"
-      )
-    );
-  }, [maximizedWorkout]);
+  // useEffect(() => {
+  //   if (!restMinutes && !restSeconds) return;
+  // const programDataClone = { ...programData };
+  // programDataClone.workouts[workoutIndex].restSeconds =
+  //   parseInt(restMinutes) * 60 + parseInt(restSeconds);
+  // setProgramData(programDataClone);
+  // }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
       return;
@@ -63,19 +46,20 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
       setRestSeconds("00");
     }
   };
-
-  const minutesBlur = () => {
-    setMinutesFocused(false);
-    setRestMinutes(String(restMinutes).padStart(2, "0"));
+  const confirmRestTime = () => {
+    const programDataClone = { ...programData };
+    programDataClone.workouts[workoutIndex].restSeconds =
+      parseInt(restMinutes || 0) * 60 + parseInt(restSeconds || 0);
+    setProgramData(programDataClone);
   };
-  const secondsBlur = () => {
-    setSecondsFocused(false);
-    setRestSeconds(String(restSeconds).padStart(2, "0"));
-  };
-  useEffect(() => {
-    secondsBlur();
-    minutesBlur();
-  }, [showRestModal]);
+  // const minutesBlur = () => {
+  //   setMinutesFocused(false);
+  //   setRestMinutes(String(restMinutes).padStart(2, "0"));
+  // };
+  // const secondsBlur = () => {
+  //   setSecondsFocused(false);
+  //   setRestSeconds(String(restSeconds).padStart(2, "0"));
+  // };
   return (
     <View>
       <CustomButton
@@ -88,15 +72,18 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
           borderWidth: 1,
           borderColor:
             highlightErrors &&
-            parseInt(restSeconds) == 0 &&
-            parseInt(restMinutes) == 0
+            programData.workouts[workoutIndex].restSeconds == 0
               ? appStyle.color_error
               : onContainerColor,
         }}
       >
         <CustomText style={{ color: containerColor, fontWeight: 500 }}>
-          {restSeconds != 0 || restMinutes != 0
-            ? `${restMinutes}:${restSeconds}`
+          {programData.workouts[workoutIndex].restSeconds
+            ? `${String(
+                parseInt(programData.workouts[workoutIndex].restSeconds / 60)
+              ).padStart(2, "0")}:${String(
+                programData.workouts[workoutIndex].restSeconds % 60
+              ).padStart(2, "0")}`
             : languageService[user.language].choose[user.isMale ? 1 : 0]}
         </CustomText>
       </CustomButton>
@@ -104,7 +91,10 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
         onDismiss={() => {
           setShowRestModal(false);
         }}
-        onConfirmPressed={() => setShowRestModal(false)}
+        onConfirmPressed={() => {
+          setShowRestModal(false);
+          confirmRestTime();
+        }}
         setShowModal={setShowRestModal}
         title={
           languageService[user.language].choose[user.isMale ? 1 : 0] +
@@ -114,48 +104,54 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
         showModal={showRestModal}
         confirmText={languageService[user.language].confirm}
         customView={
-          <View className="flex-row" style={{ columnGap: 10, height: 50 }}>
-            <View>
-              <CustomText>{languageService[user.language].minutes}</CustomText>
+          <View>
+            <View className="flex-row" style={{ columnGap: 10, height: 50 }}>
               <View>
-                <CustomTextInput
-                  style={{ backgroundColor: appStyle.color_surface_variant }}
-                  textAlign="center"
-                  value={restMinutes}
-                  onBlur={minutesBlur}
-                  keyboardType="numeric"
-                  maxLength={2}
-                  onFocus={() => setMinutesFocused(true)}
-                  onChangeText={(text) => handleMinutesChanged(text)}
-                ></CustomTextInput>
+                <CustomText>
+                  {languageService[user.language].minutes}
+                </CustomText>
+                <View>
+                  <CustomTextInput
+                    style={{ backgroundColor: appStyle.color_surface_variant }}
+                    textAlign="center"
+                    value={restMinutes}
+                    // onBlur={minutesBlur}
+                    keyboardType="numeric"
+                    maxLength={2}
+                    onFocus={() => setMinutesFocused(true)}
+                    onChangeText={(text) => handleMinutesChanged(text)}
+                  ></CustomTextInput>
+                </View>
               </View>
-            </View>
-            <View>
-              <CustomText></CustomText>
-              <CustomText
-                style={{
-                  minHeight: 40,
-                  fontSize: 20,
-                  textAlign: "center",
-                  textAlignVertical: "center",
-                }}
-              >
-                :
-              </CustomText>
-            </View>
-            <View>
-              <CustomText>{languageService[user.language].seconds}</CustomText>
               <View>
-                <CustomTextInput
-                  style={{ backgroundColor: appStyle.color_surface_variant }}
-                  textAlign="center"
-                  value={restSeconds}
-                  onBlur={secondsBlur}
-                  onFocus={() => setSecondsFocused(true)}
-                  keyboardType="numeric"
-                  maxLength={2}
-                  onChangeText={(text) => handleSecondsChanged(text)}
-                ></CustomTextInput>
+                <CustomText></CustomText>
+                <CustomText
+                  style={{
+                    minHeight: 40,
+                    fontSize: 20,
+                    textAlign: "center",
+                    textAlignVertical: "center",
+                  }}
+                >
+                  :
+                </CustomText>
+              </View>
+              <View>
+                <CustomText>
+                  {languageService[user.language].seconds}
+                </CustomText>
+                <View>
+                  <CustomTextInput
+                    style={{ backgroundColor: appStyle.color_surface_variant }}
+                    textAlign="center"
+                    value={restSeconds}
+                    // onBlur={secondsBlur}
+                    onFocus={() => setSecondsFocused(true)}
+                    keyboardType="numeric"
+                    maxLength={2}
+                    onChangeText={(text) => handleSecondsChanged(text)}
+                  ></CustomTextInput>
+                </View>
               </View>
             </View>
           </View>
