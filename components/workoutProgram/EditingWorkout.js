@@ -1,4 +1,10 @@
-import { View, FlatList, Modal } from "react-native";
+import {
+  View,
+  FlatList,
+  Modal,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import {
   color_on_primary,
@@ -20,6 +26,7 @@ import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import useResponsiveness from "../../hooks/useResponsiveness";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { user } = useAuth();
@@ -29,6 +36,7 @@ const EditingWorkout = ({ workoutIndex }) => {
     useState(false);
   const [editingExerciseIndex, setEditingExerciseIndex] = useState();
   const [editingExercise, setEditingExercise] = useState();
+  const { windowHeight } = useResponsiveness();
   const addNewExercise = (newExercise) => {
     const programDataClone = { ...programData };
     programDataClone.workouts[workoutIndex].exercises.push(newExercise);
@@ -65,7 +73,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         padding: 10,
         borderRadius: 8,
         rowGap: 15,
-        height: "100%",
+        minHeight: windowHeight / 2,
       }}
     >
       <CustomText className="font-semibold text-center">
@@ -76,6 +84,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         containerColor={containerColor}
         onContainerColor={onContainerColor}
       />
+
       <View className="flex-row items-center" style={{ columnGap: 5 }}>
         <CustomText className="text-lg" style={{ color: onContainerColor }}>
           {languageService[user.language].restTimeBetweenSets + ":"}
@@ -103,37 +112,34 @@ const EditingWorkout = ({ workoutIndex }) => {
           }}
           className="flex-1"
         >
+          <View
+            className="flex-row w-full"
+            style={{ columnGap: 8, padding: 5 }}
+          >
+            <CustomText
+              style={{ width: 1, flexGrow: 3, color: containerColor }}
+            >
+              {languageService[user.language].name}
+            </CustomText>
+            <CustomText
+              className="text-center"
+              style={{ width: 1, flexGrow: 1, color: containerColor }}
+            >
+              {languageService[user.language].sets}
+            </CustomText>
+            <CustomText
+              className="text-center"
+              style={{ width: 1, flexGrow: 1, color: containerColor }}
+            >
+              {languageService[user.language].reps}
+            </CustomText>
+          </View>
           <FlatList
-            className="flex-1"
             scrollEnabled={true}
             showsVerticalScrollIndicator={true}
             data={programData.workouts[workoutIndex].exercises}
             keyExtractor={(_, index) => index}
             contentContainerStyle={{ rowGap: 5 }}
-            ListHeaderComponent={
-              <View
-                className="flex-row w-full"
-                style={{ columnGap: 8, padding: 5 }}
-              >
-                <CustomText
-                  style={{ width: 1, flexGrow: 3, color: containerColor }}
-                >
-                  {languageService[user.language].name}
-                </CustomText>
-                <CustomText
-                  className="text-center"
-                  style={{ width: 1, flexGrow: 1, color: containerColor }}
-                >
-                  {languageService[user.language].sets}
-                </CustomText>
-                <CustomText
-                  className="text-center"
-                  style={{ width: 1, flexGrow: 1, color: containerColor }}
-                >
-                  {languageService[user.language].reps}
-                </CustomText>
-              </View>
-            }
             renderItem={({ item, index }) => (
               <CreatedExercise
                 exercise={item}
