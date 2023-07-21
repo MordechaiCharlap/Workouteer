@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPenAlt, faPlay } from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import languageService from "../services/languageService";
 const WorkoutProgramScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -67,7 +68,15 @@ const WorkoutProgramScreen = ({ route }) => {
               keyExtractor={(exercise, index) => index}
               renderItem={({ item }) => (
                 <Text style={{ fontSize: 15 }}>
-                  {item.sets} sets of {item.reps} {item.name}
+                  {item.name +
+                    ": " +
+                    item.sets +
+                    " " +
+                    languageService[user.language].setsOf +
+                    " " +
+                    item.reps +
+                    " " +
+                    languageService[user.language].reps}
                 </Text>
               )}
             />
