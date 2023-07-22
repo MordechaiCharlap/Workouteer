@@ -18,6 +18,7 @@ export const NavbarDisplayProvider = ({ children }) => {
     "ConnectToInternet",
     "UnderMaintenance",
     "AdminHome",
+    "CreateWorkoutProgram",
   ];
   useEffect(() => {
     if (dontShowNavbar.includes(currentScreen)) {
