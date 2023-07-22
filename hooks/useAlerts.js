@@ -47,9 +47,9 @@ export const AlertsProvider = ({ children }) => {
             if (!initialDataUpdated) {
               setInitialDataUpdated(true);
               firebase.removePastOrEmptyWorkoutsAlerts(
-                workoutRequestsAlerts,
-                newWorkoutsAlerts,
-                workoutInvitesAlerts,
+                alertsData.workoutRequests,
+                alertsData.newWorkouts,
+                alertsData.workoutInvites,
                 user.id
               );
             }
