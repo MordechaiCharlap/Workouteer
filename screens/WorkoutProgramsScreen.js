@@ -121,68 +121,89 @@ const WorkoutProgramsScreen = () => {
         </ScrollView>
       </View>
       <View style={{ height: 10 }} />
-      <View style={{ paddingHorizontal: 16 }}>
-        <View className="flex-row justify-between">
-          <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
-            {languageService[user.language].savedPrograms}
-          </CustomText>
-          {savedPrograms && savedPrograms.length > 0 && (
-            <CustomButton
-              onPress={() => {
-                if (removingProgram) setRemovingProgram();
-                setEditingSavedPrograms((prev) => !prev);
-              }}
-            >
-              <FontAwesomeIcon
-                icon={!editingSavedPrograms ? faPen : faCheck}
-                size={15}
-                color={appStyle.color_on_background}
-              />
-            </CustomButton>
-          )}
-        </View>
-
+      <View
+        className="flex-row justify-between"
+        style={{ paddingHorizontal: 16 }}
+      >
+        <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
+          {languageService[user.language].savedPrograms}
+        </CustomText>
         {savedPrograms && savedPrograms.length > 0 && (
-          <FlatList
-            contentContainerStyle={{ rowGap: 10 }}
-            data={savedPrograms}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => (
-              <CustomButton
-                onLongPress={() => {
-                  if (!editingSavedPrograms) setEditingSavedPrograms(true);
+          <CustomButton
+            onPress={() => {
+              if (removingProgram) setRemovingProgram();
+              setEditingSavedPrograms((prev) => !prev);
+            }}
+          >
+            <FontAwesomeIcon
+              icon={!editingSavedPrograms ? faPen : faCheck}
+              size={15}
+              color={appStyle.color_on_background}
+            />
+          </CustomButton>
+        )}
+      </View>
+
+      {savedPrograms && savedPrograms.length > 0 && (
+        <FlatList
+          contentContainerStyle={{ rowGap: 10 }}
+          data={savedPrograms}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => (
+            <CustomButton
+              onLongPress={() => {
+                if (!editingSavedPrograms) setEditingSavedPrograms(true);
+              }}
+              onPress={() => {
+                if (editingSavedPrograms) return;
+                if (removingProgram) setRemovingProgram();
+                if (editingSavedPrograms) setEditingSavedPrograms();
+                navigation.navigate("WorkoutProgram", { program: item });
+              }}
+              style={[
+                {
+                  backgroundColor: appStyle.color_surface_variant,
+                  borderRadius: 4,
+                  padding: 0,
+                  margin: 16,
+                },
+                appComponentsDefaultStyles.shadow,
+              ]}
+            >
+              <View
+                className="flex-row w-full justify-between"
+                style={{
+                  paddingVertical: 20,
+                  paddingHorizontal: 16,
                 }}
-                onPress={() => {
-                  if (editingSavedPrograms) return;
-                  if (removingProgram) setRemovingProgram();
-                  if (editingSavedPrograms) setEditingSavedPrograms();
-                  navigation.navigate("WorkoutProgram", { program: item });
-                }}
-                style={[
-                  {
-                    backgroundColor: appStyle.color_surface_variant,
-                    borderRadius: 4,
-                    padding: 0,
-                  },
-                  appComponentsDefaultStyles.shadow,
-                ]}
               >
-                <View
-                  className="flex-row w-full justify-between"
-                  style={{
-                    paddingVertical: 20,
-                    paddingHorizontal: 16,
-                  }}
-                >
-                  <CustomText style={{ fontWeight: 600 }}>
-                    {item.name}
-                  </CustomText>
-                  {editingSavedPrograms && (
-                    <View className="absolute top-0 bottom-0 right-2 items-center justify-center">
-                      {removingProgram != item.id ? (
+                <CustomText style={{ fontWeight: 600 }}>{item.name}</CustomText>
+                {editingSavedPrograms && (
+                  <View className="absolute top-0 bottom-0 right-2 items-center justify-center">
+                    {removingProgram != item.id ? (
+                      <CustomButton
+                        onPress={() => {
+                          setRemovingProgram(item.id);
+                        }}
+                        className="rounded-full"
+                        style={{
+                          padding: 0,
+                          borderWidth: 2,
+                          backgroundColor: appStyle.color_background,
+                          borderColor: appStyle.color_surface_variant,
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faMinusCircle}
+                          color={appStyle.color_error}
+                          size={30}
+                        />
+                      </CustomButton>
+                    ) : (
+                      <View className="flex-row">
                         <CustomButton
                           onPress={() => {
-                            setRemovingProgram(item.id);
+                            setRemovingProgram();
                           }}
                           className="rounded-full"
                           style={{
@@ -193,61 +214,41 @@ const WorkoutProgramsScreen = () => {
                           }}
                         >
                           <FontAwesomeIcon
-                            icon={faMinusCircle}
+                            icon={faChevronCircleLeft}
                             color={appStyle.color_error}
                             size={30}
                           />
                         </CustomButton>
-                      ) : (
-                        <View className="flex-row">
-                          <CustomButton
-                            onPress={() => {
-                              setRemovingProgram();
-                            }}
-                            className="rounded-full"
-                            style={{
-                              padding: 0,
-                              borderWidth: 2,
-                              backgroundColor: appStyle.color_background,
-                              borderColor: appStyle.color_surface_variant,
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faChevronCircleLeft}
-                              color={appStyle.color_error}
-                              size={30}
-                            />
-                          </CustomButton>
-                          <CustomButton
-                            onPress={() => {
-                              setRemovingProgram();
-                              removeProgram(index);
-                              setEditingSavedPrograms(false);
-                            }}
-                            className="rounded-full"
-                            style={{
-                              padding: 0,
-                              borderWidth: 2,
-                              backgroundColor: appStyle.color_background,
-                              borderColor: appStyle.color_surface_variant,
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faCheckCircle}
-                              color={appStyle.color_success}
-                              size={30}
-                            />
-                          </CustomButton>
-                        </View>
-                      )}
-                    </View>
-                  )}
-                </View>
-              </CustomButton>
-            )}
-          />
-        )}
-        {/* <CustomButton
+                        <CustomButton
+                          onPress={() => {
+                            setRemovingProgram();
+                            removeProgram(index);
+                            setEditingSavedPrograms(false);
+                          }}
+                          className="rounded-full"
+                          style={{
+                            padding: 0,
+                            borderWidth: 2,
+                            backgroundColor: appStyle.color_background,
+                            borderColor: appStyle.color_surface_variant,
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faCheckCircle}
+                            color={appStyle.color_success}
+                            size={30}
+                          />
+                        </CustomButton>
+                      </View>
+                    )}
+                  </View>
+                )}
+              </View>
+            </CustomButton>
+          )}
+        />
+      )}
+      {/* <CustomButton
           style={{
             marginTop: 5,
             borderRadius: 8,
@@ -256,7 +257,6 @@ const WorkoutProgramsScreen = () => {
         >
           <CustomText style={{ fontWeight: 600 }}>{languageService[user.language].addNewProgram}</CustomText>
         </CustomButton> */}
-      </View>
     </View>
   );
 };

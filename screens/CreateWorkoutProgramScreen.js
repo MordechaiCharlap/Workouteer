@@ -230,11 +230,10 @@ const CreateWorkoutProgramScreen = () => {
           </CustomButton>
           {maximizedWorkout != null &&
             programData.workouts.length >= maximizedWorkout - 1 && (
-              <View className="flex-1">
-                <EditingWorkout workoutIndex={maximizedWorkout} />
-              </View>
+              <EditingWorkout workoutIndex={maximizedWorkout} />
             )}
           <CustomButton
+            className="absolute bottom-0"
             onPress={handleCreateWorkoutProgram}
             round
             style={{

@@ -20,6 +20,7 @@ const CreatedExercise = ({ exercise, editExercise }) => {
       }}
     >
       <CustomText
+        className="text-left"
         style={{ width: 1, flexGrow: 3, color: color_on_primary_container }}
       >
         {exercise.name}

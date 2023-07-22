@@ -24,28 +24,35 @@ const WorkoutProgramScreen = ({ route }) => {
       setCurrentScreen("WorkoutProgram");
     }, [])
   );
-  const onContainerColor = appStyle.color_primary_container;
-  const containerColor = appStyle.color_on_primary_container;
+  const onContainerColor = appStyle.color_on_primary_container;
+  const containerColor = appStyle.color_primary_container;
   return (
     <View style={safeAreaStyle()}>
       <Header goBackOption={true} icon={"<"} title={program.name} />
       <FlatList
         keyExtractor={(item, index) => index}
         data={program.workouts}
-        style={{ marginHorizontal: 16 }}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <CustomButton
-            style={{
-              marginBottom: 10,
-              backgroundColor: appStyle.color_primary_container,
-            }}
+            className="flex-1"
+            style={[
+              {
+                borderWidth: 0.5,
+                borderColor: appStyle.color_outline,
+                margin: 16,
+                backgroundColor: containerColor,
+              },
+              appComponentsDefaultStyles.shadow,
+            ]}
           >
-            <View className="flex-row w-full justify-between items-center">
+            <View className="w-full justify-between">
               <CustomText
+                className="text-lg text-center font-semibold"
                 style={{
-                  fontWeight: 600,
-                  fontSize: 30,
-                  color: appStyle.color_on_background,
+                  color: containerColor,
+                  backgroundColor: onContainerColor,
+                  padding: 8,
+                  borderRadius: 8,
                 }}
               >
                 {item.name}
@@ -65,23 +72,24 @@ const WorkoutProgramScreen = ({ route }) => {
               </CustomButton> */}
             </View>
             <View
-              className="flex-row w-full"
+              className="flex-row w-full "
               style={{ columnGap: 8, padding: 5 }}
             >
               <CustomText
-                style={{ width: 1, flexGrow: 3, color: containerColor }}
+                className="font-semibold text-lg"
+                style={{ width: 1, flexGrow: 3, color: onContainerColor }}
               >
-                {languageService[user.language].name}
+                {languageService[user.language].exercise}
               </CustomText>
               <CustomText
-                className="text-center"
-                style={{ width: 1, flexGrow: 1, color: containerColor }}
+                className="text-center font-semibold text-lg"
+                style={{ width: 1, flexGrow: 1, color: onContainerColor }}
               >
                 {languageService[user.language].sets}
               </CustomText>
               <CustomText
-                className="text-center"
-                style={{ width: 1, flexGrow: 1, color: containerColor }}
+                className="text-center font-semibold text-lg"
+                style={{ width: 1, flexGrow: 1, color: onContainerColor }}
               >
                 {languageService[user.language].reps}
               </CustomText>
@@ -97,19 +105,19 @@ const WorkoutProgramScreen = ({ route }) => {
                 >
                   <CustomText
                     className="text-left"
-                    style={{ width: 1, flexGrow: 3, color: containerColor }}
+                    style={{ width: 1, flexGrow: 3, color: onContainerColor }}
                   >
                     {item.name}
                   </CustomText>
                   <CustomText
                     className="text-center"
-                    style={{ width: 1, flexGrow: 1, color: containerColor }}
+                    style={{ width: 1, flexGrow: 1, color: onContainerColor }}
                   >
                     {item.sets}
                   </CustomText>
                   <CustomText
                     className="text-center"
-                    style={{ width: 1, flexGrow: 1, color: containerColor }}
+                    style={{ width: 1, flexGrow: 1, color: onContainerColor }}
                   >
                     {item.reps}
                   </CustomText>
