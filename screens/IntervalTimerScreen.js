@@ -16,12 +16,20 @@ import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { secondsToMinutesPlusSeconds } from "../utils/timeFunctions";
 import Header from "../components/Header";
+import CustomTextInput from "../components/basic/CustomTextInput";
+import AwesomeModal from "../components/AwesomeModal";
+import languageService from "../services/languageService";
+import useAuth from "../hooks/useAuth";
 const IntervalTimerScreen = () => {
+  const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
-  const [chosenSeconds, setChosenSeconds] = useState(120);
-  const [intervalSeconds, setIntervalSeconds] = useState(chosenSeconds);
+  const [chosenTotalSeconds, setChosenTotalSeconds] = useState(120);
+  const [chosenMinutes, setChosenMinutes] = useState();
+  const [chosenSeconds, setChosenSeconds] = useState();
+  const [intervalSeconds, setIntervalSeconds] = useState(chosenTotalSeconds);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState();
+  const [showModal, setShowModal] = useState(false);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
@@ -38,7 +46,7 @@ const IntervalTimerScreen = () => {
   };
   const stop = () => {
     setIsPlaying(false);
-    setIntervalSeconds(chosenSeconds);
+    setIntervalSeconds(chosenTotalSeconds);
     clearInterval(timer);
   };
   const pause = () => {
@@ -55,6 +63,18 @@ const IntervalTimerScreen = () => {
       setIntervalSeconds((prev) => prev - 1);
     }, 1000);
     setTimer(newTimer);
+  };
+  const handleSecondsChanged = (text) => {
+    var validRegex = /(?:[0-5]?[0-9])?/;
+    if (text.match(validRegex)) {
+      setChosenSeconds(String(text));
+    }
+  };
+  const handleMinutesChanged = (text) => {
+    var validRegex = /(?:[0-5]?[0-9])?/;
+    if (text.match(validRegex)) {
+      setChosenMinutes(String(text));
+    }
   };
   return (
     <View style={safeAreaStyle()}>
@@ -118,6 +138,7 @@ const IntervalTimerScreen = () => {
       <View className="h-1/3 items-center justify-center">
         {!isPlaying && (
           <CustomButton
+            onPress={() => setShowModal(true)}
             style={{
               backgroundColor: appStyle.color_surface_variant,
               borderColor: appStyle.color_outline,
@@ -130,6 +151,75 @@ const IntervalTimerScreen = () => {
           </CustomButton>
         )}
       </View>
+      <AwesomeModal
+        onDismiss={() => {
+          setShowModal(false);
+        }}
+        onConfirmPressed={() => {
+          setShowModal(false);
+          setChosenTotalSeconds(
+            60 * parseInt(chosenMinutes || 0) + parseInt(chosenSeconds || 0)
+          );
+          setIntervalSeconds(
+            60 * parseInt(chosenMinutes || 0) + parseInt(chosenSeconds || 0)
+          );
+        }}
+        setShowModal={setShowModal}
+        title={
+          languageService[user.language].choose[user.isMale ? 1 : 0] +
+          " " +
+          languageService[user.language].duration
+        }
+        showModal={showModal}
+        confirmText={languageService[user.language].confirm}
+        customView={
+          <View>
+            <View className="flex-row" style={{ columnGap: 10, height: 50 }}>
+              <View>
+                <CustomText>
+                  {languageService[user.language].minutes}
+                </CustomText>
+                <View>
+                  <CustomTextInput
+                    style={{ backgroundColor: appStyle.color_surface_variant }}
+                    textAlign="center"
+                    keyboardType="numeric"
+                    maxLength={2}
+                    onChangeText={(text) => handleMinutesChanged(text)}
+                  ></CustomTextInput>
+                </View>
+              </View>
+              <View>
+                <CustomText></CustomText>
+                <CustomText
+                  style={{
+                    minHeight: 40,
+                    fontSize: 20,
+                    textAlign: "center",
+                    textAlignVertical: "center",
+                  }}
+                >
+                  :
+                </CustomText>
+              </View>
+              <View>
+                <CustomText>
+                  {languageService[user.language].seconds}
+                </CustomText>
+                <View>
+                  <CustomTextInput
+                    style={{ backgroundColor: appStyle.color_surface_variant }}
+                    textAlign="center"
+                    keyboardType="numeric"
+                    maxLength={2}
+                    onChangeText={(text) => handleSecondsChanged(text)}
+                  ></CustomTextInput>
+                </View>
+              </View>
+            </View>
+          </View>
+        }
+      />
     </View>
   );
 };
