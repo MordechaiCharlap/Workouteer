@@ -161,14 +161,12 @@ const EditingWorkout = ({ workoutIndex }) => {
             <View
               className="rounded-full"
               style={{
-                borderWidth: 2,
-                borderColor: containerColor,
-                backgroundColor: containerColor,
+                backgroundColor: onContainerColor,
               }}
             >
               <FontAwesomeIcon
                 icon={faPlusCircle}
-                color={color_primary}
+                color={containerColor}
                 size={30}
               />
             </View>
