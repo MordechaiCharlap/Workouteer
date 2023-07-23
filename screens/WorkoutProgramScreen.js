@@ -39,7 +39,8 @@ const WorkoutProgramScreen = ({ route }) => {
               {
                 borderWidth: 0.5,
                 borderColor: appStyle.color_outline,
-                margin: 16,
+                marginHorizontal: 16,
+                marginVertical: 8,
                 backgroundColor: containerColor,
               },
               appComponentsDefaultStyles.shadow,

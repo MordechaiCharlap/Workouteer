@@ -147,7 +147,7 @@ const CreateWorkoutProgramScreen = () => {
                 scrollEnabled={true}
                 keyboardShouldPersistTaps={"always"}
                 data={programData.workouts}
-                horizontal={true}
+                horizontal
                 keyExtractor={(_, index) => index}
                 showsHorizontalScrollIndicator
                 contentContainerStyle={{
@@ -175,6 +175,7 @@ const CreateWorkoutProgramScreen = () => {
                     }}
                   >
                     <CustomText
+                      className="font-semibold"
                       style={{
                         color:
                           index == maximizedWorkout
