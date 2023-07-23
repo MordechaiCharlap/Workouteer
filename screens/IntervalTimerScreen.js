@@ -35,34 +35,54 @@ const IntervalTimerScreen = () => {
       setCurrentScreen("IntervalTimer");
     }, [])
   );
+  useEffect(() => {
+    if (!isPlaying && timer) {
+      clearInterval(timer);
+      setTimer();
+    }
+    return () => {
+      clearInterval(timer);
+      setTimer();
+    };
+  }, [isPlaying]);
   const restart = () => {
-    setIntervalSeconds(120);
     setIsPlaying(true);
-    const newTimer = setInterval(() => {
-      setIntervalSeconds((prev) => prev - 1);
-      console.log(intervalSeconds);
-    }, 1000);
-    setTimer(newTimer);
+    setIntervalSeconds(chosenTotalSeconds);
+    setTimer(
+      setInterval(() => {
+        setIntervalSeconds((prev) => {
+          if (prev - 1 <= 0) {
+            end();
+          }
+
+          return prev - 1;
+        });
+      }, 1000)
+    );
   };
   const stop = () => {
     setIsPlaying(false);
     setIntervalSeconds(chosenTotalSeconds);
-    clearInterval(timer);
   };
   const pause = () => {
     setIsPlaying(false);
-    clearInterval(timer);
   };
   const end = () => {
     setIsPlaying();
-    clearInterval(timer);
   };
   const play = () => {
     setIsPlaying(true);
-    const newTimer = setInterval(() => {
-      setIntervalSeconds((prev) => prev - 1);
-    }, 1000);
-    setTimer(newTimer);
+    setTimer(
+      setInterval(() => {
+        setIntervalSeconds((prev) => {
+          if (prev - 1 <= 0) {
+            end();
+          }
+
+          return prev - 1;
+        });
+      }, 1000)
+    );
   };
   const handleSecondsChanged = (text) => {
     var validRegex = /(?:[0-5]?[0-9])?/;
