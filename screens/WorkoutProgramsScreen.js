@@ -15,6 +15,7 @@ import {
   faMinusCircle,
   faPen,
   faPlusCircle,
+  faStopwatch,
 } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../hooks/useAuth";
 import {
@@ -113,11 +114,11 @@ const WorkoutProgramsScreen = () => {
             text={languageService[user.language].search}
             onPress={() => {}}
           /> */}
-          {/* <TopButton
+          <TopButton
             icon={faStopwatch}
             text={languageService[user.language].timer}
             onPress={() => navigation.navigate("IntervalTimer")}
-          /> */}
+          />
         </ScrollView>
       </View>
       <View style={{ height: 10 }} />
