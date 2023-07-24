@@ -19,6 +19,8 @@ export const NavbarDisplayProvider = ({ children }) => {
     "UnderMaintenance",
     "AdminHome",
     "CreateWorkoutProgram",
+    "Timer",
+    "IntervalTimer",
   ];
   useEffect(() => {
     if (dontShowNavbar.includes(currentScreen)) {
