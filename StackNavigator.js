@@ -57,6 +57,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
 import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
+import TimerScreen from "./screens/TimerScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -111,7 +112,7 @@ const StackNavigator = () => {
     const hideSplashScreen = async () => {
       await SplashScreen.hideAsync();
     };
-    if (!initialLoading) hideSplashScreen();
+    hideSplashScreen();
   }, [initialLoading]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
@@ -301,6 +302,11 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="IntervalTimer"
                   component={IntervalTimerScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="Timer"
+                  component={TimerScreen}
                   options={verticalAnimation}
                 />
                 <Stack.Screen
