@@ -7,17 +7,17 @@ import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
-import useFirebase from "../hooks/useFirebase";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPenAlt, faPlay } from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import languageService from "../services/languageService";
+import { convertHexToRgba } from "../utils/stylingFunctions";
 const WorkoutProgramScreen = ({ route }) => {
-  const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
+  const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
-  const { db } = useFirebase();
+  const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState();
   const program = route.params.program;
   useFocusEffect(
     useCallback(() => {
@@ -26,6 +26,27 @@ const WorkoutProgramScreen = ({ route }) => {
   );
   const onContainerColor = appStyle.color_on_primary_container;
   const containerColor = appStyle.color_primary_container;
+  const disabledColor = convertHexToRgba(onContainerColor, 0.3);
+  const workoutButton = (onPress, icon) => {
+    return (
+      <CustomButton
+        onPress={onPress}
+        className="rounded-full"
+        style={{
+          backgroundColor: onContainerColor,
+          padding: 15,
+          borderColor: containerColor,
+          borderWidth: 2,
+        }}
+      >
+        <FontAwesomeIcon
+          icon={icon}
+          color={appStyle.color_background}
+          size={20}
+        />
+      </CustomButton>
+    );
+  };
   return (
     <View style={safeAreaStyle()}>
       <Header goBackOption={true} icon={"<"} title={program.name} />
@@ -34,9 +55,20 @@ const WorkoutProgramScreen = ({ route }) => {
         data={program.workouts}
         renderItem={({ item, index }) => (
           <CustomButton
+            onPress={() =>
+              index == selectedWorkoutIndex
+                ? setSelectedWorkoutIndex()
+                : setSelectedWorkoutIndex(index)
+            }
+            onLongPress={() =>
+              index == selectedWorkoutIndex
+                ? setSelectedWorkoutIndex()
+                : setSelectedWorkoutIndex(index)
+            }
             className="flex-1"
             style={[
               {
+                justifyContent: "flex-start",
                 borderWidth: 0.5,
                 borderColor: appStyle.color_outline,
                 marginHorizontal: 16,
@@ -50,8 +82,11 @@ const WorkoutProgramScreen = ({ route }) => {
               <CustomText
                 className="text-lg text-center font-semibold"
                 style={{
-                  color: containerColor,
-                  backgroundColor: onContainerColor,
+                  color: appStyle.color_background,
+                  backgroundColor:
+                    index == selectedWorkoutIndex
+                      ? disabledColor
+                      : onContainerColor,
                   padding: 8,
                   borderRadius: 8,
                 }}
@@ -78,19 +113,40 @@ const WorkoutProgramScreen = ({ route }) => {
             >
               <CustomText
                 className="font-semibold text-lg"
-                style={{ width: 1, flexGrow: 3, color: onContainerColor }}
+                style={{
+                  width: 1,
+                  flexGrow: 3,
+                  color:
+                    index == selectedWorkoutIndex
+                      ? disabledColor
+                      : onContainerColor,
+                }}
               >
                 {languageService[user.language].exercise}
               </CustomText>
               <CustomText
                 className="text-center font-semibold text-lg"
-                style={{ width: 1, flexGrow: 1, color: onContainerColor }}
+                style={{
+                  width: 1,
+                  flexGrow: 1,
+                  color:
+                    index == selectedWorkoutIndex
+                      ? disabledColor
+                      : onContainerColor,
+                }}
               >
                 {languageService[user.language].sets}
               </CustomText>
               <CustomText
                 className="text-center font-semibold text-lg"
-                style={{ width: 1, flexGrow: 1, color: onContainerColor }}
+                style={{
+                  width: 1,
+                  flexGrow: 1,
+                  color:
+                    index == selectedWorkoutIndex
+                      ? disabledColor
+                      : onContainerColor,
+                }}
               >
                 {languageService[user.language].reps}
               </CustomText>
@@ -106,30 +162,62 @@ const WorkoutProgramScreen = ({ route }) => {
                 >
                   <CustomText
                     className="text-left"
-                    style={{ width: 1, flexGrow: 3, color: onContainerColor }}
+                    style={{
+                      width: 1,
+                      flexGrow: 3,
+                      color:
+                        index == selectedWorkoutIndex
+                          ? disabledColor
+                          : onContainerColor,
+                    }}
                   >
                     {item.name}
                   </CustomText>
                   <CustomText
                     className="text-center"
-                    style={{ width: 1, flexGrow: 1, color: onContainerColor }}
+                    style={{
+                      width: 1,
+                      flexGrow: 1,
+                      color:
+                        index == selectedWorkoutIndex
+                          ? disabledColor
+                          : onContainerColor,
+                    }}
                   >
                     {item.sets}
                   </CustomText>
                   <CustomText
                     className="text-center"
-                    style={{ width: 1, flexGrow: 1, color: onContainerColor }}
+                    style={{
+                      width: 1,
+                      flexGrow: 1,
+                      color:
+                        index == selectedWorkoutIndex
+                          ? disabledColor
+                          : onContainerColor,
+                    }}
                   >
                     {item.reps}
                   </CustomText>
                 </View>
               )}
             />
+            {index == selectedWorkoutIndex && (
+              <View
+                className="absolute h-full items-center justify-center flex-row"
+                style={{ columnGap: 10 }}
+              >
+                {workoutButton(() => {
+                  navigation.navigate("IntervalTimer", { workout: item });
+                }, faPlay)}
+                {/* {workoutButton(() => {}, faPenAlt)} */}
+              </View>
+            )}
           </CustomButton>
         )}
       />
-      {/* <CustomButton
-        className="rounded-full aspect-square w-12 items-center justify-center absolute"
+      <CustomButton
+        className="rounded-full aspect-square w-16 items-center justify-center absolute"
         style={{
           elevation: 4,
           backgroundColor: appStyle.color_tertiary,
@@ -142,7 +230,7 @@ const WorkoutProgramScreen = ({ route }) => {
           size={25}
           color={appStyle.color_on_primary}
         />
-      </CustomButton> */}
+      </CustomButton>
     </View>
   );
 };
