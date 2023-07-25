@@ -58,6 +58,7 @@ import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
 import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
 import TimerScreen from "./screens/TimerScreen";
+import EditWorkoutProgramScreen from "./screens/EditWorkoutProgramScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -322,6 +323,11 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="CreateWorkoutProgram"
                   component={CreateWorkoutProgramScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="EditWorkoutProgram"
+                  component={EditWorkoutProgramScreen}
                   options={verticalAnimation}
                 />
                 {user.role == "admin" && (
