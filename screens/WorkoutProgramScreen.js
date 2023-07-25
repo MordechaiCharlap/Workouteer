@@ -217,6 +217,11 @@ const WorkoutProgramScreen = ({ route }) => {
         )}
       />
       <CustomButton
+        onPress={() =>
+          navigation.navigate("EditWorkoutProgram", {
+            program: program,
+          })
+        }
         className="rounded-full aspect-square w-16 items-center justify-center absolute"
         style={{
           elevation: 4,
