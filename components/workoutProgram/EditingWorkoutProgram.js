@@ -1,12 +1,9 @@
 import { View, FlatList } from "react-native";
-import React, { createContext, useCallback, useRef, useState } from "react";
-import useNavbarDisplay from "../../hooks/useNavbarDisplay";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { safeAreaStyle } from "../safeAreaStyle";
+import React, { createContext, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
-import Header from "../Header";
 import CustomButton from "../basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +18,7 @@ import {
 import useAuth from "../../hooks/useAuth";
 import useFirebase from "../../hooks/useFirebase";
 import languageService from "../../services/languageService";
+import TopExitButton from "../TopExitButton";
 export const ProgramContext = createContext();
 const EditingWorkoutProgram = ({ program }) => {
   const navigation = useNavigation();
@@ -29,7 +27,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const workoutsFlatListRef = useRef();
   const maxWorkoutsPerProgram = 7;
   const [programData, setProgramData] = useState(
-    program || {
+    JSON.parse(JSON.stringify(program)) || {
       name: "",
       workouts: [{ name: "", restSeconds: 0, exercises: [] }],
     }
@@ -122,6 +120,7 @@ const EditingWorkoutProgram = ({ program }) => {
       }}
     >
       <View className="flex-1">
+        <TopExitButton />
         <View
           className="flex-1"
           style={{
