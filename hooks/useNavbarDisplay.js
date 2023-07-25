@@ -19,6 +19,7 @@ export const NavbarDisplayProvider = ({ children }) => {
     "UnderMaintenance",
     "AdminHome",
     "CreateWorkoutProgram",
+    "EditWorkoutProgram",
     "Timer",
     "IntervalTimer",
   ];
