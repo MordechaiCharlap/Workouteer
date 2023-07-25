@@ -35,6 +35,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const [isProgramNameFocused, setIsProgramNameFocused] = useState(false);
   const [highlightErrors, setHighlightErrors] = useState(false);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const newWorkout = () => {
     const programDataClone = { ...programData };
     programDataClone.workouts.push({
@@ -63,6 +64,7 @@ const EditingWorkoutProgram = ({ program }) => {
     ) {
       setHighlightErrors(true);
     } else {
+      setSubmitting(true);
       const programDataClone = {
         ...programData,
         creator: user.id,
@@ -91,6 +93,7 @@ const EditingWorkoutProgram = ({ program }) => {
     ) {
       setHighlightErrors(true);
     } else {
+      setSubmitting(true);
       await updateDoc(doc(db, "workoutPrograms", program.id), programData);
       navigation.replace("WorkoutPrograms");
     }
@@ -253,6 +256,7 @@ const EditingWorkoutProgram = ({ program }) => {
             }
             round
             style={{
+              width: "50%",
               alignSelf: "center",
               flexDirection: "row",
               height: 40,
@@ -271,7 +275,9 @@ const EditingWorkoutProgram = ({ program }) => {
                 fontWeight: 600,
               }}
             >
-              {program
+              {submitting
+                ? languageService[user.language].loading
+                : program
                 ? languageService[user.language].updateProgram
                 : languageService[user.language].createProgram}
             </CustomText>
