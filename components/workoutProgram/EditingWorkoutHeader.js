@@ -10,7 +10,7 @@ import {
 import { color_outline } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useContext, useState } from "react";
-import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+import { ProgramContext } from "./EditingWorkoutProgram";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
 const EditingWorkoutHeader = ({

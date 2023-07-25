@@ -19,7 +19,7 @@ import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import RestTimePicker from "./RestTimePicker";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
-import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+import { ProgramContext } from "./EditingWorkoutProgram";
 import EditingExercise from "./EditingExercise";
 import CreatedExercise from "./CreatedExercise";
 import languageService from "../../services/languageService";

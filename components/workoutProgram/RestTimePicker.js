@@ -5,7 +5,7 @@ import CustomText from "../basic/CustomText";
 import AwesomeModal from "../AwesomeModal";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
-import { ProgramContext } from "../../screens/CreateWorkoutProgramScreen";
+import { ProgramContext } from "./EditingWorkoutProgram";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
 
