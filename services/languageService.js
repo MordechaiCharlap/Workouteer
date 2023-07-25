@@ -10,6 +10,7 @@ const languageService = {
     workoutProgramsHomeBtn: "WORKOUT PROGRAMS",
     createProgram: "Create program",
     buildProgram: "Build a program",
+    updateProgram: "Update program",
     timer: "Timer",
     savedPrograms: "Saved Programs",
     addNewProgram: "Add program",
@@ -616,6 +617,7 @@ const languageService = {
     sets: "סטים",
     confirm: "אישור",
     duration: "זמן",
+    updateProgram: "עדכון תוכנית אימונים",
   },
 };
 export default languageService;
