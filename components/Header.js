@@ -16,9 +16,7 @@ const Header = (props) => {
       }}
     >
       {props.goBackOption && (
-        <TouchableOpacity
-          onPress={props.navigate || (() => navigation.goBack())}
-        >
+        <TouchableOpacity onPress={props.navigate || navigation.goBack}>
           <FontAwesomeIcon
             icon={props.icon == "<" ? faChevronLeft : faX}
             size={30}
