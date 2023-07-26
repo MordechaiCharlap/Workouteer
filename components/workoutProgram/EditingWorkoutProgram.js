@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import React, { createContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
@@ -6,7 +6,11 @@ import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
 import CustomButton from "../basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faPlusCircle,
+  faPlusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import EditingWorkout from "./EditingWorkout";
 import {
   addDoc,
@@ -148,8 +152,8 @@ const EditingWorkoutProgram = ({ program }) => {
           <View
             className="rounded p-2"
             style={{
-              backgroundColor: appStyle.color_primary_container,
-              borderColor: appStyle.color_on_primary_container,
+              backgroundColor: appStyle.color_surface,
+              borderColor: appStyle.color_outline,
               borderWidth: 0.5,
             }}
           >
@@ -171,6 +175,37 @@ const EditingWorkoutProgram = ({ program }) => {
                   paddingRight: 5,
                   columnGap: 10,
                 }}
+                ListHeaderComponent={
+                  programData.workouts.length != maxWorkoutsPerProgram ? (
+                    <CustomButton
+                      style={{
+                        marginRight: 10,
+                        height: 40,
+                        aspectRatio: 1 / 1,
+                        backgroundColor:
+                          programData.workouts.length != maxWorkoutsPerProgram
+                            ? appStyle.color_surface_variant
+                            : appStyle.color_surface,
+                      }}
+                      disabled={
+                        programData.workouts.length == maxWorkoutsPerProgram
+                      }
+                      onPress={newWorkout}
+                    >
+                      <FontAwesomeIcon
+                        color={
+                          programData.workouts.length != maxWorkoutsPerProgram
+                            ? appStyle.color_on_surface_variant
+                            : appStyle.color_outline
+                        }
+                        icon={faPlusSquare}
+                        size={30}
+                      />
+                    </CustomButton>
+                  ) : (
+                    <></>
+                  )
+                }
                 renderItem={({ item, index }) => (
                   <CustomButton
                     onPress={() => setMaximizedWorkout(index)}
@@ -180,14 +215,15 @@ const EditingWorkoutProgram = ({ program }) => {
                           ? appStyle.color_on_surface_variant
                           : appStyle.color_surface_variant,
                       minWidth: 50,
+                      height: 40,
                       borderWidth: 1,
                       borderColor:
                         highlightErrors &&
                         isWorkoutMissingData(programData.workouts[index])
                           ? appStyle.color_error
                           : index == maximizedWorkout
-                          ? appStyle.color_surface_variant
-                          : appStyle.color_outline,
+                          ? appStyle.color_on_surface_variant
+                          : appStyle.color_surface_variant,
                     }}
                   >
                     <CustomText
@@ -206,7 +242,7 @@ const EditingWorkoutProgram = ({ program }) => {
               />
             </View>
           </View>
-          <CustomButton
+          {/* <CustomButton
             disabled={programData.workouts.length == maxWorkoutsPerProgram}
             className="flex-row"
             onPress={newWorkout}
@@ -244,7 +280,7 @@ const EditingWorkoutProgram = ({ program }) => {
                   )
                 : languageService[user.language].newWorkout}
             </CustomText>
-          </CustomButton>
+          </CustomButton> */}
           {maximizedWorkout != null &&
             programData.workouts.length >= maximizedWorkout - 1 && (
               <EditingWorkout workoutIndex={maximizedWorkout} />
