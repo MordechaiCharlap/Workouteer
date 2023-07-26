@@ -33,6 +33,7 @@ import {
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import languageService from "../services/languageService";
+import LoadingAnimation from "../components/LoadingAnimation";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -144,8 +145,9 @@ const WorkoutProgramsScreen = () => {
           </CustomButton>
         )}
       </View>
-
-      {savedPrograms && savedPrograms.length > 0 && (
+      {user.savedWorkoutPrograms.length > 0 && savedPrograms == null ? (
+        <LoadingAnimation />
+      ) : (
         <FlatList
           contentContainerStyle={{ rowGap: 10 }}
           data={savedPrograms}
