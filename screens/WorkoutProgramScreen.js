@@ -25,7 +25,7 @@ const WorkoutProgramScreen = ({ route }) => {
     }, [])
   );
   const onContainerColor = appStyle.color_on_primary_container;
-  const containerColor = appStyle.color_primary_container;
+  const containerColor = appStyle.color_surface_variant;
   const disabledColor = convertHexToRgba(onContainerColor, 0.3);
   const workoutButton = (onPress, icon) => {
     return (
@@ -109,7 +109,7 @@ const WorkoutProgramScreen = ({ route }) => {
             </View>
             <View
               className="flex-row w-full "
-              style={{ columnGap: 8, padding: 5 }}
+              style={{ columnGap: 8, paddingHorizontal: 5, paddingVertical: 2 }}
             >
               <CustomText
                 className="font-semibold text-lg"
@@ -152,13 +152,19 @@ const WorkoutProgramScreen = ({ route }) => {
               </CustomText>
             </View>
             <FlatList
-              className="w-full mt-1"
+              className="w-full"
               data={item.exercises}
               keyExtractor={(exercise, index) => index}
               renderItem={({ item }) => (
                 <View
                   className="flex-row w-full"
-                  style={{ columnGap: 8, padding: 5 }}
+                  style={{
+                    columnGap: 8,
+                    paddingHorizontal: 5,
+                    paddingVertical: 4,
+                    borderTopColor: disabledColor,
+                    borderTopWidth: 0.3,
+                  }}
                 >
                   <CustomText
                     className="text-left"
