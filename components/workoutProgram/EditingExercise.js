@@ -20,10 +20,10 @@ const EditingExercise = ({
     editingExerciseIndex != null ? exercise.name : ""
   );
   const [sets, setSets] = useState(
-    editingExerciseIndex != null ? exercise.sets : 0
+    editingExerciseIndex != null ? String(exercise.sets) : null
   );
   const [reps, setReps] = useState(
-    editingExerciseIndex != null ? exercise.reps : 0
+    editingExerciseIndex != null ? String(exercise.reps) : null
   );
   const [nameFocus, setNameFocus] = useState(false);
   const [repsFocus, setRepsFocus] = useState(false);
@@ -34,7 +34,7 @@ const EditingExercise = ({
     if (!setsFocus) return;
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
-      setSets(text == "" ? text : parseInt(text));
+      setSets(text);
     } else {
       setSets(0);
     }
@@ -43,20 +43,20 @@ const EditingExercise = ({
     if (!repsFocus) return;
     var validRegex = /^[0-9]{0,2}$/;
     if (text.match(validRegex)) {
-      setReps(text == "" ? text : parseInt(text));
+      setReps(text);
     } else {
       setReps(0);
     }
   };
   const handleAddExercise = () => {
-    if (name == "" || sets == 0 || reps == 0) {
+    if (name == "" || !sets || !reps) {
       setHighlightExercisesErrors(true);
       return;
     }
     addNewExercise({ name: name, sets: sets, reps: reps });
   };
   const handleUpdateExercise = () => {
-    if (name == "" || sets == 0 || reps == 0) {
+    if (name == "" || !sets || !reps) {
       setHighlightExercisesErrors(true);
       return;
     }
@@ -134,13 +134,13 @@ const EditingExercise = ({
             }}
           />
           <CustomTextInput
-            error={highlightExercisesErrors && sets == 0 && true}
+            error={highlightExercisesErrors && !sets}
             style={{
               flexGrow: 1,
               backgroundColor: appStyle.color_surface_variant,
             }}
             className="text-center"
-            value={String(sets)}
+            value={sets}
             keyboardType="numeric"
             maxLength={2}
             onFocus={() => setSetsFocus(true)}
@@ -150,13 +150,13 @@ const EditingExercise = ({
             }}
           />
           <CustomTextInput
-            error={highlightExercisesErrors && reps == 0 && true}
+            error={highlightExercisesErrors && !reps}
             style={{
               flexGrow: 1,
               backgroundColor: appStyle.color_surface_variant,
             }}
             className="text-center"
-            value={String(reps)}
+            value={reps}
             keyboardType="numeric"
             maxLength={2}
             onFocus={() => setRepsFocus(true)}
