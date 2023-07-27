@@ -1,6 +1,7 @@
 import { View, FlatList, Modal } from "react-native";
 import React, { useContext, useState } from "react";
 import {
+  color_error,
   color_on_primary_container,
   color_outline,
   color_primary,
@@ -23,10 +24,8 @@ import { convertHexToRgba } from "../../utils/stylingFunctions";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { user } = useAuth();
-  const { programData, setProgramData, maximizedWorkout } =
+  const { programData, setProgramData, highlightErrors } =
     useContext(ProgramContext);
-  const [highlightExercisesErrors, setHighlightExercisesErrors] =
-    useState(false);
   const [editingExerciseIndex, setEditingExerciseIndex] = useState();
   const [editingExercise, setEditingExercise] = useState();
   const { windowHeight } = useResponsiveness();
@@ -100,7 +99,11 @@ const EditingWorkout = ({ workoutIndex }) => {
           style={{
             backgroundColor: onContainerColor,
             borderWidth: 1,
-            borderColor: color_outline,
+            borderColor:
+              highlightErrors &&
+              programData.workouts[workoutIndex].exercises.length == 0
+                ? color_error
+                : color_outline,
             borderRadius: 8,
             padding: 5,
           }}
@@ -152,7 +155,11 @@ const EditingWorkout = ({ workoutIndex }) => {
               style={[
                 {
                   borderWidth: 1,
-                  borderColor: convertHexToRgba(containerColor, 0.5),
+                  borderColor:
+                    highlightErrors &&
+                    programData.workouts[workoutIndex].exercises.length == 0
+                      ? color_error
+                      : convertHexToRgba(containerColor, 0.5),
                   backgroundColor: color_primary,
                 },
                 appComponentsDefaultStyles.shadow,
