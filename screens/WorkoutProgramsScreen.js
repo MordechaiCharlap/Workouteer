@@ -34,6 +34,11 @@ import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import languageService from "../services/languageService";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -60,8 +65,18 @@ const WorkoutProgramsScreen = () => {
       });
 
       setSavedPrograms(programs);
+      listOpacity.value = withTiming(1);
+      listTopMargin.value = withTiming(0);
     });
   }, [user.savedWorkoutPrograms]);
+  const listOpacity = useSharedValue(0);
+  const listTopMargin = useSharedValue(30);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: listOpacity.value,
+      marginTop: listTopMargin.value,
+    };
+  });
   const removeProgram = (index) => {
     const programId = savedPrograms[index].id;
     const creatorId = savedPrograms[index].creator;
@@ -148,7 +163,8 @@ const WorkoutProgramsScreen = () => {
       {user.savedWorkoutPrograms.length > 0 && savedPrograms == null ? (
         <LoadingAnimation />
       ) : (
-        <FlatList
+        <Animated.FlatList
+          style={animatedStyle}
           contentContainerStyle={{ rowGap: 10 }}
           data={savedPrograms}
           keyExtractor={(item) => item.id}
