@@ -36,7 +36,7 @@ const EditingExercise = ({
     if (text.match(validRegex)) {
       setSets(text);
     } else {
-      setSets(0);
+      setSets(sets);
     }
   };
   const handleRepsChange = (text) => {
@@ -45,7 +45,7 @@ const EditingExercise = ({
     if (text.match(validRegex)) {
       setReps(text);
     } else {
-      setReps(0);
+      setReps(reps);
     }
   };
   const handleAddExercise = () => {
