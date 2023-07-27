@@ -286,7 +286,6 @@ const EditingWorkoutProgram = ({ program }) => {
               <EditingWorkout workoutIndex={maximizedWorkout} />
             )}
           <CustomButton
-            className="absolute bottom-0"
             onPress={
               program ? handleUpdateWorkoutProgram : handleCreateWorkoutProgram
             }
