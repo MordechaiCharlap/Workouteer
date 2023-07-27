@@ -7,6 +7,10 @@ import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import LatestWorkouts from "../components/exploreScreen/LatestWorkouts";
 import SuggestedUsers from "../components/exploreScreen/SuggestedUsers";
+import {
+  color_on_surface_variant,
+  color_surface_variant,
+} from "../utils/appStyleSheet";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -19,11 +23,15 @@ const ExploreScreen = () => {
       setCurrentScreen("Explore");
     }, [])
   );
-
+  const containerColor = color_surface_variant;
+  const onContainerColor = color_on_surface_variant;
   return (
-    <View style={[safeAreaStyle()]}>
+    <View style={[safeAreaStyle(), { rowGap: 10 }]}>
       {/* <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} /> */}
-      <SuggestedUsers />
+      <SuggestedUsers
+        onContainerColor={onContainerColor}
+        containerColor={containerColor}
+      />
       {searchInputEmpty == true && <LatestWorkouts />}
     </View>
   );
