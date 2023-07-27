@@ -320,6 +320,9 @@ const languageService = {
     controlPanel: "Control Panel",
     resetAppData: "Reset all app data",
     workout: "Workout",
+    suggestedFriends: "Suggested friends for you",
+    latestConfirmedWorkoutsWorldwide: "Latest confirmed workouts worldwide",
+    mutualFriends: "Mutual friends",
   },
   hebrew: {
     workout: "אימון",
@@ -618,6 +621,9 @@ const languageService = {
     confirm: "אישור",
     duration: "זמן",
     updateProgram: "עדכון תוכנית אימונים",
+    suggestedFriends: "אנשים שאולי יתאימו לך",
+    latestConfirmedWorkoutsWorldwide: "האימונים האחרונים שאושרו באפליקציה",
+    mutualFriends: "חברים משותפים",
   },
 };
 export default languageService;
