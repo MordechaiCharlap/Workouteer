@@ -59,7 +59,7 @@ export const ExploreProvider = ({ children }) => {
         if (usersLeftToFillListCount == 0) break;
         if (
           randomUserId == user.id ||
-          // user.friends[randomUserId] != null ||
+          user.friends[randomUserId] != null ||
           suggestedArray.findIndex(
             (suggestedFriend) => suggestedFriend.id == randomUserId
           ) != -1
