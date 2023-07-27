@@ -1,12 +1,12 @@
 import { View, Text, FlatList, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useExplore from "../../hooks/useExplore";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
 import * as firebase from "../../services/firebase";
 import useAuth from "../../hooks/useAuth";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import { convertHexToRgba } from "../../utils/stylingFunctions";
 import languageService from "../../services/languageService";
@@ -31,11 +31,20 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
   const listAnimatedStyle = useAnimatedStyle(() => {
     return { height: listHeight.value, paddingVertical: listHeight.value / 25 };
   });
-  useEffect(() => {
-    if (suggestedUsers == null || suggestedUsers.length == 0) return;
-    console.log(suggestedUsers.length);
-    listHeight.value = withTiming(250);
-  }, [suggestedUsers]);
+  useFocusEffect(
+    useCallback(() => {
+      if (
+        suggestedUsers == null ||
+        suggestedUsers.length == 0 ||
+        listHeight.value == 250
+      )
+        return;
+      listHeight.value = withTiming(250);
+    }, [suggestedUsers])
+  );
+  // useEffect(() => {
+
+  // }, [suggestedUsers]);
   return (
     <Animated.View
       className="justify-center"
@@ -111,33 +120,44 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
                 </CustomText>
               )}
             </View>
-            <CustomButton
-              round
-              onPress={() => sendFriendRequest(item.id)}
-              style={[
-                {
-                  backgroundColor: appStyle.color_primary,
-                  width: "90%",
-                },
-                appComponentsDefaultStyles.shadow,
-              ]}
-            >
-              {sentRequests.includes(item.id) ? (
+            {!sentRequests.includes(item.id) ? (
+              <CustomButton
+                round
+                onPress={() => sendFriendRequest(item.id)}
+                style={[
+                  {
+                    backgroundColor: appStyle.color_primary,
+                    borderColor: appStyle.color_primary,
+                    borderWidth: 1,
+                    width: "90%",
+                  },
+                  appComponentsDefaultStyles.shadow,
+                ]}
+              >
                 <CustomText
                   className="font-semibold"
                   style={{ color: appStyle.color_on_primary }}
                 >
                   {languageService[user.language].add}
                 </CustomText>
-              ) : (
-                <CustomText
-                  className="font-semibold"
-                  style={{ color: appStyle.color_on_primary }}
-                >
-                  {languageService[user.language].add}
+              </CustomButton>
+            ) : (
+              <CustomButton
+                round
+                onPress={() => sendFriendRequest(item.id)}
+                style={[
+                  {
+                    borderColor: appStyle.color_outline,
+                    borderWidth: 1,
+                    width: "90%",
+                  },
+                ]}
+              >
+                <CustomText className="font-semibold">
+                  {languageService[user.language].added}
                 </CustomText>
-              )}
-            </CustomButton>
+              </CustomButton>
+            )}
           </CustomButton>
         )}
       />
