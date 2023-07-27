@@ -46,7 +46,8 @@ const getLanguage = () => {
   else return "english";
 };
 export const getUserDataById = async (userId) => {
-  return await updateContext(userId);
+  const userDocRef = await getDoc(doc(db, "users", userId));
+  return userDocRef.data();
 };
 export const uploadProfileImage = async (userId, uri) => {
   const blob = await fetch(uri).then((r) => r.blob());
