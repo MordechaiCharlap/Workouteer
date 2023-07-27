@@ -45,23 +45,14 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
       parseInt(restMinutes || 0) * 60 + parseInt(restSeconds || 0);
     setProgramData(programDataClone);
   };
-  // const minutesBlur = () => {
-  //   setMinutesFocused(false);
-  //   setRestMinutes(String(restMinutes).padStart(2, "0"));
-  // };
-  // const secondsBlur = () => {
-  //   setSecondsFocused(false);
-  //   setRestSeconds(String(restSeconds).padStart(2, "0"));
-  // };
   return (
-    <View>
+    <View className="flex-1">
       <CustomButton
         onPress={() => {
           setShowRestModal(true);
         }}
         style={{
           backgroundColor: onContainerColor,
-          width: 80,
           borderWidth: 1,
           borderColor:
             highlightErrors &&
