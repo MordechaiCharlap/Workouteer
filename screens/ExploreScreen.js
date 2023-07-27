@@ -5,9 +5,6 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import languageService from "../services/languageService";
-import SearchUsers from "../components/SearchUsers";
-import Header from "../components/Header";
 import LatestWorkouts from "../components/exploreScreen/LatestWorkouts";
 import SuggestedUsers from "../components/exploreScreen/SuggestedUsers";
 
