@@ -68,7 +68,7 @@ const EditingWorkoutHeader = ({
         onBlur={() => setIsNameFocused(false)}
         onChangeText={handleWorkoutNameChange}
       />
-      <CustomButton
+      {/* <CustomButton
         style={{
           borderWidth: 1,
           borderColor: color_outline,
@@ -85,7 +85,7 @@ const EditingWorkoutHeader = ({
           color={containerColor}
           size={15}
         />
-      </CustomButton>
+      </CustomButton> */}
       <CustomButton
         style={{
           borderWidth: 1,
