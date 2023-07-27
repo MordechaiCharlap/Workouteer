@@ -31,9 +31,15 @@ const EditingWorkoutHeader = ({
   const deleteWorkout = () => {
     const programDataClone = { ...programData };
     programDataClone.workouts.splice(workoutIndex, 1);
-    if (maximizedWorkout == workoutIndex) setMaximizedWorkout();
-    else if (maximizedWorkout > workoutIndex)
-      setMaximizedWorkout((prev) => prev - 1);
+    if (maximizedWorkout == workoutIndex) {
+      if (
+        programDataClone.workouts.length >= maximizedWorkout + 1 ||
+        programDataClone.workouts.length == 0
+      ) {
+      } else {
+        setMaximizedWorkout(maximizedWorkout - 1);
+      }
+    }
     if (programDataClone.workouts.length == 0)
       programDataClone.workouts.push({
         name: "",
