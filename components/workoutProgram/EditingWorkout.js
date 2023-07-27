@@ -1,19 +1,10 @@
-import {
-  View,
-  FlatList,
-  Modal,
-  ScrollView,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, FlatList, Modal } from "react-native";
 import React, { useContext, useState } from "react";
 import {
-  color_on_primary,
   color_on_primary_container,
   color_outline,
   color_primary,
   color_primary_container,
-  color_surface,
-  color_surface_variant,
 } from "../../utils/appStyleSheet";
 import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
@@ -25,8 +16,10 @@ import CreatedExercise from "./CreatedExercise";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import useResponsiveness from "../../hooks/useResponsiveness";
+import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
+import { convertHexToRgba } from "../../utils/stylingFunctions";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { user } = useAuth();
@@ -73,6 +66,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         padding: 10,
         borderRadius: 8,
         rowGap: 15,
+        flex: 1,
         minHeight: windowHeight / 2,
       }}
     >
@@ -150,27 +144,23 @@ const EditingWorkout = ({ workoutIndex }) => {
               />
             )}
           />
-          <CustomButton
-            className="absolute bottom-0"
-            onPress={() => setEditingExercise(true)}
-            style={{
-              marginTop: 10,
-              alignSelf: "flex-end",
-            }}
-          >
-            <View
-              className="rounded-full"
-              style={{
-                backgroundColor: onContainerColor,
-              }}
+          <View className="items-center absolute bottom-0  right-0 left-0">
+            <CustomButton
+              className="px-5 m-3"
+              round
+              onPress={() => setEditingExercise(true)}
+              style={[
+                {
+                  borderWidth: 1,
+                  borderColor: convertHexToRgba(containerColor, 0.5),
+                  backgroundColor: color_primary,
+                },
+                appComponentsDefaultStyles.shadow,
+              ]}
             >
-              <FontAwesomeIcon
-                icon={faPlusCircle}
-                color={containerColor}
-                size={30}
-              />
-            </View>
-          </CustomButton>
+              <FontAwesomeIcon icon={faPlus} color={containerColor} size={20} />
+            </CustomButton>
+          </View>
         </View>
       </View>
       {editingExercise != null && (
