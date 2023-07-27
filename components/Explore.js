@@ -24,6 +24,7 @@ import { faRotateRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import useExplore from "../hooks/useExplore";
 import CustomText from "./basic/CustomText";
 import languageService from "../services/languageService";
+import LoadingAnimation from "./LoadingAnimation";
 
 const Explore = () => {
   const { user } = useAuth();
@@ -37,6 +38,7 @@ const Explore = () => {
           borderBottomWidth: 0.5,
         }}
       >
+        <FlatList horizontal />
         <CustomButton
           onPress={!refreshing ? refreshLatestWorkouts : () => {}}
           className="self-start my-2 flex-row"
@@ -55,14 +57,18 @@ const Explore = () => {
           </CustomText>
         </CustomButton>
       </View>
-      <FlatList
-        style={[{ paddingHorizontal: 16, paddingVertical: 5 }]}
-        data={latestWorkouts}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <WorkoutComponent workout={item} isPastWorkout={true} />
-        )}
-      />
+      {refreshing ? (
+        <LoadingAnimation />
+      ) : (
+        <FlatList
+          style={[{ paddingHorizontal: 16, paddingVertical: 5 }]}
+          data={latestWorkouts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <WorkoutComponent workout={item} isPastWorkout={true} />
+          )}
+        />
+      )}
     </View>
   );
 };
