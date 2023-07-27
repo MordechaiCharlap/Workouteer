@@ -16,25 +16,28 @@ export const ExploreProvider = ({ children }) => {
   const { db } = useFirebase();
   const [latestWorkouts, setLatestWorkouts] = useState();
   const [refreshing, setRefreshing] = useState(false);
-  useEffect(() => {
-    if (!userLoaded) return;
 
-    const getLatestWorkouts = async () => {
-      const data = [];
-      const q = query(
-        collection(db, "workouts"),
-        where("confirmed", "==", true),
-        orderBy("startingTime", "desc"),
-        limit(10)
-      );
-      (await getDocs(q)).forEach((doc) => {
+  const getLatestWorkouts = () => {
+    const data = [];
+    const q = query(
+      collection(db, "workouts"),
+      where("confirmed", "==", true),
+      orderBy("startingTime", "desc"),
+      limit(10)
+    );
+    getDocs(q).then((snapshot) => {
+      snapshot.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
       setLatestWorkouts(data);
-    };
+    });
+  };
+  useEffect(() => {
+    if (!userLoaded) return;
+
     getLatestWorkouts();
   }, [userLoaded]);
-  const refreshLatestWorkouts = async () => {
+  const refreshLatestWorkouts = () => {
     setRefreshing(true);
     const data = [];
     const q = query(
@@ -43,11 +46,13 @@ export const ExploreProvider = ({ children }) => {
       orderBy("startingTime", "desc"),
       limit(10)
     );
-    (await getDocs(q)).forEach((doc) => {
-      data.push({ ...doc.data(), id: doc.id });
+    getDocs(q).then((snapshot) => {
+      snapshot.forEach((doc) => {
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      setLatestWorkouts(data);
+      setRefreshing(false);
     });
-    setLatestWorkouts(data);
-    setRefreshing(false);
   };
   return (
     <ExploreContext.Provider
