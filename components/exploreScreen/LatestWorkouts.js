@@ -56,12 +56,9 @@ const LatestWorkouts = () => {
           borderBottomWidth: 0.5,
         }}
       >
-        <FlatList horizontal />
-        <Header title={languageService[user.language].latestWorkouts} />
-
-        <CustomButton
+        {/* <CustomButton
           onPress={!refreshing ? refreshLatestWorkouts : () => {}}
-          className="self-start my-2 flex-row"
+          className="self-start mb-2 flex-row"
           style={{ backgroundColor: appStyle.color_primary, width: "35%" }}
         >
           {!refreshing ? (
@@ -83,22 +80,28 @@ const LatestWorkouts = () => {
               ? languageService[user.language].refresh
               : languageService[user.language].loading}
           </CustomText>
-        </CustomButton>
+        </CustomButton> */}
       </View>
       {refreshing ? (
         <LoadingAnimation />
       ) : (
-        <Animated.FlatList
-          style={[
-            { paddingHorizontal: 16, paddingVertical: 5 },
-            latestWorkoutsAnimatedStyle,
-          ]}
-          data={latestWorkouts}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <WorkoutComponent workout={item} isPastWorkout={true} />
-          )}
-        />
+        <View>
+          <CustomText
+            className="font-semibold text-xl"
+            style={{ marginHorizontal: 16 }}
+          >
+            Latest confirmed workouts worldwide
+          </CustomText>
+          <Animated.FlatList
+            style={[, latestWorkoutsAnimatedStyle]}
+            contentContainerStyle={{ marginTop: 16, marginHorizontal: 16 }}
+            data={latestWorkouts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <WorkoutComponent workout={item} isPastWorkout={true} />
+            )}
+          />
+        </View>
       )}
     </View>
   );
