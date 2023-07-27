@@ -18,13 +18,6 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
   const [restSeconds, setRestSeconds] = useState();
   const [minutesFocused, setMinutesFocused] = useState(false);
   const [secondsFocused, setSecondsFocused] = useState(false);
-  // useEffect(() => {
-  //   if (!restMinutes && !restSeconds) return;
-  // const programDataClone = { ...programData };
-  // programDataClone.workouts[workoutIndex].restSeconds =
-  //   parseInt(restMinutes) * 60 + parseInt(restSeconds);
-  // setProgramData(programDataClone);
-  // }, [restMinutes, restSeconds]);
   const handleMinutesChanged = (text) => {
     if (!minutesFocused) {
       return;
