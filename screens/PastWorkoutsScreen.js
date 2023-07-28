@@ -15,9 +15,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { color_outline, color_surface_variant } from "../utils/appStyleSheet";
+import * as appStyle from "../utils/appStyleSheet";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 const PastWorkoutsScreen = ({ route }) => {
   const { user } = useAuth();
+  const navigation = useNavigation();
   const shownUser = route.params?.shownUser || user;
   const { setCurrentScreen } = useNavbarDisplay();
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
@@ -71,27 +74,73 @@ const PastWorkoutsScreen = ({ route }) => {
         title={languageService[user.language].pastWorkouts}
         goBackOption={true}
       />
-      <View
-        className="flex-1"
-        style={{ backgroundColor: color_surface_variant }}
-      >
+      <View className="flex-1">
         {workouts ? (
-          <Animated.FlatList
-            style={[
-              animatedListStyle,
-              {
-                paddingTop: 5,
-                borderTopColor: color_outline,
-                borderTopWidth: 1,
-              },
-            ]}
-            // showsVerticalScrollIndicator={false}
-            data={workouts}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <WorkoutComponent workout={item} isPastWorkout={true} />
-            )}
-          />
+          workouts.length > 0 ? (
+            <View
+              className="items-center gap-y-2"
+              style={{
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                backgroundColor: appStyle.color_surface_variant,
+              }}
+            >
+              <CustomText
+                className="text-center font-semibold text-lg"
+                style={{
+                  color: appStyle.color_on_surface_variant,
+                }}
+              >
+                {languageService[user.language].haventConfirmedWorkoutsYet}
+              </CustomText>
+              <View className="flex-row items-center gap-x-2">
+                <CustomButton
+                  style={{ backgroundColor: appStyle.color_on_background }}
+                  round
+                  onPress={() => navigation.navigate("SearchWorkouts")}
+                >
+                  <CustomText
+                    className="font-semibold text-lg"
+                    style={{
+                      color: appStyle.color_background,
+                    }}
+                  >
+                    {languageService[user.language].searchWorkouts}
+                  </CustomText>
+                </CustomButton>
+                <CustomButton
+                  round
+                  onPress={() => navigation.navigate("CreateWorkout")}
+                  style={{ backgroundColor: appStyle.color_on_background }}
+                >
+                  <CustomText
+                    className="font-semibold text-lg rounded-sm"
+                    style={{
+                      color: appStyle.color_background,
+                    }}
+                  >
+                    {languageService[user.language].createWorkout}
+                  </CustomText>
+                </CustomButton>
+              </View>
+            </View>
+          ) : (
+            <Animated.FlatList
+              style={[
+                animatedListStyle,
+                {
+                  backgroundColor: appStyle.color_surface_variant,
+                  paddingTop: 5,
+                },
+              ]}
+              // showsVerticalScrollIndicator={false}
+              data={workouts}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <WorkoutComponent workout={item} isPastWorkout={true} />
+              )}
+            />
+          )
         ) : (
           <LoadingAnimation />
         )}
