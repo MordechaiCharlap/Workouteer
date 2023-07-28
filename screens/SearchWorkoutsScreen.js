@@ -25,6 +25,7 @@ import BackOrExitButton from "../components/slides/BackOrExitButton";
 import { Title } from "../components/slides/Title";
 import CustomButton from "../components/basic/CustomButton";
 import { GeoPoint } from "firebase/firestore";
+import CustomText from "../components/basic/CustomText";
 const SearchWorkoutsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
 
@@ -191,7 +192,9 @@ const SearchWorkoutsScreen = () => {
       workouts: workouts,
       user: user,
       location: !currentLocation
-        ? null
+        ? user.lastLocation
+          ? user.lastLocation
+          : null
         : new GeoPoint(currentLocation.latitude, currentLocation.longitude),
     });
   };
@@ -309,17 +312,25 @@ const SearchWorkoutsScreen = () => {
           style={{
             padding: 16,
             margin: 16,
-            backgroundColor: appStyle.color_on_background,
+            borderWidth: 0.5,
+            borderColor: appStyle.color_on_background,
+            backgroundColor: searching
+              ? appStyle.color_background
+              : appStyle.color_on_background,
           }}
         >
-          <Text
+          <CustomText
             className="font-black text-lg"
-            style={{ color: appStyle.color_background }}
+            style={{
+              color: searching
+                ? appStyle.color_on_background
+                : appStyle.color_background,
+            }}
           >
             {searching
               ? languageService[user.language].searching.toUpperCase()
               : languageService[user.language].search.toUpperCase()}
-          </Text>
+          </CustomText>
         </CustomButton>
       ) : (
         <CustomButton
