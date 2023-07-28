@@ -30,6 +30,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import LoadingAnimation from "../components/LoadingAnimation";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -38,9 +40,15 @@ const FriendsScreen = ({ route }) => {
   const isMyUser = route?.params?.shownUser == null;
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
-  const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  const [shownFriendsArray, setShownFriendsArray] = useState();
+
+  useEffect(() => {
+    if (!shownFriendsArray) return;
+    listMarginTop.value = withTiming(0);
+    listOpacity.value = withTiming(1);
+  }, [shownFriendsArray]);
   const listOpacity = useSharedValue(0);
-  const listMarginTop = useSharedValue(50);
+  const listMarginTop = useSharedValue(25);
   const animatedListStyle = useAnimatedStyle(() => {
     return {
       opacity: listOpacity.value,
@@ -63,7 +71,7 @@ const FriendsScreen = ({ route }) => {
     }, [isMyUser])
   );
   useEffect(() => {
-    const showFriends = async () => {
+    const showMyFriends = async () => {
       const friendsArr = [];
       for (var key of Object.keys(shownUser.friends)) {
         var userData = await firebase.userDataById(key);
@@ -72,14 +80,9 @@ const FriendsScreen = ({ route }) => {
       setFriendsArray(friendsArr);
       setShownFriendsArray(friendsArr);
     };
-    if (isMyUser) showFriends();
+    if (isMyUser) showMyFriends();
   }, [user.friends]);
-  useEffect(() => {
-    if (friendsArray) {
-      listMarginTop.value = withTiming(0, { duration: 500 });
-      listOpacity.value = withTiming(1, { duration: 500 });
-    }
-  }, [friendsArray]);
+
   useEffect(() => {
     if (searchText != "") {
       const searchTextLower = searchText.toLocaleLowerCase();
@@ -102,6 +105,7 @@ const FriendsScreen = ({ route }) => {
     const chat = await firebase.getPrivateChatByUsers(user, otherUser);
     navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
   };
+
   return (
     <View style={safeAreaStyle()}>
       <View className="flex-1 px-2">
@@ -157,91 +161,105 @@ const FriendsScreen = ({ route }) => {
             />
           </View>
         </View>
-        <Animated.FlatList
-          style={[animatedListStyle]}
-          showsVerticalScrollIndicator={false}
-          className="flex-1 pt-3"
-          data={shownFriendsArray}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View className="flex-row items-center mt-2">
-              <TouchableOpacity
-                onPress={() => {
-                  item.id == user.id
-                    ? navigation.navigate("MyProfile")
-                    : navigation.navigate("Profile", {
-                        shownUser: item,
-                        friendshipStatus: isMyUser
-                          ? "Friends"
-                          : firebase.checkFriendShipStatus(user, item),
-                      });
-                }}
-                className="flex-row flex-1 items-center"
-              >
-                <Image
-                  source={{
-                    uri: item.img,
-                  }}
-                  className="h-14 w-14 bg-white rounded-full mr-4"
-                />
-                <View>
-                  <Text
-                    className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_on_background }}
+        <View className="flex-1">
+          {!friendsArray ? (
+            <LoadingAnimation />
+          ) : (
+            <Animated.FlatList
+              style={[
+                {
+                  paddingTop: 10,
+                },
+                animatedListStyle,
+              ]}
+              // showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ rowGap: 10 }}
+              className="flex-1"
+              data={shownFriendsArray}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View className="flex-row items-center">
+                  <TouchableOpacity
+                    onPress={() => {
+                      item.id == user.id
+                        ? navigation.navigate("MyProfile")
+                        : navigation.navigate("Profile", {
+                            shownUser: item,
+                            friendshipStatus: isMyUser
+                              ? "Friends"
+                              : firebase.checkFriendShipStatus(user, item),
+                          });
+                    }}
+                    className="flex-row flex-1 items-center"
                   >
-                    {item.id}
-                  </Text>
-                  <Text
-                    className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.color_on_background }}
+                    <Image
+                      source={{
+                        uri: item.img,
+                      }}
+                      className="h-14 w-14 bg-white rounded-full mr-4"
+                    />
+                    <View>
+                      <Text
+                        className="text-xl font-semibold tracking-wider"
+                        style={{ color: appStyle.color_on_background }}
+                      >
+                        {item.id}
+                      </Text>
+                      <Text
+                        className="text-md opacity-60 tracking-wider"
+                        style={{ color: appStyle.color_on_background }}
+                      >
+                        {item.displayName}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => openPrivateChat(item)}
+                    className="p-2 rounded items-center justify-center flex-row gap-x-1"
+                    style={{
+                      backgroundColor: appStyle.color_surface_variant,
+                    }}
                   >
-                    {item.displayName}
-                  </Text>
+                    <Text style={{ color: appStyle.color_on_surface_variant }}>
+                      {
+                        languageService[user.language].message[
+                          user.isMale ? 1 : 0
+                        ]
+                      }
+                    </Text>
+                    <FontAwesomeIcon
+                      icon={faPaperPlane}
+                      size={15}
+                      color={appStyle.color_on_surface_variant}
+                    />
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => openPrivateChat(item)}
-                className="p-2 rounded items-center justify-center flex-row gap-x-1"
-                style={{
-                  backgroundColor: appStyle.color_surface_variant,
-                }}
-              >
-                <Text style={{ color: appStyle.color_on_surface_variant }}>
-                  {languageService[user.language].message[user.isMale ? 1 : 0]}
-                </Text>
-                <FontAwesomeIcon
-                  icon={faPaperPlane}
-                  size={15}
-                  color={appStyle.color_on_surface_variant}
-                />
-              </TouchableOpacity>
-            </View>
+              )}
+            />
           )}
-        />
+        </View>
         {isMyUser && (
-          <View
-            className="items-center"
-            style={{ backgroundColor: appStyle.color_background }}
-          >
-            <CustomButton
-              onPress={() => navigation.navigate("SearchUsers")}
-              className="m-3 flex-row"
-              outline
-              style={{
+          <CustomButton
+            onPress={() => navigation.navigate("SearchUsers")}
+            className="m-3 flex-row self-center absolute bottom-3"
+            outline
+            style={[
+              {
                 backgroundColor: appStyle.color_surface,
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faUserPlus}
-                color={appStyle.color_primary}
-                size={25}
-              />
-              <View style={{ width: 10 }} />
-              <Text style={{ color: appStyle.color_on_surface }}>
-                {languageService[user.language].addANewFriend}
-              </Text>
-            </CustomButton>
-          </View>
+              },
+              appComponentsDefaultStyles.shadow,
+            ]}
+          >
+            <FontAwesomeIcon
+              icon={faUserPlus}
+              color={appStyle.color_primary}
+              size={25}
+            />
+            <View style={{ width: 10 }} />
+            <Text style={{ color: appStyle.color_on_surface }}>
+              {languageService[user.language].addANewFriend}
+            </Text>
+          </CustomButton>
         )}
       </View>
     </View>
