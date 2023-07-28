@@ -17,7 +17,7 @@ export const ExploreProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const { db } = useFirebase();
   const [latestWorkouts, setLatestWorkouts] = useState();
-  const [SuggestedUsers, setSuggestedUsers] = useState();
+  const [suggestedUsers, setSuggestedUsers] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const { usersData } = useAppData();
   useEffect(() => {
@@ -94,7 +94,7 @@ export const ExploreProvider = ({ children }) => {
     <ExploreContext.Provider
       value={{
         latestWorkouts,
-        SuggestedUsers,
+        suggestedUsers,
         refreshLatestWorkouts,
         refreshing,
       }}
