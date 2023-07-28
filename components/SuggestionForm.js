@@ -116,33 +116,54 @@ const SuggestionForm = (props) => {
               : languageService[props.language].contentInstruction}
           </CustomText>
         </View>
-        <CustomButton
-          round
-          style={
-            isContentValid && isTitleValid
-              ? style.submitButton
-              : style.submitButtonDisabled
-          }
-          className="self-center"
-          disabled={!isContentValid || !isTitleValid || isSubmitting != null}
-          onPress={submitSuggestion}
-        >
-          <CustomText
-            className="tracking-widest font-semibold text-xl"
+        <View className="flex-row justify-center gap-x-3">
+          <CustomButton
+            round
             style={{
-              color:
-                !isContentValid || !isTitleValid
-                  ? appStyle.color_on_surface_variant
-                  : appStyle.color_background,
+              borderColor: appStyle.color_error,
+              borderWidth: 0.25,
+              paddingVertical: 4,
             }}
+            className="self-center"
+            onPress={() => props.setShowSuggestionForm(false)}
           >
-            {isSubmitting == null
-              ? languageService[props.language].submit
-              : isSubmitting == true
-              ? languageService[props.language].submitting
-              : languageService[props.language].submittedSuccesfully}
-          </CustomText>
-        </CustomButton>
+            <CustomText
+              className="text-xl"
+              style={{
+                color: appStyle.color_on_surface_variant,
+              }}
+            >
+              {languageService[props.language].cancel}
+            </CustomText>
+          </CustomButton>
+          <CustomButton
+            round
+            style={
+              isContentValid && isTitleValid
+                ? style.submitButton
+                : style.submitButtonDisabled
+            }
+            className="self-center"
+            disabled={!isContentValid || !isTitleValid || isSubmitting != null}
+            onPress={submitSuggestion}
+          >
+            <CustomText
+              className="tracking-widest font-semibold text-xl"
+              style={{
+                color:
+                  !isContentValid || !isTitleValid
+                    ? appStyle.color_on_surface_variant
+                    : appStyle.color_background,
+              }}
+            >
+              {isSubmitting == null
+                ? languageService[props.language].submit
+                : isSubmitting == true
+                ? languageService[props.language].submitting
+                : languageService[props.language].submittedSuccesfully}
+            </CustomText>
+          </CustomButton>
+        </View>
       </View>
     </View>
   );
