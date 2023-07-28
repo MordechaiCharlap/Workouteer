@@ -22,9 +22,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Header from "../Header";
 
-const LatestWorkouts = () => {
+const LatestWorkouts = ({ containerColor, onContainerColor }) => {
   const { user } = useAuth();
   const { latestWorkouts, refreshLatestWorkouts, refreshing } = useExplore();
   useEffect(() => {
@@ -48,15 +47,15 @@ const LatestWorkouts = () => {
     };
   });
   return (
-    <View style={{ flex: 1 }}>
-      <View
+    <View className="flex-1">
+      {/* <View
         style={{
           paddingHorizontal: 16,
           borderBottomColor: appStyle.color_outline,
           borderBottomWidth: 0.5,
         }}
       >
-        {/* <CustomButton
+        <CustomButton
           onPress={!refreshing ? refreshLatestWorkouts : () => {}}
           className="self-start mb-2 flex-row"
           style={{ backgroundColor: appStyle.color_primary, width: "35%" }}
@@ -80,27 +79,45 @@ const LatestWorkouts = () => {
               ? languageService[user.language].refresh
               : languageService[user.language].loading}
           </CustomText>
-        </CustomButton> */}
-      </View>
+        </CustomButton>
+      </View> */}
       {refreshing ? (
         <LoadingAnimation />
       ) : (
-        <View>
+        <View
+          className="flex-1"
+          style={{
+            backgroundColor: appStyle.color_surface_variant,
+            rowGap: 5,
+          }}
+        >
           <CustomText
             className="font-semibold text-xl"
-            style={{ marginHorizontal: 16 }}
+            style={{
+              marginHorizontal: 16,
+              marginTop: 5,
+              color: appStyle.color_on_surface_variant,
+            }}
           >
-            Latest confirmed workouts worldwide
+            {languageService[user.language].latestConfirmedWorkoutsWorldwide}
           </CustomText>
-          <Animated.FlatList
-            style={[, latestWorkoutsAnimatedStyle]}
-            contentContainerStyle={{ marginTop: 16, marginHorizontal: 16 }}
-            data={latestWorkouts}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <WorkoutComponent workout={item} isPastWorkout={true} />
-            )}
-          />
+          <View
+            className="flex-1"
+            style={{
+              borderTopColor: appStyle.color_outline,
+              borderTopWidth: 1,
+            }}
+          >
+            <Animated.FlatList
+              style={[latestWorkoutsAnimatedStyle]}
+              contentContainerStyle={{ paddingTop: 5 }}
+              data={latestWorkouts}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <WorkoutComponent workout={item} isPastWorkout={true} />
+              )}
+            />
+          </View>
         </View>
       )}
     </View>
