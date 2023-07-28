@@ -37,6 +37,7 @@ import CustomButton from "./basic/CustomButton";
 import CustomText from "./basic/CustomText";
 import { useNavigation } from "@react-navigation/native";
 import AlertDot from "./AlertDot";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 
 const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const navigation = useNavigation();
@@ -329,7 +330,7 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
               <View style={{ height: 20 }}></View>
               <CustomButton
                 round
-                style={buttonStyle}
+                style={[buttonStyle, appComponentsDefaultStyles.shadow]}
                 onPress={() =>
                   navigation.navigate("Friends", {
                     shownUser: !isMyUser ? shownUser : null,
