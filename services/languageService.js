@@ -246,7 +246,7 @@ const languageService = {
     onlyWorkoutMembersCanSeeLocation:
       "Only workout members can see the location on the map",
     titleInstruction: "Title must be at least 5 characters",
-    contentInstruction: "Content mus be at least 15 characters",
+    contentInstruction: "Content must be at least 15 characters",
     title: "Title",
     submit: "Submit",
     helpUsMakeAppBetter: "Help us make it better! ",
@@ -323,6 +323,7 @@ const languageService = {
     suggestedFriends: "Suggested friends for you",
     latestConfirmedWorkoutsWorldwide: "Latest confirmed workouts worldwide",
     mutualFriends: "Mutual friends",
+    added: "Added",
   },
   hebrew: {
     workout: "אימון",
@@ -624,6 +625,7 @@ const languageService = {
     suggestedFriends: "אנשים שאולי יתאימו לך",
     latestConfirmedWorkoutsWorldwide: "האימונים האחרונים שאושרו באפליקציה",
     mutualFriends: "חברים משותפים",
+    added: "נוסף",
   },
 };
 export default languageService;
