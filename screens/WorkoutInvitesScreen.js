@@ -50,8 +50,6 @@ const WorkoutInvitesScreen = () => {
           <FlatList
             style={{
               paddingTop: 5,
-              borderTopColor: color_outline,
-              borderTopWidth: 1,
             }}
             // showsVerticalScrollIndicator={false}
             data={workouts}

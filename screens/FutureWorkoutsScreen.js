@@ -90,8 +90,6 @@ const FutureWorkoutsScreen = ({ route }) => {
             // showsVerticalScrollIndicator={false}
             style={{
               paddingTop: 5,
-              borderTopColor: appStyle.color_outline,
-              borderTopWidth: 1,
             }}
             data={workouts}
             keyExtractor={(item) => item.id}
