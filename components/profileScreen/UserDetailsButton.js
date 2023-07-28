@@ -4,6 +4,7 @@ import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
+import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 const UserDetailsButton = ({
   specialButton,
   onPress,
@@ -16,7 +17,11 @@ const UserDetailsButton = ({
 }) => {
   const buttonProps = buttonStyle;
   return (
-    <CustomButton round style={buttonProps} onPress={() => onPress()}>
+    <CustomButton
+      round
+      style={[buttonProps, appComponentsDefaultStyles.shadow]}
+      onPress={() => onPress()}
+    >
       <CustomText style={{ fontSize: 25, color: color }}>{text}</CustomText>
       <View style={{ width: 10 }}></View>
       <View>
