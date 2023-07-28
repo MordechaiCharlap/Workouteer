@@ -6,15 +6,19 @@ import useAuth from "../hooks/useAuth";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import LatestWorkouts from "../components/exploreScreen/LatestWorkouts";
-import SuggestedUsers from "../components/exploreScreen/SuggestedUsers";
 import {
   color_on_surface_variant,
   color_surface_variant,
 } from "../utils/appStyleSheet";
+import languageService from "../services/languageService";
+import Header from "../components/Header";
+import useExplore from "../hooks/useExplore";
+import SuggestedUsers from "../components/exploreScreen/SuggestedUsers";
 
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
+  const { suggestedUsers } = useExplore();
   const { user } = useAuth();
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
   useFocusEffect(
@@ -26,13 +30,21 @@ const ExploreScreen = () => {
   const containerColor = color_surface_variant;
   const onContainerColor = color_on_surface_variant;
   return (
-    <View style={[safeAreaStyle(), { rowGap: 10 }]}>
+    <View style={[safeAreaStyle()]}>
       {/* <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} /> */}
-      <SuggestedUsers
-        onContainerColor={onContainerColor}
-        containerColor={containerColor}
-      />
-      {searchInputEmpty == true && <LatestWorkouts />}
+      <Header title={languageService[user.language].explore} />
+      {suggestedUsers != null && suggestedUsers.length > 0 && (
+        <SuggestedUsers
+          onContainerColor={onContainerColor}
+          containerColor={containerColor}
+        />
+      )}
+      {searchInputEmpty == true && (
+        <LatestWorkouts
+          onContainerColor={onContainerColor}
+          containerColor={containerColor}
+        />
+      )}
     </View>
   );
 };
