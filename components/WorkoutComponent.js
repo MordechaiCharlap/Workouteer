@@ -29,6 +29,7 @@ import languageService from "../services/languageService";
 import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
 import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { db } = useFirebase();
@@ -194,6 +195,55 @@ const WorkoutComponent = (props) => {
     updateArrayIfNeedForWorkout(workoutClone);
     await firebase.rejectWorkoutInvite(user.id, workoutRef);
   };
+
+  const containerColor = props.containerColor || appStyle.color_surface;
+  const onContainerColor = props.onContainerColor || appStyle.color_on_surface;
+
+  const topSectionFontSize = 16;
+  const style = StyleSheet.create({
+    container: {
+      borderRadius: 8,
+      padding: 5,
+      marginBottom: 15,
+      rowGap: 3,
+      backgroundColor: containerColor,
+      borderColor: appStyle.color_outline,
+      borderWidth: 1,
+      marginHorizontal: 16,
+    },
+    topSection: {},
+    middleSection: {
+      paddingHorizontal: 7,
+    },
+    BottomSection: {},
+    workoutIcon: { color: onContainerColor },
+    dividers: {
+      width: 2,
+      color: appStyle.color_background,
+    },
+    creatorText: {
+      color: onContainerColor,
+      fontSize: topSectionFontSize,
+    },
+    dateText: {
+      color: onContainerColor,
+      fontSize: topSectionFontSize,
+    },
+    basicDetailsText: {
+      color: onContainerColor,
+    },
+    detailsIcons: {
+      size: 20,
+      color: onContainerColor,
+    },
+    actionButton: {
+      flex: 1,
+      backgroundColor: onContainerColor,
+    },
+    actionButtonText: {
+      color: containerColor,
+    },
+  });
   const getWorkoutActionButtons = () => {
     switch (userMemberStatus) {
       case "invited":
@@ -304,7 +354,7 @@ const WorkoutComponent = (props) => {
   };
   if (workout != null)
     return (
-      <View style={style.container}>
+      <View style={[style.container, appComponentsDefaultStyles.shadow]}>
         <View
           className={`items-center justify-between py-1 px-2 flex-row${
             user.language == "hebrew" ? "-reverse" : ""
@@ -439,46 +489,5 @@ const WorkoutComponent = (props) => {
       </View>
     );
 };
-const topSectionFontSize = 16;
-const style = StyleSheet.create({
-  container: {
-    borderRadius: 8,
-    padding: 5,
-    marginBottom: 15,
-    rowGap: 3,
-    backgroundColor: appStyle.color_surface_variant,
-  },
-  topSection: {},
-  middleSection: {
-    paddingHorizontal: 7,
-  },
-  BottomSection: {},
-  workoutIcon: { color: appStyle.color_on_surface },
-  dividers: {
-    width: 2,
-    color: appStyle.color_background,
-  },
-  creatorText: {
-    color: appStyle.color_on_surface,
-    fontSize: topSectionFontSize,
-  },
-  dateText: {
-    color: appStyle.color_on_surface,
-    fontSize: topSectionFontSize,
-  },
-  basicDetailsText: {
-    color: appStyle.color_on_surface,
-  },
-  detailsIcons: {
-    size: 20,
-    color: appStyle.color_on_surface,
-  },
-  actionButton: {
-    flex: 1,
-    backgroundColor: appStyle.color_on_background,
-  },
-  actionButtonText: {
-    color: appStyle.color_on_primary,
-  },
-});
+
 export default WorkoutComponent;
