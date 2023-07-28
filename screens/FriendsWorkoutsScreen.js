@@ -9,6 +9,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import { FlatList } from "react-native";
 import WorkoutComponent from "../components/WorkoutComponent";
+import { color_outline, color_surface_variant } from "../utils/appStyleSheet";
 const FriendsWorkoutsScreen = () => {
   const { friendsWorkouts } = useFriendsWorkouts();
   const { user } = useAuth();
@@ -31,9 +32,17 @@ const FriendsWorkoutsScreen = () => {
         title={languageService[user.language].friendsWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1" style={{ paddingHorizontal: 16 }}>
+      <View
+        className="flex-1"
+        style={{ backgroundColor: color_surface_variant }}
+      >
         <FlatList
-          showsVerticalScrollIndicator={false}
+          style={{
+            paddingTop: 5,
+            borderTopColor: color_outline,
+            borderTopWidth: 1,
+          }}
+          // showsVerticalScrollIndicator={false}
           data={friendsWorkouts}
           contentContainerStyle={{ rowGap: 5 }}
           keyExtractor={(item) => item.id}

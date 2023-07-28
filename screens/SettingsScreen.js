@@ -21,6 +21,7 @@ import useFirebase from "../hooks/useFirebase";
 import useLeaderboard from "../hooks/useLeaderboard";
 import useAlerts from "../hooks/useAlerts";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 const SettingsScreen = ({ route }) => {
   const { db } = useFirebase();
   const { cleanLeaderboardListener } = useLeaderboard();
@@ -227,10 +228,14 @@ const SettingsScreen = ({ route }) => {
               </View>
               <View className="flex-1"></View>
               <View
-                style={{
-                  borderRadius: 8,
-                  backgroundColor: appStyle.color_surface_variant,
-                }}
+                style={[
+                  {
+                    borderRadius: 8,
+                    marginBottom: 16,
+                    backgroundColor: appStyle.color_surface_variant,
+                  },
+                  appComponentsDefaultStyles.shadow,
+                ]}
               >
                 <CustomButton
                   onPress={() => setShowSuggestionForm(true)}

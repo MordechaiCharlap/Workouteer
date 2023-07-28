@@ -11,6 +11,7 @@ import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import * as geoService from "../services/geoService";
+import { color_outline, color_surface_variant } from "../utils/appStyleSheet";
 
 const WorkoutInvitesScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -39,13 +40,20 @@ const WorkoutInvitesScreen = () => {
         title={languageService[user.language].workoutInvites}
         goBackOption={true}
       />
-      <View className="flex-1 px-4">
+      <View
+        className="flex-1"
+        style={{ backgroundColor: color_surface_variant }}
+      >
         {initialLoading ? (
           <LoadingAnimation />
         ) : (
           <FlatList
-            className="p-2"
-            showsVerticalScrollIndicator={false}
+            style={{
+              paddingTop: 5,
+              borderTopColor: color_outline,
+              borderTopWidth: 1,
+            }}
+            // showsVerticalScrollIndicator={false}
             data={workouts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (

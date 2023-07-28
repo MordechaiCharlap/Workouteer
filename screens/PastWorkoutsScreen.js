@@ -15,6 +15,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { color_outline, color_surface_variant } from "../utils/appStyleSheet";
 const PastWorkoutsScreen = ({ route }) => {
   const { user } = useAuth();
   const shownUser = route.params?.shownUser || user;
@@ -70,12 +71,21 @@ const PastWorkoutsScreen = ({ route }) => {
         title={languageService[user.language].pastWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-2">
+      <View
+        className="flex-1"
+        style={{ backgroundColor: color_surface_variant }}
+      >
         {workouts ? (
           <Animated.FlatList
-            style={animatedListStyle}
-            className="p-2"
-            showsVerticalScrollIndicator={false}
+            style={[
+              animatedListStyle,
+              {
+                paddingTop: 5,
+                borderTopColor: color_outline,
+                borderTopWidth: 1,
+              },
+            ]}
+            // showsVerticalScrollIndicator={false}
             data={workouts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (

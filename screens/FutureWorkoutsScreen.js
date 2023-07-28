@@ -79,13 +79,20 @@ const FutureWorkoutsScreen = ({ route }) => {
         title={languageService[user.language].futureWorkouts}
         goBackOption={true}
       />
-      <View className="flex-1 px-2">
+      <View
+        className="flex-1"
+        style={{ backgroundColor: appStyle.color_surface_variant }}
+      >
         {initialLoading ? (
           <LoadingAnimation />
         ) : (
           <FlatList
-            className="p-2"
-            showsVerticalScrollIndicator={false}
+            // showsVerticalScrollIndicator={false}
+            style={{
+              paddingTop: 5,
+              borderTopColor: appStyle.color_outline,
+              borderTopWidth: 1,
+            }}
             data={workouts}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
