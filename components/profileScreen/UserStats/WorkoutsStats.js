@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import useConfirmedWorkouts from "../../../hooks/useConfirmedWorkouts";
 import { useEffect } from "react";
 import CustomText from "../../basic/CustomText";
+import appComponentsDefaultStyles from "../../../utils/appComponentsDefaultStyles";
 const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
   const { user } = useAuth();
   const { getConfirmedWorkoutsByUserId, confirmedWorkouts } =
@@ -93,12 +94,17 @@ const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
     };
     return (
       <View
-        style={{
-          backgroundColor: backgroundColor,
-          borderRadius: 5,
-          height: 200,
-          justifyContent: "center",
-        }}
+        style={[
+          {
+            backgroundColor: backgroundColor,
+            borderRadius: 5,
+            height: 200,
+            justifyContent: "center",
+            borderWidth: 0.5,
+            borderColor: appStyle.color_outline,
+          },
+          appComponentsDefaultStyles.shadow,
+        ]}
       >
         <View
           style={{

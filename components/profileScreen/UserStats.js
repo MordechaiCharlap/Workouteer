@@ -11,6 +11,7 @@ import useAuth from "../../hooks/useAuth";
 import WorkoutsStats from "./UserStats/WorkoutsStats";
 import languageService from "../../services/languageService";
 import CustomText from "../basic/CustomText";
+import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 const UserStats = ({ shownUser, color, backgroundColor }) => {
   const { user } = useAuth();
   const iconSize = 30;
@@ -27,13 +28,18 @@ const UserStats = ({ shownUser, color, backgroundColor }) => {
   return (
     <View>
       <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          borderRadius: 20,
-          backgroundColor: backgroundColor,
-        }}
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            borderRadius: 20,
+            backgroundColor: backgroundColor,
+            borderWidth: 0.5,
+            borderColor: appStyle.color_outline,
+          },
+          appComponentsDefaultStyles.shadow,
+        ]}
       >
         {renderStat(faBolt, shownUser.totalPoints)}
         {renderStat(

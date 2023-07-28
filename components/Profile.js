@@ -391,7 +391,14 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
             </View>
             <View
               className="rounded-xl p-4"
-              style={{ backgroundColor: appStyle.color_surface_variant }}
+              style={[
+                {
+                  backgroundColor: appStyle.color_surface_variant,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_outline,
+                },
+                appComponentsDefaultStyles.shadow,
+              ]}
             >
               <CustomText
                 style={{ color: appStyle.color_on_background }}
