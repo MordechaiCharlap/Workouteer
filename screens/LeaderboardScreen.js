@@ -76,7 +76,7 @@ const LeaderboardScreen = () => {
                     color: appStyle.color_background,
                   }}
                 >
-                  {languageService[user.language].searchWorkout}
+                  {languageService[user.language].searchWorkouts}
                 </Text>
               </CustomButton>
               <CustomButton
