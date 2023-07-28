@@ -33,12 +33,7 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
   });
   useFocusEffect(
     useCallback(() => {
-      if (
-        suggestedUsers == null ||
-        suggestedUsers.length == 0 ||
-        listHeight.value == 250
-      )
-        return;
+      if (listHeight.value == 250) return;
       listHeight.value = withTiming(250);
     }, [suggestedUsers])
   );
@@ -51,7 +46,6 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
       style={[
         {
           backgroundColor: containerColor,
-          marginTop: 16,
           rowGap: 5,
         },
         listAnimatedStyle,
@@ -105,7 +99,7 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
             />
             <View className="flex-1 items-center">
               <CustomText className="font-semibold ">{item.id}</CustomText>
-              {item.mutualFriendsCount != null && (
+              {item.mutualFriendsCount ? (
                 <CustomText
                   style={{
                     color: convertHexToRgba(
@@ -118,6 +112,21 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
                     ": " +
                     item.mutualFriendsCount}
                 </CustomText>
+              ) : (
+                item.workoutsCount > 0 && (
+                  <CustomText
+                    style={{
+                      color: convertHexToRgba(
+                        appStyle.color_on_surface_variant,
+                        0.5
+                      ),
+                    }}
+                  >
+                    {languageService[user.language].workouts +
+                      ": " +
+                      item.workoutsCount}
+                  </CustomText>
+                )
               )}
             </View>
             {!sentRequests.includes(item.id) ? (
