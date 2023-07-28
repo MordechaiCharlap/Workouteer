@@ -32,7 +32,7 @@ const languageService = {
     friendsWorkoutsHomeBtn: "FRIENDS WORKOUTS",
     workoutInvitesHomeBtn: "WORKOUT INVITES",
     createWorkout: "Create workout",
-    searchWorkout: "Find a workout",
+    searchWorkouts: "Find a workout",
     pastWorkouts: "Past workouts",
     futureWorkouts: "Future workouts",
     friendsWorkouts: "Friends workouts",
@@ -324,6 +324,9 @@ const languageService = {
     latestConfirmedWorkoutsWorldwide: "Latest confirmed workouts worldwide",
     mutualFriends: "Mutual friends",
     added: "Added",
+    changeFilters: "Change filters",
+    noWorkoutsMatchedYourSearch: "No workouts matched your search",
+    haventConfirmedWorkoutsYet: "You haven't confirmed any workouts yet.",
   },
   hebrew: {
     workout: "אימון",
@@ -335,7 +338,7 @@ const languageService = {
     friendsWorkoutsHomeBtn: "אימונים של חברים",
     workoutInvitesHomeBtn: "הזמנות לאימונים",
     createWorkout: "יצירת אימון חדש",
-    searchWorkout: "חיפוש אימונים",
+    searchWorkouts: "חיפוש אימונים",
     pastWorkouts: "אימונים קודמים",
     futureWorkouts: "אימונים מתוכננים",
     friendsWorkouts: "אימונים של חברים",
@@ -626,6 +629,9 @@ const languageService = {
     latestConfirmedWorkoutsWorldwide: "האימונים האחרונים שאושרו באפליקציה",
     mutualFriends: "חברים משותפים",
     added: "נוסף",
+    changeFilters: "שינוי פילטרים",
+    noWorkoutsMatchedYourSearch: "לא נמצאו אימונים שמתאימים לחיפוש שלך",
+    haventConfirmedWorkoutsYet: "עדיין לא אושרו אימונים",
   },
 };
 export default languageService;
