@@ -238,7 +238,7 @@ const WorkoutComponent = (props) => {
     },
     actionButton: {
       flex: 1,
-      backgroundColor: onContainerColor,
+      backgroundColor: appStyle.color_on_background,
     },
     actionButtonText: {
       color: containerColor,
