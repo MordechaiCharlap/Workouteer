@@ -30,13 +30,13 @@ const EditingWorkout = ({ workoutIndex }) => {
   const [editingExercise, setEditingExercise] = useState();
   const { windowHeight } = useResponsiveness();
   const addNewExercise = (newExercise) => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts[workoutIndex].exercises.push(newExercise);
     setProgramData(programDataClone);
     setEditingExercise();
   };
   const updateExercise = (updatedExercise) => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts[workoutIndex].exercises[editingExerciseIndex] =
       updatedExercise;
     setProgramData(programDataClone);
@@ -48,7 +48,7 @@ const EditingWorkout = ({ workoutIndex }) => {
     setEditingExerciseIndex();
   };
   const deleteEditingExercise = (index) => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts[workoutIndex].exercises.splice(index, 1);
     setProgramData(programDataClone);
     setEditingExercise();

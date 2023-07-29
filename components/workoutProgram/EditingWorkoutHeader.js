@@ -29,7 +29,7 @@ const EditingWorkoutHeader = ({
   } = useContext(ProgramContext);
   const [isNameFocused, setIsNameFocused] = useState(false);
   const deleteWorkout = () => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts.splice(workoutIndex, 1);
     if (maximizedWorkout == workoutIndex) {
       if (
@@ -51,7 +51,7 @@ const EditingWorkoutHeader = ({
   };
   const handleWorkoutNameChange = (text) => {
     if (!isNameFocused) return;
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts[workoutIndex].name = text;
     setProgramData(programDataClone);
   };

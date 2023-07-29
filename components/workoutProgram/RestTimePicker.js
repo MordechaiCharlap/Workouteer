@@ -40,7 +40,7 @@ const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
     }
   };
   const confirmRestTime = () => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts[workoutIndex].restSeconds =
       parseInt(restMinutes || 0) * 60 + parseInt(restSeconds || 0);
     setProgramData(programDataClone);

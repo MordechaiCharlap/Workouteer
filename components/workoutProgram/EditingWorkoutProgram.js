@@ -31,7 +31,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const workoutsFlatListRef = useRef();
   const maxWorkoutsPerProgram = 7;
   const [programData, setProgramData] = useState(
-    JSON.parse(JSON.stringify(program)) || {
+    (program && JSON.parse(JSON.stringify(program))) || {
       name: "",
       workouts: [{ name: "", restSeconds: 0, exercises: [] }],
     }
@@ -41,7 +41,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const newWorkout = () => {
-    const programDataClone = { ...programData };
+    const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts.push({
       name: "",
       restSeconds: 0,
@@ -52,7 +52,7 @@ const EditingWorkoutProgram = ({ program }) => {
   };
   const handleProgramNameChange = (text) => {
     if (!isProgramNameFocused) return;
-    const dataClone = { ...programData };
+    const dataClone = JSON.parse(JSON.stringify(programData));
     dataClone.name = text;
     setProgramData(dataClone);
   };
