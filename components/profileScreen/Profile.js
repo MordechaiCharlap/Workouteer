@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { React, useEffect, useState } from "react";
-import * as appStyle from "../utils/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faChevronLeft,
@@ -25,19 +25,20 @@ import {
   faExclamationCircle,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import * as firebase from "../services/firebase";
-import useAuth from "../hooks/useAuth";
-import usePushNotifications from "../hooks/usePushNotifications";
-import languageService from "../services/languageService";
-import NameAndAge from "./profileScreen/NameAndAge";
-import UserStats from "./profileScreen/UserStats";
-import AwesomeModal from "./AwesomeModal";
-import UserDetailsButton from "./profileScreen/UserDetailsButton";
-import CustomButton from "./basic/CustomButton";
-import CustomText from "./basic/CustomText";
+import * as firebase from "../../services/firebase";
+import useAuth from "../../hooks/useAuth";
+import usePushNotifications from "../../hooks/usePushNotifications";
+import languageService from "../../services/languageService";
+import NameAndAge from "./NameAndAge";
+import UserStats from "./UserStats";
+import AwesomeModal from "../AwesomeModal";
+import UserDetailsButton from "./UserDetailsButton";
+import CustomButton from "../basic/CustomButton";
+import CustomText from "../basic/CustomText";
 import { useNavigation } from "@react-navigation/native";
-import AlertDot from "./AlertDot";
-import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import AlertDot from "../AlertDot";
+import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
+import UserDescription from "./UserDescription";
 
 const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
   const navigation = useNavigation();
@@ -259,157 +260,132 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
           </View>
         )}
       </View>
-      <ScrollView
-        className="flex-1"
-        style={{
-          paddingHorizontal: 16,
-        }}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View style={{ height: 10 }} />
-        <View>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            borderRadius: 20,
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            source={{
+              uri: shownUser.img,
+            }}
+            className=" bg-white rounded-full"
+            style={{
+              height: 120,
+              aspectRatio: 1 / 1,
+              borderWidth: 1,
+              borderColor: appStyle.color_outline,
+            }}
+          />
           <View
             style={{
-              borderRadius: 20,
-              flexDirection: "row",
-              justifyContent: "space-between",
+              alignItems: "flex-end",
             }}
           >
-            <View>
-              <Image
-                source={{
-                  uri: shownUser.img,
-                }}
-                className=" bg-white rounded-full"
-                style={{
-                  height: 120,
-                  aspectRatio: 1 / 1,
-                  borderWidth: 1,
-                  borderColor: appStyle.color_outline,
-                }}
-              />
-            </View>
-            <View
-              style={{
-                alignItems: "flex-end",
-              }}
-            >
-              <View className="flex-row items-center">
-                {futureWorkoutsCount > 0 && (
-                  <UserDetailsButton
-                    buttonStyle={plannedButtonStyle}
-                    color={plannedButtonStyle.color}
-                    iconColor={plannedButtonStyle.color}
-                    onPress={() =>
-                      navigation.navigate("FutureWorkouts", {
-                        shownUser: !isMyUser ? shownUser : null,
-                      })
-                    }
-                    text={futureWorkoutsCount}
-                    icon={faClock}
-                    smallIcon={faExclamationCircle}
-                    specialButton={true}
-                  />
-                )}
-
-                <View style={{ width: 20 }}></View>
+            <View className="flex-row items-center">
+              {futureWorkoutsCount > 0 && (
                 <UserDetailsButton
-                  buttonStyle={buttonStyle}
-                  color={buttonStyle.color}
-                  iconColor={buttonStyle.color}
+                  buttonStyle={plannedButtonStyle}
+                  color={plannedButtonStyle.color}
+                  iconColor={plannedButtonStyle.color}
                   onPress={() =>
-                    navigation.navigate("PastWorkouts", {
+                    navigation.navigate("FutureWorkouts", {
                       shownUser: !isMyUser ? shownUser : null,
                     })
                   }
-                  text={shownUser.workoutsCount}
-                  icon={faDumbbell}
-                  smallIcon={faCircleCheck}
+                  text={futureWorkoutsCount}
+                  icon={faClock}
+                  smallIcon={faExclamationCircle}
+                  specialButton={true}
                 />
-              </View>
-              <View style={{ height: 20 }}></View>
-              <CustomButton
-                round
-                style={[buttonStyle, appComponentsDefaultStyles.shadow]}
+              )}
+
+              <View style={{ width: 20 }}></View>
+              <UserDetailsButton
+                buttonStyle={buttonStyle}
+                color={buttonStyle.color}
+                iconColor={buttonStyle.color}
                 onPress={() =>
-                  navigation.navigate("Friends", {
+                  navigation.navigate("PastWorkouts", {
                     shownUser: !isMyUser ? shownUser : null,
                   })
                 }
-              >
-                <CustomText style={{ fontSize: 25, color: buttonStyle.color }}>
-                  {shownUser.friendsCount}
-                </CustomText>
-                <View style={{ width: 10 }}></View>
-                <FontAwesomeIcon
-                  icon={faUserGroup}
-                  size={30}
-                  color={buttonStyle.color}
-                />
-                {isMyUser && shownUser.friendRequestsCount > 0 && (
-                  <View className="absolute right-0 bottom-0">
-                    <AlertDot
-                      text={user.friendRequestsCount}
-                      color={appStyle.color_primary}
-                      borderColor={appStyle.color_surface}
-                      textColor={appStyle.color_on_primary}
-                      borderWidth={1}
-                      fontSize={13}
-                      size={23}
-                    />
-                  </View>
-                )}
-              </CustomButton>
-            </View>
-          </View>
-          <View
-            style={{
-              rowGap: 16,
-            }}
-          >
-            <View style={{ marginTop: 10 }}>
-              <CustomText
-                style={{
-                  fontSize: 12,
-                  color: appStyle.color_on_surface,
-                }}
-              >
-                #{shownUser.id}
-              </CustomText>
-              <NameAndAge
-                name={shownUser.displayName}
-                age={calculateAge()}
-                color={appStyle.color_on_background}
+                text={shownUser.workoutsCount}
+                icon={faDumbbell}
+                smallIcon={faCircleCheck}
               />
             </View>
-            <View>
-              <UserStats
-                shownUser={shownUser}
-                color={appStyle.color_on_background}
-                backgroundColor={appStyle.color_surface_variant}
-              />
-            </View>
-            <View
-              className="rounded-xl p-4"
-              style={[
-                {
-                  backgroundColor: appStyle.color_surface_variant,
-                  borderWidth: 0.5,
-                  borderColor: appStyle.color_outline,
-                },
-                appComponentsDefaultStyles.shadow,
-              ]}
+            <View style={{ height: 20 }}></View>
+            <CustomButton
+              round
+              style={[buttonStyle, appComponentsDefaultStyles.shadow]}
+              onPress={() =>
+                navigation.navigate("Friends", {
+                  shownUser: !isMyUser ? shownUser : null,
+                })
+              }
             >
-              <CustomText
-                style={{ color: appStyle.color_on_background }}
-                className="text-lg"
-              >
-                {shownUser.description == ""
-                  ? languageService[user.language].noDescriptionYet
-                  : shownUser.description}
+              <CustomText style={{ fontSize: 25, color: buttonStyle.color }}>
+                {shownUser.friendsCount}
               </CustomText>
-            </View>
+              <View style={{ width: 10 }}></View>
+              <FontAwesomeIcon
+                icon={faUserGroup}
+                size={30}
+                color={buttonStyle.color}
+              />
+              {isMyUser && shownUser.friendRequestsCount > 0 && (
+                <View className="absolute right-0 bottom-0">
+                  <AlertDot
+                    text={user.friendRequestsCount}
+                    color={appStyle.color_primary}
+                    borderColor={appStyle.color_surface}
+                    textColor={appStyle.color_on_primary}
+                    borderWidth={1}
+                    fontSize={13}
+                    size={23}
+                  />
+                </View>
+              )}
+            </CustomButton>
           </View>
+        </View>
+        <View
+          style={{
+            rowGap: 16,
+            marginTop: 16,
+            paddingHorizontal: 16,
+          }}
+        >
+          <View>
+            <CustomText
+              style={{
+                fontSize: 12,
+                color: appStyle.color_on_surface,
+              }}
+            >
+              #{shownUser.id}
+            </CustomText>
+            <NameAndAge
+              name={shownUser.displayName}
+              age={calculateAge()}
+              color={appStyle.color_on_background}
+            />
+          </View>
+          <UserStats
+            shownUser={shownUser}
+            color={appStyle.color_on_background}
+            backgroundColor={appStyle.color_surface_variant}
+          />
+          <UserDescription
+            description={shownUser.description}
+            language={user.language}
+          />
         </View>
         <View style={{ height: 10 }} />
       </ScrollView>
