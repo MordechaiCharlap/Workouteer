@@ -53,7 +53,7 @@ import { useMaintenance } from "./hooks/useMaintenance";
 import { isWebOnPC } from "./services/webScreenService";
 import ControlPanelScreen from "./screens/adminScreens/ControlPanelScreen";
 import useFirebase from "./hooks/useFirebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
 import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
@@ -77,11 +77,17 @@ const StackNavigator = () => {
   const { isVersionUpToDate, underMaintenance } = useAppData();
   const removeUnconfirmedOldWorkouts = () => {
     const now = new Date();
-    const unconfirmedWorkouts = { ...user.plannedWorkouts };
+    const unconfirmedWorkouts = JSON.parse(
+      JSON.stringify(user.plannedWorkouts)
+    );
     for (const [key, value] of Object.entries(user.plannedWorkouts)) {
-      if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now)
+      if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now) {
+        unconfirmedWorkouts[key][0] = new Timestamp(
+          unconfirmedWorkouts[key][0].seconds,
+          unconfirmedWorkouts[key][0].nanoseconds
+        );
         continue;
-
+      }
       delete unconfirmedWorkouts[key];
     }
     return unconfirmedWorkouts;
