@@ -328,7 +328,10 @@ const ConfirmWorkoutScreen = () => {
             }}
           />
           <Circle
-            center={workout.location}
+            center={{
+              latitude: workout.location.latitude,
+              longitude: workout.location.longitude,
+            }}
             radius={100}
             fillColor={appStyle.color_circle_fill}
             strokeColor={appStyle.color_circle_border}
