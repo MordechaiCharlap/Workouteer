@@ -9,9 +9,7 @@ import {
   faPlus,
   faMagnifyingGlass,
   faUserGroup,
-  faCalendarCheck,
   faEnvelopeOpenText,
-  faStopwatch,
   faGamepad,
   faFile,
 } from "@fortawesome/free-solid-svg-icons";
@@ -152,15 +150,15 @@ const HomeScreen = () => {
         </View>
       )}
       <View className="absolute top-0 right-0 left-0 flex-row justify-between p-1">
-        {specs.isBetaVersion && (
+        {specs?.isBetaVersion && (
           <Text style={{ color: appStyle.color_primary }} className="text-xs">
             {languageService[user.language].betaVersion}
           </Text>
         )}
-        {user.role == "admin" && (
+        {user?.role == "admin" && (
           <CustomButton
             onPress={() => {
-              navigation.navigate("AdminHome");
+              navigation.navigate("ControlPanel");
             }}
             style={{
               flexDirection: "row",
