@@ -108,13 +108,6 @@ const StackNavigator = () => {
       updateDoc(doc(db, "users", userClone.id), userClone);
     }
   }, [userLoaded]);
-
-  useEffect(() => {
-    const hideSplashScreen = async () => {
-      await SplashScreen.hideAsync();
-    };
-    hideSplashScreen();
-  }, [initialLoading]);
   //listening to invites because its updating after requests, so when invites updating request are updated already
   return (
     <View
@@ -339,23 +332,25 @@ const StackNavigator = () => {
                 )}
               </>
             ) : (
-              <>
-                <Stack.Screen
-                  name="Login"
-                  component={LoginScreen}
-                  options={verticalAnimation}
-                />
-                <Stack.Screen
-                  name="Register"
-                  component={RegisterScreen}
-                  options={horizontalLeftAnimation}
-                />
-                <Stack.Screen
-                  name="LinkUserWithGoogle"
-                  component={LinkUserWithGoogleScreen}
-                  options={horizontalLeftAnimation}
-                />
-              </>
+              !user && (
+                <>
+                  <Stack.Screen
+                    name="Login"
+                    component={LoginScreen}
+                    options={verticalAnimation}
+                  />
+                  <Stack.Screen
+                    name="Register"
+                    component={RegisterScreen}
+                    options={horizontalLeftAnimation}
+                  />
+                  <Stack.Screen
+                    name="LinkUserWithGoogle"
+                    component={LinkUserWithGoogleScreen}
+                    options={horizontalLeftAnimation}
+                  />
+                </>
+              )
             )}
             <Stack.Screen
               name="TermsOfService"

@@ -23,8 +23,9 @@ import * as Google from "expo-auth-session/providers/google";
 import { useNavigation } from "@react-navigation/native";
 import { getCurrentLocation } from "../services/geoService";
 import useFirebase from "./useFirebase";
-const AuthContext = createContext({});
 
+import * as SplashScreen from "expo-splash-screen";
+const AuthContext = createContext({});
 export const AuthPrvider = ({ children }) => {
   const { db, auth } = useFirebase();
   const navigation = useNavigation();
@@ -142,13 +143,15 @@ export const AuthPrvider = ({ children }) => {
     } else if (!user) setUserLoaded(false);
   }, [user]);
   useEffect(() => {
-    if (!userLoaded) {
-      // setInitialLoading(false);
-      return;
-    }
+    if (!userLoaded) return;
+    const hideSplashScreen = async () => {
+      await SplashScreen.hideAsync();
+    };
     const getLocation = async () => {
       await getCurrentLocation(user);
     };
+    console.log(user);
+    hideSplashScreen();
     getLocation();
     setTimeout(() => {
       setLoginLoading(false);
