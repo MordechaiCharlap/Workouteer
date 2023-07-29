@@ -135,19 +135,10 @@ const HomeScreen = () => {
         )} */}
       </View>
       {currentWorkout != null && (
-        <View
-          style={{
-            bottom: 0,
-            width: "100%",
-            position: "absolute",
-            alignItems: "center",
-          }}
-        >
-          <ConfirmCurrentWorkoutButton
-            currentWorkout={currentWorkout}
-            user={user}
-          />
-        </View>
+        <ConfirmCurrentWorkoutButton
+          currentWorkout={currentWorkout}
+          user={user}
+        />
       )}
       <View className="absolute top-0 right-0 left-0 flex-row justify-between p-1">
         {specs?.isBetaVersion && (
