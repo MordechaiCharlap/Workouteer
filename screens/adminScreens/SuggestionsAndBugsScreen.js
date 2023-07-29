@@ -4,11 +4,11 @@ import Header from "../../components/Header";
 import useFirebase from "../../hooks/useFirebase";
 import {
   collection,
-  getDocs,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
-  where,
 } from "firebase/firestore";
 import Animated, {
   useAnimatedStyle,
@@ -43,7 +43,7 @@ const SuggestionsAndBugsScreen = () => {
       marginTop: listMarginTop.value,
     };
   }, []);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState();
   const [maximizedIndex, setMaximizedIndex] = useState();
   useFocusEffect(
     useCallback(() => {
@@ -56,18 +56,21 @@ const SuggestionsAndBugsScreen = () => {
       orderBy("dateSubmitted")
     );
     const observer = onSnapshot(suggestionsQuery, (suggestionSnapshot) => {
+      const listClone = list || [];
       suggestionSnapshot.docChanges().forEach((change) => {
         if (change.type == "added") {
           // console.log("added!");
-
+          console.log(listClone.length);
           if (
-            list.findIndex((suggestion) => suggestion.id == change.doc.id) == -1
+            listClone.findIndex(
+              (suggestion) => suggestion.id == change.doc.id
+            ) == -1
           ) {
-            const listClone = list;
             listClone.push({
               ...change.doc.data(),
               id: change.doc.id,
             });
+
             setList(listClone);
             if (listOpacity.value == 0) {
               // console.log("animating list");
@@ -82,27 +85,24 @@ const SuggestionsAndBugsScreen = () => {
           }
         } else if (change.type == "removed") {
           console.log("removed!");
-
-          const listClone = list;
-          listClone.splice(
-            listClone.findIndex((suggestion) => suggestion.id == change.doc.id),
-            1
-          );
-          setList(listClone);
+          // const listClone = list;
+          // listClone.splice(
+          //   listClone.findIndex((suggestion) => suggestion.id == change.doc.id),
+          //   1
+          // );
+          // setList(listClone);
         } else if (change.type == "modified") {
           // console.log("modified!");
           // console.log(change.doc.data());
+          setList(listClone);
         }
       });
+      setList(listClone);
     });
 
-    // getDocs(suggestionsQuery).then((snapshot) => {
-    //   const arr = [];
-    //   snapshot.forEach((doc) => arr.push({ ...doc.data(), id: doc.id }));
-    //   setList(arr);
-    // });
     return () => observer();
   }, []);
+
   const maximizeSuggestion = (index) => {
     setMaximizedIndex(index);
   };
@@ -117,6 +117,16 @@ const SuggestionsAndBugsScreen = () => {
         friendshipStatus: friendshipStatus,
       });
     }
+  };
+  const deleteSuggestion = (index) => {
+    const suggestionDocId = list[index].id;
+    console.log("deleting " + index);
+    if (maximizedIndex > index) setMaximizedIndex((prev) => prev - 1);
+    else if (maximizedIndex == index) setMaximizedIndex();
+    const listClone = [...list];
+    listClone.splice(index, 1);
+    setList(listClone);
+    deleteDoc(doc(db, "suggestions", suggestionDocId));
   };
   return (
     <View>
@@ -150,6 +160,7 @@ const SuggestionsAndBugsScreen = () => {
                   title={item.title}
                   maximizeSuggestion={() => maximizeSuggestion(index)}
                   minimizeSuggestion={() => setMaximizedIndex()}
+                  deleteSuggestion={() => deleteSuggestion(index)}
                 />
                 {index == maximizedIndex && (
                   <View
