@@ -18,8 +18,8 @@ import { ExploreProvider } from "./hooks/useExplore";
 const ProviderWrapper = ({ children }) => {
   return (
     <FirebaseProvider>
-      <AppDataProvider>
-        <AuthPrvider>
+      <AuthPrvider>
+        <AppDataProvider>
           <ResponsivenessProvider>
             <ConnectionProvider>
               <NavbarDisplayProvider>
@@ -49,8 +49,8 @@ const ProviderWrapper = ({ children }) => {
               </NavbarDisplayProvider>
             </ConnectionProvider>
           </ResponsivenessProvider>
-        </AuthPrvider>
-      </AppDataProvider>
+        </AppDataProvider>
+      </AuthPrvider>
     </FirebaseProvider>
   );
 };
