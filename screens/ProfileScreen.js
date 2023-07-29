@@ -3,7 +3,7 @@ import { React, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import Profile from "../components/Profile";
+import Profile from "../components/profileScreen/Profile";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 
 const ProfileScreen = ({ route }) => {

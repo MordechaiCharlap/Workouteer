@@ -6,7 +6,7 @@ import * as firebase from "../services/firebase";
 import useNavbarNavigation from "../hooks/useNavbarNavigation";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import Profile from "../components/Profile";
+import Profile from "../components/profileScreen/Profile";
 import useAuth from "../hooks/useAuth";
 
 const MyProfileScreen = () => {
