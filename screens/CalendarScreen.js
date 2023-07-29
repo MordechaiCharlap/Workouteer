@@ -15,10 +15,8 @@ const CalendarScreen = () => {
     }, [])
   );
   return (
-    <View style={safeAreaStyle()}>
-      <View className="flex-1">
-        <Calendar />
-      </View>
+    <View className="flex-1">
+      <Calendar />
     </View>
   );
 };
