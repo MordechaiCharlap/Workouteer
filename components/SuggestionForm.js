@@ -4,7 +4,14 @@ import languageService from "../services/languageService";
 import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
 import * as appStyle from "../utils/appStyleSheet";
-import { Timestamp, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  doc,
+  increment,
+  updateDoc,
+} from "firebase/firestore";
 import CustomTextInput from "./basic/CustomTextInput";
 import CustomText from "./basic/CustomText";
 import CustomButton from "./basic/CustomButton";
@@ -19,14 +26,11 @@ const SuggestionForm = (props) => {
   const [isSubmitting, setIsSubmitting] = useState();
   const submitSuggestion = async () => {
     setIsSubmitting(true);
-    const suggestionsData = (
-      await getDoc(doc(db, "suggestions/suggestionsCollectionData"))
-    ).data();
     const newNumberOfSuggestions = suggestionsData.numberOfSuggestions + 1;
     updateDoc(doc(db, "suggestions/suggestionsCollectionData"), {
-      numberOfSuggestions: newNumberOfSuggestions,
+      numberOfSuggestions: increment(1),
     });
-    setDoc(doc(db, "suggestions", String(newNumberOfSuggestions)), {
+    addDoc(collection(db, "suggestions"), {
       senderId: id,
       title: title,
       content: content,
