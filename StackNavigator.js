@@ -51,7 +51,7 @@ import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
 import IntervalTimerScreen from "./screens/IntervalTimerScreen";
 import { useMaintenance } from "./hooks/useMaintenance";
 import { isWebOnPC } from "./services/webScreenService";
-import AdminHomeScreen from "./screens/AdminHomeScreen";
+import ControlPanelScreen from "./screens/adminScreens/ControlPanelScreen";
 import useFirebase from "./hooks/useFirebase";
 import { doc, updateDoc } from "firebase/firestore";
 import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
@@ -59,6 +59,7 @@ import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
 import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
 import TimerScreen from "./screens/TimerScreen";
 import EditWorkoutProgramScreen from "./screens/EditWorkoutProgramScreen";
+import SuggestionsAndBugsScreen from "./screens/adminScreens/SuggestionsAndBugsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -324,11 +325,18 @@ const StackNavigator = () => {
                   options={verticalAnimation}
                 />
                 {user.role == "admin" && (
-                  <Stack.Screen
-                    name="AdminHome"
-                    component={AdminHomeScreen}
-                    options={homeNavigationOptions.current}
-                  />
+                  <>
+                    <Stack.Screen
+                      name="ControlPanel"
+                      component={ControlPanelScreen}
+                      options={homeNavigationOptions.current}
+                    />
+                    <Stack.Screen
+                      name="SuggestionsAndBugs"
+                      component={SuggestionsAndBugsScreen}
+                      options={homeNavigationOptions.current}
+                    />
+                  </>
                 )}
               </>
             ) : (
