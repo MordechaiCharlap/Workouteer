@@ -152,7 +152,7 @@ const WorkoutComponent = (props) => {
   const requestToJoinWorkout = async () => {
     if (checkIfWorkoutOnPlannedWorkoutTime(user, workout) != null) return;
     setUserMemberStatus("pending");
-    const workoutClone = workout;
+    const workoutClone = JSON.parse(JSON.stringify(workout));
     workoutClone.requests[user.id] = true;
     updateArrayIfNeedForWorkout(workoutClone);
     firebase.requestToJoinWorkout(user.id, workout);
@@ -161,7 +161,7 @@ const WorkoutComponent = (props) => {
   };
   const cancelWorkoutRequest = async () => {
     setUserMemberStatus("not");
-    const workoutClone = workout;
+    const workoutClone = JSON.parse(JSON.stringify(workout));
     delete workoutClone.requests[user.id];
     updateArrayIfNeedForWorkout(workoutClone);
     await firebase.cancelWorkoutRequest(user.id, workout);
@@ -190,7 +190,7 @@ const WorkoutComponent = (props) => {
     setUserMemberStatus("not");
     if (props.screen == "WorkoutInvites") setWorkout(null);
     const workoutRef = workout;
-    const workoutClone = workout;
+    const workoutClone = JSON.parse(JSON.stringify(workout));
     workoutClone.invites[user.id] = false;
     updateArrayIfNeedForWorkout(workoutClone);
     await firebase.rejectWorkoutInvite(user.id, workoutRef);
