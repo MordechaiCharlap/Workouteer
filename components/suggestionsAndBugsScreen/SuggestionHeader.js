@@ -21,6 +21,7 @@ const SuggestionHeader = ({
   title,
   maximizeSuggestion,
   minimizeSuggestion,
+  deleteSuggestion,
 }) => {
   return (
     <View className="flex-row items-center justify-between">
@@ -30,7 +31,7 @@ const SuggestionHeader = ({
           <CustomButton
             className="rounded"
             style={{ backgroundColor: color_surface_variant }}
-            onPress={maximized ? minimizeSuggestion : maximizeSuggestion}
+            onPress={deleteSuggestion}
           >
             <FontAwesomeIcon
               icon={faTrash}
