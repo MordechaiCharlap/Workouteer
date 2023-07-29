@@ -82,6 +82,11 @@ export const AuthPrvider = ({ children }) => {
         setInitialLoading(false);
         if (user) {
           setUser(null);
+        } else {
+          const hideSplashScreen = async () => {
+            await SplashScreen.hideAsync();
+          };
+          hideSplashScreen();
         }
       }
     });
@@ -150,7 +155,6 @@ export const AuthPrvider = ({ children }) => {
     const getLocation = async () => {
       await getCurrentLocation(user);
     };
-    console.log(user);
     hideSplashScreen();
     getLocation();
     setTimeout(() => {
