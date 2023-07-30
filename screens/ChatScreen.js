@@ -118,7 +118,7 @@ const ChatScreen = ({ route }) => {
       const content = messageText;
       setMessageText("");
       await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
-      sendPushNotificationChatMessage(otherUser, user, content);
+      sendPushNotificationChatMessage(otherUser, user, content, chat.id);
     }
   };
   const cleanAlerts = async () => {
