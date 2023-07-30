@@ -101,13 +101,7 @@ const LatestWorkouts = ({ containerColor, onContainerColor }) => {
           >
             {languageService[user.language].latestConfirmedWorkoutsWorldwide}
           </CustomText>
-          <View
-            className="flex-1"
-            style={{
-              borderTopColor: appStyle.color_outline,
-              borderTopWidth: 1,
-            }}
-          >
+          <View className="flex-1">
             <Animated.FlatList
               style={[latestWorkoutsAnimatedStyle]}
               contentContainerStyle={{ paddingTop: 5 }}
