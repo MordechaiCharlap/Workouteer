@@ -78,7 +78,6 @@ const EditingWorkoutProgram = ({ program }) => {
         collection(db, "workoutPrograms"),
         programDataClone
       );
-      console.log(newWorkoutProgramRef.id);
       await updateDoc(doc(db, "users", user.id), {
         savedWorkoutPrograms: arrayUnion(newWorkoutProgramRef.id),
       });
