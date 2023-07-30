@@ -5,11 +5,15 @@ import * as Notifications from "expo-notifications";
 import * as firebase from "../services/firebase";
 import useAuth from "./useAuth";
 import languageService from "../services/languageService";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useFirebase from "./useFirebase";
+import { useNavigation } from "@react-navigation/native";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
+  const navigation = useNavigation();
   const { db } = useFirebase();
+  const [notification, setNotification] = useState();
+  const [clickedNotification, setClickedNotification] = useState();
   const clearNotifications = async () => {
     const presentedNotifications =
       await Notifications.getPresentedNotificationsAsync();
@@ -40,6 +44,50 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    if (userLoaded && clickedNotification) {
+      console.log(clickedNotification);
+      const notificationType =
+        clickedNotification.notification.request.content.data["type"];
+      if (notificationType == "workoutDetails") {
+        console.log("details screen");
+        getDoc(
+          doc(
+            db,
+            "workouts",
+            clickedNotification.notification.request.content.data["workoutId"]
+          )
+        ).then((doc) => {
+          setClickedNotification();
+          navigation.navigate("WorkoutDetails", {
+            workout: { ...doc.data(), id: doc.id },
+          });
+        });
+      } else if (notificationType == "chat") {
+        getDoc(
+          doc(
+            db,
+            "users",
+            clickedNotification.notification.request.content.data["otherUserId"]
+          )
+        ).then((userDoc) => {
+          getDoc(
+            doc(
+              db,
+              "chats",
+              clickedNotification.notification.request.content.data["chatId"]
+            )
+          ).then((chatDoc) => {
+            setClickedNotification();
+            navigation.navigate("Chat", {
+              otherUser: userDoc.data(),
+              chat: chatDoc.data(),
+            });
+          });
+        });
+      }
+    }
+  }, [clickedNotification]);
+  useEffect(() => {
     const clearAsyncNotifications = async () => {
       await clearNotifications();
     };
@@ -60,7 +108,7 @@ export const NotificationsProvider = ({ children }) => {
     if (Platform.OS != "web" && Device.isDevice) {
       registerForPushNotificationsAsync().then((token) => {
         if (token && token != user.token) {
-          tokenUpdateLogic(deviceToken);
+          tokenUpdateLogic(token);
         }
       });
 
@@ -70,7 +118,9 @@ export const NotificationsProvider = ({ children }) => {
 
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current =
-        Notifications.addNotificationResponseReceivedListener((response) => {});
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          setClickedNotification(response);
+        });
     }
   };
   async function registerForPushNotificationsAsync() {
@@ -86,7 +136,6 @@ export const NotificationsProvider = ({ children }) => {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-
     if (Platform.OS === "android") {
       Notifications.setNotificationChannelAsync("default", {
         name: "default",
@@ -114,7 +163,8 @@ export const NotificationsProvider = ({ children }) => {
         "Workouteer",
         `${leavingUserDisplayName} ${
           languageService[user.language].leftTheWorkout[user.isMale ? 1 : 0]
-        }`
+        }`,
+        { type: "workoutDetails", workoutId: workout.id }
       );
     }
   };
@@ -163,7 +213,8 @@ export const NotificationsProvider = ({ children }) => {
             : `${languageService[user.language].theNewAdmin}: ${
                 workout.creator
               }`
-        }`
+        }`,
+        { type: "workoutDetails", workoutId: workout.id }
       );
     }
   };
@@ -182,13 +233,15 @@ export const NotificationsProvider = ({ children }) => {
           languageService[user.language].joinedYourWorkout[
             joinedUser.isMale ? 1 : 0
           ]
-        }`
+        }`,
+        { type: "workoutDetails", workoutId: workout.id }
       );
     }
   };
   const sendPushNotificationUserWantsToJoinYourWorkout = async (
     requester,
-    creatorData
+    creatorData,
+    workout
   ) => {
     await sendPushNotification(
       creatorData,
@@ -197,18 +250,21 @@ export const NotificationsProvider = ({ children }) => {
         languageService[creatorData.language].wantsToJoinYourWorkout[
           requester.isMale ? 1 : 0
         ]
-      }`
+      }`,
+      { type: "workoutDetails", workoutId: workout.id }
     );
   };
   const sendPushNotificationChatMessage = async (
     otherUser,
     sender,
-    content
+    content,
+    chatId
   ) => {
     await sendPushNotification(
       otherUser,
       "Workouteer",
-      `${sender.displayName}: ${content}`
+      `${sender.displayName}: ${content}`,
+      { type: "chat", chatId: chatId, otherUserId: otherUser.id }
     );
   };
 
@@ -227,7 +283,7 @@ export const NotificationsProvider = ({ children }) => {
     return scheduledNotificationId;
   };
   const cancelScheduledPushNotification = async (identifier) => {
-    if (identifier != null && Platform.OS != "web")
+    if (identifier != null && Platform.OS != "web" && Device.isDevice)
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
   const sendPushNotification = async (userToSend, title, body, data) => {
@@ -251,7 +307,10 @@ export const NotificationsProvider = ({ children }) => {
       });
     }
   };
-  const sendPushNotificationCreatorAcceptedYourRequest = async (otherUser) => {
+  const sendPushNotificationCreatorAcceptedYourRequest = async (
+    otherUser,
+    workoutId
+  ) => {
     await sendPushNotification(
       otherUser,
       "Workouteer",
@@ -259,10 +318,15 @@ export const NotificationsProvider = ({ children }) => {
         languageService[otherUser.language].acceptedYourWorkoutRequest[
           user.isMale ? 1 : 0
         ]
-      }`
+      }`,
+      { type: "workoutDetails", workoutId: workoutId }
     );
   };
-  const sendFriendsWorkoutNotificationMessage = async (workoutType, friend) => {
+  const sendFriendsWorkoutNotificationMessage = async (
+    workoutType,
+    friend,
+    workoutId
+  ) => {
     // const title =
     //   user.displayName +
     //   " " +
@@ -277,7 +341,10 @@ export const NotificationsProvider = ({ children }) => {
       languageService[friend.language].scheduledWorkout[workoutType] +
       ", " +
       languageService[friend.language].askToJoin[friend.isMale ? 1 : 0];
-    await sendPushNotification(friend, "", body);
+    await sendPushNotification(friend, "", body, {
+      type: "workoutDetails",
+      workoutId: workoutId,
+    });
   };
   const sendPushNotificationInviteFriendToWorkout = async (friend, workout) => {
     await sendPushNotification(
@@ -288,17 +355,21 @@ export const NotificationsProvider = ({ children }) => {
           user.isMale ? 1 : 0
         ]
       }`,
-      null
+      {
+        type: "workoutDetails",
+        workoutId: workout.id,
+      }
     );
   };
   const sendPushNotificationForFriendsAboutWorkout = async (
     workoutSex,
-    workoutType
+    workoutType,
+    workoutId
   ) => {
     for (var friendId of Object.keys(user.friends)) {
       const friend = await firebase.getUserDataById(friendId);
       if (workoutSex == "everyone" || user.isMale == friend.isMale) {
-        sendFriendsWorkoutNotificationMessage(workoutType, friend);
+        sendFriendsWorkoutNotificationMessage(workoutType, friend, workoutId);
       }
     }
   };
