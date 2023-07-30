@@ -26,7 +26,6 @@ const ProgressBar = ({
     };
   }, []);
   useEffect(() => {
-    console.log(value);
     progress.value = withTiming(value);
   }, [value]);
 
