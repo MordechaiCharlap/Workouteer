@@ -157,7 +157,7 @@ const WorkoutComponent = (props) => {
     updateArrayIfNeedForWorkout(workoutClone);
     firebase.requestToJoinWorkout(user.id, workout);
     const creatorData = await firebase.getUserDataById(workout.creator);
-    sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData);
+    sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData, workout);
   };
   const cancelWorkoutRequest = async () => {
     setUserMemberStatus("not");
