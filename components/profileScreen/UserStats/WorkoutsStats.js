@@ -103,7 +103,6 @@ const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
             borderWidth: 0.5,
             borderColor: appStyle.color_outline,
           },
-          appComponentsDefaultStyles.shadow,
         ]}
       >
         <View

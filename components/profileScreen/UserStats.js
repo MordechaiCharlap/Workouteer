@@ -38,7 +38,6 @@ const UserStats = ({ shownUser, color, backgroundColor }) => {
             borderWidth: 0.5,
             borderColor: appStyle.color_outline,
           },
-          appComponentsDefaultStyles.shadow,
         ]}
       >
         {renderStat(faBolt, shownUser.totalPoints)}

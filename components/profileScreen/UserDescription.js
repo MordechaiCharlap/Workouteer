@@ -14,7 +14,6 @@ const UserDescription = ({ description, language }) => {
           borderWidth: 0.5,
           borderColor: appStyle.color_outline,
         },
-        appComponentsDefaultStyles.shadow,
       ]}
     >
       <CustomText
