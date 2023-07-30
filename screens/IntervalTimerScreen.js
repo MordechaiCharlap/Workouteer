@@ -25,29 +25,39 @@ const IntervalTimerScreen = ({ route }) => {
   const [intervalSeconds, setIntervalSeconds] = useState(workout.restSeconds);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState();
-  const [beepSound, setBeepSound] = useState();
+  const [shortBeepSound, setShortBeepSound] = useState();
+  const [longBeepSound, setLongBeepSound] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
     }, [])
   );
-  async function playSound() {
-    console.log("Loading Sound");
+  async function playShortBeep() {
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/audio/smallest-beep.mp3")
     );
-    setBeepSound(sound);
+    if (!shortBeepSound) setShortBeepSound(sound);
     await sound.playAsync();
   }
-
+  async function playLongBeep() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/audio/half-second-beep.mp3")
+    );
+    if (!longBeepSound) setLongBeepSound(sound);
+    await sound.playAsync();
+  }
   useEffect(() => {
-    return beepSound
-      ? () => {
-          console.log("Unloading Sound");
-          beepSound.unloadAsync();
-        }
-      : undefined;
-  }, [beepSound]);
+    return () => {
+      shortBeepSound && shortBeepSound.unloadAsync();
+      longBeepSound && longBeepSound.unloadAsync();
+    };
+    // return shortBeepSound
+    //   ? () => {
+    //       console.log("Unloading Sound");
+    //       shortBeepSound.unloadAsync();
+    //     }
+    //   : undefined;
+  }, [shortBeepSound, longBeepSound]);
 
   useEffect(() => {
     const intervalSets = [];
@@ -90,34 +100,41 @@ const IntervalTimerScreen = ({ route }) => {
   const pause = () => {
     setIsPlaying(false);
   };
-  const tripleBeep = () => {
-    var counter = 0;
-    playSound();
-    counter++;
-    const intervalId = setInterval(() => {
-      playSound();
-      counter++;
+  // const tripleBeep = () => {
+  //   var counter = 0;
+  //   playSound();
+  //   counter++;
+  //   const intervalId = setInterval(() => {
+  //     playSound();
+  //     counter++;
 
-      if (counter === 3) {
-        clearInterval(intervalId);
-      }
-    }, 300);
+  //     if (counter === 3) {
+  //       clearInterval(intervalId);
+  //     }
+  //   }, 300);
+  // };
+  const startBeep = () => {
+    playLongBeep();
+  };
+  const endBeep = () => {
+    playLongBeep();
   };
   const end = () => {
     setIsPlaying();
+    endBeep();
     setCurrentSetIndex((prev) => prev + 1);
     setIntervalSeconds(workout.restSeconds);
   };
   const play = () => {
     setIsPlaying(true);
-    tripleBeep();
+    startBeep();
     setTimer(
       setInterval(() => {
         setIntervalSeconds((prev) => {
           if (prev - 1 <= 0) {
-            tripleBeep();
+            playShortBeep();
             end();
-          } else if (prev - 1 <= 3) playSound();
+          } else if (prev - 1 <= 3) playShortBeep();
           return prev - 1;
         });
       }, 1000)
