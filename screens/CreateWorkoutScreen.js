@@ -223,7 +223,11 @@ const CreateWorkoutScreen = () => {
       userMemberStatus: "creator",
     });
 
-    sendPushNotificationForFriendsAboutWorkout(workoutSex, type);
+    sendPushNotificationForFriendsAboutWorkout(
+      workoutSex,
+      type,
+      newWorkoutData.id
+    );
   };
   return (
     <View style={safeAreaStyle()}>
