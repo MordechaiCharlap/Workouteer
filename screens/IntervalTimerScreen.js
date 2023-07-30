@@ -3,24 +3,18 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCheck,
-  faFlagCheckered,
-  faPause,
-  faPlay,
-  faRefresh,
-  faRotateRight,
-  faStop,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../utils/appStyleSheet";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { secondsToMinutesPlusSeconds } from "../utils/timeFunctions";
-import Header from "../components/Header";
 import useAuth from "../hooks/useAuth";
 import ProgressBar from "../components/ProgressBar";
+import { convertHexToRgba } from "../utils/stylingFunctions";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import { Audio } from "expo-av";
+
 const IntervalTimerScreen = ({ route }) => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -31,11 +25,30 @@ const IntervalTimerScreen = ({ route }) => {
   const [intervalSeconds, setIntervalSeconds] = useState(workout.restSeconds);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState();
+  const [beepSound, setBeepSound] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
     }, [])
   );
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/audio/smallest-beep.mp3")
+    );
+    setBeepSound(sound);
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return beepSound
+      ? () => {
+          console.log("Unloading Sound");
+          beepSound.unloadAsync();
+        }
+      : undefined;
+  }, [beepSound]);
+
   useEffect(() => {
     const intervalSets = [];
     workout.exercises.forEach((exercise) => {
@@ -77,6 +90,19 @@ const IntervalTimerScreen = ({ route }) => {
   const pause = () => {
     setIsPlaying(false);
   };
+  const tripleBeep = () => {
+    var counter = 0;
+    playSound();
+    counter++;
+    const intervalId = setInterval(() => {
+      playSound();
+      counter++;
+
+      if (counter === 3) {
+        clearInterval(intervalId);
+      }
+    }, 300);
+  };
   const end = () => {
     setIsPlaying();
     setCurrentSetIndex((prev) => prev + 1);
@@ -84,13 +110,14 @@ const IntervalTimerScreen = ({ route }) => {
   };
   const play = () => {
     setIsPlaying(true);
+    tripleBeep();
     setTimer(
       setInterval(() => {
         setIntervalSeconds((prev) => {
           if (prev - 1 <= 0) {
+            tripleBeep();
             end();
-          }
-
+          } else if (prev - 1 <= 3) playSound();
           return prev - 1;
         });
       }, 1000)
@@ -99,18 +126,7 @@ const IntervalTimerScreen = ({ route }) => {
   const finishWorkout = () => {
     navigation.navigate("Home");
   };
-  const handleSecondsChanged = (text) => {
-    var validRegex = /(?:[0-5]?[0-9])?/;
-    if (text.match(validRegex)) {
-      setChosenSeconds(String(text));
-    }
-  };
-  const handleMinutesChanged = (text) => {
-    var validRegex = /(?:[0-5]?[0-9])?/;
-    if (text.match(validRegex)) {
-      setChosenMinutes(String(text));
-    }
-  };
+
   const onContainerColor = isPlaying
     ? appStyle.color_on_background
     : appStyle.color_on_primary;
@@ -133,15 +149,15 @@ const IntervalTimerScreen = ({ route }) => {
           style={{ paddingHorizontal: 16 }}
         >
           <CustomText
-            className="text-8xl"
+            className="text-8xl font-black"
             style={{
-              color: onContainerColor,
+              color: convertHexToRgba(onContainerColor, 0.3),
               letterSpacing: 4,
             }}
           >
             {isPlaying ? "REST" : "WORK"}
           </CustomText>
-          {!isPlaying && (
+          {/* {!isPlaying && (
             <View className="absolute w-full bottom-0 items-center">
               <CustomText
                 className="text-3xl font-semibold"
@@ -156,49 +172,10 @@ const IntervalTimerScreen = ({ route }) => {
                 {allSets[currentSetIndex].reps} reps
               </CustomText>
             </View>
-          )}
+          )} */}
         </View>
-        {!isPlaying ? (
-          <View className="h-1/3 items-center justify-center">
-            <View style={{ height: 20 }} />
-            <CustomText
-              className="text-5xl font-semibold"
-              style={{ color: onContainerColor }}
-            >
-              {allSets.length - 1 == currentSetIndex
-                ? "FINISH WORKOUT"
-                : "FINISH SET"}
-            </CustomText>
-            <CustomButton
-              onPress={() => {
-                allSets.length - 1 == currentSetIndex
-                  ? finishWorkout()
-                  : play();
-              }}
-            >
-              <View
-                className="rounded-full"
-                style={[
-                  {
-                    backgroundColor: appStyle.color_success,
-                    padding: 10,
-                  },
-                ]}
-              >
-                <FontAwesomeIcon
-                  icon={
-                    allSets.length - 1 == currentSetIndex
-                      ? faFlagCheckered
-                      : faCheck
-                  }
-                  size={60}
-                  color={onContainerColor}
-                />
-              </View>
-            </CustomButton>
-          </View>
-        ) : (
-          <View className="h-1/3 justify-center items-center">
+        <View className="h-1/3 justify-center items-center">
+          {isPlaying ? (
             <CustomText
               style={{
                 fontSize: 100,
@@ -207,10 +184,71 @@ const IntervalTimerScreen = ({ route }) => {
             >
               {secondsToMinutesPlusSeconds(intervalSeconds)}
             </CustomText>
+          ) : (
+            <View className="w-full items-center">
+              <CustomText
+                className="text-5xl font-bold text-center"
+                style={{ color: onContainerColor }}
+              >
+                {allSets[currentSetIndex].name}
+              </CustomText>
+              <CustomText
+                className="text-3xl font-bold"
+                style={{ color: onContainerColor, marginBottom: 15 }}
+              >
+                {allSets[currentSetIndex].reps} reps
+              </CustomText>
+            </View>
+          )}
+        </View>
+        <View className="h-1/3 items-center">
+          <View className="flex-1 justify-center">
+            {/* <CustomText
+              className="text-5xl font-semibold"
+              style={{ color: onContainerColor }}
+            >
+              {allSets.length - 1 == currentSetIndex
+                ? "FINISH WORKOUT"
+                : "FINISH SET"}
+            </CustomText> */}
+
+            {!isPlaying && (
+              <View
+                className="rounded-full"
+                style={[
+                  {
+                    backgroundColor: appStyle.color_success,
+                    padding: 15,
+                    borderColor: appStyle.color_background,
+                    borderWidth: 5,
+                  },
+                  appComponentsDefaultStyles.shadow,
+                ]}
+              >
+                <CustomButton
+                  onPress={() => {
+                    allSets.length - 1 == currentSetIndex
+                      ? finishWorkout()
+                      : play();
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={
+                      allSets.length - 1 == currentSetIndex
+                        ? faFlagCheckered
+                        : faCheck
+                    }
+                    size={60}
+                    color={appStyle.color_background}
+                  />
+                </CustomButton>
+              </View>
+            )}
           </View>
-        )}
-        <View className="h-1/3 items-center justify-center">
-          <View className="absolute bottom-5 w-full items-center justify-center">
+          <View
+            className="w-full items-center justify-center"
+            style={{ paddingBottom: 16 }}
+          >
             <CustomText
               style={{ color: onContainerColor }}
               className="font-semibold text-3xl"
