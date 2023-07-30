@@ -51,7 +51,10 @@ const WorkoutRequestsScreen = ({ route }) => {
       user.id
     );
     await firebase.acceptWorkoutRequest(acceptedUser, workout);
-    await sendPushNotificationCreatorAcceptedYourRequest(acceptedUser);
+    await sendPushNotificationCreatorAcceptedYourRequest(
+      acceptedUser,
+      workout.id
+    );
   };
   const rejectUser = async (rejectedUser, index) => {
     const requestersClone = requesters.slice();
