@@ -42,9 +42,15 @@ const WorkoutDetailsScreen = ({ route }) => {
   const { db } = useFirebase();
   const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
-  const isPastWorkout = route.params.isPastWorkout;
-  const isCreator = route.params.isCreator;
   const [workout, setWorkout] = useState(route.params.workout);
+  const isPastWorkout =
+    route.params.isPastWorkout != null
+      ? route.params.isPastWorkout
+      : route.params.workout.startingTime.toDate() < new Date();
+  const isCreator =
+    route.params.isCreator != null
+      ? route.params.isCreator
+      : route.params.workout.creator == user.id;
   const [members, setMembers] = useState([]);
   const [initalLoading, setInitialLoading] = useState(true);
   useEffect(() => {
