@@ -21,7 +21,7 @@ import * as appStyle from "../../utils/appStyleSheet";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import CustomButton from "../../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faFolderOpen, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
   checkFriendShipStatus,
@@ -60,7 +60,6 @@ const SuggestionsAndBugsScreen = () => {
       suggestionSnapshot.docChanges().forEach((change) => {
         if (change.type == "added") {
           // console.log("added!");
-          console.log(listClone.length);
           if (
             listClone.findIndex(
               (suggestion) => suggestion.id == change.doc.id
@@ -129,90 +128,114 @@ const SuggestionsAndBugsScreen = () => {
     deleteDoc(doc(db, "suggestions", suggestionDocId));
   };
   return (
-    <View>
-      <Header title="SuggestionsAndBugs" goBackOption={true} />
+    <View className="flex-1">
+      <Header title="Suggestions and bugs" goBackOption={true} />
       <View className="flex-1">
-        {list && (
-          <Animated.FlatList
-            style={[
-              {
+        {list &&
+          (list.length == 0 ? (
+            <View
+              className="items-center flex-row justify-center m-10 p-5"
+              style={{
+                columnGap: 15,
+                borderWidth: 0.5,
+                borderColor: appStyle.color_outline,
+                borderRadius: 20,
                 backgroundColor: appStyle.color_surface_variant,
-              },
-              animatedListStyle,
-            ]}
-            contentContainerStyle={{
-              paddingHorizontal: 16,
-              paddingVertical: 10,
-              rowGap: 10,
-            }}
-            data={list}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item, index }) => (
-              <View
-                className="p-4 rounded"
-                style={[
-                  { backgroundColor: appStyle.color_background },
-                  appComponentsDefaultStyles.shadow,
-                ]}
+              }}
+            >
+              <CustomText
+                style={{ color: appStyle.color_on_surface_variant }}
+                className="text-3xl text-center"
               >
-                <SuggestionHeader
-                  maximized={index == maximizedIndex}
-                  title={item.title}
-                  maximizeSuggestion={() => maximizeSuggestion(index)}
-                  minimizeSuggestion={() => setMaximizedIndex()}
-                  deleteSuggestion={() => deleteSuggestion(index)}
-                />
-                {index == maximizedIndex && (
-                  <View
-                    className="h-auto "
-                    style={{ paddingVertical: 5, rowGap: 10 }}
-                  >
-                    <CustomText
-                      style={{
-                        backgroundColor: appStyle.color_surface_variant,
-                        color: appStyle.color_on_surface_variant,
-                        padding: 5,
-                      }}
-                      className="text-lg rounded"
-                    >
-                      {item.content}
-                    </CustomText>
+                No existing submittions
+              </CustomText>
+              <FontAwesomeIcon
+                icon={faFolderOpen}
+                size={50}
+                color={appStyle.color_primary}
+              />
+            </View>
+          ) : (
+            <Animated.FlatList
+              style={[
+                {
+                  backgroundColor: appStyle.color_surface_variant,
+                },
+                animatedListStyle,
+              ]}
+              contentContainerStyle={{
+                paddingHorizontal: 16,
+                paddingVertical: 10,
+                rowGap: 10,
+              }}
+              data={list}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => (
+                <View
+                  className="p-4 rounded"
+                  style={[
+                    { backgroundColor: appStyle.color_background },
+                    appComponentsDefaultStyles.shadow,
+                  ]}
+                >
+                  <SuggestionHeader
+                    maximized={index == maximizedIndex}
+                    title={item.title}
+                    maximizeSuggestion={() => maximizeSuggestion(index)}
+                    minimizeSuggestion={() => setMaximizedIndex()}
+                    deleteSuggestion={() => deleteSuggestion(index)}
+                  />
+                  {index == maximizedIndex && (
                     <View
-                      className="flex-row items-center"
-                      style={{ columnGap: 10 }}
+                      className="h-auto "
+                      style={{ paddingVertical: 5, rowGap: 10 }}
                     >
-                      <CustomText className="text-lg">Sender: </CustomText>
-                      <CustomButton
-                        onPress={async () => await userClicked(item.senderId)}
-                        round
-                        className="flex-row items-center"
-                        style={[
-                          {
-                            columnGap: 3,
-                            backgroundColor: appStyle.color_primary,
-                            borderWidth: 0.5,
-                            borderColor: appStyle.color_outline,
-                          },
-                        ]}
+                      <CustomText
+                        style={{
+                          backgroundColor: appStyle.color_surface_variant,
+                          color: appStyle.color_on_surface_variant,
+                          padding: 5,
+                        }}
+                        className="text-lg rounded"
                       >
-                        <CustomText
-                          style={{ color: appStyle.color_on_primary }}
+                        {item.content}
+                      </CustomText>
+                      <View
+                        className="flex-row items-center"
+                        style={{ columnGap: 10 }}
+                      >
+                        <CustomText className="text-lg">Sender: </CustomText>
+                        <CustomButton
+                          onPress={async () => await userClicked(item.senderId)}
+                          round
+                          className="flex-row items-center"
+                          style={[
+                            {
+                              columnGap: 3,
+                              backgroundColor: appStyle.color_primary,
+                              borderWidth: 0.5,
+                              borderColor: appStyle.color_outline,
+                            },
+                          ]}
                         >
-                          {item.senderId}
-                        </CustomText>
-                        <FontAwesomeIcon
-                          icon={faUser}
-                          size={30}
-                          color={appStyle.color_on_primary}
-                        />
-                      </CustomButton>
+                          <CustomText
+                            style={{ color: appStyle.color_on_primary }}
+                          >
+                            {item.senderId}
+                          </CustomText>
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            size={30}
+                            color={appStyle.color_on_primary}
+                          />
+                        </CustomButton>
+                      </View>
                     </View>
-                  </View>
-                )}
-              </View>
-            )}
-          />
-        )}
+                  )}
+                </View>
+              )}
+            />
+          ))}
       </View>
     </View>
   );
