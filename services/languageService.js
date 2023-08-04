@@ -327,6 +327,7 @@ const languageService = {
     changeFilters: "Change filters",
     noWorkoutsMatchedYourSearch: "No workouts matched your search",
     haventConfirmedWorkoutsYet: "You haven't confirmed any workouts yet.",
+    publicProgram: "Public program",
   },
   hebrew: {
     workout: "אימון",
@@ -633,6 +634,7 @@ const languageService = {
     changeFilters: "שינוי פילטרים",
     noWorkoutsMatchedYourSearch: "לא נמצאו אימונים שמתאימים לחיפוש שלך",
     haventConfirmedWorkoutsYet: "עדיין לא אושרו אימונים",
+    publicProgram: "תוכנית ציבורית",
   },
 };
 export default languageService;
