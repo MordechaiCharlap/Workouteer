@@ -18,7 +18,6 @@ export const AlertsProvider = ({ children }) => {
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
-  const [initialDataUpdated, setInitialDataUpdated] = useState(false);
   const unsubscribeAlerts = useRef();
   const cleanAlertsListener = () => {
     if (unsubscribeAlerts.current != null) {
@@ -44,15 +43,12 @@ export const AlertsProvider = ({ children }) => {
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
             setFriendRequestsAlerts(alertsData.friendRequests);
             setNewWorkoutsAlerts(alertsData.newWorkouts);
-            if (!initialDataUpdated) {
-              setInitialDataUpdated(true);
-              firebase.removePastOrEmptyWorkoutsAlerts(
-                alertsData.workoutRequests,
-                alertsData.newWorkouts,
-                alertsData.workoutInvites,
-                user.id
-              );
-            }
+            firebase.removePastOrEmptyWorkoutsAlerts(
+              alertsData.workoutRequests,
+              alertsData.newWorkouts,
+              alertsData.workoutInvites,
+              user.id
+            );
           }
         }
       );
