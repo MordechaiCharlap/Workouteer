@@ -21,11 +21,10 @@ import AwesomeModal from "../components/AwesomeModal";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
 import { Audio } from "expo-av";
-
 const TimerScreen = ({ route }) => {
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
-  const [chosenTotalSeconds, setChosenTotalSeconds] = useState(120);
+  const [chosenTotalSeconds, setChosenTotalSeconds] = useState(10);
   const [chosenMinutes, setChosenMinutes] = useState();
   const [chosenSeconds, setChosenSeconds] = useState();
   const [intervalSeconds, setIntervalSeconds] = useState(chosenTotalSeconds);
@@ -34,12 +33,16 @@ const TimerScreen = ({ route }) => {
   const [showModal, setShowModal] = useState(false);
   const [shortBeepSound, setShortBeepSound] = useState();
   const [longBeepSound, setLongBeepSound] = useState();
+  const [systemVolume, setSystemVolume] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Timer");
     }, [])
   );
   useEffect(() => {
+    Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+    });
     return () => {
       shortBeepSound && shortBeepSound.unloadAsync();
       longBeepSound && longBeepSound.unloadAsync();
@@ -48,7 +51,8 @@ const TimerScreen = ({ route }) => {
   async function playShortBeep() {
     if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
-      require("../assets/audio/smallest-beep.mp3")
+      require("../assets/audio/smallest_beep.mp3"),
+      { volume: 1 }
     );
     if (!shortBeepSound) setShortBeepSound(sound);
     await sound.playAsync();
@@ -56,7 +60,8 @@ const TimerScreen = ({ route }) => {
   async function playLongBeep() {
     if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
-      require("../assets/audio/half-second-beep.mp3")
+      require("../assets/audio/half_second_beep.mp3"),
+      { volume: 1 }
     );
     if (!longBeepSound) setLongBeepSound(sound);
     await sound.playAsync();
@@ -72,19 +77,8 @@ const TimerScreen = ({ route }) => {
     };
   }, [isPlaying]);
   const restart = () => {
-    setIsPlaying(true);
     setIntervalSeconds(chosenTotalSeconds);
-    setTimer(
-      setInterval(() => {
-        setIntervalSeconds((prev) => {
-          if (prev - 1 <= 0) {
-            playShortBeep();
-            end();
-          } else if (prev - 1 <= 3) playShortBeep();
-          return prev - 1;
-        });
-      }, 1000)
-    );
+    play();
   };
   const stop = () => {
     setIsPlaying(false);
