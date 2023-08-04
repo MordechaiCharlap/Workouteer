@@ -58,9 +58,13 @@ const IntervalTimerScreen = ({ route }) => {
   }, [shortBeepSound, longBeepSound]);
 
   useEffect(() => {
-    Audio.setAudioModeAsync({
-      staysActiveInBackground: true,
-    });
+    const configureAudio = async () => {
+      await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+      });
+    };
+    configureAudio();
+
     const intervalSets = [];
     workout.exercises.forEach((exercise) => {
       for (var i = 0; i < exercise.sets; i++) {

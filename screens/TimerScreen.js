@@ -40,6 +40,14 @@ const TimerScreen = ({ route }) => {
     }, [])
   );
   useEffect(() => {
+    const configureAudio = async () => {
+      await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+      });
+    };
+    configureAudio();
+  }, []);
+  useEffect(() => {
     Audio.setAudioModeAsync({
       staysActiveInBackground: true,
     });
