@@ -46,7 +46,6 @@ const WorkoutRequestsScreen = ({ route }) => {
     setRequesters(requestersClone);
     await sendPushNotificationUserJoinedYouwWorkout(
       workout,
-      "Workouteer",
       acceptedUser,
       user.id
     );
