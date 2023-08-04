@@ -6,9 +6,12 @@ module.exports = async function (env, argv) {
   config.resolve = {
     ...config.resolve,
     alias: {
+      ...config.resolve.alias,
       "react-native": "react-native-web",
       "react-native-maps": "react-native-web-maps",
+      "expo-av": "../services/audioService",
     },
+
     extensions: [".web.ts", ".web.tsx", ".web.js", ".js", ".ts", ".tsx"],
   };
   return config;
