@@ -175,7 +175,7 @@ const WorkoutComponent = (props) => {
       scheduledNotificationId = await schedulePushNotification(
         workoutRef.startingTime.toDate(),
         "Workouteer",
-        languageService[user.language].confirmYourWorkout[user.isMale]
+        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0]
       );
     }
 
@@ -188,11 +188,14 @@ const WorkoutComponent = (props) => {
   };
   const rejectWorkoutInvite = async () => {
     setUserMemberStatus("not");
+    const workoutRef = JSON.parse(JSON.stringify(workout));
     if (props.screen == "WorkoutInvites") setWorkout(null);
-    const workoutRef = workout;
-    const workoutClone = JSON.parse(JSON.stringify(workout));
-    workoutClone.invites[user.id] = false;
-    updateArrayIfNeedForWorkout(workoutClone);
+    else {
+      const workoutClone = JSON.parse(JSON.stringify(workout));
+      workoutClone.invites[user.id] = false;
+      updateArrayIfNeedForWorkout(workoutClone);
+    }
+
     await firebase.rejectWorkoutInvite(user.id, workoutRef);
   };
 
