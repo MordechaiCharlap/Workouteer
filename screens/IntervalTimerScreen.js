@@ -26,6 +26,7 @@ const IntervalTimerScreen = ({ route }) => {
   const [timer, setTimer] = useState();
   const [shortBeepSound, setShortBeepSound] = useState();
   const [longBeepSound, setLongBeepSound] = useState();
+  const [systemVolume, setSystemVolume] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("IntervalTimer");
@@ -34,7 +35,8 @@ const IntervalTimerScreen = ({ route }) => {
   async function playShortBeep() {
     if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
-      require("../assets/audio/smallest-beep.mp3")
+      require("../assets/audio/smallest_beep.mp3"),
+      { volume: 1 }
     );
     if (!shortBeepSound) setShortBeepSound(sound);
     await sound.playAsync();
@@ -42,7 +44,8 @@ const IntervalTimerScreen = ({ route }) => {
   async function playLongBeep() {
     if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
-      require("../assets/audio/half-second-beep.mp3")
+      require("../assets/audio/half_second_beep.mp3"),
+      { volume: 1 }
     );
     if (!longBeepSound) setLongBeepSound(sound);
     await sound.playAsync();
@@ -55,6 +58,9 @@ const IntervalTimerScreen = ({ route }) => {
   }, [shortBeepSound, longBeepSound]);
 
   useEffect(() => {
+    Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+    });
     const intervalSets = [];
     workout.exercises.forEach((exercise) => {
       for (var i = 0; i < exercise.sets; i++) {
