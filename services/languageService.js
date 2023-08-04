@@ -128,7 +128,6 @@ const languageService = {
     updateAppToUseIt:
       "There is a new version of the app available for download. to make sure you don't run into bugs - download the latest version",
     update: "Update",
-    leave: "Leave",
     addANewFriend: "Add a New Friend",
     friends: "Friends",
     hour: "Hour",
@@ -193,6 +192,7 @@ const languageService = {
     cancelWorkout: "Cancel workout",
     rejectInvite: ["Reject invite", "Reject invite"],
     leave: ["Leave", "Leave"],
+    leaveWorkout: "Leave workout",
     cancelJoinRequest: "Cancel join request",
     requestToJoin: ["Request to join", "Request to join"],
     lessThan: "Less than ",
@@ -437,7 +437,6 @@ const languageService = {
     updateAppToUseIt:
       "האפליקציה עברה עדכון מאז השימוש האחרון. למניעת באגים/קריסה יש לעדכן את האפליקציה",
     update: "עדכון",
-    leave: "יציאה",
     addANewFriend: "הוספת חבר חדש",
     friends: "חברים",
     hour: "שעה",
@@ -487,6 +486,8 @@ const languageService = {
     cancelWorkout: "ביטול אימון",
     rejectInvite: ["סרבי להזמנה", "סרב להזמנה"],
     leave: ["עזבי", "עזוב"],
+    leaveWorkout: "יציאה מהאימון",
+
     cancelJoinRequest: "ביטול בקשת הצטרפות",
     requestToJoin: ["בקשי להצטרף", "בקש להצטרף"],
     lessThan: "פחות מ",
