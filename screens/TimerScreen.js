@@ -20,6 +20,8 @@ import CustomTextInput from "../components/basic/CustomTextInput";
 import AwesomeModal from "../components/AwesomeModal";
 import languageService from "../services/languageService";
 import useAuth from "../hooks/useAuth";
+import { Audio } from "expo-av";
+
 const TimerScreen = ({ route }) => {
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -30,11 +32,35 @@ const TimerScreen = ({ route }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [shortBeepSound, setShortBeepSound] = useState();
+  const [longBeepSound, setLongBeepSound] = useState();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Timer");
     }, [])
   );
+  useEffect(() => {
+    return () => {
+      shortBeepSound && shortBeepSound.unloadAsync();
+      longBeepSound && longBeepSound.unloadAsync();
+    };
+  }, [shortBeepSound, longBeepSound]);
+  async function playShortBeep() {
+    if (Platform.OS == "web") return;
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/audio/smallest-beep.mp3")
+    );
+    if (!shortBeepSound) setShortBeepSound(sound);
+    await sound.playAsync();
+  }
+  async function playLongBeep() {
+    if (Platform.OS == "web") return;
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/audio/half-second-beep.mp3")
+    );
+    if (!longBeepSound) setLongBeepSound(sound);
+    await sound.playAsync();
+  }
   useEffect(() => {
     if (!isPlaying && timer) {
       clearInterval(timer);
@@ -52,9 +78,9 @@ const TimerScreen = ({ route }) => {
       setInterval(() => {
         setIntervalSeconds((prev) => {
           if (prev - 1 <= 0) {
+            playShortBeep();
             end();
-          }
-
+          } else if (prev - 1 <= 3) playShortBeep();
           return prev - 1;
         });
       }, 1000)
@@ -68,17 +94,19 @@ const TimerScreen = ({ route }) => {
     setIsPlaying(false);
   };
   const end = () => {
+    playLongBeep();
     setIsPlaying();
   };
   const play = () => {
+    playLongBeep();
     setIsPlaying(true);
     setTimer(
       setInterval(() => {
         setIntervalSeconds((prev) => {
           if (prev - 1 <= 0) {
+            playShortBeep();
             end();
-          }
-
+          } else if (prev - 1 <= 3) playShortBeep();
           return prev - 1;
         });
       }, 1000)
