@@ -82,6 +82,7 @@ export const NotificationsProvider = ({ children }) => {
             navigation.navigate("Chat", {
               otherUser: userDoc.data(),
               chat: chatDoc.data(),
+              cameFromPushNotification: true,
             });
           });
         });
