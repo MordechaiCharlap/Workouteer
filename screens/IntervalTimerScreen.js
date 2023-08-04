@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
@@ -14,7 +14,6 @@ import ProgressBar from "../components/ProgressBar";
 import { convertHexToRgba } from "../utils/stylingFunctions";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import { Audio } from "expo-av";
-
 const IntervalTimerScreen = ({ route }) => {
   const { user } = useAuth();
   const navigation = useNavigation();
@@ -33,6 +32,7 @@ const IntervalTimerScreen = ({ route }) => {
     }, [])
   );
   async function playShortBeep() {
+    if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/audio/smallest-beep.mp3")
     );
@@ -40,6 +40,7 @@ const IntervalTimerScreen = ({ route }) => {
     await sound.playAsync();
   }
   async function playLongBeep() {
+    if (Platform.OS == "web") return;
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/audio/half-second-beep.mp3")
     );
@@ -51,12 +52,6 @@ const IntervalTimerScreen = ({ route }) => {
       shortBeepSound && shortBeepSound.unloadAsync();
       longBeepSound && longBeepSound.unloadAsync();
     };
-    // return shortBeepSound
-    //   ? () => {
-    //       console.log("Unloading Sound");
-    //       shortBeepSound.unloadAsync();
-    //     }
-    //   : undefined;
   }, [shortBeepSound, longBeepSound]);
 
   useEffect(() => {
