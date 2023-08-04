@@ -30,6 +30,11 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
+import CustomText from "../components/basic/CustomText";
+import usePushNotifications from "../hooks/usePushNotifications";
+import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
+import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -38,6 +43,16 @@ const WorkoutDetailsScreen = ({ route }) => {
       setCurrentScreen("WorkoutDetails");
     }, [])
   );
+  const {
+    sendPushNotificationUserJoinedYouwWorkout,
+    sendPushNotificationUserLeftWorkout,
+    schedulePushNotification,
+    sendPushNotificationCreatorLeftWorkout,
+    cancelScheduledPushNotification,
+    sendPushNotificationUserWantsToJoinYourWorkout,
+  } = usePushNotifications();
+  const { checkIfWorkoutOnPlannedWorkoutTime } = useWorkoutLogic();
+  const { updateArrayIfNeedForWorkout } = useFriendsWorkouts();
   const navigation = useNavigation();
   const { db } = useFirebase();
   const { user } = useAuth();
@@ -51,8 +66,12 @@ const WorkoutDetailsScreen = ({ route }) => {
     route.params.isCreator != null
       ? route.params.isCreator
       : route.params.workout.creator == user.id;
+  const [userMemberStatus, setUserMemberStatus] = useState(
+    route.params.userMemberStatus
+  );
   const [members, setMembers] = useState([]);
-  const [initalLoading, setInitialLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  console.log(userMemberStatus);
   useEffect(() => {
     const getMembersAndSetWorkout = async (workoutData) => {
       const membersArray = await firebase.getWorkoutMembers(workoutData);
@@ -80,6 +99,90 @@ const WorkoutDetailsScreen = ({ route }) => {
     }
     return age;
   };
+  const joinWorkoutButtonText = () => {
+    console.log(userMemberStatus);
+    switch (userMemberStatus) {
+      case "not":
+        return languageService[user.language].requestToJoin[
+          user.isMale ? 1 : 0
+        ];
+      case "pending":
+        return languageService[user.language].cancelRequest[
+          user.isMale ? 1 : 0
+        ];
+      case "member":
+        return languageService[user.language].leaveWorkout;
+      case "invited":
+        return languageService[user.language].acceptInvite[user.isMale ? 1 : 0];
+    }
+  };
+  const joinWorkoutButtonClicked = () => {
+    switch (userMemberStatus) {
+      case "not":
+        return requestToJoinWorkout();
+      case "pending":
+        return cancelWorkoutRequest();
+      case "member":
+        return leaveWorkout();
+      case "invited":
+        return acceptWorkoutInvite();
+    }
+  };
+  const requestToJoinWorkout = async () => {
+    if (checkIfWorkoutOnPlannedWorkoutTime(user, workout) != null) return;
+    setUserMemberStatus("pending");
+    const workoutClone = JSON.parse(JSON.stringify(workout));
+    workoutClone.requests[user.id] = true;
+    firebase.requestToJoinWorkout(user.id, workout);
+    const creatorData = firebase.getUserDataById(workout.creator);
+    sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData, workout);
+  };
+  const cancelWorkoutRequest = async () => {
+    setUserMemberStatus("not");
+    const workoutClone = JSON.parse(JSON.stringify(workout));
+    delete workoutClone.requests[user.id];
+    updateArrayIfNeedForWorkout(workoutClone);
+    await firebase.cancelWorkoutRequest(user.id, workout);
+  };
+  const acceptWorkoutInvite = async () => {
+    const workoutRef = workout;
+    setUserMemberStatus("member");
+    var scheduledNotificationId;
+    if (Platform.OS != "web") {
+      scheduledNotificationId = await schedulePushNotification(
+        workoutRef.startingTime.toDate(),
+        "Workouteer",
+        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0]
+      );
+    }
+
+    await firebase.acceptWorkoutInvite(
+      user,
+      workoutRef,
+      scheduledNotificationId
+    );
+    sendPushNotificationUserJoinedYouwWorkout(workoutRef, user, user.id);
+  };
+  const rejectWorkoutInvite = async () => {
+    setUserMemberStatus("not");
+    const workoutRef = JSON.parse(JSON.stringify(workout));
+    if (props.screen == "WorkoutInvites") setWorkout(null);
+    else {
+      const workoutClone = JSON.parse(JSON.stringify(workout));
+      workoutClone.invites[user.id] = false;
+      updateArrayIfNeedForWorkout(workoutClone);
+    }
+
+    await firebase.rejectWorkoutInvite(user.id, workoutRef);
+  };
+  const leaveWorkout = async () => {
+    const workoutRef = workout;
+    if (props.screen == "FutureWorkouts") setWorkout(null);
+    else setUserMemberStatus("not");
+    firebase.leaveWorkout(user, workoutRef);
+    cancelScheduledPushNotification(workout.members[user.id].notificationId);
+    sendPushNotificationUserLeftWorkout(workoutRef, user.id, user.displayName);
+  };
   const containerColor = appStyle.color_surface_variant;
   const onContainerColor = appStyle.color_on_background;
   return (
@@ -88,7 +191,9 @@ const WorkoutDetailsScreen = ({ route }) => {
         title={languageService[user.language].details}
         goBackOption={true}
       />
-      {!initalLoading && (
+      {initialLoading ? (
+        <LoadingAnimation />
+      ) : (
         <View className="flex-1 mx-4">
           <View className="flex-1 ">
             <FlatList
@@ -345,56 +450,118 @@ const WorkoutDetailsScreen = ({ route }) => {
           </View>
         </View>
       )}
-      {!initalLoading && isCreator && !isPastWorkout && members.length < 10 && (
-        <View
-          className="flex-row"
-          style={{ paddingHorizontal: 16, paddingVertical: 6 }}
-        >
-          <CustomButton
-            round
-            style={{ flex: 1, backgroundColor: appStyle.color_tertiary }}
-            onPress={inviteFriends}
+      {!initialLoading &&
+        !isPastWorkout &&
+        (isCreator && members.length < 10 ? (
+          <View
+            className="flex-row"
+            style={{ paddingHorizontal: 16, paddingVertical: 6 }}
           >
-            <Text
-              className="text-xl font-semibold text-center"
-              style={{ color: appStyle.color_on_tertiary }}
+            <CustomButton
+              round
+              style={{ flex: 1, backgroundColor: appStyle.color_tertiary }}
+              onPress={inviteFriends}
             >
-              {languageService[user.language].inviteFriendsToJoin}
-            </Text>
-          </CustomButton>
-          {workoutRequestsAlerts[workout.id] &&
-            workoutRequestsAlerts[workout.id].requestsCount > 0 && (
-              <View className="flex-row">
-                <View style={{ width: 10 }} />
-                <CustomButton
-                  round
-                  className={`items-center flex-row${
-                    user.language == "hebrew" ? "-reverse" : ""
-                  }`}
-                  onPress={() => {
-                    navigation.navigate("WorkoutRequests", {
-                      workout: workout,
-                    });
-                  }}
-                  style={{ backgroundColor: appStyle.color_error }}
-                >
-                  <FontAwesomeIcon
-                    icon={faUserClock}
-                    color={appStyle.color_background}
-                    size={30}
-                  />
+              <Text
+                className="text-xl font-semibold text-center"
+                style={{ color: appStyle.color_on_tertiary }}
+              >
+                {languageService[user.language].inviteFriendsToJoin}
+              </Text>
+            </CustomButton>
+            {workoutRequestsAlerts[workout.id] &&
+              workoutRequestsAlerts[workout.id].requestsCount > 0 && (
+                <View className="flex-row">
                   <View style={{ width: 10 }} />
-                  <AlertDot
-                    text={workoutRequestsAlerts[workout.id].requestsCount}
-                    textColor={appStyle.color_error}
-                    color={appStyle.color_on_primary}
-                    size={20}
-                  />
+                  <CustomButton
+                    round
+                    className={`items-center flex-row${
+                      user.language == "hebrew" ? "-reverse" : ""
+                    }`}
+                    onPress={() => {
+                      navigation.navigate("WorkoutRequests", {
+                        workout: workout,
+                      });
+                    }}
+                    style={{ backgroundColor: appStyle.color_error }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faUserClock}
+                      color={appStyle.color_background}
+                      size={30}
+                    />
+                    <View style={{ width: 10 }} />
+                    <AlertDot
+                      text={workoutRequestsAlerts[workout.id].requestsCount}
+                      textColor={appStyle.color_error}
+                      color={appStyle.color_on_primary}
+                      size={20}
+                    />
+                  </CustomButton>
+                </View>
+              )}
+          </View>
+        ) : (
+          !isCreator &&
+          userMemberStatus != "cannot" &&
+          userMemberStatus != "rejected" &&
+          route.params.cameFromPushNotification == true && (
+            <View className="flex-row" style={{ padding: 16, columnGap: 5 }}>
+              <CustomButton
+                className="flex-1"
+                round
+                onPress={joinWorkoutButtonClicked}
+                style={{
+                  padding: 16,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_on_background,
+                  backgroundColor:
+                    userMemberStatus == "pending"
+                      ? appStyle.color_background
+                      : appStyle.color_on_background,
+                }}
+              >
+                <CustomText
+                  className="font-black text-lg"
+                  style={{
+                    color:
+                      userMemberStatus == "pending"
+                        ? appStyle.color_on_background
+                        : appStyle.color_background,
+                  }}
+                >
+                  {joinWorkoutButtonText()}
+                </CustomText>
+              </CustomButton>
+              {userMemberStatus == "invited" && (
+                <CustomButton
+                  className="flex-1"
+                  round
+                  onPress={rejectWorkoutInvite}
+                  style={{
+                    padding: 16,
+                    borderWidth: 0.5,
+                    borderColor: appStyle.color_on_background,
+                    backgroundColor: appStyle.color_background,
+                  }}
+                >
+                  <CustomText
+                    className="font-black text-lg"
+                    style={{
+                      color: appStyle.color_on_background,
+                    }}
+                  >
+                    {
+                      languageService[user.language].rejectInvite[
+                        user.isMale ? 1 : 0
+                      ]
+                    }
+                  </CustomText>
                 </CustomButton>
-              </View>
-            )}
-        </View>
-      )}
+              )}
+            </View>
+          )
+        ))}
     </View>
   );
 };
