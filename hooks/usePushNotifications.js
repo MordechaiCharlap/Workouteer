@@ -60,6 +60,7 @@ export const NotificationsProvider = ({ children }) => {
           setClickedNotification();
           navigation.navigate("WorkoutDetails", {
             workout: { ...doc.data(), id: doc.id },
+            cameFromPushNotification: true,
           });
         });
       } else if (notificationType == "chat") {
