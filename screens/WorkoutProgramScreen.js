@@ -229,12 +229,14 @@ const WorkoutProgramScreen = ({ route }) => {
           })
         }
         className="rounded-full aspect-square w-16 items-center justify-center absolute"
-        style={{
-          elevation: 4,
-          backgroundColor: appStyle.color_tertiary,
-          right: 20,
-          bottom: 20,
-        }}
+        style={[
+          {
+            backgroundColor: appStyle.color_tertiary,
+            right: 20,
+            bottom: 20,
+          },
+          appComponentsDefaultStyles.shadow,
+        ]}
       >
         <FontAwesomeIcon
           icon={faPenAlt}
