@@ -1,4 +1,4 @@
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Switch } from "react-native";
 import React, { createContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
@@ -23,6 +23,7 @@ import useAuth from "../../hooks/useAuth";
 import useFirebase from "../../hooks/useFirebase";
 import languageService from "../../services/languageService";
 import TopExitButton from "../TopExitButton";
+import AwesomeModal from "../AwesomeModal";
 export const ProgramContext = createContext();
 const EditingWorkoutProgram = ({ program }) => {
   const navigation = useNavigation();
@@ -33,6 +34,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const [programData, setProgramData] = useState(
     (program && JSON.parse(JSON.stringify(program))) || {
       name: "",
+      isPublic: false,
       workouts: [{ name: "", restSeconds: 0, exercises: [] }],
     }
   );
@@ -40,6 +42,8 @@ const EditingWorkoutProgram = ({ program }) => {
   const [highlightErrors, setHighlightErrors] = useState(false);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [showPublicInformationModal, setShowPublicInformationModal] =
+    useState(false);
   const newWorkout = () => {
     const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts.push({
@@ -148,6 +152,53 @@ const EditingWorkoutProgram = ({ program }) => {
               style={{ backgroundColor: appStyle.color_surface_variant }}
             />
           </View>
+          {program && program.isPublic ? (
+            <View className="items-start">
+              <CustomText
+                style={{
+                  color: appStyle.color_primary,
+                  backgroundColor: appStyle.color_surface_variant,
+                  borderRadius: 20,
+                  paddingVertical: 5,
+                  paddingHorizontal: 10,
+                }}
+              >
+                {languageService[user.language].publicProgram}
+              </CustomText>
+            </View>
+          ) : (
+            <View className="flex-row items-center" style={{ columnGap: 3 }}>
+              <CustomText>
+                {languageService[user.language].publicProgram + ":"}
+              </CustomText>
+              <Switch
+                trackColor={{
+                  false: appStyle.color_surface_variant,
+                  true: appStyle.color_primary,
+                }}
+                thumbColor={"#f4f3f4"}
+                value={programData.isPublic}
+                onValueChange={() => {
+                  const programClone = JSON.parse(JSON.stringify(programData));
+                  programClone.isPublic = !programData.isPublic;
+                  setProgramData(programClone);
+                }}
+              />
+              <CustomButton
+                onPress={() => setShowPublicInformationModal((prev) => !prev)}
+                round
+                style={{
+                  backgroundColor: appStyle.color_surface_variant,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_outline,
+                }}
+              >
+                <CustomText style={{ color: appStyle.color_primary }}>
+                  What is it?
+                </CustomText>
+              </CustomButton>
+            </View>
+          )}
           <View
             className="rounded p-2"
             style={{
@@ -241,45 +292,6 @@ const EditingWorkoutProgram = ({ program }) => {
               />
             </View>
           </View>
-          {/* <CustomButton
-            disabled={programData.workouts.length == maxWorkoutsPerProgram}
-            className="flex-row"
-            onPress={newWorkout}
-            style={{
-              height: 40,
-              borderColor: appStyle.color_outline,
-              borderWidth: 0.5,
-              columnGap: 3,
-              padding: 10,
-              borderRadius: 8,
-              backgroundColor:
-                programData.workouts.length == maxWorkoutsPerProgram
-                  ? appStyle.color_surface_variant
-                  : appStyle.color_primary,
-            }}
-          >
-            {programData.workouts.length < maxWorkoutsPerProgram && (
-              <FontAwesomeIcon
-                color={appStyle.color_on_primary}
-                icon={faPlusCircle}
-                size={15}
-              />
-            )}
-            <CustomText
-              style={{
-                color:
-                  programData.workouts.length == maxWorkoutsPerProgram
-                    ? appStyle.color_on_surface_variant
-                    : appStyle.color_on_primary,
-              }}
-            >
-              {programData.workouts.length == maxWorkoutsPerProgram
-                ? languageService[user.language].cantHaveMoreWorkouts(
-                    maxWorkoutsPerProgram
-                  )
-                : languageService[user.language].newWorkout}
-            </CustomText>
-          </CustomButton> */}
           {maximizedWorkout != null &&
             programData.workouts.length >= maximizedWorkout - 1 && (
               <EditingWorkout workoutIndex={maximizedWorkout} />
@@ -317,6 +329,12 @@ const EditingWorkoutProgram = ({ program }) => {
             </CustomText>
           </CustomButton>
         </View>
+        <AwesomeModal
+          showModal={showPublicInformationModal}
+          setShowModal={setShowPublicInformationModal}
+          title="A public program can be seen and saved by other users. You are the only one that can edit the program."
+          message="If you set a program as public you won't be able to make it private later."
+        />
       </View>
     </ProgramContext.Provider>
   );
