@@ -60,6 +60,7 @@ import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
 import TimerScreen from "./screens/TimerScreen";
 import EditWorkoutProgramScreen from "./screens/EditWorkoutProgramScreen";
 import SuggestionsAndBugsScreen from "./screens/adminScreens/SuggestionsAndBugsScreen";
+import TestScreen from "./screens/adminScreens/TestScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -335,12 +336,17 @@ const StackNavigator = () => {
                     <Stack.Screen
                       name="ControlPanel"
                       component={ControlPanelScreen}
-                      options={homeNavigationOptions.current}
+                      options={verticalAnimation}
                     />
                     <Stack.Screen
                       name="SuggestionsAndBugs"
                       component={SuggestionsAndBugsScreen}
-                      options={homeNavigationOptions.current}
+                      options={verticalAnimation}
+                    />
+                    <Stack.Screen
+                      name="Test"
+                      component={TestScreen}
+                      options={verticalAnimation}
                     />
                   </>
                 )}
