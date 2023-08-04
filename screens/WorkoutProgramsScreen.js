@@ -133,7 +133,7 @@ const WorkoutProgramsScreen = () => {
           <TopButton
             icon={faStopwatch}
             text={languageService[user.language].timer}
-            onPress={() => navigation.navigate("IntervalTimer")}
+            onPress={() => navigation.navigate("Timer")}
           />
         </ScrollView>
       </View>
