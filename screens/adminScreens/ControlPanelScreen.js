@@ -104,23 +104,22 @@ const ControlPanelScreen = () => {
             icon={faToiletPaper}
             title={languageService[user.language].resetAppData}
           /> */}
-          <AdminButton
+          {/* <AdminButton
             icon={faFile}
             title={"Reports"}
             navigate={"WorkoutPrograms"}
-          />
+          /> */}
           <AdminButton
             icon={faFile}
-            title={"AllUsers"}
-            navigate={"WorkoutPrograms"}
+            title={"Testing Screen"}
+            navigate={"Test"}
           />
+          {/* <AdminButton
+            icon={faFile}
+            title={"All Users"}
+            navigate={"WorkoutPrograms"}
+          /> */}
         </View>
-        <CustomButton
-          onPress={testButtonFunction}
-          style={{ backgroundColor: appStyle.color_surface_variant }}
-        >
-          <CustomText>TEST</CustomText>
-        </CustomButton>
       </ScrollView>
     </View>
   );
