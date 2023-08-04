@@ -76,7 +76,7 @@ const PastWorkoutsScreen = ({ route }) => {
       />
       <View className="flex-1">
         {workouts ? (
-          workouts.length > 0 ? (
+          workouts.length == 0 ? (
             <View
               className="items-center gap-y-2"
               style={{
