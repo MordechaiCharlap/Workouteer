@@ -61,6 +61,7 @@ import TimerScreen from "./screens/TimerScreen";
 import EditWorkoutProgramScreen from "./screens/EditWorkoutProgramScreen";
 import SuggestionsAndBugsScreen from "./screens/adminScreens/SuggestionsAndBugsScreen";
 import TestScreen from "./screens/adminScreens/TestScreen";
+import { removeBadPlannedWorkoutsAndReturnFixed } from "./utils/workoutUtils";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded, initialLoading } = useAuth();
@@ -76,23 +77,7 @@ const StackNavigator = () => {
   const { orientation, windowTooSmall } = useResponsiveness();
   const { connected } = useConnection();
   const { isVersionUpToDate, underMaintenance } = useAppData();
-  const removeUnconfirmedOldWorkouts = () => {
-    const now = new Date();
-    const unconfirmedWorkouts = JSON.parse(
-      JSON.stringify(user.plannedWorkouts)
-    );
-    for (const [key, value] of Object.entries(user.plannedWorkouts)) {
-      if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now) {
-        unconfirmedWorkouts[key][0] = new Timestamp(
-          unconfirmedWorkouts[key][0].seconds,
-          unconfirmedWorkouts[key][0].nanoseconds
-        );
-        continue;
-      }
-      delete unconfirmedWorkouts[key];
-    }
-    return unconfirmedWorkouts;
-  };
+
   const resetStreakIfNeeded = () => {
     var yasterday = new Date();
     yasterday.setDate(new Date(yasterday).getDate() - 1);
@@ -106,7 +91,7 @@ const StackNavigator = () => {
   };
   useEffect(() => {
     if (userLoaded) {
-      const newPlannedWorkouts = removeUnconfirmedOldWorkouts();
+      const newPlannedWorkouts = removeBadPlannedWorkoutsAndReturnFixed(user);
       const newStreak = resetStreakIfNeeded();
       const userClone = {
         ...user,
