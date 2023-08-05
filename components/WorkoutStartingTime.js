@@ -12,14 +12,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import useAuth from "../hooks/useAuth";
 import languageService from "../services/languageService";
 import { timeString } from "../utils/timeFunctions";
-import AwesomeAlert from "react-native-awesome-alerts";
 import AwesomeModal from "./AwesomeModal";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCalendar,
-  faCalendarDay,
-  faCalendarDays,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import CustomText from "./basic/CustomText";
 import CustomButton from "./basic/CustomButton";
