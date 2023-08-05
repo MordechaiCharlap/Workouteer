@@ -24,6 +24,7 @@ import {
   faCircleCheck,
   faExclamationCircle,
   faClock,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../../services/firebase";
 import useAuth from "../../hooks/useAuth";
@@ -39,10 +40,13 @@ import { useNavigation } from "@react-navigation/native";
 import AlertDot from "../AlertDot";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import UserDescription from "./UserDescription";
+import { checkFriendShipStatus } from "../../utils/profileUtils";
+import useFriendRequests from "../../hooks/useFriendRequests";
 
-const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
+const Profile = ({ shownUser, isMyUser }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { sentFriendRequests, receivedFriendRequests } = useFriendRequests();
   const {
     sendPushNotificationUserWantsToBeYourFriend,
     sendPushNotificationUserAcceptedYourFriendRequest,
@@ -52,7 +56,14 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
     isMyUser ? Object.keys(shownUser.plannedWorkouts).length : 0
   );
   const [friendshipStatus, setFriendshipStatus] = useState(
-    initialFriendshipStatus
+    isMyUser
+      ? null
+      : checkFriendShipStatus(
+          user,
+          shownUser.id,
+          sentFriendRequests,
+          receivedFriendRequests
+        )
   );
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
@@ -168,34 +179,49 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
     }
     return (
       <View className="flex-row items-center justify-center">
-        <TouchableOpacity
-          className="rounded-l-lg flex-row items-center justify-center"
+        <CustomButton
+          className="flex-row items-center rounded-l-full"
+          round
           onPress={acceptFriendRequest}
-          style={style.leftSocialButton}
+          style={[
+            style.socialButton,
+            {
+              borderWidth: 0.5,
+              borderColor: appStyle.color_outline,
+            },
+          ]}
         >
-          <Text className="text-xl mr-2" style={style.leftText}>
+          <CustomText
+            className="text-center text-xl mr-2"
+            style={{ color: appStyle.color_success }}
+          >
             {languageService[user.language].accept}
-          </Text>
+          </CustomText>
           <FontAwesomeIcon
-            icon={faExcelamtion}
+            icon={faCheck}
             size={20}
-            color={appStyle.color_on_primary}
+            color={appStyle.color_success}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="rounded-r-lg flex-row items-center justify-center"
+        </CustomButton>
+        <CustomButton
+          className="flex-row items-center rounded-r-full"
           onPress={rejectFriendRequest}
-          style={style.rightSocialButton}
+          style={[
+            style.socialButton,
+            {
+              borderWidth: 0.5,
+              borderColor: appStyle.color_outline,
+            },
+          ]}
         >
-          <Text className="text-xl mr-2" style={style.rightText}>
+          <CustomText
+            className="text-center text-xl mr-2"
+            style={{ color: appStyle.color_error }}
+          >
             {languageService[user.language].reject}
-          </Text>
-          <FontAwesomeIcon
-            icon={faX}
-            size={20}
-            color={appStyle.color_primary}
-          />
-        </TouchableOpacity>
+          </CustomText>
+          <FontAwesomeIcon icon={faX} size={20} color={appStyle.color_error} />
+        </CustomButton>
       </View>
     );
   };
@@ -397,7 +423,9 @@ const Profile = ({ shownUser, isMyUser, initialFriendshipStatus }) => {
           }}
           className="flex-row justify-center py-2"
         >
-          <View className="mr-4">{renderFriendshipButton()}</View>
+          {friendshipStatus && (
+            <View className="mr-4">{renderFriendshipButton()}</View>
+          )}
           {(shownUser.isPublic == true || friendshipStatus == "Friends") && (
             <CustomButton
               className="flex-row"
