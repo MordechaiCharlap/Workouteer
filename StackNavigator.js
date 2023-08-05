@@ -62,9 +62,10 @@ import EditWorkoutProgramScreen from "./screens/EditWorkoutProgramScreen";
 import SuggestionsAndBugsScreen from "./screens/adminScreens/SuggestionsAndBugsScreen";
 import TestScreen from "./screens/adminScreens/TestScreen";
 import { removeBadPlannedWorkoutsAndReturnFixed } from "./utils/workoutUtils";
+import WorkoutNotFoundScreen from "./screens/WorkoutNotFoundScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  const { user, userLoaded, initialLoading } = useAuth();
+  const { user, userLoaded } = useAuth();
   const { db } = useFirebase();
   const {
     myUserNavigationOptions,
@@ -314,6 +315,11 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="EditWorkoutProgram"
                   component={EditWorkoutProgramScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="WorkoutNotFound"
+                  component={WorkoutNotFoundScreen}
                   options={verticalAnimation}
                 />
                 {user.role == "admin" && (
