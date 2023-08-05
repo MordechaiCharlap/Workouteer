@@ -45,12 +45,10 @@ const TimerScreen = ({ route }) => {
         staysActiveInBackground: true,
       });
     };
+    if (Platform.OS != "web") configureAudio();
     configureAudio();
   }, []);
   useEffect(() => {
-    Audio.setAudioModeAsync({
-      staysActiveInBackground: true,
-    });
     return () => {
       shortBeepSound && shortBeepSound.unloadAsync();
       longBeepSound && longBeepSound.unloadAsync();
