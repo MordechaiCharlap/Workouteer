@@ -15,6 +15,8 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import usePushNotifications from "../hooks/usePushNotifications";
 import { doc, updateDoc } from "firebase/firestore";
 import useFirebase from "../hooks/useFirebase";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 
 const FutureWorkoutsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -85,6 +87,54 @@ const FutureWorkoutsScreen = ({ route }) => {
       >
         {initialLoading ? (
           <LoadingAnimation />
+        ) : workouts.length == 0 ? (
+          <View
+            className="items-center gap-y-2"
+            style={{
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              backgroundColor: appStyle.color_surface_variant,
+            }}
+          >
+            <CustomText
+              className="text-center font-semibold text-lg"
+              style={{
+                color: appStyle.color_on_surface_variant,
+              }}
+            >
+              {languageService[user.language].youDontHaveScheduledWorkouts}
+            </CustomText>
+            <View className="flex-row items-center gap-x-2">
+              <CustomButton
+                style={{ backgroundColor: appStyle.color_on_background }}
+                round
+                onPress={() => navigation.navigate("SearchWorkouts")}
+              >
+                <CustomText
+                  className="font-semibold text-lg"
+                  style={{
+                    color: appStyle.color_background,
+                  }}
+                >
+                  {languageService[user.language].searchWorkouts}
+                </CustomText>
+              </CustomButton>
+              <CustomButton
+                round
+                onPress={() => navigation.navigate("CreateWorkout")}
+                style={{ backgroundColor: appStyle.color_on_background }}
+              >
+                <CustomText
+                  className="font-semibold text-lg rounded-sm"
+                  style={{
+                    color: appStyle.color_background,
+                  }}
+                >
+                  {languageService[user.language].createWorkout}
+                </CustomText>
+              </CustomButton>
+            </View>
+          </View>
         ) : (
           <FlatList
             // showsVerticalScrollIndicator={false}
