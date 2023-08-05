@@ -63,7 +63,7 @@ const IntervalTimerScreen = ({ route }) => {
         staysActiveInBackground: true,
       });
     };
-    configureAudio();
+    if (Platform.OS != "web") configureAudio();
 
     const intervalSets = [];
     workout.exercises.forEach((exercise) => {
