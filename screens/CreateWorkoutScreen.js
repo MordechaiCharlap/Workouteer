@@ -156,8 +156,6 @@ const CreateWorkoutScreen = () => {
         startingTime
       );
     if (closestWorkoutDateAfter == false) {
-      setStartingTime(null);
-
       setAlertTitle(
         languageService[user.language].alreadyScheduledAWorkoutThisDate
       );
@@ -165,6 +163,7 @@ const CreateWorkoutScreen = () => {
         languageService[user.language].chooseAnotherDate[user.isMale ? 1 : 0]
       );
       setShowAlert(true);
+      setStartingTime();
       return false;
     } else {
       if (
@@ -179,6 +178,7 @@ const CreateWorkoutScreen = () => {
           languageService[user.language].tryToScheduleAnEearlierWorkout
         );
         setShowAlert(true);
+        setStartingTime();
         return false;
       }
     }
