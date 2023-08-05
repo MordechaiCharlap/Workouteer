@@ -15,6 +15,7 @@ import AwesomeModal from "../components/AwesomeModal";
 import { addDoc, collection, doc } from "firebase/firestore";
 import * as defaultValues from "../utils/defaultValues";
 import useFirebase from "../hooks/useFirebase";
+import { uriToBlob } from "../services/firebase";
 const ReportUserScreen = ({ route }) => {
   const { db, storage } = useFirebase();
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ const ReportUserScreen = ({ route }) => {
   ];
   const copyProfileImage = async (reportId) => {
     const destinationRef = ref(storage, `reports/${reportId}.jpg`);
-    const blob = await fetch(reported.img).then((r) => r.blob());
+    const blob = await uriToBlob(reported.img);
     const metadata = { contentType: "image/jpeg" };
     await uploadBytes(destinationRef, blob, metadata).then((snapshot) => {});
   };
@@ -185,7 +186,7 @@ const ReportUserScreen = ({ route }) => {
             navigation.goBack();
             setShowSubmittedModal(false);
           }}
-          onConfirm={() => navigation.goBack()}
+          onConfirmPressed={() => navigation.goBack()}
           showCancelButton={false}
           showModal={showSubmittedModal}
           setShowModal={setShowSubmittedModal}
