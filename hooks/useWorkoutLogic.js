@@ -62,7 +62,7 @@ export const WorkoutLogicProvider = ({ children }) => {
       {children}
       {user && (
         <AwesomeModal
-          onDismiss={() => setShowModal(false)}
+          setShowModal={setShowModal}
           showModal={showModal}
           confirmText={languageService[user.language].showPlannedWorkout}
           cancelText={languageService[user.language].gotIt}
