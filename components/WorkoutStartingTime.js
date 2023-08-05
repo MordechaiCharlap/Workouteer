@@ -22,7 +22,7 @@ import CustomButton from "./basic/CustomButton";
 const WorkoutStartingTime = (props) => {
   const { user } = useAuth();
   const [maxDate, setMaxDate] = useState();
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(props.value);
   const [show, setShow] = useState(false);
   const [dateChangedOnce, setDateChangedOnce] = useState(false);
   const [mode, setMode] = useState("date");
@@ -33,7 +33,6 @@ const WorkoutStartingTime = (props) => {
   const [alertMessage, setAlertMessage] = useState(
     languageService[user.language].scheduleLater[user.isMale ? 1 : 0]
   );
-
   useEffect(() => {
     const maximumDate = new Date();
     maximumDate.setDate(maximumDate.getDate() + 7);
