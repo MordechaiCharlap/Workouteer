@@ -44,7 +44,7 @@ const HomeScreen = () => {
     backgroundColor: appStyle.color_surface_variant,
     size: windowHeight / 5.5,
     iconSize: windowHeight / 16.5,
-    fontSize: windowHeight / 35,
+    fontSize: windowHeight / 40,
   };
   const rowStyle = {
     flexDirection: "row",
