@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export const checkIfDateAvailableAndReturnClosestWorkout = (
   user,
   dateToCheck
@@ -16,4 +18,19 @@ export const checkIfDateAvailableAndReturnClosestWorkout = (
       closestWorkoutDate = value[0].toDate();
   }
   return closestWorkoutDate;
+};
+export const removeBadPlannedWorkoutsAndReturnFixed = (user) => {
+  const now = new Date();
+  const unconfirmedWorkouts = JSON.parse(JSON.stringify(user.plannedWorkouts));
+  for (const [key, value] of Object.entries(user.plannedWorkouts)) {
+    if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now) {
+      unconfirmedWorkouts[key][0] = new Timestamp(
+        unconfirmedWorkouts[key][0].seconds,
+        unconfirmedWorkouts[key][0].nanoseconds
+      );
+      continue;
+    }
+    delete unconfirmedWorkouts[key];
+  }
+  return unconfirmedWorkouts;
 };
