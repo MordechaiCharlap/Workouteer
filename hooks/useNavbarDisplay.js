@@ -23,6 +23,7 @@ export const NavbarDisplayProvider = ({ children }) => {
     "EditWorkoutProgram",
     "Timer",
     "IntervalTimer",
+    "WorkoutNotFound",
   ];
   useEffect(() => {
     if (dontShowNavbar.includes(currentScreen)) {
