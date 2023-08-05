@@ -21,11 +21,11 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
   const { suggestedUsers } = useExplore();
   const { user } = useAuth();
   const [sentRequests, setSentRequests] = useState([]);
-  const sendFriendRequest = (otherUserId) => {
+  const sendFriendRequest = (otherUser) => {
     const sentRequestsClone = sentRequests.slice();
-    sentRequestsClone.push(otherUserId);
+    sentRequestsClone.push(otherUser.id);
     setSentRequests(sentRequestsClone);
-    firebase.sendFriendRequest(user.id, otherUserId);
+    firebase.sendFriendRequest(user.id, otherUser);
   };
   const listHeight = useSharedValue(0);
   const listAnimatedStyle = useAnimatedStyle(() => {
@@ -132,7 +132,7 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
             {!sentRequests.includes(item.id) ? (
               <CustomButton
                 round
-                onPress={() => sendFriendRequest(item.id)}
+                onPress={() => sendFriendRequest(item)}
                 style={[
                   {
                     backgroundColor: appStyle.color_primary,
