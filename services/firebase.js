@@ -50,11 +50,37 @@ export const getUserDataById = async (userId) => {
   return userDocRef.data();
 };
 export const uploadProfileImage = async (userId, uri) => {
-  const blob = await fetch(uri).then((r) => r.blob());
+  const blob = await uriToBlob(uri);
+
   const storageRef = ref(storage, `profile-pics/${userId}.jpg`);
   await uploadBytes(storageRef, blob).then((snapshot) => {});
 
   return await getDownloadURL(ref(storage, `profile-pics/${userId}.jpg`));
+};
+export const uriToBlob = (uri) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    // If successful -> return with blob
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    // reject on error
+    xhr.onerror = function () {
+      reject(new Error("uriToBlob failed"));
+    };
+
+    // Set the response type to 'blob' - this means the server's response
+    // will be accessed as a binary object
+    xhr.responseType = "blob";
+
+    // Initialize the request. The third argument set to 'true' denotes
+    // that the request is asynchronous
+    xhr.open("GET", uri, true);
+
+    // Send the request. The 'null' argument means that no body content is given for the request
+    xhr.send(null);
+  });
 };
 export const saveProfileChanges = async (
   userId,
