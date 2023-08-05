@@ -11,26 +11,33 @@ import {
 import useFirebase from "./useFirebase";
 import { getUserDataById } from "../services/firebase";
 import useAppData from "./useAppData";
+import useFriendRequests from "./useFriendRequests";
 
 const ExploreContext = createContext({});
 export const ExploreProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
+  const { friendRequestsSent, friendRequestsReceived } = useFriendRequests();
   const { db } = useFirebase();
   const [latestWorkouts, setLatestWorkouts] = useState();
   const [suggestedUsers, setSuggestedUsers] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const { usersData } = useAppData();
   useEffect(() => {
-    if (!userLoaded) return;
+    if (!userLoaded || !friendRequestsReceived || !friendRequestsSent) return;
     getSuggestedUsers();
-  }, [userLoaded]);
+  }, [userLoaded, friendRequestsReceived]);
   const getSuggestedUsers = async () => {
     const suggestedArray = [];
     const suggestedCounterMap = {};
     for (var friendId of Object.keys(user.friends)) {
       const friendData = await getUserDataById(friendId);
       for (var friendsFriendId of Object.keys(friendData.friends)) {
-        if (friendsFriendId == user.id || user.friends[friendsFriendId] != null)
+        if (
+          friendsFriendId == user.id ||
+          user.friends[friendsFriendId] != null ||
+          friendRequestsReceived[friendsFriendId] != null ||
+          friendRequestsSent[friendsFriendId] != null
+        )
           continue;
         suggestedCounterMap[friendsFriendId] =
           suggestedCounterMap[friendsFriendId] == null
@@ -60,6 +67,8 @@ export const ExploreProvider = ({ children }) => {
         if (
           randomUserId == user.id ||
           user.friends[randomUserId] != null ||
+          friendRequestsReceived[randomUserId] != null ||
+          friendRequestsSent[randomUserId] != null ||
           suggestedArray.findIndex(
             (suggestedFriend) => suggestedFriend.id == randomUserId
           ) != -1
