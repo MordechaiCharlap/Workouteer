@@ -71,7 +71,6 @@ const WorkoutDetailsScreen = ({ route }) => {
   );
   const [members, setMembers] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
-  console.log(userMemberStatus);
   useEffect(() => {
     const getMembersAndSetWorkout = async (workoutData) => {
       const membersArray = await firebase.getWorkoutMembers(workoutData);
@@ -100,7 +99,6 @@ const WorkoutDetailsScreen = ({ route }) => {
     return age;
   };
   const joinWorkoutButtonText = () => {
-    console.log(userMemberStatus);
     switch (userMemberStatus) {
       case "not":
         return languageService[user.language].requestToJoin[
