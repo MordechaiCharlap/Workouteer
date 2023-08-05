@@ -7,19 +7,19 @@ const FriendRequestsContext = createContext({});
 export const FriendRequestsProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const { db } = useFirebase();
-  const [friendRequestsSent, setFriendRequestsSent] = useState();
-  const [friendRequestsReceived, setFriendRequestsReceived] = useState();
+  const [sentFriendRequests, setSentFriendRequests] = useState();
+  const [receivedFriendRequests, setReceivedFriendRequests] = useState();
   useEffect(() => {
     if (!userLoaded) return;
     onSnapshot(doc(db, "friendRequests", user.id), (doc) => {
-      setFriendRequestsSent(doc.data().friendRequestsSent);
-      setFriendRequestsReceived(doc.data().friendRequestsReceived);
+      setSentFriendRequests(doc.data().sentRequests);
+      setReceivedFriendRequests(doc.data().receivedRequests);
     });
   }, [userLoaded]);
 
   return (
     <FriendRequestsContext.Provider
-      value={{ friendRequestsSent, friendRequestsReceived }}
+      value={{ sentFriendRequests, receivedFriendRequests }}
     >
       {children}
     </FriendRequestsContext.Provider>
