@@ -213,19 +213,6 @@ export const createUser = async (newUserData) => {
     allUsersIds: arrayUnion(newUserData.id),
   });
 };
-export const checkFriendShipStatus = async (userData, otherUserId) => {
-  if (userData.friends[otherUserId] != null) {
-    return "Friends";
-  } else {
-    const friendRequests = (
-      await getDoc(doc(db, "friendRequests", userData.id))
-    ).data();
-    if (friendRequests.sentRequests[otherUserId] != null) return "SentRequest";
-    else if (friendRequests.receivedRequests[otherUserId] != null) {
-      return "ReceivedRequest";
-    } else return "None";
-  }
-};
 export const getFriendRequests = async (userId) => {
   const returnedArray = [];
   const userRequests = await getDoc(doc(db, "friendRequests", userId));
