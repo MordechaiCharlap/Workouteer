@@ -14,7 +14,6 @@ export const FriendRequestsProvider = ({ children }) => {
     onSnapshot(doc(db, "friendRequests", user.id), (doc) => {
       setFriendRequestsSent(doc.data().friendRequestsSent);
       setFriendRequestsReceived(doc.data().friendRequestsReceived);
-      console.log(doc.data());
     });
   }, [userLoaded]);
 
