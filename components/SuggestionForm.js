@@ -43,7 +43,7 @@ const SuggestionForm = (props) => {
     else setIsTitleValid(false);
   }, [title]);
   useEffect(() => {
-    const contentRegex = /^.{15,}$/;
+    const contentRegex = /^(?:(?!\n).){15,}$/;
     if (content.match(contentRegex)) setIsContentValid(true);
     else setIsContentValid(false);
   }, [content]);
@@ -105,7 +105,7 @@ const SuggestionForm = (props) => {
               spellCheck={false}
               autoCorrect={false}
               multiline
-              numberOfLines={15}
+              numberOfLines={12}
               maxLength={200}
               onChangeText={(text) => setContent(text)}
             />
