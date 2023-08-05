@@ -26,11 +26,7 @@ const SuggestionForm = (props) => {
   const [isSubmitting, setIsSubmitting] = useState();
   const submitSuggestion = async () => {
     setIsSubmitting(true);
-    const newNumberOfSuggestions = suggestionsData.numberOfSuggestions + 1;
-    updateDoc(doc(db, "suggestions/suggestionsCollectionData"), {
-      numberOfSuggestions: increment(1),
-    });
-    addDoc(collection(db, "suggestions"), {
+    await addDoc(collection(db, "suggestions"), {
       senderId: id,
       title: title,
       content: content,
@@ -120,26 +116,28 @@ const SuggestionForm = (props) => {
               : languageService[props.language].contentInstruction}
           </CustomText>
         </View>
-        <View className="flex-row justify-center gap-x-3">
-          <CustomButton
-            round
-            style={{
-              borderColor: appStyle.color_error,
-              borderWidth: 0.25,
-              paddingVertical: 4,
-            }}
-            className="self-center"
-            onPress={() => props.setShowSuggestionForm(false)}
-          >
-            <CustomText
-              className="text-xl"
+        <View className="flex-row justify-center" style={{ columnGap: 5 }}>
+          {isSubmitting == null && (
+            <CustomButton
+              round
               style={{
-                color: appStyle.color_on_surface_variant,
+                borderColor: appStyle.color_error,
+                borderWidth: 0.25,
+                paddingVertical: 4,
               }}
+              className="self-center"
+              onPress={() => props.setShowSuggestionForm(false)}
             >
-              {languageService[props.language].cancel}
-            </CustomText>
-          </CustomButton>
+              <CustomText
+                className="text-xl"
+                style={{
+                  color: appStyle.color_on_surface_variant,
+                }}
+              >
+                {languageService[props.language].cancel}
+              </CustomText>
+            </CustomButton>
+          )}
           <CustomButton
             round
             style={
@@ -147,7 +145,7 @@ const SuggestionForm = (props) => {
                 ? style.submitButton
                 : style.submitButtonDisabled
             }
-            className="self-center"
+            className="flex-1"
             disabled={!isContentValid || !isTitleValid || isSubmitting != null}
             onPress={submitSuggestion}
           >
