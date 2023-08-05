@@ -328,6 +328,12 @@ const languageService = {
     noWorkoutsMatchedYourSearch: "No workouts matched your search",
     haventConfirmedWorkoutsYet: "You haven't confirmed any workouts yet.",
     publicProgram: "Public program",
+    youDontHaveScheduledWorkouts:
+      "You don't have scheduled workouts at the moment",
+    workoutNotFound: "The workout doesn't exists",
+    itSeemsThatItGotCancledByTheCreator:
+      "It was probably cancled by the creator",
+    goToHomePage: "Go to Home Page",
   },
   hebrew: {
     workout: "אימון",
@@ -635,6 +641,11 @@ const languageService = {
     noWorkoutsMatchedYourSearch: "לא נמצאו אימונים שמתאימים לחיפוש שלך",
     haventConfirmedWorkoutsYet: "עדיין לא אושרו אימונים",
     publicProgram: "תוכנית ציבורית",
+    youDontHaveScheduledWorkouts: "אין לך אימונים מתוכננים כרגע.",
+    workoutNotFound: "האימון לא נמצא",
+    itSeemsThatItGotCancledByTheCreator:
+      "האימון כנראה בוטל על ידי מנהל האימון.",
+    goToHomePage: "מעבר לדף הבית",
   },
 };
 export default languageService;
