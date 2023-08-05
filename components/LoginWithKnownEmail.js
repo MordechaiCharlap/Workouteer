@@ -12,7 +12,9 @@ const LoginWithKnownEmail = (props) => {
   const { db, auth } = useFirebase();
   const { signInEmailPassword, googleUserInfo } = useAuth();
   const [password, setPassword] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
   const loginAndLink = async () => {
+    setLoggingIn(true);
     const isLoggedIn = await signInEmailPassword(
       googleUserInfo.email,
       password
@@ -28,6 +30,8 @@ const LoginWithKnownEmail = (props) => {
           await updateDoc(doc(db, "users", props.id), {
             authGoogle: true,
           });
+        } else {
+          setLoggingIn(false);
         }
       }
     }
@@ -76,7 +80,7 @@ const LoginWithKnownEmail = (props) => {
                 color: appStyle.color_background,
               }}
             >
-              Login
+              {loggingIn ? "Logging in..." : "Login"}
             </CustomText>
           </CustomButton>
         </View>
