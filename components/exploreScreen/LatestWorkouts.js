@@ -83,6 +83,8 @@ const LatestWorkouts = ({ containerColor, onContainerColor }) => {
       </View> */}
       {refreshing ? (
         <LoadingAnimation />
+      ) : !latestWorkouts || latestWorkouts.length == 0 ? (
+        <></>
       ) : (
         <View
           className="flex-1"
