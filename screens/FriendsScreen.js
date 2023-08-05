@@ -185,9 +185,6 @@ const FriendsScreen = ({ route }) => {
                         ? navigation.navigate("MyProfile")
                         : navigation.navigate("Profile", {
                             shownUser: item,
-                            friendshipStatus: isMyUser
-                              ? "Friends"
-                              : firebase.checkFriendShipStatus(user, item),
                           });
                     }}
                     className="flex-row flex-1 items-center"

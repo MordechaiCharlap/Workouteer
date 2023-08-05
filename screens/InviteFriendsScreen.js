@@ -154,7 +154,6 @@ const InviteFriendsScreen = ({ route }) => {
                 onPress={() =>
                   navigation.navigate("Profile", {
                     shownUser: item,
-                    friendshipStatus: "Friends",
                   })
                 }
                 className="flex-row flex-1 items-center"

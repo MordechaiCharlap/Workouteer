@@ -148,13 +148,9 @@ const ChatScreen = ({ route }) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={async () =>
+          onPress={() =>
             navigation.navigate("Profile", {
               shownUser: otherUser,
-              friendshipStatus: await firebase.checkFriendShipStatus(
-                user,
-                otherUser.id
-              ),
             })
           }
           className="flex-row flex-1 items-center"

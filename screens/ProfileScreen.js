@@ -15,11 +15,7 @@ const ProfileScreen = ({ route }) => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <Profile
-        isMyUser={false}
-        shownUser={route.params.shownUser}
-        initialFriendshipStatus={route.params.friendshipStatus}
-      />
+      <Profile isMyUser={false} shownUser={route.params.shownUser} />
     </View>
   );
 };

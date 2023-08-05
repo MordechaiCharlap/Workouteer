@@ -58,13 +58,8 @@ const SearchUsers = (props) => {
     if (userData.id == user.id) {
       navigation.navigate("MyProfile");
     } else {
-      const friendshipStatus = await firebase.checkFriendShipStatus(
-        user,
-        userData.id
-      );
       navigation.navigate("Profile", {
         shownUser: userData,
-        friendshipStatus: friendshipStatus,
       });
     }
   };

@@ -107,10 +107,6 @@ const LeaderboardScreen = () => {
                     ? navigation.navigate("MyProfile")
                     : navigation.navigate("Profile", {
                         shownUser: await firebase.getUserDataById(item[0]),
-                        friendshipStatus: await firebase.checkFriendShipStatus(
-                          user,
-                          item[0]
-                        ),
                       })
                 }
                 style={{
