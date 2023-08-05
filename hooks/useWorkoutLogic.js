@@ -37,8 +37,9 @@ export const WorkoutLogicProvider = ({ children }) => {
     }
     if (
       closestWorkoutAfter != null &&
-      new Date(workout.startingTime.toDate().getTime() + minutes * 60000) >
-        closestWorkoutAfter.startingTime
+      new Date(
+        workout.startingTime.toDate().getTime() + workout.minutes * 60000
+      ) > closestWorkoutAfter.startingTime
     ) {
       setShowModal(true);
       overlappedWorkoutId.current = closestWorkoutAfter.id;
