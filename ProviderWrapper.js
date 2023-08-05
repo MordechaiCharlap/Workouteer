@@ -15,6 +15,7 @@ import { ConnectionProvider } from "./hooks/useConnection";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { ChatsProvider } from "./hooks/useChats";
 import { ExploreProvider } from "./hooks/useExplore";
+import { FriendRequestsProvider } from "./hooks/useFriendRequests";
 const ProviderWrapper = ({ children }) => {
   return (
     <FirebaseProvider>
@@ -24,27 +25,29 @@ const ProviderWrapper = ({ children }) => {
             <ConnectionProvider>
               <NavbarDisplayProvider>
                 <AlertsProvider>
-                  <ChatsProvider>
-                    <CurrentWorkoutProvider>
-                      <FriendsWorkoutsProvider>
-                        <NotificationsProvider>
-                          <LeaderboardProvider>
-                            <ExploreProvider>
-                              <ConfirmedWorkoutsProvider>
-                                <WorkoutLogicProvider>
-                                  <NavbarNavigationProvider>
-                                    <TailwindProvider>
-                                      {children}
-                                    </TailwindProvider>
-                                  </NavbarNavigationProvider>
-                                </WorkoutLogicProvider>
-                              </ConfirmedWorkoutsProvider>
-                            </ExploreProvider>
-                          </LeaderboardProvider>
-                        </NotificationsProvider>
-                      </FriendsWorkoutsProvider>
-                    </CurrentWorkoutProvider>
-                  </ChatsProvider>
+                  <FriendRequestsProvider>
+                    <ChatsProvider>
+                      <CurrentWorkoutProvider>
+                        <FriendsWorkoutsProvider>
+                          <NotificationsProvider>
+                            <LeaderboardProvider>
+                              <ExploreProvider>
+                                <ConfirmedWorkoutsProvider>
+                                  <WorkoutLogicProvider>
+                                    <NavbarNavigationProvider>
+                                      <TailwindProvider>
+                                        {children}
+                                      </TailwindProvider>
+                                    </NavbarNavigationProvider>
+                                  </WorkoutLogicProvider>
+                                </ConfirmedWorkoutsProvider>
+                              </ExploreProvider>
+                            </LeaderboardProvider>
+                          </NotificationsProvider>
+                        </FriendsWorkoutsProvider>
+                      </CurrentWorkoutProvider>
+                    </ChatsProvider>
+                  </FriendRequestsProvider>
                 </AlertsProvider>
               </NavbarDisplayProvider>
             </ConnectionProvider>
