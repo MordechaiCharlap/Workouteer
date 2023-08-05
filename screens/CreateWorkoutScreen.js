@@ -270,7 +270,7 @@ const CreateWorkoutScreen = () => {
             icon={faChevronLeft}
           />
           <View>
-            {Platform.OS == "web" ? (
+            {Platform.OS == "web" || Platform.OS == "android" ? (
               <>
                 <NextWeekDropdown
                   color={componentsColor}
