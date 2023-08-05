@@ -88,7 +88,7 @@ export const NotificationsProvider = ({ children }) => {
         });
       }
     }
-  }, [clickedNotification]);
+  }, [userLoaded, clickedNotification]);
   useEffect(() => {
     const clearAsyncNotifications = async () => {
       await clearNotifications();
@@ -266,7 +266,7 @@ export const NotificationsProvider = ({ children }) => {
       otherUser,
       "Workouteer",
       `${sender.displayName}: ${content}`,
-      { type: "chat", chatId: chatId, otherUserId: otherUser.id }
+      { type: "chat", chatId: chatId, otherUserId: sender.id }
     );
   };
 
@@ -329,12 +329,6 @@ export const NotificationsProvider = ({ children }) => {
     friend,
     workoutId
   ) => {
-    // const title =
-    //   user.displayName +
-    //   " " +
-    //   languageService[friend.language].scheduled[user.isMale ? 1 : 0] +
-    //   " " +
-    //   languageService[friend.language].scheduledWorkout[workoutType];
     const body =
       user.displayName +
       " " +
