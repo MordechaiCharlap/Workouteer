@@ -66,13 +66,25 @@ export const CurrentWorkoutProvider = ({ children }) => {
     };
     const initialCheckCurrentWorkout = async () => {
       // Call the function immediately on the initial render
-      setCurrentWorkout(await checkIfCurrentWorkout());
+      const lastCurrentWorkoutState = currentWorkout;
+      const newCurrentWorkout = await checkIfCurrentWorkout();
+      if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
+        removeOldUnconfirmedFromPlannedWorkouts();
+      setCurrentWorkout(newCurrentWorkout);
       timeoutRef.current = setTimeout(async () => {
         timeoutRef.current = null;
-        setCurrentWorkout(await checkIfCurrentWorkout());
+        const lastCurrentWorkoutState = currentWorkout;
+        const newCurrentWorkout = await checkIfCurrentWorkout();
+        if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
+          removeOldUnconfirmedFromPlannedWorkouts();
+        setCurrentWorkout(newCurrentWorkout);
         intervalRef.current = setInterval(
           async () => {
-            setCurrentWorkout(await checkIfCurrentWorkout());
+            const lastCurrentWorkoutState = currentWorkout;
+            const newCurrentWorkout = await checkIfCurrentWorkout();
+            if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
+              removeOldUnconfirmedFromPlannedWorkouts();
+            setCurrentWorkout(newCurrentWorkout);
           },
           15 * 60 * 1000
         );
@@ -84,12 +96,11 @@ export const CurrentWorkoutProvider = ({ children }) => {
       initialCheckCurrentWorkout();
     }
   }, [user?.plannedWorkouts]);
-  useEffect(() => {
-    if (currentWorkout) return;
+  const removeOldUnconfirmedFromPlannedWorkouts = () => {
     updateDoc(doc(db, "users", user.id), {
       plannedWorkouts: removeBadPlannedWorkoutsAndReturnFixed(user),
     });
-  }, [currentWorkout]);
+  };
   useEffect(() => {
     return () => clearIntervalOrTimeoutFunc();
   }, []);
