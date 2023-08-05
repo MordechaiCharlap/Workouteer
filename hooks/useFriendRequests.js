@@ -25,6 +25,6 @@ export const FriendRequestsProvider = ({ children }) => {
     </FriendRequestsContext.Provider>
   );
 };
-export default useFriendRequests = () => {
+export default function useFriendRequests() {
   return useContext(FriendRequestsContext);
-};
+}
