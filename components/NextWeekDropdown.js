@@ -6,6 +6,7 @@ import languageService from "../services/languageService";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import CustomText from "./basic/CustomText";
 const NextWeekDropdown = (props) => {
   const [minDate, setMinDate] = useState(props.minDate);
   const now = props.now;
@@ -157,14 +158,14 @@ const NextWeekDropdown = (props) => {
               }}
             />
             <View style={{ height: 10 }} />
-            <View className="flex-row">
+            <View className="flex-row items-center">
               <Dropdown
                 style={[
                   hour != null
                     ? appComponentsDefaultStyles.dropDown
                     : appComponentsDefaultStyles.errorDropDown,
                   ,
-                  { flex: 1 },
+                  { width: 80 },
                 ]}
                 placeholder={languageService[language].hour}
                 placeholderStyle={appComponentsDefaultStyles.inputPlaceHolder}
@@ -179,13 +180,13 @@ const NextWeekDropdown = (props) => {
                   setHour(item.value);
                 }}
               />
-
+              <CustomText style={{ fontSize: 30 }}>:</CustomText>
               <Dropdown
                 style={[
                   minute != null
                     ? appComponentsDefaultStyles.dropDown
                     : appComponentsDefaultStyles.errorDropDown,
-                  { flex: 1 },
+                  { width: 80 },
                 ]}
                 placeholder={languageService[language].minutes}
                 placeholderStyle={appComponentsDefaultStyles.inputPlaceHolder}
