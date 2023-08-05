@@ -23,10 +23,7 @@ import CustomButton from "../../components/basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFolderOpen, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import {
-  checkFriendShipStatus,
-  getUserDataById,
-} from "../../services/firebase";
+import { getUserDataById } from "../../services/firebase";
 import useAuth from "../../hooks/useAuth";
 import useNavbarDisplay from "../../hooks/useNavbarDisplay";
 
@@ -109,11 +106,9 @@ const SuggestionsAndBugsScreen = () => {
     if (shownUserId == user.id) {
       navigation.navigate("MyProfile");
     } else {
-      const friendshipStatus = await checkFriendShipStatus(user, shownUserId);
       const userData = await getUserDataById(shownUserId);
       navigation.navigate("Profile", {
         shownUser: userData,
-        friendshipStatus: friendshipStatus,
       });
     }
   };
