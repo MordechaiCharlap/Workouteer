@@ -16,15 +16,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { checkFriendShipStatus } from "../../utils/profileUtils";
+import useFriendRequests from "../../hooks/useFriendRequests";
 const SuggestedUsers = ({ containerColor, onContainerColor }) => {
   const navigation = useNavigation();
+  const { sentFriendRequests, receivedFriendRequests } = useFriendRequests();
   const { suggestedUsers } = useExplore();
   const { user } = useAuth();
-  const [sentRequests, setSentRequests] = useState([]);
   const sendFriendRequest = (otherUser) => {
-    const sentRequestsClone = sentRequests.slice();
-    sentRequestsClone.push(otherUser.id);
-    setSentRequests(sentRequestsClone);
     firebase.sendFriendRequest(user.id, otherUser);
   };
   const listHeight = useSharedValue(0);
@@ -72,15 +71,9 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
         renderItem={({ item }) => (
           <CustomButton
             onPress={() => {
-              sentRequests.includes(item.id)
-                ? navigation.navigate("Profile", {
-                    shownUser: item,
-                    friendshipStatus: "SentRequest",
-                  })
-                : navigation.navigate("Profile", {
-                    shownUser: item,
-                    friendshipStatus: "None",
-                  });
+              navigation.navigate("Profile", {
+                shownUser: item,
+              });
             }}
             className="w-32"
             style={[
@@ -129,7 +122,12 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
                 )
               )}
             </View>
-            {!sentRequests.includes(item.id) ? (
+            {checkFriendShipStatus(
+              user,
+              item.id,
+              sentFriendRequests,
+              receivedFriendRequests
+            ) == "None" ? (
               <CustomButton
                 round
                 onPress={() => sendFriendRequest(item)}
