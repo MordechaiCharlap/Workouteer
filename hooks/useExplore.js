@@ -12,20 +12,27 @@ import useFirebase from "./useFirebase";
 import { getUserDataById } from "../services/firebase";
 import useAppData from "./useAppData";
 import useFriendRequests from "./useFriendRequests";
+import { checkFriendShipStatus } from "../utils/profileUtils";
 
 const ExploreContext = createContext({});
 export const ExploreProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
-  const { friendRequestsSent, friendRequestsReceived } = useFriendRequests();
+  const { sentFriendRequests, receivedFriendRequests } = useFriendRequests();
   const { db } = useFirebase();
   const [latestWorkouts, setLatestWorkouts] = useState();
   const [suggestedUsers, setSuggestedUsers] = useState();
   const [refreshing, setRefreshing] = useState(false);
   const { usersData } = useAppData();
   useEffect(() => {
-    if (!userLoaded || !friendRequestsReceived || !friendRequestsSent) return;
+    if (
+      !userLoaded ||
+      !receivedFriendRequests ||
+      !sentFriendRequests ||
+      suggestedUsers
+    )
+      return;
     getSuggestedUsers();
-  }, [userLoaded, friendRequestsReceived]);
+  }, [userLoaded, receivedFriendRequests, sentFriendRequests]);
   const getSuggestedUsers = async () => {
     const suggestedArray = [];
     const suggestedCounterMap = {};
@@ -34,9 +41,12 @@ export const ExploreProvider = ({ children }) => {
       for (var friendsFriendId of Object.keys(friendData.friends)) {
         if (
           friendsFriendId == user.id ||
-          user.friends[friendsFriendId] != null ||
-          friendRequestsReceived[friendsFriendId] != null ||
-          friendRequestsSent[friendsFriendId] != null
+          checkFriendShipStatus(
+            user,
+            friendsFriendId,
+            sentFriendRequests,
+            receivedFriendRequests
+          ) != "None"
         )
           continue;
         suggestedCounterMap[friendsFriendId] =
@@ -66,9 +76,12 @@ export const ExploreProvider = ({ children }) => {
         if (usersLeftToFillListCount == 0) break;
         if (
           randomUserId == user.id ||
-          user.friends[randomUserId] != null ||
-          friendRequestsReceived[randomUserId] != null ||
-          friendRequestsSent[randomUserId] != null ||
+          checkFriendShipStatus(
+            user,
+            randomUserId,
+            sentFriendRequests,
+            receivedFriendRequests
+          ) != "None" ||
           suggestedArray.findIndex(
             (suggestedFriend) => suggestedFriend.id == randomUserId
           ) != -1
