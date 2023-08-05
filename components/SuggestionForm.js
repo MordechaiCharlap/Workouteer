@@ -43,7 +43,7 @@ const SuggestionForm = (props) => {
     else setIsTitleValid(false);
   }, [title]);
   useEffect(() => {
-    const contentRegex = /^(?:(?!\n).){15,}$/;
+    const contentRegex = /^[\s\S]{15,}$/;
     if (content.match(contentRegex)) setIsContentValid(true);
     else setIsContentValid(false);
   }, [content]);
@@ -96,8 +96,10 @@ const SuggestionForm = (props) => {
             <CustomText>
               {languageService[props.language].details + ":"}
             </CustomText>
+
             <TextInput
               style={{
+                maxHeight: 300,
                 backgroundColor: appStyle.color_surface_variant,
                 padding: 7,
                 textAlignVertical: "top",
@@ -105,7 +107,7 @@ const SuggestionForm = (props) => {
               spellCheck={false}
               autoCorrect={false}
               multiline
-              numberOfLines={12}
+              numberOfLines={13}
               maxLength={200}
               onChangeText={(text) => setContent(text)}
             />
