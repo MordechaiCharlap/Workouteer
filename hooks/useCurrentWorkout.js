@@ -62,34 +62,17 @@ export const CurrentWorkoutProvider = ({ children }) => {
           return { ...workout, id: key };
         }
       }
+      return null;
     };
     const initialCheckCurrentWorkout = async () => {
-      // Get the current time
-      const now = new Date();
-
       // Call the function immediately on the initial render
-      const currWorkout = await checkIfCurrentWorkout();
-      if (currWorkout != null) setCurrentWorkout(currWorkout);
-      else if (currentWorkout) {
-        setCurrentWorkout();
-        removeOldUnconfirmedFromPlannedWorkout();
-      }
+      setCurrentWorkout(await checkIfCurrentWorkout());
       timeoutRef.current = setTimeout(async () => {
         timeoutRef.current = null;
-        const currWorkout = await checkIfCurrentWorkout();
-        if (currWorkout != null) setCurrentWorkout(currWorkout);
-        else if (currentWorkout) {
-          setCurrentWorkout();
-          removeOldUnconfirmedFromPlannedWorkout();
-        }
+        setCurrentWorkout(await checkIfCurrentWorkout());
         intervalRef.current = setInterval(
           async () => {
-            const currWorkout = await checkIfCurrentWorkout();
-            if (currWorkout != null) setCurrentWorkout(currWorkout);
-            else if (currentWorkout) {
-              setCurrentWorkout();
-              removeOldUnconfirmedFromPlannedWorkout();
-            }
+            setCurrentWorkout(await checkIfCurrentWorkout());
           },
           15 * 60 * 1000
         );
@@ -101,12 +84,12 @@ export const CurrentWorkoutProvider = ({ children }) => {
       initialCheckCurrentWorkout();
     }
   }, [user?.plannedWorkouts]);
-
-  const removeOldUnconfirmedFromPlannedWorkout = () => {
+  useEffect(() => {
+    if (currentWorkout) return;
     updateDoc(doc(db, "users", user.id), {
       plannedWorkouts: removeBadPlannedWorkoutsAndReturnFixed(user),
     });
-  };
+  }, [currentWorkout]);
   useEffect(() => {
     return () => clearIntervalOrTimeoutFunc();
   }, []);
