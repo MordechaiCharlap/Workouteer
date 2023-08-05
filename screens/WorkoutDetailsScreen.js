@@ -37,7 +37,10 @@ import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import LoadingAnimation from "../components/LoadingAnimation";
 
 const WorkoutDetailsScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
+  const { user } = useAuth();
+  if (route.params.workout == null) navigation.replace("WorkoutNotFound");
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutDetails");
@@ -47,15 +50,12 @@ const WorkoutDetailsScreen = ({ route }) => {
     sendPushNotificationUserJoinedYouwWorkout,
     sendPushNotificationUserLeftWorkout,
     schedulePushNotification,
-    sendPushNotificationCreatorLeftWorkout,
     cancelScheduledPushNotification,
     sendPushNotificationUserWantsToJoinYourWorkout,
   } = usePushNotifications();
   const { checkIfWorkoutOnPlannedWorkoutTime } = useWorkoutLogic();
   const { updateArrayIfNeedForWorkout } = useFriendsWorkouts();
-  const navigation = useNavigation();
   const { db } = useFirebase();
-  const { user } = useAuth();
   const { workoutRequestsAlerts } = useAlerts();
   const [workout, setWorkout] = useState(route.params.workout);
   const isPastWorkout =
@@ -72,6 +72,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   const [members, setMembers] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
   useEffect(() => {
+    if (!workout) return;
     const getMembersAndSetWorkout = async (workoutData) => {
       const membersArray = await firebase.getWorkoutMembers(workoutData);
       setMembers(membersArray);
@@ -383,13 +384,11 @@ const WorkoutDetailsScreen = ({ route }) => {
               )}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  onPress={async () =>
+                  onPress={() =>
                     item.id == user.id
                       ? navigation.navigate("MyProfile")
                       : navigation.navigate("Profile", {
                           shownUser: item,
-                          friendshipStatus:
-                            await firebase.checkFriendShipStatus(user, item.id),
                         })
                   }
                   className="p-1 flex-row items-center justify-between"
