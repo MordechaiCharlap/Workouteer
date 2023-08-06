@@ -227,17 +227,17 @@ export const NotificationsProvider = ({ children }) => {
   ) => {
     const membersArray = await firebase.getWorkoutMembers(workout);
     for (var user of membersArray) {
-      if (user.id == excludeUserId) continue;
-      await sendPushNotification(
-        user,
-        "Workouteer",
-        `${joinedUser.displayName} ${
-          languageService[user.language].joinedYourWorkout[
-            joinedUser.isMale ? 1 : 0
-          ]
-        }`,
-        { type: "workoutDetails", workoutId: workout.id }
-      );
+      if (user.id != excludeUserId)
+        await sendPushNotification(
+          user,
+          "Workouteer",
+          `${joinedUser.displayName} ${
+            languageService[user.language].joinedYourWorkout[
+              joinedUser.isMale ? 1 : 0
+            ]
+          }`,
+          { type: "workoutDetails", workoutId: workout.id }
+        );
     }
   };
   const sendPushNotificationUserWantsToJoinYourWorkout = async (
