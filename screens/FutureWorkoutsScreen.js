@@ -1,7 +1,7 @@
 import { View, FlatList, Platform } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../components/Header";
 import * as firebase from "../services/firebase";
 import * as appStyle from "../utils/appStyleSheet";
@@ -19,6 +19,7 @@ import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 
 const FutureWorkoutsScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { schedulePushNotification } = usePushNotifications();
   const { db } = useFirebase();
@@ -108,7 +109,7 @@ const FutureWorkoutsScreen = ({ route }) => {
               <CustomButton
                 style={{ backgroundColor: appStyle.color_on_background }}
                 round
-                onPress={() => navigation.navigate("SearchWorkouts")}
+                onPress={() => navigation.replace("SearchWorkouts")}
               >
                 <CustomText
                   className="font-semibold text-lg"
@@ -121,7 +122,7 @@ const FutureWorkoutsScreen = ({ route }) => {
               </CustomButton>
               <CustomButton
                 round
-                onPress={() => navigation.navigate("CreateWorkout")}
+                onPress={() => navigation.replace("CreateWorkout")}
                 style={{ backgroundColor: appStyle.color_on_background }}
               >
                 <CustomText
