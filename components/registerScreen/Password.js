@@ -10,14 +10,14 @@ const Password = (props) => {
   const [passowrd, setPassowrd] = useState("");
   const handleChangedText = (text) => {
     setPassowrd(text);
-    const validPassword = /^[a-zA-Z0-9]{6,20}$/.test(text);
+    const validPassword = /^[\S]{8,20}$/.test(text);
     if (validPassword) {
       setPasswordStyle(props.style.input);
       setError(null);
       props.valueChanged(text);
     } else {
       setPasswordStyle(props.style.badInput);
-      setError("8-20 characters, must have lower,upper case and numbers");
+      setError("8-20 characters, no white spaces");
       props.valueChanged(null);
     }
   };

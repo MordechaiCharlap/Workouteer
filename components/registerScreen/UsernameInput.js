@@ -6,7 +6,7 @@ const UsernameInput = (props) => {
   const [error, setError] = useState(null);
 
   const changedTextHandler = (text) => {
-    const validUsername = /^[a-zA-Z0-9]{6,20}$/.test(text);
+    const validUsername = /^[\S]{8,20}$/.test(text);
     if (validUsername) {
       setUsernameStyle(props.style.input);
       setError(null);
