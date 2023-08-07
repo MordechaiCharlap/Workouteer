@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import useAuth from "./useAuth";
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, setDoc } from "firebase/firestore";
 import * as firebase from "../services/firebase";
 import useFirebase from "./useFirebase";
 const AlertsContext = createContext({});
@@ -35,9 +35,9 @@ export const AlertsProvider = ({ children }) => {
     if (userLoaded) {
       unsubscribeAlerts.current = onSnapshot(
         doc(db, "alerts", user.id),
-        (doc) => {
-          if (doc.exists()) {
-            const alertsData = doc.data();
+        (docSnap) => {
+          if (docSnap.exists()) {
+            const alertsData = docSnap.data();
             setChatsAlerts(alertsData.chats);
             setWorkoutRequestsAlerts(alertsData.workoutRequests);
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
@@ -49,6 +49,14 @@ export const AlertsProvider = ({ children }) => {
               alertsData.workoutInvites,
               user.id
             );
+          } else {
+            setDoc(doc(db, "alerts", user.id), {
+              chats: {},
+              friendRequests: {},
+              workoutInvites: {},
+              workoutRequests: {},
+              newWorkouts: {},
+            });
           }
         }
       );

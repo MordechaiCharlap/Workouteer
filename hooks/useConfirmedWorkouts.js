@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 import useAuth from "./useAuth";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import useFirebase from "./useFirebase";
 const ConfirmedWorkoutContext = createContext({});
 export const ConfirmedWorkoutsProvider = ({ children }) => {
@@ -26,8 +26,14 @@ export const ConfirmedWorkoutsProvider = ({ children }) => {
     if (userLoaded) {
       unsubscribeRef.current = onSnapshot(
         doc(db, "usersConfirmedWorkouts", user.id),
-        (doc) => {
-          if (doc.exists()) setConfirmedWorkouts(doc.data().confirmedWorkouts);
+        (docSnap) => {
+          if (docSnap.exists())
+            setConfirmedWorkouts(docSnap.data().confirmedWorkouts);
+          else {
+            setDoc(doc(db, "usersConfirmedWorkouts", user.id), {
+              confirmedWorkouts: [],
+            });
+          }
         }
       );
     } else {
