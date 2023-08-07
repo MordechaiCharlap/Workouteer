@@ -28,9 +28,10 @@ export const ExploreProvider = ({ children }) => {
       !userLoaded ||
       !receivedFriendRequests ||
       !sentFriendRequests ||
-      suggestedUsers
-    )
+      suggestedUsers != null
+    ) {
       return;
+    }
     getSuggestedUsers();
   }, [userLoaded, receivedFriendRequests, sentFriendRequests]);
   const getSuggestedUsers = async () => {
@@ -117,6 +118,7 @@ export const ExploreProvider = ({ children }) => {
       value={{
         latestWorkouts,
         suggestedUsers,
+        getSuggestedUsers,
         refreshLatestWorkouts,
         refreshing,
       }}

@@ -21,7 +21,7 @@ import useFriendRequests from "../../hooks/useFriendRequests";
 const SuggestedUsers = ({ containerColor, onContainerColor }) => {
   const navigation = useNavigation();
   const { sentFriendRequests, receivedFriendRequests } = useFriendRequests();
-  const { suggestedUsers } = useExplore();
+  const { suggestedUsers, getSuggestedUsers } = useExplore();
   const { user } = useAuth();
   const sendFriendRequest = (otherUser) => {
     firebase.sendFriendRequest(user.id, otherUser);
@@ -36,9 +36,6 @@ const SuggestedUsers = ({ containerColor, onContainerColor }) => {
       listHeight.value = withTiming(250);
     }, [suggestedUsers])
   );
-  // useEffect(() => {
-
-  // }, [suggestedUsers]);
   return (
     <Animated.View
       className="justify-center"
