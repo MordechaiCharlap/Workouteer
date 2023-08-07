@@ -42,7 +42,7 @@ export const LeaderboardProvider = ({ children }) => {
     }
   }, [leaderboardList]);
   useEffect(() => {
-    const listenToLeaderboard = async () => {
+    const listenToLeaderboard = () => {
       unsubscribeLeaderboard.current = onSnapshot(
         doc(
           db,
@@ -81,13 +81,9 @@ export const LeaderboardProvider = ({ children }) => {
     return languageService[language].place + " " + place;
   };
   useEffect(() => {
-    if (!userLoaded) return;
-    const getNewLeaderboard = async () => {
-      await firebase.getNewLeaderboard(user, 0);
-    };
-    if (firebase.getLastWeekId() != user.leaderboard.weekId) {
-      getNewLeaderboard();
-    }
+    if (!userLoaded || firebase.getLastWeekId() == user?.leaderboard?.weekId)
+      return;
+    firebase.getNewLeaderboard(user, 0);
   }, [userLoaded]);
   useEffect(() => {
     if (!user?.leaderboard?.leaderboardUpdated) return;
