@@ -194,21 +194,6 @@ export const createUser = async (newUserData) => {
     totalPoints: 0,
     isDeleted: false,
   });
-
-  setDoc(doc(db, "alerts", newUserData.id), {
-    chats: {},
-    friendRequests: {},
-    workoutInvites: {},
-    workoutRequests: {},
-    newWorkouts: {},
-  });
-  setDoc(doc(db, "friendRequests", newUserData.id), {
-    receivedRequests: {},
-    sentRequests: {},
-  });
-  setDoc(doc(db, "usersConfirmedWorkouts", newUserData.id), {
-    confirmedWorkouts: [],
-  });
   updateDoc(doc(db, "appData/usersData"), {
     allUsersIds: arrayUnion(newUserData.id),
   });
