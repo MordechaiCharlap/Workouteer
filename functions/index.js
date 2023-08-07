@@ -89,10 +89,6 @@ exports.deleteUserData = functions.firestore
       await db.doc(`friendRequests/${receiverId}`).update({
         [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
-      //  decrement friend request count
-      await db.doc(`users/${receiverId}`).update({
-        friendRequestsCount: admin.firestore.FieldValue.increment(-1),
-      });
     }
     //  deletes from every user friends
     for (const senderId of Object.keys(user.friends)) {

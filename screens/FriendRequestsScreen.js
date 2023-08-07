@@ -10,19 +10,23 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomButton from "../components/basic/CustomButton";
+import useFriendRequests from "../hooks/useFriendRequests";
 
 const FriendRequestsScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const [friendRequests, setFriendRequests] = useState();
   const { user } = useAuth();
+  const { receivedFriendRequests } = useFriendRequests();
   const { sendPushNotificationUserAcceptedYourFriendRequest } =
     usePushNotifications();
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("FriendRequests");
       const setArray = async () => {
-        const requestsArray = await firebase.getFriendRequests(user.id);
+        const requestsArray = await firebase.getFriendRequests(
+          receivedFriendRequests
+        );
         setFriendRequests(requestsArray);
       };
       setArray();
@@ -47,7 +51,8 @@ const FriendRequestsScreen = () => {
     <View style={safeAreaStyle()}>
       <Header title={"Friend Requests"} goBackOption={true} />
       <View className="flex-1 px-2">
-        {user.friendRequestsCount > 0 ? (
+        {receivedFriendRequests &&
+        Object.keys(receivedFriendRequests).length > 0 ? (
           <FlatList
             data={friendRequests}
             keyExtractor={(item) => item.user.id}

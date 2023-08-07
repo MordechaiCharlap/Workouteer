@@ -368,19 +368,21 @@ const Profile = ({ shownUser, isMyUser }) => {
                 size={30}
                 color={buttonStyle.color}
               />
-              {isMyUser && shownUser.friendRequestsCount > 0 && (
-                <View className="absolute right-0 bottom-0">
-                  <AlertDot
-                    text={user.friendRequestsCount}
-                    color={appStyle.color_primary}
-                    borderColor={appStyle.color_surface}
-                    textColor={appStyle.color_on_primary}
-                    borderWidth={1}
-                    fontSize={13}
-                    size={23}
-                  />
-                </View>
-              )}
+              {isMyUser &&
+                receivedFriendRequests &&
+                Object.keys(receivedFriendRequests).length > 0 && (
+                  <View className="absolute right-0 bottom-0">
+                    <AlertDot
+                      text={Object.keys(receivedFriendRequests).length}
+                      color={appStyle.color_primary}
+                      borderColor={appStyle.color_surface}
+                      textColor={appStyle.color_on_primary}
+                      borderWidth={1}
+                      fontSize={13}
+                      size={23}
+                    />
+                  </View>
+                )}
             </CustomButton>
           </View>
         </View>
