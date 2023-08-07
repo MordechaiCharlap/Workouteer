@@ -311,7 +311,7 @@ const languageService = {
     choose: ["Choose", "Choose"],
     hoursMinutes: "hours:minutes",
     thisActionIsIrreversable: "This action is irreversable",
-    appIsUnderMaintenance: "The app is under maintenance",
+    appIsUnderMaintenance: "The app is currently under maintenance",
     comeBackLater: "Come back later :)",
     latestWorkouts: "Latest confirmed workouts",
     explore: "Explore",
