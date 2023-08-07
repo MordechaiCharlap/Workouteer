@@ -49,10 +49,10 @@ const HomeScreen = () => {
   const rowStyle = {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "85%",
   };
   const menuContainerStyle = {
-    alignSelf: "center",
-    width: "85%",
+    alignItems: "center",
     height: "80%",
     justifyContent: "space-between",
   };
@@ -84,14 +84,15 @@ const HomeScreen = () => {
         </View>
         <View style={rowStyle}>
           <HomeScreenButton
+            number={Object.keys(user.plannedWorkouts).length}
             alert={
               Object.keys(workoutRequestsAlerts).length > 0 ||
               Object.keys(newWorkoutsAlerts).length > 0
             }
-            alertNumber={
-              Object.keys(workoutRequestsAlerts).length +
-              Object.keys(newWorkoutsAlerts).length
-            }
+            // alertNumber={
+            //   Object.keys(workoutRequestsAlerts).length +
+            //   Object.keys(newWorkoutsAlerts).length
+            // }
             buttonText={languageService[user.language].futureWorkoutsHomeBtn}
             style={buttonStyle}
             navigateScreen="FutureWorkouts"
