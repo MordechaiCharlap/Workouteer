@@ -20,7 +20,6 @@ exports.deleteUserData = functions.firestore
   .document(`alerts/{userId}`)
   .onDelete(async (snap) => {
     const userId = snap.id;
-
     //delete user's picture
     const user = (await db.doc(`users/${userId}`).get()).data();
     const now = new Date();
@@ -43,6 +42,7 @@ exports.deleteUserData = functions.firestore
         }
       }
     }
+
     if (
       user.img !=
       "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2"
@@ -50,7 +50,6 @@ exports.deleteUserData = functions.firestore
       const file = bucket.file(`profile-pics/${userId}.jpg`);
       if (file.exists()) await file.delete();
     }
-
     const uid = user.uid;
     if (uid) {
       try {
@@ -85,23 +84,19 @@ exports.deleteUserData = functions.firestore
         [`sentRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
     }
-    const sentRequestsArray = Array.from(
-      Object.entries(friendRequests.sentRequests)
-    );
-    for (const request of sentRequestsArray) {
+    for (const receiverId of Object.keys(friendRequests.sentRequests)) {
       //  remove sent friend request from every user that got one
-      await db.doc(`friendRequests/${request[0]}`).update({
+      await db.doc(`friendRequests/${receiverId}`).update({
         [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
       //  decrement friend request count
-      await db.doc(`users/${request[0]}`).update({
+      await db.doc(`users/${receiverId}`).update({
         friendRequestsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
     //  deletes from every user friends
-    const friendsArray = Array.from(Object.entries(user.friends));
-    for (const friend of friendsArray) {
-      await db.doc(`users/${friend[0]}`).update({
+    for (const senderId of Object.keys(user.friends)) {
+      await db.doc(`users/${senderId}`).update({
         [`friends.${userId}`]: admin.firestore.FieldValue.delete(),
         friendsCount: admin.firestore.FieldValue.increment(-1),
       });
