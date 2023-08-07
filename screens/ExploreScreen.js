@@ -18,7 +18,7 @@ import SuggestedUsers from "../components/exploreScreen/SuggestedUsers";
 const ExploreScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { setScreen } = useNavbarNavigation();
-  const { suggestedUsers } = useExplore();
+  const { suggestedUsers, getSuggestedUsers } = useExplore();
   const { user } = useAuth();
   const [searchInputEmpty, setSearchInputEmpty] = useState(true);
   useFocusEffect(
@@ -29,6 +29,11 @@ const ExploreScreen = () => {
   );
   const containerColor = color_surface_variant;
   const onContainerColor = color_on_surface_variant;
+  useFocusEffect(
+    useCallback(() => {
+      getSuggestedUsers();
+    }, [])
+  );
   return (
     <View style={[safeAreaStyle()]}>
       {/* <SearchUsers language={user.language} setIsEmpty={setSearchInputEmpty} /> */}
