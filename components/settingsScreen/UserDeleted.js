@@ -1,7 +1,13 @@
 import { View, Text } from "react-native";
 import * as appStyle from "../../utils/appStyleSheet";
 import languageService from "../../services/languageService";
+import { useEffect } from "react";
+import useNavbarDisplay from "../../hooks/useNavbarDisplay";
 export const UserDeleted = (props) => {
+  const { setShowNavbar } = useNavbarDisplay();
+  useEffect(() => {
+    setShowNavbar(false);
+  });
   return (
     <View className="justify-center flex-1">
       <View
