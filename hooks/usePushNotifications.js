@@ -45,11 +45,9 @@ export const NotificationsProvider = ({ children }) => {
   };
   useEffect(() => {
     if (userLoaded && clickedNotification) {
-      console.log(clickedNotification);
       const notificationType =
         clickedNotification.notification.request.content.data["type"];
       if (notificationType == "workoutDetails") {
-        console.log("details screen");
         getDoc(
           doc(
             db,
