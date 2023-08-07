@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -36,7 +36,7 @@ import AwesomeModal from "../AwesomeModal";
 import UserDetailsButton from "./UserDetailsButton";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AlertDot from "../AlertDot";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import UserDescription from "./UserDescription";
@@ -55,16 +55,8 @@ const Profile = ({ shownUser, isMyUser }) => {
   const [futureWorkoutsCount, setFutureWorkoutsCount] = useState(
     isMyUser ? Object.keys(shownUser.plannedWorkouts).length : 0
   );
-  const [friendshipStatus, setFriendshipStatus] = useState(
-    isMyUser
-      ? null
-      : checkFriendShipStatus(
-          user,
-          shownUser.id,
-          sentFriendRequests,
-          receivedFriendRequests
-        )
-  );
+  const [friendshipStatus, setFriendshipStatus] = useState();
+
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
     navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
@@ -130,6 +122,17 @@ const Profile = ({ shownUser, isMyUser }) => {
   useEffect(() => {
     if (!isMyUser) countFutureWorkouts();
   }, []);
+  useEffect(() => {
+    if (isMyUser) return;
+    const currentFriendshipStatus = checkFriendShipStatus(
+      user,
+      shownUser.id,
+      sentFriendRequests,
+      receivedFriendRequests
+    );
+    if (currentFriendshipStatus != friendshipStatus)
+      setFriendshipStatus(currentFriendshipStatus);
+  }, [receivedFriendRequests]);
   const renderFriendshipButton = () => {
     if (friendshipStatus != "ReceivedRequest") {
       var onPressFunc;
