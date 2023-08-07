@@ -18,9 +18,7 @@ export const AnimatedButtonBackround = ({ index, fixedWidth }) => {
 
   // Update the position when the index changes
   useEffect(() => {
-    console.log(index);
     position.value = withTiming(index * (fixedWidth / 5));
-    console.log(position.value);
   }, [index]);
 
   return (
