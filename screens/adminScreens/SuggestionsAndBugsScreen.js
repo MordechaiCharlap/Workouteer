@@ -80,7 +80,6 @@ const SuggestionsAndBugsScreen = () => {
             // console.log(list);
           }
         } else if (change.type == "removed") {
-          console.log("removed!");
           // const listClone = list;
           // listClone.splice(
           //   listClone.findIndex((suggestion) => suggestion.id == change.doc.id),
