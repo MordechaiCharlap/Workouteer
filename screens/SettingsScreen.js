@@ -22,10 +22,12 @@ import useLeaderboard from "../hooks/useLeaderboard";
 import useAlerts from "../hooks/useAlerts";
 import useConfirmedWorkouts from "../hooks/useConfirmedWorkouts";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import useFriendRequests from "../hooks/useFriendRequests";
 const SettingsScreen = ({ route }) => {
   const { db } = useFirebase();
   const { cleanLeaderboardListener } = useLeaderboard();
   const { cleanAlertsListener } = useAlerts();
+  const { cleanFriendRequestsListener } = useFriendRequests();
   const { cleanConfirmedWorkoutsListener } = useConfirmedWorkouts();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user, userSignOut } = useAuth();
@@ -40,7 +42,7 @@ const SettingsScreen = ({ route }) => {
   const lastLanguage = route.params.language;
   const signOut = () => {
     setLoggingOut(true);
-    cleanAllUserData();
+    cleanAllListeners();
     if (user.pushToken)
       updateDoc(doc(db, "users", user.id), {
         pushToken: null,
@@ -52,10 +54,11 @@ const SettingsScreen = ({ route }) => {
       setCurrentScreen("Settings");
     }, [])
   );
-  const cleanAllUserData = () => {
+  const cleanAllListeners = () => {
     cleanAlertsListener();
     cleanLeaderboardListener();
     cleanConfirmedWorkoutsListener();
+    cleanFriendRequestsListener();
   };
   useEffect(() => {
     if (
@@ -74,11 +77,15 @@ const SettingsScreen = ({ route }) => {
       navigation.goBack();
     }
   };
-  const deleteUser = async () => {
+  const deleteUser = () => {
+    cleanAllListeners();
     user.isDeleted = true;
-    setTimeout(async () => {
-      userSignOut();
-      await deleteDoc(doc(db, `alerts/${user.id}`));
+    setTimeout(() => {
+      deleteDoc(doc(db, `alerts/${user.id}`))
+        .then(() => {
+          userSignOut();
+        })
+        .catch((error) => console.log(error));
     }, 3000);
   };
   return (
@@ -342,9 +349,9 @@ const SettingsScreen = ({ route }) => {
         onCancelPressed={() => {
           setShowDeleteUserModal(false);
         }}
-        onConfirmPressed={async () => {
+        onConfirmPressed={() => {
           setShowDeleteUserModal(false);
-          await deleteUser();
+          deleteUser();
         }}
       />
     </View>
