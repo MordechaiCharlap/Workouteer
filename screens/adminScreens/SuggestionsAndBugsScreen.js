@@ -53,8 +53,8 @@ const SuggestionsAndBugsScreen = () => {
       orderBy("dateSubmitted")
     );
     const observer = onSnapshot(suggestionsQuery, (suggestionSnapshot) => {
-      const listClone = list || [];
       suggestionSnapshot.docChanges().forEach((change) => {
+        const listClone = [...list];
         if (change.type == "added") {
           // console.log("added!");
           if (
@@ -80,19 +80,18 @@ const SuggestionsAndBugsScreen = () => {
             // console.log(list);
           }
         } else if (change.type == "removed") {
-          // const listClone = list;
-          // listClone.splice(
-          //   listClone.findIndex((suggestion) => suggestion.id == change.doc.id),
-          //   1
-          // );
-          // setList(listClone);
+          const listClone = [...list];
+          listClone.splice(
+            listClone.findIndex((suggestion) => suggestion.id == change.doc.id),
+            1
+          );
+          setList(listClone);
         } else if (change.type == "modified") {
           // console.log("modified!");
           // console.log(change.doc.data());
           setList(listClone);
         }
       });
-      setList(listClone);
     });
 
     return () => observer();
