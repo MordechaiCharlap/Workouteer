@@ -37,11 +37,12 @@ import UserDetailsButton from "./UserDetailsButton";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import AlertDot from "../AlertDot";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import UserDescription from "./UserDescription";
 import { checkFriendShipStatus } from "../../utils/profileUtils";
 import useFriendRequests from "../../hooks/useFriendRequests";
+import NumberedNotification from "../NumberedNotification";
+import useAlerts from "../../hooks/useAlerts";
 
 const Profile = ({ shownUser, isMyUser }) => {
   const navigation = useNavigation();
@@ -56,7 +57,7 @@ const Profile = ({ shownUser, isMyUser }) => {
     isMyUser ? Object.keys(shownUser.plannedWorkouts).length : 0
   );
   const [friendshipStatus, setFriendshipStatus] = useState();
-
+  const { friendRequestsAlerts } = useAlerts();
   const openPrivateChat = async () => {
     const chat = await firebase.getPrivateChatByUsers(user, shownUser);
     navigation.navigate("Chat", { otherUser: shownUser, chat: chat });
@@ -372,7 +373,7 @@ const Profile = ({ shownUser, isMyUser }) => {
                 receivedFriendRequests &&
                 Object.keys(receivedFriendRequests).length > 0 && (
                   <View className="absolute right-0 bottom-0">
-                    <AlertDot
+                    {/* <AlertDot
                       text={Object.keys(receivedFriendRequests).length}
                       color={appStyle.color_primary}
                       borderColor={appStyle.color_surface}
@@ -380,6 +381,11 @@ const Profile = ({ shownUser, isMyUser }) => {
                       borderWidth={1}
                       fontSize={13}
                       size={23}
+                    /> */}
+                    <NumberedNotification
+                      number={Object.keys(receivedFriendRequests).length}
+                      surfaceColor={appStyle.color_surface_variant}
+                      alert={Object.keys(friendRequestsAlerts).length > 0}
                     />
                   </View>
                 )}
