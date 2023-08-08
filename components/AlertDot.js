@@ -1,23 +1,31 @@
 import { View, Text } from "react-native";
 import React from "react";
-const AlertDot = (props) => {
+const AlertDot = ({
+  size,
+  color,
+  borderWidth,
+  borderColor,
+  text,
+  fontSize,
+  textColor,
+}) => {
   return (
     <View
       className="rounded-full justify-center items-center"
       style={{
-        width: props.size,
-        height: props.size,
-        backgroundColor: props.color,
-        borderWidth: props.borderWidth,
-        borderColor: props.borderColor,
+        width: size,
+        height: size,
+        backgroundColor: color,
+        borderWidth: borderWidth,
+        borderColor: borderColor,
       }}
     >
-      {props.text != null && (
+      {text != null && (
         <Text
           className="text-center"
-          style={{ color: props.textColor, fontSize: props.fontSize }}
+          style={[{ color: textColor }, fontSize && { fontSize: fontSize }]}
         >
-          {Number.isInteger(props.text) && props.text > 99 ? "99+" : props.text}
+          {Number.isInteger(text) && text > 99 ? "99+" : text}
         </Text>
       )}
     </View>
