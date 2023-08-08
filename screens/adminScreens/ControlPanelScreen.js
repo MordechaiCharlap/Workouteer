@@ -35,7 +35,7 @@ const ControlPanelScreen = () => {
   const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
-      setCurrentScreen("AdminHome");
+      setCurrentScreen("ControlPanel");
     }, [])
   );
   const resetAllAppData = async () => {
