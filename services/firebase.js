@@ -172,7 +172,6 @@ export const createUser = async (newUserData) => {
     img: defaultValues.defaultProfilePic,
     workoutsCount: 0,
     friendsCount: 0,
-    friendRequestsCount: 0,
     plannedWorkouts: {},
     chatPals: {},
     friends: {},
@@ -198,11 +197,9 @@ export const createUser = async (newUserData) => {
     allUsersIds: arrayUnion(newUserData.id),
   });
 };
-export const getFriendRequests = async (userId) => {
+export const getFriendRequests = async (receivedFriendRequests) => {
   const returnedArray = [];
-  const userRequests = await getDoc(doc(db, "friendRequests", userId));
-  const receivedReqs = userRequests.data().receivedRequests;
-  for (var [key, value] of Object.entries(receivedReqs)) {
+  for (var [key, value] of Object.entries(receivedFriendRequests)) {
     const user = await getDoc(doc(db, "users", key));
     returnedArray.push({ user: user.data(), timestamp: value });
   }
@@ -224,16 +221,12 @@ export const sendFriendRequest = async (userId, shownUser) => {
       timestamp: Timestamp.now(),
     },
   });
-  await updateDoc(doc(db, "users", shownUser.id), {
-    friendRequestsCount: increment(1),
-  });
   await friendRequestAlert(userId, shownUser.id);
 };
 export const acceptFriendRequest = async (userId, otherUserId) => {
-  //user: friendsCount++ && add other to friendsList && increment (-1) friendRequestsCount
+  //user: friendsCount++ && add other to friendsList
   await updateDoc(doc(db, "users", userId), {
     friendsCount: increment(1),
-    friendRequestsCount: increment(-1),
     [`friends.${otherUserId}`]: {
       timestamp: Timestamp.now(),
     },
@@ -249,16 +242,10 @@ export const acceptFriendRequest = async (userId, otherUserId) => {
   await deleteRequest(userId, otherUserId);
 };
 export const cancelFriendRequest = async (userId, otherUserId) => {
-  await updateDoc(doc(db, "users", otherUserId), {
-    friendRequestsCount: increment(-1),
-  });
   await deleteRequest(otherUserId, userId);
   await removeFriendRequestAlert(userId, otherUserId);
 };
 export const rejectFriendRequest = async (userId, otherUserId) => {
-  await updateDoc(doc(db, "users", userId), {
-    friendRequestsCount: increment(-1),
-  });
   await deleteRequest(userId, otherUserId);
 };
 const deleteRequest = async (receiverId, senderId) => {
@@ -515,11 +502,12 @@ export const getFutureWorkouts = async (plannedWorkouts) => {
   const now = new Date();
   const workoutsArray = [];
   for (var [key, value] of Object.entries(plannedWorkouts)) {
-    if (value[0].toDate() > now) {
+    if (new Date(value[0].toDate().getTime() + value[1] * 60000) > now) {
       workoutsArray.push({
         id: key,
         ...(await getDoc(doc(db, "workouts", key))).data(),
       });
+    } else {
     }
   }
   workoutsArray.sort(
