@@ -143,13 +143,14 @@ const StackNavigator = () => {
                 component={UpdateAppScreen}
                 options={verticalAnimation}
               />
-            ) : !connected ? (
-              <Stack.Screen
-                name="ConnectToInternet"
-                component={ConnectToInternetScreen}
-                options={verticalAnimation}
-              />
-            ) : underMaintenance == true ? (
+            ) : //     : !connected ? (
+            // <Stack.Screen
+            //   name="ConnectToInternet"
+            //   component={ConnectToInternetScreen}
+            //   options={verticalAnimation}
+            // />
+            //     )
+            underMaintenance == true ? (
               <Stack.Screen
                 name="UnderMaintenance"
                 component={UnderMaintenanceScreen}
