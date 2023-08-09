@@ -63,6 +63,7 @@ import SuggestionsAndBugsScreen from "./screens/adminScreens/SuggestionsAndBugsS
 import TestScreen from "./screens/adminScreens/TestScreen";
 import { removeBadPlannedWorkoutsAndReturnFixed } from "./utils/workoutUtils";
 import WorkoutNotFoundScreen from "./screens/WorkoutNotFoundScreen";
+import SearchWorkoutProgramsScreen from "./screens/SearchWorkoutProgramsScreen";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const { user, userLoaded } = useAuth();
@@ -321,6 +322,11 @@ const StackNavigator = () => {
                 <Stack.Screen
                   name="WorkoutNotFound"
                   component={WorkoutNotFoundScreen}
+                  options={verticalAnimation}
+                />
+                <Stack.Screen
+                  name="SearchWorkoutPrograms"
+                  component={SearchWorkoutProgramsScreen}
                   options={verticalAnimation}
                 />
                 {user.role == "admin" && (
