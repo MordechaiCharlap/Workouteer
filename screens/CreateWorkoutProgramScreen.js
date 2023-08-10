@@ -14,7 +14,7 @@ const CreateWorkoutProgramScreen = ({ route }) => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <EditingWorkoutProgram name={route.programName} />
+      <EditingWorkoutProgram programName={route.params.programName} />
     </View>
   );
 };
