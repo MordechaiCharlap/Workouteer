@@ -12,6 +12,7 @@ import {
   faCheck,
   faCheckCircle,
   faChevronCircleLeft,
+  faMagnifyingGlass,
   faMinusCircle,
   faPen,
   faPlusCircle,
@@ -39,6 +40,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import ProgramNameModal from "../components/workoutProgram/ProgramNameModal";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -47,6 +49,7 @@ const WorkoutProgramsScreen = () => {
   const [editingSavedPrograms, setEditingSavedPrograms] = useState(false);
   const [savedPrograms, setSavedPrograms] = useState();
   const [removingProgram, setRemovingProgram] = useState();
+  const [showProgramNameModal, setShowProgramNameModal] = useState(false);
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutPrograms");
@@ -123,13 +126,15 @@ const WorkoutProgramsScreen = () => {
           <TopButton
             icon={faPlusCircle}
             text={languageService[user.language].buildProgram}
-            onPress={() => navigation.navigate("CreateWorkoutProgram")}
+            onPress={() => setShowProgramNameModal(true)}
           />
-          {/* <TopButton
+          <TopButton
             icon={faMagnifyingGlass}
             text={languageService[user.language].search}
-            onPress={() => {}}
-          /> */}
+            onPress={() => {
+              navigation.navigate("SearchWorkoutPrograms");
+            }}
+          />
           <TopButton
             icon={faStopwatch}
             text={languageService[user.language].timer}
@@ -267,15 +272,10 @@ const WorkoutProgramsScreen = () => {
           )}
         />
       )}
-      {/* <CustomButton
-          style={{
-            marginTop: 5,
-            borderRadius: 8,
-            backgroundColor: appStyle.color_surface_variant,
-          }}
-        >
-          <CustomText style={{ fontWeight: 600 }}>{languageService[user.language].addNewProgram}</CustomText>
-        </CustomButton> */}
+      <ProgramNameModal
+        showProgramNameModal={showProgramNameModal}
+        setShowProgramNameModal={setShowProgramNameModal}
+      />
     </View>
   );
 };
