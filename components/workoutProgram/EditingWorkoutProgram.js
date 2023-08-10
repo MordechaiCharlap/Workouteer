@@ -64,7 +64,7 @@ const EditingWorkoutProgram = ({ program, programName }) => {
       const programDataClone = {
         ...programData,
         creator: user.id,
-        curremtUsersCount: 1,
+        currentUsersCount: 1,
       };
       const newWorkoutProgramRef = await addDoc(
         collection(db, "workoutPrograms"),
@@ -72,6 +72,10 @@ const EditingWorkoutProgram = ({ program, programName }) => {
       );
       await updateDoc(doc(db, "users", user.id), {
         savedWorkoutPrograms: arrayUnion(newWorkoutProgramRef.id),
+      });
+      updateDoc(doc("appData/workoutProgramsData"), {
+        [`programIdsAndNames.${newWorkoutProgramRef.id}`]:
+          programDataClone.name,
       });
       navigation.goBack();
     }
