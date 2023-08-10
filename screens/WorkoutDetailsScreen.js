@@ -12,6 +12,9 @@ import {
   faUserGroup,
   faVenusMars,
   faUserClock,
+  faCrown,
+  faCheck,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { workoutTypes } from "../components/WorkoutType";
@@ -35,10 +38,13 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
 import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import LoadingAnimation from "../components/LoadingAnimation";
+import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
+  const { currentWorkout } = useCurrentWorkout();
   const { user } = useAuth();
   if (route.params.workout == null) navigation.replace("WorkoutNotFound");
   useFocusEffect(
@@ -394,18 +400,40 @@ const WorkoutDetailsScreen = ({ route }) => {
                   className="p-1 flex-row items-center justify-between"
                 >
                   <View className="flex-row items-center">
-                    <Image
-                      className="rounded-full"
-                      style={[
-                        style.image,
-                        {
-                          borderColor: item.isMale
-                            ? appStyle.color_male
-                            : appStyle.color_female,
-                        },
-                      ]}
-                      source={{ uri: item.img }}
-                    />
+                    <View>
+                      <Image
+                        className="rounded-full"
+                        style={[
+                          style.image,
+                          {
+                            borderColor: item.isMale
+                              ? appStyle.color_male
+                              : appStyle.color_female,
+                          },
+                        ]}
+                        source={{ uri: item.img }}
+                      />
+                      {item.id == workout.creator && (
+                        <View
+                          className="absolute"
+                          style={{
+                            borderRadius: 999,
+                            backgroundColor: appStyle.color_surface_variant,
+                            bottom: 0,
+                            left: 0,
+                            padding: 3,
+                            borderColor: appStyle.color_background,
+                            borderWidth: 2,
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faCrown}
+                            color={appStyle.color_on_surface_variant}
+                            size={10}
+                          />
+                        </View>
+                      )}
+                    </View>
                     <View className="ml-2">
                       <Text
                         className="text-md font-semibold tracking-wider"
@@ -422,23 +450,19 @@ const WorkoutDetailsScreen = ({ route }) => {
                       </Text>
                     </View>
                   </View>
-                  {item.id == workout.creator && (
+                  {workout.members[user.id].confirmedWorkout && (
                     <View
-                      className="mr-5"
                       style={{
-                        borderRadius: 999,
                         backgroundColor: appStyle.color_surface_variant,
-                        paddingHorizontal: 10,
-                        paddingVertical: 5,
+                        padding: 5,
+                        borderRadius: 999,
                       }}
                     >
-                      <Text style={{ color: appStyle.color_on_background }}>
-                        {
-                          languageService[user.language].creator[
-                            user.isMale ? 1 : 0
-                          ]
-                        }
-                      </Text>
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        size={20}
+                        color={appStyle.color_on_surface_variant}
+                      />
                     </View>
                   )}
                 </TouchableOpacity>
