@@ -14,14 +14,12 @@ const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
   const [confirmedWorkoutsArray, setConfirmedWorkoutsArray] = useState(
     user.id == shownUser.id ? confirmedWorkouts : []
   );
+
   useEffect(() => {
     if (user.id == shownUser.id) return;
-    const getShownUserConfirmedWorkouts = async () => {
-      setConfirmedWorkoutsArray(
-        await getConfirmedWorkoutsByUserId(shownUser.id)
-      );
-    };
-    getShownUserConfirmedWorkouts();
+    getConfirmedWorkoutsByUserId(shownUser.id).then((arr) =>
+      setConfirmedWorkoutsArray(arr)
+    );
   }, []);
   const week = [];
   const weekdays = languageService[user.language].weekdays;
@@ -40,8 +38,8 @@ const WorkoutsStats = ({ shownUser, color, backgroundColor }) => {
     }
     const weekWorkoutMinutes = [0, 0, 0, 0, 0, 0, 0];
     var highestPoints = 0;
-    if (shownUser.workoutsCount != 0 && confirmedWorkoutsArray.length != 0)
-      for (var i = shownUser.workoutsCount - 1; i >= 0; i--) {
+    if (confirmedWorkoutsArray.length != 0)
+      for (var i = confirmedWorkoutsArray.length - 1; i >= 0; i--) {
         const workout = confirmedWorkoutsArray[i];
         if (workout.startingTime.toDate() < weekAgo) break;
 
