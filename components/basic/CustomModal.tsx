@@ -33,6 +33,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
           width: "100%",
           height: "100%",
           backgroundColor: "rgba(0, 0, 0, 0.3)",
+          justifyContent: "center",
+          alignItems: "center",
         }}
         entering={FadeIn.springify()}
         exiting={FadeOut.springify()}
@@ -43,33 +45,26 @@ const CustomModal: React.FC<CustomModalProps> = ({
             height: "100%",
             width: "100%",
             padding: 16,
-            justifyContent: "center",
-            alignItems: "center",
+            position: "absolute",
           }}
           onPress={() => (closeOnTouchOutside ? setShowModal(false) : {})}
+        ></TouchableOpacity>
+        <Animated.View
+          entering={FadeInLeft.springify()}
+          exiting={FadeOutRight.springify()}
+          style={[
+            {
+              borderRadius: 12,
+              backgroundColor: color_surface,
+              padding: 8,
+              position: "absolute",
+            },
+            clientStyle,
+          ]}
+          {...restPropsWithoutStyle}
         >
-          <Animated.View
-            entering={FadeInLeft.springify()}
-            exiting={FadeOutRight.springify()}
-            style={[
-              {
-                borderRadius: 12,
-                backgroundColor: color_surface,
-                padding: 8,
-              },
-              clientStyle,
-            ]}
-            {...restPropsWithoutStyle}
-          >
-            {/* <CustomButton
-              onPress={() => setShowModal(false)}
-              style={{ backgroundColor: color_primary }}
-            >
-              <Text style={{ color: color_on_primary }}>Hey</Text>
-            </CustomButton> */}
-            {children}
-          </Animated.View>
-        </TouchableOpacity>
+          {children}
+        </Animated.View>
       </Animated.View>
     )
   );
