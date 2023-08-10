@@ -43,7 +43,7 @@ import Animated, {
 } from "react-native-reanimated";
 import CustomModal from "../components/basic/CustomModal";
 import EditingProgramName from "../components/workoutProgram/EditingProgramName";
-const WorkoutProgramsScreen = () => {
+const WorkoutProgramsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
   const { user } = useAuth();
@@ -51,7 +51,9 @@ const WorkoutProgramsScreen = () => {
   const [editingSavedPrograms, setEditingSavedPrograms] = useState(false);
   const [savedPrograms, setSavedPrograms] = useState();
   const [removingProgram, setRemovingProgram] = useState();
-  const [showProgramNameModal, setShowProgramNameModal] = useState(false);
+  const [showProgramNameModal, setShowProgramNameModal] = useState(
+    route.params.createProgramOnEntering ? true : false
+  );
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("WorkoutPrograms");
