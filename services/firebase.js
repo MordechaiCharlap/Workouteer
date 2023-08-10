@@ -334,33 +334,6 @@ export const sendPrivateMessage = async (
     messagesCount: increment(1),
   });
 };
-export const getChatsArrayIncludeUsers = async (user) => {
-  const chatsArr = [];
-  for (var chatId of Object.keys(user.chats)) {
-    var chat = await getChat(chatId);
-    var chatToPush = {
-      chat: {
-        id: chatId,
-        ...chat,
-      },
-    };
-    if (!chat.isGroupChat) {
-      for (var key of Object.keys(chat.members)) {
-        if (key != user.id) {
-          chatToPush = {
-            ...chatToPush,
-            user: (await getDoc(doc(db, "users", key))).data(),
-          };
-        }
-      }
-    }
-    chatsArr.push(chatToPush);
-  }
-  chatsArr.sort(
-    (a, b) => b.chat.lastMessage.sentAt - a.chat.lastMessage.sentAt
-  );
-  return chatsArr;
-};
 export const getChat = async (chatId) => {
   return (await getDoc(doc(db, "chats", `${chatId}`))).data();
 };
