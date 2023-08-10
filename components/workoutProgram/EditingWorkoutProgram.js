@@ -1,16 +1,11 @@
-import { View, FlatList, TouchableOpacity, Switch } from "react-native";
+import { View, FlatList, Switch } from "react-native";
 import React, { createContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
-import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
 import CustomButton from "../basic/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faPlus,
-  faPlusCircle,
-  faPlusSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import EditingWorkout from "./EditingWorkout";
 import {
   addDoc,
@@ -22,8 +17,8 @@ import {
 import useAuth from "../../hooks/useAuth";
 import useFirebase from "../../hooks/useFirebase";
 import languageService from "../../services/languageService";
-import TopExitButton from "../TopExitButton";
 import AwesomeModal from "../AwesomeModal";
+import Header from "../Header";
 export const ProgramContext = createContext();
 const EditingWorkoutProgram = ({ program, programName }) => {
   const navigation = useNavigation();
@@ -38,7 +33,6 @@ const EditingWorkoutProgram = ({ program, programName }) => {
       workouts: [{ name: "", restSeconds: 0, exercises: [] }],
     }
   );
-  const [isProgramNameFocused, setIsProgramNameFocused] = useState(false);
   const [highlightErrors, setHighlightErrors] = useState(false);
   const [maximizedWorkout, setMaximizedWorkout] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -53,12 +47,6 @@ const EditingWorkoutProgram = ({ program, programName }) => {
     });
     setProgramData(programDataClone);
     setMaximizedWorkout(programDataClone.workouts.length - 1);
-  };
-  const handleProgramNameChange = (text) => {
-    if (!isProgramNameFocused) return;
-    const dataClone = JSON.parse(JSON.stringify(programData));
-    dataClone.name = text;
-    setProgramData(dataClone);
   };
   const handleCreateWorkoutProgram = async () => {
     if (
@@ -130,7 +118,7 @@ const EditingWorkoutProgram = ({ program, programName }) => {
       }}
     >
       <View className="flex-1">
-        <TopExitButton />
+        <Header title={programData.name} goBackOption={true} />
         <View
           className="flex-1"
           style={{
@@ -138,20 +126,6 @@ const EditingWorkoutProgram = ({ program, programName }) => {
             rowGap: 10,
           }}
         >
-          <View className="flex-row items-center" style={{ columnGap: 5 }}>
-            <CustomText className="font-semibold text-xl">
-              Program name:
-            </CustomText>
-            <CustomTextInput
-              onFocus={() => setIsProgramNameFocused(true)}
-              onBlur={() => setIsProgramNameFocused(false)}
-              maxLength={20}
-              error={highlightErrors && programData.name == ""}
-              value={programData.name}
-              onChangeText={handleProgramNameChange}
-              style={{ backgroundColor: appStyle.color_surface_variant }}
-            />
-          </View>
           {program && program.isPublic ? (
             <View className="items-start">
               <CustomText
