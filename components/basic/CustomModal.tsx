@@ -2,20 +2,11 @@ import React from "react";
 import { ViewProps, View, Text, TouchableOpacity } from "react-native";
 import Animated, {
   FadeIn,
-  FadeInDown,
-  FadeInRight,
-  FadeInUp,
+  FadeInLeft,
   FadeOut,
   FadeOutRight,
-  SlideInDown,
 } from "react-native-reanimated";
-import { convertHexToRgba } from "../../utils/stylingFunctions";
-import CustomButton from "./CustomButton";
-import {
-  color_on_primary,
-  color_primary,
-  color_surface,
-} from "../../utils/appStyleSheet";
+import { color_surface } from "../../utils/appStyleSheet";
 
 interface CustomModalProps extends ViewProps {
   showModal: boolean;
@@ -26,6 +17,7 @@ interface CustomModalProps extends ViewProps {
 const CustomModal: React.FC<CustomModalProps> = ({
   showModal,
   setShowModal,
+  children,
   closeOnTouchOutside,
   ...restProps
 }) => {
@@ -40,32 +32,42 @@ const CustomModal: React.FC<CustomModalProps> = ({
           position: "absolute",
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          justifyContent: "center",
-          alignItems: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
         }}
         entering={FadeIn.springify()}
         exiting={FadeOut.springify()}
       >
         <TouchableOpacity
-          style={{ height: "100%", width: "100%" }}
+          disabled={!closeOnTouchOutside}
+          style={{
+            height: "100%",
+            width: "100%",
+            padding: 16,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           onPress={() => (closeOnTouchOutside ? setShowModal(false) : {})}
         >
           <Animated.View
-            entering={FadeInRight.springify()}
+            entering={FadeInLeft.springify()}
             exiting={FadeOutRight.springify()}
             style={[
-              { borderRadius: 8, backgroundColor: color_surface, padding: 8 },
+              {
+                borderRadius: 12,
+                backgroundColor: color_surface,
+                padding: 8,
+              },
               clientStyle,
             ]}
             {...restPropsWithoutStyle}
           >
-            <CustomButton
+            {/* <CustomButton
               onPress={() => setShowModal(false)}
               style={{ backgroundColor: color_primary }}
             >
               <Text style={{ color: color_on_primary }}>Hey</Text>
-            </CustomButton>
+            </CustomButton> */}
+            {children}
           </Animated.View>
         </TouchableOpacity>
       </Animated.View>
