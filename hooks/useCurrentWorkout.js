@@ -14,96 +14,60 @@ import { removeBadPlannedWorkoutsAndReturnFixed } from "../utils/workoutUtils";
 const CurrentWorkoutContext = createContext({});
 export const CurrentWorkoutProvider = ({ children }) => {
   const { db } = useFirebase();
-  const { user } = useAuth();
+  const { user, userLoaded } = useAuth();
   const { newWorkoutsAlerts } = useAlerts();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const intervalRef = useRef(null);
-  const timeoutRef = useRef(null);
-  const clearIntervalOrTimeoutFunc = () => {
-    if (intervalRef.current != null) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    if (timeoutRef.current != null) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-  function getMsUntilNextQuarterHour() {
+
+  const getMsUntilNextQuarterHour = () => {
     const now = new Date();
     const timeToNextQuarterHour =
       (15 - (now.getMinutes() % 15)) * 60000 -
       now.getSeconds() * 1000 -
       now.getMilliseconds();
     return timeToNextQuarterHour;
-  }
-  useEffect(() => {
-    const checkIfCurrentWorkout = async () => {
-      const now = new Date();
-      var foundWorkout = false;
-      for (var [key, value] of Object.entries(user.plannedWorkouts)) {
-        if (
-          new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
-          value[0].toDate() <= now
-        ) {
-          foundWorkout = true;
-          if (newWorkoutsAlerts[key] != null) {
-            try {
-              await updateDoc(doc(db, `alerts/${user.id}`), {
-                [`newWorkouts.${key}`]: deleteField(),
-              });
-            } catch (error) {
-              console.log(error);
-            }
-          }
-
-          const workout = await firebase.getWorkout(key);
-
-          return { ...workout, id: key };
+  };
+  const setCurrentWorkoutIfExists = () => {
+    const now = new Date();
+    for (var [key, value] of Object.entries(user.plannedWorkouts)) {
+      if (
+        new Date(value[0].toDate().getTime() + value[1] * 60000) > now &&
+        value[0].toDate() <= now
+      ) {
+        if (newWorkoutsAlerts[key] != null) {
+          updateDoc(doc(db, `alerts/${user.id}`), {
+            [`newWorkouts.${key}`]: deleteField(),
+          });
         }
-      }
-      return null;
-    };
-    const initialCheckCurrentWorkout = async () => {
-      // Call the function immediately on the initial render
-      const lastCurrentWorkoutState = currentWorkout;
-      const newCurrentWorkout = await checkIfCurrentWorkout();
-      if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
-        removeOldUnconfirmedFromPlannedWorkouts();
-      setCurrentWorkout(newCurrentWorkout);
-      timeoutRef.current = setTimeout(async () => {
-        timeoutRef.current = null;
-        const lastCurrentWorkoutState = currentWorkout;
-        const newCurrentWorkout = await checkIfCurrentWorkout();
-        if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
-          removeOldUnconfirmedFromPlannedWorkouts();
-        setCurrentWorkout(newCurrentWorkout);
-        intervalRef.current = setInterval(
-          async () => {
-            const lastCurrentWorkoutState = currentWorkout;
-            const newCurrentWorkout = await checkIfCurrentWorkout();
-            if (lastCurrentWorkoutState != null && newCurrentWorkout == null)
-              removeOldUnconfirmedFromPlannedWorkouts();
-            setCurrentWorkout(newCurrentWorkout);
-          },
-          15 * 60 * 1000
-        );
-      }, getMsUntilNextQuarterHour());
-    };
 
-    clearIntervalOrTimeoutFunc();
-    if (user) {
-      initialCheckCurrentWorkout();
+        firebase.getWorkout(key).then((returnedWorkout) => {
+          if (returnedWorkout) setCurrentWorkout(returnedWorkout);
+          else if (currentWorkout) {
+            setCurrentWorkout(null);
+            removeOldUnconfirmedFromPlannedWorkouts();
+          }
+        });
+      }
     }
-  }, [user?.plannedWorkouts]);
+  };
+  useEffect(() => {
+    if (!userLoaded) return;
+    setCurrentWorkoutIfExists();
+    const timeout = setTimeout(() => {
+      setCurrentWorkoutIfExists();
+      const interval = setInterval(setCurrentWorkoutIfExists, 15 * 60 * 1000);
+      return () => {
+        clearInterval(interval);
+      };
+    }, getMsUntilNextQuarterHour());
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [user?.plannedWorkouts, userLoaded]);
   const removeOldUnconfirmedFromPlannedWorkouts = () => {
     updateDoc(doc(db, "users", user.id), {
       plannedWorkouts: removeBadPlannedWorkoutsAndReturnFixed(user),
     });
   };
-  useEffect(() => {
-    return () => clearIntervalOrTimeoutFunc();
-  }, []);
   return (
     <CurrentWorkoutContext.Provider
       value={{ currentWorkout, setCurrentWorkout }}
