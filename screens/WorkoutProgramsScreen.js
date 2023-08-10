@@ -40,7 +40,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import ProgramNameModal from "../components/workoutProgram/ProgramNameModal";
+import CustomModal from "../components/basic/CustomModal";
+import EditingProgramName from "../components/workoutProgram/EditingProgramName";
 const WorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
@@ -272,10 +273,13 @@ const WorkoutProgramsScreen = () => {
           )}
         />
       )}
-      <ProgramNameModal
-        showProgramNameModal={showProgramNameModal}
-        setShowProgramNameModal={setShowProgramNameModal}
-      />
+      <CustomModal
+        showModal={showProgramNameModal}
+        setShowModal={setShowProgramNameModal}
+        closeOnTouchOutside
+      >
+        <EditingProgramName setShowModal={setShowProgramNameModal} />
+      </CustomModal>
     </View>
   );
 };
