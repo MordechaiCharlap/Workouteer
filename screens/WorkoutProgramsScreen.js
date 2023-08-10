@@ -29,6 +29,7 @@ import {
   increment,
   query,
   where,
+  deleteField,
 } from "firebase/firestore";
 
 import useFirebase from "../hooks/useFirebase";
@@ -65,7 +66,7 @@ const WorkoutProgramsScreen = () => {
     getDocs(savedProgramsQuery).then((querySnapshot) => {
       const programs = [];
       querySnapshot.forEach((doc) => {
-        programs.push({ ...doc.data(), id: doc.id });
+        if (doc.exists()) programs.push({ ...doc.data(), id: doc.id });
       });
 
       setSavedPrograms(programs);
@@ -101,6 +102,9 @@ const WorkoutProgramsScreen = () => {
         })
       );
       deleteDoc(doc(db, "workoutPrograms", programId));
+      updateDoc(doc(db, "appData/workoutProgramsData"), {
+        [`programIdsAndName.${programId}`]: deleteField(),
+      });
     } else {
       //an option for non user, just decrement the currentUsersCount by 1 and remove from saved
       updateDoc(doc(db, "workoutPrograms", programId), {
