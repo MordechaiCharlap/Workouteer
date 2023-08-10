@@ -25,7 +25,7 @@ import languageService from "../../services/languageService";
 import TopExitButton from "../TopExitButton";
 import AwesomeModal from "../AwesomeModal";
 export const ProgramContext = createContext();
-const EditingWorkoutProgram = ({ program }) => {
+const EditingWorkoutProgram = ({ program, programName }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { db } = useFirebase();
@@ -33,7 +33,7 @@ const EditingWorkoutProgram = ({ program }) => {
   const maxWorkoutsPerProgram = 7;
   const [programData, setProgramData] = useState(
     (program && JSON.parse(JSON.stringify(program))) || {
-      name: "",
+      name: programName,
       isPublic: false,
       workouts: [{ name: "", restSeconds: 0, exercises: [] }],
     }
