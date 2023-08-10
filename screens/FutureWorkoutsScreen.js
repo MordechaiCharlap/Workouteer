@@ -21,12 +21,12 @@ import CustomButton from "../components/basic/CustomButton";
 const FutureWorkoutsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
+  const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const { schedulePushNotification } = usePushNotifications();
   const { db } = useFirebase();
   const { user } = useAuth();
   const shownUser = route.params?.shownUser || user;
   const isMyUser = shownUser.id == user.id;
-  const { newWorkoutsAlerts, setNewWorkoutsAlerts } = useAlerts();
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -73,9 +73,9 @@ const FutureWorkoutsScreen = ({ route }) => {
       }
     }, [])
   );
-  useEffect(() => {
-    // scheduleNotificationsForNewWorkouts();
-  }, [workouts]);
+  // useEffect(() => {
+  //   scheduleNotificationsForNewWorkouts();
+  // }, [workouts]);
   return (
     <View style={safeAreaStyle()}>
       <Header
