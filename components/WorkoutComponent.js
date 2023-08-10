@@ -30,9 +30,11 @@ import { useWorkoutLogic } from "../hooks/useWorkoutLogic";
 import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import useCurrentWorkout from "../hooks/useCurrentWorkout";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { db } = useFirebase();
+  const { currentWorkout } = useCurrentWorkout();
   const { user } = useAuth();
   const { updateArrayIfNeedForWorkout } = useFriendsWorkouts();
   const { workoutRequestsAlerts } = useAlerts();
