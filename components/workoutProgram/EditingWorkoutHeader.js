@@ -56,7 +56,12 @@ const EditingWorkoutHeader = ({
     setProgramData(programDataClone);
   };
   return (
-    <View className="flex-row items-center" style={{ columnGap: 10 }}>
+    <View
+      className={`flex-row${
+        user.language == "hebrew" && "-reverse"
+      } items-center`}
+      style={{ columnGap: 10 }}
+    >
       <CustomText
         className="text-lg semibold"
         style={{ color: onContainerColor }}
