@@ -6,12 +6,16 @@ import {
   color_primary_container,
 } from "../../utils/appStyleSheet";
 import CustomButton from "../basic/CustomButton";
+import useAuth from "../../hooks/useAuth";
 
 const CreatedExercise = ({ exercise, editExercise }) => {
+  const { user } = useAuth();
   return (
     <CustomButton
       onPress={editExercise}
-      className="flex-row w-full"
+      className={`flex-row${
+        user.language == "hebrew" && "-reverse"
+      } items-center w-full`}
       style={{
         columnGap: 8,
         backgroundColor: color_primary_container,
@@ -20,7 +24,7 @@ const CreatedExercise = ({ exercise, editExercise }) => {
       }}
     >
       <CustomText
-        className="text-left"
+        className={`text-${user.language == "hebrew" ? "right" : "left"}`}
         style={{ width: 1, flexGrow: 3, color: color_on_primary_container }}
       >
         {exercise.name}
