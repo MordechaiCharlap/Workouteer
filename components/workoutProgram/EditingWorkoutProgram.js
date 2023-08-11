@@ -145,7 +145,12 @@ const EditingWorkoutProgram = ({ program, programName }) => {
               </CustomText>
             </View>
           ) : (
-            <View className="flex-row items-center" style={{ columnGap: 3 }}>
+            <View
+              className={`flex-row${
+                user.language == "hebrew" && "-reverse"
+              } items-center`}
+              style={{ columnGap: 3 }}
+            >
               <CustomText>
                 {languageService[user.language].publicProgram + ":"}
               </CustomText>
