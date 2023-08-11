@@ -36,7 +36,7 @@ const ChatsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
   const navigation = useNavigation();
   const { user } = useAuth();
-  const { chats, setChats } = useChats();
+  const { chatsAndUsers, setChatsAndUsers } = useChats();
   const { setScreen } = useNavbarNavigation();
   const { chatsAlerts } = useAlerts();
   const [modalVisible, setModalVisible] = useState(false);
@@ -84,7 +84,7 @@ const ChatsScreen = () => {
     setModalVisible(true);
   };
   const deleteSelectedChats = async () => {
-    const chatsArrClone = chats.slice();
+    const chatsArrClone = chatsAndUsers.slice();
     // Loop through the selectedChats array and remove the corresponding
     // elements from the arr array.
     for (let selectedChat of selectedChats) {
@@ -93,7 +93,7 @@ const ChatsScreen = () => {
       );
       chatsArrClone.splice(index, 1);
     }
-    setChats(chatsArrClone);
+    setChatsAndUsers(chatsArrClone);
     setSelectedChats([]);
     for (var selectedChat of selectedChats) {
       if (selectedChat.chat.isGroupChat) {
@@ -130,7 +130,7 @@ const ChatsScreen = () => {
     };
     return (
       <Animated.FlatList
-        data={chats}
+        data={chatsAndUsers}
         keyExtractor={(item) => item.chat.id}
         renderItem={({ item, index }) =>
           item.chat.messagesCount > 0 && (
@@ -142,7 +142,7 @@ const ChatsScreen = () => {
                 {
                   paddingHorizontal: 16,
                 },
-                index != chats.length - 1 && {
+                index != chatsAndUsers.length - 1 && {
                   borderBottomColor: appStyle.color_outline,
                   borderBottomWidth: 0.3,
                 },
@@ -314,7 +314,7 @@ const ChatsScreen = () => {
         </View>
       )}
       <View className="flex-1">
-        {/* {chats != null && chats.length != 0 && (
+        {/* {chatsAndUsers != null && chatsAndUsers.length != 0 && (
               <View
                 className="rounded-xl"
                 style={{ backgroundColor: appStyle.color_darker }}
@@ -338,7 +338,7 @@ const ChatsScreen = () => {
             )} */}
 
         <View className="flex-1">
-          {chats == null ? (
+          {chatsAndUsers == null ? (
             <Text
               className="text-center text-xl font-semibold m-4"
               style={{ color: appStyle.color_on_background }}
