@@ -4,9 +4,15 @@ import { leagues } from "../../utils/defaultValues";
 import * as appStyle from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../hooks/useAuth";
 const CurrentLeague = ({ league }) => {
+  const { user } = useAuth();
   return (
-    <View className="flex-row">
+    <View
+      className={`flex-row${
+        user.language == "hebrew" && "-reverse"
+      } items-center`}
+    >
       {leagues.map((leagueName, index) => {
         return (
           <View

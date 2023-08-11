@@ -1,8 +1,10 @@
 import { View, Text } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 import languageService from "../../services/languageService";
+import useAuth from "../../hooks/useAuth";
 
 const CountdownTimer = (props) => {
+  const { user } = useAuth();
   const getNextSunday = () => {
     const today = new Date();
     const daysUntilSunday = 7 - today.getDay();
@@ -22,9 +24,9 @@ const CountdownTimer = (props) => {
   const formattedTimeLeft =
     secondsLeft > 0
       ? Math.floor(secondsLeft / 3600) > 24
-        ? Math.floor(secondsLeft / 3600 / 24) +
-          " " +
-          languageService[props.language].days
+        ? languageService[user.language].numberOfDays(
+            Math.floor(secondsLeft / 3600 / 24)
+          )
         : Math.floor(secondsLeft / 3600) > 1
         ? Math.floor(secondsLeft / 3600) +
           " " +
