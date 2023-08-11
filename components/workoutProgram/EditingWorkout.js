@@ -78,7 +78,12 @@ const EditingWorkout = ({ workoutIndex }) => {
         onContainerColor={onContainerColor}
       />
 
-      <View className="flex-row items-center" style={{ columnGap: 5 }}>
+      <View
+        className={`flex-row${
+          user.language == "hebrew" && "-reverse"
+        } items-center`}
+        style={{ columnGap: 5 }}
+      >
         <CustomText className="text-lg" style={{ color: onContainerColor }}>
           {languageService[user.language].restTimeBetweenSets + ":"}
         </CustomText>
@@ -110,7 +115,9 @@ const EditingWorkout = ({ workoutIndex }) => {
           className="flex-1"
         >
           <View
-            className="flex-row w-full"
+            className={`flex-row${
+              user.language == "hebrew" && "-reverse"
+            } items-center w-full`}
             style={{ columnGap: 8, padding: 5 }}
           >
             <CustomText
