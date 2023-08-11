@@ -96,7 +96,12 @@ const EditingExercise = ({
           </CustomText>
         </View>
 
-        <View className="flex-row w-full" style={{ columnGap: 8 }}>
+        <View
+          className={`flex-row${
+            user.language == "hebrew" && "-reverse"
+          } items-center w-full`}
+          style={{ columnGap: 8 }}
+        >
           <CustomText
             className="text-center font-semibold"
             style={{ flexGrow: 3, color: appStyle.color_on_primary_container }}
@@ -117,7 +122,12 @@ const EditingExercise = ({
             {languageService[user.language].reps}
           </CustomText>
         </View>
-        <View className="flex-row items-center w-full" style={{ columnGap: 8 }}>
+        <View
+          className={`flex-row${
+            user.language == "hebrew" && "-reverse"
+          } items-center w-full`}
+          style={{ columnGap: 8 }}
+        >
           <CustomTextInput
             maxLength={20}
             error={highlightExercisesErrors && name == "" && true}
@@ -164,7 +174,12 @@ const EditingExercise = ({
             onChangeText={(text) => handleRepsChange(text)}
           />
         </View>
-        <View className="flex-row" style={{ columnGap: 5 }}>
+        <View
+          className={`flex-row${
+            user.language == "hebrew" && "-reverse"
+          } items-center`}
+          style={{ columnGap: 5 }}
+        >
           <CustomButton
             onPress={
               editingExerciseIndex != null
