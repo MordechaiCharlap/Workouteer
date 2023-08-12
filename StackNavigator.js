@@ -40,20 +40,16 @@ import TermsOfServiceScreen from "./screens/TermsOfServiceScreen";
 import PrivacyPolicyScreen from "./screens/PrivacyPolicyScreen";
 import useAppData from "./hooks/useAppData";
 import ReportUserScreen from "./screens/ReportUserScreen";
-import * as SplashScreen from "expo-splash-screen";
 import SearchWorkoutsScreen from "./screens/SearchWorkoutsScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
-import { useConnection } from "./hooks/useConnection";
-import ConnectToInternetScreen from "./screens/ConnectToInternetScreen";
 import MyProfileScreen from "./screens/MyProfileScreen";
 import UnderMaintenanceScreen from "./screens/UnderMaintenanceScreen";
 import IntervalTimerScreen from "./screens/IntervalTimerScreen";
-import { useMaintenance } from "./hooks/useMaintenance";
 import { isWebOnPC } from "./services/webScreenService";
 import ControlPanelScreen from "./screens/adminScreens/ControlPanelScreen";
 import useFirebase from "./hooks/useFirebase";
-import { Timestamp, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import WorkoutProgramsScreen from "./screens/WorkoutProgramsScreen";
 import WorkoutProgramScreen from "./screens/WorkoutProgramScreen";
 import CreateWorkoutProgramScreen from "./screens/CreateWorkoutProgramScreen";
@@ -77,7 +73,6 @@ const StackNavigator = () => {
   } = useNavbarNavigation();
   const { showNavbar } = useNavbarDisplay();
   const { orientation, windowTooSmall } = useResponsiveness();
-  const { connected } = useConnection();
   const { isVersionUpToDate, underMaintenance } = useAppData();
 
   const resetStreakIfNeeded = () => {
