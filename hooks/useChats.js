@@ -64,11 +64,14 @@ export const ChatsProvider = ({ children }) => {
             id: change.doc.id,
             ...chatData,
           };
-          chatAndUsersClone[
-            chatAndUsersClone.findIndex(
-              (chatAndUser) => chatAndUser.chat.id == modifiedChat.id
-            )
-          ] = modifiedChat;
+          const oldChatIndex = chatAndUsersClone.findIndex(
+            (chatAndUser) => chatAndUser.chat.id == modifiedChat.id
+          );
+          const newChatAndUser = {
+            chat: modifiedChat,
+            user: chatAndUsersClone[oldChatIndex].user,
+          };
+          chatAndUsersClone[oldChatIndex] = newChatAndUser;
         } else if (change.type === "removed") {
           chatAndUsersClone.splice(
             chatAndUsersClone.findIndex(
