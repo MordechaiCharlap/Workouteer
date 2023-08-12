@@ -21,6 +21,7 @@ exports.deleteUserData = functions.firestore
   .onDelete(async (snap) => {
     const userId = snap.id;
     //delete user's picture
+    const batch = db.batch();
     const user = (await db.doc(`users/${userId}`).get()).data();
     const now = new Date();
     for (var [key, value] of Object.entries(user.plannedWorkouts)) {
@@ -33,12 +34,12 @@ exports.deleteUserData = functions.firestore
               break;
             }
           }
-          await db.doc(db, `workouts/${workout.id}`).update({
+          batch.update(db.doc(`workouts/${workout.id}`), {
             creator: workout.creator,
             [`members.${user.id}`]: FieldValue.delete(),
           });
         } else {
-          await db.doc(db, `workouts/${workout.id}`).delete();
+          batch.delete(db.doc(`workouts/${workout.id}`));
         }
       }
     }
@@ -58,13 +59,12 @@ exports.deleteUserData = functions.firestore
         console.log(error);
       }
     }
-    const batch = db.batch();
     const alerts = snap.data();
     //  delete all invites of future workouts for this user from workouts db
     const invitesArray = Array.from(Object.entries(alerts.workoutInvites));
     for (const invite of invitesArray) {
       if (invite[1].workoutDate > now) {
-        await db.doc(`workouts/${invite[0]}`).update({
+        batch.update(db.doc(`workouts/${invite[0]}`), {
           [`invites.${userId}`]: admin.firestore.FieldValue.delete(),
         });
       }
@@ -74,35 +74,35 @@ exports.deleteUserData = functions.firestore
       await db.doc(`friendRequests/${userId}`).get()
     ).data();
     //  delete friendRequests doc
-    await db.doc(`friendRequests/${userId}`).delete();
+    batch.delete(db.doc(`friendRequests/${userId}`));
     const receivedRequestsArray = Array.from(
       Object.entries(friendRequests.receivedRequests)
     );
     for (const request of receivedRequestsArray) {
       //  remove sent request for every user that asked (not that it matters)
-      await db.doc(`friendRequests/${request[0]}`).update({
+      batch.update(db.doc(`friendRequests/${request[0]}`), {
         [`sentRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
     }
     for (const receiverId of Object.keys(friendRequests.sentRequests)) {
       //  remove sent friend request from every user that got one
-      await db.doc(`friendRequests/${receiverId}`).update({
+      batch.update(db.doc(`friendRequests/${receiverId}`), {
         [`receivedRequests.${userId}`]: admin.firestore.FieldValue.delete(),
       });
     }
     //  deletes from every user friends
     for (const senderId of Object.keys(user.friends)) {
-      await db.doc(`users/${senderId}`).update({
+      batch.update(db.doc(`users/${senderId}`), {
         [`friends.${userId}`]: admin.firestore.FieldValue.delete(),
         friendsCount: admin.firestore.FieldValue.increment(-1),
       });
     }
     //deletes from usersData
-    await db
-      .doc("appData/usersData")
-      .update({ allUsersIds: admin.firestore.FieldValue.arrayRemove(userId) });
+    batch.update(db.doc("appData/usersData"), {
+      allUsersIds: admin.firestore.FieldValue.arrayRemove(userId),
+    });
     //updating field values
-    await db.doc(`users/${userId}`).update({
+    batch.update(db.doc(`users/${userId}`), {
       email: admin.firestore.FieldValue.delete(),
       plannedWorkouts: {},
       isDeleted: true,
@@ -110,7 +110,7 @@ exports.deleteUserData = functions.firestore
       img: "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2",
     });
     //delete confirmedWorkouts doc
-    await db.doc(`usersConfirmedWorkouts/${userId}`).delete();
+    batch.delete(db.doc(`usersConfirmedWorkouts/${userId}`));
     await batch.commit();
     console.log(`${userId} deleted succesfully`);
   });
@@ -119,6 +119,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
   .schedule("0 0 * * 0")
   .timeZone("Asia/Jerusalem")
   .onRun(async () => {
+    const batch = db.batch();
     const date = new Date();
     date.setDate(date.getDate() - ((date.getDay() + 1) % 7));
     const newWeekId = `${date.getDate()}-${
@@ -135,24 +136,43 @@ exports.weeklyLeaderboardReset = functions.pubsub
       const lastWeekLeaderboards = await db
         .collection(`leaderboards/${leagueNum}/${lastWeekId}`)
         .get();
-      lastWeekLeaderboards.forEach((leaderboard) => {
+      for (var leaderboard of lastWeekLeaderboards) {
         const users = leaderboard.data().users;
         const usersArray = Array.from(Object.entries(users)).sort(
           (a, b) => a[1].points < b[1].points
         );
         for (let index = 0; index < usersArray.length; index++) {
-          if (index < 10 && usersArray[index][1].points != 0) {
-            newLeagues[Math.min(9, leagueNum + 1)].push(usersArray[index][0]);
-          } else if (index < 40 && usersArray[index][1].points != 0) {
-            newLeagues[leagueNum].push(usersArray[index][0]);
+          const userAlertsRef = await db
+            .doc(`alerts/${usersArray[index][0]}`)
+            .get();
+          const userNewLeaderboardAlert = userAlertsRef.exists()
+            ? userAlertsRef.data().newLeaderboard
+            : null;
+          if (
+            userNewLeaderboardAlert != null &&
+            (usersArray[index][1].points != 0 ||
+              userNewLeaderboardAlert.lastPoints != 0 ||
+              userNewLeaderboardAlert.lastLeague != 0)
+          ) {
+            batch.update(db.doc(`alerts/${usersArray[index][0]}`), {
+              newLeaderboard: {
+                lastPlace: index + 1,
+                lastLeague: leagueNum,
+                lastPoints: usersArray[index][1].points,
+              },
+            });
+            if (index < 10 && usersArray[index][1].points != 0) {
+              newLeagues[Math.min(9, leagueNum + 1)].push(usersArray[index][0]);
+            } else if (index < 40 && usersArray[index][1].points != 0) {
+              newLeagues[leagueNum].push(usersArray[index][0]);
+            } else {
+              newLeagues[Math.max(0, leagueNum - 1)].push(usersArray[index][0]);
+            }
           } else {
-            // A condition that is here to remove non active users from the leaderboard cycle whenever they
-            // get to 0 points on 0 league
-            // if (usersArray[index][1].points != 0 || leagueNum != 0)
-            newLeagues[Math.max(0, leagueNum - 1)].push(usersArray[index][0]);
+            //not adding user to a new leaderboard/updating his newLeaderboardAlert until he logs in//or if got deleted
           }
         }
-      });
+      }
     }
 
     console.log(newLeagues);
@@ -189,7 +209,6 @@ exports.weeklyLeaderboardReset = functions.pubsub
     console.log(`All leagues array chunked: ${newLeaguesChunks}`);
     console.log(newLeaguesChunks);
 
-    const batch = db.batch();
     for (let league = 0; league < newLeaguesChunks.length; league++) {
       for (const leagueChunk of newLeaguesChunks[league]) {
         const chunkSize = Object.keys(leagueChunk).length;
@@ -206,7 +225,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
               usersCount: chunkSize,
             });
           for (const key of Object.keys(leagueChunk)) {
-            await db.doc(`users/${key}`).update({
+            batch.update(db.doc(`users/${key}`), {
               leaderboard: {
                 weekId: newWeekId,
                 id: leaderboardRef.id,
@@ -218,11 +237,9 @@ exports.weeklyLeaderboardReset = functions.pubsub
         }
       }
     }
-
-    await db
-      .doc("leaderboards/leaderboardsData")
-      .update({ currentWeekId: newWeekId });
-
+    batch.update(db.doc("leaderboards/leaderboardsData"), {
+      currentWeekId: newWeekId,
+    });
     await batch.commit();
 
     console.log("Leaderboard reset successful.");
