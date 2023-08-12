@@ -177,7 +177,7 @@ const EditingWorkoutProgram = ({ program, programName }) => {
                 }}
               >
                 <CustomText style={{ color: appStyle.color_primary }}>
-                  What is it?
+                  {languageService[user.language].whatIsIt}
                 </CustomText>
               </CustomButton>
             </View>
@@ -196,7 +196,10 @@ const EditingWorkoutProgram = ({ program, programName }) => {
             <View style={{ height: 50, justifyContent: "center" }}>
               <FlatList
                 ref={workoutsFlatListRef}
-                style={{}}
+                style={{
+                  flexDirection:
+                    user.language == "hebrew" ? "row-reverse" : "row",
+                }}
                 scrollEnabled={true}
                 keyboardShouldPersistTaps={"always"}
                 data={programData.workouts}
@@ -204,6 +207,8 @@ const EditingWorkoutProgram = ({ program, programName }) => {
                 keyExtractor={(_, index) => index}
                 showsHorizontalScrollIndicator
                 contentContainerStyle={{
+                  flexDirection:
+                    user.language == "hebrew" ? "row-reverse" : "row",
                   alignItems: "center",
                   paddingRight: 5,
                   columnGap: 10,
@@ -212,7 +217,8 @@ const EditingWorkoutProgram = ({ program, programName }) => {
                   programData.workouts.length != maxWorkoutsPerProgram ? (
                     <CustomButton
                       style={{
-                        marginRight: 10,
+                        marginRight: user.language == "hebrew" ? 0 : 10,
+                        marginLeft: user.language == "hebrew" ? 10 : 0,
                         height: 40,
                         aspectRatio: 1 / 1,
                         backgroundColor:
@@ -315,8 +321,10 @@ const EditingWorkoutProgram = ({ program, programName }) => {
         <AwesomeModal
           showModal={showPublicInformationModal}
           setShowModal={setShowPublicInformationModal}
-          title="A public program can be seen and saved by other users. You are the only one that can edit the program."
-          message="If you set a program as public you won't be able to make it private later."
+          title={languageService[user.language].publicProgramInformationTitle}
+          message={
+            languageService[user.language].publicProgramInformationContent
+          }
         />
       </View>
     </ProgramContext.Provider>
