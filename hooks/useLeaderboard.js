@@ -2,16 +2,28 @@ import { useEffect, createContext, useContext, useState, useRef } from "react";
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { color_primary } from "../utils/appStyleSheet";
+import {
+  color_on_surface,
+  color_primary,
+  color_surface,
+} from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import useFirebase from "./useFirebase";
+import CustomModal from "../components/basic/CustomModal";
+import useAlerts from "./useAlerts";
+import { View } from "react-native";
+import CustomText from "../components/basic/CustomText";
+import CustomButton from "../components/basic/CustomButton";
 const LeaderboardContext = createContext({});
 export const LeaderboardProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
-  const [modalTitle, setModalTitle] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [testing, setTesting] = useState(false);
   const [leaderboardList, setLeaderboardList] = useState();
   const { db } = useFirebase();
   const unsubscribeLeaderboard = useRef();
@@ -23,24 +35,6 @@ export const LeaderboardProvider = ({ children }) => {
       setLeaderboardList(null);
     }
   };
-  //Update points at user doc if old firestore system.
-  useEffect(() => {
-    const updateUserPointsDoc = async () => {
-      const userClone = { ...user };
-      const userIndex = leaderboardList.findIndex(
-        (element) => element[0] == user.id
-      );
-      userClone.leaderboard.points = leaderboardList[userIndex][1].points;
-      await firebase.updateUser(userClone);
-    };
-    if (
-      leaderboardList != null &&
-      userLoaded &&
-      user.leaderboard.points == null
-    ) {
-      updateUserPointsDoc();
-    }
-  }, [leaderboardList]);
   useEffect(() => {
     const listenToLeaderboard = () => {
       unsubscribeLeaderboard.current = onSnapshot(
@@ -74,61 +68,72 @@ export const LeaderboardProvider = ({ children }) => {
       cleanLeaderboardListener();
     };
   }, [user?.leaderboard, userLoaded]);
-  const getPlaceString = (place, language) => {
-    if (language == "english") {
-      return `${place} ${languageService[language].place}`;
-    }
-    return languageService[language].place + " " + place;
-  };
   useEffect(() => {
     if (!userLoaded || firebase.getLastWeekId() == user?.leaderboard?.weekId)
       return;
     firebase.getNewLeaderboard(user, 0);
   }, [userLoaded]);
-  useEffect(() => {
-    if (!user?.leaderboard?.leaderboardUpdated) return;
-    const leaderboardUpdated = testing
-      ? { lastPlace: 1 }
-      : user.leaderboard.leaderboardUpdated;
-    if (leaderboardUpdated != null) {
-      setModalTitle(
-        languageService[user.language].youFinished[user.isMale ? 1 : 0] +
-          " " +
-          getPlaceString(leaderboardUpdated.lastPlace, user.language) +
-          " " +
-          languageService[user.language].lastWeekend
-      );
-      setShowModal(true);
-    }
-  }, [user?.leaderboard?.leaderboardUpdated]);
   return (
     <LeaderboardContext.Provider
       value={{ leaderboardList, cleanLeaderboardListener }}
     >
       {children}
-      {showModal && (
-        <AwesomeAlert
-          show={showModal}
-          showProgress={false}
-          title={modalTitle}
-          message={""}
-          closeOnTouchOutside={true}
-          onDismiss={() => setShowModal(false)}
-          closeOnHardwareBackPress={true}
-          showConfirmButton={true}
-          confirmText={languageService[user.language].gotIt}
-          confirmButtonColor={color_primary}
-          onCancelPressed={() => {
-            setShowAlert(false);
-          }}
-          onConfirmPressed={() => {
-            setShowAlert(false);
-          }}
-        />
-      )}
+      <NewLeaderboardModal />
     </LeaderboardContext.Provider>
   );
 };
 export default function useLeaderboard() {
   return useContext(LeaderboardContext);
 }
+const NewLeaderboardModal = () => {
+  const { user } = useAuth();
+  const { newLeaderboardAlert, setNewLeaderboardAlert } = useAlerts();
+  const [showModal, setShowModal] = useState(false);
+  const { db } = useFirebase();
+  useEffect(() => {
+    if (!newLeaderboardAlert || Object.keys(newLeaderboardAlert).length == 0)
+      return;
+    setShowModal(true);
+  }, [newLeaderboardAlert]);
+  useEffect(() => {
+    if (
+      !showModal &&
+      newLeaderboardAlert &&
+      Object.keys(newLeaderboardAlert).length != 0
+    )
+      updateDoc(doc(db, `alerts/${user.id}`), { newLeaderboard: {} });
+  }, [showModal]);
+  return (
+    showModal && (
+      <CustomModal
+        style={{ alignItems: "center", rowGap: 10 }}
+        closeOnTouchOutside
+        showModal={showModal}
+        setShowModal={setShowModal}
+      >
+        <CustomText
+          style={{ fontWeight: 700, fontSize: 25, textAlign: "center" }}
+        >
+          {languageService[user.language].lastLeaderboardResults + ":"}
+        </CustomText>
+        <CustomText style={{ fontWeight: 500, fontSize: 18 }}>
+          {newLeaderboardAlert.lastPoints != 0 &&
+            newLeaderboardAlert.lastPlace <= 10 &&
+            languageService[user.language].congratulations + "! "}
+          {languageService[user.language].newLeaderboardMessage(
+            newLeaderboardAlert
+          )}
+        </CustomText>
+        <CustomButton
+          onPress={() => setShowModal(false)}
+          round
+          style={{ backgroundColor: color_on_surface, width: "100%" }}
+        >
+          <CustomText style={{ color: color_surface }}>
+            {languageService[user.language].exit}
+          </CustomText>
+        </CustomButton>
+      </CustomModal>
+    )
+  );
+};
