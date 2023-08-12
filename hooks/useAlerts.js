@@ -18,6 +18,7 @@ export const AlertsProvider = ({ children }) => {
   const [workoutInvitesAlerts, setWorkoutInvitesAlerts] = useState({});
   const [friendRequestsAlerts, setFriendRequestsAlerts] = useState({});
   const [newWorkoutsAlerts, setNewWorkoutsAlerts] = useState({});
+  const [newLeaderboardAlert, setNewLeaderboardAlert] = useState({});
   const unsubscribeAlerts = useRef();
   const cleanAlertsListener = () => {
     if (unsubscribeAlerts.current != null) {
@@ -29,6 +30,7 @@ export const AlertsProvider = ({ children }) => {
       setWorkoutInvitesAlerts({});
       setChatsAlerts({});
       setNewWorkoutsAlerts({});
+      setNewLeaderboardAlert({});
     }
   };
   useEffect(() => {
@@ -43,6 +45,7 @@ export const AlertsProvider = ({ children }) => {
             setWorkoutInvitesAlerts(alertsData.workoutInvites);
             setFriendRequestsAlerts(alertsData.friendRequests);
             setNewWorkoutsAlerts(alertsData.newWorkouts);
+            setNewLeaderboardAlert(alertsData.newLeaderboard);
             firebase.removePastOrEmptyWorkoutsAlerts(
               alertsData.workoutRequests,
               alertsData.newWorkouts,
@@ -56,6 +59,7 @@ export const AlertsProvider = ({ children }) => {
               workoutInvites: {},
               workoutRequests: {},
               newWorkouts: {},
+              newLeaderboard: {},
             });
           }
         }
@@ -80,6 +84,8 @@ export const AlertsProvider = ({ children }) => {
         setFriendRequestsAlerts,
         newWorkoutsAlerts,
         setNewWorkoutsAlerts,
+        newLeaderboardAlert,
+        setNewLeaderboardAlert,
         cleanAlertsListener,
       }}
     >
