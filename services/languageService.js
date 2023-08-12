@@ -1,5 +1,7 @@
 const languageService = {
   english: {
+    congratulations: "Congratulations",
+    lastLeaderboardResults: "Last weekly leaderboard results",
     duration: "duration",
     confirm: "Confirm",
     workoutPrograms: "Workout programs",
@@ -256,6 +258,7 @@ const languageService = {
     minutes: "minutes",
     hours: "hours",
     days: "days",
+    numberOfDays: (number) => (number == 1 ? "One day" : `${number} days`),
     betaVersion: "Beta version",
     untilTheWeekend: "until the weekend",
     youFinished: ["You finished", "You finished"],
@@ -334,8 +337,57 @@ const languageService = {
     itSeemsThatItGotCancledByTheCreator:
       "It was probably cancled by the creator",
     goToHomePage: "Go to Home Page",
+    howDoYouWantToCallYourWorkoutProgram: [
+      "How do you want to call your workout program?",
+      "How do you want to call your workout program?",
+    ],
+    rememberThisCantBeChangedLater: [
+      "Remember, this can't be changed later",
+      "Remember, this can't be changed later",
+    ],
+    atLeast5Chars: "at least 5 characters",
+    whatIsIt: "What is it?",
+    publicProgramInformationTitle:
+      "A public program can be seen and saved by other users. You are the only one that can edit the program.",
+    publicProgramInformationContent:
+      "If you set a program as public you won't be able to make it private later.",
+    newLeaderboardMessage: ({ lastPoints, lastLeague, lastPlace }) => {
+      var leagues = [
+        "Iron",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "Diamond",
+        "Master",
+        "GrandMaster",
+        "Challenger",
+        "Defending Champion",
+      ];
+      if (lastPoints == 0) {
+        return `You haven't scored any points last week so you ${
+          lastLeague == 0 ? "stayed at" : "moved down to"
+        } ${leagues[lastLeague == 0 ? 0 : lastLeague - 1]} league`;
+      } else if (lastPlace <= 10) {
+        return `You finished at ${lastPlace} place last week so you ${
+          lastLeague == leagues.length - 1 ? "stayed at" : "moved up to"
+        } ${
+          leagues[
+            lastLeague == leagues.length - 1 ? lastLeague : lastLeague + 1
+          ]
+        } league`;
+      } else if (lastPlace >= 11 && lastPlace <= 40) {
+        return `You finished at ${lastPlace} place last week so you are staying in ${leagues[lastLeague]} league`;
+      } else {
+        return `You finished at ${lastPlace} place last week so you are ${
+          lastLeague == 0 ? "staying in" : "moved down to"
+        } ${leagues[lastLeague]} league`;
+      }
+    },
   },
   hebrew: {
+    lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
+    congratulations: "כל הכבוד",
     workout: "אימון",
     login: "התחבר",
     createWorkoutHomeBtn: "יצירת אימון חדש",
@@ -553,6 +605,7 @@ const languageService = {
     minutes: "דקות",
     hours: "שעות",
     days: "ימים",
+    numberOfDays: (number) => (number == 1 ? "יום אחד" : `${number}` + " ימים"),
     betaVersion: "גרסת בטא",
     untilTheWeekend: "עד סוף השבוע",
     youFinished: ["את סיימת", "אתה סיימת"],
@@ -646,6 +699,64 @@ const languageService = {
     itSeemsThatItGotCancledByTheCreator:
       "האימון כנראה בוטל על ידי מנהל האימון.",
     goToHomePage: "מעבר לדף הבית",
+    howDoYouWantToCallYourWorkoutProgram: [
+      "איך תרצי לקרוא לתוכנית האימונים?",
+      "איך תרצה לקרוא לתוכנית האימונים?",
+    ],
+    rememberThisCantBeChangedLater: [
+      "שימי לב, אי אפשר לשנות את השם אחר כך",
+      "שים לב, אי אפשר לשנות את השם אחר כך",
+    ],
+    atLeast5Chars: "לפחות 5 תווים",
+    whatIsIt: "מה זה אומר?",
+    publicProgramInformationTitle:
+      "תוכנית ציבורית יכולה להיראות ולהשמר על ידי משתמשים אחרים, אך אף אחד חוץ ממך לא יכול לערוך או למחוק אותה.",
+    publicProgramInformationContent:
+      "אי אפשר להפוך תוכנית ציבורית לפרטית לאחר שיצרת אותה.",
+    newLeaderboardMessage: ({ lastPoints, lastLeague, lastPlace }) => {
+      var leagueTitles = [
+        "ליגת ברזל",
+        "ליגת ארד",
+        "ליגת כסף",
+        "ליגת זהב",
+        "ליגת פלטינום",
+        "ליגת יהלום",
+        "ליגת מאסטר",
+        "ליגת גרנד-מאסטר",
+        "ליגת הטוענים לכתר",
+        "ליגת האלופים",
+      ];
+      if (lastPoints == 0) {
+        return `לא קיבלת נקודות בשבוע האחרון ולכן ` + lastLeague == 0
+          ? "נשארת בליגת ברזל"
+          : "ירדת ל" + leagueTitles[lastLeague - 1];
+      } else if (lastPlace <= 10) {
+        return (
+          `סיימת במקום ` +
+          lastPlace +
+          " בשבוע האחרון ולכן " +
+          (lastLeague == leagueTitles.length - 1
+            ? "נשארת ב" + leagueTitles[lastLeague]
+            : "עלית ל" + leagueTitles[lastLeague + 1])
+        );
+      } else if (lastPlace >= 11 && lastPlace <= 40) {
+        return (
+          "סיימת במקום " +
+          lastPlace +
+          " בשבוע האחרון ולכן נשארת ב" +
+          leagueTitles[lastLeague]
+        );
+      } else {
+        return (
+          "סיימת במקום " +
+          lastPlace +
+          " בשבוע האחרון ולכן " +
+          (lastLeague == 0
+            ? "נשארת בליגת ברזל"
+            : "ירדת ל" + leagueTitles[lastLeague - 1])
+        );
+      }
+    },
   },
 };
 export default languageService;
