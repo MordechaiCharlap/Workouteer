@@ -62,7 +62,9 @@ const LeaderboardScreen = () => {
               {languageService[user.language].getPointsToCompete}
             </Text>
             <View
-              className="flex-row items-center justify-center gap-x-2"
+              className={`flex-row${
+                user.language == "hebrew" && "-reverse"
+              } items-center justify-center gap-x-2`}
               style={{ paddingVertical: 8 }}
             >
               <CustomButton
@@ -102,6 +104,9 @@ const LeaderboardScreen = () => {
             keyExtractor={(item) => item[0]}
             renderItem={({ item, index }) => (
               <CustomButton
+                className={`flex-row${
+                  user.language == "hebrew" && "-reverse"
+                } items-center`}
                 onPress={async () =>
                   item[0] == user.id
                     ? navigation.navigate("MyProfile")
@@ -115,7 +120,6 @@ const LeaderboardScreen = () => {
                   justifyContent: "flex-start",
                   borderRadius: 0,
                   flex: 1,
-                  flexDirection: "row",
                   backgroundColor:
                     item[0] == user.id ? appStyle.color_primary_container : "",
                 }}
@@ -153,7 +157,9 @@ const LeaderboardScreen = () => {
                   source={{
                     uri: item[0] == user.id ? user.img : item[1].img,
                   }}
-                  className="h-14 w-14 bg-white rounded-full mr-4"
+                  className={`h-14 w-14 bg-white rounded-full ${
+                    user.language == "hebrew" ? "ml-4" : "mr-4"
+                  }`}
                 />
                 <CustomText
                   className="tracking-wider"
