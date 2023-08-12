@@ -127,7 +127,10 @@ const WorkoutProgramsScreen = ({ route }) => {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           horizontal={true}
-          style={{ marginLeft: 16 }}
+          style={{
+            marginLeft: 16,
+            flexDirection: user.language == "hebrew" ? "row-reverse" : "row",
+          }}
           contentContainerStyle={{ columnGap: 5 }}
         >
           <TopButton
@@ -151,7 +154,9 @@ const WorkoutProgramsScreen = ({ route }) => {
       </View>
       <View style={{ height: 10 }} />
       <View
-        className="flex-row justify-between"
+        className={`flex-row${
+          user.language == "hebrew" && "-reverse"
+        } items-center justify-between`}
         style={{ paddingHorizontal: 16 }}
       >
         <CustomText style={{ fontWeight: 600, fontSize: 30 }}>
@@ -202,7 +207,9 @@ const WorkoutProgramsScreen = ({ route }) => {
               ]}
             >
               <View
-                className="flex-row w-full justify-between"
+                className={`flex-row${
+                  user.language == "hebrew" && "-reverse"
+                } items-center w-full justify-between`}
                 style={{
                   paddingVertical: 20,
                   paddingHorizontal: 16,
@@ -231,7 +238,11 @@ const WorkoutProgramsScreen = ({ route }) => {
                         />
                       </CustomButton>
                     ) : (
-                      <View className="flex-row">
+                      <View
+                        className={`flex-row${
+                          user.language == "hebrew" && "-reverse"
+                        } items-center`}
+                      >
                         <CustomButton
                           onPress={() => {
                             setRemovingProgram();
