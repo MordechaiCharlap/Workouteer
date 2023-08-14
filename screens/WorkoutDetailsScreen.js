@@ -40,6 +40,13 @@ import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import LoadingAnimation from "../components/LoadingAnimation";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -583,6 +590,11 @@ const WorkoutDetailsScreen = ({ route }) => {
             </View>
           )
         ))}
+      {!initialLoading &&
+        workout.id == currentWorkout.id &&
+        workout.members[user.id]?.confirmedWorkout == false && (
+          <ConfirmedButton />
+        )}
     </View>
   );
 };
@@ -634,6 +646,58 @@ const WorkoutPinnedLocation = (props) => {
         </Text>
       </TouchableOpacity> */}
     </View>
+  );
+};
+const ConfirmedButton = () => {
+  const { user } = useAuth();
+  const navigation = useNavigation();
+  const buttonSize = useSharedValue(100);
+  const buttonAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      width: `${buttonSize.value}%`,
+    };
+  });
+  useFocusEffect(
+    useCallback(() => {
+      buttonSize.value = 100;
+      buttonSize.value = withRepeat(
+        withTiming(70, {
+          duration: 500,
+        }),
+        2,
+        true
+      );
+    }, [])
+  );
+  return (
+    <Animated.View
+      style={[
+        {
+          paddingHorizontal: 16,
+          paddingVertical: 6,
+          alignSelf: "center",
+        },
+        buttonAnimatedStyle,
+      ]}
+    >
+      <CustomButton
+        round
+        style={{
+          backgroundColor: appStyle.color_tertiary,
+          width: "100%",
+        }}
+        onPress={() => {
+          navigation.navigate("ConfirmWorkout");
+        }}
+      >
+        <CustomText
+          className="text-xl font-semibold text-center"
+          style={{ color: appStyle.color_on_tertiary }}
+        >
+          {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
+        </CustomText>
+      </CustomButton>
+    </Animated.View>
   );
 };
 const style = StyleSheet.create({
