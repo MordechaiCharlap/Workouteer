@@ -58,7 +58,6 @@ const WorkoutInvitesScreen = () => {
               <WorkoutComponent
                 userMemberStatus={"invited"}
                 workout={item}
-                isPastWorkout={false}
                 screen={"WorkoutInvites"}
               />
             )}

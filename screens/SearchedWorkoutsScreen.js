@@ -89,7 +89,6 @@ const SearchedWorkoutsScreen = ({ route }) => {
               <WorkoutComponent
                 location={route.params.location}
                 workout={item}
-                isPastWorkout={false}
               />
             )}
           />

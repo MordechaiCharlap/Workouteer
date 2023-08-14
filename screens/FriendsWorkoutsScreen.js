@@ -45,11 +45,7 @@ const FriendsWorkoutsScreen = () => {
           contentContainerStyle={{ rowGap: 5 }}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <WorkoutComponent
-              workout={item}
-              isPastWorkout={false}
-              screen={"FriendsWorkouts"}
-            />
+            <WorkoutComponent workout={item} screen={"FriendsWorkouts"} />
           )}
         />
       </View>

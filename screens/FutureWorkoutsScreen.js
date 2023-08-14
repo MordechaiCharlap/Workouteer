@@ -146,11 +146,7 @@ const FutureWorkoutsScreen = ({ route }) => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View>
-                <WorkoutComponent
-                  workout={item}
-                  isPastWorkout={false}
-                  screen={"FutureWorkouts"}
-                />
+                <WorkoutComponent workout={item} screen={"FutureWorkouts"} />
                 {isMyUser && newWorkouts[item.id] && (
                   <View className="absolute right-1 bottom-1">
                     <AlertDot
