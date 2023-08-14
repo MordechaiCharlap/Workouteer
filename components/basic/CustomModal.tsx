@@ -20,6 +20,7 @@ interface CustomModalProps extends ViewProps {
   confirmButtonColor?: string;
   cancelButtonColor?: string;
   onConfirm?: Function;
+  onCancel?: Function;
   confirmText?: string;
   cancelText?: string;
   language?: string;
@@ -35,6 +36,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
   confirmButtonColor,
   cancelButtonColor,
   onConfirm,
+  onCancel,
   confirmText,
   cancelText,
   language,
@@ -92,7 +94,10 @@ const CustomModal: React.FC<CustomModalProps> = ({
             >
               {cancelButton && (
                 <CustomButton
-                  onPress={() => setShowModal(false)}
+                  onPress={() => {
+                    setShowModal(false);
+                    onCancel && onCancel();
+                  }}
                   round
                   style={{
                     flexGrow: 1,
@@ -113,7 +118,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
               {confirmButton && (
                 <CustomButton
                   onPress={() => {
-                    setShowModal(false);
                     onConfirm && onConfirm();
                   }}
                   round
@@ -125,13 +129,13 @@ const CustomModal: React.FC<CustomModalProps> = ({
                       confirmButtonColor || appStyle.color_on_surface,
                   }}
                 >
-                  <Text style={{ color: appStyle.color_surface }}>
+                  <CustomText style={{ color: appStyle.color_surface }}>
                     {cancelText
                       ? confirmText
                       : language
                       ? languageService[language].confirm
                       : languageService["english"].confirm}
-                  </Text>
+                  </CustomText>
                 </CustomButton>
               )}
             </View>
