@@ -8,11 +8,14 @@ import languageService from "../services/languageService";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import useFirebase from "./useFirebase";
 import { useNavigation } from "@react-navigation/native";
+import CustomModal from "../components/basic/CustomModal";
+import CustomText from "../components/basic/CustomText";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   const navigation = useNavigation();
   const { db } = useFirebase();
   const [notification, setNotification] = useState();
+  const [notificationPermission, setNotificationPermission] = useState();
   const [clickedNotification, setClickedNotification] = useState();
   const clearNotifications = async () => {
     const presentedNotifications =
@@ -30,16 +33,18 @@ export const NotificationsProvider = ({ children }) => {
       shouldSetBadge: true,
     }),
   });
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const notificationListenerRef = useRef();
+  const responseListenerRef = useRef();
   const { user, userLoaded, rememberMe } = useAuth();
   const clearListeners = () => {
-    if (notificationListener.current != null) {
+    if (notificationListenerRef.current != null) {
       Notifications.removeNotificationSubscription(
-        notificationListener.current
+        notificationListenerRef.current
       );
-      if (responseListener.current != null) {
-        Notifications.removeNotificationSubscription(responseListener.current);
+      if (responseListenerRef.current != null) {
+        Notifications.removeNotificationSubscription(
+          responseListenerRef.current
+        );
       }
     }
   };
@@ -91,51 +96,58 @@ export const NotificationsProvider = ({ children }) => {
     const clearAsyncNotifications = async () => {
       await clearNotifications();
     };
-    if (Platform.OS != "web" && Device.isDevice) clearAsyncNotifications();
+    if (
+      Platform.OS != "web"
+      // && Device.isDevice
+    )
+      clearAsyncNotifications();
   }, []);
   useEffect(() => {
-    const addListenerAsync = async () => {
-      await notificationListenerFunction();
-    };
     if (!userLoaded || Platform.OS == "web") {
       clearListeners();
-    } else if (rememberMe) addListenerAsync();
+    } else {
+      checkForNotificationPermission().then((status) => {
+        setNotificationPermission(!status);
+      });
+    }
+    // else if ( rememberMe ) notificationListen();
     return () => {
       clearListeners();
     };
   }, [userLoaded]);
-  const notificationListenerFunction = async () => {
-    if (Platform.OS != "web" && Device.isDevice) {
-      registerForPushNotificationsAsync().then((token) => {
-        if (token && token != user.token) {
-          tokenUpdateLogic(token);
-        }
+  useEffect(() => {
+    if (notificationPermission) {
+      notificationListen();
+      configureNotification();
+      Notifications.getExpoPushTokenAsync().then((result) => {
+        if (result.data != user.pushToken) tokenUpdateLogic(result.data);
       });
-
+    }
+  }, [notificationPermission]);
+  const checkForNotificationPermission = async () => {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    return existingStatus == "granted";
+  };
+  const notificationListen = () => {
+    if (notificationListenerRef.current && responseListenerRef.current) return;
+    if (
+      Platform.OS != "web"
+      // && Device.isDevice
+    ) {
       // This listener is fired whenever a notification is received while the app is foregrounded
-      notificationListener.current =
+      notificationListenerRef.current =
         Notifications.addNotificationReceivedListener((notification) => {});
 
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-      responseListener.current =
+      responseListenerRef.current =
         Notifications.addNotificationResponseReceivedListener((response) => {
           setClickedNotification(response);
         });
     }
   };
-  async function registerForPushNotificationsAsync() {
-    let token;
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+
+  const configureNotification = () => {
     if (Platform.OS === "android") {
       Notifications.setNotificationChannelAsync("default", {
         name: "default",
@@ -144,8 +156,7 @@ export const NotificationsProvider = ({ children }) => {
         lightColor: "#FF231F7C",
       });
     }
-    return token;
-  }
+  };
   const tokenUpdateLogic = (token) => {
     firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
     updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
@@ -267,7 +278,6 @@ export const NotificationsProvider = ({ children }) => {
       { type: "chat", chatId: chatId, otherUserId: sender.id }
     );
   };
-
   const schedulePushNotification = async (trigger, title, body, data) => {
     const pushNotification = {
       sound: "default",
@@ -283,7 +293,11 @@ export const NotificationsProvider = ({ children }) => {
     return scheduledNotificationId;
   };
   const cancelScheduledPushNotification = async (identifier) => {
-    if (identifier != null && Platform.OS != "web" && Device.isDevice)
+    if (
+      identifier != null &&
+      Platform.OS != "web"
+      // && Device.isDevice
+    )
       await Notifications.cancelScheduledNotificationAsync(identifier);
   };
   const sendPushNotification = async (userToSend, title, body, data) => {
@@ -386,9 +400,53 @@ export const NotificationsProvider = ({ children }) => {
       }}
     >
       {children}
+      {user && notificationPermission == false && Platform.OS != "web" && (
+        <PushNotificationsPermissionModal
+          user={user}
+          setNotificationPermission={setNotificationPermission}
+        />
+      )}
     </NotificationsContext.Provider>
   );
 };
 export default function usePushNotifications() {
   return useContext(NotificationsContext);
 }
+const PushNotificationsPermissionModal = ({
+  user,
+  setNotificationPermission,
+}) => {
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
+  const askForPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+    if (finalStatus !== "granted") {
+      setNotificationPermission(null);
+      return;
+    }
+    setNotificationPermission(true);
+  };
+  return (
+    <CustomModal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      confirmButton
+      cancelButton
+      onConfirm={askForPermission}
+      style={{ rowGap: 20 }}
+    >
+      <CustomText
+        style={{ fontSize: 20, fontWeight: 600, textAlign: "center" }}
+      >
+        Get notified when one of your friends are going for a workout!
+      </CustomText>
+      <CustomText style={{ textAlign: "center" }}>
+        We'll notify you when one of your friends scheduled a workout or remind
+        you to exercise in the time you scheduled your own workouts
+      </CustomText>
+    </CustomModal>
+  );
+};
