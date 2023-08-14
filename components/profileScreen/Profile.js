@@ -43,6 +43,7 @@ import { checkFriendShipStatus } from "../../utils/profileUtils";
 import useFriendRequests from "../../hooks/useFriendRequests";
 import NumberedNotification from "../NumberedNotification";
 import useAlerts from "../../hooks/useAlerts";
+import CustomModal from "../basic/CustomModal";
 
 const Profile = ({ shownUser, isMyUser }) => {
   const navigation = useNavigation();
@@ -459,27 +460,36 @@ const Profile = ({ shownUser, isMyUser }) => {
           )}
         </View>
       )}
-      <AwesomeModal
-        closeOnTouchOutside={false}
-        showModal={showReportModal}
-        onDismiss={() => setShowReportModal(false)}
-        showCancelButton={true}
-        onCancelPressed={() => setShowReportModal(false)}
-        title={
-          languageService[user.language].doYouWantToReportThisUser[
-            user.isMale ? 1 : 0
-          ]
-        }
-        message={
-          languageService[user.language].reportUserMessage[user.isMale ? 1 : 0]
-        }
-        onConfirmPressed={() => {
-          navigation.navigate("ReportUser", {
-            reported: shownUser,
-          });
-          setShowReportModal(false);
-        }}
-      />
+      {!isMyUser && (
+        <CustomModal
+          showModal={showReportModal}
+          setShowModal={setShowReportModal}
+          closeOnTouchOutside
+          confirmButton
+          cancelButton
+          onConfirm={() => {
+            navigation.navigate("ReportUser", {
+              reported: shownUser,
+            });
+          }}
+        >
+          <CustomText className="text-xl font-semibold text-center">
+            {
+              languageService[user.language].doYouWantToReportThisUser[
+                user.isMale ? 1 : 0
+              ]
+            }
+          </CustomText>
+          <CustomText>
+            {
+              languageService[user.language].reportUserMessage[
+                user.isMale ? 1 : 0
+              ]
+            }
+          </CustomText>
+        </CustomModal>
+      )}
+     
     </View>
   );
 };
