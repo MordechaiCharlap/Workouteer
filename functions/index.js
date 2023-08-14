@@ -136,7 +136,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
       const lastWeekLeaderboards = await db
         .collection(`leaderboards/${leagueNum}/${lastWeekId}`)
         .get();
-      for (var leaderboard of lastWeekLeaderboards) {
+      for (var leaderboard of lastWeekLeaderboards.docs) {
         const users = leaderboard.data().users;
         const usersArray = Array.from(Object.entries(users)).sort(
           (a, b) => a[1].points < b[1].points
