@@ -6,12 +6,23 @@ import Animated, {
   FadeOut,
   FadeOutRight,
 } from "react-native-reanimated";
-import { color_surface } from "../../utils/appStyleSheet";
+import * as appStyle from "../../utils/appStyleSheet";
+import CustomButton from "./CustomButton";
+import CustomText from "./CustomText";
+import languageService from "../../services/languageService";
 
 interface CustomModalProps extends ViewProps {
   showModal: boolean;
   setShowModal: Function;
   closeOnTouchOutside?: true;
+  confirmButton?: true;
+  cancelButton?: true;
+  confirmButtonColor?: string;
+  cancelButtonColor?: string;
+  onConfirm?: Function;
+  confirmText?: string;
+  cancelText?: string;
+  language?: string;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -19,10 +30,17 @@ const CustomModal: React.FC<CustomModalProps> = ({
   setShowModal,
   children,
   closeOnTouchOutside,
+  confirmButton,
+  cancelButton,
+  confirmButtonColor,
+  cancelButtonColor,
+  onConfirm,
+  confirmText,
+  cancelText,
+  language,
   ...restProps
 }) => {
   const clientStyle = restProps.style;
-
   const restPropsWithoutStyle = restProps;
   delete restPropsWithoutStyle.style;
   return (
@@ -44,7 +62,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
           style={{
             height: "100%",
             width: "100%",
-            padding: 16,
             position: "absolute",
           }}
           onPress={() => (closeOnTouchOutside ? setShowModal(false) : {})}
@@ -54,8 +71,9 @@ const CustomModal: React.FC<CustomModalProps> = ({
           exiting={FadeOutRight.springify()}
           style={[
             {
+              margin: 16,
               borderRadius: 12,
-              backgroundColor: color_surface,
+              backgroundColor: appStyle.color_surface,
               padding: 8,
               position: "absolute",
             },
@@ -64,6 +82,60 @@ const CustomModal: React.FC<CustomModalProps> = ({
           {...restPropsWithoutStyle}
         >
           {children}
+          {(confirmButton || cancelButton) && (
+            <View
+              style={{
+                marginTop: 10,
+                flexDirection: "row",
+                columnGap: confirmButton && cancelButton && 10,
+              }}
+            >
+              {cancelButton && (
+                <CustomButton
+                  onPress={() => setShowModal(false)}
+                  round
+                  style={{
+                    flexGrow: 1,
+                    borderColor: appStyle.color_on_surface,
+                    borderWidth: 0.5,
+                    backgroundColor: cancelButtonColor,
+                  }}
+                >
+                  <CustomText>
+                    {cancelText
+                      ? cancelText
+                      : language
+                      ? languageService[language].cancel
+                      : languageService["english"].cancel}
+                  </CustomText>
+                </CustomButton>
+              )}
+              {confirmButton && (
+                <CustomButton
+                  onPress={() => {
+                    setShowModal(false);
+                    onConfirm && onConfirm();
+                  }}
+                  round
+                  style={{
+                    flexGrow: 1,
+                    borderColor: appStyle.color_on_surface,
+                    borderWidth: 0.5,
+                    backgroundColor:
+                      confirmButtonColor || appStyle.color_on_surface,
+                  }}
+                >
+                  <Text style={{ color: appStyle.color_surface }}>
+                    {cancelText
+                      ? confirmText
+                      : language
+                      ? languageService[language].confirm
+                      : languageService["english"].confirm}
+                  </Text>
+                </CustomButton>
+              )}
+            </View>
+          )}
         </Animated.View>
       </Animated.View>
     )
