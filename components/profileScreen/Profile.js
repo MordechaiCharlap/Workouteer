@@ -468,6 +468,7 @@ const Profile = ({ shownUser, isMyUser }) => {
           confirmButton
           cancelButton
           onConfirm={() => {
+            setShowReportModal(false);
             navigation.navigate("ReportUser", {
               reported: shownUser,
             });
@@ -489,7 +490,6 @@ const Profile = ({ shownUser, isMyUser }) => {
           </CustomText>
         </CustomModal>
       )}
-     
     </View>
   );
 };
