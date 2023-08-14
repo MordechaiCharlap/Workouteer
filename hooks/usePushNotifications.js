@@ -107,7 +107,7 @@ export const NotificationsProvider = ({ children }) => {
       clearListeners();
     } else {
       checkForNotificationPermission().then((status) => {
-        setNotificationPermission(!status);
+        setNotificationPermission(status);
       });
     }
     // else if ( rememberMe ) notificationListen();
