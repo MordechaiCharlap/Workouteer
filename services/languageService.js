@@ -384,6 +384,12 @@ const languageService = {
         } ${leagues[lastLeague]} league`;
       }
     },
+    pushNotificationModalTitle: [
+      "Get notified when one of your friends are going for a workout!",
+      "Get notified when one of your friends are going for a workout!",
+    ],
+    pushNotificationModalMessage:
+      "We'll notify you when one of your friends scheduled a workout or remind you to exercise in the time you scheduled your own workouts",
   },
   hebrew: {
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
@@ -757,6 +763,12 @@ const languageService = {
         );
       }
     },
+    pushNotificationModalTitle: [
+      "קבלי התראות כשאחד החברים שלך קובע אימון!",
+      "קבל התראות כשאחד החברים שלך קובע אימון!",
+    ],
+    pushNotificationModalMessage:
+      "קבל התראות צ'אטים, אימונים של חברים, או סתם תזכורת להתאמן בשעה שקבעת לעצמך",
   },
 };
 export default languageService;
