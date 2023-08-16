@@ -63,7 +63,7 @@ const LeaderboardScreen = () => {
             </Text>
             <View
               className={`flex-row${
-                user.language == "hebrew" && "-reverse"
+                user.language == "hebrew" ? "-reverse" : ""
               } items-center justify-center gap-x-2`}
               style={{ paddingVertical: 8 }}
             >
@@ -105,7 +105,7 @@ const LeaderboardScreen = () => {
             renderItem={({ item, index }) => (
               <CustomButton
                 className={`flex-row${
-                  user.language == "hebrew" && "-reverse"
+                  user.language == "hebrew" ? "-reverse" : ""
                 } items-center`}
                 onPress={async () =>
                   item[0] == user.id

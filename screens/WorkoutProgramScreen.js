@@ -112,7 +112,7 @@ const WorkoutProgramScreen = ({ route }) => {
               style={{ columnGap: 8, paddingHorizontal: 5, paddingVertical: 2 }}
             >
               <CustomText
-                className="font-semibold text-lg"
+                className={`font-semibold text-lg text-left`}
                 style={{
                   width: 1,
                   flexGrow: 3,
@@ -215,6 +215,7 @@ const WorkoutProgramScreen = ({ route }) => {
               >
                 {workoutButton(() => {
                   navigation.navigate("IntervalTimer", { workout: item });
+                  setSelectedWorkoutIndex();
                 }, faPlay)}
                 {/* {workoutButton(() => {}, faPenAlt)} */}
               </View>
