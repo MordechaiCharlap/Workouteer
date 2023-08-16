@@ -52,7 +52,7 @@ const WorkoutProgramsScreen = ({ route }) => {
   const [savedPrograms, setSavedPrograms] = useState();
   const [removingProgram, setRemovingProgram] = useState();
   const [showProgramNameModal, setShowProgramNameModal] = useState(
-    route.params.createProgramOnEntering ? true : false
+    route.params?.createProgramOnEntering ? true : false
   );
   useFocusEffect(
     useCallback(() => {
@@ -105,7 +105,7 @@ const WorkoutProgramsScreen = ({ route }) => {
       );
       deleteDoc(doc(db, "workoutPrograms", programId));
       updateDoc(doc(db, "appData/workoutProgramsData"), {
-        [`programIdsAndName.${programId}`]: deleteField(),
+        [`programIdsAndNames.${programId}`]: deleteField(),
       });
     } else {
       //an option for non user, just decrement the currentUsersCount by 1 and remove from saved
@@ -155,7 +155,7 @@ const WorkoutProgramsScreen = ({ route }) => {
       <View style={{ height: 10 }} />
       <View
         className={`flex-row${
-          user.language == "hebrew" && "-reverse"
+          user.language == "hebrew" ? "-reverse" : ""
         } items-center justify-between`}
         style={{ paddingHorizontal: 16 }}
       >
@@ -201,15 +201,13 @@ const WorkoutProgramsScreen = ({ route }) => {
                   backgroundColor: appStyle.color_surface_variant,
                   borderRadius: 4,
                   padding: 0,
-                  margin: 16,
+                  marginHorizontal: 16,
                 },
                 appComponentsDefaultStyles.shadow,
               ]}
             >
               <View
-                className={`flex-row${
-                  user.language == "hebrew" && "-reverse"
-                } items-center w-full justify-between`}
+                className={`w-full`}
                 style={{
                   paddingVertical: 20,
                   paddingHorizontal: 16,
@@ -240,7 +238,7 @@ const WorkoutProgramsScreen = ({ route }) => {
                     ) : (
                       <View
                         className={`flex-row${
-                          user.language == "hebrew" && "-reverse"
+                          user.language == "hebrew" ? "-reverse" : ""
                         } items-center`}
                       >
                         <CustomButton
