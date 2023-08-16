@@ -6,10 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { getWorkout } from "../services/firebase";
+import CustomModal from "../components/basic/CustomModal";
+import CustomText from "../components/basic/CustomText";
 
 const WorkoutLogicContext = createContext({});
 export const WorkoutLogicProvider = ({ children }) => {
-  const navigation = useNavigation();
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const overlappedWorkoutId = useRef();
@@ -47,40 +48,75 @@ export const WorkoutLogicProvider = ({ children }) => {
     }
     return null;
   };
-  const showPlannedWorkout = async () => {
-    const workout = await getWorkout(overlappedWorkoutId.current);
-    if (workout)
-      navigation.navigate("WorkoutDetails", {
-        workout: workout,
-        isPastWorkout: false,
-      });
-    setShowModal(false);
-  };
+
   return (
     <WorkoutLogicContext.Provider
       value={{ checkIfWorkoutOnPlannedWorkoutTime }}
     >
       {children}
       {user && (
-        <AwesomeModal
-          setShowModal={setShowModal}
+        <CannotJoinOverlappedWorkoutModal
           showModal={showModal}
-          confirmText={languageService[user.language].showPlannedWorkout}
-          cancelText={languageService[user.language].gotIt}
-          onConfirmPressed={showPlannedWorkout}
-          title={
-            languageService[user.language].youCannotJoinThisWorkout[
-              user.isMale ? 1 : 0
-            ]
-          }
-          message={
-            languageService[user.language].thisWorkoutOverlapsPlannedWorkout
-          }
-          onCancelPressed={() => setShowModal(false)}
-          showCancelButton={true}
+          setShowModal={setShowModal}
         />
+        // <AwesomeModal
+        //   setShowModal={setShowModal}
+        //   showModal={showModal}
+        //   confirmText={languageService[user.language].showPlannedWorkout}
+        //   cancelText={languageService[user.language].gotIt}
+        //   onConfirmPressed={showPlannedWorkout}
+        //   title={
+        //     languageService[user.language].youCannotJoinThisWorkout[
+        //       user.isMale ? 1 : 0
+        //     ]
+        //   }
+        //   message={
+        //     languageService[user.language].thisWorkoutOverlapsPlannedWorkout
+        //   }
+        //   onCancelPressed={() => setShowModal(false)}
+        //   showCancelButton={true}
+        // />
       )}
     </WorkoutLogicContext.Provider>
   );
 };
 export const useWorkoutLogic = () => useContext(WorkoutLogicContext);
+const CannotJoinOverlappedWorkoutModal = ({ showModal, setShowModal }) => {
+  const { user } = useAuth();
+  const navigation = useNavigation();
+  const showPlannedWorkout = () => {
+    getWorkout(overlappedWorkoutId.current).then((workout) => {
+      if (workout)
+        navigation.navigate("WorkoutDetails", {
+          workout: workout,
+          isPastWorkout: false,
+        });
+    });
+
+    setShowModal(false);
+  };
+  return (
+    <CustomModal
+      confirmButton
+      cancelButton
+      language={user.language}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      closeOnTouchOutside
+      onConfirm={showPlannedWorkout}
+    >
+      <CustomText
+        style={{ fontSize: 20, fontWeight: 600, textAlign: "center" }}
+      >
+        {
+          languageService[user.language].youCannotJoinThisWorkout[
+            user.isMale ? 1 : 0
+          ]
+        }
+      </CustomText>
+      <CustomText style={{ textAlign: "center" }}>
+        {languageService[user.language].thisWorkoutOverlapsPlannedWorkout}
+      </CustomText>
+    </CustomModal>
+  );
+};
