@@ -185,7 +185,7 @@ const ConfirmWorkoutScreen = () => {
       setConfirmed(false);
       setCheckingDistance(false);
       setAlertTitle(
-        `${languageService[user.language].youAre} ${
+        `${languageService[user.language].youAre[user.isMale ? 1 : 0]} ${
           distance < 1000
             ? `${distance} ${languageService[user.language].meters}`
             : ` ${distance / 1000} ${languageService[user.language].kms}`
