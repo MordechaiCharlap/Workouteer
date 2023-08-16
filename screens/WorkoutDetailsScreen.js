@@ -687,7 +687,7 @@ const ConfirmedButton = () => {
           width: "100%",
         }}
         onPress={() => {
-          navigation.navigate("ConfirmWorkout");
+          navigation.replace("ConfirmWorkout");
         }}
       >
         <CustomText
