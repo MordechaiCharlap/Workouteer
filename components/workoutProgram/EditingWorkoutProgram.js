@@ -73,7 +73,8 @@ const EditingWorkoutProgram = ({ program, programName }) => {
       await updateDoc(doc(db, "users", user.id), {
         savedWorkoutPrograms: arrayUnion(newWorkoutProgramRef.id),
       });
-      updateDoc(doc("appData/workoutProgramsData"), {
+
+      updateDoc(doc(db, "appData/workoutProgramsData"), {
         [`programIdsAndNames.${newWorkoutProgramRef.id}`]:
           programDataClone.name,
       });
@@ -131,7 +132,11 @@ const EditingWorkoutProgram = ({ program, programName }) => {
           }}
         >
           {program && program.isPublic ? (
-            <View className="items-start">
+            <View
+              className={`flex-row${
+                user.language == "hebrew" ? "-reverse" : ""
+              }`}
+            >
               <CustomText
                 style={{
                   color: appStyle.color_primary,
@@ -147,7 +152,7 @@ const EditingWorkoutProgram = ({ program, programName }) => {
           ) : (
             <View
               className={`flex-row${
-                user.language == "hebrew" && "-reverse"
+                user.language == "hebrew" ? "-reverse" : ""
               } items-center`}
               style={{ columnGap: 3 }}
             >
