@@ -10,11 +10,13 @@ import useFirebase from "./useFirebase";
 import { useNavigation } from "@react-navigation/native";
 import CustomModal from "../components/basic/CustomModal";
 import CustomText from "../components/basic/CustomText";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faToggleOn } from "@fortawesome/free-solid-svg-icons";
+import { color_primary } from "../utils/appStyleSheet";
 const NotificationsContext = createContext();
 export const NotificationsProvider = ({ children }) => {
   const navigation = useNavigation();
   const { db } = useFirebase();
-  const [notification, setNotification] = useState();
   const [notificationPermission, setNotificationPermission] = useState();
   const [clickedNotification, setClickedNotification] = useState();
   const clearNotifications = async () => {
@@ -26,16 +28,10 @@ export const NotificationsProvider = ({ children }) => {
       );
     });
   };
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-    }),
-  });
+
   const notificationListenerRef = useRef();
   const responseListenerRef = useRef();
-  const { user, userLoaded, rememberMe } = useAuth();
+  const { user, userLoaded } = useAuth();
   const clearListeners = () => {
     if (notificationListenerRef.current != null) {
       Notifications.removeNotificationSubscription(
@@ -148,6 +144,13 @@ export const NotificationsProvider = ({ children }) => {
   };
 
   const configureNotification = () => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
     if (Platform.OS === "android") {
       Notifications.setNotificationChannelAsync("default", {
         name: "default",
@@ -281,7 +284,7 @@ export const NotificationsProvider = ({ children }) => {
   const schedulePushNotification = async (trigger, title, body, data) => {
     const pushNotification = {
       sound: "default",
-      title: title,
+      // title: title,
       body: body,
       data: data ? data : {},
     };
@@ -306,7 +309,7 @@ export const NotificationsProvider = ({ children }) => {
       const pushNotification = {
         to: userToSend.pushToken,
         sound: "default",
-        title: "",
+        // title: "",
         body: body,
         data: data ?? {},
       };
@@ -435,17 +438,22 @@ const PushNotificationsPermissionModal = ({
       setShowModal={setShowModal}
       confirmButton
       cancelButton
+      language={user.language}
       onConfirm={askForPermission}
-      style={{ rowGap: 20 }}
+      style={{ rowGap: 20, alignItems: "center" }}
     >
+      <FontAwesomeIcon icon={faToggleOn} size={80} color={color_primary} />
       <CustomText
         style={{ fontSize: 20, fontWeight: 600, textAlign: "center" }}
       >
-        Get notified when one of your friends are going for a workout!
+        {
+          languageService[user.language].pushNotificationModalTitle[
+            user.isMale ? 1 : 0
+          ]
+        }
       </CustomText>
       <CustomText style={{ textAlign: "center" }}>
-        We'll notify you when one of your friends scheduled a workout or remind
-        you to exercise in the time you scheduled your own workouts
+        {languageService[user.language].pushNotificationModalMessage}
       </CustomText>
     </CustomModal>
   );
