@@ -390,6 +390,10 @@ const languageService = {
     ],
     pushNotificationModalMessage:
       "We'll notify you when one of your friends scheduled a workout or remind you to exercise in the time you scheduled your own workouts",
+    noPublicProgramsFound: "No public workout programs found.",
+    createYourOwn: "Create your own",
+    mostPopularPrograms: "Most popular programs",
+    exploreNewPrograms: "Explore new programs",
   },
   hebrew: {
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
@@ -769,6 +773,10 @@ const languageService = {
     ],
     pushNotificationModalMessage:
       "קבל התראות צ'אטים, אימונים של חברים, או סתם תזכורת להתאמן בשעה שקבעת לעצמך",
+    noPublicProgramsFound: "לא נמצאו תוכניות אימונים ציבוריות.",
+    createYourOwn: "צור אחת בעצמך",
+    mostPopularPrograms: "תוכניות האימונים הכי פופולאריות",
+    exploreNewPrograms: "מציאת תוכנית אימונים",
   },
 };
 export default languageService;
