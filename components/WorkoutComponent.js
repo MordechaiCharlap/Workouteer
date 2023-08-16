@@ -97,7 +97,7 @@ const WorkoutComponent = (props) => {
       setDistance(dist);
     }
   }, []);
-  const leaveWorkout = async () => {
+  const leaveWorkout = () => {
     const workoutRef = workout;
     if (props.screen == "FutureWorkouts") setWorkout(null);
     else setUserMemberStatus("not");
@@ -151,44 +151,47 @@ const WorkoutComponent = (props) => {
     }
     cancelScheduledPushNotification(workoutRef.members[user.id].notificationId);
   };
-  const requestToJoinWorkout = async () => {
+  const requestToJoinWorkout = () => {
     if (checkIfWorkoutOnPlannedWorkoutTime(user, workout) != null) return;
     setUserMemberStatus("pending");
     const workoutClone = JSON.parse(JSON.stringify(workout));
     workoutClone.requests[user.id] = true;
     updateArrayIfNeedForWorkout(workoutClone);
     firebase.requestToJoinWorkout(user.id, workout);
-    const creatorData = await firebase.getUserDataById(workout.creator);
-    sendPushNotificationUserWantsToJoinYourWorkout(user, creatorData, workout);
+    firebase
+      .getUserDataById(workout.creator)
+      .then((creatorData) =>
+        sendPushNotificationUserWantsToJoinYourWorkout(
+          user,
+          creatorData,
+          workout
+        )
+      );
   };
-  const cancelWorkoutRequest = async () => {
+  const cancelWorkoutRequest = () => {
     setUserMemberStatus("not");
     const workoutClone = JSON.parse(JSON.stringify(workout));
     delete workoutClone.requests[user.id];
     updateArrayIfNeedForWorkout(workoutClone);
-    await firebase.cancelWorkoutRequest(user.id, workout);
+    firebase.cancelWorkoutRequest(user.id, workout);
   };
-  const acceptWorkoutInvite = async () => {
+  const acceptWorkoutInvite = () => {
     const workoutRef = workout;
     if (props.screen == "WorkoutInvites") setWorkout(null);
     setUserMemberStatus("member");
-    var scheduledNotificationId;
     if (Platform.OS != "web") {
-      scheduledNotificationId = await schedulePushNotification(
+      schedulePushNotification(
         workoutRef.startingTime.toDate(),
         "Workouteer",
-        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0]
-      );
-    }
-
-    await firebase.acceptWorkoutInvite(
-      user,
-      workoutRef,
-      scheduledNotificationId
-    );
+        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0],
+        { type: "workoutDetails", workoutId: workout.id }
+      ).then((scheduledNotificationId) => {
+        firebase.acceptWorkoutInvite(user, workoutRef, scheduledNotificationId);
+      });
+    } else firebase.acceptWorkoutInvite(user, workoutRef, null);
     sendPushNotificationUserJoinedYouwWorkout(workoutRef, user, user.id);
   };
-  const rejectWorkoutInvite = async () => {
+  const rejectWorkoutInvite = () => {
     setUserMemberStatus("not");
     const workoutRef = JSON.parse(JSON.stringify(workout));
     if (props.screen == "WorkoutInvites") setWorkout(null);
@@ -198,7 +201,7 @@ const WorkoutComponent = (props) => {
       updateArrayIfNeedForWorkout(workoutClone);
     }
 
-    await firebase.rejectWorkoutInvite(user.id, workoutRef);
+    firebase.rejectWorkoutInvite(user.id, workoutRef);
   };
 
   const containerColor = props.containerColor || appStyle.color_surface;
