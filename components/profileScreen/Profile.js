@@ -466,7 +466,8 @@ const Profile = ({ shownUser, isMyUser }) => {
           setShowModal={setShowReportModal}
           closeOnTouchOutside
           confirmButton
-          cancelButton
+            cancelButton
+            language={user.language}
           onConfirm={() => {
             setShowReportModal(false);
             navigation.navigate("ReportUser", {
