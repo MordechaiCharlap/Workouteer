@@ -64,13 +64,12 @@ const ChatScreen = ({ route }) => {
   };
   const currentDay = now();
   useEffect(() => {
-    const createChat = async () => {
-      const newChat = await firebase.createNewPrivateChat(user, otherUser);
+    if (chat) return;
+    firebase.createNewPrivateChat(user, otherUser).then((newChat) => {
       setChat(newChat);
       firebase.addChatConnection(otherUser.id, user.id, newChat.id);
       firebase.addChatConnection(user.id, otherUser.id, newChat.id);
-    };
-    if (!chat) createChat();
+    });
   }, [chat]);
   useEffect(() => {
     if (chat && messages.length == 0) {
@@ -110,18 +109,18 @@ const ChatScreen = ({ route }) => {
     }
   }, [chat]);
   const messageSelected = (message) => {};
-  const sendMessage = async () => {
+  const sendMessage = () => {
     if (messageText != "") {
       if (!user.chats[chat.id]) {
         firebase.addChatConnection(user.id, otherUser.id, chat.id);
       }
       const content = messageText;
       setMessageText("");
-      await firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
+      firebase.sendPrivateMessage(user.id, otherUser.id, content, chat);
       sendPushNotificationChatMessage(otherUser, user, content, chat.id);
     }
   };
-  const cleanAlerts = async () => {
+  const cleanAlerts = () => {
     if (chat) {
       const chatsAlertsClone = { ...chatsAlerts };
       delete chatsAlertsClone[chat.id];
