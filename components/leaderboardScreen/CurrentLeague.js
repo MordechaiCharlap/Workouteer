@@ -10,7 +10,7 @@ const CurrentLeague = ({ league }) => {
   return (
     <View
       className={`flex-row${
-        user.language == "hebrew" && "-reverse"
+        user.language == "hebrew" ? "-reverse" : ""
       } items-center`}
     >
       {leagues.map((leagueName, index) => {

@@ -80,7 +80,7 @@ const EditingWorkout = ({ workoutIndex }) => {
 
       <View
         className={`flex-row${
-          user.language == "hebrew" && "-reverse"
+          user.language == "hebrew" ? "-reverse" : ""
         } items-center`}
         style={{ columnGap: 5 }}
       >
@@ -116,7 +116,7 @@ const EditingWorkout = ({ workoutIndex }) => {
         >
           <View
             className={`flex-row${
-              user.language == "hebrew" && "-reverse"
+              user.language == "hebrew" ? "-reverse" : ""
             } items-center w-full`}
             style={{ columnGap: 8, padding: 5 }}
           >

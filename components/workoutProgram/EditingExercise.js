@@ -98,7 +98,7 @@ const EditingExercise = ({
 
         <View
           className={`flex-row${
-            user.language == "hebrew" && "-reverse"
+            user.language == "hebrew" ? "-reverse" : ""
           } items-center w-full`}
           style={{ columnGap: 8 }}
         >
@@ -124,7 +124,7 @@ const EditingExercise = ({
         </View>
         <View
           className={`flex-row${
-            user.language == "hebrew" && "-reverse"
+            user.language == "hebrew" ? "-reverse" : ""
           } items-center w-full`}
           style={{ columnGap: 8 }}
         >
@@ -176,7 +176,7 @@ const EditingExercise = ({
         </View>
         <View
           className={`flex-row${
-            user.language == "hebrew" && "-reverse"
+            user.language == "hebrew" ? "-reverse" : ""
           } items-center`}
           style={{ columnGap: 5 }}
         >

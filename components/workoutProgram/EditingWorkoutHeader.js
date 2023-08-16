@@ -58,7 +58,7 @@ const EditingWorkoutHeader = ({
   return (
     <View
       className={`flex-row${
-        user.language == "hebrew" && "-reverse"
+        user.language == "hebrew" ? "-reverse" : ""
       } items-center`}
       style={{ columnGap: 10 }}
     >
