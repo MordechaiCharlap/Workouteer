@@ -395,6 +395,9 @@ const languageService = {
     mostPopularPrograms: "Most popular programs",
     exploreNewPrograms: "Explore new programs",
     followers: "Followers",
+    saveProgram: "Save program",
+    stopFollow: ["Stop follow", "Stop follow"],
+    editProgram: "Edit program",
   },
   hebrew: {
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
@@ -779,6 +782,9 @@ const languageService = {
     mostPopularPrograms: "תוכניות האימונים הכי פופולאריות",
     exploreNewPrograms: "מציאת תוכנית אימונים",
     followers: "עוקבים",
+    saveProgram: "שמירת תוכנית",
+    stopFollow: ["הפסיקי לעקוב", "הפסק לעקוב"],
+    editProgram: "עריכת תוכנית",
   },
 };
 export default languageService;
