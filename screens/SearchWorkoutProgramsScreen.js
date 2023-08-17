@@ -25,6 +25,7 @@ import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import Header from "../components/Header";
 import languageService from "../services/languageService";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
 
 const SearchWorkoutProgramsScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -67,7 +68,7 @@ const SearchWorkoutProgramsScreen = () => {
       {initialLoading ? (
         <LoadingAnimation />
       ) : (
-        <View className="flex-1">
+        <Animated.View className="flex-1" entering={FadeInUp.springify()}>
           {(topPrograms.length != 0 || searchResults != null) && (
             <CustomText className="text-xl" style={{ marginHorizontal: 16 }}>
               {!searchResults
@@ -135,14 +136,26 @@ const SearchWorkoutProgramsScreen = () => {
                     {item.name}
                   </CustomText>
                   <View className="w-full">
-                    <View className="flex-row">
-                      <CustomText>Followers: </CustomText>
+                    <View
+                      className={`flex-row${
+                        user.language == "hebrew" ? "-reverse" : ""
+                      } items-center`}
+                    >
+                      <CustomText>
+                        {languageService[user.language].followers + ":" + " "}
+                      </CustomText>
                       <CustomText className="font-semibold">
                         {item.currentUsersCount}
                       </CustomText>
                     </View>
-                    <View className="flex-row">
-                      <CustomText>Workouts: </CustomText>
+                    <View
+                      className={`flex-row${
+                        user.language == "hebrew" ? "-reverse" : ""
+                      } items-center`}
+                    >
+                      <CustomText>
+                        {languageService[user.language].workouts + ":" + " "}
+                      </CustomText>
                       <CustomText className="font-semibold">
                         {item.workouts.length}
                       </CustomText>
@@ -152,7 +165,7 @@ const SearchWorkoutProgramsScreen = () => {
               )}
             />
           )}
-        </View>
+        </Animated.View>
       )}
     </View>
   );
