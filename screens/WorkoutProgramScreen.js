@@ -1,4 +1,10 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -9,15 +15,30 @@ import { safeAreaStyle } from "../components/safeAreaStyle";
 import useAuth from "../hooks/useAuth";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPenAlt, faPlay } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenAlt,
+  faPlay,
+  faUserMinus,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import languageService from "../services/languageService";
 import { convertHexToRgba } from "../utils/stylingFunctions";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  increment,
+  updateDoc,
+} from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 const WorkoutProgramScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
+  const { db } = useFirebase();
   const [selectedWorkoutIndex, setSelectedWorkoutIndex] = useState();
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
   const program = route.params.program;
   useFocusEffect(
     useCallback(() => {
@@ -27,6 +48,24 @@ const WorkoutProgramScreen = ({ route }) => {
   const onContainerColor = appStyle.color_on_primary_container;
   const containerColor = appStyle.color_surface_variant;
   const disabledColor = convertHexToRgba(onContainerColor, 0.3);
+  const stopFollow = () => {
+    setIsLoadingButton(true);
+    updateDoc(doc(db, "workoutPrograms", program.id), {
+      currentUsersCount: increment(-1),
+    });
+    updateDoc(doc(db, "users", user.id), {
+      savedWorkoutPrograms: arrayRemove(program.id),
+    }).then(() => setIsLoadingButton(false));
+  };
+  const follow = () => {
+    setIsLoadingButton(true);
+    updateDoc(doc(db, "workoutPrograms", program.id), {
+      currentUsersCount: increment(1),
+    });
+    updateDoc(doc(db, "users", user.id), {
+      savedWorkoutPrograms: arrayUnion(program.id),
+    }).then(() => setIsLoadingButton(false));
+  };
   const workoutButton = (onPress, icon) => {
     return (
       <CustomButton
@@ -44,6 +83,153 @@ const WorkoutProgramScreen = ({ route }) => {
           color={appStyle.color_background}
           size={20}
         />
+      </CustomButton>
+    );
+  };
+  const renderBottomButton = () => {
+    if (user.id == program.creator)
+      return (
+        <CustomButton
+          onPress={() =>
+            navigation.navigate("EditWorkoutProgram", {
+              program: program,
+            })
+          }
+          style={[
+            {
+              marginVertical: 8,
+              marginHorizontal: 16,
+              paddingVertical: 16,
+              backgroundColor: appStyle.color_tertiary,
+            },
+            appComponentsDefaultStyles.shadow,
+          ]}
+        >
+          {isLoadingButton ? (
+            <View
+              className="flex-row items-center"
+              style={{
+                columnGap: 5,
+              }}
+            >
+              <ActivityIndicator
+                color={appStyle.color_on_primary}
+                size={"small"}
+              />
+              <CustomText
+                className="text-xl"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                {languageService[user.language].loading + "..."}
+              </CustomText>
+            </View>
+          ) : (
+            <View
+              className="flex-row items-center"
+              style={{
+                columnGap: 5,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faPenAlt}
+                size={25}
+                color={appStyle.color_on_primary}
+              />
+              <CustomText
+                className="text-xl"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                {languageService[user.language].editProgram}
+              </CustomText>
+            </View>
+          )}
+        </CustomButton>
+      );
+    if (user.savedWorkoutPrograms.includes(program.id))
+      return (
+        <CustomButton
+          onPress={stopFollow}
+          style={[
+            {
+              marginVertical: 8,
+              marginHorizontal: 16,
+              paddingVertical: 16,
+              backgroundColor: appStyle.color_error,
+            },
+            appComponentsDefaultStyles.shadow,
+          ]}
+        >
+          {isLoadingButton ? (
+            <View
+              className="flex-row items-center"
+              style={{
+                columnGap: 5,
+              }}
+            >
+              <ActivityIndicator
+                color={appStyle.color_on_primary}
+                size={"small"}
+              />
+              <CustomText
+                className="text-xl"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                {languageService[user.language].loading + "..."}
+              </CustomText>
+            </View>
+          ) : (
+            <View
+              className="flex-row items-center"
+              style={{
+                columnGap: 5,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faUserMinus}
+                size={25}
+                color={appStyle.color_on_primary}
+              />
+              <CustomText
+                className="text-xl"
+                style={{ color: appStyle.color_on_primary }}
+              >
+                {languageService[user.language].stopFollow[user.isMale ? 1 : 0]}
+              </CustomText>
+            </View>
+          )}
+        </CustomButton>
+      );
+    return (
+      <CustomButton
+        onPress={follow}
+        style={[
+          {
+            marginVertical: 8,
+            marginHorizontal: 16,
+            paddingVertical: 16,
+            backgroundColor: appStyle.color_success,
+          },
+          appComponentsDefaultStyles.shadow,
+        ]}
+      >
+        <View
+          className="flex-row items-center"
+          style={{
+            columnGap: 5,
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faUserPlus}
+            size={25}
+            color={appStyle.color_on_primary}
+          />
+          <CustomText
+            className="text-xl"
+            style={{ color: appStyle.color_on_primary }}
+          >
+            {languageService[user.language].saveProgram}
+          </CustomText>
+        </View>
       </CustomButton>
     );
   };
@@ -93,19 +279,6 @@ const WorkoutProgramScreen = ({ route }) => {
               >
                 {item.name}
               </CustomText>
-              {/* <CustomButton
-                style={{
-                  backgroundColor: appStyle.color_primary,
-                  borderWidth: 2,
-                  borderColor: appStyle.color_background,
-                  borderRadius: 12,
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faPlay}
-                  color={appStyle.color_background}
-                />
-              </CustomButton> */}
             </View>
             <View
               className="flex-row w-full "
@@ -152,7 +325,7 @@ const WorkoutProgramScreen = ({ route }) => {
               </CustomText>
             </View>
             <FlatList
-              className="w-full"
+              className="w-full flex-1"
               data={item.exercises}
               keyExtractor={(exercise, index) => index}
               renderItem={({ item }) => (
@@ -217,34 +390,12 @@ const WorkoutProgramScreen = ({ route }) => {
                   navigation.navigate("IntervalTimer", { workout: item });
                   setSelectedWorkoutIndex();
                 }, faPlay)}
-                {/* {workoutButton(() => {}, faPenAlt)} */}
               </View>
             )}
           </CustomButton>
         )}
       />
-      <CustomButton
-        onPress={() =>
-          navigation.navigate("EditWorkoutProgram", {
-            program: program,
-          })
-        }
-        className="rounded-full aspect-square w-16 items-center justify-center absolute"
-        style={[
-          {
-            backgroundColor: appStyle.color_tertiary,
-            right: 20,
-            bottom: 20,
-          },
-          appComponentsDefaultStyles.shadow,
-        ]}
-      >
-        <FontAwesomeIcon
-          icon={faPenAlt}
-          size={25}
-          color={appStyle.color_on_primary}
-        />
-      </CustomButton>
+      {renderBottomButton()}
     </View>
   );
 };
