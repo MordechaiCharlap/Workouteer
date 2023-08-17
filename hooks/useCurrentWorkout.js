@@ -27,6 +27,7 @@ export const CurrentWorkoutProvider = ({ children }) => {
     return timeToNextQuarterHour;
   };
   const setCurrentWorkoutIfExists = () => {
+    if (!user) return;
     const now = new Date();
     for (var [key, value] of Object.entries(user.plannedWorkouts)) {
       if (
