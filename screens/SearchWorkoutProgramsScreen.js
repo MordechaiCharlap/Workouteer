@@ -68,7 +68,7 @@ const SearchWorkoutProgramsScreen = () => {
       {initialLoading ? (
         <LoadingAnimation />
       ) : (
-        <Animated.View className="flex-1" entering={FadeInUp.springify()}>
+        <View className="flex-1">
           {(topPrograms.length != 0 || searchResults != null) && (
             <CustomText className="text-xl" style={{ marginHorizontal: 16 }}>
               {!searchResults
@@ -123,6 +123,9 @@ const SearchWorkoutProgramsScreen = () => {
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <CustomButton
+                  onPress={() =>
+                    navigation.navigate("WorkoutProgram", { program: item })
+                  }
                   style={[
                     {
                       marginHorizontal: 16,
@@ -142,22 +145,31 @@ const SearchWorkoutProgramsScreen = () => {
                       } items-center`}
                     >
                       <CustomText>
-                        {languageService[user.language].followers + ":" + " "}
+                        {languageService[user.language].workouts + ":" + " "}
                       </CustomText>
                       <CustomText className="font-semibold">
-                        {item.currentUsersCount}
+                        {item.workouts.length}
                       </CustomText>
                     </View>
                     <View
                       className={`flex-row${
                         user.language == "hebrew" ? "-reverse" : ""
-                      } items-center`}
+                      } items-center justify-between`}
                     >
-                      <CustomText>
-                        {languageService[user.language].workouts + ":" + " "}
-                      </CustomText>
+                      <View
+                        className={`flex-row${
+                          user.language == "hebrew" ? "-reverse" : ""
+                        } items-center`}
+                      >
+                        <CustomText>
+                          {languageService[user.language].followers + ":" + " "}
+                        </CustomText>
+                        <CustomText className="font-semibold">
+                          {item.currentUsersCount}
+                        </CustomText>
+                      </View>
                       <CustomText className="font-semibold">
-                        {item.workouts.length}
+                        {item.creator}
                       </CustomText>
                     </View>
                   </View>
@@ -165,7 +177,7 @@ const SearchWorkoutProgramsScreen = () => {
               )}
             />
           )}
-        </Animated.View>
+        </View>
       )}
     </View>
   );
