@@ -14,7 +14,7 @@ const CreatedExercise = ({ exercise, editExercise }) => {
     <CustomButton
       onPress={editExercise}
       className={`flex-row${
-        user.language == "hebrew" ? "reverse" : ""
+        user.language == "hebrew" ? "-reverse" : ""
       } items-center w-full`}
       style={{
         columnGap: 8,
