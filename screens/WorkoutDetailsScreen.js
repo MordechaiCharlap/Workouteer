@@ -47,6 +47,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { getMemberStatus } from "../utils/workoutUtils";
 
 const WorkoutDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -71,16 +72,12 @@ const WorkoutDetailsScreen = ({ route }) => {
   const { db } = useFirebase();
   const { workoutRequestsAlerts } = useAlerts();
   const [workout, setWorkout] = useState(route.params.workout);
-  const isPastWorkout =
-    route.params.isPastWorkout != null
-      ? route.params.isPastWorkout
-      : route.params.workout.startingTime.toDate() < new Date();
-  const isCreator =
-    route.params.isCreator != null
-      ? route.params.isCreator
-      : route.params.workout.creator == user.id;
+  const [isPastWorkout, setIsPastWorkout] = useState(
+    workout.startingTime.toDate() < new Date()
+  );
+  const [isCreator, setIsCreator] = useState(workout.creator == user.id);
   const [userMemberStatus, setUserMemberStatus] = useState(
-    route.params.userMemberStatus
+    route.params.userMemberStatus || getMemberStatus(user.id, workout)
   );
   const [members, setMembers] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -591,7 +588,7 @@ const WorkoutDetailsScreen = ({ route }) => {
           )
         ))}
       {!initialLoading &&
-        workout.id == currentWorkout.id &&
+        workout.id == currentWorkout?.id &&
         workout.members[user.id]?.confirmedWorkout == false && (
           <ConfirmedButton />
         )}
