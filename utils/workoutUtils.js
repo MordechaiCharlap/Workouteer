@@ -34,3 +34,20 @@ export const removeBadPlannedWorkoutsAndReturnFixed = (user) => {
   }
   return unconfirmedWorkouts;
 };
+export const getMemberStatus = (userId, workout) => {
+  if (workout.creator == userId) return "creator";
+  if (workout.members[user.id] != null) return "member";
+  if (workout.invites[user.id] != null) return "invited";
+  if (workout.requests[user.id] != null) {
+    if (workout.requests[user.id] == true) {
+      return "pending";
+    } else {
+      return "rejected";
+    }
+  } else if (
+    (workout.sex == "men" && !user.isMale) ||
+    (workout.sex == "women" && user.isMale)
+  )
+    return "cannot";
+  else return "not";
+};
