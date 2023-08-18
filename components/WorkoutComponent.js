@@ -51,8 +51,10 @@ const WorkoutComponent = (props) => {
   const [userMemberStatus, setUserMemberStatus] = useState(null);
   const [distance, setDistance] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
-  const isPastWorkout = props.isPastWorkout;
-  const isCreator = props.workout.creator == user.id;
+  const [isPastWorkout, setIsPastWorkout] = useState(
+    workout.startingTime.toDate() < new Date()
+  );
+  const [isCreator, setIsCreator] = useState(workout.creator == user.id);
   useEffect(() => {
     if (!props.userMemberStatus && !isPastWorkout && workout) {
       if (isCreator) {
@@ -462,7 +464,6 @@ const WorkoutComponent = (props) => {
             onPress={() =>
               navigation.navigate("WorkoutDetails", {
                 workout: workout,
-                isCreator: isCreator,
                 isPastWorkout: isPastWorkout,
                 userMemberStatus: userMemberStatus,
               })
