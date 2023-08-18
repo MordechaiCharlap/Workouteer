@@ -398,6 +398,7 @@ const languageService = {
     saveProgram: "Save program",
     stopFollow: ["Stop follow", "Stop follow"],
     editProgram: "Edit program",
+    youHaventAddedFriendsYet: "You haven't added friends yet",
   },
   hebrew: {
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
@@ -785,6 +786,7 @@ const languageService = {
     saveProgram: "שמירת תוכנית",
     stopFollow: ["הפסיקי לעקוב", "הפסק לעקוב"],
     editProgram: "עריכת תוכנית",
+    youHaventAddedFriendsYet: "לא הוספת חברים עדיין",
   },
 };
 export default languageService;
