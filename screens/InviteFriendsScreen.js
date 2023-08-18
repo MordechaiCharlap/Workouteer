@@ -14,6 +14,7 @@ import languageService from "../services/languageService";
 import CustomTextInput from "../components/basic/CustomTextInput";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import CustomButton from "../components/basic/CustomButton";
+import CustomText from "../components/basic/CustomText";
 
 const InviteFriendsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -22,7 +23,7 @@ const InviteFriendsScreen = ({ route }) => {
   const { user } = useAuth();
   const [workout, setWorkout] = useState(route.params.workout);
   const [searchText, setSearchText] = useState("");
-  const [shownFriendsArray, setShownFriendsArray] = useState([]);
+  const [shownFriendsArray, setShownFriendsArray] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   useFocusEffect(
     useCallback(() => {
@@ -122,8 +123,13 @@ const InviteFriendsScreen = ({ route }) => {
         goBackOption={true}
       />
       <View
-        className="rounded-xl p-3 mx-2"
-        style={{ backgroundColor: appStyle.color_background_variant }}
+        className="rounded-xl p-3"
+        style={{
+          marginHorizontal: 16,
+          backgroundColor: appStyle.color_background_variant,
+          borderWidth: 0.5,
+          borderColor: appStyle.color_outline,
+        }}
       >
         <View className="flex-row items-center">
           <CustomButton>
@@ -142,48 +148,74 @@ const InviteFriendsScreen = ({ route }) => {
           />
         </View>
       </View>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        className="flex-1 px-4 pt-3"
-        data={shownFriendsArray}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) =>
-          !workout.requests[item.id] && (
-            <View className="flex-row items-center mt-2">
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Profile", {
-                    shownUser: item,
-                  })
-                }
-                className="flex-row flex-1 items-center"
-              >
-                <Image
-                  source={{
-                    uri: item.img,
-                  }}
-                  className="h-14 w-14 bg-white rounded-full mr-4"
-                />
-                <View>
-                  <Text
-                    className="text-xl font-semibold tracking-wider"
-                    style={{ color: appStyle.color_on_background }}
+      {shownFriendsArray &&
+        (shownFriendsArray.length > 0 ? (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            className="flex-1 pt-3"
+            style={{ marginHorizontal: 16 }}
+            data={shownFriendsArray}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) =>
+              !workout.requests[item.id] && (
+                <View className="flex-row items-center mt-2">
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Profile", {
+                        shownUser: item,
+                      })
+                    }
+                    className="flex-row flex-1 items-center"
                   >
-                    {item.id}
-                  </Text>
-                  <Text
-                    className="text-md opacity-60 tracking-wider"
-                    style={{ color: appStyle.color_on_background }}
-                  >
-                    {item.displayName}
-                  </Text>
+                    <Image
+                      source={{
+                        uri: item.img,
+                      }}
+                      className="h-14 w-14 bg-white rounded-full mr-4"
+                    />
+                    <View>
+                      <Text
+                        className="text-xl font-semibold tracking-wider"
+                        style={{ color: appStyle.color_on_background }}
+                      >
+                        {item.id}
+                      </Text>
+                      <Text
+                        className="text-md opacity-60 tracking-wider"
+                        style={{ color: appStyle.color_on_background }}
+                      >
+                        {item.displayName}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                  {getButton(item)}
                 </View>
-              </TouchableOpacity>
-              {getButton(item)}
+              )
+            }
+          />
+        ) : (
+          <View className="flex-1 justify-center">
+            <View
+              className="items-center justify-center"
+              style={[
+                {
+                  marginTop: 10,
+                  marginHorizontal: 16,
+                  padding: 6,
+                  borderRadius: 16,
+                  backgroundColor: appStyle.color_surface,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_outline,
+                },
+                appComponentsDefaultStyles.shadow,
+              ]}
+            >
+              <CustomText className="text-2xl font-semibold">
+                {languageService[user.language].youHaventAddedFriendsYet}
+              </CustomText>
             </View>
-          )
-        }
-      />
+          </View>
+        ))}
     </View>
   );
 };

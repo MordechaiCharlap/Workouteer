@@ -33,6 +33,7 @@ import Animated, {
 import LoadingAnimation from "../components/LoadingAnimation";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import useFriendRequests from "../hooks/useFriendRequests";
+import CustomText from "../components/basic/CustomText";
 const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
@@ -42,7 +43,7 @@ const FriendsScreen = ({ route }) => {
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState();
-  const { receivedFriendRequests } = useFriendRequests()
+  const { receivedFriendRequests } = useFriendRequests();
 
   useEffect(() => {
     if (!shownFriendsArray) return;
@@ -165,80 +166,106 @@ const FriendsScreen = ({ route }) => {
             />
           </View>
         </View>
-        <View className="flex-1">
-          {!friendsArray ? (
-            <LoadingAnimation />
-          ) : (
-            <Animated.FlatList
+        {Object.keys(user.friends).length == 0 ? (
+          <View className="flex-1 justify-center">
+            <View
+              className="items-center justify-center"
               style={[
                 {
-                  paddingTop: 10,
+                  marginTop: 10,
+                  marginHorizontal: 16,
+                  padding: 6,
+                  borderRadius: 16,
+                  backgroundColor: appStyle.color_surface,
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_outline,
                 },
-                animatedListStyle,
+                appComponentsDefaultStyles.shadow,
               ]}
-              // showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ rowGap: 10 }}
-              className="flex-1"
-              data={shownFriendsArray}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View className="flex-row items-center">
-                  <TouchableOpacity
-                    onPress={() => {
-                      item.id == user.id
-                        ? navigation.navigate("MyProfile")
-                        : navigation.navigate("Profile", {
-                            shownUser: item,
-                          });
-                    }}
-                    className="flex-row flex-1 items-center"
-                  >
-                    <Image
-                      source={{
-                        uri: item.img,
+            >
+              <CustomText className="text-2xl font-semibold">
+                {languageService[user.language].youHaventAddedFriendsYet}
+              </CustomText>
+            </View>
+          </View>
+        ) : (
+          <View className="flex-1">
+            {!friendsArray ? (
+              <LoadingAnimation />
+            ) : (
+              <Animated.FlatList
+                style={[
+                  {
+                    paddingTop: 10,
+                  },
+                  animatedListStyle,
+                ]}
+                // showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ rowGap: 10 }}
+                className="flex-1"
+                data={shownFriendsArray}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View className="flex-row items-center">
+                    <TouchableOpacity
+                      onPress={() => {
+                        item.id == user.id
+                          ? navigation.navigate("MyProfile")
+                          : navigation.navigate("Profile", {
+                              shownUser: item,
+                            });
                       }}
-                      className="h-14 w-14 bg-white rounded-full mr-4"
-                    />
-                    <View>
+                      className="flex-row flex-1 items-center"
+                    >
+                      <Image
+                        source={{
+                          uri: item.img,
+                        }}
+                        className="h-14 w-14 bg-white rounded-full mr-4"
+                      />
+                      <View>
+                        <Text
+                          className="text-xl font-semibold tracking-wider"
+                          style={{ color: appStyle.color_on_background }}
+                        >
+                          {item.id}
+                        </Text>
+                        <Text
+                          className="text-md opacity-60 tracking-wider"
+                          style={{ color: appStyle.color_on_background }}
+                        >
+                          {item.displayName}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => openPrivateChat(item)}
+                      className="p-2 rounded items-center justify-center flex-row gap-x-1"
+                      style={{
+                        backgroundColor: appStyle.color_surface_variant,
+                      }}
+                    >
                       <Text
-                        className="text-xl font-semibold tracking-wider"
-                        style={{ color: appStyle.color_on_background }}
+                        style={{ color: appStyle.color_on_surface_variant }}
                       >
-                        {item.id}
+                        {
+                          languageService[user.language].message[
+                            user.isMale ? 1 : 0
+                          ]
+                        }
                       </Text>
-                      <Text
-                        className="text-md opacity-60 tracking-wider"
-                        style={{ color: appStyle.color_on_background }}
-                      >
-                        {item.displayName}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => openPrivateChat(item)}
-                    className="p-2 rounded items-center justify-center flex-row gap-x-1"
-                    style={{
-                      backgroundColor: appStyle.color_surface_variant,
-                    }}
-                  >
-                    <Text style={{ color: appStyle.color_on_surface_variant }}>
-                      {
-                        languageService[user.language].message[
-                          user.isMale ? 1 : 0
-                        ]
-                      }
-                    </Text>
-                    <FontAwesomeIcon
-                      icon={faPaperPlane}
-                      size={15}
-                      color={appStyle.color_on_surface_variant}
-                    />
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          )}
-        </View>
+                      <FontAwesomeIcon
+                        icon={faPaperPlane}
+                        size={15}
+                        color={appStyle.color_on_surface_variant}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+            )}
+          </View>
+        )}
         {isMyUser && (
           <CustomButton
             onPress={() => navigation.navigate("SearchUsers")}
