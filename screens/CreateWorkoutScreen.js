@@ -218,8 +218,6 @@ const CreateWorkoutScreen = () => {
     const newWorkoutData = await firebase.createWorkout(workout);
     navigation.replace("WorkoutDetails", {
       workout: newWorkoutData,
-      isCreator: true,
-      isPastWorkout: false,
       userMemberStatus: "creator",
     });
 
