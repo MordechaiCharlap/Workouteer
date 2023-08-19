@@ -10,8 +10,12 @@ import useFriendsWorkouts from "../hooks/useFriendsWorkouts";
 import { FlatList } from "react-native";
 import WorkoutComponent from "../components/WorkoutComponent";
 import { color_outline, color_surface_variant } from "../utils/appStyleSheet";
+import useAlerts from "../hooks/useAlerts";
+import * as firebase from "../services/firebase";
+import { getMemberStatus } from "../utils/workoutUtils";
 const FriendsWorkoutsScreen = () => {
   const { friendsWorkouts } = useFriendsWorkouts();
+  const { workoutInvitesAlerts } = useAlerts();
   const { user } = useAuth();
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -25,7 +29,16 @@ const FriendsWorkoutsScreen = () => {
   //   };
   //   getCurrentLocation(user);
   // }, []);
-
+  // useEffect(() => {
+  //   const getWorkoutsByInvites = async () => {
+  //     const workoutsArr = await firebase.getWorkoutsByInvites(
+  //       workoutInvitesAlerts
+  //     );
+  //     setWorkouts(workoutsArr);
+  //     setInitialLoading(false);
+  //   };
+  //   getWorkoutsByInvites();
+  // }, []);
   return (
     <View style={safeAreaStyle()}>
       <Header
