@@ -77,7 +77,7 @@ const WorkoutDetailsScreen = ({ route }) => {
   );
   const [isCreator, setIsCreator] = useState(workout.creator == user.id);
   const [userMemberStatus, setUserMemberStatus] = useState(
-    route.params.userMemberStatus || getMemberStatus(user.id, workout)
+    getMemberStatus(user, workout)
   );
   const [members, setMembers] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
