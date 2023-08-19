@@ -161,7 +161,8 @@ const WorkoutDetailsScreen = ({ route }) => {
       scheduledNotificationId = await schedulePushNotification(
         workoutRef.startingTime.toDate(),
         "Workouteer",
-        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0]
+        languageService[user.language].confirmYourWorkout[user.isMale ? 1 : 0],
+        { type: "workoutDetails", workoutId: workout.id }
       );
     }
 
