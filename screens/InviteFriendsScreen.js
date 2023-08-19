@@ -33,6 +33,8 @@ const InviteFriendsScreen = ({ route }) => {
         const friendsArr = [];
         for (var key of allFriendsMap.keys()) {
           var userData = await firebase.userDataById(key);
+          if (workout.sex != "everyone" && user.isMale != userData.isMale)
+            continue;
           friendsArr.push(userData);
         }
         setShownFriendsArray(friendsArr);
