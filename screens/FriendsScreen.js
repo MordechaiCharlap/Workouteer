@@ -39,7 +39,9 @@ const FriendsScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
   var shownUser = route?.params?.shownUser || user;
-  const isMyUser = route?.params?.shownUser == null;
+  const [isMyUser, setIsMyUser] = useState(
+    route?.params?.shownUser?.id == user.id
+  );
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState();
@@ -61,54 +63,48 @@ const FriendsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Friends");
-      const getShownUserFriends = async () => {
-        const friendsArr = [];
-        for (var key of Object.keys(shownUser.friends)) {
-          var userData = await firebase.userDataById(key);
-          friendsArr.push(userData);
-        }
-        setFriendsArray(friendsArr);
-        setShownFriendsArray(friendsArr);
-      };
-      if (!isMyUser) getShownUserFriends();
-    }, [isMyUser])
+      if (!isMyUser) refreshFriendsArray();
+    }, [])
   );
   useEffect(() => {
-    const showMyFriends = async () => {
-      const friendsArr = [];
-      for (var key of Object.keys(shownUser.friends)) {
-        var userData = await firebase.userDataById(key);
-        friendsArr.push(userData);
-      }
-      setFriendsArray(friendsArr);
-      setShownFriendsArray(friendsArr);
-    };
-    if (isMyUser) showMyFriends();
+    if (isMyUser) refreshFriendsArray();
   }, [user.friends]);
 
   useEffect(() => {
+    if (!friendsArray) return;
     if (searchText != "") {
-      const searchTextLower = searchText.toLocaleLowerCase();
+      const searchTextLower = searchText.toLowerCase();
       const resultArray = [];
       for (var i = 0; i < friendsArray.length; i++) {
         if (
-          friendsArray[i].id.toLocaleLowerCase().includes(searchTextLower) ||
-          friendsArray[i].displayName
-            .toLocaleLowerCase()
-            .includes(searchTextLower)
+          friendsArray[i].id.toLowerCase().includes(searchTextLower) ||
+          friendsArray[i].displayName.toLowerCase().includes(searchTextLower)
         ) {
           resultArray.push(friendsArray[i]);
         }
       }
       setShownFriendsArray(resultArray);
-    } else setShownFriendsArray(friendsArray);
-  }, [searchText]);
+    } else {
+      setShownFriendsArray(friendsArray);
+    }
+  }, [searchText, friendsArray]);
   //TODO
   const openPrivateChat = async (otherUser) => {
     const chat = await firebase.getPrivateChatByUsers(user, otherUser);
     navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
   };
-
+  const refreshFriendsArray = async () => {
+    const newFriendsArray = friendsArray
+      ? JSON.parse(JSON.stringify(friendsArray))
+      : [];
+    for (var friendId of Object.keys(user.friends)) {
+      if (newFriendsArray.findIndex((friend) => friend.id == friendId) != -1)
+        continue;
+      var userData = await firebase.userDataById(friendId);
+      newFriendsArray.push(userData);
+    }
+    setFriendsArray(newFriendsArray);
+  };
   return (
     <View style={safeAreaStyle()}>
       <View className="flex-1 px-2">
