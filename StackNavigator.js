@@ -90,11 +90,9 @@ const StackNavigator = () => {
     if (userLoaded) {
       const newPlannedWorkouts = removeBadPlannedWorkoutsAndReturnFixed(user);
       const newStreak = resetStreakIfNeeded();
-      const userClone = {
-        ...user,
-        streak: newStreak,
-        plannedWorkouts: newPlannedWorkouts,
-      };
+      const userClone = { ...user };
+      userClone.streak = newStreak;
+      userClone.plannedWorkouts = newPlannedWorkouts;
       updateDoc(doc(db, "users", userClone.id), userClone);
     }
   }, [userLoaded]);
