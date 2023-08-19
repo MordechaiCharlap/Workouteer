@@ -91,7 +91,7 @@ const WorkoutProgramsScreen = ({ route }) => {
     savedProgramsClone.splice(index, 1);
     setSavedPrograms(savedProgramsClone);
     //An option for a creator that deletes the program for every user using array contains
-    if (savedPrograms[index].creator == creatorId) {
+    if (creatorId == user.id) {
       const q = query(
         collection(db, "users"),
         where("savedWorkoutPrograms", "array-contains", programId)
