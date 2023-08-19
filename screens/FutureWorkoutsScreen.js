@@ -30,25 +30,26 @@ const FutureWorkoutsScreen = ({ route }) => {
   const [newWorkouts, setNewWorkouts] = useState();
   const [workouts, setWorkouts] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
-  const scheduleNotificationsForNewWorkouts = useCallback(async () => {
+  const scheduleNotificationsForNewWorkouts = () => {
     if (newWorkouts && Object.keys(newWorkouts).length > 0) {
       for (var workout of workouts) {
         if (workout.members[user.id].notificationId == null) {
-          var scheduledNotificationId;
           if (Platform.OS != "web") {
-            scheduledNotificationId = await schedulePushNotification(
+            schedulePushNotification(
               workout.startingTime,
               "Workout session started!",
-              "Don't forget to confirm your workout to get your points :)"
-            );
+              "Don't forget to confirm your workout to get your points :)",
+              { type: "workoutDetails", workoutId: workout.id }
+            ).then((scheduledNotificationId) => {
+              updateDoc(doc(db, `workouts/${workout.id}`), {
+                [`members.${user.id}.notificationId`]: scheduledNotificationId,
+              });
+            });
           }
-          await updateDoc(doc(db, `workouts/${workout.id}`), {
-            [`members.${user.id}.notificationId`]: scheduledNotificationId,
-          });
         }
       }
     }
-  }, []);
+  };
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("FutureWorkouts");
@@ -73,9 +74,6 @@ const FutureWorkoutsScreen = ({ route }) => {
       }
     }, [])
   );
-  // useEffect(() => {
-  //   scheduleNotificationsForNewWorkouts();
-  // }, [workouts]);
   return (
     <View style={safeAreaStyle()}>
       <Header
