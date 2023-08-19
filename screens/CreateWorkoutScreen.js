@@ -36,11 +36,13 @@ import AwesomeModal from "../components/AwesomeModal";
 import { Title } from "../components/slides/Title";
 import BackOrExitButton from "../components/slides/BackOrExitButton";
 import CustomButton from "../components/basic/CustomButton";
-import { GeoPoint } from "firebase/firestore";
+import { GeoPoint, doc, updateDoc } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 const CreateWorkoutScreen = () => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
+  const { db } = useFirebase();
   const {
     schedulePushNotification,
     sendPushNotificationForFriendsAboutWorkout,
@@ -187,22 +189,12 @@ const CreateWorkoutScreen = () => {
   const createWorkout = async () => {
     setIsCreateDisabled(true);
     setLoading(true);
-    var scheduledNotificationId;
-    if (Platform.OS != "web") {
-      scheduledNotificationId = await schedulePushNotification(
-        startingTime,
-        "Workout session started!",
-        "Don't forget to confirm your workout to get your points :)"
-      );
-    }
 
     const workout = {
       creator: user.id,
       members: {
         [user.id]: {
-          notificationId: scheduledNotificationId
-            ? scheduledNotificationId
-            : null,
+          notificationId: null,
           confirmedWorkout: false,
         },
       },
@@ -220,6 +212,19 @@ const CreateWorkoutScreen = () => {
       workout: newWorkoutData,
       userMemberStatus: "creator",
     });
+    if (Platform.OS != "web") {
+      schedulePushNotification(
+        startingTime,
+        "Workout session started!",
+        "Don't forget to confirm your workout to get your points :)",
+        { type: "workoutDetails", workoutId: newWorkoutData.id }
+      ).then((scheduledNotificationId) => {
+        if (scheduledNotificationId != null)
+          updateDoc(doc(db, `workouts/${newWorkoutData.id}`), {
+            [`members.${user.id}.notificationId`]: scheduledNotificationId,
+          });
+      });
+    }
 
     sendPushNotificationForFriendsAboutWorkout(
       workoutSex,
