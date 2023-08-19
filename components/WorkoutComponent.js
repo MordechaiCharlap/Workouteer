@@ -31,6 +31,8 @@ import CustomButton from "../components/basic/CustomButton";
 import useFirebase from "../hooks/useFirebase";
 import appComponentsDefaultStyles from "../utils/appComponentsDefaultStyles";
 import useCurrentWorkout from "../hooks/useCurrentWorkout";
+import { getMemberStatus } from "../utils/workoutUtils";
+import CustomText from "./basic/CustomText";
 const WorkoutComponent = (props) => {
   const navigation = useNavigation();
   const { db } = useFirebase();
@@ -48,7 +50,9 @@ const WorkoutComponent = (props) => {
   } = usePushNotifications();
   const { checkIfWorkoutOnPlannedWorkoutTime } = useWorkoutLogic();
   const [workout, setWorkout] = useState(props.workout);
-  const [userMemberStatus, setUserMemberStatus] = useState(null);
+  const [userMemberStatus, setUserMemberStatus] = useState(
+    getMemberStatus(user, workout)
+  );
   const [distance, setDistance] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isPastWorkout, setIsPastWorkout] = useState(
@@ -56,30 +60,6 @@ const WorkoutComponent = (props) => {
   );
   const [isCreator, setIsCreator] = useState(workout.creator == user.id);
   useEffect(() => {
-    if (!props.userMemberStatus && !isPastWorkout && workout) {
-      if (isCreator) {
-        setUserMemberStatus("creator");
-      } else if (workout.members[user.id] != null) {
-        setUserMemberStatus("member");
-      } else if (workout.invites[user.id] != null) {
-        setUserMemberStatus("invited");
-      } else if (workout.requests[user.id] != null) {
-        if (workout.requests[user.id] == true) {
-          setUserMemberStatus("pending");
-        } else {
-          setUserMemberStatus("rejected");
-          setWorkout(null);
-        }
-      } else if (
-        (workout.sex == "men" && !user.isMale) ||
-        (workout.sex == "women" && user.isMale)
-      ) {
-        setUserMemberStatus("cannot");
-      } else {
-        setUserMemberStatus("not");
-      }
-    }
-    if (props.userMemberStatus) setUserMemberStatus(props.userMemberStatus);
     if (
       props.screen != "FutureWorkouts" &&
       !isPastWorkout &&
@@ -362,6 +342,24 @@ const WorkoutComponent = (props) => {
         return <></>;
     }
   };
+  const getConfirmButton = () => {
+    return (
+      <CustomButton
+        onPress={() => navigation.replace("ConfirmWorkout")}
+        style={[
+          style.actionButton,
+          { backgroundColor: appStyle.color_primary },
+        ]}
+      >
+        <CustomText
+          className="text-center"
+          style={{ color: appStyle.color_on_primary }}
+        >
+          {languageService[user.language].confirmWorkout[user.isMale ? 1 : 0]}
+        </CustomText>
+      </CustomButton>
+    );
+  };
   if (workout != null)
     return (
       <View style={[style.container, appComponentsDefaultStyles.shadow]}>
@@ -465,7 +463,6 @@ const WorkoutComponent = (props) => {
               navigation.navigate("WorkoutDetails", {
                 workout: workout,
                 isPastWorkout: isPastWorkout,
-                userMemberStatus: userMemberStatus,
               })
             }
             style={{ ...style.actionButton, flexDirection: "row" }}
@@ -491,6 +488,7 @@ const WorkoutComponent = (props) => {
           {!isPastWorkout &&
             userMemberStatus != "invited" &&
             getWorkoutActionButtons()}
+          {currentWorkout.id == workout.id && getConfirmButton()}
         </View>
         {!isPastWorkout && userMemberStatus == "invited" && (
           <View>{getWorkoutActionButtons()}</View>
