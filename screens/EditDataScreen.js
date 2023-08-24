@@ -26,6 +26,8 @@ import Header from "../components/Header";
 import languageService from "../services/languageService";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
+import CustomModal from "../components/basic/CustomModal";
+import CustomText from "../components/basic/CustomText";
 
 const EditDataScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -42,7 +44,10 @@ const EditDataScreen = () => {
         title={languageService[user.language].editPersonalData}
         goBackOption={true}
       />
-      <View className="flex-1 p-4">
+      <View
+        className="flex-1"
+        style={{ paddingHorizontal: 16, paddingBottom: 10 }}
+      >
         <EditProfileData navigation={navigation} user={user} />
       </View>
     </View>
@@ -56,6 +61,8 @@ const EditProfileData = (props) => {
   const [description, setDescription] = useState(user.description);
   const [image, setImage] = useState(user.img);
   const [imageLoading, setImageLoading] = useState(false);
+  const [showAddOrDeleteImageModal, setShowAddOrDeleteImageModal] =
+    useState(false);
   useEffect(() => {
     if (
       description == user.description &&
@@ -68,7 +75,13 @@ const EditProfileData = (props) => {
   const [updated, setUpdated] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
+  const editProfileImageClicked = () => {
+    if (image != defaultValues.defaultProfilePic) {
+      setShowAddOrDeleteImageModal(true);
+    } else {
+      onImageLibraryPress();
+    }
+  };
   const onImageLibraryPress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -157,7 +170,7 @@ const EditProfileData = (props) => {
     );
   };
   return (
-    <View>
+    <View className="flex-1">
       <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}>
         <View className="mb-5 self-center">
           {imageLoading ? (
@@ -259,186 +272,16 @@ const EditProfileData = (props) => {
           {SaveButton()}
         </KeyboardAvoidingView>
       </ScrollView>
+      <CustomModal
+        showModal={showAddOrDeleteImageModal}
+        setShowModal={setShowAddOrDeleteImageModal}
+      >
+        <CustomText>TEST</CustomText>
+      </CustomModal>
     </View>
   );
 };
-// const EditWorkoutPreferences = (props) => {
-//   const [minAge, setMinAge] = useState(props.user.acceptMinAge);
-//   const [maxAge, setMaxAge] = useState(props.user.acceptMaxAge);
-//   const [acceptMale, setAcceptMale] = useState(props.user.acceptMale);
-//   const [acceptFemale, setAcceptFemale] = useState(props.user.acceptFemale);
 
-//   const [invalidInput, setInvalidInput] = useState(false);
-//   const [updated, setUpdated] = useState(false);
-//   const [changesMade, setChangesMade] = useState(false);
-//   const [isLoading, setLoading] = useState(false);
-//   const onChangedMinAge = (text) => {
-//     setMinAge(text.replace(/[^0-9]/g, ""));
-//   };
-//   const onChangedMaxAge = (text) => {
-//     setMaxAge(text.replace(/[^0-9]/g, ""));
-//   };
-//   useEffect(() => {
-//     if (
-//       minAge == "" ||
-//       maxAge == "" ||
-//       parseInt(minAge) > parseInt(maxAge) ||
-//       (acceptMale == false && acceptFemale == false)
-//     ) {
-//       setInvalidInput(true);
-//     } else setInvalidInput(false);
-//     if (
-//       minAge != props.user.acceptMinAge ||
-//       maxAge != props.user.acceptMaxAge ||
-//       acceptMale != props.user.acceptMale ||
-//       acceptFemale != props.user.acceptFemale
-//     ) {
-//       setChangesMade(true);
-//     } else setChangesMade(false);
-//   }, [minAge, maxAge, acceptFemale, acceptMale]);
-//   const savePreferencesChanges = async () => {
-//     setLoading(true);
-//     await firebase.savePreferencesChanges(
-//       props.user.id,
-//       Math.max(parseInt(minAge), 16).toString(),
-//       Math.min(parseInt(maxAge), 100).toString(),
-//       acceptMale,
-//       acceptFemale
-//     );
-//     // props.setUser(await firebase.updateContext(props.user.id));
-
-//     setUpdated(true);
-//     setTimeout(() => {
-//       setLoading(false);
-//       setChangesMade(false);
-//       setUpdated(false);
-//       props.navigation.navigate("MyProfile");
-//     }, 1000);
-//   };
-//   const saveButtonClicked = () => {
-//     if (!invalidInput) {
-//       if (changesMade == true) {
-//         if (isLoading == false) savePreferencesChanges();
-//       }
-//     }
-//   };
-//   const SaveButton = () => {
-//     const getBackgroundColor = () => {
-//       if (invalidInput || !changesMade) return appStyle.color_background_variant;
-//       return updated == false
-//         ? appStyle.color_primary
-//         : appStyle.color_background_variant;
-//     };
-//     return (
-//       <TouchableOpacity
-//         onPress={saveButtonClicked}
-//         className="self-center py-1 px-5 w-9/12 rounded"
-//         style={{
-//           backgroundColor: getBackgroundColor(),
-//         }}
-//       >
-//         <Text
-//           className="text-2xl text-center"
-//           style={{ color: appStyle.color_on_primary }}
-//         >
-//           {invalidInput == true && "Invalid input"}
-//           {invalidInput == false && updated == true && "Updated successfuly!"}
-//           {invalidInput == false &&
-//             updated == false &&
-//             changesMade == false &&
-//             "No changes made"}
-//           {invalidInput == false &&
-//             updated == false &&
-//             changesMade == true &&
-//             isLoading == false &&
-//             "Save Changes"}
-//           {invalidInput == false &&
-//             updated == false &&
-//             changesMade == true &&
-//             isLoading == true &&
-//             "Loading"}
-//         </Text>
-//       </TouchableOpacity>
-//     );
-//   };
-//   return (
-//     <View>
-//       <View className="flex-row mb-5">
-//         <Text
-//           className="text-xl font-semibold mr-2"
-//           style={{ color: appStyle.color_primary }}
-//         >
-//           Partner's age:
-//         </Text>
-//         <TextInput
-//           keyboardType="numeric"
-//           className="rounded text-lg px-2 text-center w-16"
-//           style={style.input}
-//           maxLength={3}
-//           onChangeText={(text) => onChangedMinAge(text)}
-//           onBlur={() => {
-//             if (minAge != "")
-//               setMinAge(
-//                 Math.min(Math.max(parseInt(minAge), 16), maxAge).toString()
-//               );
-//           }}
-//           value={minAge}
-//         ></TextInput>
-//         <Text
-//           className="text-xl font-semibold mx-3"
-//           style={{ color: appStyle.color_primary }}
-//         >
-//           -
-//         </Text>
-//         <TextInput
-//           keyboardType="numeric"
-//           className="rounded text-lg px-2 text-center w-16"
-//           style={style.input}
-//           maxLength={3}
-//           onChangeText={(text) => onChangedMaxAge(text)}
-//           onBlur={() => {
-//             if (maxAge != "")
-//               setMaxAge(
-//                 Math.max(Math.min(parseInt(maxAge), 100), minAge).toString()
-//               );
-//           }}
-//           value={maxAge}
-//         ></TextInput>
-//       </View>
-//       <View className="flex-row items-center mb-5">
-//         <Text
-//           className="text-xl font-semibold mr-2"
-//           style={{ color: appStyle.color_primary }}
-//         >
-//           Partner's sex:
-//         </Text>
-//         <View className="flex-row items-center mr-2">
-//           <CheckBox
-//             onValueChange={(value) => setAcceptMale(value)}
-//             backgroundColor={appStyle.color_primary}
-//             valueColor={appStyle.color_on_primary}
-//             value={acceptMale}
-//           />
-//           <Text className="ml-1" style={{ color: appStyle.color_primary }}>
-//             Male
-//           </Text>
-//         </View>
-//         <View className="flex-row items-center">
-//           <CheckBox
-//             onValueChange={(value) => setAcceptFemale(value)}
-//             backgroundColor={appStyle.color_primary}
-//             valueColor={appStyle.color_on_primary}
-//             value={acceptFemale}
-//           />
-//           <Text className="ml-1" style={{ color: appStyle.color_primary }}>
-//             Female
-//           </Text>
-//         </View>
-//       </View>
-//       {SaveButton()}
-//     </View>
-//   );
-// };
 const style = StyleSheet.create({
   input: {
     color: appStyle.color_on_surface,
