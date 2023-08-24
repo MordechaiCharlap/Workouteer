@@ -10,9 +10,8 @@ export const safeAreaStyle = () => {
       (9 / 19) * (windowHeight || Dimensions.get("window").height);
     style = {
       height: "100%",
-      flex: 1,
-      aspectRatio: fixedWidth,
       width: fixedWidth,
+      flex: 1,
       backgroundColor: appStyle.color_background,
     };
   } else {
