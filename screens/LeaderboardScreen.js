@@ -158,30 +158,44 @@ const LeaderboardScreen = () => {
                     uri: item[0] == user.id ? user.img : item[1].img,
                   }}
                   className={`h-14 w-14 bg-white rounded-full ${
-                    user.language == "hebrew" ? "ml-4" : "mr-4"
+                    user.language == "hebrew" ? "ml-3" : "mr-3"
                   }`}
                 />
-                <CustomText
-                  className="tracking-wider"
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 600,
-                    color:
-                      item[0] == user.id
-                        ? appStyle.color_on_primary_container
-                        : appStyle.color_on_surface,
-                  }}
-                >
-                  {item[1].displayName}
-                </CustomText>
-
-                <CustomText
-                  className="absolute right-3 my-auto text-2xl"
+                <View
+                  className="flex-1 justify-center"
                   style={
+                    user.language == "hebrew"
+                      ? { alignItems: "flex-end" }
+                      : { alignItems: "flex-start" }
+                  }
+                >
+                  <CustomText
+                    numberOfLines={1}
+                    className="tracking-wider"
+                    style={[
+                      {
+                        fontSize: 24,
+                        fontWeight: 600,
+                        color:
+                          item[0] == user.id
+                            ? appStyle.color_on_primary_container
+                            : appStyle.color_on_surface,
+                      },
+                    ]}
+                  >
+                    {item[1].displayName}
+                  </CustomText>
+                </View>
+                <CustomText
+                  className="text-2xl"
+                  style={[
                     item[0] == user.id
                       ? { color: appStyle.color_on_primary_container }
-                      : { color: appStyle.color_on_surface }
-                  }
+                      : { color: appStyle.color_on_surface },
+                    user.language == "hebrew"
+                      ? { marginRight: 10 }
+                      : { marginLeft: 10 },
+                  ]}
                 >
                   {item[1].points}XP
                 </CustomText>
