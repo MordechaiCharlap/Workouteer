@@ -25,7 +25,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
-import ChatMessage from "../components/ChatMessage";
+import ChatMessage from "../components/chat/ChatMessage";
 import useAuth from "../hooks/useAuth";
 import usePushNotifications from "../hooks/usePushNotifications";
 import useAlerts from "../hooks/useAlerts";
