@@ -34,8 +34,8 @@ export const removeBadPlannedWorkoutsAndReturnFixed = (user) => {
   }
   return unconfirmedWorkouts;
 };
-export const getMemberStatus = (userId, workout) => {
-  if (workout.creator == userId) return "creator";
+export const getMemberStatus = (user, workout) => {
+  if (workout.creator == user.id) return "creator";
   if (workout.members[user.id] != null) return "member";
   if (workout.invites[user.id] != null) return "invited";
   if (workout.requests[user.id] != null) {
