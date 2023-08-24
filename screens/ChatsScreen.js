@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
-import { React, useState, useCallback } from "react";
+import { React, useState, useCallback, useEffect } from "react";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -47,7 +47,6 @@ const ChatsScreen = () => {
       setScreen("Chats");
     }, [])
   );
-
   const chatLongClicked = (item) => {
     const selectedChatsClone = selectedChats.slice();
     const index = selectedChatsClone.findIndex(
@@ -110,22 +109,22 @@ const ChatsScreen = () => {
   const chatsList = () => {
     const lastMessageConverter = (lastMessage, isAlert, isMyMessage) => {
       var shownText = lastMessage.content.replace(/[\r\n]+/g, " ");
-      switch (isAlert) {
-        case true:
-          if (shownText.length > 40)
-            shownText = shownText.slice(0, 40).trim() + "...";
-          break;
-        case false:
-          if (isMyMessage) {
-            if (shownText.length > 42)
-              shownText = shownText.slice(0, 42).trim() + "...";
-          } else {
-            if (shownText.length > 44)
-              shownText = shownText.slice(0, 44).trim() + "...";
-          }
-      }
+      // }
       return (
-        <Text style={{ color: appStyle.color_on_background }}>{shownText}</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: user.language == "hebrew" ? "row-reverse" : "row",
+          }}
+        >
+          <Text
+            numberOfLines={1}
+            className="flex-1"
+            style={{ color: appStyle.color_on_background }}
+          >
+            {shownText}
+          </Text>
+        </View>
       );
     };
     return (
@@ -217,11 +216,13 @@ const ChatsScreen = () => {
                             />
                           </View>
                         ))}
-                      {lastMessageConverter(
-                        item.chat.lastMessage,
-                        chatsAlerts[item.chat.id] != null,
-                        item.chat.lastMessage.sender == user.id
-                      )}
+                      <Text
+                        numberOfLines={1}
+                        className="flex-1"
+                        style={{ color: appStyle.color_on_background }}
+                      >
+                        {item.chat.lastMessage.content}
+                      </Text>
                     </View>
 
                     {chatsAlerts[item.chat.id] && (
