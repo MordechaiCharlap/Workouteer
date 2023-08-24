@@ -49,7 +49,7 @@ exports.deleteUserData = functions.firestore
       "https://firebasestorage.googleapis.com/v0/b/workouteer-54450.appspot.com/o/profile-pics%2Fdefaults%2Fdefault-profile-image.jpg?alt=media&token=e6cf13be-9b7b-4d6c-9769-9e18813dafd2"
     ) {
       const file = bucket.file(`profile-pics/${userId}.jpg`);
-      if (file.exists()) await file.delete();
+      if (await file.exists()) await file.delete();
     }
     const uid = user.uid;
     if (uid) {
@@ -145,7 +145,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
           const userAlertsRef = await db
             .doc(`alerts/${usersArray[index][0]}`)
             .get();
-          const userNewLeaderboardAlert = userAlertsRef.exists()
+          const userNewLeaderboardAlert = userAlertsRef.exists
             ? userAlertsRef.data().newLeaderboard
             : null;
           if (
