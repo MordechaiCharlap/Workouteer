@@ -45,47 +45,46 @@ export const NotificationsProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    if (userLoaded && clickedNotification) {
-      const notificationType =
-        clickedNotification.notification.request.content.data["type"];
-      if (notificationType == "workoutDetails") {
+    if (!userLoaded || !clickedNotification) return;
+    const notificationType =
+      clickedNotification.notification.request.content.data["type"];
+    if (notificationType == "workoutDetails") {
+      getDoc(
+        doc(
+          db,
+          "workouts",
+          clickedNotification.notification.request.content.data["workoutId"]
+        )
+      ).then((doc) => {
+        setClickedNotification();
+        navigation.navigate("WorkoutDetails", {
+          workout: { ...doc.data(), id: doc.id },
+          cameFromPushNotification: true,
+        });
+      });
+    } else if (notificationType == "chat") {
+      getDoc(
+        doc(
+          db,
+          "users",
+          clickedNotification.notification.request.content.data["otherUserId"]
+        )
+      ).then((userDoc) => {
         getDoc(
           doc(
             db,
-            "workouts",
-            clickedNotification.notification.request.content.data["workoutId"]
+            "chats",
+            clickedNotification.notification.request.content.data["chatId"]
           )
-        ).then((doc) => {
+        ).then((chatDoc) => {
           setClickedNotification();
-          navigation.navigate("WorkoutDetails", {
-            workout: { ...doc.data(), id: doc.id },
+          navigation.navigate("Chat", {
+            otherUser: userDoc.data(),
+            chat: chatDoc.data(),
             cameFromPushNotification: true,
           });
         });
-      } else if (notificationType == "chat") {
-        getDoc(
-          doc(
-            db,
-            "users",
-            clickedNotification.notification.request.content.data["otherUserId"]
-          )
-        ).then((userDoc) => {
-          getDoc(
-            doc(
-              db,
-              "chats",
-              clickedNotification.notification.request.content.data["chatId"]
-            )
-          ).then((chatDoc) => {
-            setClickedNotification();
-            navigation.navigate("Chat", {
-              otherUser: userDoc.data(),
-              chat: chatDoc.data(),
-              cameFromPushNotification: true,
-            });
-          });
-        });
-      }
+      });
     }
   }, [userLoaded, clickedNotification]);
   useEffect(() => {
