@@ -34,6 +34,7 @@ import languageService from "../services/languageService";
 import CustomTextInput from "../components/basic/CustomTextInput";
 import useFirebase from "../hooks/useFirebase";
 import CustomText from "../components/basic/CustomText";
+import ChatHeader from "../components/chat/ChatHeader";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -109,7 +110,28 @@ const ChatScreen = ({ route }) => {
       });
     }
   }, [chat]);
-  const messageSelected = (message) => {};
+  const selectedMessageClicked = (selectedMessage) => {
+    const selectedMessagesClone = [...selectedMessages];
+    const messageAlreadySelectedIndex = selectedMessagesClone.findIndex(
+      (message) => message.id == selectedMessage.id
+    );
+    selectedMessagesClone.splice(messageAlreadySelectedIndex, 1);
+    setSelectedMessages(selectedMessagesClone);
+  };
+  const messageSelected = (newSelectedMessage) => {
+    const selectedMessagesClone = [...selectedMessages];
+    const indexToPush = selectedMessagesClone.findIndex(
+      (message) => message.sentAt.toDate() > newSelectedMessage.sentAt.toDate()
+    );
+    if (indexToPush != -1) {
+      selectedMessagesClone.splice(indexToPush, 0, newSelectedMessage);
+    } else {
+      selectedMessagesClone.push(newSelectedMessage);
+    }
+
+    setSelectedMessages(selectedMessagesClone);
+    console.log(selectedMessagesClone.length);
+  };
   const sendMessage = () => {
     if (messageText != "") {
       if (!user.chats[chat.id]) {
@@ -131,46 +153,7 @@ const ChatScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <View
-        className="flex-row items-center"
-        style={{
-          backgroundColor: appStyle.color_surface,
-          height: 70,
-          borderBottomColor: appStyle.color_outline,
-          borderBottomWidth: 0.5,
-        }}
-      >
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            size={40}
-            color={appStyle.color_on_surface}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("Profile", {
-              shownUser: otherUser,
-            })
-          }
-          className="flex-row flex-1 items-center"
-          style={{ columnGap: 5 }}
-        >
-          <Image
-            source={{
-              uri: otherUser.img,
-            }}
-            className="h-14 w-14 bg-white rounded-full"
-          />
-          <CustomText
-            numberOfLines={1}
-            className="text-2xl font-semibold flex-1 text-center"
-            style={{ color: appStyle.color_on_surface }}
-          >
-            {otherUser.displayName}
-          </CustomText>
-        </TouchableOpacity>
-      </View>
+      <ChatHeader otherUser={otherUser} />
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS == "android" ? null : "padding"}
@@ -179,8 +162,11 @@ const ChatScreen = ({ route }) => {
       >
         <FlatList
           style={{ backgroundColor: appStyle.color_surface_variant }}
-          contentContainerStyle={{ justifyContent: "flex-end", flexGrow: 1 }}
-          className="p-2"
+          contentContainerStyle={{
+            justifyContent: "flex-end",
+            rowGap: 3,
+            flexGrow: 1,
+          }}
           showsVerticalScrollIndicator={false}
           extraData={true}
           data={messages}
@@ -188,11 +174,11 @@ const ChatScreen = ({ route }) => {
           inverted={true}
           renderItem={({ item }) => (
             <ChatMessage
+              selectedMessages={selectedMessages}
               messageSelected={messageSelected}
               chatId={chat.id}
               message={item}
-              user={user}
-              currentDay={currentDay}
+              selectedMessageClicked={selectedMessageClicked}
             />
           )}
         />
