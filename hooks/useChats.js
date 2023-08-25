@@ -58,8 +58,6 @@ export const ChatsProvider = ({ children }) => {
             }
           }
         } else if (change.type === "modified") {
-          console.log("modified");
-
           const modifiedChat = {
             id: change.doc.id,
             ...chatData,
