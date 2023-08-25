@@ -488,7 +488,7 @@ const WorkoutComponent = (props) => {
           {!isPastWorkout &&
             userMemberStatus != "invited" &&
             getWorkoutActionButtons()}
-          {currentWorkout.id == workout.id && getConfirmButton()}
+          {currentWorkout?.id == workout.id && getConfirmButton()}
         </View>
         {!isPastWorkout && userMemberStatus == "invited" && (
           <View>{getWorkoutActionButtons()}</View>
