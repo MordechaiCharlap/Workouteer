@@ -6,16 +6,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import * as firebase from "../../services/firebase";
 import { messageTimeString } from "../../utils/timeFunctions";
-const ChatMessage = (props) => {
-  const isSelfMessage = props.message.sender == props.user.id;
+import useAuth from "../../hooks/useAuth";
+import { convertHexToRgba } from "../../utils/stylingFunctions";
+const ChatMessage = ({
+  message,
+  chatId,
+  messageSelected,
+  selectedMessages,
+  selectedMessageClicked,
+}) => {
+  const { user } = useAuth();
+  const isSelfMessage = message.sender == user.id;
   const [checksNum, setChecksNum] = useState(!isSelfMessage ? 0 : 1);
   useEffect(() => {
     const seenByMe = async () => {
-      if (!isSelfMessage)
-        await firebase.seenByMe(props.user.id, props.chatId, props.message.id);
+      if (!isSelfMessage) await firebase.seenByMe(user.id, chatId, message.id);
     };
     var seenByEverybody = true;
-    for (var value of Object.values(props.message.seenBy)) {
+    for (var value of Object.values(message.seenBy)) {
       if (value == false) {
         seenByEverybody = false;
         break;
@@ -26,19 +34,26 @@ const ChatMessage = (props) => {
     } else if (!isSelfMessage && !seenByEverybody) {
       seenByMe();
     }
-  }, [props.message.seenBy]);
+  }, [message.seenBy]);
   return (
-    <View className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}>
-      <TouchableOpacity
-        onLongPress={() => {
-          props.messageSelected(props.message);
-        }}
-        className={`mt-1 p-1.5 rounded-b-2xl ${
+    <TouchableOpacity
+      onLongPress={() => {
+        messageSelected(message);
+      }}
+      onPress={() => {
+        if (selectedMessages.length > 0) messageSelected(message);
+      }}
+      className={`${isSelfMessage ? "flex-row" : "flex-row-reverse"}`}
+      style={{ paddingHorizontal: 3 }}
+    >
+      <View
+        className={`p-1.5 rounded-b-2xl ${
           isSelfMessage
             ? "rounded-tr-2xl rounded-tl"
             : "rounded-tl-2xl rounded-tr"
         }`}
         style={{
+          marginVertical: 2,
           maxWidth: "90%",
           backgroundColor: isSelfMessage
             ? appStyle.color_on_surface_variant
@@ -53,7 +68,7 @@ const ChatMessage = (props) => {
               : appStyle.color_on_surface,
           }}
         >
-          {props.message.content}
+          {message.content}
         </Text>
         <View className="flex-row items-end">
           <Text
@@ -63,10 +78,7 @@ const ChatMessage = (props) => {
                 : appStyle.color_on_surface,
             }}
           >
-            {messageTimeString(
-              props.message.sentAt.toDate(),
-              props.user.language
-            )}
+            {messageTimeString(message.sentAt.toDate(), user.language)}
           </Text>
           {isSelfMessage && (
             <View className="ml-2">
@@ -78,8 +90,22 @@ const ChatMessage = (props) => {
             </View>
           )}
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+      {selectedMessages.find(
+        (selectedMessage) => selectedMessage.id == message.id
+      ) && (
+        <TouchableOpacity
+          onLongPress={() => {
+            selectedMessageClicked(message);
+          }}
+          onPress={() => selectedMessageClicked(message)}
+          className="absolute left-0 right-0 top-0 bottom-0"
+          style={{
+            backgroundColor: convertHexToRgba(appStyle.color_primary, 0.2),
+          }}
+        ></TouchableOpacity>
+      )}
+    </TouchableOpacity>
   );
 };
 
