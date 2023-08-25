@@ -33,6 +33,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
 import CustomTextInput from "../components/basic/CustomTextInput";
 import useFirebase from "../hooks/useFirebase";
+import CustomText from "../components/basic/CustomText";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -153,19 +154,21 @@ const ChatScreen = ({ route }) => {
             })
           }
           className="flex-row flex-1 items-center"
+          style={{ columnGap: 5 }}
         >
           <Image
             source={{
               uri: otherUser.img,
             }}
-            className="h-14 w-14 bg-white rounded-full mr-4"
+            className="h-14 w-14 bg-white rounded-full"
           />
-          <Text
-            className="text-2xl font-semibold"
+          <CustomText
+            numberOfLines={1}
+            className="text-2xl font-semibold flex-1 text-center"
             style={{ color: appStyle.color_on_surface }}
           >
             {otherUser.displayName}
-          </Text>
+          </CustomText>
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView
