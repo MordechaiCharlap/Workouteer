@@ -10,7 +10,14 @@ import * as appStyle from "../../utils/appStyleSheet";
 import CustomButton from "./CustomButton";
 import CustomText from "./CustomText";
 import languageService from "../../services/languageService";
-
+import useAuth from "../../hooks/useAuth";
+interface User {
+  language: "string";
+}
+interface userState {
+  user: User;
+  // Add other properties here if needed
+}
 interface CustomModalProps extends ViewProps {
   showModal: boolean;
   setShowModal: Function;
@@ -23,7 +30,6 @@ interface CustomModalProps extends ViewProps {
   onCancel?: Function;
   confirmText?: string;
   cancelText?: string;
-  language?: string;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -39,9 +45,10 @@ const CustomModal: React.FC<CustomModalProps> = ({
   onCancel,
   confirmText,
   cancelText,
-  language,
   ...restProps
 }) => {
+  const { user } = useAuth() as userState;
+  const language = user?.language;
   const clientStyle = restProps.style;
   const restPropsWithoutStyle = restProps;
   delete restPropsWithoutStyle.style;
@@ -130,7 +137,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
                   }}
                 >
                   <CustomText style={{ color: appStyle.color_surface }}>
-                    {cancelText
+                    {confirmText
                       ? confirmText
                       : language
                       ? languageService[language].confirm
