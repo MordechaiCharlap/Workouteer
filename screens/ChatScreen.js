@@ -35,6 +35,7 @@ import CustomTextInput from "../components/basic/CustomTextInput";
 import useFirebase from "../hooks/useFirebase";
 import CustomText from "../components/basic/CustomText";
 import ChatHeader from "../components/chat/ChatHeader";
+import CustomModal from "../components/basic/CustomModal";
 const ChatScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -53,6 +54,7 @@ const ChatScreen = ({ route }) => {
   const otherUser = route.params.otherUser;
   const { db } = useFirebase();
   const [messageText, setMessageText] = useState("");
+  const [showDeleteMessagesModal, setShowDeleteMessagesModal] = useState(false);
   const now = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -64,7 +66,7 @@ const ChatScreen = ({ route }) => {
       day: day,
     };
   };
-  const currentDay = now();
+  // const currentDay = now();
   useEffect(() => {
     if (chat) return;
     firebase.createNewPrivateChat(user, otherUser).then((newChat) => {
@@ -132,6 +134,7 @@ const ChatScreen = ({ route }) => {
     setSelectedMessages(selectedMessagesClone);
     console.log(selectedMessagesClone.length);
   };
+  const deleteSelectedMessages = () => {};
   const sendMessage = () => {
     if (messageText != "") {
       if (!user.chats[chat.id]) {
@@ -153,7 +156,7 @@ const ChatScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <ChatHeader otherUser={otherUser} />
+      <ChatHeader otherUser={otherUser} selectedMessages={selectedMessages} />
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS == "android" ? null : "padding"}
@@ -238,6 +241,19 @@ const ChatScreen = ({ route }) => {
           </View>
         )}
       </KeyboardAvoidingView>
+      <CustomModal
+        showModal={!showDeleteMessagesModal}
+        setShowModal={setShowDeleteMessagesModal}
+        cancelButton
+        confirmButton
+        confirmText={languageService[user.language].deleteForMe}
+      >
+        <CustomText className="text-xl" style={{ paddingBottom: 20 }}>
+          {languageService[user.language].areYouSureYouWantToDeleteMessages(
+            user.isMale
+          )}
+        </CustomText>
+      </CustomModal>
     </View>
   );
 };
