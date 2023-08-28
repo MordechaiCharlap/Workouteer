@@ -7,7 +7,11 @@ import { useNavigation } from "@react-navigation/native";
 import useAuth from "../../hooks/useAuth";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
-const ChatHeader = ({ otherUser }) => {
+const ChatHeader = ({
+  otherUser,
+  selectedMessages,
+  deleteSelectedMessages,
+}) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   return (
