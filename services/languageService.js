@@ -399,6 +399,10 @@ const languageService = {
     stopFollow: ["Stop follow", "Stop follow"],
     editProgram: "Edit program",
     youHaventAddedFriendsYet: "You haven't added friends yet",
+    areYouSureYouWantToDeleteMessages: (isMale) => {
+      return "Are you sure you want to delete those messages?";
+    },
+    deleteForMe: "Delete for me",
   },
   hebrew: {
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
@@ -787,6 +791,12 @@ const languageService = {
     stopFollow: ["הפסיקי לעקוב", "הפסק לעקוב"],
     editProgram: "עריכת תוכנית",
     youHaventAddedFriendsYet: "לא הוספת חברים עדיין",
+    areYouSureYouWantToDeleteMessages: (isMale) => {
+      return isMale
+        ? "אתה בטוח שאתה רוצה למחוק את ההודעות האלו?"
+        : "את בטוחה שאת רוצה למחוק את ההודעות האלו?";
+    },
+    deleteForMe: "מחק בשבילי",
   },
 };
 export default languageService;
