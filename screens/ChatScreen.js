@@ -242,7 +242,7 @@ const ChatScreen = ({ route }) => {
         )}
       </KeyboardAvoidingView>
       <CustomModal
-        showModal={!showDeleteMessagesModal}
+        showModal={showDeleteMessagesModal}
         setShowModal={setShowDeleteMessagesModal}
         cancelButton
         confirmButton
