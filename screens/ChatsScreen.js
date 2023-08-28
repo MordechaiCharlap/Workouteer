@@ -194,47 +194,41 @@ const ChatsScreen = () => {
                       )}
                     </Text>
                   </View>
-                  <View className="flex-row items-center justify-between">
-                    <View className="flex-row items-center">
-                      {item.chat.lastMessage.sender == user.id &&
-                        (Object.values(item.chat.lastMessage.seenBy).every(
-                          (value) => value == true
-                        ) ? (
-                          <View className="mr-0.5">
-                            <FontAwesomeIcon
-                              icon={faCheckDouble}
-                              color={appStyle.color_on_background}
-                              size={15}
-                            />
-                          </View>
-                        ) : (
-                          <View className="mr-0.5">
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              color={appStyle.color_on_background}
-                              size={15}
-                            />
-                          </View>
-                        ))}
-                      <Text
-                        numberOfLines={1}
-                        className="flex-1"
-                        style={{ color: appStyle.color_on_background }}
-                      >
-                        {item.chat.lastMessage.content}
-                      </Text>
-                    </View>
-
-                    {chatsAlerts[item.chat.id] && (
-                      <View>
-                        <AlertDot
-                          text={chatsAlerts[item.chat.id]}
-                          textColor={appStyle.color_background}
+                  <View
+                    className="flex-row items-center"
+                    style={{ columnGap: 2 }}
+                  >
+                    {item.chat.lastMessage.sender == user.id &&
+                      (Object.values(item.chat.lastMessage.seenBy).every(
+                        (value) => value == true
+                      ) ? (
+                        <FontAwesomeIcon
+                          icon={faCheckDouble}
                           color={appStyle.color_on_background}
-                          fontSize={10}
-                          size={23}
+                          size={15}
                         />
-                      </View>
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          color={appStyle.color_on_background}
+                          size={15}
+                        />
+                      ))}
+                    <Text
+                      numberOfLines={1}
+                      className="flex-1"
+                      style={{ color: appStyle.color_on_background }}
+                    >
+                      {item.chat.lastMessage.content}
+                    </Text>
+                    {chatsAlerts[item.chat.id] && (
+                      <AlertDot
+                        text={chatsAlerts[item.chat.id]}
+                        textColor={appStyle.color_background}
+                        color={appStyle.color_on_background}
+                        fontSize={10}
+                        size={23}
+                      />
                     )}
                   </View>
                 </View>
