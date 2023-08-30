@@ -28,12 +28,12 @@ export const ExploreProvider = ({ children }) => {
       !userLoaded ||
       !receivedFriendRequests ||
       !sentFriendRequests ||
-      suggestedUsers != null
+      !suggestedUsers
     ) {
       return;
     }
     getSuggestedUsers();
-  }, [userLoaded]);
+  }, [userLoaded, sentFriendRequests, receivedFriendRequests]);
   const getSuggestedUsers = async () => {
     const suggestedArray = [];
     const suggestedCounterMap = {};
