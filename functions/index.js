@@ -124,8 +124,6 @@ exports.weeklyLeaderboardReset = functions.pubsub
     const dateToWeekIdConverter = (date) => {
       `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     };
-    const newWeekId = dateToWeekIdConverter(now);
-    const newLeagues = new Array(10).fill(null).map(() => []);
     const getDateOneWeekAgo = (now) => {
       const oneWeekAgo = new Date(now);
 
@@ -133,8 +131,12 @@ exports.weeklyLeaderboardReset = functions.pubsub
 
       return oneWeekAgo;
     };
+    const newWeekId = dateToWeekIdConverter(now);
+    const newLeagues = new Array(10).fill(null).map(() => []);
+
     const dateOneWeekAgo = getDateOneWeekAgo(now);
     const lastWeekId = dateToWeekIdConverter(dateOneWeekAgo);
+
     for (let leagueNum = 0; leagueNum < 10; leagueNum++) {
       const lastWeekLeaderboards = await db
         .collection(`leaderboards/${leagueNum}/${lastWeekId}`)
@@ -179,6 +181,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
     }
 
     console.log(newLeagues);
+    const newLeaguesChunks = new Array(10).fill(null).map(() => []);
     for (let leagueNum = 0; leagueNum < newLeagues.length; leagueNum++) {
       const usersChunksArray = [];
       let chunksCounter = 0;
