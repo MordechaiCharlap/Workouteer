@@ -4,6 +4,7 @@ export const checkFriendShipStatus = (
   sentFriendRequests,
   receivedFriendRequests
 ) => {
+  if (!sentFriendRequests || !receivedFriendRequests) return "None";
   if (userData.friends[otherUserId] != null) {
     return "Friends";
   } else {
