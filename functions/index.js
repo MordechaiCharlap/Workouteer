@@ -120,18 +120,21 @@ exports.weeklyLeaderboardReset = functions.pubsub
   .timeZone("Asia/Jerusalem")
   .onRun(async () => {
     const batch = db.batch();
-    const date = new Date();
-    date.setDate(date.getDate() - ((date.getDay() + 1) % 7));
-    const newWeekId = `${date.getDate()}-${
-      date.getMonth() + 1
-    }-${date.getFullYear()}`;
+    const now = new Date();
+    const dateToWeekIdConverter = (date) => {
+      `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    };
+    const newWeekId = dateToWeekIdConverter(now);
     const newLeagues = new Array(10).fill(null).map(() => []);
-    const leaderboardsData = await db
-      .collection("leaderboards")
-      .doc("leaderboardsData")
-      .get();
-    const lastWeekId = leaderboardsData.data().currentWeekId;
+    const getDateOneWeekAgo = (now) => {
+      const oneWeekAgo = new Date(now);
 
+      oneWeekAgo.setDate(now.getDate() - 7);
+
+      return oneWeekAgo;
+    };
+    const dateOneWeekAgo = getDateOneWeekAgo(now);
+    const lastWeekId = dateToWeekIdConverter(dateOneWeekAgo);
     for (let leagueNum = 0; leagueNum < 10; leagueNum++) {
       const lastWeekLeaderboards = await db
         .collection(`leaderboards/${leagueNum}/${lastWeekId}`)
@@ -176,9 +179,6 @@ exports.weeklyLeaderboardReset = functions.pubsub
     }
 
     console.log(newLeagues);
-    const newLeaguesChunks = new Array(10).fill(null).map(() => []);
-    console.log("new league chunks before:");
-    console.log(newLeaguesChunks);
     for (let leagueNum = 0; leagueNum < newLeagues.length; leagueNum++) {
       const usersChunksArray = [];
       let chunksCounter = 0;
