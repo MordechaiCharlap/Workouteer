@@ -120,6 +120,9 @@ const ChatScreen = ({ route }) => {
     selectedMessagesClone.splice(messageAlreadySelectedIndex, 1);
     setSelectedMessages(selectedMessagesClone);
   };
+  const clearSelectedMessages = () => {
+    setSelectedMessages([]);
+  };
   const messageSelected = (newSelectedMessage) => {
     const selectedMessagesClone = [...selectedMessages];
     const indexToPush = selectedMessagesClone.findIndex(
@@ -132,7 +135,6 @@ const ChatScreen = ({ route }) => {
     }
 
     setSelectedMessages(selectedMessagesClone);
-    console.log(selectedMessagesClone.length);
   };
   const deleteSelectedMessages = () => {};
   const sendMessage = () => {
@@ -156,7 +158,12 @@ const ChatScreen = ({ route }) => {
   };
   return (
     <View style={safeAreaStyle()}>
-      <ChatHeader otherUser={otherUser} selectedMessages={selectedMessages} />
+      <ChatHeader
+        otherUser={otherUser}
+        selectedMessages={selectedMessages}
+        deleteSelectedMessages={deleteSelectedMessages}
+        clearSelectedMessages={clearSelectedMessages}
+      />
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS == "android" ? null : "padding"}
