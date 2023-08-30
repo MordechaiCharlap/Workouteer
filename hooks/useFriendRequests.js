@@ -7,8 +7,8 @@ const FriendRequestsContext = createContext({});
 export const FriendRequestsProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
   const { db } = useFirebase();
-  const [sentFriendRequests, setSentFriendRequests] = useState({});
-  const [receivedFriendRequests, setReceivedFriendRequests] = useState({});
+  const [sentFriendRequests, setSentFriendRequests] = useState();
+  const [receivedFriendRequests, setReceivedFriendRequests] = useState();
   const listener = useRef();
   const cleanFriendRequestsListener = () => {
     if (listener.current) listener.current();

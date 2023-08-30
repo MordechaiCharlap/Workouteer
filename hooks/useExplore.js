@@ -33,7 +33,7 @@ export const ExploreProvider = ({ children }) => {
       return;
     }
     getSuggestedUsers();
-  }, [userLoaded, receivedFriendRequests, sentFriendRequests]);
+  }, [userLoaded]);
   const getSuggestedUsers = async () => {
     const suggestedArray = [];
     const suggestedCounterMap = {};
