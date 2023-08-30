@@ -38,15 +38,16 @@ const FriendsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { setCurrentScreen } = useNavbarDisplay();
   const { user } = useAuth();
-  var shownUser = route?.params?.shownUser || user;
-  const [isMyUser, setIsMyUser] = useState(
-    route?.params?.shownUser?.id == user.id
-  );
+  const [shownUser, setShownUser] = useState(route?.params?.shownUser || user);
+  const [isMyUser, setIsMyUser] = useState(shownUser.id == user.id);
   const [searchText, setSearchText] = useState("");
   const [friendsArray, setFriendsArray] = useState();
   const [shownFriendsArray, setShownFriendsArray] = useState();
   const { receivedFriendRequests } = useFriendRequests();
-
+  useEffect(() => {
+    setShownUser(route?.params?.shownUser || user);
+    setIsMyUser(route?.params?.shownUser?.id == user.id);
+  }, [route?.params?.shownUser]);
   useEffect(() => {
     if (!shownFriendsArray) return;
     listMarginTop.value = withTiming(0);
@@ -63,9 +64,13 @@ const FriendsScreen = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       setCurrentScreen("Friends");
-      if (!isMyUser) refreshFriendsArray();
     }, [])
   );
+  useEffect(() => {
+    if (!isMyUser) {
+      refreshFriendsArray();
+    }
+  }, [shownUser, isMyUser]);
   useEffect(() => {
     if (isMyUser) refreshFriendsArray();
   }, [user.friends]);
@@ -94,10 +99,8 @@ const FriendsScreen = ({ route }) => {
     navigation.navigate("Chat", { otherUser: otherUser, chat: chat });
   };
   const refreshFriendsArray = async () => {
-    const newFriendsArray = friendsArray
-      ? JSON.parse(JSON.stringify(friendsArray))
-      : [];
-    for (var friendId of Object.keys(user.friends)) {
+    const newFriendsArray = [];
+    for (var friendId of Object.keys(shownUser.friends)) {
       if (newFriendsArray.findIndex((friend) => friend.id == friendId) != -1)
         continue;
       var userData = await firebase.userDataById(friendId);
