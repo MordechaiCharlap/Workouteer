@@ -871,14 +871,12 @@ export const removePastOrEmptyWorkoutsAlerts = async (
   }
 };
 export const getLastWeekId = () => {
-  var lastSaturday = new Date();
-  lastSaturday.setDate(lastSaturday.getDate() - 1);
-  lastSaturday.setDate(
-    lastSaturday.getDate() - ((lastSaturday.getDay() + 1) % 7)
-  );
-  const weekId = `${lastSaturday.getDate()}-${
-    lastSaturday.getMonth() + 1
-  }-${lastSaturday.getFullYear()}`;
+  var lastSunday = new Date();
+  const dayOfTheWeek = lastSunday.getDay();
+  lastSunday.setDate(lastSunday.getDate() - dayOfTheWeek);
+  const weekId = `${lastSunday.getDate()}-${
+    lastSunday.getMonth() + 1
+  }-${lastSunday.getFullYear()}`;
   return weekId;
 };
 export const addLeaderboardPoints = async (user, pointsNumber) => {
