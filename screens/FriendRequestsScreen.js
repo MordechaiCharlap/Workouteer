@@ -29,7 +29,7 @@ const FriendRequestsScreen = () => {
         );
         setFriendRequests(requestsArray);
       };
-      setArray();
+      receivedFriendRequests && setArray();
     }, [])
   );
 
