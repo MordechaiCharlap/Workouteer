@@ -1,5 +1,5 @@
 import { View, FlatList, Switch } from "react-native";
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
@@ -337,3 +337,6 @@ const EditingWorkoutProgram = ({ program, programName }) => {
 };
 
 export default EditingWorkoutProgram;
+export const useWorkoutProgram = () => {
+  return useContext(ProgramContext);
+};

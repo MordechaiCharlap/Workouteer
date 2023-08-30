@@ -9,8 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { color_outline } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useContext, useState } from "react";
-import { ProgramContext } from "./EditingWorkoutProgram";
+import { useState } from "react";
+import { useWorkoutProgram } from "./EditingWorkoutProgram";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
 const EditingWorkoutHeader = ({
@@ -26,7 +26,7 @@ const EditingWorkoutHeader = ({
     setMaximizedWorkout,
     highlightErrors,
     workoutsFlatListRef,
-  } = useContext(ProgramContext);
+  } = useWorkoutProgram();
   const [isNameFocused, setIsNameFocused] = useState(false);
   const deleteWorkout = () => {
     const programDataClone = JSON.parse(JSON.stringify(programData));

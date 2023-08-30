@@ -1,5 +1,5 @@
 import { View, FlatList, Modal } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   color_error,
   color_on_primary_container,
@@ -11,7 +11,7 @@ import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import RestTimePicker from "./RestTimePicker";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
-import { ProgramContext } from "./EditingWorkoutProgram";
+import { useWorkoutProgram } from "./EditingWorkoutProgram";
 import EditingExercise from "./EditingExercise";
 import CreatedExercise from "./CreatedExercise";
 import languageService from "../../services/languageService";
@@ -24,8 +24,7 @@ import { convertHexToRgba } from "../../utils/stylingFunctions";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { user } = useAuth();
-  const { programData, setProgramData, highlightErrors } =
-    useContext(ProgramContext);
+  const { programData, setProgramData, highlightErrors } = useWorkoutProgram();
   const [editingExerciseIndex, setEditingExerciseIndex] = useState();
   const [editingExercise, setEditingExercise] = useState();
   const { windowHeight } = useResponsiveness();

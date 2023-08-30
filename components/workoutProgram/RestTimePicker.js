@@ -1,18 +1,17 @@
-import { View, Text } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { View } from "react-native";
+import React, { useState } from "react";
 import CustomButton from "../basic/CustomButton";
 import CustomText from "../basic/CustomText";
 import AwesomeModal from "../AwesomeModal";
 import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
-import { ProgramContext } from "./EditingWorkoutProgram";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
+import { useWorkoutProgram } from "./EditingWorkoutProgram";
 
 const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
   const { user } = useAuth();
-  const { programData, setProgramData, maximizedWorkout, highlightErrors } =
-    useContext(ProgramContext);
+  const { programData, setProgramData, highlightErrors } = useWorkoutProgram();
   const [showRestModal, setShowRestModal] = useState(false);
   const [restMinutes, setRestMinutes] = useState();
   const [restSeconds, setRestSeconds] = useState();
