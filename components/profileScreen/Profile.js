@@ -123,9 +123,9 @@ const Profile = ({ shownUser, isMyUser }) => {
   };
   useEffect(() => {
     if (!isMyUser) countFutureWorkouts();
-  }, []);
+  }, [shownUser]);
   useEffect(() => {
-    if (isMyUser) return;
+    if (isMyUser || !sentFriendRequests || !receivedFriendRequests) return;
     const currentFriendshipStatus = checkFriendShipStatus(
       user,
       shownUser.id,
@@ -355,11 +355,12 @@ const Profile = ({ shownUser, isMyUser }) => {
             <CustomButton
               round
               style={[buttonStyle, appComponentsDefaultStyles.shadow]}
-              onPress={() =>
+              onPress={() => {
                 navigation.navigate("Friends", {
-                  shownUser: !isMyUser ? shownUser : null,
-                })
-              }
+                  shownUser: shownUser,
+                  isMyUser: isMyUser,
+                });
+              }}
             >
               <CustomText style={{ fontSize: 25, color: buttonStyle.color }}>
                 {shownUser.friendsCount}
@@ -466,8 +467,8 @@ const Profile = ({ shownUser, isMyUser }) => {
           setShowModal={setShowReportModal}
           closeOnTouchOutside
           confirmButton
-            cancelButton
-            language={user.language}
+          cancelButton
+          language={user.language}
           onConfirm={() => {
             setShowReportModal(false);
             navigation.navigate("ReportUser", {
