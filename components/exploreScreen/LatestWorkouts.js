@@ -1,18 +1,8 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { View } from "react-native";
 import React, { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
-import CustomButton from "../basic/CustomButton";
 import * as appStyle from "../../utils/appStyleSheet";
 import WorkoutComponent from "../WorkoutComponent";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import useExplore from "../../hooks/useExplore";
 import CustomText from "../basic/CustomText";
 import languageService from "../../services/languageService";
