@@ -18,7 +18,6 @@ import {
 import useFirebase from "./useFirebase";
 import CustomModal from "../components/basic/CustomModal";
 import useAlerts from "./useAlerts";
-import { View } from "react-native";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
 const LeaderboardContext = createContext({});
