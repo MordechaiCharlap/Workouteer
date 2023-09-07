@@ -11,7 +11,6 @@ import CustomText from "../basic/CustomText";
 import CustomButton from "../basic/CustomButton";
 import RestTimePicker from "./RestTimePicker";
 import EditingWorkoutHeader from "./EditingWorkoutHeader";
-import { useWorkoutProgram } from "./EditingWorkoutProgram";
 import EditingExercise from "./EditingExercise";
 import CreatedExercise from "./CreatedExercise";
 import languageService from "../../services/languageService";
@@ -21,6 +20,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import useResponsiveness from "../../hooks/useResponsiveness";
 import appComponentsDefaultStyles from "../../utils/appComponentsDefaultStyles";
 import { convertHexToRgba } from "../../utils/stylingFunctions";
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 
 const EditingWorkout = ({ workoutIndex }) => {
   const { user } = useAuth();

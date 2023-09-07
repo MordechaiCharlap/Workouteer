@@ -10,9 +10,9 @@ import {
 import { color_outline } from "../../utils/appStyleSheet";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useState } from "react";
-import { useWorkoutProgram } from "./EditingWorkoutProgram";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 const EditingWorkoutHeader = ({
   workoutIndex,
   containerColor,

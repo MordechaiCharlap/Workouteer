@@ -7,7 +7,7 @@ import CustomTextInput from "../basic/CustomTextInput";
 import * as appStyle from "../../utils/appStyleSheet";
 import languageService from "../../services/languageService";
 import useAuth from "../../hooks/useAuth";
-import { useWorkoutProgram } from "./EditingWorkoutProgram";
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 
 const RestTimePicker = ({ workoutIndex, containerColor, onContainerColor }) => {
   const { user } = useAuth();

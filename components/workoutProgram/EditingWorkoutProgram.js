@@ -1,5 +1,5 @@
 import { View, FlatList, Switch } from "react-native";
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../basic/CustomText";
 import * as appStyle from "../../utils/appStyleSheet";
@@ -19,25 +19,35 @@ import useFirebase from "../../hooks/useFirebase";
 import languageService from "../../services/languageService";
 import AwesomeModal from "../AwesomeModal";
 import Header from "../Header";
-export const ProgramContext = createContext();
+import useWorkoutProgram from "../../hooks/useWorkoutProgram";
 const EditingWorkoutProgram = ({ program, programName }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { db } = useFirebase();
-  const workoutsFlatListRef = useRef();
+
   const maxWorkoutsPerProgram = 7;
-  const [programData, setProgramData] = useState(
-    (program && JSON.parse(JSON.stringify(program))) || {
-      name: programName,
-      isPublic: false,
-      workouts: [{ name: "", restSeconds: 0, exercises: [] }],
-    }
-  );
-  const [highlightErrors, setHighlightErrors] = useState(false);
-  const [maximizedWorkout, setMaximizedWorkout] = useState(0);
+  const {
+    programData,
+    setProgramData,
+    maximizedWorkout,
+    setMaximizedWorkout,
+    highlightErrors,
+    setHighlightErrors,
+    workoutsFlatListRef,
+  } = useWorkoutProgram();
   const [submitting, setSubmitting] = useState(false);
   const [showPublicInformationModal, setShowPublicInformationModal] =
     useState(false);
+  useEffect(() => {
+    if (program) setProgramData(JSON.parse(JSON.stringify(program)));
+    else {
+      setProgramData({
+        name: programName,
+        isPublic: false,
+        workouts: [{ name: "", restSeconds: 0, exercises: [] }],
+      });
+    }
+  }, []);
   const newWorkout = () => {
     const programDataClone = JSON.parse(JSON.stringify(programData));
     programDataClone.workouts.push({
@@ -112,16 +122,7 @@ const EditingWorkoutProgram = ({ program, programName }) => {
     return false;
   };
   return (
-    <ProgramContext.Provider
-      value={{
-        programData,
-        setProgramData,
-        maximizedWorkout,
-        setMaximizedWorkout,
-        highlightErrors,
-        workoutsFlatListRef,
-      }}
-    >
+    programData && (
       <View className="flex-1">
         <Header title={programData.name} goBackOption={true} />
         <View
@@ -332,11 +333,8 @@ const EditingWorkoutProgram = ({ program, programName }) => {
           }
         />
       </View>
-    </ProgramContext.Provider>
+    )
   );
 };
 
 export default EditingWorkoutProgram;
-export const useWorkoutProgram = () => {
-  return useContext(ProgramContext);
-};
