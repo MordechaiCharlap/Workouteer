@@ -131,7 +131,7 @@ const LoginScreen = () => {
               scrollEnabled={false}
               keyboardShouldPersistTaps={"handled"}
             >
-              <CustomTextInput
+              {/* <CustomTextInput
                 style={{
                   backgroundColor: appStyle.color_surface_variant,
                 }}
@@ -146,7 +146,7 @@ const LoginScreen = () => {
                 }}
                 onChangeText={setPassword}
                 placeholder="Password"
-              />
+              /> */}
               {/* <View style={{ height: verticalMargin }}></View>
               <View className="flex-row items-center">
                 <CheckBox
@@ -170,7 +170,7 @@ const LoginScreen = () => {
               </CustomText>
             </ScrollView>
           </KeyboardAvoidingView>
-          <CustomButton
+          {/* <CustomButton
             onPress={loginEmailPassword}
             style={{ backgroundColor: appStyle.color_primary }}
           >
@@ -183,36 +183,38 @@ const LoginScreen = () => {
               {loginLoading == true ? "Loading" : "Login"}
             </CustomText>
           </CustomButton>
-          <View style={{ height: verticalMargin }}></View>
+          <View style={{ height: verticalMargin }}></View> */}
 
           <CustomButton
+            round
+            className="flex-row self-center"
             style={{
+              columnGap: 10,
+              minWidth: "50%",
               borderWidth: 0.5,
               borderColor: appStyle.color_primary,
-              backgroundColor: appStyle.color_background,
+              backgroundColor: appStyle.color_on_background,
             }}
             onPress={() => signInGoogleAccount()}
           >
-            <View className="absolute left-2 h-full justify-center items-center">
-              <FontAwesomeIcon
-                icon={faGoogle}
-                size={25}
-                color={appStyle.color_primary}
-              />
-            </View>
+            <FontAwesomeIcon
+              icon={faGoogle}
+              size={25}
+              color={appStyle.color_background}
+            />
             <CustomText
-              className="tracking-widest font-bold text-xl"
+              className="tracking-widest font-semibold text-xl"
               style={{
-                color: appStyle.color_on_background,
+                color: appStyle.color_background,
               }}
             >
-              Use Google
+              {loginLoading == true ? "Loading" : "Sign in"}
             </CustomText>
           </CustomButton>
         </View>
         <View style={{ height: verticalMargin }}></View>
 
-        <CustomButton
+        {/* <CustomButton
           onPress={() => navigation.navigate("Register")}
           style={{ padding: 0 }}
         >
@@ -222,7 +224,7 @@ const LoginScreen = () => {
           >
             New here? click here to register
           </CustomText>
-        </CustomButton>
+        </CustomButton> */}
       </View>
       {Platform.OS == "web" && (
         <View className="absolute left-0 top-0">
