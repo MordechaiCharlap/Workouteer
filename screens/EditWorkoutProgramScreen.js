@@ -4,6 +4,7 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import { useFocusEffect } from "@react-navigation/native";
 import EditingWorkoutProgram from "../components/workoutProgram/EditingWorkoutProgram";
 import { safeAreaStyle } from "../components/safeAreaStyle";
+import { WorkoutProgramProvider } from "../hooks/useWorkoutProgram";
 const EditWorkoutProgramScreen = ({ route }) => {
   const { setCurrentScreen } = useNavbarDisplay();
   useFocusEffect(
@@ -13,7 +14,9 @@ const EditWorkoutProgramScreen = ({ route }) => {
   );
   return (
     <View style={safeAreaStyle()}>
-      <EditingWorkoutProgram program={route.params.program} />
+      <WorkoutProgramProvider>
+        <EditingWorkoutProgram program={route.params.program} />
+      </WorkoutProgramProvider>
     </View>
   );
 };
