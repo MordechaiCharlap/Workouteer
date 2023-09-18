@@ -16,7 +16,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import CheckBox from "../components/CheckBox";
@@ -28,6 +28,8 @@ import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import CustomButton from "../components/basic/CustomButton";
 import CustomModal from "../components/basic/CustomModal";
 import CustomText from "../components/basic/CustomText";
+import { doc, updateDoc } from "firebase/firestore";
+import useFirebase from "../hooks/useFirebase";
 
 const EditDataScreen = () => {
   const { setCurrentScreen } = useNavbarDisplay();
@@ -56,6 +58,7 @@ const EditDataScreen = () => {
 export default EditDataScreen;
 
 const EditProfileData = (props) => {
+  const { db } = useFirebase();
   const { user, setUser } = useAuth();
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
@@ -109,14 +112,20 @@ const EditProfileData = (props) => {
     }
     setImageLoading(false);
   };
-  const saveProfileChanges = async () => {
+  const deleteProfileImage = () => {
+    setImage(defaultValues.defaultProfilePic);
+  };
+  const saveProfileChanges = () => {
     setLoading(true);
     if (displayName == "") setDisplayName(user.id);
-    const userClone = {
-      ...user,
+    const newData = {
       displayName: displayName || user.id,
       description: description || "",
       img: image || defaultValues.defaultProfilePic,
+    };
+    const userClone = {
+      ...user,
+      ...newData,
     };
     setUser(userClone);
     setUpdated(true);
@@ -126,7 +135,9 @@ const EditProfileData = (props) => {
       setChangesMade(false);
       setUpdated(false);
     }, 250);
-    await firebase.updateUser(userClone);
+    updateDoc(doc(db, `users/${user.id}`), {
+      ...newData,
+    });
   };
 
   const saveButtonClicked = () => {
@@ -199,7 +210,7 @@ const EditProfileData = (props) => {
             />
           )}
           <TouchableOpacity
-            onPress={onImageLibraryPress}
+            onPress={editProfileImageClicked}
             className="absolute right-0 bottom-0 rounded-full p-2"
             style={{
               backgroundColor: appStyle.color_on_background,
@@ -275,8 +286,47 @@ const EditProfileData = (props) => {
       <CustomModal
         showModal={showAddOrDeleteImageModal}
         setShowModal={setShowAddOrDeleteImageModal}
+        closeOnTouchOutside
+        style={{ rowGap: 10 }}
       >
-        <CustomText>TEST</CustomText>
+        <View
+          className="flex-row justify-center items-center"
+          style={{ columnGap: 10 }}
+        >
+          <CustomButton
+            onPress={() => {
+              setShowAddOrDeleteImageModal(false);
+              onImageLibraryPress();
+            }}
+            round
+            className="flex-row"
+            style={{
+              backgroundColor: appStyle.color_on_background,
+              columnGap: 5,
+            }}
+          >
+            <FontAwesomeIcon icon={faPen} color={appStyle.color_background} />
+            <CustomText style={{ color: appStyle.color_background }}>
+              {languageService[user.language].edit}
+            </CustomText>
+          </CustomButton>
+          <CustomButton
+            onPress={() => {
+              setShowAddOrDeleteImageModal(false);
+              deleteProfileImage();
+            }}
+            round
+            className="flex-row"
+            style={{ backgroundColor: appStyle.color_on_background }}
+          >
+            <FontAwesomeIcon icon={faTrash} color={appStyle.color_background} />
+            <CustomText
+              style={{ color: appStyle.color_background, columnGap: 5 }}
+            >
+              {languageService[user.language].delete}
+            </CustomText>
+          </CustomButton>
+        </View>
       </CustomModal>
     </View>
   );
