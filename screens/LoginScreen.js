@@ -42,15 +42,16 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
   const loginEmailPassword = async () => {
-    if (!loginLoading) {
-      setErrorText("");
-      if (password == "" || email == "")
-        setErrorText("You have to fill both fields");
-      else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-        setErrorText("Invalid-email");
-      else if (!/^[\S]{8,20}$/.test(password)) setErrorText("Invalid-password");
-      else if (!loginLoading) await signInEmailPassword(email, password);
-    }
+    if (loginLoading) return;
+    setErrorText("");
+    if (__DEV__ && password == "" && email == "") {
+      await signInEmailPassword(`mordechai.cha@gmail.com`, `Thesearch566`);
+    } else if (password == "" || email == "")
+      setErrorText("You have to fill both fields");
+    else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+      setErrorText("Invalid-email");
+    else if (!/^[\S]{8,20}$/.test(password)) setErrorText("Invalid-password");
+    else await signInEmailPassword(email, password);
   };
   useEffect(() => {
     if (!authErrorCode) return;
@@ -131,22 +132,26 @@ const LoginScreen = () => {
               scrollEnabled={false}
               keyboardShouldPersistTaps={"handled"}
             >
-              {/* <CustomTextInput
-                style={{
-                  backgroundColor: appStyle.color_surface_variant,
-                }}
-                onChangeText={setEmail}
-                placeholder="Email"
-              />
-              <View style={{ height: verticalMargin }}></View>
-              <CustomTextInput
-                password={true}
-                style={{
-                  backgroundColor: appStyle.color_surface_variant,
-                }}
-                onChangeText={setPassword}
-                placeholder="Password"
-              /> */}
+              {__DEV__ && (
+                <View>
+                  <CustomTextInput
+                    style={{
+                      backgroundColor: appStyle.color_surface_variant,
+                    }}
+                    onChangeText={setEmail}
+                    placeholder="Email"
+                  />
+                  <View style={{ height: verticalMargin }}></View>
+                  <CustomTextInput
+                    password={true}
+                    style={{
+                      backgroundColor: appStyle.color_surface_variant,
+                    }}
+                    onChangeText={setPassword}
+                    placeholder="Password"
+                  />
+                </View>
+              )}
               {/* <View style={{ height: verticalMargin }}></View>
               <View className="flex-row items-center">
                 <CheckBox
@@ -170,20 +175,32 @@ const LoginScreen = () => {
               </CustomText>
             </ScrollView>
           </KeyboardAvoidingView>
-          {/* <CustomButton
-            onPress={loginEmailPassword}
-            style={{ backgroundColor: appStyle.color_primary }}
-          >
-            <CustomText
-              className="text-center tracking-widest font-bold text-xl"
-              style={{
-                color: appStyle.color_on_primary,
-              }}
-            >
-              {loginLoading == true ? "Loading" : "Login"}
-            </CustomText>
-          </CustomButton>
-          <View style={{ height: verticalMargin }}></View> */}
+          {__DEV__ && (
+            <View>
+              <CustomButton
+                onPress={loginEmailPassword}
+                round
+                className="flex-row self-center"
+                style={{
+                  columnGap: 10,
+                  minWidth: "50%",
+                  borderWidth: 0.5,
+                  borderColor: appStyle.color_primary,
+                  backgroundColor: appStyle.color_on_background,
+                }}
+              >
+                <CustomText
+                  className="text-center tracking-widest font-bold text-xl"
+                  style={{
+                    color: appStyle.color_on_primary,
+                  }}
+                >
+                  {loginLoading == true ? "Loading" : "DEV LOGIN"}
+                </CustomText>
+              </CustomButton>
+              <View style={{ height: verticalMargin }}></View>
+            </View>
+          )}
 
           <CustomButton
             round
