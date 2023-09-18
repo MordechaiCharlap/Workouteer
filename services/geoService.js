@@ -1,5 +1,4 @@
 import * as Location from "expo-location";
-import { updateUser } from "./firebase";
 import { addCountryAndCityToDbIfNeeded } from "./firebase";
 import { GeoPoint, doc, updateDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
