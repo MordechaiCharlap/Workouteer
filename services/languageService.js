@@ -1,5 +1,7 @@
 const languageService = {
   english: {
+    edit: "Edit",
+    delete: "Delete",
     congratulations: "Congratulations",
     lastLeaderboardResults: "Last weekly leaderboard results",
     duration: "duration",
@@ -405,6 +407,8 @@ const languageService = {
     deleteForMe: "Delete for me",
   },
   hebrew: {
+    edit: "עריכה",
+    delete: "מחיקה",
     lastLeaderboardResults: "תוצאות טבלת הניקוד השבועית",
     congratulations: "כל הכבוד",
     workout: "אימון",
