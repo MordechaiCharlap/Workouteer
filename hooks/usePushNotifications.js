@@ -114,6 +114,10 @@ export const NotificationsProvider = ({ children }) => {
     if (notificationPermission) {
       notificationListen();
       configureNotification();
+      const tokenUpdateLogic = async (token) => {
+        await firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
+        updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
+      };
       Notifications.getExpoPushTokenAsync().then((result) => {
         if (result.data != user.pushToken) tokenUpdateLogic(result.data);
       });
@@ -159,10 +163,7 @@ export const NotificationsProvider = ({ children }) => {
       });
     }
   };
-  const tokenUpdateLogic = (token) => {
-    firebase.deletePushTokenForUserWhoIsNotMe(user.id, token);
-    updateDoc(doc(db, `users/${user.id}`), { pushToken: token });
-  };
+
   const sendPushNotificationUserLeftWorkout = async (
     workout,
     leavingUserId,
