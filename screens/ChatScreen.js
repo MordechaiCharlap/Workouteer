@@ -19,10 +19,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { safeAreaStyle } from "../components/safeAreaStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import * as appStyle from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
 import ChatMessage from "../components/chat/ChatMessage";
@@ -31,7 +28,6 @@ import usePushNotifications from "../hooks/usePushNotifications";
 import useAlerts from "../hooks/useAlerts";
 import useNavbarDisplay from "../hooks/useNavbarDisplay";
 import languageService from "../services/languageService";
-import CustomTextInput from "../components/basic/CustomTextInput";
 import useFirebase from "../hooks/useFirebase";
 import CustomText from "../components/basic/CustomText";
 import ChatHeader from "../components/chat/ChatHeader";
