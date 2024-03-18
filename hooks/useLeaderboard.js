@@ -2,19 +2,9 @@ import { useEffect, createContext, useContext, useState, useRef } from "react";
 import languageService from "../services/languageService";
 import useAuth from "./useAuth";
 import AwesomeAlert from "react-native-awesome-alerts";
-import {
-  color_on_surface,
-  color_primary,
-  color_surface,
-} from "../utils/appStyleSheet";
+import { color_on_surface, color_surface } from "../utils/appStyleSheet";
 import * as firebase from "../services/firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import useFirebase from "./useFirebase";
 import CustomModal from "../components/basic/CustomModal";
 import useAlerts from "./useAlerts";
