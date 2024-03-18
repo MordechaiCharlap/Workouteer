@@ -1,6 +1,6 @@
 {
   "name": "workouteer-rn",
-  "version": "1.3.45",
+  "version": "1.3.46",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -13,8 +13,8 @@
     "build-apk": "node scripts/update-last-android-deploy.js && eas build --profile apk-preview --platform android",
     "build-aab": "node scripts/update-last-playstore-deploy.js && eas build --profile play-store --platform android",
     "deploy-and-build-apk": "npm run deploy-hosting && npm run build-apk",
-    "deploy-and-build-aab": "npm run deploy-hosting && npm run build-aab",
-    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && firebase deploy --only hosting && node scripts/update-last-web-deploy.js"
+    "deploy-hosting": "npm run predeploy && node scripts/add-maps-api-key.js && firebase deploy --only hosting && node scripts/update-last-web-deploy.js",
+    "deploy-and-build-aab": "npm run deploy-hosting && npm run build-aab"
   },
   "dependencies": {
     "@expo/dev-server": "0.1.120",
