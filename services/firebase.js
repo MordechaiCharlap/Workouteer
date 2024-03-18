@@ -870,7 +870,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
-export const getLastWeekId = () => {
+const getLastWeekId = () => {
   var lastSunday = new Date();
   const dayOfTheWeek = lastSunday.getDay();
   lastSunday.setDate(lastSunday.getDate() - dayOfTheWeek);
@@ -902,8 +902,9 @@ export const addLeaderboardPoints = async (user, pointsNumber) => {
 export const getNewLeaderboard = async (user, pointsNumber) => {
   const lastWeekId = getLastWeekId();
   var leaderboardId = "";
+  const newLeague = Math.max(user.league - 1, 0);
   const q = query(
-    collection(db, `leaderboards/${user.league}/${lastWeekId}`),
+    collection(db, `leaderboards/${newLeague}/${lastWeekId}`),
     where("usersCount", "<", 50),
     limit(1)
   );
@@ -911,7 +912,7 @@ export const getNewLeaderboard = async (user, pointsNumber) => {
   if (querySnapshot.size != 0) {
     leaderboardId = querySnapshot.docs[0].id;
     await updateDoc(
-      doc(db, `leaderboards/${user.league}/${lastWeekId}/${leaderboardId}`),
+      doc(db, `leaderboards/${newLeague}/${lastWeekId}/${leaderboardId}`),
       {
         [`users.${user.id}`]: {
           displayName: user.displayName,
@@ -923,7 +924,7 @@ export const getNewLeaderboard = async (user, pointsNumber) => {
     );
   } else {
     const newLeaderboard = await addDoc(
-      collection(db, `leaderboards/${user.league}/${lastWeekId}`),
+      collection(db, `leaderboards/${newLeague}/${lastWeekId}`),
       {
         users: {
           [user.id]: {
