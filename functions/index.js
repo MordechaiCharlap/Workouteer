@@ -114,7 +114,92 @@ exports.deleteUserData = functions.firestore
     await batch.commit();
     console.log(`${userId} deleted succesfully`);
   });
+exports.manualAppReset = functions.https.onRequest(async () => {
+  const getLastWeekId = () => {
+    var lastSunday = new Date();
+    const dayOfTheWeek = lastSunday.getDay();
+    lastSunday.setDate(lastSunday.getDate() - dayOfTheWeek);
+    const weekId = `${lastSunday.getDate()}-${
+      lastSunday.getMonth() + 1
+    }-${lastSunday.getFullYear()}`;
+    return weekId;
+  };
 
+  console.log("Resetting app! workout programs, workouts, leaderboards");
+  const batch = db.batch();
+  //putting app on maintainenance mode
+  batch.update(db.doc(`appData/specs`), { underMaintenance: true });
+  //deleting all leaderboards
+  const allLeagues = await db.collection("leaderboards").get();
+  if (!allLeagues.empty)
+    for (var league of allLeagues.docs) {
+      batch.delete(league.ref);
+    }
+  batch.create(db.doc("leaderboards/0"));
+  await batch.commit();
+  //deleting all workouts
+  const allWorkouts = await db.collection("workouts").get();
+  if (!allWorkouts.empty)
+    for (var workout of allWorkouts.docs) {
+      batch.delete(workout.ref);
+    }
+  //Creating new 0 league leaderboard and putting every 50 people inside them should happen
+  //in the users cleaning
+  //+
+  //deleting every bit of workout scent from the users docs
+  const allUsers = await db.collection("users").get();
+  if (!allUsers.empty) {
+    const lastWeekId = getLastWeekId();
+    var usersCount = 0;
+    var currentLeaderboard = {};
+    var currentLeaderboardRef = await db
+      .collection(`leaderboards/0/${lastWeekId}`)
+      .add({});
+    var currentLeaderboardId = currentLeaderboardRef.id;
+    for (var user of allUsers.docs) {
+      if (usersCount == 50) {
+        batch.update(currentLeaderboardRef, currentLeaderboard);
+        currentLeaderboardRef = await db
+          .collection(`leaderboards/0/${lastWeekId}`)
+          .add({});
+        currentLeaderboardId = currentLeaderboardRef.id;
+        usersCount = 0;
+        currentLeaderboard = {};
+      }
+      const userData = user.data();
+      currentLeaderboard[userData.id] = {
+        points: 0,
+        img: userData.img,
+        displayName: userData.displayName,
+      };
+      batch.update(user.ref, {
+        lastConfirmedDate: null,
+        lastWorkoutCreation: null,
+        league: 0,
+        streak: 0,
+        totalPoints: 0,
+        plannedWorkouts: {},
+        leaderboard: {
+          id: currentLeaderboardId,
+          weekId: lastWeekId,
+          points: 0,
+        },
+        workoutsCount: 0,
+      });
+      usersCount++;
+    }
+  }
+  await batch.commit();
+  //cleaning alerts about workouts
+  const allAlerts = await db.collection("alerts").get();
+  if (!allAlerts.empty) {
+  }
+  await batch.commit();
+
+  //bring the app back on underMaintenance:false
+  batch.update(db.doc(`appData/specs`), { underMaintenance: false });
+  await batch.commit();
+});
 exports.weeklyLeaderboardReset = functions.pubsub
   .schedule("0 0 * * 0")
   .timeZone("Asia/Jerusalem")
