@@ -240,9 +240,6 @@ exports.weeklyLeaderboardReset = functions.pubsub
         }
       }
     }
-    batch.update(db.doc("leaderboards/leaderboardsData"), {
-      currentWeekId: newWeekId,
-    });
     await batch.commit();
 
     console.log("Leaderboard reset successful.");
