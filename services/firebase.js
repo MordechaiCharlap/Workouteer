@@ -25,6 +25,7 @@ import {
 import { firebaseConfig } from "../firebase.config";
 import { NativeModules, Platform } from "react-native";
 import { mapsApiKey } from "../utils/mapsApiKey";
+import { getLastWeekId } from "../utils/leaderboardUtils";
 initializeApp(firebaseConfig);
 const db = getFirestore();
 const storage = getStorage();
@@ -870,15 +871,7 @@ export const removePastOrEmptyWorkoutsAlerts = async (
     });
   }
 };
-const getLastWeekId = () => {
-  var lastSunday = new Date();
-  const dayOfTheWeek = lastSunday.getDay();
-  lastSunday.setDate(lastSunday.getDate() - dayOfTheWeek);
-  const weekId = `${lastSunday.getDate()}-${
-    lastSunday.getMonth() + 1
-  }-${lastSunday.getFullYear()}`;
-  return weekId;
-};
+
 export const addLeaderboardPoints = async (user, pointsNumber) => {
   if (
     user.leaderboard.weekId != null &&

@@ -20,6 +20,7 @@ import CustomModal from "../components/basic/CustomModal";
 import useAlerts from "./useAlerts";
 import CustomText from "../components/basic/CustomText";
 import CustomButton from "../components/basic/CustomButton";
+import { getLastWeekId } from "../utils/leaderboardUtils";
 const LeaderboardContext = createContext({});
 export const LeaderboardProvider = ({ children }) => {
   const { user, userLoaded } = useAuth();
@@ -68,8 +69,7 @@ export const LeaderboardProvider = ({ children }) => {
     };
   }, [user?.leaderboard, userLoaded]);
   useEffect(() => {
-    if (!userLoaded || firebase.getLastWeekId() == user?.leaderboard?.weekId)
-      return;
+    if (!userLoaded || getLastWeekId() == user?.leaderboard?.weekId) return;
     firebase.getNewLeaderboard(user, 0);
   }, [userLoaded]);
   return (
