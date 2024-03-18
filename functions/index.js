@@ -136,6 +136,7 @@ exports.weeklyLeaderboardReset = functions.pubsub
 
     const dateOneWeekAgo = getDateOneWeekAgo(now);
     const lastWeekId = dateToWeekIdConverter(dateOneWeekAgo);
+    console.log(`getting all the users from ${dateOneWeekAgo}, last week id`);
 
     for (let leagueNum = 0; leagueNum < 10; leagueNum++) {
       const lastWeekLeaderboards = await db
