@@ -932,6 +932,7 @@ export const getNewLeaderboard = async (user, pointsNumber) => {
     leaderboardId = newLeaderboard.id;
   }
   await updateDoc(doc(db, "users", user.id), {
+    league: newLeague,
     leaderboard: {
       id: leaderboardId,
       weekId: lastWeekId,
